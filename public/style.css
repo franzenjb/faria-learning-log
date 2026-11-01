@@ -26,7 +26,7 @@ ol.cards .card strong::before{counter-increment:c;content:counter(c) ". ";color:
 input[type=search]{width:100%;font:inherit;padding:.7rem .9rem;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
 .homesearch{margin:1rem 0 1.5rem}
 footer{text-align:center;color:var(--muted);font-family:var(--sans);font-size:.75rem;padding:2rem 0}
-dialog{max-width:min(32rem,92vw);border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink)}dialog::backdrop{background:rgba(0,0,0,.4)}dialog button{font:inherit;padding:.3rem 1rem}
+dialog{max-width:min(36rem,92vw);max-height:85vh;overflow:auto;line-height:1.55;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink)}dialog::backdrop{background:rgba(0,0,0,.4)}dialog button{font:inherit;padding:.3rem 1rem}
 /* feedback widget (role tokens) */
 .feedback-group{display:inline-flex;gap:.3rem}.feedback-btn{width:1.8rem;height:1.8rem;border-radius:50%;border:1px solid var(--line);background:var(--surface);cursor:pointer;padding:.2rem;display:inline-flex;align-items:center;justify-content:center}
 .feedback-btn svg{width:100%;height:100%;fill:none;stroke-width:2;stroke-linecap:round}.feedback-up svg{stroke:var(--success)}.feedback-down svg{stroke:var(--danger)}
