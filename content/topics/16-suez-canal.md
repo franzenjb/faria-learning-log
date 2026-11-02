@@ -11,7 +11,7 @@ The **Suez Canal** runs about 120 miles across Egypt, from Port Said on the Medi
 ## Why it matters
 Before it, a ship from Britain to India or Australia had to sail down the whole west coast of Africa, around the **Cape of Good Hope** and back up the east side. The canal cut straight from the Mediterranean into the Red Sea, then out past Arabia into the Indian Ocean.
 
-![London to Bombay: around Africa (about 10,700 nautical miles) against through Suez (about 6,200)](../../img/Suez_Canal_vs_Cape_Route_London_to_Bombay_Map.png)
+![London to Bombay: around Africa (about 10,700 nautical miles) against through Suez (about 6,200)](../../img/Suez_Canal_vs_Cape_Route_London_to_Bombay_Map.png?v=2)
 
 - **London to Bombay**: about 10,700 nautical miles around the Cape, about 6,200 through Suez, roughly 40% shorter.
 - **To Australia**: the saving is smaller, because Australia lies farther south and east, but ships still saved weeks, and coaling stations along the Suez route (Port Said, Aden) let ordinary steamers make the trip.

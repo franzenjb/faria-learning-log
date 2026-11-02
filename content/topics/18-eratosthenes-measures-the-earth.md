@@ -25,7 +25,7 @@ If the Earth were flat, the sun's parallel rays would make the same shadow every
 
 Treat the sun's rays as **parallel lines** (see [why sun rays count as parallel](../20-why-sun-rays-are-parallel/)). Extend the Syene stick and the Alexandria stick down into the Earth; both point to the center. The Alexandria stick's line is a **transversal** cutting across two parallel lines (the ray at Alexandria and the ray going down the Syene well). Euclid proved that when a line crosses two parallel lines, the **alternate angles are equal**. So the 7.2° angle at the top of the Alexandria stick equals the angle between the two cities at the center of the Earth.
 
-![Parallel sun rays at Syene and Alexandria; the 7.2° angle at the stick equals the 7.2° angle at Earth's center (angle exaggerated so it's visible)](../../img/Eratosthenes_Earth_Measurement_Parallel_Lines_Diagram.png)
+![Parallel sun rays at Syene and Alexandria; the 7.2° angle at the stick equals the 7.2° angle at Earth's center (angle exaggerated so it's visible)](../../img/Eratosthenes_Earth_Measurement_Parallel_Lines_Diagram.png?v=2)
 
 ## The arithmetic
 7.2° is **1/50 of a full circle** (360 ÷ 7.2 = 50). So the distance from Syene to Alexandria is 1/50 of the way around the Earth.

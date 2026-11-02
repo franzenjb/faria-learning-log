@@ -10,14 +10,14 @@ At noon on the summer solstice he stood a stick (a *gnomon*) perfectly upright a
 
 He may also have used a **scaphe**, a bowl-shaped sundial with a pointer at the bottom and angle marks scratched on the inside, so the shadow's tip shows the angle directly.
 
-![At Alexandria the upright stick's shadow is about 1/8 of its height, giving 7.2°](../../img/Eratosthenes_Alexandria_Shadow_Stick_Measurement_Diagram.png)
+![At Alexandria the upright stick's shadow is about 1/8 of its height, giving 7.2°](../../img/Eratosthenes_Alexandria_Shadow_Stick_Measurement_Diagram.png?v=2)
 
 ## How do we know the lines meet at the center?
 Honestly, this was an **assumption**, but a sound one.
 
 You make a stick "upright" with a **plumb line**: a weight hanging on a string. The string hangs the way gravity pulls. On a round Earth, gravity pulls toward the center, so every plumb line, everywhere, points at the center of the Earth. Extend the Syene stick and the Alexandria stick downward and they cross there.
 
-![Plumb lines at Syene and Alexandria both point to Earth's center, where they meet at 7.2°](../../img/Eratosthenes_Plumb_Lines_Meet_At_Earth_Center_Diagram.png)
+![Plumb lines at Syene and Alexandria both point to Earth's center, where they meet at 7.2°](../../img/Eratosthenes_Plumb_Lines_Meet_At_Earth_Center_Diagram.png?v=2)
 
 Then Euclid does the rest: the Alexandria stick crosses two parallel lines (its own sun ray and the Syene stick's line, which runs along the sun's ray), so the angle at the top equals the angle at the center. 7.2° is 1/50 of a circle, so the Earth is **50 times** the Syene–Alexandria distance around.
 
