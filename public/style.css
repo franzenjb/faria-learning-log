@@ -33,3 +33,7 @@ dialog{max-width:min(36rem,92vw);max-height:85vh;overflow:auto;line-height:1.55;
 .feedback-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:50;padding:1rem}.feedback-overlay[hidden]{display:none}
 .feedback-modal{width:min(580px,100%);background:var(--surface);color:var(--ink);border-radius:12px;padding:1rem;font-family:var(--sans)}.feedback-survey{width:100%;height:min(72vh,580px);border:0}
 @media (max-width:560px){body{font-size:17px}.bar nav{gap:.5rem;font-size:.82rem}h1{font-size:1.7rem}}
+.table-wrap{overflow-x:auto;margin:1em 0}
+table{border-collapse:collapse;width:100%;font-size:.95em}
+th,td{border:1px solid #ccc;padding:.4em .6em;text-align:left;vertical-align:top}
+th{background:rgba(0,0,0,.06)}

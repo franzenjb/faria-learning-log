@@ -25,16 +25,19 @@ function inline(s) {
   return s;
 }
 function md(src) {
-  const out = []; let para = [], list = null, quote = [];
+  const out = []; let para = [], list = null, quote = [], table = [];
   const flush = () => {
     if (para.length) { const t = inline(para.join(" ")); out.push(t.startsWith("<figure>") ? t : `<p>${t}</p>`); para = []; }
     if (list) { out.push(`<${list.t}>${list.items.map(i => `<li>${inline(i)}</li>`).join("")}</${list.t}>`); list = null; }
     if (quote.length) { out.push(`<blockquote>${quote.map(l => l ? inline(l) : "").join("<br>").replace(/(<br>){2,}/g, "</p><p>")}</blockquote>`); quote = []; }
+    if (table.length) { const cells = r => r.replace(/^\||\|$/g, "").split("|").map(c => c.trim()); const rows = table.filter(r => !/^\|?\s*:?-{2,}/.test(r)); const [h, ...b] = rows; out.push(`<div class="table-wrap"><table><thead><tr>${cells(h).map(c => `<th>${inline(c)}</th>`).join("")}</tr></thead><tbody>${b.map(r => `<tr>${cells(r).map(c => `<td>${inline(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`); table = []; }
   };
   for (const raw of src.split("\n")) {
     const l = raw.trimEnd(); let m;
     if (!l.trim()) { flush(); continue; }
     if ((m = l.match(/^(#{2,4})\s+(.*)/))) { flush(); const n = m[1].length; const id = m[2].toLowerCase().replace(/[^a-z0-9]+/g, "-"); out.push(`<h${n} id="${id}">${inline(m[2])}</h${n}>`); continue; }
+    if (/^\|.*\|$/.test(l.trim())) { if (!table.length) flush(); table.push(l.trim()); continue; }
+    if (table.length) flush();
     if ((m = l.match(/^>\s?(.*)/))) { if (para.length || list) { const q = quote; quote = []; flush(); quote = q; } quote.push(m[1]); continue; }
     if ((m = l.match(/^[-*]\s+(.*)/))) { if (para.length || quote.length) flush(); if (!list || list.t !== "ul") { flush(); list = { t: "ul", items: [] }; } list.items.push(m[1]); continue; }
     if ((m = l.match(/^\d+\.\s+(.*)/))) { if (para.length || quote.length) flush(); if (!list || list.t !== "ol") { flush(); list = { t: "ol", items: [] }; } list.items.push(m[1]); continue; }
