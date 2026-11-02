@@ -55,6 +55,10 @@ The US **super typhoon** threshold (≥130 kt 1-minute) falls inside Tokyo's **V
 ## Why 1-minute vs 10-minute matters
 Wind is never steady: it comes in **gusts and lulls**. Averaging over a longer window dilutes the gusts with the lulls, so a 10-minute average always gives a **lower number** than a 1-minute average. The 1-minute figure reads about **12% higher**. The US uses 1-minute winds; the **WMO standard is 10-minute**.
 
+> **The force of wind grows with the square of its speed.**
+
+**12% more speed ≈ 25% more force; double the speed = four times the force.**
+
 - **Same storm, different numbers:** 100 kt (10-min) ≈ 114 kt (1-min). That is **Cat 3 vs Cat 4** for the same wind.
 - **Damage:** structures fail in the strongest bursts, and wind force scales with **speed squared**, so ~12% more speed ≈ **~25% more force** (1.12² ≈ 1.25).
 - **Records:** always check the averaging period before comparing storms from different agencies or basins.
@@ -63,6 +67,7 @@ Wind is never steady: it comes in **gusts and lulls**. Averaging over a longer w
 This picks up the Nov 1 lesson on the words themselves: **hurricane** from the Taíno god **Hurakán**, and **typhoon** from the Chinese **tai fung**, "great wind." The words differ by ocean, and so do the rulers used to measure the storms.
 
 ## Key facts
+- The force of wind grows with the square of its speed: 12% more speed ≈ 25% more force; double the speed = four times the force.
 - Saffir–Simpson applies to typhoons only unofficially; RSMC Tokyo (JMA) is the WMO's official western North Pacific center.
 - JMA uses 10-minute sustained winds; Saffir–Simpson and JTWC use 1-minute winds, about 12% higher.
 - JMA scale: TD ≤33 kt, TS 34–47, STS 48–63, Typhoon 64–84, Very Strong 85–104, Violent ≥105 kt.
