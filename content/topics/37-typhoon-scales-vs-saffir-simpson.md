@@ -59,6 +59,8 @@ Wind is never steady: it comes in **gusts and lulls**. Averaging over a longer w
 
 **12% more speed ≈ 25% more force; double the speed = four times the force.**
 
+![Same storm, two numbers. Grey: instant wind. Blue: 10-minute average (Tokyo/WMO). Red: peak 1-minute average (US). Illustrative example data.](../../img/Wind_1_Minute_vs_10_Minute_Sustained_Average_Diagram.png)
+
 - **Same storm, different numbers:** 100 kt (10-min) ≈ 114 kt (1-min). That is **Cat 3 vs Cat 4** for the same wind.
 - **Damage:** structures fail in the strongest bursts, and wind force scales with **speed squared**, so ~12% more speed ≈ **~25% more force** (1.12² ≈ 1.25).
 - **Records:** always check the averaging period before comparing storms from different agencies or basins.
