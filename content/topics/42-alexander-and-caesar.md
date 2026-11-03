@@ -23,12 +23,20 @@ Alexander:
 - His rage: drunk at a banquet, he **killed his friend Cleitus** with a spear, then grieved for days.
 - His soldiers **refused to go beyond India**. He **died in Babylon at 32**, worn out and drinking heavily, still planning new conquests.
 
+
+![Alexander at the Battle of Issus, detail of the Alexander Mosaic from the House of the Faun, Pompeii (c. 100 BC), Naples](../../img/Alexander_Mosaic_Pompeii_Detail.jpg?v=1)
+*Alexander at the Battle of Issus, detail of the Alexander Mosaic from the House of the Faun, Pompeii (c. 100 BC), Naples. Unknown artist, Public domain, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Alexander_the_Great_mosaic.jpg).*
+
 ## Julius Caesar (100–44 BC)
 - Kidnapped by **pirates** as a young man, he told them to demand a **higher ransom**, joked he'd come back and **crucify** them, and later did.
 - In Spain he **wept before a statue of Alexander**: at his age Alexander had conquered the world, and Caesar had done nothing memorable. This is the hinge of the pair: Caesar measured himself against Alexander, and Plutarch measures them against each other.
 - He crossed the **Rubicon**: "Let the die be cast."
 - He let himself be named **dictator for life**; senators who feared it stabbed him **23 times**, and he fell **at the foot of the statue of Pompey**, the rival he had beaten.
 - He ignored the warnings about the **Ides of March**, which Shakespeare took straight from Plutarch.
+
+
+![Marble portrait of Julius Caesar](../../img/Julius_Caesar_Portrait_Bust.jpg?v=1)
+*Marble portrait of Julius Caesar. Ángel M. Felicísimo from Mérida, España, Public domain, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Retrato_de_Julio_C%C3%A9sar_(26724093101)_(cropped).jpg).*
 
 ## The lesson: ambition
 Both men were ruined by what made them great: **ambition**, an appetite for glory with no limit. The Greek word for its dark side is ***pleonexia***, **"always wanting more."** The quality that lifts a man is often the one that ruins him, like Milton's Satan:

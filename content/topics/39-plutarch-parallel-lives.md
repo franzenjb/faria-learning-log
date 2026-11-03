@@ -8,6 +8,10 @@ tags: [literature, history, classics]
 ## Who he was
 Plutarch (about **46 to 120 AD**) was a Greek from the small town of **Chaeronea**, living under Roman rule. He was also a **Roman citizen**. For about the last **thirty years of his life** he served at **Delphi** as one of the **two priests of Apollo**.
 
+
+![Portrait head of a philosopher in the Delphi Archaeological Museum, often identified as Plutarch (the identification is uncertain)](../../img/Plutarch_Portrait_Delphi_Museum.jpg?v=1)
+*Portrait head of a philosopher in the Delphi Archaeological Museum, often identified as Plutarch (the identification is uncertain). Odysses, CC BY-SA 4.0, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Plutarch_at_Delphi.jpg).*
+
 ## The Parallel Lives
 He wrote the *Lives* in **pairs**: a famous Greek matched with a famous Roman.
 - Theseus and Romulus
