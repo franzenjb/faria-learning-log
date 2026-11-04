@@ -120,6 +120,8 @@ Jeff:
 
 > "I think that would trick 99.99% of the world."
 
+More map tricks like this are collected in [Map Surprises: Latitude and Longitude Tricks](/topics/47-map-surprises/).
+
 ### Why it didn't work at sea
 On a **rolling deck**, keeping a long telescope on Jupiter's tiny moons was impractical. **On land** it worked beautifully: **Cassini** used the Io tables to **remap France**, which **shrank** it as the coastlines moved inland. At sea the problem was solved by **John Harrison's marine chronometer in the 1760s**: carry home time in a box instead of reading it from the sky.
 
