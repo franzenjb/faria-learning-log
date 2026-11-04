@@ -11,6 +11,11 @@ tags: [geography, maps, latitude, longitude]
 ![Havana's meridian (82°W) runs south and misses South America; Recife lies at 35°W](../../img/Longitude_Havana_vs_Recife_Map_Tufte.png?v=1)
 *Havana's meridian (82°W) runs south and misses South America; Recife lies at 35°W. Tufte-style map, Abbé Faria, 2026.*
 
+![Due south from Havana on a flat map and on a globe](../../img/Havana_Due_South_Flat_Map_and_Globe_Tufte.png?v=1)
+*The same line on a flat map and on a globe: due south from Havana (82.4°W) passes just west of Punta Pariñas, Peru (81.3°W), the westernmost point of South America, and reaches Antarctica. Jeff: "I like showing both versions." Tufte-style, Abbé Faria, 2026.*
+
+The globe proves the flat map isn't lying: a meridian is a straight north–south line on both, and the miss is only about 1°, roughly 120 km.
+
 Most mental maps put South America roughly below North America. It actually sits **far to the east**.
 - **Havana: 82°W**
 - **Lima: 77°W**, so even Lima, on South America's west coast, is **east of Havana**
