@@ -40,9 +40,46 @@ He admires the **lawgivers Numa, Solon and Lycurgus** more than the conquerors. 
 ## Question to think about
 Plutarch thinks a small, unguarded moment reveals character better than a great deed. In disaster work, do you learn more about a person from how they run the big operation, or from some small thing they do at 2 a.m. in a shelter?
 
+## Why the Lives mattered
+**It preserved lost sources.** Much of what we know about **Lycurgus, Themistocles, Pericles, Pompey and Antony** survives mainly through Plutarch, who read books now lost. Many of history's most famous scenes, **Caesar's death, the Rubicon, Cleopatra's barge**, reach us in his telling.
+
+**It invented biography.** Before Plutarch, lives were mostly praise or history. He made the individual character the subject, the model behind **Boswell's *Life of Johnson*** and nearly every biography since.
+
+**The Renaissance.** **Jacques Amyot's French translation (1559)** made Plutarch a European bestseller; **Thomas North's English (1579)** was made from Amyot. **Montaigne** loved him above all authors, and **Shakespeare** built three plays on North.
+
+**The revolutions.** The American founders, **Adams, Hamilton and Madison**, were raised on Plutarch. The *Federalist Papers* were signed **"Publius,"** after **Publius Valerius Publicola**, a founder of the Roman Republic from Plutarch's *Lives*. **Washington's favorite play** was Addison's ***Cato***, about Plutarch's Cato the Younger. **Rousseau** said Plutarch was his **first book**. **Charlotte Corday** read Plutarch **the day before she killed Marat**.
+
+**Leaders.** **Napoleon carried it** on campaign. **Emerson** called it
+
+> "a bible for heroes."
+
+**Truman** read it as a boy.
+
+**Cincinnatus**, the Roman called from his plow to save the state who then went back to his farm, was the model for **Washington**, who gave up command and later the presidency. (Cincinnati is named for the society of officers honoring him.)
+
+**The creature.** In *Frankenstein*, Plutarch gives the creature **the education of a citizen with no city to live in**.
+
+## How to read the Lives
+**Translations:**
+- **Penguin Classics thematic volumes**: *The Rise and Fall of Athens*, *Makers of Rome*, *The Age of Alexander*. Modern, readable, grouped by era.
+- **Dryden's translation, revised by Clough**: free online, and available as an audiobook.
+- **North, 1579**: beautiful, Shakespeare's own, but hard going.
+
+**A reading order:**
+1. Alexander
+2. Julius Caesar
+3. Antony (read alongside Shakespeare's *Antony and Cleopatra*)
+4. Lycurgus and Numa
+5. Themistocles
+6. Pericles
+7. Cato the Younger, Brutus, Cicero
+
+**Pace:** about **1–2 hours per life**, so roughly **a month of evenings**. As you read, watch for **the small revealing moment Plutarch picks**, the phrase or jest he said shows character better than battles.
+
 ## Key facts
 - Plutarch: c. 46–120 AD, from Chaeronea; Greek, and a Roman citizen; priest of Apollo at Delphi for about his last 30 years.
 - *Parallel Lives*: 23 surviving pairs plus 4 single lives, most pairs with a closing comparison.
 - "It is not histories I am writing, but lives." (*Alexander*, opening)
 - The creature in *Frankenstein*: "I felt the greatest ardour for virtue rise within me."
 - North's 1579 translation was the source for *Julius Caesar*, *Antony and Cleopatra* and *Coriolanus*.
+- Amyot's French 1559; North's English 1579; "Publius" of the Federalist after Publicola; Emerson: "a bible for heroes."
