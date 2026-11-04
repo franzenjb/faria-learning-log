@@ -93,6 +93,39 @@ Each is a lover of **Zeus (Jupiter)**, so the names come with stories:
 
 **The GIS link:** every coordinate on every map started as an angle measured against the sky and a clock. GPS still works the same way, by timing: satellites carry atomic clocks.
 
+## Longitude by Jupiter's clock: worked examples
+
+### Latitude is easy; longitude needs time
+**Latitude** is easy: the height of Polaris above the horizon gives it directly. **Longitude** needs **time**. The Earth turns **15° an hour**, so:
+
+> **(local time − home time) × 15 = your degrees east (+) or west (−) of home.**
+
+### The method, step by step
+1. **Find local noon** from the **shortest shadow** of a vertical stick, and set your clock to 12:00.
+2. **Read home time** from Galileo's printed table of **Io eclipses**, for example: *"Io vanishes at 9:14 p.m. Florence time."* The eclipse happens **at one instant for every observer on Earth**, like a **starter's pistol in the sky**. Everyone sees it at the same moment; only their **local clocks** read differently.
+3. **Subtract and multiply by 15.**
+
+### Worked examples (home: Florence, about 11°E)
+**Your clock reads 10:14 p.m.** That's **1 hour later** than Florence, so **15° east**: about **26°E**, the **Aegean**, between **Athens (24°E)** and **Istanbul (29°E)**. Jeff guessed Turkey or Afghanistan: **western Turkey fits**, but **Afghanistan (~65°E)** would be about **3.6 hours ahead** of Florence.
+
+**Your clock reads 6:14 p.m.** That's **3 hours behind**, so **45° west**: about **34°W**, just off **Recife, Brazil (35°W)**. Jeff guessed near Cuba, but **Havana is at about 82°W**, about **6 hours behind** Florence.
+
+### The surprise: South America lies far east
+![Havana's meridian (82°W) runs south and misses South America; Recife lies at 35°W](../../img/Longitude_Havana_vs_Recife_Map_Tufte.png?v=1)
+*Havana's meridian (82°W) runs south and misses South America; Recife lies at 35°W. Tufte-style map, Abbé Faria, 2026.*
+
+South America sits much farther east than most people picture. **Recife is east of Halifax, Nova Scotia (64°W).** Fly **due south from Havana** and you clip **western Panama**, then pass over **open Pacific just off Ecuador and Peru**: you miss South America entirely. Even **Lima (77°W) is east of Havana**. **Havana to Recife is about 6,000 km** (about 6,200 km great-circle), roughly **New York to Paris**.
+
+Jeff:
+
+> "I think that would trick 99.99% of the world."
+
+### Why it didn't work at sea
+On a **rolling deck**, keeping a long telescope on Jupiter's tiny moons was impractical. **On land** it worked beautifully: **Cassini** used the Io tables to **remap France**, which **shrank** it as the coastlines moved inland. At sea the problem was solved by **John Harrison's marine chronometer in the 1760s**: carry home time in a box instead of reading it from the sky.
+
+### Rømer, 1676: the clock that ran late
+While compiling Io tables, **Ole Rømer** noticed the eclipses ran **up to about 22 minutes late** when **Earth was far from Jupiter**, and early when near. The cause: light takes time to cross the extra distance. It was **the first measurement of the speed of light** (the modern figure for the delay across Earth's orbit is about **16.5 minutes**). The eclipse is still **simultaneous for all observers on Earth**; the delay is between Jupiter and us, not among us, so only the **local clock readings** differ.
+
 ## Question to think about
 Was Galileo a **martyr to truth**, or **done in by his own arrogance**, mocking a pope who had been his friend?
 
