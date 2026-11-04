@@ -40,6 +40,21 @@ He admires the **lawgivers Numa, Solon and Lycurgus** more than the conquerors. 
 ## Question to think about
 Plutarch thinks a small, unguarded moment reveals character better than a great deed. In disaster work, do you learn more about a person from how they run the big operation, or from some small thing they do at 2 a.m. in a shelter?
 
+## When the Lives happened, and when Plutarch wrote
+The *Lives* span about **1,200 years including legend**, from **Theseus (around 1200 BC)** to **Galba and Otho (AD 69)**. The **historical core** is about **600 years**, from **Solon (around 600 BC)** to **Antony and Cleopatra (30 BC)**. Plutarch wrote them around **AD 100–120, under Trajan and Hadrian**.
+
+![Timeline of the subjects of Plutarch's Lives from Theseus to Galba and Otho, with Plutarch's lifetime and writing years in red](../../img/Plutarch_Lives_Timeline_Tufte.png?v=1)
+*Timeline drawn for this site. Hollow markers are legendary figures.*
+
+**How far back he was looking, from his desk:**
+- **Theseus**: about **1,300 years**, as distant as **the Vikings** are to us.
+- **Solon**: about **700 years**, as **Marco Polo** is to us.
+- **Alexander**: about **420 years**, as **Shakespeare** is to us.
+- **Caesar and Cicero**: about **150 years**, as **the Civil War** is to us.
+- **Galba and Otho**: about **40 years**, when he was in his **twenties**, as **the 1980s** are to us.
+
+It's like writing lives **from the Vikings to Reagan**: legend, old books, and living memory, all in one work.
+
 ## Why the Lives mattered
 **It preserved lost sources.** Much of what we know about **Lycurgus, Themistocles, Pericles, Pompey and Antony** survives mainly through Plutarch, who read books now lost. Many of history's most famous scenes, **Caesar's death, the Rubicon, Cleopatra's barge**, reach us in his telling.
 
@@ -58,6 +73,31 @@ Plutarch thinks a small, unguarded moment reveals character better than a great 
 **Cincinnatus**, the Roman called from his plow to save the state who then went back to his farm, was the model for **Washington**, who gave up command and later the presidency. (Cincinnati is named for the society of officers honoring him.)
 
 **The creature.** In *Frankenstein*, Plutarch gives the creature **the education of a citizen with no city to live in**.
+
+## Cincinnatus
+**Lucius Quinctius Cincinnatus** comes to us mainly from **Livy**; Plutarch wrote **no Life of him**, but he is the Roman ideal the *Lives* keep circling.
+
+**458 BC.** A Roman army was **trapped by the Aequi in the Alban Hills**. The Senate named Cincinnatus **dictator**, an office of **emergency powers for up to six months**. The messengers found him **plowing his small farm across the Tiber**; his wife **Racilia** fetched his **toga** so he could receive them properly.
+
+![Cincinnatus Leaves the Plow to Dictate Laws to Rome (1806), Juan Antonio Ribera](../../img/Ribera_Cincinnatus_Leaving_the_Plow_1806.jpg?v=1)
+*Cincinnatus Leaves the Plow to Dictate Laws to Rome (1806), Juan Antonio Ribera. Juan Antonio de Ribera, Public domain, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Juan_Antonio_Ribera_-_Cincinato_abandona_el_arado_para_dictar_leyes_a_Roma,_1806.jpg).*
+
+He **won in about 15–16 days**, then **resigned**, handing back about **5.5 months** of unused absolute power, and went home to his plow. He was called on **again around age 80, in 439 BC**, and again gave the power back.
+
+He became the image of Roman ***virtus***, **civic virtue**: power as a **duty**, not a prize. He is **the opposite of Caesar**, who crossed the Rubicon to take power and made himself dictator for life.
+
+**Washington.** George Washington **resigned his commission in 1783** and **refused a third term in 1797**. **King George III reportedly said** that if Washington gave up power, he would be
+
+> "the greatest man in the world." (reported; the exact wording is uncertain)
+
+He was hailed as **"the Cincinnatus of the West."** Revolutionary officers founded the **Society of the Cincinnati**, with **Washington as its first president**, and **Cincinnati, Ohio** is named after the Society. Its emblem shows **Cincinnatus taking up the sword and leaving the plow**.
+
+![Statue of Cincinnatus at Sawyer Point, Cincinnati, Ohio, holding the fasces and handing back power](../../img/Cincinnatus_Statue_Cincinnati_Ohio.jpg?v=1)
+*Statue of Cincinnatus at Sawyer Point, Cincinnati, Ohio, holding the fasces and handing back power. Chris Light, CC BY-SA 4.0, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Lucius_Quinctius_Cincinnatus_P4280213.JPG).*
+
+**Etymology:** from Latin ***cincinnus***, **"curl,"** so *Cincinnatus* means **"curly-haired."**
+
+**Question:** in disaster work, who hands power back when the job is done?
 
 ## How to read the Lives
 **Translations:**
@@ -83,3 +123,5 @@ Plutarch thinks a small, unguarded moment reveals character better than a great 
 - The creature in *Frankenstein*: "I felt the greatest ardour for virtue rise within me."
 - North's 1579 translation was the source for *Julius Caesar*, *Antony and Cleopatra* and *Coriolanus*.
 - Amyot's French 1559; North's English 1579; "Publius" of the Federalist after Publicola; Emerson: "a bible for heroes."
+- The Lives span ~1,200 years with legend (Theseus c. 1200 BC to Galba/Otho AD 69); historical core ~600 years; written c. AD 100–120.
+- Cincinnatus, dictator 458 BC, resigned after ~16 days; Washington, "the Cincinnatus of the West"; *cincinnus* = "curl."
