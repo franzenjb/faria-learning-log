@@ -14,16 +14,22 @@ Jeff, reading about Cepheids on the [Polaris](/topics/48-polaris/) page, stopped
 
 **Computer** is **compute** + **-er**: a person who computes.
 
-- Earliest recorded English use: **Richard Brathwaite** (also spelled Braithwaite), *The Yong Mans Gleanings* (**1613**):
+- Earliest recorded English use: **Richard Brathwaite** (also spelled Braithwaite), *The Yong Mans Gleanings* (London, **1613**):¹
 
-> "I haue read the truest **computer** of Times, and the best Arithmetician that euer breathed…"
+> "I haue read the truest **computer** of Times, and the best Arithmetician that euer breathed, and he reduceth thy dayes into a short number."
 
 - The *Oxford English Dictionary* sense that matters here (chiefly historical): *"A person who makes calculations or computations… specifically a person employed to make calculations in an observatory, in surveying, etc."*
 - Machine sense arrives much later: calculating machines mid-19th century; programmable electronic computers mid-20th century (OED's early electronic citations cluster around the **1940s**). Until then, *computer* almost always meant a human being.
 
+**Gloss.** In Brathwaite the "computer" is **God**, the reckoner of our days ("The daies of Man are threescore and ten"); the word then moved from a reckoner of time, to human calculators like the Harvard women, to machines.
+
 **Human computers before Harvard.** The British *Nautical Almanac* (founded **1767**, tables from **1767** onward under Nevil Maskelyne) hired dozens of human computers to produce the ephemerides sailors needed for lunars and for finding longitude. From **1765 to 1811** about **35** computers worked on it; one of them, **Mary Edwards**, was a woman who computed for a living after her husband's death. That world is the direct cousin of [Nathaniel Bowditch](/topics/49-bowditch/)'s world: tables of the Moon, the Sun, and the stars, checked and rechecked by hand, then bound into the book a navigator trusted with a ship.
 
 So when Jeff hit the word *computer* on a Polaris page and felt something was off, his ear was right. The word had not yet been stolen by the machine.
+
+---
+
+¹ **Footnote — Brathwaite 1613.** Exact wording as cited by the *Oxford English Dictionary* (earliest quotation for *computer*): Richard Brathwaite ("R. B."), *The Yong Mans Gleanings* (London, 1613), p. 1: *"I haue read the truest computer of Times, and the best Arithmetician that euer breathed, and he reduceth thy dayes into a short number."* Original spelling preserved (*haue*, *euer*, *dayes*). The passage continues: *"The daies of Man are threescore and ten"* (Psalm 90:10) — so the "computer of Times" is God counting out a human life, not a clerk with an abacus. Same quotation in Wikipedia's *Human computer* etymology note.
 
 ## 2. Edward Pickering and the factory observatory
 
@@ -138,7 +144,7 @@ The unpaid and underpaid work that looked like "just computing" was, in Jeff's o
 8. What did Cecilia Payne's 1925 thesis conclude about the composition of stars?
 
 ## Key facts
-- **Computer** = person who computes (Brathwaite 1613; OED historical sense); machine sense mid-20th century.
+- **Computer** = person who computes (Brathwaite 1613; OED historical sense); first cite is God as "computer of Times"; then human calculators; machine sense mid-20th century.
 - Human computers also made the British *Nautical Almanac* (Mary Edwards among them) — same world as [Bowditch](/topics/49-bowditch/).
 - Edward C. Pickering, Harvard College Observatory director from 1877; women computers from early 1880s; ~80 women over the decades; ~**500,000** glass plates; Henry Draper Memorial funded by **Anna Palmer Draper**.
 - Pay ~**25¢/hour** (Fleming as curator ~50¢; Leavitt reportedly ~30¢); nickname **"Pickering's Harem."**
