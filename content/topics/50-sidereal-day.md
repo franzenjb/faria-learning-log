@@ -5,7 +5,7 @@ session: 2026-11-06
 order: 3
 tags: [astronomy, navigation, geography, history-of-science, words, etymology]
 ---
-Jeff asked what **sidereal** means and why a day measured by the stars is only **23 hours 56 minutes**. Then he pictured what happens if you trust Polaris raw while sailing west: the track would "wiggle… like cycles on an oscilloscope." This page is both answers, plus the older sailor's trick of **latitude sailing**. It grows straight out of [Polaris](/topics/48-polaris/) and [Bowditch](/topics/49-bowditch/), and sits beside [Galileo](/topics/46-galileo/) (longitude as time) and [Map Surprises](/topics/47-map-surprises/).
+Jeff asked what **sidereal** means and why a day measured by the stars is only **23 hours 56 minutes**. Then he pictured what happens if you trust Polaris raw while sailing west: the track would "wiggle… like cycles on an oscilloscope." This page is both answers, plus the older sailor's trick of **latitude sailing**. It grows straight out of [Polaris](/topics/48-polaris/) and [Bowditch](/topics/49-bowditch/), and sits beside [Galileo](/topics/46-galileo/) (longitude as time), [Map Surprises](/topics/47-map-surprises/), and [The Harvard Computers](/topics/51-harvard-computers/).
 
 ## 1. The word: sidereal
 

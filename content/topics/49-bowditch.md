@@ -5,7 +5,7 @@ session: 2026-11-06
 order: 2
 tags: [history-of-science, navigation, mathematics, geography, astronomy, words]
 ---
-Jeff asked who **Bowditch** was after we talked about Polaris correction tables. This page is the full answer. It pairs with [Polaris](/topics/48-polaris/) (the star whose tiny offset Bowditch's tables correct), [The sidereal day and latitude sailing](/topics/50-sidereal-day/) (why the correction is needed, and Jeff's "oscilloscope wave" insight), [Galileo](/topics/46-galileo/) (longitude as time, before chronometers), and [Map Surprises](/topics/47-map-surprises/).
+Jeff asked who **Bowditch** was after we talked about Polaris correction tables. This page is the full answer. It pairs with [Polaris](/topics/48-polaris/) (the star whose tiny offset Bowditch's tables correct), [The sidereal day and latitude sailing](/topics/50-sidereal-day/) (why the correction is needed, and Jeff's "oscilloscope wave" insight), [Galileo](/topics/46-galileo/) (longitude as time, before chronometers), [Map Surprises](/topics/47-map-surprises/), and [The Harvard Computers](/topics/51-harvard-computers/) (human computers of the *Nautical Almanac* were Bowditch's cousins; Leavitt was a later kind).
 
 ![Portrait of Nathaniel Bowditch by Charles Osgood](../../img/Bowditch_Charles_Osgood_Portrait.png?v=1)
 *Nathaniel Bowditch (1773–1838), portrait by **Charles Osgood**. Public domain, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:NathanielBowditch_byCharlesOsgood_PeabodyEssexMuseum.png) (Peabody Essex Museum).*
