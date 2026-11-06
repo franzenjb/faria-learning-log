@@ -24,7 +24,7 @@ In the chandlery Bowditch taught himself.
 
 - **1786** (age 14): algebra.
 - **1788**: calculus.
-- **1790**: **Latin**, specifically so he could read **Isaac Newton's *Philosophiae Naturalis Principia Mathematica***.
+- **1790**: **Latin**, specifically so he could read Isaac Newton's *Philosophiae Naturalis Principia Mathematica*.
 - **1792**: **French**, for the European mathematical literature.
 
 At eighteen he copied out all the mathematical papers in the *Philosophical Transactions of the Royal Society*. In **1793** he found an error in Newton's *Principia*.
@@ -127,7 +127,7 @@ The **Salem Marine Society** eulogized him:
 **Named for him:** the oceanographic survey ship **USNS Bowditch**; a lunar crater; a Salem–Boston ferry; a Maine windjammer; schools; the Department of Marine Transportation building at the U.S. Merchant Marine Academy; and Jean Lee Latham's 1955 Newbery Medal novel *Carry On, Mr. Bowditch*.
 
 ![Unfinished Gilbert Stuart portrait of Bowditch, 1828](../../img/Bowditch_Gilbert_Stuart_Unfinished_1828.jpg?v=1)
-*Unfinished portrait by **Gilbert Stuart**, 1828 — Bowditch's family considered it the best likeness. Public domain, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Nathaniel_Bowditch_(1773-1838,_last_and_unfinished_painting_by_Gilbert_Stuart,_1828).jpg).*
+*Unfinished portrait by **Gilbert Stuart**, 1828 — Bowditch's family considered it the best likeness. Public domain, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Nathaniel_Bowditch_%281773-1838%2C_last_and_unfinished_painting_by_Gilbert_Stuart%2C_1828%29.jpg).*
 
 ## Review questions
 
