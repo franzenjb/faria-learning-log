@@ -123,7 +123,7 @@ Jeff:
 More map tricks like this are collected in [Map Surprises: Latitude and Longitude Tricks](/topics/47-map-surprises/).
 
 ### Why it didn't work at sea
-On a **rolling deck**, keeping a long telescope on Jupiter's tiny moons was impractical. **On land** it worked beautifully: **Cassini** used the Io tables to **remap France**, which **shrank** it as the coastlines moved inland. At sea the problem was solved by **John Harrison's marine chronometer in the 1760s**: carry home time in a box instead of reading it from the sky.
+On a **rolling deck**, keeping a long telescope on Jupiter's tiny moons was impractical. **On land** it worked beautifully: **Cassini** used the Io tables to **remap France**, which **shrank** it as the coastlines moved inland. At sea the problem was solved by **John Harrison's marine chronometer in the 1760s**: carry home time in a box instead of reading it from the sky. Until then sailors often **ran down the latitude** — hold a parallel they could measure from Polaris or the noon Sun — because longitude was the unsolved half; see [The sidereal day and latitude sailing](/topics/50-sidereal-day/) and [Bowditch](/topics/49-bowditch/).
 
 ### Rømer, 1676: the clock that ran late
 While compiling Io tables, **Ole Rømer** noticed the eclipses ran **up to about 22 minutes late** when **Earth was far from Jupiter**, and early when near. The cause: light takes time to cross the extra distance. It was **the first measurement of the speed of light** (the modern figure for the delay across Earth's orbit is about **16.5 minutes**). The eclipse is still **simultaneous for all observers on Earth**; the delay is between Jupiter and us, not among us, so only the **local clock readings** differ.
