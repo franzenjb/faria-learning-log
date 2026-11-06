@@ -50,6 +50,8 @@ Europe's great cities lie much farther north than their mild weather suggests. M
 
 **Why Europe is so mild:** the **Gulf Stream** and its extension, the **North Atlantic Drift**, carry warm water from the tropics toward Europe, and the **prevailing westerlies** blow that ocean-warmed air onto the continent. Eastern North America, at the same latitudes, gets its winter winds from the frozen interior.
 
+Latitude itself is read from the sky: the altitude of [Polaris](/topics/48-polaris/) equals your latitude (Shakespeare's "height be taken"). Longitude needs a clock — see [Galileo](/topics/46-galileo/).
+
 ## Key facts
 - Havana 82°W, Lima 77°W, Halifax 64°W, Recife 35°W: due south from Havana misses South America.
 - London (51.5°N) is north of Quebec City (46.8°N); Rome ≈ Boston; Madrid ≈ New York.

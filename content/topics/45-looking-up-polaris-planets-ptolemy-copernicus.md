@@ -14,7 +14,7 @@ Watch the night sky for an hour and every star wheels around one point, the **ce
 - At the **equator** it sits on the horizon.
 - In **Florida** (about 25°–31°N) it stands roughly **27°** up, about three fists held at arm's length.
 
-That's why sailors could always find latitude on a clear night. Longitude was another matter (see [Galileo](/topics/46-galileo/)).
+That's why sailors could always find latitude on a clear night. Longitude was another matter (see [Galileo](/topics/46-galileo/)). For the full story of Polaris itself — the triple star, Cepheids, precession, every name, and Shakespeare's Sonnet 116 — see [Polaris: the North Star, explained](/topics/48-polaris/).
 
 ## The wanderers
 The stars keep their patterns; five bright lights don't. The Greeks called them ***planētai***, **"wanderers,"** which gave us **planet**.

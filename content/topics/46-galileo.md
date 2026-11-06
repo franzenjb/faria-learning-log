@@ -79,7 +79,7 @@ Each is a lover of **Zeus (Jupiter)**, so the names come with stories:
 (The names were proposed by Simon Marius in 1614; Galileo called them simply I to IV.)
 
 ## Latitude is easy, longitude needs a clock
-**Latitude** comes straight from the sky: the height of Polaris (or the noon Sun) gives it (see [Looking Up](/topics/45-looking-up-polaris-planets-ptolemy-copernicus/)).
+**Latitude** comes straight from the sky: the height of Polaris (or the noon Sun) gives it (see [Looking Up](/topics/45-looking-up-polaris-planets-ptolemy-copernicus/) and the full [Polaris](/topics/48-polaris/) lesson, including Shakespeare's "height be taken").
 
 **Longitude is a matter of time.** Earth turns **360° in 24 hours = 15° per hour**. If you know the time **here** and the time at a **reference place** at the same instant, the difference is your longitude.
 
