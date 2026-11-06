@@ -62,17 +62,15 @@ What she did:
 
 **Antonia Maury** (1866–1952), a niece of Henry Draper, built a more refined spectral scheme that distinguished stars of the same letter by the *width* and appearance of their lines — in modern terms, separating **giants** from **dwarfs**. Pickering preferred Fleming's simpler letter system for the big catalogue; Maury's subtler scheme was vindicated later when Hertzsprung and Russell made luminosity classes central to stellar evolution. She left and returned more than once; the tension between speed and depth is part of the story of the plates.
 
-## 5. Annie Jump Cannon: O B A F G K M
+## Oh Be A Fine Girl, Kiss Me
+
+*How Annie Jump Cannon sorted the stars.*
 
 **Annie Jump Cannon** (1863–1941) studied at Wellesley, lost much of her hearing after scarlet fever, and joined the Observatory in **1896**. She took Fleming's letters and **reordered** them into the temperature sequence still used worldwide:
 
 > **O – B – A – F – G – K – M**
 
-Mnemonic (the one Cannon's students and every later textbook used):
-
-> **"Oh Be A Fine Girl, Kiss Me."**
-
-It looks alphabetical. It is not. It is a **temperature** sequence: **O** hottest (blue, ≥30,000 K), **M** coolest (red, a few thousand K). Our Sun is a **G2** star. Polaris Aa, on the [Polaris](/topics/48-polaris/) page, is **F7Ib** — an F-type yellow-white *supergiant*. That "F7" is Cannon's language.
+That mnemonic — the one Cannon's students and every later textbook used — is the heading of this section. It looks alphabetical. It is not. It is a **temperature** sequence: **O** hottest (blue, ≥30,000 K), **M** coolest (red, a few thousand K). Our Sun is a **G2** star. Polaris Aa, on the [Polaris](/topics/48-polaris/) page, is **F7Ib** — an F-type yellow-white *supergiant*. That "F7" is Cannon's language.
 
 ![Cannon's spectral classes O through M](../../img/Cannon_Spectral_Classes_OBAFGKM_Tufte.png?v=1)
 *The Harvard spectral sequence, with rough temperatures and familiar examples. Diagram drawn for this site. (Temperatures are approximate modern ranges; the sequence itself is Cannon's.)*
