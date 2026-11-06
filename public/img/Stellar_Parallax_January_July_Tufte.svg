@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 740" role="img" aria-labelledby="title desc">
+  <title id="title">Annual stellar parallax</title>
+  <desc id="desc">Earth drawn on opposite sides of its orbit, with the nearby star much too close so the angle can be seen. January and July are illustrative dates that suit a star in this direction; another star wants a different pair of months. The angle subtended by 1 AU is the parallax p. The full shift against distant stars is 2p. Distance in parsecs equals 1 divided by p in arcseconds. Bessel measured this in 1838 with a heliometer, before stars could be photographed.</desc>
+  <rect width="1000" height="740" fill="#fbf8f2"/>
+  <style>
+    text { font-family: "Palatino Linotype", Palatino, "Liberation Serif", Georgia, serif; fill: #1c1915; }
+    .m { fill: #5e584e; }
+    .a { fill: #8c3f1e; }
+  </style>
+  <text x="28" y="36" font-size="26">Earth's orbit becomes a baseline once you know its length</text>
+  <text x="28" y="62" class="m" font-size="16">The star is drawn much too close. January and July are the right pair only for a star lying in this direction.</text>
+
+  <line x1="70" y1="108" x2="930" y2="108" stroke="#d9d0c2" stroke-width="1.2"/>
+  <g fill="#1c1915">
+    <circle cx="120" cy="108" r="1.7"/><circle cx="190" cy="108" r="2.2"/>
+    <circle cx="250" cy="108" r="1.4"/><circle cx="330" cy="108" r="1.8"/>
+    <circle cx="500" cy="108" r="2"/><circle cx="590" cy="108" r="1.5"/>
+    <circle cx="680" cy="108" r="2.3"/><circle cx="770" cy="108" r="1.6"/>
+    <circle cx="860" cy="108" r="1.8"/>
+  </g>
+  <text x="70" y="96" class="m" font-size="15">distant background stars, essentially unmoved</text>
+
+  <!-- Sun (420, 500), r=120. Jan (300,500), July (540,500). Star (420, 230).
+     Jan sightline to background y=108:
+     dir from Jan earth to star: (120, -270)
+     t = (108-500)/(-270) = 392/270 = 1.4519
+     x = 300 + 1.4519*120 = 474.2
+     July: dir (-120,-270), x = 540 - 1.4519*120 = 365.8
+  -->
+  <line x1="300" y1="500" x2="474" y2="108" stroke="#8c3f1e" stroke-width="1.25"/>
+  <line x1="540" y1="500" x2="366" y2="108" stroke="#1c1915" stroke-width="1.25"/>
+  <circle cx="474" cy="108" r="4" fill="#8c3f1e"/>
+  <circle cx="366" cy="108" r="4" fill="#1c1915"/>
+  <text x="486" y="140" class="a" font-size="15">apparent place in January</text>
+  <text x="150" y="140" font-size="15">apparent place in July</text>
+  <line x1="366" y1="124" x2="474" y2="124" stroke="#8c3f1e" stroke-width="1.2"/>
+  <line x1="366" y1="119" x2="366" y2="129" stroke="#8c3f1e" stroke-width="1.2"/>
+  <line x1="474" y1="119" x2="474" y2="129" stroke="#8c3f1e" stroke-width="1.2"/>
+  <text x="392" y="160" class="a" font-size="16">full shift = 2p</text>
+
+  <circle cx="420" cy="230" r="5.5" fill="#1c1915"/>
+  <text x="434" y="224" font-size="18">nearby star</text>
+
+  <!-- arc for 2p just under the star, between the two sightlines.
+     Sightlines leave the star toward the earths, downward.
+     A small arc radius 36 centered on the star, spanning the two directions.
+     Direction to Jan earth: angle from downward.
+     I'll draw an arc using endpoint approximation.
+     From star, unit toward Jan: (120,-270) length 295.5, unit (0.406,-0.914)
+     Toward July: (-0.406,-0.914)
+     Points at radius 46: Jan-side (420+0.406*46, 230-0.914*46)=(439, 188) wait y increases down so
+     toward Jan earth is down-left: (420 - 18.7, 230 + 42.0) = (401, 272)? 
+     unit from star to Jan earth: ((300-420),(500-230))/len = (-120,270)/295.5 = (-0.406, 0.914)
+     point: (420-18.7, 230+42.0)=(401.3, 272)
+     July: (420+18.7, 230+42)=(438.7, 272)
+     Those are almost horizontal, the angle is wide. Arc between them bulging down.
+  -->
+  <path d="M401 268 Q420 292 439 268" fill="none" stroke="#8c3f1e" stroke-width="1.4"/>
+  <text x="368" y="300" class="a" font-size="16">2p</text>
+  <!-- p: angle between sun (straight down) and July earth -->
+  <path d="M420 276 Q432 286 434 270" fill="none" stroke="#6f675c" stroke-width="1.2"/>
+  <text x="446" y="286" class="m" font-size="15">p</text>
+
+  <circle cx="420" cy="500" r="120" fill="none" stroke="#8c3f1e" stroke-width="1.7"/>
+  <circle cx="420" cy="500" r="8" fill="#8c3f1e"/>
+  <text x="434" y="496" class="a" font-size="15">Sun</text>
+  <line x1="300" y1="500" x2="540" y2="500" stroke="#d9d0c2" stroke-width="1"/>
+  <circle cx="300" cy="500" r="5.5" fill="#8c3f1e"/>
+  <circle cx="540" cy="500" r="5.5" fill="#1c1915"/>
+  <text x="228" y="540" class="a" font-size="17">January</text>
+  <text x="228" y="560" class="m" font-size="14">illustrative</text>
+  <text x="552" y="486" font-size="16">July</text>
+  <text x="552" y="504" class="m" font-size="13">illustrative</text>
+  <line x1="420" y1="484" x2="540" y2="484" stroke="#8c3f1e" stroke-width="1.2"/>
+  <text x="436" y="468" class="a" font-size="14">1 AU</text>
+
+  <text x="28" y="660" font-size="16">Another star wants other months, still about six months apart.</text>
+  <text x="28" y="684" font-size="16">Pick the dates when Earth stands on opposite sides, as seen from that star.</text>
+  <text x="28" y="716" class="m" font-size="15">Bessel, 1838, measured p with a split-lens heliometer. Star photographs came later.</text>
+
+  <text x="700" y="400" font-size="18">The definition</text>
+  <text x="700" y="430" font-size="16">p = angle at the star</text>
+  <text x="700" y="452" font-size="16">made by 1 AU</text>
+  <text x="700" y="482" font-size="16">side-to-side shift = 2p</text>
+  <text x="700" y="522" class="a" font-size="20">parsecs = 1 / p</text>
+  <text x="700" y="546" class="m" font-size="15">p measured in arcseconds</text>
+  <text x="700" y="578" class="m" font-size="15">p = 1 arcsecond, 1 parsec</text>
+  <text x="700" y="600" class="m" font-size="15">p = 0.1 arcsecond, 10 parsecs</text>
+</svg>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1080" role="img" aria-labelledby="title desc">
+  <title id="title">Two observers and a Venus transit</title>
+  <desc id="desc">A schematic, not a 1769 measurement. Two stations on Earth see Venus in different places against the Sun. That difference is the differential parallax, not the solar parallax itself. Over the hours of the transit the places become two chords. Halley compared the durations. Delisle compared the absolute time of one contact and therefore needed longitude as well as the projected baseline. A black-drop inset shows why the internal contact is hard to time. About 23 arcseconds is the illustrative shift for a side-on projected baseline of one Earth radius and the modern solar parallax. It is not a ceiling. Two stations can be farther apart, up to about an Earth diameter.</desc>
+  <rect width="1000" height="1080" fill="#fbf8f2"/>
+  <style>
+    text { font-family: "Palatino Linotype", Palatino, "Liberation Serif", Georgia, serif; fill: #1c1915; }
+    .m { fill: #5e584e; }
+    .a { fill: #8c3f1e; }
+  </style>
+  <text x="28" y="36" font-size="26">What two stations actually compare</text>
+  <text x="28" y="62" class="m" font-size="16">Schematic. Sizes and angles are exaggerated so the shift can be seen. Nothing here is traced from a 1769 logbook.</text>
+
+  <text x="8" y="172" class="a" font-size="13">projected</text>
+  <text x="8" y="188" class="a" font-size="13">baseline</text>
+  <line x1="70" y1="186" x2="70" y2="302" stroke="#8c3f1e" stroke-width="1.4"/>
+  <line x1="64" y1="186" x2="76" y2="186" stroke="#8c3f1e" stroke-width="1.4"/>
+  <line x1="64" y1="302" x2="76" y2="302" stroke="#8c3f1e" stroke-width="1.4"/>
+
+  <circle cx="168" cy="244" r="58" fill="none" stroke="#1c1915" stroke-width="1.6"/>
+  <line x1="118" y1="244" x2="218" y2="244" stroke="#e4dccf" stroke-width="1"/>
+  <circle cx="168" cy="186" r="4.5" fill="#8c3f1e"/>
+  <circle cx="168" cy="302" r="4.5" fill="#1c1915"/>
+  <text x="188" y="174" class="a" font-size="15">northern station</text>
+  <text x="188" y="318" font-size="15">southern station</text>
+  <text x="140" y="248" class="m" font-size="14">Earth</text>
+
+  <!-- N (168,186) -> (520,304); S (168,302) -> (520,184); intersection -->
+  <!-- dir N (352,118), dir S (352,-118)
+     yN = 186 + (x-168)*(118/352)
+     yS = 302 - (x-168)*(118/352)
+     186 + k = 302 - k => 2k = 116 => k = 58 => (x-168)=58/(118/352)=58*352/118=173.0
+     x=341, y=244 -->
+  <line x1="168" y1="186" x2="520" y2="304" stroke="#8c3f1e" stroke-width="1.35"/>
+  <line x1="168" y1="302" x2="520" y2="184" stroke="#1c1915" stroke-width="1.35"/>
+  <circle cx="341" cy="244" r="6" fill="#1c1915"/>
+  <text x="318" y="230" font-size="16">Venus</text>
+
+  <circle cx="610" cy="244" r="100" fill="#fffdf8" stroke="#1c1915" stroke-width="1.6"/>
+  <circle cx="520" cy="304" r="3.6" fill="#8c3f1e"/>
+  <circle cx="520" cy="184" r="3.6" fill="#1c1915"/>
+  <text x="724" y="196" font-size="15">place seen from</text>
+  <text x="724" y="216" font-size="15">the southern station</text>
+  <line x1="528" y1="184" x2="718" y2="204" stroke="#1c1915" stroke-width="0.9"/>
+  <text x="724" y="292" class="a" font-size="15">place seen from</text>
+  <text x="724" y="312" class="a" font-size="15">the northern station</text>
+  <line x1="528" y1="304" x2="718" y2="300" stroke="#8c3f1e" stroke-width="0.9"/>
+  <text x="586" y="248" class="m" font-size="16">Sun</text>
+
+  <text x="28" y="378" class="m" font-size="16">Raise your head and a near finger jumps down against a far wall.</text>
+  <text x="28" y="400" class="m" font-size="16">A northern station sees Venus shifted south on the Sun. The Sun shifts too.</text>
+  <text x="28" y="422" class="m" font-size="16">Venus, being nearer, shifts more. The measurement is that difference.</text>
+
+  <text x="28" y="462" font-size="20">Over the hours, each station sees a chord across the Sun</text>
+  <circle cx="200" cy="640" r="125" fill="#fffdf8" stroke="#1c1915" stroke-width="1.6"/>
+  <text x="190" y="528" font-size="14">N</text>
+  <line x1="92" y1="592" x2="308" y2="592" stroke="#1c1915" stroke-width="1.7"/>
+  <line x1="124" y1="698" x2="276" y2="698" stroke="#8c3f1e" stroke-width="1.7"/>
+  <circle cx="100" cy="592" r="3" fill="#1c1915"/>
+  <circle cx="122" cy="592" r="3.3" fill="#8c3f1e"/>
+  <circle cx="278" cy="592" r="3.3" fill="#8c3f1e"/>
+  <circle cx="300" cy="592" r="3" fill="#1c1915"/>
+  <text x="92" y="580" font-size="13">1</text>
+  <text x="118" y="580" class="a" font-size="13">2</text>
+  <text x="274" y="580" class="a" font-size="13">3</text>
+  <text x="296" y="580" font-size="13">4</text>
+  <line x1="122" y1="608" x2="278" y2="608" stroke="#8c3f1e" stroke-width="1.1"/>
+  <line x1="122" y1="603" x2="122" y2="613" stroke="#8c3f1e" stroke-width="1.1"/>
+  <line x1="278" y1="603" x2="278" y2="613" stroke="#8c3f1e" stroke-width="1.1"/>
+  <text x="145" y="626" class="a" font-size="14">Halley times 2 to 3</text>
+
+  <text x="360" y="560" font-size="16">southern station</text>
+  <text x="360" y="580" class="m" font-size="15">longer chord, nearer center</text>
+  <line x1="310" y1="592" x2="356" y2="572" stroke="#1c1915" stroke-width="0.9"/>
+  <text x="360" y="688" class="a" font-size="16">northern station</text>
+  <text x="360" y="708" class="m" font-size="15">shorter chord</text>
+  <line x1="278" y1="698" x2="356" y2="696" stroke="#8c3f1e" stroke-width="0.9"/>
+  <text x="360" y="630" class="m" font-size="15">1 and 4: external contacts.</text>
+  <text x="360" y="652" class="m" font-size="15">2 and 3: internal contacts.</text>
+
+  <text x="680" y="530" font-size="18">Why contact 2 smears</text>
+  <circle cx="800" cy="630" r="72" fill="#fffdf8" stroke="#1c1915" stroke-width="1.4"/>
+  <path d="M800 558 A72 72 0 0 1 800 702" fill="#fffdf8" stroke="none"/>
+  <rect x="800" y="558" width="80" height="144" fill="#fbf8f2"/>
+  <path d="M800 558 A72 72 0 0 1 800 702" fill="none" stroke="#1c1915" stroke-width="1.5"/>
+  <circle cx="756" cy="630" r="20" fill="#1c1915"/>
+  <path d="M772 620 C792 624 796 624 808 630 L808 640 C796 646 792 646 772 640 Z" fill="#1c1915"/>
+  <text x="680" y="728" font-size="15">Black drop. A dark neck</text>
+  <text x="680" y="748" font-size="15">seems to tie Venus to the</text>
+  <text x="680" y="768" font-size="15">outside sky, so "contact"</text>
+  <text x="680" y="788" font-size="15">is a judgment, not a click.</text>
+
+  <line x1="28" y1="830" x2="972" y2="830" stroke="#d9d0c2" stroke-width="1"/>
+  <text x="28" y="858" font-size="15">Circular model: Earth to Venus at inferior conjunction is about 0.277 AU.</text>
+  <text x="28" y="880" font-size="15">Differential parallax is about (1/0.277 &#8722; 1) times the solar parallax, or 2.61 times it.</text>
+  <text x="28" y="908" class="m" font-size="15">Illustrative, not a measurement. One Earth radius, side-on, separates the tracks by about 23 arcseconds</text>
+  <text x="28" y="928" class="m" font-size="15">if the solar parallax is the modern 8.79. That is one radius, not a ceiling.</text>
+  <text x="28" y="948" class="m" font-size="15">Stations can be farther apart, up to about a diameter, and the baseline is usually tilted.</text>
+  <text x="28" y="976" class="m" font-size="15">Delisle times one contact in absolute time and needs longitude. Halley's duration uses one local clock.</text>
+  <text x="28" y="996" class="m" font-size="15">Latitude by itself is not the baseline.</text>
+  <text x="28" y="1024" class="m" font-size="15">Mercury shows a black drop too. The neck is mostly blur and the Sun's dim edge, not only Venus's air.</text>
+</svg>
