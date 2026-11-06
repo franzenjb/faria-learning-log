@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 760" role="img" aria-labelledby="title desc">
+  <title id="title">Cepheid distance ladder and calibration</title>
+  <desc id="desc">Four rungs, distance increasing upward. Kepler gives relative orbits in astronomical units. Transit timings, together with Earth's radius, give the astronomical unit as a length. Parallax uses that length as a baseline and reaches nearby stars, including nearby Cepheids. Leavitt's common-distance sample fixes the slope of the period-luminosity relation; the zero point is pinned later by parallax and other rungs. The plot is a sketch of a sliding zero point, not Leavitt's twenty-five stars. Type Ia supernovae are marked only as the next rung.</desc>
+  <rect width="1000" height="760" fill="#fbf8f2"/>
+  <style>
+    text { font-family: "Palatino Linotype", Palatino, "Liberation Serif", Georgia, serif; fill: #1c1915; }
+    .m { fill: #5e584e; }
+    .a { fill: #8c3f1e; }
+  </style>
+  <text x="28" y="36" font-size="26">The slope is not yet a distance</text>
+  <text x="28" y="62" class="m" font-size="16">Distance grows upward. The plot is a sketch of the idea. Leavitt's twenty-five stars are on the Harvard page.</text>
+
+  <line x1="52" y1="108" x2="52" y2="660" stroke="#d9d0c2" stroke-width="1.5"/>
+
+  <circle cx="52" cy="118" r="6.5" fill="none" stroke="#b7b0a4" stroke-width="1.5"/>
+  <text x="76" y="114" class="m" font-size="15">Farther still: Type Ia supernovae</text>
+  <text x="76" y="134" class="m" font-size="14">the next rung, not this lesson</text>
+
+  <circle cx="52" cy="200" r="8" fill="#8c3f1e"/>
+  <text x="76" y="188" class="a" font-size="18">4. Cepheids, after calibration</text>
+  <text x="76" y="212" font-size="16">Leavitt's slope, 1908 and 1912</text>
+  <text x="76" y="232" font-size="16">Zero point from rung 3, clusters, later parallaxes</text>
+  <text x="76" y="252" class="m" font-size="14">Across the Milky Way, and out into other galaxies</text>
+
+  <circle cx="52" cy="330" r="8" fill="#1c1915"/>
+  <text x="76" y="318" font-size="18">3. Nearby stars</text>
+  <text x="76" y="342" font-size="16">Parallax. The baseline is the length from rung 2.</text>
+  <text x="76" y="362" font-size="16">parsecs = 1 / p, with p in arcseconds</text>
+  <text x="76" y="382" class="m" font-size="14">Reaches nearby Cepheids. One star checks; it does not pin the ladder.</text>
+
+  <circle cx="52" cy="460" r="8" fill="#1c1915"/>
+  <text x="76" y="448" font-size="18">2. A length, not only a ratio</text>
+  <text x="76" y="472" font-size="16">Transit timings give the solar parallax.</text>
+  <text x="76" y="492" font-size="16">AU = Earth's radius divided by that angle.</text>
+  <text x="76" y="512" class="m" font-size="14">A few percent in 1769. Radar, then a definition, came later.</text>
+
+  <circle cx="52" cy="600" r="8" fill="#1c1915"/>
+  <text x="76" y="588" font-size="18">1. Relative orbits</text>
+  <text x="76" y="612" font-size="16">Kepler, 1619. a&#179; / T&#178; is shared.</text>
+  <text x="76" y="632" font-size="16">Venus 0.723 AU. Conjunction gap about 0.277 AU.</text>
+  <text x="76" y="652" class="m" font-size="14">The shape of the system. No miles yet.</text>
+
+  <!-- plot -->
+  <text x="520" y="118" font-size="18">Same slope. The zero point can still slide.</text>
+  <line x1="560" y1="500" x2="960" y2="500" stroke="#1c1915" stroke-width="1.3"/>
+  <line x1="560" y1="500" x2="560" y2="180" stroke="#1c1915" stroke-width="1.3"/>
+  <text x="700" y="528" font-size="15">logarithm of the period</text>
+  <text x="568" y="174" class="m" font-size="14">brighter</text>
+  <text x="500" y="496" class="m" font-size="14">fainter</text>
+
+  <line x1="610" y1="240" x2="930" y2="390" stroke="#8a8175" stroke-width="1.7" stroke-dasharray="7 5"/>
+  <line x1="610" y1="320" x2="930" y2="470" stroke="#8c3f1e" stroke-width="2.1"/>
+
+  <line x1="860" y1="286" x2="860" y2="366" stroke="#8c3f1e" stroke-width="1.3"/>
+  <polyline points="853,300 860,286 867,300" fill="none" stroke="#8c3f1e" stroke-width="1.3"/>
+  <polyline points="853,352 860,366 867,352" fill="none" stroke="#8c3f1e" stroke-width="1.3"/>
+  <text x="872" y="322" class="a" font-size="14">zero</text>
+  <text x="872" y="340" class="a" font-size="14">point</text>
+
+  <text x="620" y="228" class="m" font-size="14">Leavitt: slope only</text>
+  <line x1="700" y1="262" x2="748" y2="232" stroke="#8a8175" stroke-width="0.9"/>
+
+  <!-- point on solid line: (610,320) to (930,470), slope 150/320 = 0.46875
+     x=760, t=150/320=0.46875, y=320+70.3=390.3 -->
+  <circle cx="760" cy="390" r="4.5" fill="#8c3f1e"/>
+  <line x1="760" y1="390" x2="760" y2="500" stroke="#d9d0c2" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="620" y="430" class="a" font-size="14">period you measured</text>
+  <line x1="700" y1="422" x2="752" y2="396" stroke="#8c3f1e" stroke-width="0.8"/>
+  <text x="575" y="548" class="a" font-size="14">pinned by parallax</text>
+
+  <text x="520" y="575" font-size="16">Read luminosity off the pinned line.</text>
+  <text x="520" y="599" font-size="16">Compare it with how bright the star looks.</text>
+  <text x="520" y="623" font-size="16">Light falls as 1 over distance squared.</text>
+  <text x="520" y="657" class="m" font-size="15">The period alone does not say how many watts.</text>
+  <text x="520" y="679" class="m" font-size="15">Dust makes a star look too far. Another Cepheid</text>
+  <text x="520" y="701" class="m" font-size="15">family lies on another line. The arrow is only a slide.</text>
+  <text x="520" y="733" class="m" font-size="14">Which way it slides is settled by measurement, not by this sketch.</text>
+</svg>
