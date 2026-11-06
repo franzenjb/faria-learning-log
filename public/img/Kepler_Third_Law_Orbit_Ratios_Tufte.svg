@@ -87,6 +87,6 @@
     <text x="540" y="608">Saturn</text><text x="710" y="608">29.46 years</text><text x="880" y="608">9.54</text>
   </g>
   <text x="540" y="648" class="m" font-size="14">Rounded sidereal periods, Earth set to 1. Modern semimajor</text>
-  <text x="540" y="668" class="m" font-size="14">axes agree at this precision. A planet's own mass changes</text>
-  <text x="540" y="688" class="m" font-size="14">a&#179;/T&#178; only in the sixth decimal place.</text>
+  <text x="540" y="668" class="m" font-size="14">axes agree here. Venus shifts a&#179;/T&#178; by parts per million.</text>
+  <text x="540" y="688" class="m" font-size="14">Jupiter shifts it by about 0.1 percent. Not one rule for all.</text>
 </svg>

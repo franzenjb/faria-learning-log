@@ -252,7 +252,7 @@ html_doc = f"""<!doctype html>
     <p class="deck">How a clock in the planets, a clock on Earth, a baseline the size of our orbit, and a clock inside a star came to measure distance.</p>
   </header>
   {''.join(parts)}
-  <p class="cap">Faria learning log, faria.jbf.com. Lesson dated 6 November 2026. Diagrams drawn for this lesson. The illustrative 23 arcseconds is not a 1769 measurement.</p>
+  <p class="cap">Faria learning log, faria.jbf.com. Lesson dated 6 November 2026. Diagrams drawn for this lesson. The 23 arcseconds is the one-radius illustration, not a ceiling and not a 1769 measurement.</p>
 </main>
 </body>
 </html>

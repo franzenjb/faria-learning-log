@@ -35,7 +35,7 @@ Look at the ellipse on the diagram. The Sun sits at a focus, not at the center. 
 
 > a^3 / T^2 = G (M + m) / (4 pi squared),
 
-where M is the Sun's mass and m is the planet's. A planet is a speck beside the Sun (Venus is a few parts per million of the solar mass), so M + m is almost the same M for every planet, and Kepler's constant is almost exact. The leftovers in a modern table, once the periods are rounded, sit at about a part in a thousand or smaller. They are not a crack in the law.
+where M is the Sun's mass and m is the planet's. The constant grows by the factor (M + m) / M, which is 1 + m/M. That factor is not the same for every planet. Venus is a few parts per million of the solar mass, so for Venus the shift in a^3/T^2 really does sit in the sixth decimal. Jupiter is about 1/1047 of the Sun, and the constant is larger by about **0.1 percent**. Saturn is about 0.03 percent. The rounded table on the diagram agrees at the printed decimals because the periods were rounded. It does not mean every planet's mass is negligible.
 
 **Worked arithmetic for Venus.** NASA's Venus fact sheet gives a sidereal period of **224.701 days**. Earth's sidereal year is **365.256 days**.
 
@@ -92,12 +92,12 @@ This is the step that gets flattened in a hurry, so it is worth going slowly.
 
 Check the arithmetic the long way. 1 / 0.277 = 3.610. Subtract 1. That is 2.610. If you insert the modern solar parallax only to see the size of the effect, 2.61 times 8.79 arcseconds is about **23 arcseconds**.
 
-Read that 23 carefully. It is an **illustrative ceiling**, not a number from a logbook. It is the track separation you would get if the projected baseline were a full Earth radius and lay square across the line of sight. A real pair of stations is a shorter chord of the Earth, tilted to the Sun, so the separation on the disk is smaller than 23 arcseconds. The diagram labels the ceiling as a ceiling.
+Read that 23 carefully. It is the track separation for one stated baseline: a projected separation of **one Earth radius**, square across the line of sight. That is the same length hidden in the definition of horizontal parallax. It is an illustration, not a number from a logbook, and it is **not a ceiling**. The straight-line distance between two observers can be longer than one radius. It can be as much as about an Earth **diameter**, two radii, when the stations stand near opposite ends of the sunlit hemisphere and can both still see the Sun. A side-on diameter would about double the shift, to something near 46 arcseconds in this same circular model. Real stations fall somewhere in that range, and the baseline is tilted, so the separation on the disk is whatever that projected length produces. The diagram labels 23 arcseconds as the one-radius case.
 
 Halley himself, in 1716, did the same kind of arithmetic with a *trial* parallax, and he said so. He supposed the solar parallax was 12.5 arcseconds "till its precise quantity be made to appear more certain by the trial I propose." On that supposition he put Venus's parallax at 43 arcseconds, "almost 4 times" the Sun's (43 / 12.5 = 3.44, so he was using an Earth-Venus distance near 0.29 AU, close to our 0.277 and not identical). Subtract, and "there will remain half a minute at least" for the parallax of Venus *from* the Sun. Half a minute is 30 arcseconds. That is his hypothesis. It is not a measurement, and it is not the modern 8.8 arcseconds.
 
 ![Two stations see Venus shifted differently against the Sun; the tracks are two chords whose durations Halley compared; a black drop blurs internal contact](../../img/Venus_Transit_Two_Observers_Parallax_Tufte.svg?v=1)
-*Schematic, drawn for this lesson. Earth, Venus, and the angles are much too large. The 23 arcseconds in the note is the illustrative ceiling above, not a 1769 observation. North is up on the solar disk: a northern station sees the nearer planet shifted south.*
+*Schematic, drawn for this lesson. Earth, Venus, and the angles are much too large. The 23 arcseconds in the note is the one-radius illustration above, not a ceiling and not a 1769 observation. North is up on the solar disk: a northern station sees the nearer planet shifted south.*
 
 ## 5. Halley's clock, and Delisle's clock
 
@@ -224,7 +224,7 @@ It is not the **zero point**. The circular is careful. The magnitudes are on a p
 In 1912 those parallaxes were out of reach. A classical Cepheid's parallax is a few thousandths of an arcsecond. The period told her which star was brighter than which other star in the Cloud. It did not tell her how far the Cloud was, in parsecs, until someone pinned the line to a luminosity.
 
 ![Four rungs of the distance ladder, and a sketch of a period-luminosity line whose slope is known while its zero point can still slide](../../img/Cepheid_Distance_Ladder_Calibration_Tufte.svg?v=1)
-*The ladder drawn for this lesson. Distance increases upward. The graph is a sketch of a sliding zero point, not a replot of Leavitt's 25 stars; those are on the Harvard Computers page. The arrow can slide either way. Measurement decides which way.*
+*The ladder drawn for this lesson. Distance increases upward. On the graph, brighter means more luminous, upward, so a longer period stands higher. That axis is not a magnitude scale, on which the numbers run the other way. The graph is a sketch of a sliding zero point, not a replot of Leavitt's 25 stars; those are on the Harvard Computers page. The arrow can slide either way. Measurement decides which way.*
 
 ## 11. Pinning the line
 
@@ -255,7 +255,7 @@ Today the second rung is a definition plus radar history. The shape of the argum
 
 1. Venus takes 0.615 year. Square it. You should be near 0.378. What cube root, to three decimals, brings you back?
 2. In the circular model, what is 1 minus that cube root?
-3. 1 / 0.277 is about 3.61. What is the differential factor, and what illustrative angle is 2.61 times 8.79 arcseconds?
+3. 1 / 0.277 is about 3.61. What is the differential factor, and what angle is 2.61 times 8.79 arcseconds for a side-on baseline of one Earth radius? Is that a ceiling?
 4. A star has p = 0.25 arcsecond. How many parsecs? About how many light-years, at 3.26 light-years to the parsec?
 5. Two Cepheids have the same apparent brightness. One has twice the period of the other. What else do you need before you can say which is farther?
 
@@ -317,7 +317,7 @@ These are the works the numbers and the names come from. Expedition lists disagr
 - Venus: period 224.701 days = 0.615 year, so a = 0.723 AU. Circular coplanar gap at inferior conjunction: 1 - 0.723 = 0.277 AU. Real conjunctions are near that, not identical to it.
 - Greatest elongation near 46 degrees already gave sin 46 = 0.72 by geometry. The third law extends one scale to every planet.
 - The transit measures a differential parallax, about 2.61 times the solar parallax in the simple model, using a projected baseline. Halley compared durations of internal contacts. Delisle compared one contact in absolute time and needed longitude. Not one angle, and not latitude alone.
-- Halley's 12.5 arcseconds, 43 arcseconds, and 17 minutes are his 1716 trial, not results. An illustrative ceiling of about 23 arcseconds assumes one Earth radius, side-on, and the modern 8.79 arcsecond solar parallax. It is not a logbook entry.
+- Halley's 12.5 arcseconds, 43 arcseconds, and 17 minutes are his 1716 trial, not results. About 23 arcseconds is the illustrative shift for a side-on baseline of one Earth radius and the modern 8.79 arcsecond solar parallax. A baseline can be longer, up to about a diameter. It is not a logbook entry and not a ceiling.
 - 1761: Chappe at Tobolsk, Siberia, 6 June. Mason and Dixon at the Cape. 1769: Cook, Green, and Solander at Point Venus, Tahiti, 3 June; Isleniev at Yakutsk, the deep-Siberian station, in Rumovsky's wider Russian network. Hell was at Vardo, not Siberia. Chappe's 1769 station was Baja California.
 - The black drop spoiled contact times. It is mostly telescope blur and the Sun's dim limb. Venus's atmosphere is a separate bright rim. Mercury shows a black drop too.
 - Encke 1824: 8.5776 arcseconds, about 2.5 percent too small, so the Sun too far. No one transit delivered the modern au.
@@ -327,6 +327,6 @@ These are the works the numbers and the names come from. Expedition lists disagr
 
 ## Answers
 
-**Arithmetic.** (1) 0.723 AU. (2) 0.277 AU. (3) The factor is 2.61. 2.61 times 8.79 is about 23 arcseconds, an illustrative ceiling, not a measurement. (4) 4 parsecs, about 13 light-years. (5) The calibrated period-luminosity relation, so you know which period is the more luminous. Equal apparent brightness plus a known luminosity ratio gives the distance ratio. The period ratio alone does not.
+**Arithmetic.** (1) 0.723 AU. (2) 0.277 AU. (3) The factor is 2.61. 2.61 times 8.79 is about 23 arcseconds for a side-on baseline of one Earth radius. That is an illustration, not a measurement, and not a ceiling: stations can be up to about a diameter apart. (4) 4 parsecs, about 13 light-years. (5) The calibrated period-luminosity relation, so you know which period is the more luminous. Equal apparent brightness plus a known luminosity ratio gives the distance ratio. The period ratio alone does not.
 
 **Review.** (1) Relative distances in AU. Not miles, and not the distance on a given day. (2) It is half the long axis, the average of closest and farthest. A point on the ellipse lies at some other distance from the focus. (3) From 1 minus 0.723 in a circular, flat model. Real orbits are ellipses, tilted by about 3.4 degrees, and a conjunction is a shared longitude, so the gap that week is computed from the elements. (4) Solar parallax: Earth's radius at 1 au, about 8.794 arcseconds. Venus's parallax: the same baseline at Venus's distance, about 3.61 times larger in the model. Differential: the difference, about 2.61 times the solar parallax. The differential is what shifts Venus on the disk. (5) The duration from internal contact 2 to internal contact 3. The difference of durations is a difference of chords, which is a differential parallax across a known projected baseline. (6) One contact has to be timed on a shared absolute clock, so the longitudes must be known. A duration subtracts two times on one local clock, so an overall clock error mostly cancels. The places still have to be known. (7) Tahiti: Cook, Green, and Solander, 3 June 1769. Deep Siberia in 1769: Isleniev at Yakutsk. Chappe was at Tobolsk in 1761 and at San Jose del Cabo in 1769. (8) 8.5776 arcseconds. It is about 2.5 percent smaller than the modern solar parallax, and the modern mile-length is a 2012 definition, 149,597,870,700 metres, after radar. The expeditions got the scale to a few percent and did not finish it. (9) p is the angle subtended by 1 AU. The full shift from one side of the orbit to the other is 2p. January and July fit the star on the diagram. Another ecliptic longitude wants another pair, still about six months apart. (10) A Fraunhofer heliometer at Konigsberg. The first stellar photograph, Vega, is 1850. Plates are a later way to explain the same angle. (11) A common distance turns apparent-brightness differences into luminosity differences, so period can be matched to luminosity without already knowing the miles. She still asked that parallaxes of brighter variables of the type be measured. That request is the missing zero point. (12) 1.5 magnitudes is a factor of 10 to the power 0.3, about 2, in distance. The galaxies were about twice as far as the old pin had said.

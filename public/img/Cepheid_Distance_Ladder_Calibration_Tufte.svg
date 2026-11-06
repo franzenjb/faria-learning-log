@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 760" role="img" aria-labelledby="title desc">
   <title id="title">Cepheid distance ladder and calibration</title>
-  <desc id="desc">Four rungs, distance increasing upward. Kepler gives relative orbits in astronomical units. Transit timings, together with Earth's radius, give the astronomical unit as a length. Parallax uses that length as a baseline and reaches nearby stars, including nearby Cepheids. Leavitt's common-distance sample fixes the slope of the period-luminosity relation; the zero point is pinned later by parallax and other rungs. The plot is a sketch of a sliding zero point, not Leavitt's twenty-five stars. Type Ia supernovae are marked only as the next rung.</desc>
+  <desc id="desc">Four rungs, distance increasing upward. Kepler gives relative orbits in astronomical units. Transit timings, together with Earth's radius, give the astronomical unit as a length. Parallax uses that length as a baseline and reaches nearby stars, including nearby Cepheids. Leavitt's common-distance sample fixes the slope of the period-luminosity relation; the zero point is pinned later by parallax and other rungs. The plot sketches that slope with luminosity upward, so a longer period stands higher. It is not a magnitude scale, and it is not Leavitt's twenty-five stars. Type Ia supernovae are marked only as the next rung.</desc>
   <rect width="1000" height="760" fill="#fbf8f2"/>
   <style>
     text { font-family: "Palatino Linotype", Palatino, "Liberation Serif", Georgia, serif; fill: #1c1915; }
@@ -46,28 +46,30 @@
   <line x1="560" y1="500" x2="960" y2="500" stroke="#1c1915" stroke-width="1.3"/>
   <line x1="560" y1="500" x2="560" y2="180" stroke="#1c1915" stroke-width="1.3"/>
   <text x="700" y="528" font-size="15">logarithm of the period</text>
-  <text x="568" y="174" class="m" font-size="14">brighter</text>
+  <text x="568" y="168" class="m" font-size="14">brighter</text>
+  <text x="640" y="168" class="m" font-size="13">luminosity, not the magnitude number</text>
   <text x="500" y="496" class="m" font-size="14">fainter</text>
 
-  <line x1="610" y1="240" x2="930" y2="390" stroke="#8a8175" stroke-width="1.7" stroke-dasharray="7 5"/>
-  <line x1="610" y1="320" x2="930" y2="470" stroke="#8c3f1e" stroke-width="2.1"/>
+  <!-- Longer period is more luminous. Brighter is up, so both lines rise to the right.
+     Dashed: (610,400) to (930,230). Solid, parallel and fainter: (610,470) to (930,300). -->
+  <line x1="610" y1="400" x2="930" y2="230" stroke="#8a8175" stroke-width="1.7" stroke-dasharray="7 5"/>
+  <line x1="610" y1="470" x2="930" y2="300" stroke="#8c3f1e" stroke-width="2.1"/>
 
-  <line x1="860" y1="286" x2="860" y2="366" stroke="#8c3f1e" stroke-width="1.3"/>
-  <polyline points="853,300 860,286 867,300" fill="none" stroke="#8c3f1e" stroke-width="1.3"/>
-  <polyline points="853,352 860,366 867,352" fill="none" stroke="#8c3f1e" stroke-width="1.3"/>
-  <text x="872" y="322" class="a" font-size="14">zero</text>
-  <text x="872" y="340" class="a" font-size="14">point</text>
+  <!-- At x=860, dashed y=267, solid y=337. -->
+  <line x1="860" y1="275" x2="860" y2="330" stroke="#8c3f1e" stroke-width="1.3"/>
+  <polyline points="853,289 860,275 867,289" fill="none" stroke="#8c3f1e" stroke-width="1.3"/>
+  <polyline points="853,316 860,330 867,316" fill="none" stroke="#8c3f1e" stroke-width="1.3"/>
+  <text x="872" y="298" class="a" font-size="14">zero</text>
+  <text x="872" y="316" class="a" font-size="14">point</text>
 
-  <text x="620" y="228" class="m" font-size="14">Leavitt: slope only</text>
-  <line x1="700" y1="262" x2="748" y2="232" stroke="#8a8175" stroke-width="0.9"/>
+  <text x="700" y="210" class="m" font-size="14">Leavitt: slope only</text>
+  <line x1="760" y1="218" x2="800" y2="248" stroke="#8a8175" stroke-width="0.9"/>
 
-  <!-- point on solid line: (610,320) to (930,470), slope 150/320 = 0.46875
-     x=760, t=150/320=0.46875, y=320+70.3=390.3 -->
-  <circle cx="760" cy="390" r="4.5" fill="#8c3f1e"/>
-  <line x1="760" y1="390" x2="760" y2="500" stroke="#d9d0c2" stroke-width="1" stroke-dasharray="3 3"/>
-  <text x="620" y="430" class="a" font-size="14">period you measured</text>
-  <line x1="700" y1="422" x2="752" y2="396" stroke="#8c3f1e" stroke-width="0.8"/>
-  <text x="575" y="548" class="a" font-size="14">pinned by parallax</text>
+  <!-- Solid at x=780: y=380. Drop to the period axis. -->
+  <circle cx="780" cy="380" r="4.5" fill="#8c3f1e"/>
+  <line x1="780" y1="380" x2="780" y2="500" stroke="#d9d0c2" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="625" y="438" class="a" font-size="13">pinned line</text>
+  <text x="800" y="450" class="a" font-size="13">period you measured</text>
 
   <text x="520" y="575" font-size="16">Read luminosity off the pinned line.</text>
   <text x="520" y="599" font-size="16">Compare it with how bright the star looks.</text>
