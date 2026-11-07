@@ -28,9 +28,40 @@ If local solar time is one hour behind Greenwich, the longitude that suggests is
 
 The illustrated lesson is [download the PDF](/downloads/Time_to_Longitude_Converting_Hours_Minutes_Seconds_to_Degrees_Faria_2026-11-07.pdf).
 
+## Longitude with a clock, in plain language
+
+Before you sail, set an accurate chronometer to Greenwich time and do not reset it at sea. It carries Greenwich with you. It does not count the hours you have been under way.
+
+At sea, watch the Sun. Local noon is when the Sun stands highest, not when a civil clock says 12. Read the chronometer then.
+
+![Same instant: the Sun at its highest, and a Greenwich chronometer at 14:30 (2:30 p.m.)](../../img/Chronometer_Local_Noon_Greenwich_230_Tufte.svg?v=1)
+*Local noon is the Sun's highest point. The hour hand sits between the 2 and the 3. The minute hand points at the 6.*
+
+If it reads 14:30 (2:30 p.m.), Greenwich is 2 hours 30 minutes ahead, so you are west. Each hour is 15 degrees. Two hours are 30 degrees. The half hour adds 7.5 degrees. So 2.5 times 15 is 37.5 degrees west, 37 1/2 degrees, not 30. That angle is your longitude. A reading of 10:00 would put you 30 degrees east. The 2 hours 35 minutes case higher on this page is different again: 38 degrees 45 arcminutes west.
+
+The 15 degrees per hour does not depend on latitude. The miles do. Parallels shrink toward the poles, so the same angle covers less ground. The clock method is not limited to the tropics, and it still works at every latitude where you can see the Sun.
+
+Near the poles the hard part is the Sun, not the clock. The highest point is flatter, and in polar winter the Sun may not rise for weeks. At the pole every meridian meets, so longitude has no meaning.
+
+The example skips the equation of time, the seasonal gap between the sundial and the clock, up to about 16 minutes. An almanac supplies that correction.
+
+### What if we had started with tens?
+
+We could divide a day into 10 hours, each hour into 100 minutes, and each minute into 100 seconds. A circle could have 400 divisions, called gradians, rather than 360 ordinary degrees. Revolutionary France actually tried decimal time. Tens fit our ten fingers and the way we write numbers.
+
+Sixty has a useful advantage: it divides evenly by 2, 3, 4, 5, 6, 10, and 12. Ten does not. Decimal notation and modern calculation make that bookkeeping advantage less important, though one-third still cannot be written as a finite decimal.
+
+A 400-day year would look tidy beside a 400-part circle, but nature does not oblige. The seasonal year is about 365.24 ordinary days. Changing the units on a clock, or the number of parts in a circle, changes neither the length of the day nor the length of the year. It would not remove leap-day corrections, and it would not make them fewer.
+
+The plain-language sheet is [Longitude with a clock (PDF)](/downloads/Chronometer_Longitude_in_Plain_Language_Faria_2026-11-07.pdf).
+
 ## Sources
 - The factor of 15 is 360 degrees divided by the 24-hour mean solar day. The Greenwich numbers on this page are that arithmetic.
 - Jean-Baptiste Chappe d'Auteroche, *Voyage en Californie*, Cassini's reductions, Paris, 1772, pp. 88-92, where the published longitude is measured west of Paris rather than Greenwich: https://archive.org/download/voyageencaliforn00chap/voyageencaliforn00chap_djvu.txt
+- Royal Museums Greenwich, "What is longitude?": https://www.rmg.co.uk/stories/time/what-longitude
+- U.S. Naval Observatory, "The Equation of Time": https://aa.usno.navy.mil/faq/eqtime
+- IMCCE, "The decimal clock," on the French Revolutionary experiment: https://abbadia.imcce.fr/en/deci-en.html
+- U.S. Naval Observatory, "Leap Years," on the seasonal year and the leap-day correction: https://aa.usno.navy.mil/faq/leap_years
 
 ## Key facts
 - Twenty-four hours of solar time equal 360 degrees. One hour of time is 15 degrees. One minute of time is 15 arcminutes. One second of time is 15 arcseconds.
@@ -39,3 +70,5 @@ The illustrated lesson is [download the PDF](/downloads/Time_to_Longitude_Conver
 - Two hours 35 minutes behind Greenwich is 38 degrees 45 arcminutes west, which is 38.75 degrees west, and -38.75 degrees if east is positive.
 - A civil time zone or daylight saving is an administrative clock, not this angle. Decimal degrees and degrees-minutes-seconds are two displays. GPS and mapping software can show either.
 - The worked example uses Greenwich. Chappe's published longitude used Paris.
+- A chronometer kept on Greenwich time, read when the Sun is highest, gives longitude. A reading of 14:30 (2:30 p.m.) is 2.5 hours, which is 37.5 degrees west, not 30. The hours do not depend on latitude. Miles along a parallel do. Near the poles the hard part is seeing solar noon. The equation of time, up to about 16 minutes, needs an almanac.
+- A decimal day of 10 hours, and a circle of 400 gradians, were tried in Revolutionary France. Sixty divides evenly by 2, 3, 4, 5, 6, 10, and 12. The seasonal year is about 365.24 ordinary days. New clock units would not shorten the year or reduce the need for leap days.
