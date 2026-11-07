@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 220" role="img">
+  <title>Jupiter's four moons in outward order</title>
+  <desc>Io, Europa, Ganymede, and Callisto, outward from Jupiter. Spacing is even for the names, not the true orbital distances. The names are Marius's, suggested with Kepler, not Galileo's Medicean Stars.</desc>
+  <rect width="920" height="220" fill="#fbf8f2"/>
+  <style>text{font-family:"Palatino Linotype",Palatino,"Liberation Serif",Georgia,serif;fill:#1c1915}.m{fill:#5e584e}.a{fill:#8c3f1e}</style>
+  <text x="24" y="32" font-size="20">Outward order, not a scale model</text>
+  <circle cx="80" cy="110" r="22" fill="#6f675c"/>
+  <text x="58" y="156" font-size="14">Jupiter</text>
+  <line x1="110" y1="110" x2="860" y2="110" stroke="#c8c0b4" stroke-width="1.2"/>
+  <g font-size="15">
+    <circle cx="220" cy="110" r="5" fill="#8c3f1e"/>
+    <text x="200" y="90" class="a">Io</text>
+    <circle cx="400" cy="110" r="5" fill="#1c1915"/>
+    <text x="368" y="90">Europa</text>
+    <circle cx="600" cy="110" r="6" fill="#1c1915"/>
+    <text x="552" y="90">Ganymede</text>
+    <circle cx="820" cy="110" r="5.5" fill="#1c1915"/>
+    <text x="784" y="90">Callisto</text>
+  </g>
+  <text x="24" y="196" class="m" font-size="14">Equal steps on this line are for reading the names. The orbits are not equally spaced, and the dots are not the moons' sizes.</text>
+</svg>

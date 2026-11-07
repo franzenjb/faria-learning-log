@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 250" role="img">
+  <title>Cook's three Pacific voyages</title>
+  <desc>A timeline from Cook's birth in 1728 to his death in 1779, with the Navy in 1755 and three voyages marked. The first charts New Zealand and the Australian east coast after the Tahiti transit. The second crosses the Antarctic Circle. The third seeks a northern passage and ends at Kealakekua Bay.</desc>
+  <rect width="920" height="250" fill="#fbf8f2"/>
+  <style>text{font-family:"Palatino Linotype",Palatino,"Liberation Serif",Georgia,serif;fill:#1c1915}.m{fill:#5e584e}.a{fill:#8c3f1e}</style>
+  <text x="24" y="36" font-size="20">Three voyages, one surveying habit</text>
+  <line x1="40" y1="120" x2="880" y2="120" stroke="#c8c0b4" stroke-width="1.4"/>
+  <g font-size="14">
+    <circle cx="70" cy="120" r="4" fill="#1c1915"/>
+    <text x="48" y="100">1728</text>
+    <text x="40" y="150" class="m">born, Yorkshire</text>
+    <circle cx="200" cy="120" r="4" fill="#1c1915"/>
+    <text x="176" y="100">1755</text>
+    <text x="158" y="150" class="m">Royal Navy</text>
+    <circle cx="360" cy="120" r="5" fill="#8c3f1e"/>
+    <text x="300" y="78" class="a">1768-1771</text>
+    <text x="292" y="168" class="a">Endeavour</text>
+    <text x="250" y="188" class="m">Tahiti, then NZ and</text>
+    <text x="248" y="206" class="m">Australia's east coast</text>
+    <circle cx="580" cy="120" r="5" fill="#1c1915"/>
+    <text x="520" y="78">1772-1775</text>
+    <text x="500" y="168">Resolution,</text>
+    <text x="508" y="186">Adventure</text>
+    <text x="490" y="206" class="m">Antarctic Circle</text>
+    <circle cx="790" cy="120" r="5" fill="#8c3f1e"/>
+    <text x="730" y="78" class="a">1776-1779</text>
+    <text x="720" y="168" class="a">Resolution,</text>
+    <text x="728" y="186" class="a">Discovery</text>
+    <text x="700" y="206" class="m">Hawaii, 14 Feb 1779</text>
+  </g>
+</svg>

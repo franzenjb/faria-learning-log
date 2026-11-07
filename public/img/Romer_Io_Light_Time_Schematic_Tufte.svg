@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 420" role="img">
+  <title>Roemer, Io, and a finite speed of light</title>
+  <desc>Inset: Io passes into Jupiter's shadow and reflected sunlight is cut off. Main panel: Earth on the near and far sides of its orbit relative to Jupiter. The extra delay is light-travel time. The drawing is not to scale. Jupiter also moves. Roemer did not publish a modern speed in kilometers per second.</desc>
+  <rect width="920" height="420" fill="#fbf8f2"/>
+  <style>text{font-family:"Palatino Linotype",Palatino,"Liberation Serif",Georgia,serif;fill:#1c1915}.m{fill:#5e584e}.a{fill:#8c3f1e}</style>
+  <text x="24" y="30" font-size="20">Light has to cross a changing gap</text>
+  <text x="24" y="52" class="m" font-size="14">Schematic. Jupiter is far closer on this page than in the sky.</text>
+  <rect x="24" y="70" width="250" height="150" fill="none" stroke="#e4dccf"/>
+  <circle cx="130" cy="145" r="28" fill="#6f675c"/>
+  <polygon points="158,130 230,110 230,180 158,160" fill="#e7e0d4" stroke="none"/>
+  <circle cx="150" cy="120" r="5" fill="#8c3f1e"/>
+  <text x="36" y="96" font-size="14">Io enters the shadow</text>
+  <text x="36" y="204" class="m" font-size="13">Reflected sunlight stops.</text>
+  <text x="36" y="222" class="m" font-size="13">Io does not turn off a lamp.</text>
+  <circle cx="430" cy="230" r="8" fill="#8c3f1e"/>
+  <text x="414" y="214" class="a" font-size="13">Sun</text>
+  <circle cx="430" cy="230" r="70" fill="none" stroke="#8c3f1e" stroke-width="1.5"/>
+  <circle cx="360" cy="230" r="5" fill="#1c1915"/>
+  <circle cx="500" cy="230" r="5" fill="#1c1915"/>
+  <text x="292" y="224" font-size="13">farther</text>
+  <text x="508" y="224" font-size="13">nearer</text>
+  <circle cx="820" cy="230" r="16" fill="#6f675c"/>
+  <text x="792" y="268" font-size="14">Jupiter</text>
+  <line x1="500" y1="230" x2="804" y2="230" stroke="#c8c0b4" stroke-width="1.2"/>
+  <line x1="360" y1="230" x2="804" y2="230" stroke="#c8c0b4" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="300" y="330" font-size="15">Farther from Jupiter: eclipses of Io are seen later.</text>
+  <text x="300" y="352" class="m" font-size="14">Traditional figure: about 22 minutes across Earth's orbit.</text>
+  <text x="300" y="374" class="m" font-size="14">Modern light-time for that diameter: about 16 min 40 sec.</text>
+  <text x="24" y="404" class="m" font-size="14">Huygens later turned a scale into a speed. Roemer's 1676 paper did not print 230,000 km/s.</text>
+</svg>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 360" role="img">
+  <title>Moon width from half a degree on a measuring circle</title>
+  <desc>A teaching circle of radius 240,000 miles centered on the eye, not the Moon's orbit. Half a degree is one part in 720 of the whole circumference, about 6.28 times the radius. Dividing the radius by 720 omits that factor and gives about 333 miles instead of about 2,100. The thumb does not measure the distance.</desc>
+  <rect width="920" height="360" fill="#fbf8f2"/>
+  <style>text{font-family:"Palatino Linotype",Palatino,"Liberation Serif",Georgia,serif;fill:#1c1915}.m{fill:#5e584e}.a{fill:#8c3f1e}</style>
+  <text x="24" y="32" font-size="20">Divide the whole circle, not the radius</text>
+  <circle cx="210" cy="200" r="110" fill="none" stroke="#6f675c" stroke-width="1.5"/>
+  <circle cx="210" cy="200" r="3.5" fill="#8c3f1e"/>
+  <text x="218" y="196" class="a" font-size="14">eye</text>
+  <line x1="210" y1="200" x2="318" y2="175" stroke="#8c3f1e" stroke-width="1.2"/>
+  <line x1="210" y1="200" x2="316" y2="220" stroke="#8c3f1e" stroke-width="1.2"/>
+  <path d="M300 168 A110 110 0 0 1 308 228" fill="none" stroke="#8c3f1e" stroke-width="3"/>
+  <text x="330" y="200" class="a" font-size="14">0.5 deg</text>
+  <text x="70" y="80" class="m" font-size="14">radius 240,000 mi</text>
+  <text x="24" y="300" font-size="15">Around = 2 x pi x radius, about 6.28 x 240,000.</text>
+  <text x="24" y="324" font-size="15">Half a degree is 1/720 of that circle: about 2,100 miles.</text>
+  <text x="500" y="120" font-size="16">Radius / 720</text>
+  <text x="500" y="144" class="m" font-size="15">about 333 miles</text>
+  <text x="500" y="168" class="m" font-size="14">leaves out the circle</text>
+  <text x="500" y="220" class="a" font-size="16">Circumference / 720</text>
+  <text x="500" y="244" class="a" font-size="15">about 2,100 miles</text>
+  <text x="500" y="268" class="m" font-size="14">true diameter about 2,160</text>
+  <text x="24" y="350" class="m" font-size="14">The 240,000 miles is assumed. A thumb does not measure it. Never look at the Sun this way.</text>
+</svg>

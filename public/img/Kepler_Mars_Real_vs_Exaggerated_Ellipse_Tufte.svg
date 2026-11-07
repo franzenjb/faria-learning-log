@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 490" role="img">
+  <title>Mars orbit, real shape beside the exaggerated teaching ellipse</title>
+  <desc>Two panels share the same Mars semimajor axis. The left ellipse uses Mars's real eccentricity and a true Earth orbit. The right ellipse is the exaggerated early lesson, with the Sun still at the focus. Dots are labels, not the planets' physical sizes.</desc>
+  <rect width="980" height="490" fill="#fbf8f2"/>
+  <style>
+    text { font-family: "Palatino Linotype", Palatino, "Liberation Serif", Georgia, serif; fill: #1c1915; }
+    .m { fill: #5e584e; }
+    .a { fill: #8c3f1e; }
+  </style>
+  <text x="16" y="468" font-size="14" class="m">Both panels share one Mars semimajor axis. The dots are labels, not diameters.</text>
+  <text x="16" y="36" font-size="18">Real Mars</text>
+<ellipse cx="210.0" cy="250" rx="150.0" ry="149.3" fill="none" stroke="#6f675c" stroke-width="1.6"/>
+<line x1="60.0" y1="250" x2="360.0" y2="250" stroke="#d9d0c2" stroke-width="1"/>
+<circle cx="223.9" cy="250" r="98.4" fill="none" stroke="#8c3f1e" stroke-width="1.8"/>
+<circle cx="223.9" cy="250" r="5" fill="#8c3f1e"/>
+<text x="231.9" y="242.0" class="a" font-size="14">Sun</text>
+<circle cx="322.4" cy="250" r="6" fill="#8c3f1e"/>
+<text x="330.4" y="240.0" class="a" font-size="13">Earth</text>
+<circle cx="360.0" cy="250" r="5.5" fill="#1c1915"/>
+<text x="324.0" y="92.7" font-size="13">Mars</text>
+<text x="16" y="78" class="m" font-size="14">e = 0.093</text>
+<text x="16" y="98" class="m" font-size="14">Earth orbit / Mars a = 0.656</text>
+<text x="16" y="412" class="m" font-size="14">near 1.38 AU, far 1.67 AU</text>
+<text x="16" y="432" class="m" font-size="14">Sun offset about 0.14 AU</text>
+  <line x1="490" y1="50" x2="490" y2="470" stroke="#d9d0c2" stroke-width="1"/>
+  <text x="506" y="36" font-size="18">Exaggerated lesson</text>
+<ellipse cx="700.0" cy="250" rx="150.0" ry="120.9" fill="none" stroke="#6f675c" stroke-width="1.6"/>
+<line x1="550.0" y1="250" x2="850.0" y2="250" stroke="#d9d0c2" stroke-width="1"/>
+<circle cx="788.8" cy="250" r="40.1" fill="none" stroke="#8c3f1e" stroke-width="1.8"/>
+<circle cx="788.8" cy="250" r="5" fill="#8c3f1e"/>
+<text x="796.8" y="242.0" class="a" font-size="14">Sun</text>
+<circle cx="828.9" cy="250" r="6" fill="#8c3f1e"/>
+<text x="836.9" y="240.0" class="a" font-size="13">Earth</text>
+<circle cx="850.0" cy="250" r="5.5" fill="#1c1915"/>
+<text x="814.0" y="121.1" font-size="13">Mars</text>
+<text x="506" y="78" class="m" font-size="14">e = 0.592</text>
+<text x="506" y="98" class="m" font-size="14">Earth orbit / Mars a = 0.267</text>
+<text x="506" y="412" class="m" font-size="14">near 1.53 AU, far 5.96 AU</text>
+<text x="506" y="432" class="m" font-size="14">Sun offset about 2.2 Earth-radii</text>
+</svg>
