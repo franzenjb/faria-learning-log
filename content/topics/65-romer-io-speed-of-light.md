@@ -11,7 +11,7 @@ Giovanni Cassini had been building tables of those times. Ole Romer, working wit
 
 Jupiter moves too, and Io's orbit is not a perfect clock. Many nights are required before the leftover can be blamed on light rather than on the tables. The traditional round number is about 22 minutes for light to cross the diameter of Earth's orbit. The modern light-time for that same diameter is about 16 minutes 40 seconds.
 
-![Io's shadow eclipse, and Earth near and far from Jupiter](../../img/Romer_Io_Light_Time_Schematic_Tufte.svg?v=1)
+![Io's shadow eclipse, and Earth near and far from Jupiter](../../img/Romer_Io_Light_Time_Schematic_Tufte.svg?v=2)
 *A schematic, drawn for this lesson. Jupiter is much farther, and it moves. The inset is the local event: reflected light cut off by the shadow.*
 
 Romer did not publish a speed of 230,000 kilometers a second. Christiaan Huygens, in the Treatise on Light of 1690, converted an orbital scale into a speed that comes out near that figure in modern units. The defined speed of light is now 299,792.458 kilometers a second. A conversion is not a sentence Romer printed.

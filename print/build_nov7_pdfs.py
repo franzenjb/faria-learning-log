@@ -128,7 +128,7 @@ ul, ol {{ margin: 0.04in 0 0.1in; padding-left: 0.22in; }}
 li {{ margin: 0.06in 0; }}
 a {{ color: #8c3f1e; text-decoration: none; }}
 figure {{ margin: 0.08in 0 0.04in; break-inside: avoid; }}
-figure svg {{ width: 100%; height: auto; max-height: 3.05in; display: block; }}
+figure svg {{ width: 100%; height: auto; max-height: 4.4in; display: block; }}
 p.cap {{ font-family: "Liberation Sans", sans-serif; font-size: 8.5pt; line-height: 1.35; color: #5e584e; margin: 0 0 0.1in; }}
 .kicker {{ font-family: "Liberation Sans", sans-serif; font-size: 8.5pt; letter-spacing: 0.12em; text-transform: uppercase; color: #8c3f1e; margin: 0 0 0.08in; }}
 </style></head><body>

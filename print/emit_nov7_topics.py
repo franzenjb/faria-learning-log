@@ -14,9 +14,10 @@ def write(name, text):
     words = re.findall(r"[A-Za-z0-9'’]+", body)
     print(f"{name}: {len(words)} words")
 
-write("53-captain-james-cook.md", r'''---
+write("53-captain-james-cook.md", r'''
+---
 title: "Captain James Cook: precision, encounter, and empire"
-summary: Cook's three Pacific voyages were feats of surveying. They were also meetings with people who already lived on the coasts he charted, and the third voyage ended in his death at Kealakekua Bay.
+summary: Cook's three Pacific voyages were feats of surveying, and meetings with people who already lived on the coasts he charted. He was killed at Kealakekua Bay in 1779. The third voyage itself lasted until the ships came home in 1780.
 session: 2026-11-07
 order: 1
 tags: [history, history-of-science, geography, ships]
@@ -25,14 +26,16 @@ James Cook was born in Yorkshire in 1728. He learned the sea in the coal trade, 
 
 In 1768 the Admiralty gave him Endeavour. The announced task was the transit of Venus, 3 June 1769, at Tahiti, with the astronomer Charles Green. Joseph Banks and Daniel Solander sailed to collect and classify. Cook commanded, and he surveyed. After Tahiti he opened sealed instructions to sail farther and to chart what he found. In 1769 and 1770 he charted New Zealand and the east coast of Australia. Those shores were not empty, and they were not unknown to the people who lived there. A European chart is a new record for London. It is not the first knowledge of a place.
 
-![Cook's three Pacific voyages on a timeline](../../img/Cook_Three_Voyages_Timeline_Tufte.svg?v=1)
-*Three commissions, drawn for this lesson. The first includes the Tahiti transit and the charts of New Zealand and eastern Australia. The second crosses the Antarctic Circle. The third looks for a northern passage.*
+![Cook's three Pacific voyages on a timeline](../../img/Cook_Three_Voyages_Timeline_Tufte.svg?v=2)
+*Three commissions, drawn for this lesson. The first includes the Tahiti transit and the charts of New Zealand and eastern Australia. The second crosses the Antarctic Circle. The third runs from 1776 to 1780. Cook died in 1779. The ships came home the next year.*
 
 The second voyage, 1772 to 1775, in Resolution and Adventure, crossed the Antarctic Circle. Cook put an end to the hope of a green southern continent sitting in the temperate ocean. He did not claim to have seen the mainland of Antarctica.
 
-The third voyage, 1776 to 1779, in Resolution and Discovery, searched for a passage in the north. In 1778 the ships reached Hawaii. On 14 February 1779, at Kealakekua Bay, Cook was killed as a relationship that had already turned violent broke apart. The charts stayed in the Navy's hands. So did the harder consequence: disease, weapons, and later colonial power traveled along the same routes.
+The third voyage, 1776 to 1780, in Resolution and Discovery, searched for a passage in the north. In 1778 the ships reached Hawaii. On 14 February 1779, at Kealakekua Bay, Cook was killed as a relationship that had already turned violent broke apart. His death did not end the expedition. Charles Clerke took command, and the ships reached England in 1780. The charts stayed in the Navy's hands. So did the harder consequence: disease, weapons, and later colonial power traveled along the same routes.
 
 Hold both parts of the man. The angles and the coastlines were careful. The encounters were not a blank page, and they were not a moral slogan in either direction. The transit itself, and the risk of getting the observers there, is the next lesson in this day's chain. Banks, who collected beside him and did not sail the second voyage, is the lesson after that.
+
+The illustrated lesson is [download the PDF](/downloads/Captain_James_Cook_Precision_Encounter_and_Empire_Faria_Lesson_2026-11-07.pdf).
 
 ## Sources
 - Royal Museums Greenwich, "Captain James Cook: timeline," https://www.rmg.co.uk/stories/maritime-history/captain-james-cook-timeline
@@ -42,7 +45,7 @@ Hold both parts of the man. The angles and the coastlines were careful. The enco
 - Cook, born 1728 in Yorkshire, joined the Royal Navy in 1755 and had already surveyed Newfoundland.
 - Endeavour, 1768-1771: Tahiti transit on 3 June 1769 with Green; then charts of New Zealand and Australia's east coast, lands already inhabited.
 - Second voyage, 1772-1775, crossed the Antarctic Circle and did not claim a sighting of the Antarctic mainland.
-- Third voyage ended at Kealakekua Bay, Hawaii, on 14 February 1779, after relations had turned violent.
+- Third voyage, 1776-1780, in Resolution and Discovery. Cook was killed at Kealakekua Bay on 14 February 1779. The ships came home in 1780.
 ''')
 
 write("54-joseph-banks-botanist.md", r'''---
@@ -74,7 +77,8 @@ The link back to Cook is the ship they shared in 1768. The link forward is the c
 - He organized the breadfruit missions. He was not captain of the Bounty. He is not the clothier Jos. A. Bank.
 ''')
 
-write("55-venus-transits-1761-1769.md", r'''---
+write("55-venus-transits-1761-1769.md", r'''
+---
 title: "The Venus transits: a worldwide ruler"
 summary: The 1761 and 1769 transits turned a relative solar system into miles, badly at first and better later. No single station, and no single reduction, was the modern astronomical unit.
 session: 2026-11-07
@@ -94,7 +98,27 @@ There was no one official answer. Pingre's 1765 reduction from Rodrigues, 10.25 
 
 Some observers got little or nothing. Le Gentil, kept from Pondicherry by war in 1761, watched from a moving ship and the record was unusable. In 1769 a cloud hid Pondicherry again. Maskelyne at St Helena could not send a complete observation. Pingre at Rodrigues saw the Sun rise in thick cloud. At Greenwich, Bliss and Green missed the start for cloud.
 
-In 1769 Cook and Green had a clear 3 June at Tahiti, after the quadrant was stolen on 2 May and recovered damaged but repairable. Green died of dysentery on the way home, on 29 January 1771. Chappe observed successfully at San Jose del Cabo and died on 1 August 1769 in an epidemic. The disease has been given more than one name, so this page says epidemic. Wales and Dymond wintered at Hudson Bay and did observe. Their story is not a stopped clock. Mason's share of the Cape work is the next lesson.
+In 1769 Cook and Green had a clear 3 June at Tahiti, after the quadrant was stolen on 2 May and recovered damaged but repairable. Green died of dysentery on the way home, on 29 January 1771. Wales and Dymond wintered at Hudson Bay and did observe. Their story is not a stopped clock. Mason's share of the Cape work is the next lesson. Dixon's sky in Norway, and whether anyone "won" against Chappe, is Dixon's lesson. This page will not rank them.
+
+## Chappe in Baja California, 1769
+
+Pedro Espinoza Meléndez, writing in Meyibo, follows Chappe to San Jose del Cabo. The copy used here does not show the article's year or its pages. It says the party reached California on 19 May 1769, two weeks before the transit, after a month crossing the gulf. Chappe's diary, quoted there, has them camped on the shore and determined to reach San Jose the next day. Nineteen May is the landing the article dates. The walk into the town may be the day after. The article does not decide.
+
+He set up in a granary, half the roof removed on the south side. Before 3 June he set the pendulum clock, checked the telescopes, and made repeated observations of the Sun. The transit was 3 June. On 5 June the Spaniards with the party fell ill, and so did the people of San Jose. Chappe nursed the sick and then became ill himself. The article does not date each of those days of care. On 18 June, fifteen days after the transit, he observed a lunar eclipse while very weak. Cassini, printing the register in 1772, says Chappe was then too weak to take the Moon at the meridian. That night was not the last line in the book. The same tables still enter later emergences of Jupiter's moons as Chappe's, including 20 June and 16 July. He did not leave Baja. He died on 1 August 1769. Counted on the calendar, that is fifty-nine days after the transit and seventy-four days after the 19 May landing. Those counts are arithmetic, not a sentence in either source. No date was found here for when the survivors sailed. The Meyibo article says it is not clear whether the disease was typhus or yellow fever. This page says epidemic.
+
+The article quotes Chappe's own instruments: a quadrant of three-foot radius by Canivet, a smaller English quadrant of one-and-a-half-foot radius, a transit instrument, a parallactic machine, Dollond telescopes of ten feet and three feet, and a pendulum clock by Berthoud. Dixon's weather, and the comparison of the two kits, is his lesson.
+
+## What the 18 June eclipse did not settle
+
+The eclipse was a check on the longitude of San Jose. It did not become the longitude the book adopts, and it did not leave a measured improvement.
+
+In *Voyage en Californie* (Paris, 1772) Cassini works the place in the astronomical observations, pages 88 to 92. Five emergences of Jupiter's moons, which he attributes to Chappe, average 7 hours 28 minutes 53 seconds west of Paris. The five include 20 June and 16 July, after the eclipse, so the average is not a baseline from before it. Cassini gives more weight to the transit. From the transit he has 7 hours 28 minutes 6 seconds, and he adopts 7 hours 28 minutes 10 seconds, which is 112 degrees 2 minutes 30 seconds west of Paris. Turning those hours into degrees is the [time-to-longitude lesson](/topics/70-time-to-longitude/). The worked example there uses Greenwich. This one uses Paris.
+
+The eclipse, set only against a time calculated for Paris, gives 7 hours 29 minutes 7 seconds at the start and 7 hours 29 minutes 40 seconds at the end. Cassini says he knew of no observation of that eclipse at another known place. The two results stand 57 seconds and 90 seconds of time away from the figure he adopted. In angle, at fifteen seconds of arc to one second of time, that is 14 minutes 15 seconds and 22 minutes 30 seconds of longitude. The conversion is arithmetic done here. It is a disagreement. It is not a measured error, and it is not a measured improvement. No distance in miles is taken from it.
+
+His remark that Jupiter's moons, without enough matched observations, should not be trusted closer than about 20 or 30 seconds of time is a caution about the method. It is not a personal error for Chappe. Nothing on these pages shows the eclipse tightening the longitude. The figure he asks the reader to keep is the one from the transit. A later ESO note says he stayed in order to fix the longitude. Staying made the check possible. It did not write the adopted value.
+
+The illustrated lesson is [download the PDF](/downloads/Venus_Transits_1761_1769_Parallax_and_Expedition_Risks_Faria_Lesson_2026-11-07.pdf).
 
 ## Sources
 - Andreas Verdun, "The Determination of the Solar Parallax from Transits of Venus in the 18th Century," Archives des Sciences 57 (2004): https://www.unige.ch/sphn/Publications/ArchivesSciences/AdS%202004-2015/AdS%202004%20Vol%2057%20Fasc%201/45-68%20Verdun.pdf
@@ -102,12 +126,17 @@ In 1769 Cook and Green had a clear 3 June at Tahiti, after the quadrant was stol
 - James Short, Philosophical Transactions, 1761: https://royalsocietypublishing.org/rstl/article-pdf/doi/10.1098/rstl.1761.0102/1458661/rstl.1761.0102.pdf
 - ESO transit background on the expeditions: https://www.eso.org/public/outreach/eduoff/vt-2004/Background/Infol2/EIS-F3.html
 - Whipple Museum, the stolen Tahiti quadrant: https://www.whipplemuseum.cam.ac.uk/explore-whipple-collections/astronomy-and-empire/stolen-quadrant
+- Pedro Espinoza Meléndez, "Medir el sistema solar. El viaje de Jean-Baptiste Chappe d'Auteroche a la Antigua California y la observación del tránsito de Venus en 1769," Meyibo (UABC). Year and pages are not shown on the copy used here: http://meyibo.tij.uabc.mx/index.php/meyibo/en/article/download/118/110/195
+- Jean-Baptiste Chappe d'Auteroche, *Voyage en Californie*, Cassini's reductions, Paris, 1772, pp. 88-92: https://archive.org/download/voyageencaliforn00chap/voyageencaliforn00chap_djvu.txt
+- ESO, on Chappe remaining for the 18 June 1769 lunar eclipse: https://www.eso.org/public/outreach/eduoff/vt-2004/Background/Infol2/EIS-F3_pf.html
 
 ## Key facts
 - Horrocks in 1639 set an upper bound near 14 arcseconds from Venus's apparent size, not from a second station. Publication was posthumous, 1662.
 - Mason and Dixon reached the Cape after the Seahorse fight (11 dead, 37 wounded) and timed the end of the 6 June 1761 transit.
 - Short, Hornsby, Pingre, and Encke published different parallaxes. Converted miles on this page are modern arithmetic, not their sentences.
 - The modern au is exactly 149,597,870,700 metres, about 92.956 million miles. No 1761 or 1769 paper printed that definition.
+- Chappe's party reached the Baja shore on 19 May 1769. The diary leaves open whether the town was the next day. Transit on 3 June, lunar eclipse on 18 June while he was very weak, death there on 1 August, of an epidemic. Later Jupiter-moon timings are still entered as his.
+- Cassini, *Voyage en Californie* (1772), pp. 88-92, adopts 7 hours 28 minutes 10 seconds west of Paris from the transit. The eclipse was a check against a calculated Paris time. No measured improvement is given.
 ''')
 
 write("56-charles-mason.md", r'''---
@@ -139,14 +168,17 @@ The survey lesson tells how the tangent was tried, found 22.51 chains off an old
 - On the boundary, latitude from a zenith sector still required a known place on the ground.
 ''')
 
-write("57-jeremiah-dixon.md", r'''---
+write("57-jeremiah-dixon.md", r'''
+---
 title: "Jeremiah Dixon: the surveyor in the partnership"
-summary: Dixon was a Durham surveyor and amateur astronomer, recommended through John Bird's circle. On the Cape and on the boundary he was Mason's partner, not a man who only carried the chain.
+summary: Dixon was a Durham surveyor and amateur astronomer, recommended through John Bird's circle. On the Cape and on the boundary he was Mason's partner. In 1769, cloud at Hammerfest kept the transit from being satisfactory. That is weather, not a verdict that Chappe was the better astronomer.
 session: 2026-11-07
 order: 5
 tags: [history, history-of-science, geography]
 ---
 Jeremiah Dixon was born in 1733 at Cockfield, in County Durham, into a Quaker family with means. He trained as a surveyor and worked as an amateur astronomer. When the Royal Society needed a second man for the 1761 transit, John Bird's recommendation is the account to trust, and to trust only as far as it goes. Bird made instruments and knew both worlds, the workshop and the observatory. A family story about an examination at Woolwich is thinner: the Ordnance minutes that would confirm it have not been produced. Say "recommended through Bird's network," not "we watched them meet."
+
+A Quaker surveyor in the north of England already knew how a chain lies, how a slope cheats a distance, and how a neighbor disputes a hedge. That craft is not astronomy, and astronomy is not that craft. The Royal Society needed both on one road, which is why the pairing matters more than which man stood an inch to the left.
 
 Dixon was not a spare hand hired to hold Mason's chain. At the Cape he observed. On the boundary, from 1763, surveying was his profession and astronomy was Mason's daily habit. The work needed both. A chain of standard length, a slope corrected, a trial line checked by a second measurement: those are the surveyor's corrections, and they are legitimate. They are not a confession that the first number was a scandal.
 
@@ -154,16 +186,38 @@ In October 1767 the Six Nations escort stopped at the war path. Their leader tol
 
 Dixon died in Britain in 1779. The line he helped lay is the next lesson. Mason's lesson has the Greenwich years and the rule that a place must be known before a sight is interpreted. The pair only works if you can see both men.
 
+## Norway in 1769: Dixon and Chappe compared
+
+Who observed the transit of 3 June 1769 better, Jeremiah Dixon in Norway or Jean-Baptiste Chappe d'Auteroche in Baja California? Weather, instruments, timing, and later praise all belong in the question. They do not add up to a winner.
+
+Dixon was not at Vardo with Maximilian Hell, and he was not beside William Bayly. Nils Voje Johansen's account puts Bayly at Honningsvag, near the North Cape, and Dixon at Rypeklubben, just outside Hammerfest. Cloud held Dixon until 20 May, his first clear observations. On 3 June the weather was cloud and gales. Johansen writes that both men "failed to observe the transit satisfactorily." That sentence is about the transit. Dixon and Bayly still published the positions of the observatories, altitudes of the Sun, meridian transits, the solar eclipse that followed, and notes on the weather. A missed contact is not an empty expedition.
+
+Dixon's own instrument list is not known. Johansen reconstructs Bayly's from the papers they printed: a quadrant of one-foot radius by Bird, a two-foot reflector by Dollond, a four-foot transit instrument by Bird with a Dollond lens, and clocks by Shelton, including an astronomical clock with a gridiron pendulum. Bayly said Dixon's instruments were similar, except that Dixon had no dipping needle. That is a reconstruction, not a case opened and listed. A contact time to the second, for Dixon, was not established here. Bayly wrote down a hazy contact of his own. Those seconds stay his.
+
+Chappe's list is his own, quoted by Espinoza Meléndez: a three-foot-radius quadrant by Canivet, a smaller English quadrant of one-and-a-half-foot radius, a transit instrument, a parallactic machine, Dollond telescopes of ten feet and three feet, and a pendulum clock by Berthoud. He had checked the clock and the telescopes, with repeated observations of the Sun, before 3 June. The landing, the illness, and the death on 1 August are on the Venus lesson. So is the longitude. Cassini's adopted figure in the 1772 volume comes from the transit, not from an improvement measured by the eclipse of 18 June. A seconds-level accuracy for Chappe himself was not established. Cassini's 20 or 30 seconds of time is a caution about the Jupiter-moon method, not a personal error bar.
+
+Later pages praise the Baja work. A Smithsonian exhibition describes the conditions as ideal. An American Scientist article calls the observations among the best made of either transit, and the position work unusually accurate for hard fieldwork. That is later praise, from those pages, not a jury sitting in 1769. No formal ranking of Dixon against Chappe was found, and nothing found here says Dixon was the less skillful man. The sky at Hammerfest failed him. No weighting by Encke that picks a winner was found.
+
+The illustrated lesson is [download the PDF](/downloads/Jeremiah_Dixon_Surveyor_Observer_and_Partner_Faria_Lesson_2026-11-07.pdf).
+
 ## Sources
 - Edwin Danson, FIG 2002: https://www.fig.net/resources/proceedings/fig_proceedings/fig_2002/HS1/HS1_danson.pdf
 - Todd Babcock, FIG 2002: https://www.fig.net/resources/proceedings/fig_proceedings/fig_2002/HS1/HS1_babcock.pdf
 - The 1767 letter, Swarthmore transcription: https://peterschmidt.domains.swarthmore.edu/engl52b/m-d.letter.html
+- Nils Voje Johansen, "The Expeditions of William Bayly and Jeremiah Dixon to Honningsvåg and Hammerfest, 1769," Journal of Astronomical Data 19, 1 (2013): https://journalofastronomicaldata.be/JAD19/jad19_1/jad19_1f.pdf
+- Pedro Espinoza Meléndez, "Medir el sistema solar," Meyibo (UABC). Year and pages are not shown on the copy used here: http://meyibo.tij.uabc.mx/index.php/meyibo/en/article/download/118/110/195
+- Chappe d'Auteroche, *Voyage en Californie*, Cassini's reductions, Paris, 1772, pp. 88-92: https://archive.org/download/voyageencaliforn00chap/voyageencaliforn00chap_djvu.txt
+- Smithsonian Libraries, Chasing Venus, "Measuring the Universe": https://www.sil.si.edu/exhibitions/chasing-venus/measuring.htm
+- American Scientist, "Transits, Travels and Tribulations IV": https://www.americanscientist.org/article/transits-travels-and-tribulations-iv
 
 ## Key facts
 - Dixon was born in 1733 at Cockfield, County Durham, and worked as a surveyor and amateur astronomer.
 - Bird's recommendation brought him to Mason. The literal first meeting is unknown, and the Woolwich exam story is unverified.
 - He observed at the Cape in 1761 and surveyed the boundary from 1763. Planned corrections are part of the method.
 - In October 1767 the escort stopped at the commission's geographic limit. Dixon died in Britain in 1779.
+- In 1769 Dixon was at Rypeklubben, near Hammerfest, and Bayly at Honningsvag. Hell at Vardo was a separate station. Cloud until 20 May, and cloud and gales on 3 June. Johansen's words are that both "failed to observe the transit satisfactorily." They still published the place and other observations.
+- Dixon's exact instruments are not known. Johansen's list reconstructs Bayly's kit, which Bayly called similar except for the dipping needle. Chappe's own list names the Canivet and English quadrants, a transit instrument, a parallactic machine, two Dollond telescopes, and a Berthoud clock.
+- Later histories praise Chappe's Baja observations. No contemporary ranking, and no Encke weighting, was found. The adopted longitude in the 1772 volume is the transit's, not an eclipse improvement. The weather, not a judgment of skill, is what failed Dixon.
 ''')
 
 write("58-mason-dixon-survey.md", r'''---
@@ -291,7 +345,8 @@ Nothing in that success rewrites the first plan. Ingenuity in keeping a tree ali
 - Modern Caribbean trees are tied by genetics and by history to that transfer. The meal does not erase the purpose.
 ''')
 
-write("62-aristarchus-of-samos.md", r'''---
+write("62-aristarchus-of-samos.md", r'''
+---
 title: "Aristarchus: a moving Earth and a measurable Moon"
 summary: Archimedes says Aristarchus put the Earth in orbit. The surviving book is a different job: a quarter-moon triangle and a lunar eclipse, neither of which prints the modern distance to the Moon.
 session: 2026-11-07
@@ -308,10 +363,12 @@ Second, the quarter Moon. At half phase, the angle at the Moon, between Sun, Moo
 
 Third, a lunar eclipse. The Moon crosses Earth's shadow. That shadow is a cone that tapers, because the Sun is a wide disk, not a point of light. You need the Moon's angular size and the Sun's geometry. The width of the dark patch, alone, is not a distance.
 
-![The quarter-moon triangle and a tapering eclipse shadow](../../img/Aristarchus_Quarter_Moon_and_Eclipse_Shadow_Tufte.svg?v=1)
-*Two drawings, two questions. Neither is to scale. The left-hand elongation is the assumed 87 degrees, not the true angle.*
+![The quarter-moon triangle and a tapering eclipse shadow](../../img/Aristarchus_Quarter_Moon_and_Eclipse_Shadow_Tufte.svg?v=2)
+*The triangle is one scale: 90 degrees at the Moon, 87 at the Earth, Sun 19.107 times the Moon's distance. The eclipse uses teaching sizes. The true half-moon is nearer 90 degrees, and the ratio is about 400.*
 
 Do not hand Aristarchus the modern "about 60 Earth radii" as if his book printed it and got it right. Reconstructions of the angles he adopted are shaky. What is solid is the distinction he forces on us: a physical width, an angle, and a distance are three different things, and a triangle can connect them. No calculus is required. Hipparchus, next, uses a baseline on the Earth and other people's eclipse reports. A thumb at arm's length, much later in this day's lessons, is the same triangle with worse numbers and an assumed distance.
+
+The illustrated lesson is [download the PDF](/downloads/Aristarchus_of_Samos_Heliocentrism_Lunar_Eclipses_and_Distance_Faria_Lesson_2026-11-07.pdf).
 
 ## Sources
 - MacTutor, biography of Aristarchus: https://mathshistory.st-andrews.ac.uk/Biographies/Aristarchus/
@@ -324,7 +381,8 @@ Do not hand Aristarchus the modern "about 60 Earth radii" as if his book printed
 - The modern Moon, near 60 Earth radii, is not a figure to attribute to Aristarchus as a successful original result.
 ''')
 
-write("63-hipparchus-lunar-parallax.md", r'''---
+write("63-hipparchus-lunar-parallax.md", r'''
+---
 title: "Hipparchus: the Moon changes place when we move"
 summary: Hipparchus used eclipse reports from two latitudes, not a double journey of his own. The Moon's parallax against a shared solar direction gave a distance with wide edges, near the modern value and not a lucky single number.
 session: 2026-11-07
@@ -333,14 +391,16 @@ tags: [astronomy, history-of-science, mathematics]
 ---
 Hold a finger at arm's length and look with one eye, then the other. The finger jumps against the far wall. The gap between your eyes is the baseline. The angle of the jump, with that baseline, is a distance. That is parallax. Hipparchus, in the second century BCE, used it on the Moon. Most of his books are lost. Later astronomers rebuilt the argument from what they still had.
 
-One famous piece uses a solar eclipse. It was total at the Hellespont. At Alexandria, about four-fifths of the Sun's diameter was still in view. That is a fraction of the diameter, not four-fifths of the disk's area. A date often proposed is 14 March 190 BCE. The identification is not secure, and this lesson will not pretend it is. Hipparchus used reports. He did not stand in both cities.
+One famous piece uses a solar eclipse. Near the Hellespont the Sun's disk was totally obscured. At Alexandria four-fifths of that disk was obscured, so only about one-fifth of the Sun's diameter stayed uncovered. The whole shift between the two places was that fifth of the diameter. It is a fraction of the diameter, not of the area: four-fifths of the area would be a different, larger bite. A date often proposed is 14 March 190 BCE. The identification is not secure, and this lesson will not pretend it is. Hipparchus used reports. He did not stand in both cities.
 
-![Two stations, one Moon, a shared solar direction](../../img/Hipparchus_Lunar_Parallax_Two_Stations_Tufte.svg?v=1)
+![Two stations, one Moon, a shared solar direction](../../img/Hipparchus_Lunar_Parallax_Two_Stations_Tufte.svg?v=2)
 *The angle is drawn far too large. The Sun's own parallax is treated as negligible beside the Moon's. Drawn for this lesson.*
 
 The baseline is the north-south distance on the Earth between those latitudes. The sightlines to the Moon differ. The Sun is so far that its direction can be treated as the shared wall. G. J. Toomer's reading of the reconstruction gives one lower bound near 71 Earth radii. Other ways of treating the shadow and the Sun's distance give a band roughly 59 to 67 Earth radii. That band is not a modern confidence interval. The Moon really averages near 60 Earth radii, and the distance changes a little through the month. An ancient model can land close to the truth and still be a model with wide edges. Nearness is not the same thing as a tight measurement.
 
 Compare the sticks. The Venus stations of 1761 and 1769 stand on the Earth's surface, a baseline of hundreds or thousands of miles. Kepler's Mars triangles, later in this day's lessons, use a baseline the size of Earth's orbit. Hipparchus is the same idea with the cities of two reports. Aristarchus, just before this page, was comparing sizes inside one triangle. Here the observer moves, and the Moon moves on the sky.
+
+The illustrated lesson is [download the PDF](/downloads/Hipparchus_Lunar_Parallax_Eclipse_Reports_and_Uncertainty_Faria_Lesson_2026-11-07.pdf).
 
 ## Sources
 - MacTutor, biography of Hipparchus: https://mathshistory.st-andrews.ac.uk/Biographies/Hipparchus/
@@ -348,7 +408,7 @@ Compare the sticks. The Venus stations of 1761 and 1769 stand on the Earth's sur
 
 ## Key facts
 - Parallax is a known baseline and an angle. Hipparchus's own books are mostly lost and were rebuilt by later writers.
-- The eclipse was total at the Hellespont and showed about four-fifths of the Sun's diameter at Alexandria. He used reports. He was not at both stations. The 190 BCE date is uncertain.
+- The eclipse was total at the Hellespont. At Alexandria four-fifths of the Sun's diameter was covered, so about one-fifth of the diameter stayed bright. That fifth is the parallax shift. It is not four-fifths of the area. He used reports. The 190 BCE date is uncertain.
 - Reconstructions give a lower bound near 71 Earth radii in one reading, and roughly 59 to 67 in others. That is not one confidence interval.
 - The modern mean is near 60 Earth radii and varies. Venus transits use a surface baseline. Kepler's Mars work uses the orbit.
 ''')
@@ -385,7 +445,8 @@ Io, the inner one, later became a clock. When it enters Jupiter's shadow the ref
 - Marius's 29 December 1609 is Julian. Gregorian, it is 8 January 1610. Do not equate the calendars or assume fraud from the numbers.
 ''')
 
-write("65-romer-io-speed-of-light.md", r'''---
+write("65-romer-io-speed-of-light.md", r'''
+---
 title: "Romer and Io: light needs time"
 summary: In 1676 Romer argued that Io's eclipses run late or early because light takes time to cross a changing distance. He did not publish 230,000 kilometers a second. Huygens made a speed later, from an orbital scale.
 session: 2026-11-07
@@ -398,12 +459,14 @@ Giovanni Cassini had been building tables of those times. Ole Romer, working wit
 
 Jupiter moves too, and Io's orbit is not a perfect clock. Many nights are required before the leftover can be blamed on light rather than on the tables. The traditional round number is about 22 minutes for light to cross the diameter of Earth's orbit. The modern light-time for that same diameter is about 16 minutes 40 seconds.
 
-![Io's shadow eclipse, and Earth near and far from Jupiter](../../img/Romer_Io_Light_Time_Schematic_Tufte.svg?v=1)
+![Io's shadow eclipse, and Earth near and far from Jupiter](../../img/Romer_Io_Light_Time_Schematic_Tufte.svg?v=2)
 *A schematic, drawn for this lesson. Jupiter is much farther, and it moves. The inset is the local event: reflected light cut off by the shadow.*
 
 Romer did not publish a speed of 230,000 kilometers a second. Christiaan Huygens, in the Treatise on Light of 1690, converted an orbital scale into a speed that comes out near that figure in modern units. The defined speed of light is now 299,792.458 kilometers a second. A conversion is not a sentence Romer printed.
 
 You also cannot pick one opposition and one conjunction and call them a clean pair. Near conjunction, Jupiter sits in the Sun's glare and Io's eclipses cannot be watched. The argument is a stack of dates. The drawing shows the idea, not the observing calendar.
+
+The illustrated lesson is [download the PDF](/downloads/Romer_Io_Eclipses_Finite_Light_and_Huygens_Speed_Faria_Lesson_2026-11-07.pdf).
 
 ## Sources
 - Paris Observatory, "340 years ago, Romer showed that light has a finite speed": https://observatoiredeparis.psl.eu/340-years-ago-romer-showed.html
@@ -510,6 +573,51 @@ If a "Hart" in Chicago is needed for context, there is already another one. Cous
 - A real link would be a partnership, an ownership record, or a civil document naming both sides. The same trade and a similar name are not that link.
 ''')
 
+
+write("70-time-to-longitude.md", r'''
+---
+title: "Time to longitude: converting hours, minutes, and seconds to degrees"
+summary: Earth turns once in twenty-four hours of solar time, which is 360 degrees. Two hours and thirty-five minutes behind Greenwich is 38 degrees 45 arcminutes west, or 38.75 degrees, and -38.75 degrees in the common signed convention.
+session: 2026-11-07
+order: 18
+tags: [astronomy, mathematics, geography]
+---
+Earth turns once relative to the mean Sun in twenty-four hours of solar time. That full turn is three hundred sixty degrees of longitude. Divide evenly and each hour of solar-time difference corresponds to fifteen degrees of longitude: two hours, thirty degrees. We work with solar time here, not with the slightly shorter sidereal day of a pure spin against the stars.
+
+Keep the two unit systems apart. Time uses hours, minutes, and seconds. Angle uses degrees, arcminutes, and arcseconds. One degree equals sixty arcminutes. One arcminute equals sixty arcseconds. One hour of time equals sixty minutes. One minute equals sixty seconds. The bridge between them is simple. One hour of time equals fifteen degrees of angle. One minute of time equals fifteen arcminutes. One second of time equals fifteen arcseconds of angle.
+
+Longitude difference in degrees is 15 times (hours + minutes/60 + seconds/3600).
+
+Suppose local solar time is two hours thirty-five minutes behind the time at Greenwich, compared at the same instant.
+
+Two hours of time are 2 times 15 degrees, which is 30 degrees. Thirty-five minutes of time are 35 times 15 arcminutes, which is 525 arcminutes. Divide by 60: 8 degrees, with 45 arcminutes left over, so 8 degrees 45 arcminutes. Add them. 30 degrees plus 8 degrees 45 arcminutes is 38 degrees 45 arcminutes 00 arcseconds west of Greenwich. As a decimal that is 38.75 degrees west. In the common signed convention, east positive and west negative, it is -38.75 degrees.
+
+If local solar time is behind Greenwich at the same instant, you are west. If local solar time is ahead, you are east. Picture Greenwich at noon while a western place still shows 9:25. That is 2 hours 35 minutes behind, hence 38 degrees 45 arcminutes west. Always name the reference meridian. Today Greenwich is usual. Chappe's published result, for example, used Paris, which is a different zero and is told in the [Venus lesson](/topics/55-venus-transits-1761-1769/).
+
+This is a solar-time conversion, not a way to read exact longitude from today's time-zone label. Civil and political zones, and daylight-saving shifts, are administrative clocks, not precise meridians.
+
+Coordinates may be written both ways. Computers commonly work with decimal degrees. People often read degrees, minutes, and seconds. GPS and mapping apps can display either. Neither form belongs only to the machine or only to the reader.
+
+![Paired scales: solar-time difference and longitude west of Greenwich](../../img/Time_to_Longitude_Paired_Scales_Tufte.svg?v=1)
+*Time difference and longitude march together. 0 hours is 0 degrees, 1 hour is 15 degrees, 2 hours is 30 degrees, and 2 hours 35 minutes is 38 degrees 45 arcminutes west, placed in true proportion. The reference meridian is Greenwich.*
+
+If local solar time is one hour behind Greenwich, the longitude that suggests is fifteen degrees west of Greenwich.
+
+The illustrated lesson is [download the PDF](/downloads/Time_to_Longitude_Converting_Hours_Minutes_Seconds_to_Degrees_Faria_2026-11-07.pdf).
+
+## Sources
+- The factor of 15 is 360 degrees divided by the 24-hour mean solar day. The Greenwich numbers on this page are that arithmetic.
+- Jean-Baptiste Chappe d'Auteroche, *Voyage en Californie*, Cassini's reductions, Paris, 1772, pp. 88-92, where the published longitude is measured west of Paris rather than Greenwich: https://archive.org/download/voyageencaliforn00chap/voyageencaliforn00chap_djvu.txt
+
+## Key facts
+- Twenty-four hours of solar time equal 360 degrees. One hour of time is 15 degrees. One minute of time is 15 arcminutes. One second of time is 15 arcseconds.
+- Time is hours, minutes, and seconds. Angle is degrees, arcminutes, and arcseconds. One degree is 60 arcminutes, and one arcminute is 60 arcseconds.
+- Longitude in degrees is 15 times (hours + minutes/60 + seconds/3600). Name the meridian. Behind it is west. Ahead of it is east.
+- Two hours 35 minutes behind Greenwich is 38 degrees 45 arcminutes west, which is 38.75 degrees west, and -38.75 degrees if east is positive.
+- A civil time zone or daylight saving is an administrative clock, not this angle. Decimal degrees and degrees-minutes-seconds are two displays. GPS and mapping software can show either.
+- The worked example uses Greenwich. Chappe's published longitude used Paris.
+''')
+
 # Topic 69: attached prose, verbatim paragraphs, site formatting only.
 raw = PROSE.read_text(encoding="utf-8")
 lines = [ln.rstrip() for ln in raw.splitlines()]
@@ -548,6 +656,18 @@ diagram = """![A measuring circle: half a degree is one part in 720 of the circu
 
 """
 text = text.replace("## An easier route: go around a circle", diagram + "## An easier route: go around a circle", 1)
+map_section = """## Putting the Moon's width on a US map
+The rounded 2,100 miles is a diameter. On the Earth that is a circle 1,050 miles in radius. The map sets that circle on the United States as a best fit to four real cities: Chicago, Boston, Miami, and Denver. The cities stay put. At this diameter the circle cannot pass through all four. Chicago sits about 272 miles inside, Boston about 327 miles outside, Miami about 267 miles inside, and Denver about 89 miles inside.
+
+This is a best fit, not an exact match, and not a literal footprint of the Moon pressed onto the curved Earth. The lesson's 2,100 miles is the rounded figure. The Moon's real mean diameter is about 2,160 miles. The city dots are place markers from Natural Earth, which is in the public domain. They are not survey monuments.
+
+![Best-fit circle 2100 miles across on a US map, with Chicago, Boston, Miami, and Denver](../../img/Moon_Diameter_Four_Cities_US_Map_Faria_2026-11-07.svg?v=1)
+*A 1,050-mile geodesic circle, drawn on an azimuthal projection centered so distances from the middle stay true. Chicago, Miami, and Denver fall inside. Boston falls outside. The fit is the best one of this size, not a circle through every city.*
+
+The map itself, already reviewed, is [The Moon's width on a US map (PDF)](/downloads/Moon_Diameter_Four_Cities_US_Map_Faria_2026-11-07.pdf).
+
+"""
+text = text.replace("## Does the answer make sense?", map_section + "## Does the answer make sense?", 1)
 download = """
 
 The printed lesson, reviewed and kept byte for byte, is [Thumb to Moon (PDF)](/downloads/Thumb_to_Moon_Calculating_the_Moons_Diameter_Faria_Lesson_2026-11-07.pdf).
@@ -556,6 +676,7 @@ The printed lesson, reviewed and kept byte for byte, is [Thumb to Moon (PDF)](/d
 - A thumb about 2 cm wide at 60 cm covers about 2 degrees. A 2-inch thumb at 24 inches covers about 4.77 degrees. The units are not interchangeable.
 - Half a degree at an assumed 240,000 miles is about 2,100 miles if you divide the circumference by 720. Dividing the distance alone by 720 gives about 333 miles and drops the factor of about 6.28.
 - The Moon's mean diameter is about 2,160 miles. The thumb does not measure the distance. It uses a distance you already assumed.
+- On a US map, a 2,100-mile circle fitted to Chicago, Boston, Miami, and Denver does not pass through all four. Chicago is about 272 miles inside, Boston about 327 outside, Miami about 267 inside, Denver about 89 inside.
 - NASA's figures: mean distance 238,855 miles, radius about 1,080 miles. https://science.nasa.gov/moon/facts/
 """
 text = text.rstrip() + "\n" + download

@@ -37,6 +37,16 @@ Diameter ≈ 240,000 × 6.28 ÷ 720 ≈ 2,100 miles.
 
 The little arc covering half a degree is almost the same length as the straight width across it. At this tiny angle, the difference is negligible for our rough inputs. Dividing the distance alone by 720 would give about 333 miles and omit the essential distance-around-the-circle step.
 
+## Putting the Moon's width on a US map
+The rounded 2,100 miles is a diameter. On the Earth that is a circle 1,050 miles in radius. The map sets that circle on the United States as a best fit to four real cities: Chicago, Boston, Miami, and Denver. The cities stay put. At this diameter the circle cannot pass through all four. Chicago sits about 272 miles inside, Boston about 327 miles outside, Miami about 267 miles inside, and Denver about 89 miles inside.
+
+This is a best fit, not an exact match, and not a literal footprint of the Moon pressed onto the curved Earth. The lesson's 2,100 miles is the rounded figure. The Moon's real mean diameter is about 2,160 miles. The city dots are place markers from Natural Earth, which is in the public domain. They are not survey monuments.
+
+![Best-fit circle 2100 miles across on a US map, with Chicago, Boston, Miami, and Denver](../../img/Moon_Diameter_Four_Cities_US_Map_Faria_2026-11-07.svg?v=1)
+*A 1,050-mile geodesic circle, drawn on an azimuthal projection centered so distances from the middle stay true. Chicago, Miami, and Denver fall inside. Boston falls outside. The fit is the best one of this size, not a circle through every city.*
+
+The map itself, already reviewed, is [The Moon's width on a US map (PDF)](/downloads/Moon_Diameter_Four_Cities_US_Map_Faria_2026-11-07.pdf).
+
 ## Does the answer make sense?
 Yes. The Moon’s known mean diameter is about 2,160 miles, or 3,475 kilometers. Our rounded calculation gives about 2,100 miles, roughly 3,370 kilometers: a good approximation, not an exact measurement. Apparent size changes with lunar distance, and our thumb and arm are rough guides.
 
@@ -53,4 +63,5 @@ The printed lesson, reviewed and kept byte for byte, is [Thumb to Moon (PDF)](/d
 - A thumb about 2 cm wide at 60 cm covers about 2 degrees. A 2-inch thumb at 24 inches covers about 4.77 degrees. The units are not interchangeable.
 - Half a degree at an assumed 240,000 miles is about 2,100 miles if you divide the circumference by 720. Dividing the distance alone by 720 gives about 333 miles and drops the factor of about 6.28.
 - The Moon's mean diameter is about 2,160 miles. The thumb does not measure the distance. It uses a distance you already assumed.
+- On a US map, a 2,100-mile circle fitted to Chicago, Boston, Miami, and Denver does not pass through all four. Chicago is about 272 miles inside, Boston about 327 outside, Miami about 267 inside, Denver about 89 inside.
 - NASA's figures: mean distance 238,855 miles, radius about 1,080 miles. https://science.nasa.gov/moon/facts/

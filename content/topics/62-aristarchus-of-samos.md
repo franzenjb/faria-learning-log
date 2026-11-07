@@ -15,8 +15,8 @@ Second, the quarter Moon. At half phase, the angle at the Moon, between Sun, Moo
 
 Third, a lunar eclipse. The Moon crosses Earth's shadow. That shadow is a cone that tapers, because the Sun is a wide disk, not a point of light. You need the Moon's angular size and the Sun's geometry. The width of the dark patch, alone, is not a distance.
 
-![The quarter-moon triangle and a tapering eclipse shadow](../../img/Aristarchus_Quarter_Moon_and_Eclipse_Shadow_Tufte.svg?v=1)
-*Two drawings, two questions. Neither is to scale. The left-hand elongation is the assumed 87 degrees, not the true angle.*
+![The quarter-moon triangle and a tapering eclipse shadow](../../img/Aristarchus_Quarter_Moon_and_Eclipse_Shadow_Tufte.svg?v=2)
+*The triangle is one scale: 90 degrees at the Moon, 87 at the Earth, Sun 19.107 times the Moon's distance. The eclipse uses teaching sizes. The true half-moon is nearer 90 degrees, and the ratio is about 400.*
 
 Do not hand Aristarchus the modern "about 60 Earth radii" as if his book printed it and got it right. Reconstructions of the angles he adopted are shaky. What is solid is the distinction he forces on us: a physical width, an angle, and a distance are three different things, and a triangle can connect them. No calculus is required. Hipparchus, next, uses a baseline on the Earth and other people's eclipse reports. A thumb at arm's length, much later in this day's lessons, is the same triangle with worse numbers and an assumed distance.
 

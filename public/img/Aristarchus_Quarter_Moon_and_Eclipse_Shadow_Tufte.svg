@@ -1,40 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 460" role="img">
-  <title>Aristarchus, two different triangles</title>
-  <desc>Left: the quarter-moon right triangle. The angle at the Moon is 90 degrees. An assumed 87-degree elongation makes the Sun about 19 times the Moon's distance. The true half-moon is much closer to 90 degrees from the Sun, and the real ratio is about 400. Right: a lunar eclipse. Earth's shadow is a tapering cone because the Sun is an extended disk. Shadow width alone is not the distance. Angles are exaggerated.</desc>
-  <rect width="920" height="460" fill="#fbf8f2"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 780" role="img">
+  <title>Aristarchus quarter-moon triangle and a narrowing lunar shadow</title>
+  <desc>Top: Earth, Moon, and Sun at uniform scale. The angle at the Moon is 90 degrees. The angle at Earth is 87 degrees. The Sun is 19.107 times as far as the Moon. Bottom: a larger Sun, a smaller Earth, and an umbra that narrows to an apex beyond the Moon. The Moon sits inside the cone. Sizes in the eclipse are a teaching model, not the true Sun and Earth.</desc>
+  <rect width="960" height="780" fill="#fbf8f2"/>
   <style>text{font-family:"Palatino Linotype",Palatino,"Liberation Serif",Georgia,serif;fill:#1c1915}.m{fill:#5e584e}.a{fill:#8c3f1e}</style>
-  <text x="24" y="30" font-size="18">Quarter Moon: a right angle</text>
-  <circle cx="70" cy="200" r="8" fill="#8c3f1e"/>
-  <text x="48" y="228" class="a" font-size="14">Sun</text>
-  <circle cx="250" cy="80" r="6" fill="#1c1915"/>
-  <text x="230" y="68" font-size="14">Moon</text>
-  <circle cx="250" cy="250" r="7" fill="#1c1915"/>
-  <text x="262" y="254" font-size="14">Earth</text>
-  <line x1="78" y1="200" x2="250" y2="86" stroke="#1c1915" stroke-width="1.2"/>
-  <line x1="250" y1="86" x2="250" y2="243" stroke="#1c1915" stroke-width="1.2"/>
-  <line x1="78" y1="200" x2="243" y2="250" stroke="#8c3f1e" stroke-width="1.2"/>
-  <path d="M250 110 L270 110 L270 90" fill="none" stroke="#1c1915" stroke-width="1"/>
-  <text x="276" y="108" font-size="13">90 deg</text>
-  <text x="150" y="250" class="a" font-size="13">87 deg assumed</text>
-  <text x="24" y="300" class="m" font-size="13">This triangle puts the Sun about</text>
-  <text x="24" y="318" class="m" font-size="13">19 times the Moon's distance.</text>
-  <text x="24" y="340" class="m" font-size="13">A true half is nearer 90 deg</text>
-  <text x="24" y="358" class="m" font-size="13">from the Sun: the ratio is ~400.</text>
-  <line x1="460" y1="48" x2="460" y2="400" stroke="#e4dccf" stroke-width="1"/>
-  <text x="480" y="30" font-size="18">Lunar eclipse: a tapering shadow</text>
-  <circle cx="530" cy="160" r="28" fill="#8c3f1e"/>
-  <text x="512" y="164" fill="#fbf8f2" font-size="12">Sun</text>
-  <circle cx="700" cy="160" r="10" fill="#1c1915"/>
-  <text x="688" y="196" font-size="13">Earth</text>
-  <polygon points="700,150 860,120 860,200 700,170" fill="#e7e0d4" stroke="#6f675c" stroke-width="1"/>
-  <circle cx="790" cy="145" r="6" fill="#1c1915"/>
-  <text x="770" y="112" font-size="13">Moon</text>
-  <text x="760" y="230" class="m" font-size="13">umbra tapers</text>
-  <text x="480" y="280" class="m" font-size="13">Need the Moon's angular size</text>
-  <text x="480" y="300" class="m" font-size="13">and the Sun's width.</text>
-  <text x="480" y="324" class="m" font-size="13">Shadow width alone is not</text>
-  <text x="480" y="344" class="m" font-size="13">a distance. Angles enlarged.</text>
-  <text x="24" y="420" class="m" font-size="14">Left is the half-moon triangle. Right is an eclipse. They answer different questions.</text>
-  <text x="24" y="442" class="m" font-size="14">Neither drawing is to scale. The surviving treatise is not the lost heliocentric book.</text>
+  <text x="24" y="32" font-size="20">Quarter Moon: 90 degrees at the Moon, 87 at the Earth</text>
+  <text x="24" y="54" class="m" font-size="14">One scale. The triangle is skinny because 87 is so close to 90. That closeness is why the method is fragile.</text>
+  <line x1="70.00" y1="188.00" x2="834.29" y2="188.00" stroke="#c8c0b4" stroke-width="1"/>
+<line x1="70.00" y1="188.00" x2="72.09" y2="148.05" stroke="#1c1915" stroke-width="1.4"/>
+<line x1="72.09" y1="148.05" x2="834.29" y2="188.00" stroke="#1c1915" stroke-width="1.4"/>
+<circle cx="70.00" cy="188.00" r="4.5" fill="#1c1915"/>
+<circle cx="72.09" cy="148.05" r="4" fill="#1c1915"/>
+<circle cx="834.29" cy="188.00" r="7" fill="#8c3f1e"/>
+<text x="62.00" y="210.00" font-size="15">Earth</text>
+<text x="80.09" y="140.05" font-size="15">Moon</text>
+<text x="824.29" y="212.00" class="a" font-size="15">Sun</text>
+<path d="M71.52 159.04 L82.50 159.62 L83.08 148.63" fill="none" stroke="#8c3f1e" stroke-width="1.2"/>
+<text x="88.09" y="166.05" class="a" font-size="13">90 deg</text>
+<path d="M102.00 188.00 A32.0 32.0 0 0 0 71.67 156.04" fill="none" stroke="#8c3f1e" stroke-width="1.2"/>
+<text x="106.00" y="180.00" class="a" font-size="13">87 deg</text>
+<text x="24" y="78" class="m" font-size="14">Same scale on both axes. Sun / Moon distance = 19.107. A true half-moon is nearer 90 deg, and the ratio is about 400.</text>
+<rect x="470" y="228" width="460" height="268" fill="#fffdf8" stroke="#e4dccf"/>
+<text x="486" y="250" font-size="15">Earth and Moon, enlarged the same way</text>
+<text x="486" y="270" class="m" font-size="13">Still one scale. The 3 degrees short of a right angle is the whole method.</text>
+<line x1="560.00" y1="468.00" x2="710.00" y2="468.00" stroke="#c8c0b4" stroke-width="1"/>
+<line x1="560.00" y1="468.00" x2="568.79" y2="300.23" stroke="#1c1915" stroke-width="1.5"/>
+<line x1="568.79" y1="300.23" x2="728.57" y2="308.60" stroke="#1c1915" stroke-width="1.5"/>
+<circle cx="560.00" cy="468.00" r="5" fill="#1c1915"/>
+<circle cx="568.79" cy="300.23" r="5" fill="#1c1915"/>
+<text x="542.00" y="488.00" font-size="13">Earth</text>
+<text x="576.79" y="294.23" font-size="13">Moon</text>
+<path d="M608.00 468.00 A48.0 48.0 0 0 0 562.51 420.07" fill="none" stroke="#8c3f1e" stroke-width="1.3"/>
+<text x="612.00" y="454.00" class="a" font-size="13">87 deg, not 90</text>
+<path d="M567.96 316.21 L583.93 317.05 L584.77 301.07" fill="none" stroke="#8c3f1e" stroke-width="1.3"/>
+<text x="590.79" y="328.23" class="a" font-size="13">90 deg</text>
+<text x="24" y="520" font-size="18">Lunar eclipse: the shadow narrows away from the Sun</text>
+<text x="24" y="542" class="m" font-size="14">Teaching sizes, not the real Sun and Earth. The cone is the common tangent. It comes to a point beyond the Moon.</text>
+<circle cx="110.00" cy="652.00" r="78.40" fill="#f4efe6" stroke="#8c3f1e" stroke-width="1.6"/>
+<text x="94.00" y="658.00" class="a" font-size="14">Sun</text>
+<polygon points="394.73,627.82 518.33,652.00 394.73,676.18" fill="#e7e0d4" stroke="#6f675c" stroke-width="1.2"/>
+<circle cx="390.00" cy="652.00" r="24.64" fill="#1c1915"/>
+<text x="372.00" y="619.36" font-size="14">Earth</text>
+<line x1="394.73" y1="627.82" x2="125.05" y2="575.06" stroke="#6f675c" stroke-width="1"/>
+<line x1="394.73" y1="676.18" x2="125.05" y2="728.94" stroke="#6f675c" stroke-width="1"/>
+<circle cx="460.58" cy="652.00" r="6.10" fill="#1c1915"/>
+<text x="444.58" y="630.91" font-size="14">Moon</text>
+<text x="510.33" y="644.00" class="m" font-size="13">apex</text>
+<text x="395.29" y="698.64" class="m" font-size="13">umbra narrows</text>
+<text x="24" y="760" class="m" font-size="14">The Moon is inside the cone. A wider penumbra is left off this drawing. Angles in the triangle above are the real 90 and 87, not labels on a loose sketch.</text>
 </svg>
