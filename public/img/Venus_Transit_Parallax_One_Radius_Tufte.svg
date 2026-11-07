@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 420" role="img">
+  <title>Differential parallax of a Venus transit</title>
+  <desc>Two stations see Venus shifted by different amounts against the Sun. The measured disagreement is the differential parallax, not the solar parallax. About 23 arcseconds is the illustrative shift for a side-on baseline of one Earth radius. Stations can be farther apart, up to about a diameter. Angles are exaggerated. This is not a 1769 measurement.</desc>
+  <rect width="920" height="420" fill="#fbf8f2"/>
+  <style>text{font-family:"Palatino Linotype",Palatino,"Liberation Serif",Georgia,serif;fill:#1c1915}.m{fill:#5e584e}.a{fill:#8c3f1e}</style>
+  <text x="24" y="32" font-size="20">What the stations compare</text>
+  <text x="24" y="54" class="m" font-size="14">Schematic. Angles exaggerated. Not a traced 1769 track.</text>
+  <circle cx="120" cy="180" r="46" fill="none" stroke="#1c1915" stroke-width="1.5"/>
+  <circle cx="120" cy="140" r="4" fill="#8c3f1e"/>
+  <circle cx="120" cy="220" r="4" fill="#1c1915"/>
+  <text x="70" y="128" class="a" font-size="13">north</text>
+  <text x="64" y="248" font-size="13">south</text>
+  <line x1="120" y1="140" x2="430" y2="230" stroke="#8c3f1e" stroke-width="1.2"/>
+  <line x1="120" y1="220" x2="430" y2="140" stroke="#1c1915" stroke-width="1.2"/>
+  <circle cx="250" cy="176" r="5" fill="#1c1915"/>
+  <text x="230" y="164" font-size="14">Venus</text>
+  <circle cx="500" cy="185" r="78" fill="#fffdf8" stroke="#1c1915" stroke-width="1.5"/>
+  <text x="478" y="190" class="m" font-size="14">Sun</text>
+  <text x="590" y="150" font-size="14">place from the south</text>
+  <text x="590" y="230" class="a" font-size="14">place from the north</text>
+  <line x1="560" y1="145" x2="586" y2="146" stroke="#1c1915" stroke-width="0.8"/>
+  <line x1="560" y1="225" x2="586" y2="226" stroke="#8c3f1e" stroke-width="0.8"/>
+  <circle cx="430" cy="140" r="3" fill="#1c1915"/>
+  <circle cx="430" cy="230" r="3" fill="#8c3f1e"/>
+  <text x="24" y="320" font-size="15">Differential parallax is about (1/0.277 - 1) times the solar parallax, about 2.61 times it.</text>
+  <text x="24" y="344" class="m" font-size="14">One Earth radius, side-on, is about 23 arcseconds if the solar parallax is the modern 8.79.</text>
+  <text x="24" y="366" class="m" font-size="14">That length is an illustration, not a ceiling. Stations can stand up to about a diameter apart.</text>
+  <text x="24" y="388" class="m" font-size="14">Halley compared full internal-contact durations. One contact, timed in absolute time, needs longitude.</text>
+  <text x="24" y="410" class="m" font-size="14">The black drop is mostly blur and the Sun's dim limb, not Venus's air by itself.</text>
+</svg>
