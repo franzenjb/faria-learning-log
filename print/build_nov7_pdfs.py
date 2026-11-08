@@ -17,13 +17,11 @@ MAP = {
     "59-ships-of-exploration.md": "Ships_of_Exploration_Endeavour_Bounty_Seahorse_and_Blighs_Launch_Faria_Lesson_2026-11-07.pdf",
     "60-bounty-mutiny-bligh-pitcairn.md": "Bounty_Mutiny_Bligh_Tofua_and_Pitcairns_Families_Faria_Lesson_2026-11-07.pdf",
     "61-breadfruit-and-empire.md": "Breadfruit_Botany_Transport_and_Caribbean_Plantation_Slavery_Faria_Lesson_2026-11-07.pdf",
-    "62-aristarchus-of-samos.md": "Aristarchus_of_Samos_Heliocentrism_Lunar_Eclipses_and_Distance_Faria_Lesson_2026-11-07.pdf",
     "63-hipparchus-lunar-parallax.md": "Hipparchus_Lunar_Parallax_Eclipse_Reports_and_Uncertainty_Faria_Lesson_2026-11-07.pdf",
     "64-galileo-jupiters-moons.md": "Galileo_Jupiters_Moons_Medicean_Stars_Marius_and_Kepler_Faria_Lesson_2026-11-07.pdf",
     "65-romer-io-speed-of-light.md": "Romer_Io_Eclipses_Finite_Light_and_Huygens_Speed_Faria_Lesson_2026-11-07.pdf",
     "66-kepler-mars-triangulation-and-scale.md": "Kepler_Mars_Triangulation_True_Scale_and_Exaggeration_Faria_Lesson_2026-11-07.pdf",
     "67-jos-a-bank-american-clothier.md": "Jos_A_Bank_American_Clothier_Baltimore_and_Ownership_Faria_Lesson_2026-11-07.pdf",
-    "68-hartz-versus-hart-schaffner-marx.md": "Hartz_Versus_Hart_Schaffner_Marx_Evidence_and_Family_Claims_Faria_Lesson_2026-11-07.pdf",
 }
 
 def esc(s):

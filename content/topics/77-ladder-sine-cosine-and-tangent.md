@@ -5,7 +5,7 @@ session: 2026-11-08
 order: 7
 tags: [mathematics, trigonometry, galileo, moon]
 ---
-This page follows the six-page ladder lesson. The numbers are a paper example. They are not instructions for setting a real ladder.
+The numbers are a paper example. They are not instructions for setting a real ladder.
 
 Picture a ladder against a straight wall on level ground. The ladder, the wall, and the ground make a triangle. The same triangle is used throughout.
 

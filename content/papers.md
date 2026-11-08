@@ -23,7 +23,6 @@ Printed lessons and plates, grouped with the topic each one belongs to. The comp
 - [Ships of exploration](/topics/59-ships-of-exploration/): [lesson PDF](/downloads/Ships_of_Exploration_Endeavour_Bounty_Seahorse_and_Blighs_Launch_Faria_Lesson_2026-11-07.pdf)
 - [The Bounty mutiny](/topics/60-bounty-mutiny-bligh-pitcairn/): [lesson PDF](/downloads/Bounty_Mutiny_Bligh_Tofua_and_Pitcairns_Families_Faria_Lesson_2026-11-07.pdf)
 - [Breadfruit and empire](/topics/61-breadfruit-and-empire/): [lesson PDF](/downloads/Breadfruit_Botany_Transport_and_Caribbean_Plantation_Slavery_Faria_Lesson_2026-11-07.pdf)
-- [Aristarchus of Samos](/topics/62-aristarchus-of-samos/): [lesson PDF](/downloads/Aristarchus_of_Samos_Heliocentrism_Lunar_Eclipses_and_Distance_Faria_Lesson_2026-11-07.pdf)
 - [Hipparchus and lunar parallax](/topics/63-hipparchus-lunar-parallax/): [lesson PDF](/downloads/Hipparchus_Lunar_Parallax_Eclipse_Reports_and_Uncertainty_Faria_Lesson_2026-11-07.pdf)
 - [Galileo's moons](/topics/64-galileo-jupiters-moons/): [lesson PDF](/downloads/Galileo_Jupiters_Moons_Medicean_Stars_Marius_and_Kepler_Faria_Lesson_2026-11-07.pdf)
 - [Romer and Io](/topics/65-romer-io-speed-of-light/): [lesson PDF](/downloads/Romer_Io_Eclipses_Finite_Light_and_Huygens_Speed_Faria_Lesson_2026-11-07.pdf)

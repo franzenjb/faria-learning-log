@@ -5,7 +5,7 @@ session: 2026-11-08
 order: 6
 tags: [mathematics, calculus, flight]
 ---
-This page follows the four-page sheet of twenty terms. The flight is hypothetical. Elapsed time means time since takeoff. No airline record is used.
+The flight is hypothetical. Elapsed time means time since takeoff. No airline record is used.
 
 Calculus connects how fast something is changing with how much has built up.
 

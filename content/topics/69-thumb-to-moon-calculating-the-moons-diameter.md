@@ -50,7 +50,7 @@ The map itself, already reviewed, is [The Moon's width on a US map (PDF)](/downl
 ## Does the answer make sense?
 Yes. The Moon’s known mean diameter is about 2,160 miles, or 3,475 kilometers. Our rounded calculation gives about 2,100 miles, roughly 3,370 kilometers: a good approximation, not an exact measurement. Apparent size changes with lunar distance, and our thumb and arm are rough guides.
 
-We have not discovered the distance with a thumb. We assumed it. Angular width PLUS distance gives physical width. Ancient eclipse geometry offers a different route to size and distance relationships; that is a [separate lesson](/topics/62-aristarchus-of-samos/).
+We have not discovered the distance with a thumb. We assumed it. Angular width PLUS distance gives physical width. Ancient eclipse geometry offers a different route to size and distance relationships.
 
 ## SOURCE
 NASA Science, Moon Facts: mean distance 238,855 miles (384,400 km); rounded radius 1,080 miles (1,740 km). Geometry and illustrative calculations in this lesson are modern derivations, not claims about an exact ancient measurement.

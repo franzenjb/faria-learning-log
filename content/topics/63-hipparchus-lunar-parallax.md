@@ -1,29 +1,84 @@
 ---
 title: "Hipparchus: the Moon changes place when we move"
-summary: Hipparchus used eclipse reports from two latitudes, not a double journey of his own. The Moon's parallax against a shared solar direction gave a distance with wide edges, near the modern value and not a lucky single number.
+summary: A near thing shifts against a far background when you move. Two measured directions and a known baseline fix the distance. The Moon's width in miles comes after that, not before. Hipparchus's lost book is known from later reports of an eclipse, not from a pair of star photographs.
 session: 2026-11-07
 order: 11
 tags: [astronomy, history-of-science, mathematics]
 ---
-Hold a finger at arm's length and look with one eye, then the other. The finger jumps against the far wall. The gap between your eyes is the baseline. The angle of the jump, with that baseline, is a distance. That is parallax. Hipparchus, in the second century BCE, used it on the Moon. Most of his books are lost. Later astronomers rebuilt the argument from what they still had.
+The first part of this page is a surveying idea, with a made-up steeple and made-up numbers. The second part is what the historical record actually gives for Hipparchus. Those are different jobs. The steeple is not his observation.
 
-One famous piece uses a solar eclipse. Near the Hellespont the Sun's disk was totally obscured. At Alexandria four-fifths of that disk was obscured, so only about one-fifth of the Sun's diameter stayed uncovered. The whole shift between the two places was that fifth of the diameter. It is a fraction of the diameter, not of the area: four-fifths of the area would be a different, larger bite. A date often proposed is 14 March 190 BCE. The identification is not secure, and this lesson will not pretend it is. Hipparchus used reports. He did not stand in both cities.
+## The shift you see is not the thing moving
 
-![Two stations, one Moon, a shared solar direction](../../img/Hipparchus_Lunar_Parallax_Two_Stations_Tufte.svg?v=2)
-*The angle is drawn far too large. The Sun's own parallax is treated as negligible beside the Moon's. Drawn for this lesson.*
+Hold a finger at arm's length. Look with the left eye, then the right, and keep the head still. The finger jumps against the far wall. The finger did not move. You changed eyes. The wall is so far that it does not jump. The finger is near, so it does.
 
-The baseline is the north-south distance on the Earth between those latitudes. The sightlines to the Moon differ. The Sun is so far that its direction can be treated as the shared wall. G. J. Toomer's reading of the reconstruction gives one lower bound near 71 Earth radii. Other ways of treating the shadow and the Sun's distance give a band roughly 59 to 67 Earth radii. That band is not a modern confidence interval. The Moon really averages near 60 Earth radii, and the distance changes a little through the month. An ancient model can land close to the truth and still be a model with wide edges. Nearness is not the same thing as a tight measurement.
+![The finger stays still. Two eyes line one finger up with two different places on a far wall. The gap between the eyes is the baseline.](../../img/Hipparchus_Finger_Does_Not_Move_Faria_2026-11-08.svg)
 
-Compare the sticks. The Venus stations of 1761 and 1769 stand on the Earth's surface, a baseline of hundreds or thousands of miles. Kepler's Mars triangles, later in this day's lessons, use a baseline the size of Earth's orbit. Hipparchus is the same idea with the cities of two reports. Aristarchus, just before this page, was comparing sizes inside one triangle. Here the observer moves, and the Moon moves on the sky.
+The gap between your eyes is the baseline. A baseline is a distance you already know, because you can measure it on yourself. The jump is a change in direction. Direction here means which way you are looking, lined up with the finger and a mark on the wall.
+
+The Moon can do the same thing, if you move far enough. The Moon has not suddenly flown sideways. You moved. A far background, the Sun or the stars, stays put. The Moon, being nearer, shifts against that background.
+
+## One look cannot tell size from distance
+
+A degree is one three-hundred-sixtieth of a full turn. A full turn is the circle you would make by turning all the way around.
+
+A sign 2 feet wide, 100 feet away, can fill the same angle as a sign 8 feet wide, 400 feet away. Four times the width, four times the distance, the same look. One glance cannot tell which sign it is. A single photograph of that look cannot tell either. The photograph records the angle. It does not record the miles.
+
+![Same look, four times as big. A sign 2 feet wide at 100 feet and a sign 8 feet wide at 400 feet fill the same angle. One look cannot tell them apart.](../../img/Hipparchus_Same_Angle_Four_Times_Faria_2026-11-08.svg)
+
+A picture of the Earth's shadow on the Moon has the same limit. It can show that the shadow is about two and a half Moon-widths across. That is a ratio of widths, at whatever distance the Moon happens to be. It is not yet a distance in miles, and it is not yet the Moon's width in miles. A larger Moon, farther away, could fill the picture in the same way.
+
+## Two directions and a measured baseline
+
+What breaks the ambiguity is a second place to stand, a known distance from the first, and a second direction.
+
+Here is a teaching example. It is not Hipparchus, and it is not the Moon. South and North stand on a straight road, 6 miles apart. That 6 miles was measured on the ground. That is the baseline. Both can see a steeple, and both can see a hill so far away that it does not shift when they trade places. The hill is the far wall.
+
+Each person lines the steeple up against the hill and says how far around the steeple sits from the hill's direction. In this made-up case, the two answers differ by 1 degree. That 1 degree is the angle at the steeple, between the two sightlines. On the drawing the angle is large, so you can see the lines cross. A real degree is much thinner.
+
+![Two measured directions. South and North are 6 measured miles apart. Their sightlines to a steeple differ by 1 degree against a distant hill. The distance is about 342 miles. The angle is drawn large.](../../img/Hipparchus_Steeple_Baseline_Faria_2026-11-08.svg)
+
+Now the distance, in words. A full turn is 360 degrees. The rim of a circle is about 6.28 times the distance from the middle to the rim. So one degree of the rim is 360 divided by 6.28, which is about 57 times shorter than that distance. Flip it: if the baseline covers 1 degree at the steeple, the distance to the steeple is about 57 baselines. 57 times 6 miles is 342 miles.
+
+Check the jobs. Measured: the 6 miles on the road, and each person's direction from the hill to the steeple. Calculated: the 1 degree difference, then the 342 miles. Not assumed: the steeple's height, or how far it was before you started. The Earth's ground, the road, is the ruler.
+
+## After the distance, the width
+
+Once the distance is known, the look's width becomes a real width. Suppose the steeple also covers about a tenth of a degree. A whole degree at 342 miles would be 342 divided by 57, about 6 miles. A tenth of that is about 0.6 miles. Measured: how wide it looks, in degrees. Already calculated: the 342 miles. Newly calculated: the 0.6 miles of real width. You did not need the width to get the distance, and you did not need the distance handed to you in advance.
+
+That is the order. Baseline and two directions first. Distance second. Width in miles third.
+
+## What Hipparchus actually had
+
+Hipparchus worked in the second century BCE. The book in which he treated the sizes and distances of the Sun and Moon is lost. What we have are later reports, chiefly Ptolemy in the Almagest and Pappus commenting on that passage. This is not a pair of star photographs taken at the same moment from two modern observatories. Nobody in that century had a camera. He used reports of how an eclipse looked.
+
+Pappus reports one solar eclipse from Hipparchus's first book. Near the Hellespont the Sun's disk was entirely hidden. At Alexandria about four-fifths of it was hidden. The shift between those reports is about a fifth of the Sun's width in the sky. Read that as a fraction of the width, not of the area. Four-fifths of the area would be a different, larger bite.
+
+![Two reports, not two photographs. Alexandria and the Hellespont, the Moon, and a very far Sun. The angles are drawn too large. The difference in the eclipse is a difference of direction.](../../img/Hipparchus_Eclipse_Reports_Not_Photographs_Faria_2026-11-08.svg)
+
+The Sun is the far wall. It is so far that the two cities can treat its direction as shared. The Moon is the finger. It is nearer, so the cities do not see it in the same direction against the Sun. The difference in the eclipse is that difference of direction.
+
+The miles, or the Earth radii, enter with the baseline. An Earth radius is the distance from the Earth's center to its surface. The cities are a known kind of distance apart only because someone has measured the Earth and the cities' latitudes. Latitude is how far north or south a place sits. The place names alone are not a length. G. J. Toomer's reconstruction uses about 41 degrees for the Hellespont and about 31 degrees for Alexandria. Those are part of the modern reading of the geometry, not a sentence copied from a surviving page of Hipparchus.
+
+In that first book, as Pappus reports it, the least distance of the Moon is 71 Earth radii and the greatest is 83. Pappus says the mean that follows is 77. Ptolemy says Hipparchus tried the problem by guessing at the Sun: in one try the Sun has no parallax you can perceive, which is the far-wall idea taken to the limit. Toomer's 1974 reading identifies the eclipse as 14 March 190 BCE and treats 71 as a minimum possible distance, because a simplifying assumption (the eclipse on the meridian at both cities) was not actually true. The year is Toomer's identification. The notice Pappus quotes does not itself print that date. This page will not pretend the year is secure.
+
+A second book used a different guess about the Sun. Pappus reports the least lunar distance as 62 Earth radii, the mean as 67 and 1/3, and the Sun's distance as 490 Earth radii. The greatest lunar distance that belongs with those is 72 and 2/3. This is the shadow method. You assume how far the Sun is, which sets how the Earth's shadow tapers, and the Moon's distance follows. The assumed solar distance is doing the work that a measured baseline did in the other method. If the Sun is taken as infinitely far, Toomer notes that this shadow arithmetic levels off near 59 Earth radii. He reads Hipparchus as placing the mean between 67 and 1/3 and about 59. That "between" is Toomer's reading of the logic. It is not a sentence we have from Hipparchus in his own book.
+
+Ptolemy, in the second century CE, later got a mean lunar distance of about 59 Earth radii from his own parallax measurement. That is his result in the Almagest. It is not a claim that he copied a number out of a lost page.
+
+The modern mean is about 60.3 Earth radii. NASA gives the Moon's average distance as 238,855 miles, which is 384,400 kilometers. The Earth's mean radius is 6,371 kilometers. 384,400 divided by 6,371 is about 60.3. The distance also changes through the month. Landing near that number is not the same thing as a tight measurement. Hipparchus's reported figures are 71 and 83 on one hypothesis, and 62, 67 and 1/3, and 72 and 2/3 on another. They are reconstructions from later writers, with an assumption about the Sun sitting inside the second set.
 
 The illustrated lesson is [download the PDF](/downloads/Hipparchus_Lunar_Parallax_Eclipse_Reports_and_Uncertainty_Faria_Lesson_2026-11-07.pdf).
 
 ## Sources
-- MacTutor, biography of Hipparchus: https://mathshistory.st-andrews.ac.uk/Biographies/Hipparchus/
-- MacTutor, Dictionary of Scientific Biography excerpt: https://mathshistory.st-andrews.ac.uk/DSB/Hipparchus.pdf
+- Pappus, commentary on Almagest V, as quoted and translated in Christián C. Carman, "On the distances of the sun and moon according to Hipparchus," which prints the 71 and 83, the 62, the 67 and 1/3, and the solar distance 490: https://archive.nyu.edu/bitstream/2451/61288/56/11.%20Carman.pdf
+- G. J. Toomer, "Hipparchus on the distances of the sun and moon," Archive for History of Exact Sciences 14 (1974): 126–142, https://doi.org/10.1007/BF00329826 . The eclipse identification 14 March 190 BCE, the latitudes, and the reading of 71 as a minimum are his reconstruction. The paper is cited here; the lesson follows Toomer's own later summary in the Dictionary of Scientific Biography and Carman's quotation of Pappus.
+- G. J. Toomer, "Hipparchus," Dictionary of Scientific Biography, the summary of that reconstruction, including the shadow limit near 59: https://mathshistory.st-andrews.ac.uk/DSB/Hipparchus.pdf
+- NASA Science, Moon facts, average distance 238,855 miles (384,400 kilometers): https://science.nasa.gov/moon/facts/
+- NASA Space Science Data Coordinated Archive, Earth volumetric mean radius 6,371.0 kilometers: https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html
 
 ## Key facts
-- Parallax is a known baseline and an angle. Hipparchus's own books are mostly lost and were rebuilt by later writers.
-- The eclipse was total at the Hellespont. At Alexandria four-fifths of the Sun's diameter was covered, so about one-fifth of the diameter stayed bright. That fifth is the parallax shift. It is not four-fifths of the area. He used reports. The 190 BCE date is uncertain.
-- Reconstructions give a lower bound near 71 Earth radii in one reading, and roughly 59 to 67 in others. That is not one confidence interval.
-- The modern mean is near 60 Earth radii and varies. Venus transits use a surface baseline. Kepler's Mars work uses the orbit.
+- A near thing shifts against a far background when the observer moves. The thing need not have moved.
+- Four times the width at four times the distance can fill the same angle. One look, or one shadow picture, does not give miles.
+- Two directions and a measured baseline fix the distance. The real width is calculated after that. The steeple numbers, 6 miles and 1 degree and 342 miles, are a teaching example.
+- Hipparchus's book is lost. Pappus reports 71 and 83 Earth radii from a solar eclipse, total at the Hellespont and about four-fifths at Alexandria, and 62, 67 and 1/3, and a solar distance of 490 from a second hypothesis. The second uses an assumed solar distance.
+- The year 190 BCE is Toomer's identification, not a date in the quoted notice. Ptolemy's own later mean is about 59 Earth radii. The modern mean is about 60.3.
