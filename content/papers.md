@@ -2,7 +2,7 @@
 title: "Papers"
 summary: Downloadable lesson PDFs, the supplementary Moon map, the chronometer sheet, and Picard's 1671 triangulation plate.
 ---
-Printed lessons and plates, grouped with the topic each one belongs to. The hurricane wind lesson is a web page only. A complete binder of the lessons is still being prepared and is not available for download here.
+Printed lessons and plates, grouped with the topic each one belongs to. A complete binder of the lessons is still being prepared and is not available for download here.
 
 ## 6 November 2026
 
@@ -31,7 +31,8 @@ Printed lessons and plates, grouped with the topic each one belongs to. The hurr
 
 ## 8 November 2026
 
-- [Hurricane Wind Force: Force Grows with Velocity Squared](/topics/71-hurricane-wind-force-square-not-exponential/). This lesson is the web page. It has no separate PDF.
+- [Hurricane Wind Force: Force Grows with Velocity Squared](/topics/71-hurricane-wind-force-square-not-exponential/): [velocity-squared curve (PDF)](/downloads/Wind_Force_Velocity_Squared_Curve_Faria_2026-11-08.pdf). One page. Linear axes from zero. The whole force, with 100 miles per hour equal to 1.
+- [A Feather and an Anvil Falling Through Air](/topics/72-feather-and-anvil-falling-through-air/): [velocity-time sheet (PDF)](/downloads/Falling_Objects_Velocity_Time_Curves_Faria_2026-11-08.pdf). One page. Chosen limits of 2 and 60 metres per second. An illustration, not a measurement.
 
 ## Historical plate
 

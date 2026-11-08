@@ -31,8 +31,10 @@ The same arithmetic, still against 100 miles per hour:
 
 Check the squares on a scrap of paper. 1.4 times 1.4 is 1.96. 1.6 times 1.6 is 2.56. 1.8 times 1.8 is 3.24. The percent-more column is the times column, minus 1, times 100. 2.56 times the baseline is one double, which would be 100 percent more, and then another 0.56, which is 56 percent more: 156 percent more. 3.24 times is a bit more than triple. Triple would be 200 percent more. The extra 0.24 makes 224 percent more.
 
-![Hurricane Wind Force: Force Grows with Velocity Squared, same wall and same air, from 100 to 180 miles per hour](../../img/Hurricane_Wind_Force_Square_Law_Tufte.svg?v=1)
-*Same wall, same air, same shape. Force grows with the square of the velocity, so the full-force ratios against 100 miles per hour are 1, 1.44, 1.96, 2.56, and 3.24: the baseline, then 44, 96, 156, and 224 percent more. Those additions get larger. They are not one fixed multiplier.*
+![The whole force follows the square of wind speed. Both axes are linear and begin at zero; conditions are held comparable.](../../img/Wind_Force_Velocity_Squared_Curve_Faria_2026-11-08.svg)
+*The whole force follows the square of wind speed. Both axes are linear and begin at zero; conditions are held comparable.*
+
+The curve draws the whole force. Wind speed runs from 0 to 200 miles per hour. Force runs from 0 to 4 times the force at 100 miles per hour. The marked points are the table: 1.00 at 100, then 1.44, 1.96, 2.56, and 3.24. The sheet is [the velocity-squared curve (PDF)](/downloads/Wind_Force_Velocity_Squared_Curve_Faria_2026-11-08.pdf).
 
 ## Why the curve bends, and why that is not exponential
 

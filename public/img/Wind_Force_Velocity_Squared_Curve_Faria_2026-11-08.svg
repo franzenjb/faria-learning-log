@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="820" viewBox="0 0 760 820" role="img" aria-labelledby="title desc">
+<title id="title">Hurricane Wind Force: Force Grows with Velocity Squared</title>
+<desc id="desc">A quadratic curve on linear axes beginning at zero. Wind speeds 100, 120, 140, 160 and 180 miles per hour give complete force ratios 1, 1.44, 1.96, 2.56 and 3.24, or baseline, 44, 96, 156 and 224 percent more. Air density, exposed area and drag coefficient are held fixed. The cream background, Palatino-style serif type and warm brown accent match the Faria site.</desc>
+<rect width="760" height="820" fill="#fbf8f2"/>
+<text x="40" y="46" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="28" font-weight="700" text-anchor="start" fill="#22201c">Hurricane Wind Force:</text>
+<text x="40" y="84" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="28" font-weight="700" text-anchor="start" fill="#22201c">Force Grows with Velocity Squared</text>
+<text x="40" y="126" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="20" font-weight="400" text-anchor="start" fill="#6b645a">The whole force, relative to a 100 mph baseline</text>
+<text x="78" y="157" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="400" text-anchor="start" fill="#6b645a">Times the baseline force</text>
+<path d="M78 180V610H628" fill="none" stroke="#22201c" stroke-width="1.2" stroke-linecap="round"/>
+<path d="M73 610H78" fill="none" stroke="#22201c" stroke-width="1" stroke-linecap="round"/>
+<text x="65" y="616" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="400" text-anchor="end" fill="#6b645a">0</text>
+<path d="M73 502.5H78" fill="none" stroke="#22201c" stroke-width="1" stroke-linecap="round"/>
+<text x="65" y="508.5" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="400" text-anchor="end" fill="#6b645a">1</text>
+<path d="M73 395H78" fill="none" stroke="#22201c" stroke-width="1" stroke-linecap="round"/>
+<text x="65" y="401" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="400" text-anchor="end" fill="#6b645a">2</text>
+<path d="M73 287.5H78" fill="none" stroke="#22201c" stroke-width="1" stroke-linecap="round"/>
+<text x="65" y="293.5" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="400" text-anchor="end" fill="#6b645a">3</text>
+<path d="M73 180H78" fill="none" stroke="#22201c" stroke-width="1" stroke-linecap="round"/>
+<text x="65" y="186" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="400" text-anchor="end" fill="#6b645a">4</text>
+<path d="M78 610V615" fill="none" stroke="#22201c" stroke-width="1" stroke-linecap="round"/>
+<text x="78" y="640" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="400" text-anchor="middle" fill="#6b645a">0</text>
+<path d="M215.5 610V615" fill="none" stroke="#22201c" stroke-width="1" stroke-linecap="round"/>
+<text x="215.5" y="640" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="400" text-anchor="middle" fill="#6b645a">50</text>
+<path d="M353 610V615" fill="none" stroke="#22201c" stroke-width="1" stroke-linecap="round"/>
+<text x="353" y="640" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="400" text-anchor="middle" fill="#6b645a">100</text>
+<path d="M490.5 610V615" fill="none" stroke="#22201c" stroke-width="1" stroke-linecap="round"/>
+<text x="490.5" y="640" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="400" text-anchor="middle" fill="#6b645a">150</text>
+<path d="M628 610V615" fill="none" stroke="#22201c" stroke-width="1" stroke-linecap="round"/>
+<text x="628" y="640" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="400" text-anchor="middle" fill="#6b645a">200</text>
+<text x="353" y="674" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="20" font-weight="400" text-anchor="middle" fill="#22201c">Wind speed (miles per hour)</text>
+<path d="M78 610 Q353 610 628 180" fill="none" stroke="#7a4b1e" stroke-width="3" stroke-linecap="round"/>
+<circle cx="353" cy="502.5" r="4" fill="#7a4b1e"/>
+<text x="341" y="478.5" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="22" font-weight="700" text-anchor="end" fill="#7a4b1e">1.00×</text>
+<text x="341" y="498.5" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="400" text-anchor="end" fill="#22201c">100 mph · baseline</text>
+<circle cx="408" cy="455.2" r="4" fill="#7a4b1e"/>
+<text x="396" y="431.2" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="22" font-weight="700" text-anchor="end" fill="#7a4b1e">1.44×</text>
+<text x="396" y="451.2" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="400" text-anchor="end" fill="#22201c">120 mph · 44% more</text>
+<circle cx="463" cy="399.3" r="4" fill="#7a4b1e"/>
+<text x="451" y="375.3" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="22" font-weight="700" text-anchor="end" fill="#7a4b1e">1.96×</text>
+<text x="451" y="395.3" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="400" text-anchor="end" fill="#22201c">140 mph · 96% more</text>
+<circle cx="518" cy="334.8" r="4" fill="#7a4b1e"/>
+<text x="506" y="310.8" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="22" font-weight="700" text-anchor="end" fill="#7a4b1e">2.56×</text>
+<text x="506" y="330.8" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="400" text-anchor="end" fill="#22201c">160 mph · 156% more</text>
+<circle cx="573" cy="261.7" r="4" fill="#7a4b1e"/>
+<text x="561" y="237.7" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="22" font-weight="700" text-anchor="end" fill="#7a4b1e">3.24×</text>
+<text x="561" y="257.7" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="18" font-weight="400" text-anchor="end" fill="#22201c">180 mph · 224% more</text>
+<text x="40" y="715" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="19" font-weight="400" text-anchor="start" fill="#22201c">Divide the speed by 100 mph, then square that ratio.</text>
+<text x="40" y="744" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="17" font-weight="400" text-anchor="start" fill="#6b645a">Both axes are linear and begin at zero. No logarithmic scaling.</text>
+<text x="40" y="774" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="17" font-weight="400" text-anchor="start" fill="#6b645a">Same air density, exposed area and drag coefficient.</text>
+<text x="40" y="804" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12" font-weight="400" text-anchor="start" fill="#6b645a">Faria • November 8, 2026</text>
+</svg>
