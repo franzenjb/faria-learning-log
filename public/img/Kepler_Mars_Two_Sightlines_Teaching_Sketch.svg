@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="480" viewBox="0 0 760 480" role="img">
+<title>Two sightlines to the same place of Mars</title>
+<rect width="760" height="480" fill="#fbf8f2"/>
+<text x="36" y="40" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="22" fill="#22201c">The same Mars, seen twice</text>
+<circle cx="180" cy="250" r="70" fill="none" stroke="#c8c0b4" stroke-width="1.4"/>
+<circle cx="180" cy="250" r="6" fill="#7a4b1e"/>
+<text x="168" y="276" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#22201c">Sun</text>
+<circle cx="150" cy="190" r="4" fill="#22201c"/>
+<circle cx="230" cy="300" r="4" fill="#22201c"/>
+<text x="90" y="180" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#22201c">Earth, first date</text>
+<text x="240" y="318" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#22201c">Earth, about 687 days later</text>
+<path d="M150 190 L520 140" fill="none" stroke="#7a4b1e" stroke-width="1.6"/>
+<path d="M230 300 L520 140" fill="none" stroke="#7a4b1e" stroke-width="1.6"/>
+<circle cx="520" cy="140" r="5" fill="#7a4b1e"/>
+<text x="536" y="136" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="16" fill="#22201c">Mars, same place</text>
+<text x="36" y="400" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#22201c">Teaching circle. Earth's orbit is not drawn to scale.</text>
+<text x="36" y="426" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#6b645a">The chord between the two Earths sets the scale. A star direction alone is not a distance.</text>
+<text x="36" y="452" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#6b645a">On this sketch the Sun-to-Mars distance is about 1.5 Earth-Sun units, and it changes around the orbit.</text>
+</svg>

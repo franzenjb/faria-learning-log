@@ -38,15 +38,42 @@ The ratios stay put when the triangle grows and the angle does not. A 40-foot la
 
 On a calculator, choose degrees, marked DEG, not radians. A radian is another unit for the same opening. sin, cos, and tan then take 30 as 30 degrees.
 
-## A shadow, and what Galileo did instead
+## From a ladder to a lunar landscape
 
-Replace the wall with a mountain and the base with its shadow on level ground. A ray of sunlight takes the place of the ladder. The Sun's elevation is its angle above the local horizon, the level direction at that place. Keep 30 degrees as the example.
+A shadow makes the same triangle. Replace the wall height with a mountain's height. Replace the base with its shadow on level ground. A ray of sunlight takes the place of the sloping ladder.
 
-Height equals shadow length times the tangent of the Sun's angle. A shadow of 1,000 feet and a 30-degree Sun give about 1,000 times 0.577, which is about 577 feet. That example is invented. It is not Galileo's data. The same idea can be tried on the Moon if you have the true ground length of the shadow, not an uncorrected length in a photograph, and the Sun's angle at that place. Level ground and parallel rays are assumptions. Slopes, the Moon's curve, and the viewing angle ask for corrections. A popular account of measuring craters states those limits.
+The Sun's elevation angle means how high the Sun is above the local horizon, the level direction at that place. Here the angle is 30 degrees again, so the same tangent applies.
 
-In 1610 Galileo described bright mountaintops shining inside the Moon's dark region, the way a peak on Earth can catch sunrise while the valley is still dark. He measured how far those bright peaks lay beyond the terminator, the boundary between lunar day and night, and compared that distance with the Moon's diameter, the full width through the center. His published calculation used the Moon's curved shape and a right triangle, and Pythagoras's rule for the sides, to find how high a peak had to rise to meet the sunlight. That is not the shadow-times-tangent sum on this page. Both turn light and a triangle into a height. They are different methods.
+![A right triangle: mountain height about 577 feet, shadow 1,000 feet, sun angle 30 degrees](../../img/Mountain_Shadow_Tangent_Teaching_Sketch.svg)
+*Illustration only. The upright line is the mountain's height. The ray is the sloping side. This is not a surveyed peak.*
 
-He reported a height of more than 4 Italian miles. Those are historical Italian miles. They are not automatically four English miles. The figure is his estimate, not a modern survey. The English translation of *Sidereus Nuncius* by E. S. Carlos (1880), pages 28 to 30, is the place to read the argument.
+Tangent still means height divided by base.
+
+Height = shadow length × tan(Sun angle).
+
+Suppose a shadow is 1,000 feet long and the Sun is 30 degrees up. Tangent says the height is about 0.577 times the shadow length.
+
+This is an invented example, not Galileo's data.
+
+1,000 feet × 0.577 ≈ 577 feet.
+
+This simple method also works on the Moon, approximately. You need the true ground length of the shadow, not an uncorrected length in a photograph, and the Sun's angle at that lunar place. The assumptions are level ground and sunlight traveling in the same direction. Real measurements may need corrections for slopes, the Moon's curvature, and the viewing angle. Mary McIntyre's account in BBC Sky at Night Magazine, "How to measure craters on the Moon," is the place that states the shadow method and those limits.
+
+## Galileo's Moon: what he actually did
+
+The light reached the peaks first. In 1610 Galileo described bright mountaintops shining inside the Moon's dark region. Picture sunrise on Earth: a high peak can catch the Sun while the valley below is still dark.
+
+He measured how far those bright peaks lay beyond the terminator, the boundary between lunar day and night. He compared that distance with the Moon's diameter, its full width through the center.
+
+His published calculation used the Moon's curved shape and a right triangle. He used Pythagoras's rule, the relation between a right triangle's sides already used for the 3-4-5 triangle on the [mathematics walk](/topics/78-mathematics-one-idea-at-a-time/), to work out how far a peak had to rise to reach the sunlight.
+
+That is not the shadow-times-tangent calculation above. Both turn light and triangles into a height. They are different methods.
+
+Galileo reported a height "more than 4 Italian miles." Those are historical Italian miles, not automatically four of today's English miles. This was his estimate, not a modern survey. The English translation of *Sidereus Nuncius* by E. S. Carlos (1880), pages 28 to 30, is the text. Project Gutenberg ebook 46036.
+
+Take this one idea with you. An angle fixes the triangle's proportions. One known length then tells the scale. Each function answers a different question about the same ladder. Sine: height compared with ladder length. Cosine: base compared with ladder length. Tangent: height compared with base. The names are new. The idea is comparing lengths.
+
+The shadow example on this page is invented. It is not the number Galileo printed.
 
 The sheet is [One ladder, three questions (PDF)](/downloads/Trigonometry_Sine_Cosine_Tangent_Ladder_and_Galileos_Moon_Faria_2026-11-08.pdf). The same ladder sits inside the longer walk from algebra to calculus, [Mathematics, one idea at a time](/topics/78-mathematics-one-idea-at-a-time/).
 

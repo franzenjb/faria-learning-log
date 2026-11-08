@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="460" viewBox="0 0 760 460" role="img">
+<title>Baseline, angle at Venus, and distance</title>
+<rect width="760" height="460" fill="#fbf8f2"/>
+<text x="36" y="40" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="22" fill="#22201c">One triangle, hugely exaggerated</text>
+<circle cx="120" cy="160" r="4" fill="#22201c"/>
+<circle cx="120" cy="280" r="4" fill="#22201c"/>
+<path d="M120 160 L120 280 L620 220 Z" fill="none" stroke="#7a4b1e" stroke-width="2"/>
+<text x="40" y="150" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#22201c">observer 2</text>
+<text x="40" y="304" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#22201c">observer 1</text>
+<text x="100" y="230" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#22201c">b</text>
+<text x="340" y="250" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#22201c">d</text>
+<text x="600" y="200" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#22201c">¸ at the far object</text>
+<text x="36" y="360" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#22201c">b is perpendicular to d. Then d = b / tan ¸.</text>
+<text x="36" y="388" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#6b645a">London and the Cape are not the ends of a diameter. Only the part square to the sightline counts.</text>
+<text x="36" y="416" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#6b645a">Angles on this sketch are drawn large so the triangle can be seen. The real angle is seconds of arc.</text>
+</svg>

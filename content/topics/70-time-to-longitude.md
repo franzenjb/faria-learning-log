@@ -22,7 +22,7 @@ This is a solar-time conversion, not a way to read exact longitude from today's 
 Coordinates may be written both ways. Computers commonly work with decimal degrees. People often read degrees, minutes, and seconds. GPS and mapping apps can display either. Neither form belongs only to the machine or only to the reader.
 
 ![Paired scales: solar-time difference and longitude west of Greenwich](../../img/Time_to_Longitude_Paired_Scales_Tufte.svg?v=1)
-*Time difference and longitude march together. 0 hours is 0 degrees, 1 hour is 15 degrees, 2 hours is 30 degrees, and 2 hours 35 minutes is 38 degrees 45 arcminutes west, placed in true proportion. The reference meridian is Greenwich.*
+*Time difference and longitude march together. 0 hours is 0 degrees, 1 hour is 15 degrees, 2 hours is 30 degrees, 2 hours 35 minutes is 38 degrees 45 arcminutes west, and 3 hours is 45 degrees, placed in true proportion. The reference meridian is Greenwich. This conversion leaves the equation of time out on purpose. The chronometer section below is where that seasonal gap, up to about 16 minutes, is named, and where an almanac is required.*
 
 If local solar time is one hour behind Greenwich, the longitude that suggests is fifteen degrees west of Greenwich.
 

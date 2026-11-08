@@ -117,7 +117,7 @@ Jeff loves words. Polaris has collected them for millennia.
 - **Stella polaris / Polaris.** Neo-Latin **"polar star,"** in print by the Alfonsine Tables of **1492**; Gemma Frisius used *stella polaris* in 1547. The IAU made **Polaris** the official proper name of α UMi Aa in 2016.
 - **Stella Maris**, **"star of the sea,"** a medieval Marian title (Bartholomaeus Anglicus, c. 1270s) transferred to the pole star; the hymn ***Ave Maris Stella*** ("Hail, Star of the Sea") carries the same image.
 - **Sanskrit Dhruva (Dhruva tara).** The word ध्रुव means "fixed, constant, immovable." In the Puranas the devotee Dhruva is set in the sky as the pole star.
-- **Arabic.** Pre-Islamic / medieval astronomy called it ***al-Jady*** ("the kid," a young goat). Star-name dictionaries also record ***al-quṭb al-shamālī*** (**"the northern axle / pole"**) and ***mismār*** (**"needle"**): the pin on which the sky seems to turn.
+- **Arabic.** Pre-Islamic and medieval astronomy called it ***al-Jady*** ("the kid," a young goat). Star-name dictionaries also record ***al-qutb al-shamali***, also written *al-quṭb al-shamālī* (**"the northern axle"** or pole), and ***mismar***, also written *mismār* (**"needle"**): the pin on which the sky seems to turn.
 - **Old English.** *Scip-steorra*, **"ship-star."** And in the **Old English Rune Poem**, the T-rune **Tir**:
 
 > **Tir biþ tacna sum, healdeð trywa wel**

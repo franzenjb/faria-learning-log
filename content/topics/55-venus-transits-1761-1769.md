@@ -42,20 +42,31 @@ The illustrated lesson is [download the PDF](/downloads/Venus_Transits_1761_1769
 
 ## The parallax triangle, as a sheet of round numbers
 
-A two-page sheet draws the same idea with deliberately rough figures. It is attached here as [Measuring the Sun's distance with the 1761 transit (PDF)](/downloads/Venus_Transit_Parallax_Triangle_Faria_2026-11-07.pdf). London and Cape Town are not the ends of a diameter, and the useful baseline is only the part of their separation square to the line of sight. That part changes as the Earth turns.
+A two-page sheet draws the same idea with deliberately rough figures and angles hugely exaggerated. It is attached here as [Measuring the Sun's distance with the 1761 transit (PDF)](/downloads/Venus_Transit_Parallax_Triangle_Faria_2026-11-07.pdf). The drawing below is a teaching sketch of its second panel, not a tracing of the 1761 sky.
+
+![Two observers, a baseline b perpendicular to the distance d, and the angle θ at the far object](../../img/Venus_Parallax_Triangle_Teaching_Sketch.svg)
+*Schematic. The angle is drawn large enough to see. The real angle is seconds of arc.*
+
+How to read the first panel. Both observers look at the same Venus. Because they stand in different places, their sight lines cross at Venus and land on different spots on the Sun. The north site and the south site swap: the southern observer sees Venus higher on the disk, the northern observer sees it lower. The Sun is also at a finite distance, so it shifts a little too. What observers actually measure is Venus's shift relative to the Sun, Venus's parallax minus the Sun's own parallax. In 1761 that shift showed up as differences in contact timings.
+
+Earth's diameter, about 7,900 miles, is drawn only as a size reference. It is not the baseline. London and Cape Town are not opposite ends of a diameter, and they are not placed from a real map on the sheet. The useful baseline is only the part of their separation perpendicular to the line of sight. That part changes hour by hour as Earth rotates. The sheet's illustrative Earth-Venus distance at transit is about 27 million miles. That figure is derived below. It is not a logged 1761 measurement of the London-Cape chord.
+
+Panel 2 turns an angle into a distance. The numbers are round and historical in style. They are not the 1761 London-Cape Town measurement.
 
 In the right triangle on the sheet, the baseline b is perpendicular to the distance d, and the angle θ is at the far object. Then d = b / tan θ. Tangent is the opposite side divided by the adjacent side. If the baseline is split evenly about the sightline, the sheet writes d = b / (2 tan(θ/2)), which is about b / θ when θ is in radians and small. A radian is the angle whose arc on a unit circle is one radius long. These are the definitions. The numbers that follow are illustrations.
 
 The horizontal solar parallax is the angle one Earth radius fills as seen from the Sun. The sheet takes a working value of 8.5 arcseconds, the sort of figure James Short used in 1761, and it says this is not Halley's 1716 assumption of 12.5 arcseconds. An arcsecond is 1/206,265 of a radian, so 8.5 arcseconds is about 0.0000412 radians. With an Earth radius of 3,959 miles, distance = 3,959 / 0.0000412, about 96 million miles. Round the radius to 4,000 miles and the same angle gives about 97 million miles. The modern solar parallax is about 8.794 arcseconds, and the astronomical unit is about 93.0 million miles. The 8.5 is a historical working value, not that modern result.
 
-Kepler's third law says the square of a period is proportional to the cube of the orbit's size. Venus's period is 224.7 days and Earth's is 365.25. The ratio of the sizes is (224.7 / 365.25) raised to the power 2/3, about 0.723. At inferior conjunction, in circular orbits, the Earth-Venus distance is about (1 − 0.723) times the Earth-Sun distance, about 0.277 times 96 million miles, about 27 million miles. Real reductions used full orbits, not circles.
+Kepler's third law says the square of a period is proportional to the cube of the orbit's size. The sheet writes that as P² proportional to a³. Venus's period is 224.7 days and Earth's is 365.25. The ratio of the sizes is (224.7 / 365.25) raised to the power 2/3, about 0.723. At inferior conjunction, in circular orbits, the Earth-Venus distance is about (1 − 0.723) times the Earth-Sun distance, about 0.277 times 96 million miles, about 27 million miles. At that distance one Earth radius spans about 30.7 arcseconds as seen from Venus. Venus's shift relative to the Sun is about 30.7 minus 8.5, about 22.2 arcseconds. Doubling that is the shift across a full Earth diameter. Kepler's law gives ratios only. One measured distance sets the scale for the other planets. Real 1761 analyses used full orbital geometry, not circles.
 
 In 1761 the Cape and Greenwich could compare the end of the transit, not the whole event. Short found 435 seconds observed against 439 seconds predicted for 8.5 arcseconds, which he read as about 8.42 arcseconds. The round numbers above are not those observations. The campaign's other reductions are earlier on this page. The ladder that uses the angle, once it exists, is the [Cepheid lesson](/topics/52-venus-transit-to-cepheid-distances/).
 
 ## Sources
 - Andreas Verdun, "The Determination of the Solar Parallax from Transits of Venus in the 18th Century," Archives des Sciences 57 (2004): https://www.unige.ch/sphn/Publications/ArchivesSciences/AdS%202004-2015/AdS%202004%20Vol%2057%20Fasc%201/45-68%20Verdun.pdf
 - Nicholas Kollerstrom, on Horrocks, in the IAU transit volume: https://www.dioi.org/kn/IAUVenus-Transit.pdf
-- James Short, Philosophical Transactions, 1761: https://royalsocietypublishing.org/rstl/article-pdf/doi/10.1098/rstl.1761.0102/1458661/rstl.1761.0102.pdf
+- James Short, Philosophical Transactions, 1761, including the 435 seconds against 439: https://royalsocietypublishing.org/rstl/article-pdf/doi/10.1098/rstl.1761.0102/1458661/rstl.1761.0102.pdf
+- Edmond Halley, 1716, English translation of the parallax proposal, where the working hypothesis is 12.5 arcseconds, not 8.5: https://eclipse.gsfc.nasa.gov/transit/HalleyParallax.html
+- NASA Venus fact sheet, for the 224.7-day period used in the ratio: https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html
 - ESO transit background on the expeditions: https://www.eso.org/public/outreach/eduoff/vt-2004/Background/Infol2/EIS-F3.html
 - Whipple Museum, the stolen Tahiti quadrant: https://www.whipplemuseum.cam.ac.uk/explore-whipple-collections/astronomy-and-empire/stolen-quadrant
 - Pedro Espinoza Meléndez, "Medir el sistema solar. El viaje de Jean-Baptiste Chappe d'Auteroche a la Antigua California y la observación del tránsito de Venus en 1769," Meyibo (UABC). Year and pages are not shown on the copy used here: http://meyibo.tij.uabc.mx/index.php/meyibo/en/article/download/118/110/195

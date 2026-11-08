@@ -16,7 +16,34 @@ Earth's orbital radius ought to be about 66 percent of Mars's semimajor axis, no
 ![Real Mars beside the exaggerated teaching ellipse](../../img/Kepler_Mars_Real_vs_Exaggerated_Ellipse_Tufte.svg?v=1)
 *Both panels use the same Mars semimajor axis, and both put the Sun at the focus. The right-hand ellipse is the exaggerated lesson, labeled as such. The dots are not the planets' physical sizes.*
 
-The scale check is [download the PDF](/downloads/Kepler_Mars_Triangulation_True_Scale_and_Exaggeration_Faria_Lesson_2026-11-07.pdf). A second sheet, the triangle method in two panels, is [How Kepler found Mars without going there (PDF)](/downloads/Kepler_Mars_Triangle_Method_Illustrated_Faria_Lesson_2026-11-07.pdf). It is the same method, not a second theory. Mars returns to the same place in its orbit about every 687 days, which is one Martian year, not the gap between oppositions. Earth has moved. Distant stars give a shared direction. Draw each sightline from the Earth's place on that date. Where the sightlines cross is one position of Mars. The Earth-to-Earth chord sets the scale. On the teaching circle the Sun-to-Mars distance comes out about 1.5 times the mean Earth-Sun distance, and that distance changes around the orbit. A star direction by itself is not a distance. Three points in a straight line are not this triangle. Many such pairs, at other places in the orbit, are what let the path show itself as an ellipse with the Sun at a focus. The sheet exaggerates the flattening on purpose and says so. Opposition puts Earth between the Sun and Mars. Conjunction puts the Sun between Earth and Mars, and the glare hides Mars. Neither alignment is a distance. Mars is not hidden for half an orbit forever. Visibility changes with where Earth stands.
+The scale check is [download the PDF](/downloads/Kepler_Mars_Triangulation_True_Scale_and_Exaggeration_Faria_Lesson_2026-11-07.pdf).
+
+## How he found Mars without going there
+
+The illustrated method sheet is [How Kepler found Mars without going there (PDF)](/downloads/Kepler_Mars_Triangle_Method_Illustrated_Faria_Lesson_2026-11-07.pdf). What follows is that sheet's explanation, not a second theory. The circle in the drawing is a teaching circle. Kepler also reconstructed and refined Earth's orbit. Geometry is simplified to one plane. Dots, bodies, and any glare cone are illustrative. No historical observations are plotted as if they were a night's log.
+
+One returning planet. Two observing places. A triangle with a scale.
+
+![Two Earths on a teaching circle, sightlines crossing at one place of Mars](../../img/Kepler_Mars_Two_Sightlines_Teaching_Sketch.svg)
+*The same Mars position, seen twice. Distant stars supply a shared direction frame. The chord between the two Earths is the scale.*
+
+Wait for Mars to return. Tycho's records supplied paired sightings about 687 days apart. That interval is one Mars orbit. It is not the interval between successive oppositions. Earth is now elsewhere.
+
+Cross the two sightlines. Place both Earth locations on a map of Earth's orbit. Draw each measured direction to Mars. Their intersection recovers this one Mars position.
+
+Read a relative distance. The Earth-Earth chord sets the scale. Measure Sun to Mars on that map. On the teaching circle that distance is about 1.5 Earth-Sun units, and the mean Earth-Sun distance is called 1 unit. That distance varies around the orbit. A star direction alone is not a distance. Use a true triangle, not three points in a line.
+
+Many triangles reveal an ellipse. The lesson of the second panel is: locate the points first, and let the evidence choose the curve. Repeat the pair of sightings at other places in Mars's orbit. Each dot is a different repeat-position pair. The Sun sits at one focus. The center of the ellipse is not the Sun. Flattening and the focus offset on that panel are exaggerated. The panel is not to scale. The honest scale, and how far the old teaching ellipse was stretched, is the comparison already drawn above.
+
+Two alignments are not two distance methods.
+
+Opposition: Earth is in the middle. The order is Sun, Earth, Mars. Mars is opposite the Sun in Earth's sky. The straight alignment alone does not fix a distance.
+
+Conjunction: the Sun is in the middle. The order is Earth, Sun, Mars. Mars lies in the Sun's direction. Solar glare prevents a usable ordinary sighting near conjunction.
+
+There is no permanently hidden half-orbit. Visibility changes with Earth's viewpoint. Mars can be seen in many orbital places over time.
+
+The sheet's sources for the method are the University of Central Arkansas teaching handout "Using Kepler's Triangulation Technique," pages 2 and 3, and Owen Gingerich, "The great Martian catastrophe and how Kepler fixed it," Physics Today 64, no. 9 (2011). The alignment panels cite NASA Science, "Orbits and Kepler's Laws," "Close Encounter: Mars at Opposition," and "Geometry of Mars Solar Conjunction."
 
 ## The family, and whose life was a soldier's
 
