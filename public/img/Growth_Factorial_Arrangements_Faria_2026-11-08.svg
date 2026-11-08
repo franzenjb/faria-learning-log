@@ -1,49 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="480" height="720" viewBox="0 0 480 720" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="360" viewBox="0 0 480 360" role="img" aria-labelledby="t d">
 <title id="t">One more person multiplies</title>
 <desc id="d">One person, 1 way. Two people, AB and BA. Three people, the six orders ABC, ACB, BAC, BCA, CAB, CBA. Then ×4 is 24, ×5 is 120, ×6 is 720, ×7 is 5,040, ×8 is 40,320. Rows are not drawn to the size of the count.</desc>
-<rect width="480" height="720" fill="#fbf8f2"/>
+<rect width="480" height="360" fill="#fbf8f2"/>
 <style>text { font-family: Georgia, 'Iowan Old Style', Palatino, 'Palatino Linotype', serif; fill: #22201c; }</style>
-<text x="24.0" y="40.0" font-size="28" fill="#22201c" text-anchor="start">One more person multiplies</text>
-<text x="24.0" y="68.0" font-size="16" fill="#6b645a" text-anchor="start">The sign ! names the count. It is not excitement.</text>
-<text x="24.0" y="110.0" font-size="16" fill="#6b645a" text-anchor="start">1 person</text>
-<text x="150.0" y="110.0" font-size="22" fill="#7a4b1e" text-anchor="start">A</text>
-<text x="300.0" y="110.0" font-size="18" fill="#22201c" text-anchor="start">1 way</text>
-<text x="24.0" y="150.0" font-size="16" fill="#6b645a" text-anchor="start">2 people</text>
-<text x="150.0" y="150.0" font-size="22" fill="#7a4b1e" text-anchor="start">AB    BA</text>
-<text x="300.0" y="150.0" font-size="18" fill="#22201c" text-anchor="start">2 ways</text>
-<text x="24.0" y="190.0" font-size="16" fill="#6b645a" text-anchor="start">3 people</text>
-<text x="150.0" y="190.0" font-size="18" fill="#7a4b1e" text-anchor="start">ABC</text>
-<text x="220.0" y="190.0" font-size="18" fill="#7a4b1e" text-anchor="start">ACB</text>
-<text x="290.0" y="190.0" font-size="18" fill="#7a4b1e" text-anchor="start">BAC</text>
-<text x="150.0" y="216.0" font-size="18" fill="#7a4b1e" text-anchor="start">BCA</text>
-<text x="220.0" y="216.0" font-size="18" fill="#7a4b1e" text-anchor="start">CAB</text>
-<text x="290.0" y="216.0" font-size="18" fill="#7a4b1e" text-anchor="start">CBA</text>
-<text x="360.0" y="204.0" font-size="18" fill="#22201c" text-anchor="start">6 ways</text>
-<text x="24.0" y="270.0" font-size="16" fill="#6b645a" text-anchor="start">After three, the list is a multiplication.</text>
-<text x="36.0" y="310.0" font-size="18" fill="#22201c" text-anchor="start">1 person</text>
-<text x="280.0" y="310.0" font-size="18" fill="#22201c" text-anchor="start">1 way</text>
-<text x="36.0" y="346.0" font-size="18" fill="#22201c" text-anchor="start">2 people</text>
-<text x="180.0" y="346.0" font-size="18" fill="#7a4b1e" text-anchor="start">× 2</text>
-<text x="280.0" y="346.0" font-size="18" fill="#22201c" text-anchor="start">2 ways</text>
-<text x="36.0" y="382.0" font-size="18" fill="#22201c" text-anchor="start">3 people</text>
-<text x="180.0" y="382.0" font-size="18" fill="#7a4b1e" text-anchor="start">× 3</text>
-<text x="280.0" y="382.0" font-size="18" fill="#22201c" text-anchor="start">6 ways</text>
-<text x="36.0" y="418.0" font-size="18" fill="#22201c" text-anchor="start">4 people</text>
-<text x="180.0" y="418.0" font-size="18" fill="#7a4b1e" text-anchor="start">× 4</text>
-<text x="280.0" y="418.0" font-size="18" fill="#22201c" text-anchor="start">24 ways</text>
-<text x="36.0" y="454.0" font-size="18" fill="#22201c" text-anchor="start">5 people</text>
-<text x="180.0" y="454.0" font-size="18" fill="#7a4b1e" text-anchor="start">× 5</text>
-<text x="280.0" y="454.0" font-size="18" fill="#22201c" text-anchor="start">120 ways</text>
-<text x="36.0" y="490.0" font-size="18" fill="#22201c" text-anchor="start">6 people</text>
-<text x="180.0" y="490.0" font-size="18" fill="#7a4b1e" text-anchor="start">× 6</text>
-<text x="280.0" y="490.0" font-size="18" fill="#22201c" text-anchor="start">720 ways</text>
-<text x="36.0" y="526.0" font-size="18" fill="#22201c" text-anchor="start">7 people</text>
-<text x="180.0" y="526.0" font-size="18" fill="#7a4b1e" text-anchor="start">× 7</text>
-<text x="280.0" y="526.0" font-size="18" fill="#22201c" text-anchor="start">5,040 ways</text>
-<text x="36.0" y="562.0" font-size="18" fill="#22201c" text-anchor="start">8 people</text>
-<text x="180.0" y="562.0" font-size="18" fill="#7a4b1e" text-anchor="start">× 8</text>
-<text x="280.0" y="562.0" font-size="18" fill="#22201c" text-anchor="start">40,320 ways</text>
-<text x="24.0" y="692.0" font-size="15" fill="#6b645a" text-anchor="start">These rows are equally spaced so the multiplier can be read.</text>
-<text x="24.0" y="712.0" font-size="15" fill="#6b645a" text-anchor="start">They are not bars sized to the count. 40,320 would hide the 6.</text>
+<text x="24.0" y="26.0" font-size="22" fill="#22201c" text-anchor="start">One more person multiplies</text>
+<text x="24.0" y="46.0" font-size="14" fill="#6b645a" text-anchor="start">The sign ! names the count. It is not excitement.</text>
+<text x="24.0" y="74.0" font-size="15" fill="#22201c" text-anchor="start">1 person   A</text>
+<text x="220.0" y="74.0" font-size="15" fill="#7a4b1e" text-anchor="start">1 way</text>
+<text x="24.0" y="96.0" font-size="15" fill="#22201c" text-anchor="start">2 people   AB   BA</text>
+<text x="220.0" y="96.0" font-size="15" fill="#7a4b1e" text-anchor="start">2 ways</text>
+<text x="24.0" y="118.0" font-size="15" fill="#22201c" text-anchor="start">3 people</text>
+<text x="120.0" y="118.0" font-size="14" fill="#7a4b1e" text-anchor="start">ABC</text>
+<text x="178.0" y="118.0" font-size="14" fill="#7a4b1e" text-anchor="start">ACB</text>
+<text x="236.0" y="118.0" font-size="14" fill="#7a4b1e" text-anchor="start">BAC</text>
+<text x="120.0" y="136.0" font-size="14" fill="#7a4b1e" text-anchor="start">BCA</text>
+<text x="178.0" y="136.0" font-size="14" fill="#7a4b1e" text-anchor="start">CAB</text>
+<text x="236.0" y="136.0" font-size="14" fill="#7a4b1e" text-anchor="start">CBA</text>
+<text x="300.0" y="136.0" font-size="15" fill="#7a4b1e" text-anchor="start">6 ways</text>
+<text x="24.0" y="168.0" font-size="14" fill="#6b645a" text-anchor="start">After three, each new person multiplies.</text>
+<text x="28.0" y="190.0" font-size="14" fill="#22201c" text-anchor="start">1 person</text>
+<text x="230.0" y="190.0" font-size="14" fill="#22201c" text-anchor="start">1 way</text>
+<text x="28.0" y="208.0" font-size="14" fill="#22201c" text-anchor="start">2 people</text>
+<text x="150.0" y="208.0" font-size="14" fill="#7a4b1e" text-anchor="start">× 2</text>
+<text x="230.0" y="208.0" font-size="14" fill="#22201c" text-anchor="start">2 ways</text>
+<text x="28.0" y="226.0" font-size="14" fill="#22201c" text-anchor="start">3 people</text>
+<text x="150.0" y="226.0" font-size="14" fill="#7a4b1e" text-anchor="start">× 3</text>
+<text x="230.0" y="226.0" font-size="14" fill="#22201c" text-anchor="start">6 ways</text>
+<text x="28.0" y="244.0" font-size="14" fill="#22201c" text-anchor="start">4 people</text>
+<text x="150.0" y="244.0" font-size="14" fill="#7a4b1e" text-anchor="start">× 4</text>
+<text x="230.0" y="244.0" font-size="14" fill="#22201c" text-anchor="start">24 ways</text>
+<text x="28.0" y="262.0" font-size="14" fill="#22201c" text-anchor="start">5 people</text>
+<text x="150.0" y="262.0" font-size="14" fill="#7a4b1e" text-anchor="start">× 5</text>
+<text x="230.0" y="262.0" font-size="14" fill="#22201c" text-anchor="start">120 ways</text>
+<text x="28.0" y="280.0" font-size="14" fill="#22201c" text-anchor="start">6 people</text>
+<text x="150.0" y="280.0" font-size="14" fill="#7a4b1e" text-anchor="start">× 6</text>
+<text x="230.0" y="280.0" font-size="14" fill="#22201c" text-anchor="start">720 ways</text>
+<text x="28.0" y="298.0" font-size="14" fill="#22201c" text-anchor="start">7 people</text>
+<text x="150.0" y="298.0" font-size="14" fill="#7a4b1e" text-anchor="start">× 7</text>
+<text x="230.0" y="298.0" font-size="14" fill="#22201c" text-anchor="start">5,040 ways</text>
+<text x="28.0" y="316.0" font-size="14" fill="#22201c" text-anchor="start">8 people</text>
+<text x="150.0" y="316.0" font-size="14" fill="#7a4b1e" text-anchor="start">× 8</text>
+<text x="230.0" y="316.0" font-size="14" fill="#22201c" text-anchor="start">40,320 ways</text>
+<text x="24.0" y="346.0" font-size="13" fill="#6b645a" text-anchor="start">Rows are equally spaced, not bars sized to the count.</text>
 </svg>

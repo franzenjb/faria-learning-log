@@ -5,7 +5,7 @@ session: 2026-11-08
 order: 6
 tags: [mathematics, calculus, flight]
 ---
-The flight is hypothetical. Elapsed time means time since takeoff. No airline record is used.
+The flight is hypothetical, from Los Angeles to New York. Elapsed time means time since takeoff. No airline record is used.
 
 Calculus connects how fast something is changing with how much has built up.
 
@@ -57,11 +57,11 @@ A model is a simplified description used for reasoning. The smooth curves are mo
 
 One sentence from the sheet is worth keeping as a summary, not as a slogan pasted over the definitions: the derivative is the rate right now, and the integral is how much has added up.
 
-The sheet is [Flight calculus, in plain language (PDF)](/downloads/Flight_Calculus_Terms.pdf).
-
 ## Key facts
 - The flight is invented. Elapsed time is the input. Altitude and fuel are outputs.
 - Slope on an altitude-time graph is vertical speed, not ground speed.
 - A derivative is an instantaneous rate in a smooth model. Level cruise has altitude derivative zero.
 - The integral of burn rate is fuel used. The integral of ground speed is path distance, not the straight-line distance.
 - A turn accelerates the airplane even at constant speed, because velocity includes direction.
+
+The sheet is [Flight calculus, in plain language (PDF)](/downloads/Flight_Calculus_Terms.pdf).

@@ -87,7 +87,7 @@ def steeple():
         C(250, 250, 7, INK),
         T(70, 278, "South", 16, INK, "middle"),
         T(250, 278, "North", 16, INK, "middle"),
-        T(160, 298, "6 miles, measured", 16, ACCENT, "middle"),
+        T(160, 298, "6 feet, measured across", 16, ACCENT, "middle"),
         L(70, 250, 390, 110, "#e6dfd2", 1.4),
         L(250, 250, 390, 110, "#e6dfd2", 1.4),
         C(390, 110, 6, MUTED),
@@ -100,9 +100,9 @@ def steeple():
         T(24, 376, "The two rust lines differ by 1 degree at the steeple.", 16),
         T(24, 402, "Here that angle is drawn large so the crossing can be seen.", 15, MUTED),
         T(24, 428, "About 57 baselines fit into that distance.", 16),
-        T(24, 452, "57 times 6 miles is 342 miles.", 16),
+        T(24, 452, "57 times 6 feet is 342 feet.", 16),
     ])
-    desc = "South and North stand 6 measured miles apart. Each lines the steeple up against a distant hill. The hill's direction is shared. The steeple's direction is not. The two sightlines differ by 1 degree at the steeple, drawn large. The distance is about 57 times 6 miles, 342 miles."
+    desc = "South and North stand 6 measured feet apart, side by side, across the view. Each lines the steeple up against a distant hill. The two sightlines differ by 1 degree at the steeple, drawn large. The distance is about 57 times 6 feet, 342 feet."
     return doc(480, 490, "Two directions, one baseline", desc, body)
 
 def eclipse():

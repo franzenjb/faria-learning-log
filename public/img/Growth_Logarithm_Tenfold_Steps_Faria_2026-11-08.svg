@@ -1,53 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="480" height="640" viewBox="0 0 480 640" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="340" viewBox="0 0 480 340" role="img" aria-labelledby="t d">
 <title id="t">Times ten, add one step</title>
 <desc id="d">Inputs 1, 10, 100, 1,000, 10,000, 100,000, 1,000,000, and 10,000,000. Tenfold steps 0 through 7. Written digits 1 through 8. Equal row spacing means each input is ten times the one before.</desc>
-<rect width="480" height="640" fill="#fbf8f2"/>
+<rect width="480" height="340" fill="#fbf8f2"/>
 <style>text { font-family: Georgia, 'Iowan Old Style', Palatino, 'Palatino Linotype', serif; fill: #22201c; }</style>
-<text x="24.0" y="40.0" font-size="28" fill="#22201c" text-anchor="start">Times ten, add one step</text>
-<text x="24.0" y="68.0" font-size="16" fill="#6b645a" text-anchor="start">Each row is ten times the input above it.</text>
-<text x="24.0" y="100.0" font-size="14" fill="#6b645a" text-anchor="start">Input</text>
-<text x="230.0" y="100.0" font-size="14" fill="#6b645a" text-anchor="start">Steps</text>
-<text x="360.0" y="100.0" font-size="14" fill="#6b645a" text-anchor="start">Digits</text>
-<text x="24.0" y="124.0" font-size="18" fill="#22201c" text-anchor="start">1</text>
-<circle cx="210.0" cy="118.0" r="5" fill="#7a4b1e"/>
-<text x="210.0" y="108.0" font-size="13" fill="#7a4b1e" text-anchor="middle">0</text>
-<text x="390.0" y="124.0" font-size="18" fill="#22201c" text-anchor="start">1</text>
-<text x="24.0" y="182.0" font-size="18" fill="#22201c" text-anchor="start">10</text>
-<circle cx="227.1" cy="176.0" r="5" fill="#7a4b1e"/>
-<text x="227.1" y="166.0" font-size="13" fill="#7a4b1e" text-anchor="middle">1</text>
-<text x="390.0" y="182.0" font-size="18" fill="#22201c" text-anchor="start">2</text>
-<text x="24.0" y="157.0" font-size="13" fill="#7a4b1e" text-anchor="start">×10</text>
-<text x="24.0" y="240.0" font-size="18" fill="#22201c" text-anchor="start">100</text>
-<circle cx="244.3" cy="234.0" r="5" fill="#7a4b1e"/>
-<text x="244.3" y="224.0" font-size="13" fill="#7a4b1e" text-anchor="middle">2</text>
-<text x="390.0" y="240.0" font-size="18" fill="#22201c" text-anchor="start">3</text>
-<text x="24.0" y="215.0" font-size="13" fill="#7a4b1e" text-anchor="start">×10</text>
-<text x="24.0" y="298.0" font-size="18" fill="#22201c" text-anchor="start">1,000</text>
-<circle cx="261.4" cy="292.0" r="5" fill="#7a4b1e"/>
-<text x="261.4" y="282.0" font-size="13" fill="#7a4b1e" text-anchor="middle">3</text>
-<text x="390.0" y="298.0" font-size="18" fill="#22201c" text-anchor="start">4</text>
-<text x="24.0" y="273.0" font-size="13" fill="#7a4b1e" text-anchor="start">×10</text>
-<text x="24.0" y="356.0" font-size="18" fill="#22201c" text-anchor="start">10,000</text>
-<circle cx="278.6" cy="350.0" r="5" fill="#7a4b1e"/>
-<text x="278.6" y="340.0" font-size="13" fill="#7a4b1e" text-anchor="middle">4</text>
-<text x="390.0" y="356.0" font-size="18" fill="#22201c" text-anchor="start">5</text>
-<text x="24.0" y="331.0" font-size="13" fill="#7a4b1e" text-anchor="start">×10</text>
-<text x="24.0" y="414.0" font-size="18" fill="#22201c" text-anchor="start">100,000</text>
-<circle cx="295.7" cy="408.0" r="5" fill="#7a4b1e"/>
-<text x="295.7" y="398.0" font-size="13" fill="#7a4b1e" text-anchor="middle">5</text>
-<text x="390.0" y="414.0" font-size="18" fill="#22201c" text-anchor="start">6</text>
-<text x="24.0" y="389.0" font-size="13" fill="#7a4b1e" text-anchor="start">×10</text>
-<text x="24.0" y="472.0" font-size="18" fill="#22201c" text-anchor="start">1,000,000</text>
-<circle cx="312.9" cy="466.0" r="5" fill="#7a4b1e"/>
-<text x="312.9" y="456.0" font-size="13" fill="#7a4b1e" text-anchor="middle">6</text>
-<text x="390.0" y="472.0" font-size="18" fill="#22201c" text-anchor="start">7</text>
-<text x="24.0" y="447.0" font-size="13" fill="#7a4b1e" text-anchor="start">×10</text>
-<text x="24.0" y="530.0" font-size="18" fill="#22201c" text-anchor="start">10,000,000</text>
-<circle cx="330.0" cy="524.0" r="5" fill="#7a4b1e"/>
-<text x="330.0" y="514.0" font-size="13" fill="#7a4b1e" text-anchor="middle">7</text>
-<text x="390.0" y="530.0" font-size="18" fill="#22201c" text-anchor="start">8</text>
-<text x="24.0" y="505.0" font-size="13" fill="#7a4b1e" text-anchor="start">×10</text>
-<text x="24.0" y="612.0" font-size="15" fill="#6b645a" text-anchor="start">Equal row gaps mean ×10, not ordinary counting gaps.</text>
-<text x="24.0" y="632.0" font-size="15" fill="#6b645a" text-anchor="start">Digits are the steps plus one, and they jump by whole numbers.</text>
+<text x="24.0" y="26.0" font-size="22" fill="#22201c" text-anchor="start">Times ten, add one step</text>
+<text x="24.0" y="46.0" font-size="14" fill="#6b645a" text-anchor="start">Each row is ten times the input above it.</text>
+<text x="24.0" y="70.0" font-size="13" fill="#6b645a" text-anchor="start">Input</text>
+<text x="230.0" y="70.0" font-size="13" fill="#6b645a" text-anchor="start">Steps</text>
+<text x="360.0" y="70.0" font-size="13" fill="#6b645a" text-anchor="start">Digits</text>
+<text x="24.0" y="92.0" font-size="14" fill="#22201c" text-anchor="start">1</text>
+<circle cx="210.0" cy="88.0" r="4" fill="#7a4b1e"/>
+<text x="220.0" y="92.0" font-size="13" fill="#7a4b1e" text-anchor="start">0</text>
+<text x="400.0" y="92.0" font-size="14" fill="#22201c" text-anchor="start">1</text>
+<text x="24.0" y="118.0" font-size="14" fill="#22201c" text-anchor="start">10</text>
+<circle cx="227.1" cy="114.0" r="4" fill="#7a4b1e"/>
+<text x="237.1" y="118.0" font-size="13" fill="#7a4b1e" text-anchor="start">1</text>
+<text x="400.0" y="118.0" font-size="14" fill="#22201c" text-anchor="start">2</text>
+<text x="155.0" y="109.0" font-size="11" fill="#7a4b1e" text-anchor="start">×10</text>
+<text x="24.0" y="144.0" font-size="14" fill="#22201c" text-anchor="start">100</text>
+<circle cx="244.3" cy="140.0" r="4" fill="#7a4b1e"/>
+<text x="254.3" y="144.0" font-size="13" fill="#7a4b1e" text-anchor="start">2</text>
+<text x="400.0" y="144.0" font-size="14" fill="#22201c" text-anchor="start">3</text>
+<text x="155.0" y="135.0" font-size="11" fill="#7a4b1e" text-anchor="start">×10</text>
+<text x="24.0" y="170.0" font-size="14" fill="#22201c" text-anchor="start">1,000</text>
+<circle cx="261.4" cy="166.0" r="4" fill="#7a4b1e"/>
+<text x="271.4" y="170.0" font-size="13" fill="#7a4b1e" text-anchor="start">3</text>
+<text x="400.0" y="170.0" font-size="14" fill="#22201c" text-anchor="start">4</text>
+<text x="155.0" y="161.0" font-size="11" fill="#7a4b1e" text-anchor="start">×10</text>
+<text x="24.0" y="196.0" font-size="14" fill="#22201c" text-anchor="start">10,000</text>
+<circle cx="278.6" cy="192.0" r="4" fill="#7a4b1e"/>
+<text x="288.6" y="196.0" font-size="13" fill="#7a4b1e" text-anchor="start">4</text>
+<text x="400.0" y="196.0" font-size="14" fill="#22201c" text-anchor="start">5</text>
+<text x="155.0" y="187.0" font-size="11" fill="#7a4b1e" text-anchor="start">×10</text>
+<text x="24.0" y="222.0" font-size="14" fill="#22201c" text-anchor="start">100,000</text>
+<circle cx="295.7" cy="218.0" r="4" fill="#7a4b1e"/>
+<text x="305.7" y="222.0" font-size="13" fill="#7a4b1e" text-anchor="start">5</text>
+<text x="400.0" y="222.0" font-size="14" fill="#22201c" text-anchor="start">6</text>
+<text x="155.0" y="213.0" font-size="11" fill="#7a4b1e" text-anchor="start">×10</text>
+<text x="24.0" y="248.0" font-size="14" fill="#22201c" text-anchor="start">1,000,000</text>
+<circle cx="312.9" cy="244.0" r="4" fill="#7a4b1e"/>
+<text x="322.9" y="248.0" font-size="13" fill="#7a4b1e" text-anchor="start">6</text>
+<text x="400.0" y="248.0" font-size="14" fill="#22201c" text-anchor="start">7</text>
+<text x="155.0" y="239.0" font-size="11" fill="#7a4b1e" text-anchor="start">×10</text>
+<text x="24.0" y="274.0" font-size="14" fill="#22201c" text-anchor="start">10,000,000</text>
+<circle cx="330.0" cy="270.0" r="4" fill="#7a4b1e"/>
+<text x="340.0" y="274.0" font-size="13" fill="#7a4b1e" text-anchor="start">7</text>
+<text x="400.0" y="274.0" font-size="14" fill="#22201c" text-anchor="start">8</text>
+<text x="155.0" y="265.0" font-size="11" fill="#7a4b1e" text-anchor="start">×10</text>
+<text x="24.0" y="312.0" font-size="13" fill="#6b645a" text-anchor="start">Equal gaps mean ×10, not a counting ruler.</text>
+<text x="24.0" y="330.0" font-size="13" fill="#6b645a" text-anchor="start">Digits are the steps plus one. They jump by whole numbers.</text>
 </svg>

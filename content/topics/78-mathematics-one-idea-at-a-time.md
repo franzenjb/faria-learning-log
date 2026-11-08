@@ -394,11 +394,9 @@ For these fixed rules, factorial eventually grows fastest. Small-input rankings 
 
 The twenty flight words, which use the same rate and the same integral on an imaginary trip, are [Flight calculus, in plain language](/topics/76-flight-calculus-terms/).
 
-The 22-page map, and not its earlier drafts, is [Mathematics, one idea at a time (PDF)](/downloads/Master_Mathematics_Algebra_Geometry_Trigonometry_Calculus_Faria_2026-11-08.pdf).
-
 ## Follow the threads
 
-The historical stories are real. The shelter, the truck, and the shadow numbers are teaching examples. This page reworks the standalone ladder lesson into its trigonometry section. The original ladder PDF is left unchanged.
+The historical stories are real. The shelter, the truck, and the shadow numbers are teaching examples. This page reworks the standalone ladder lesson into its trigonometry section. That ladder lesson keeps its own page.
 
 Geometry and its history: the University of St Andrews MacTutor histories of Euclid and Pythagoras. Euclid organized earlier knowledge. The right-triangle relationship predates Pythagoras.
 
@@ -419,3 +417,5 @@ Four questions, one growing toolkit. Algebra: what number is missing? Geometry: 
 - Sixty miles in two hours is an average of 30 miles per hour. Area under a speed-time graph is distance: 20 + 40 = 60.
 - Coffee at 170°F in a 70°F room has a 100-degree gap. After one time constant about 37 degrees of that gap remain, so the cup is about 107°F.
 - The six patterns, including bacteria doubling and 8! = 40,320, are tabulated above.
+
+The map, and not its earlier drafts, is [Mathematics, one idea at a time (PDF)](/downloads/Master_Mathematics_Algebra_Geometry_Trigonometry_Calculus_Faria_2026-11-08.pdf).

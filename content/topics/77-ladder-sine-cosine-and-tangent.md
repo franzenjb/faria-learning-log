@@ -75,7 +75,7 @@ Take this one idea with you. An angle fixes the triangle's proportions. One know
 
 The shadow example on this page is invented. It is not the number Galileo printed.
 
-The sheet is [One ladder, three questions (PDF)](/downloads/Trigonometry_Sine_Cosine_Tangent_Ladder_and_Galileos_Moon_Faria_2026-11-08.pdf). The same ladder sits inside the longer walk from algebra to calculus, [Mathematics, one idea at a time](/topics/78-mathematics-one-idea-at-a-time/).
+The same ladder sits inside the longer walk from algebra to calculus, [Mathematics, one idea at a time](/topics/78-mathematics-one-idea-at-a-time/).
 
 ## Sources
 - The lesson sheet itself, for the 20-foot ladder, the ratios 0.5, 0.866, and 0.577, and the invented 1,000-foot shadow.
@@ -87,3 +87,5 @@ The sheet is [One ladder, three questions (PDF)](/downloads/Trigonometry_Sine_Co
 - Cosine is base divided by the ladder. At 30 degrees the base is about 17.32 feet.
 - Tangent is height divided by the base. At 30 degrees it is about 0.577. It is not the tangent line of a graph.
 - Galileo's peak height used the Moon's curve and Pythagoras. It is not the shadow-times-tangent example, and "more than 4 Italian miles" is not four English miles.
+
+The sheet is [One ladder, three questions (PDF)](/downloads/Trigonometry_Sine_Cosine_Tangent_Ladder_and_Galileos_Moon_Faria_2026-11-08.pdf).

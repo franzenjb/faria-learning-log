@@ -50,23 +50,23 @@ def linear():
     hours = list(range(0, 9))
     miles = [10 * h for h in hours]
     assert_series("linear", miles, [0, 10, 20, 30, 40, 50, 60, 70, 80])
-    W, H = 480, 430
-    left, right, top, bottom = 58, 448, 108, 360
+    W, H = 480, 332
+    left, right, top, bottom = 54, 456, 72, 258
     def X(h):
         return left + (h / 8) * (right - left)
     def Y(m):
         return bottom - (m / 80) * (bottom - top)
     parts = [
-        T(24, 40, "Each hour adds 10 miles", 28),
-        T(24, 68, "Same addition every step. The line is straight.", 16, MUTED),
+        T(24, 28, "Each hour adds 10 miles", 22),
+        T(24, 48, "Same addition every step. The line is straight.", 14, MUTED),
         line(left, bottom, right, bottom, INK, 1.2),
         line(left, bottom, left, top, INK, 1.2),
         T(left - 8, bottom + 4, "0", 15, MUTED, "end"),
         T(left - 8, Y(40) + 5, "40", 15, MUTED, "end"),
         T(left - 8, Y(80) + 5, "80", 15, MUTED, "end"),
-        T(left, bottom + 36, "0", 15, MUTED, "middle"),
-        T(X(4), bottom + 36, "4 hours", 15, MUTED, "middle"),
-        T(X(8), bottom + 36, "8", 15, MUTED, "middle"),
+        T(left, bottom + 18, "0", 14, MUTED, "middle"),
+        T(X(4), bottom + 18, "4 hours", 14, MUTED, "middle"),
+        T(X(8), bottom + 18, "8", 14, MUTED, "middle"),
         T(18, (top + bottom) / 2, "miles", 15, MUTED, "middle"),
         polyline([(X(h), Y(m)) for h, m in zip(hours, miles)]),
     ]
@@ -85,7 +85,7 @@ def linear():
     # one marked step, from hour 3 to 4: both values differ by 10
     parts.append(line(X(3), Y(30) - 28, X(4), Y(40) - 28, ACCENT, 1.4))
     parts.append(T((X(3) + X(4)) / 2, Y(40) - 34, "+10", 16, ACCENT, "middle"))
-    parts.append(T(24, 408, "Hours across, miles up. This scale belongs to this picture only.", 15, MUTED))
+    parts.append(T(24, 318, "Hours across, miles up. This scale is miles, for this picture only.", 13, MUTED))
     desc = "Straight line from 0 hours and 0 miles through 10, 20, 30, 40, 50, 60, 70, and 80 miles. Each hour adds 10."
     return document(W, H, "Each hour adds 10 miles", desc, "\n".join(parts))
 
@@ -94,28 +94,28 @@ def quadratic():
     assert_series("square", areas, [0, 1, 4, 9, 16, 25, 36, 49, 64])
     added = [areas[i] - areas[i - 1] for i in range(2, 5)]
     assert_series("gnomon", added, [3, 5, 7])
-    W, H = 480, 760
+    W, H = 480, 348
     parts = [
-        T(24, 40, "The square grows by odd pieces", 26),
-        T(24, 68, "Side times side. The added piece is the next odd number.", 16, MUTED),
+        T(24, 26, "The square grows by odd pieces", 22),
+        T(24, 46, "Side times side. The lighter band is the new piece.", 14, MUTED),
     ]
-    cell, gap = 16, 2
+    cell, gap = 11, 2
     fills = {0: ACCENT, 1: "#a67c52", 2: "#c4a484", 3: "#e4d5c4"}
-    captions = ["1", "4, and the new piece is 3", "9, and the new piece is 5", "16, and the new piece is 7"]
-    y0 = 96
+    captions = ["1", "4, +3", "9, +5", "16, +7"]
+    ox, base = 36, 118
     for n, cap in enumerate(captions, start=1):
+        side = n * (cell + gap)
         for r in range(n):
             for c in range(n):
                 k = max(c, r)
-                x = 28 + c * (cell + gap)
-                y = y0 + r * (cell + gap)
+                x = ox + c * (cell + gap)
+                y = base - side + r * (cell + gap)
                 parts.append(
                     f'<rect x="{x}" y="{y}" width="{cell}" height="{cell}" fill="{fills[k]}" stroke="{ACCENT}" stroke-width="1"/>'
                 )
-        parts.append(T(120, y0 + n * (cell + gap) / 2 + 6, cap, 18, INK))
-        y0 += n * (cell + gap) + 18
-    parts.append(T(24, y0 + 16, "Then the areas through a side of 8 feet", 16, MUTED))
-    left, right, top, bottom = 58, 448, y0 + 36, y0 + 250
+        parts.append(T(ox + side / 2, base + 16, cap, 13, INK, "middle"))
+        ox += side + 52
+    left, right, top, bottom = 52, 456, 156, 292
     def X(n):
         return left + (n / 8) * (right - left)
     def Y(a):
@@ -133,17 +133,17 @@ def quadratic():
         if n:
             parts.append(T(X(n), Y(a) - 10, str(a), 14, INK, "middle"))
         parts.append(T(X(n), bottom + 22, str(n), 13, MUTED, "middle"))
-    parts.append(T(24, bottom + 48, "Vertical scale: square feet, for this picture only. It starts at 0.", 15, MUTED))
+    parts.append(T(24, bottom + 40, "Square feet, this picture only. The scale starts at 0.", 13, MUTED))
     desc = "A 4 by 4 square shows areas 1, then added 3, 5, and 7. The curve then marks areas 1, 4, 9, 16, 25, 36, 49, and 64."
     return document(W, H, "The square grows by odd pieces", desc, "\n".join(parts))
 
 def cubic():
     vols = [n ** 3 for n in range(0, 9)]
     assert_series("cube", vols, [0, 1, 8, 27, 64, 125, 216, 343, 512])
-    W, H = 480, 700
+    W, H = 480, 384
     parts = [
-        T(24, 40, "A cube counts side, three times", 26),
-        T(24, 68, "Each small square is one cubic foot in that layer.", 16, MUTED),
+        T(24, 26, "A cube counts the side three times", 22),
+        T(24, 46, "Each small square is one cubic foot in that layer.", 14, MUTED),
     ]
     # three countable stacks: 1; two layers of 4; three layers of 9
     stacks = [
@@ -153,25 +153,25 @@ def cubic():
     ]
     x0 = 28
     for side, layers, label in stacks:
-        cell = 16
+        cell = 9
         block_w = side * (cell + 2)
-        y = 92
+        y = 58
         for layer in range(layers):
             for r in range(side):
                 for c in range(side):
                     x = x0 + c * (cell + 2)
                     yy = y + r * (cell + 2)
                     parts.append(f'<rect x="{x}" y="{yy}" width="{cell}" height="{cell}" fill="{CREAM}" stroke="{ACCENT}" stroke-width="1.3"/>')
-            y += side * (cell + 2) + 8
+            y += side * (cell + 2) + 3
         parts.append(T(x0, y + 8, label, 14, INK))
-        x0 += 150
-    left, right, top, bottom = 64, 360, 390, 630
+        x0 += 155
+    left, right, top, bottom = 58, 400, 214, 322
     def X(n):
         return left + (n / 8) * (right - left)
     def Y(v):
         return bottom - (v / 512) * (bottom - top)
     parts += [
-        T(24, 368, "The volumes, on a scale that reaches 512", 16, MUTED),
+        T(24, 206, "Volumes on a scale that reaches 512", 14, MUTED),
         line(left, bottom, right, bottom, INK, 1.2),
         line(left, bottom, left, top, INK, 1.2),
         T(left - 8, bottom + 4, "0", 14, MUTED, "end"),
@@ -185,8 +185,7 @@ def cubic():
     # labels that have room sit by the dot; the low cluster is written out
     for n, v in [(4, 64), (5, 125), (6, 216), (7, 343), (8, 512)]:
         parts.append(T(min(X(n) + 8, 400), Y(v) - 8, str(v), 14, INK))
-    parts.append(T(24, 662, "1, 8, and 27 are marked. They sit low because this scale reaches 512.", 15, MUTED))
-    parts.append(T(24, 684, "Cubic feet, this picture only. The drawing counts unit cubes.", 15, MUTED))
+    parts.append(T(24, 370, "1, 8, and 27 sit low because 512 is the top. This scale is cubic feet.", 13, MUTED))
     desc = "Unit layers show 1, 8, and 27 cubic feet. The curve marks 1, 8, 27, 64, 125, 216, 343, and 512. The scale runs from 0 to 512."
     return document(W, H, "A cube counts side, three times", desc, "\n".join(parts))
 
@@ -198,27 +197,24 @@ def exponential():
     assert doubling[3] < square[3]  # 8 < 9
     assert doubling[4] == square[4]  # 16
     assert doubling[5] > square[5]  # 32 > 25
-    W, H = 480, 760
+    W, H = 480, 360
     parts = [
-        T(24, 40, "Each step multiplies by 2", 28),
-        T(24, 68, "Start with 1 at hour 0. The table begins at hour 1, which is 2.", 15, MUTED),
+        T(24, 26, "Each step multiplies by 2", 22),
+        T(24, 46, "Hour 0 is 1. The table begins at hour 1, which is 2.", 14, MUTED),
     ]
-    # countable groups for 1, 2, 4, 8, 16
     groups = [(0, 1), (1, 2), (2, 4), (3, 8), (4, 16)]
-    y = 96
+    y = 68
     for hour, count in groups:
-        parts.append(T(24, y + 12, f"{hour}", 16, MUTED))
+        parts.append(T(20, y + 10, f"{hour}", 13, MUTED))
         for i in range(count):
             col = i % 8
             row = i // 8
-            parts.append(dot(70 + col * 16, y - 2 + row * 16, 5.5))
-        parts.append(T(210, y + 12, str(count), 18, ACCENT))
-        y += 36 if count <= 8 else 52
-    parts.append(T(24, y + 10, "Then ×2 keeps going:  32,  64,  128,  256.", 18))
-    # shared numeric comparison
-    parts.append(T(24, y + 52, "The output numbers, on one scale from 0 to 256", 16, MUTED))
-    parts.append(T(24, y + 74, "Square feet and a bacteria count are different things.", 15, MUTED))
-    left, right, top, bottom = 58, 400, y + 96, y + 300
+            parts.append(dot(48 + col * 13, y + row * 13, 4.4))
+        parts.append(T(168, y + 10, str(count), 15, ACCENT))
+        y += 20 if count <= 8 else 34
+    parts.append(T(200, 92, "Then 32, 64, 128, 256.", 15))
+    parts.append(T(24, 168, "Output numbers, one scale, 0 to 256. Not the same unit.", 13, MUTED))
+    left, right, top, bottom = 54, 400, 184, 318
     def X(n):
         return left + (n / 8) * (right - left)
     def Y(v):
@@ -240,7 +236,7 @@ def exponential():
     parts.append(T(right + 8, Y(64) + 5, "64", 15, INK))
     parts.append(T(X(5) - 8, Y(32) - 8, "32", 14, ACCENT, "end"))
     parts.append(T(X(5) - 8, Y(25) + 18, "25", 14, INK, "end"))
-    parts.append(T(24, H - 18, "At step 3, 8 is below 9. At step 4 both are 16. At step 5, 32 is above 25.", 14, MUTED))
+    parts.append(T(24, 348, "Step 3: 8 below 9. Step 4: both 16. Step 5: 32 above 25.", 13, MUTED))
     desc = "Doubling from 1 gives 2, 4, 8, 16, 32, 64, 128, 256. On a shared scale of output numbers, the square is 1, 4, 9, 16, 25, 36, 49, 64. At step 3, 8 is below 9. At step 5, 32 is above 25."
     return document(W, H, "Each step multiplies by 2", desc, "\n".join(parts))
 
@@ -252,25 +248,23 @@ def factorial():
         return f
     values = [fact(n) for n in range(1, 9)]
     assert_series("factorial", values, [1, 2, 6, 24, 120, 720, 5040, 40320])
-    W, H = 480, 720
+    W, H = 480, 360
     parts = [
-        T(24, 40, "One more person multiplies", 28),
-        T(24, 68, "The sign ! names the count. It is not excitement.", 16, MUTED),
-        T(24, 110, "1 person", 16, MUTED),
-        T(150, 110, "A", 22, ACCENT),
-        T(300, 110, "1 way", 18),
-        T(24, 150, "2 people", 16, MUTED),
-        T(150, 150, "AB    BA", 22, ACCENT),
-        T(300, 150, "2 ways", 18),
-        T(24, 190, "3 people", 16, MUTED),
+        T(24, 26, "One more person multiplies", 22),
+        T(24, 46, "The sign ! names the count. It is not excitement.", 14, MUTED),
+        T(24, 74, "1 person   A", 15),
+        T(220, 74, "1 way", 15, ACCENT),
+        T(24, 96, "2 people   AB   BA", 15),
+        T(220, 96, "2 ways", 15, ACCENT),
+        T(24, 118, "3 people", 15),
     ]
     perms = ["ABC", "ACB", "BAC", "BCA", "CAB", "CBA"]
     assert len(perms) == 6 and len(set(perms)) == 6
     for i, p in enumerate(perms):
         col, row = i % 3, i // 3
-        parts.append(T(150 + col * 70, 190 + row * 26, p, 18, ACCENT))
-    parts.append(T(360, 204, "6 ways", 18))
-    parts.append(T(24, 270, "After three, the list is a multiplication.", 16, MUTED))
+        parts.append(T(120 + col * 58, 118 + row * 18, p, 14, ACCENT))
+    parts.append(T(300, 136, "6 ways", 15, ACCENT))
+    parts.append(T(24, 168, "After three, each new person multiplies.", 14, MUTED))
     chain = [
         (1, None, 1),
         (2, 2, 2),
@@ -281,17 +275,16 @@ def factorial():
         (7, 7, "5,040"),
         (8, 8, "40,320"),
     ]
-    y = 310
+    y = 190
     for n, mult, count in chain:
         people = "person" if n == 1 else "people"
         ways = "way" if count == 1 else "ways"
-        parts.append(T(36, y, f"{n} {people}", 18))
+        parts.append(T(28, y, f"{n} {people}", 14))
         if mult:
-            parts.append(T(180, y, f"× {mult}", 18, ACCENT))
-        parts.append(T(280, y, f"{count} {ways}", 18))
-        y += 36
-    parts.append(T(24, H - 28, "These rows are equally spaced so the multiplier can be read.", 15, MUTED))
-    parts.append(T(24, H - 8, "They are not bars sized to the count. 40,320 would hide the 6.", 15, MUTED))
+            parts.append(T(150, y, f"× {mult}", 14, ACCENT))
+        parts.append(T(230, y, f"{count} {ways}", 14))
+        y += 18
+    parts.append(T(24, 346, "Rows are equally spaced, not bars sized to the count.", 13, MUTED))
     desc = "One person, 1 way. Two people, AB and BA. Three people, the six orders ABC, ACB, BAC, BCA, CAB, CBA. Then ×4 is 24, ×5 is 120, ×6 is 720, ×7 is 5,040, ×8 is 40,320. Rows are not drawn to the size of the count."
     return document(W, H, "One more person multiplies", desc, "\n".join(parts))
 
@@ -303,16 +296,16 @@ def logarithm():
     assert_series("digits", digits, list(range(1, 9)))
     assert all(d == s + 1 for s, d in zip(steps, digits))
     labels = ["1", "10", "100", "1,000", "10,000", "100,000", "1,000,000", "10,000,000"]
-    W, H = 480, 640
+    W, H = 480, 340
     parts = [
-        T(24, 40, "Times ten, add one step", 28),
-        T(24, 68, "Each row is ten times the input above it.", 16, MUTED),
-        T(24, 100, "Input", 14, MUTED),
-        T(230, 100, "Steps", 14, MUTED),
-        T(360, 100, "Digits", 14, MUTED),
+        T(24, 26, "Times ten, add one step", 22),
+        T(24, 46, "Each row is ten times the input above it.", 14, MUTED),
+        T(24, 70, "Input", 13, MUTED),
+        T(230, 70, "Steps", 13, MUTED),
+        T(360, 70, "Digits", 13, MUTED),
     ]
-    top = 124
-    row_h = 58
+    top = 92
+    row_h = 26
     x0, x1 = 210, 330
     def X(step):
         return x0 + (step / 7) * (x1 - x0)
@@ -320,14 +313,14 @@ def logarithm():
     for i, (lab, step, dig) in enumerate(zip(labels, steps, digits)):
         y = top + i * row_h
         centers.append((X(step), y - 6))
-        parts.append(T(24, y, lab, 18))
-        parts.append(dot(X(step), y - 6, 5))
-        parts.append(T(X(step), y - 16, str(step), 13, ACCENT, "middle"))
-        parts.append(T(390, y, str(dig), 18))
+        parts.append(T(24, y, lab, 14))
+        parts.append(dot(X(step), y - 4, 4))
+        parts.append(T(X(step) + 10, y, str(step), 13, ACCENT))
+        parts.append(T(400, y, str(dig), 14))
         if i:
-            parts.append(T(24, y - row_h / 2 + 4, "×10", 13, ACCENT))
-    parts.append(T(24, H - 28, "Equal row gaps mean ×10, not ordinary counting gaps.", 15, MUTED))
-    parts.append(T(24, H - 8, "Digits are the steps plus one, and they jump by whole numbers.", 15, MUTED))
+            parts.append(T(155, y - row_h / 2 + 4, "×10", 11, ACCENT))
+    parts.append(T(24, 312, "Equal gaps mean ×10, not a counting ruler.", 13, MUTED))
+    parts.append(T(24, 330, "Digits are the steps plus one. They jump by whole numbers.", 13, MUTED))
     desc = "Inputs 1, 10, 100, 1,000, 10,000, 100,000, 1,000,000, and 10,000,000. Tenfold steps 0 through 7. Written digits 1 through 8. Equal row spacing means each input is ten times the one before."
     return document(W, H, "Times ten, add one step", desc, "\n".join(parts))
 

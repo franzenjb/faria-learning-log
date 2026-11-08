@@ -15,7 +15,7 @@ OUTDIR = ROOT / "public" / "downloads"
 CSS = """
 @page {
   size: letter;
-  margin: 0.78in 0.72in 0.72in 0.72in;
+  margin: 0.62in 0.66in 0.58in 0.66in;
   background: #fbf8f2;
   @top-left {
     content: "Faria  ·  faria.jbf.com";
@@ -45,8 +45,8 @@ CSS = """
 html, body { background: #fbf8f2; }
 body {
   font-family: "Liberation Serif", Georgia, serif;
-  font-size: 12pt;
-  line-height: 1.48;
+  font-size: 11.5pt;
+  line-height: 1.42;
   color: #22201c;
 }
 h1 {
@@ -63,10 +63,10 @@ h2 {
   font-size: 15pt;
   line-height: 1.25;
   color: #7a4b1e;
-  margin: 0.28in 0 0.08in;
+  margin: 0.16in 0 0.05in;
   break-after: avoid;
 }
-p { margin: 0 0 0.1in; }
+p { margin: 0 0 0.08in; }
 ul, ol { margin: 0.04in 0 0.12in; padding-left: 0.22in; }
 li { margin: 0.04in 0; }
 a { color: #7a4b1e; text-decoration: none; }
@@ -76,14 +76,15 @@ a { color: #7a4b1e; text-decoration: none; }
   color: #6b645a;
   margin: 0 0 0.08in;
 }
-figure { margin: 0.12in 0 0.04in; break-inside: avoid; }
-figure svg { width: 100%; height: auto; display: block; }
+figure { margin: 0.06in 0 0.02in; break-inside: avoid; }
+figure svg { width: 100%; height: auto; max-height: 4.15in; display: block; }
 p.cap {
   font-family: "Liberation Serif", Georgia, serif;
-  font-size: 9.5pt;
-  line-height: 1.35;
+  font-size: 9pt;
+  line-height: 1.3;
   color: #6b645a;
-  margin: 0 0 0.12in;
+  margin: 0 0 0.08in;
+  break-before: avoid;
 }
 table { border-collapse: collapse; width: 100%; margin: 0.08in 0 0.14in; font-size: 10.5pt; break-inside: avoid; }
 th, td { border-bottom: 0.4pt solid #e6dfd2; text-align: left; padding: 0.04in 0.06in; vertical-align: top; }
@@ -155,7 +156,11 @@ def render(md_name, pdf_name, topic_url):
         elif kind == "img":
             alt, src = data
             name = src.split("/")[-1].split("?")[0]
-            svg = (ROOT / "public" / "img" / name).read_text(encoding="utf-8")
+            raw = (ROOT / "public" / "img" / name).read_bytes()
+            try:
+                svg = raw.decode("utf-8")
+            except UnicodeDecodeError:
+                svg = raw.decode("latin-1")
             svg = re.sub(r"<\?xml[^>]*>\s*", "", svg)
             parts.append(f"<figure>{svg}</figure>")
             if alt:
@@ -184,6 +189,14 @@ JOBS = [
     ("63-hipparchus-lunar-parallax.md",
      "Hipparchus_Lunar_Parallax_Eclipse_Reports_and_Uncertainty_Faria_Lesson_2026-11-07.pdf",
      "https://faria.jbf.com/topics/63-hipparchus-lunar-parallax/"),
+    ("76-flight-calculus-terms.md", "Flight_Calculus_Terms.pdf",
+     "https://faria.jbf.com/topics/76-flight-calculus-terms/"),
+    ("77-ladder-sine-cosine-and-tangent.md",
+     "Trigonometry_Sine_Cosine_Tangent_Ladder_and_Galileos_Moon_Faria_2026-11-08.pdf",
+     "https://faria.jbf.com/topics/77-ladder-sine-cosine-and-tangent/"),
+    ("78-mathematics-one-idea-at-a-time.md",
+     "Master_Mathematics_Algebra_Geometry_Trigonometry_Calculus_Faria_2026-11-08.pdf",
+     "https://faria.jbf.com/topics/78-mathematics-one-idea-at-a-time/"),
 ]
 
 if __name__ == "__main__":

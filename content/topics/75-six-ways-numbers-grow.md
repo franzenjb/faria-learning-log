@@ -68,6 +68,8 @@ Cubic growth follows the volume of a cube. A cubic foot is a cube one foot on ea
 
 Exponential growth multiplies by the same factor at each equal step. Imagine bacteria doubling each hour, starting from one at hour zero. The table starts at hour 1.
 
+![Each step multiplies by 2. From 1 at hour 0 the counts are 2, 4, 8, 16, 32, 64, 128, and 256. On one scale from 0 to 256, the square's numbers 1, 4, 9, 16, 25, 36, 49, and 64 are drawn beside them. At step 3, 8 is below 9. At step 5, 32 is above 25.](../../img/Growth_Exponential_Doubling_Faria_2026-11-08.svg)
+
 | Hours | Ideal count |
 | --- | --- |
 | 1 | 2 |
@@ -80,8 +82,6 @@ Exponential growth multiplies by the same factor at each equal step. Imagine bac
 | 8 | 256 |
 
 Each line is twice the line before. Bacteria cannot double forever. The model assumes unlimited food and space. Early on, doubling can sit below the square. Later it passes the square, because a fixed multiplier, repeated, eventually outruns adding larger pieces. At step 3, doubling gives 8 and the square gives 9. At step 4 both give 16. At step 5, doubling gives 32 and the square gives 25. Those are output numbers of the two rules, not miles set against a count of bacteria.
-
-![Each step multiplies by 2. From 1 at hour 0 the counts are 2, 4, 8, 16, 32, 64, 128, and 256. On one scale from 0 to 256, the square's numbers 1, 4, 9, 16, 25, 36, 49, and 64 are drawn beside them. At step 3, 8 is below 9. At step 5, 32 is above 25.](../../img/Growth_Exponential_Doubling_Faria_2026-11-08.svg)
 
 ## Factorial: count the orders
 
@@ -121,10 +121,10 @@ A logarithm adds a fixed amount when the input grows by a fixed factor. log10 co
 
 Digit counts jump by whole numbers. They are not a smooth curve. For these powers of ten, log10 plus one matches the digit count.
 
-The sheet is [Growth rates compared (PDF)](/downloads/Growth_Rates_Compared.pdf).
-
 ## Key facts
 - Linear adds a constant. The odometer example adds 10 miles each hour.
 - Quadratic outputs are 1, 4, 9, 16, and so on. Cubic outputs are 1, 8, 27, 64, and so on.
 - Exponential doubling gives 2, 4, 8, 16. The model assumes unlimited resources.
 - 8! is 40,320. log10 of 1,000,000 is 6, and that number is written with 7 digits.
+
+The sheet is [Growth rates compared (PDF)](/downloads/Growth_Rates_Compared.pdf).
