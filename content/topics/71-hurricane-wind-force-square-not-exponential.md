@@ -89,7 +89,17 @@ The 2023 code is the eighth edition. It references ASCE 7-22. The Florida Buildi
 
 A code speed is not a promise of no damage, and it does not include storm surge. The site, the exposure, the shape of the building, the openings, and the year it was built all still matter. The square-law comparison higher on this page holds density, area, and shape still. A code map does not.
 
-How Tokyo prints a 10-minute sustained wind, and how the U.S. scale prints a 1-minute sustained wind, is already the [2 November lesson](/topics/37-typhoon-scales-vs-saffir-simpson/). This section does not replace that lesson and does not add a new conversion between them. The 3-second gust on the Florida map is a third quantity, beside those two sustained winds.
+Four different clocks get confused if they share the word wind.
+
+The averaging window of a sustained wind is how long the instrument's readings are averaged to make that one number. The National Hurricane Center and JTWC use a 1-minute sustained wind. JMA's typhoon classes use a 10-minute sustained wind. The [2 November lesson](/topics/37-typhoon-scales-vs-saffir-simpson/) is that comparison. A correction dated 8 November 2026 withdraws the claim that the longer average is always lower, and withdraws any step from a change of label to extra physical force.
+
+A gust duration is the short average inside a gust. The Florida map's ultimate design speed is a 3-second gust. JMA also prints a maximum gust separately from its 10-minute mean. A gust duration is not the sustained-wind window.
+
+A search interval is how long you look while hunting for the largest short average. The largest 3-second gust during a 10-minute period is not a 10-minute average. The 10 minutes are the search. The 3 seconds are the average.
+
+A hazard return period is how rare the design wind is estimated to be. The 2023 compilation labels the Risk Category II map as a 700-year map. That 700 years is not an averaging time and not a search interval.
+
+This page does not convert a category into a design speed, and it does not convert a 10-minute wind into a 1-minute wind.
 
 Hold the three sentences apart. The push on a comparable surface follows the square of the speed. The power flowing in the wind follows the cube. An exponential curve is a fixed factor, repeated, as in compound interest. The hurricane did not sign up for that third sentence.
 

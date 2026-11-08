@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="460" viewBox="0 0 760 460" role="img">
+<title>A drawn trace: one strong minute, one quiet minute, and a ten-minute mean</title>
+<rect width="760" height="460" fill="#fbf8f2"/>
+<text x="36" y="36" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="20" fill="#22201c">One drawn trace. Not a conversion factor.</text>
+<text x="36" y="60" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="14" fill="#6b645a">87 kt is the mean of this ten minutes. 99 kt is one strong minute inside it. A quiet minute can sit below the mean.</text>
+<path d="M70 360 L690 360" fill="none" stroke="#22201c" stroke-width="1"/>
+<path d="M70 80 L70 360" fill="none" stroke="#22201c" stroke-width="1"/>
+<path d="M70 200 L690 200" fill="none" stroke="#22201c" stroke-width="2"/>
+<text x="40" y="204" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" fill="#22201c">87</text>
+<path d="M250 140 L370 140" fill="none" stroke="#7a4b1e" stroke-width="3"/>
+<text x="378" y="144" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="14" fill="#7a4b1e">99 kt, one strong minute</text>
+<path d="M480 250 L580 250" fill="none" stroke="#5e584e" stroke-width="3"/>
+<text x="470" y="272" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="14" fill="#5e584e">a quiet minute, below 87</text>
+<path d="M90 230 L130 160 L170 240 L210 150 L250 180 L290 120 L330 170 L370 190 L410 210 L450 260 L490 230 L530 270 L570 200 L610 240 L650 180 L690 220" fill="none" stroke="#c4b8a8" stroke-width="1.2"/>
+<text x="360" y="400" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="14" fill="#22201c">minutes, 0 to 10</text>
+<text x="36" y="430" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" fill="#6b645a">99 divided by 87 is about 1.14 in this drawing only. It is not 14 percent more force, and it is not an NHC intensity.</text>
+</svg>
