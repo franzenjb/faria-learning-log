@@ -16,7 +16,7 @@ Galileo named the four, together, the Medicean Stars, for the Medici who paid th
 
 Marius also said he first saw the moons on 29 December 1609. That date is Julian. On the Gregorian calendar it is 8 January 1610, the day after Galileo's 7 January. Do not treat the two calendars as if they were the same day, and do not call Marius a fraud because the numbers sit close. Who published a dated book first is one question. Who looked, independently, is another. The quarrel is real. A collapsed calendar is not evidence.
 
-Io, the inner one, later became a clock. When it enters Jupiter's shadow the reflected sunlight stops, and the timetable of those eclipses taught Rømer that light takes time. That is the next lesson.
+Io, the inner one, later became a clock. When it enters Jupiter's shadow the reflected sunlight stops. The moons go around in a time you can predict, Io in about 42.5 hours. Galileo's proposal was to use that timetable as a clock in the sky: the same eclipse, seen from two places, happens at one absolute moment, so the difference of local times is a longitude. A long telescope on a pitching deck could not hold the moons steadily enough. That practical failure, and the land success of Cassini's tables, are on the [Galileo lesson](/topics/46-galileo/). The discovery that the timetable itself runs late and early because light takes time is the [Rømer lesson](/topics/65-romer-io-speed-of-light/). The watch that replaced the sky clock at sea is [Harrison's](/topics/84-harrison-and-the-marine-chronometer/).
 
 The illustrated lesson is [download the PDF](/downloads/Galileo_Jupiters_Moons_Medicean_Stars_Marius_and_Kepler_Faria_Lesson_2026-11-07.pdf).
 
@@ -29,4 +29,5 @@ The illustrated lesson is [download the PDF](/downloads/Galileo_Jupiters_Moons_M
 - Galileo recorded moons of Jupiter from 7 January 1610 and published them in March 1610 as the Medicean Stars.
 - Moons around Jupiter answer one objection to a moving Earth. Tycho's system can include them too. They are not a complete proof of Copernicus.
 - Io, Europa, Ganymede, and Callisto are Marius's 1614 names, which he credited to a suggestion from Kepler.
+- Galileo's proposal used Io's eclipses as a longitude clock. The deck defeated the telescope. The light-time discovery is Rømer's, not that proposal.
 - Marius's 29 December 1609 is Julian. Gregorian, it is 8 January 1610. Do not equate the calendars or assume fraud from the numbers.

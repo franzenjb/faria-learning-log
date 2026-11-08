@@ -112,6 +112,8 @@ Latitude sailing along a parallel is a special rhumb line (bearing due east or d
 4. Jeff said the uncorrected track would wiggle "left and right." What is the one-word correction to that picture?
 5. What is **"running down the latitude,"** and why did sailors use it before chronometers?
 
+The printed lesson is [The sidereal day and latitude sailing (PDF)](/downloads/Sidereal_Day_and_Latitude_Sailing_Faria_Lesson_2026-11-06.pdf).
+
 ## Key facts
 - **Sidereal** (sy-DEER-ee-ul) ← Latin *sidus, sideris* "star."
 - Sidereal day = **23 h 56 m 4.091 s**; mean solar day = 24 h; difference ≈ 4 min because of ~1°/day orbital motion.

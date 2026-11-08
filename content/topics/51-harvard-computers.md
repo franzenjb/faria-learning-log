@@ -141,6 +141,8 @@ The unpaid and underpaid work that looked like "just computing" was, in Jeff's o
 7. What did Mittag-Leffler write in 1925, and why did Leavitt never get a Nobel Prize?
 8. What did Cecilia Payne's 1925 thesis conclude about the composition of stars?
 
+The printed lesson, the same account, is [The Harvard Computers (PDF)](/downloads/Harvard_Computers_Women_Who_Measured_the_Stars_Faria_Lesson_2026-11-06.pdf).
+
 ## Key facts
 - **Computer** = person who computes (Brathwaite 1613; OED historical sense); first cite is God as "computer of Times"; then human calculators; machine sense mid-20th century.
 - Human computers also made the British *Nautical Almanac* (Mary Edwards among them) — same world as [Bowditch](/topics/49-bowditch/).

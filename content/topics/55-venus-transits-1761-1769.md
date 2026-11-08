@@ -40,6 +40,18 @@ His remark that Jupiter's moons, without enough matched observations, should not
 
 The illustrated lesson is [download the PDF](/downloads/Venus_Transits_1761_1769_Parallax_and_Expedition_Risks_Faria_Lesson_2026-11-07.pdf).
 
+## The parallax triangle, as a sheet of round numbers
+
+A two-page sheet draws the same idea with deliberately rough figures. It is attached here as [Measuring the Sun's distance with the 1761 transit (PDF)](/downloads/Venus_Transit_Parallax_Triangle_Faria_2026-11-07.pdf). London and Cape Town are not the ends of a diameter, and the useful baseline is only the part of their separation square to the line of sight. That part changes as the Earth turns.
+
+In the right triangle on the sheet, the baseline b is perpendicular to the distance d, and the angle θ is at the far object. Then d = b / tan θ. Tangent is the opposite side divided by the adjacent side. If the baseline is split evenly about the sightline, the sheet writes d = b / (2 tan(θ/2)), which is about b / θ when θ is in radians and small. A radian is the angle whose arc on a unit circle is one radius long. These are the definitions. The numbers that follow are illustrations.
+
+The horizontal solar parallax is the angle one Earth radius fills as seen from the Sun. The sheet takes a working value of 8.5 arcseconds, the sort of figure James Short used in 1761, and it says this is not Halley's 1716 assumption of 12.5 arcseconds. An arcsecond is 1/206,265 of a radian, so 8.5 arcseconds is about 0.0000412 radians. With an Earth radius of 3,959 miles, distance = 3,959 / 0.0000412, about 96 million miles. Round the radius to 4,000 miles and the same angle gives about 97 million miles. The modern solar parallax is about 8.794 arcseconds, and the astronomical unit is about 93.0 million miles. The 8.5 is a historical working value, not that modern result.
+
+Kepler's third law says the square of a period is proportional to the cube of the orbit's size. Venus's period is 224.7 days and Earth's is 365.25. The ratio of the sizes is (224.7 / 365.25) raised to the power 2/3, about 0.723. At inferior conjunction, in circular orbits, the Earth-Venus distance is about (1 − 0.723) times the Earth-Sun distance, about 0.277 times 96 million miles, about 27 million miles. Real reductions used full orbits, not circles.
+
+In 1761 the Cape and Greenwich could compare the end of the transit, not the whole event. Short found 435 seconds observed against 439 seconds predicted for 8.5 arcseconds, which he read as about 8.42 arcseconds. The round numbers above are not those observations. The campaign's other reductions are earlier on this page. The ladder that uses the angle, once it exists, is the [Cepheid lesson](/topics/52-venus-transit-to-cepheid-distances/).
+
 ## Sources
 - Andreas Verdun, "The Determination of the Solar Parallax from Transits of Venus in the 18th Century," Archives des Sciences 57 (2004): https://www.unige.ch/sphn/Publications/ArchivesSciences/AdS%202004-2015/AdS%202004%20Vol%2057%20Fasc%201/45-68%20Verdun.pdf
 - Nicholas Kollerstrom, on Horrocks, in the IAU transit volume: https://www.dioi.org/kn/IAUVenus-Transit.pdf

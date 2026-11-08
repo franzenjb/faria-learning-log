@@ -206,6 +206,8 @@ Try these before peeking at the answers at the bottom.
 4. Why will Polaris **not** be the North Star in the year 14,500?
 5. Why does a **wrong distance** to Polaris ripple into measurements of the whole universe?
 
+The printed lesson is [Polaris, the North Star (PDF)](/downloads/Polaris_North_Star_Explained_with_Shakespeare_Sonnet_116_Faria_Lesson_2026-11-06.pdf).
+
 ## Key facts
 - Polaris = α Ursae Minoris, a triple: Aa (F7Ib Cepheid ~5.13 M☉), Ab (close F6V, ~29.4 y orbit), B (F3V at ~2400 AU, found by Herschel 1779).
 - Altitude of Polaris ≈ latitude; ~0.66° from the true pole (about 1.4 Moon-widths).

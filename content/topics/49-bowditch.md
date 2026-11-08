@@ -136,6 +136,8 @@ The **Salem Marine Society** eulogized him:
 3. Why does Polaris need a **correction table**, and what "clock" do sailors use?
 4. What do **Bowditch curves** have to do with an oscilloscope?
 
+The printed lesson is [Nathaniel Bowditch (PDF)](/downloads/Nathaniel_Bowditch_Self_Taught_Navigator_Faria_Lesson_2026-11-06.pdf).
+
 ## Key facts
 - Nathaniel Bowditch, Salem, 26 Mar 1773 – Boston, 16 Mar 1838.
 - Left school ~age 10; indentured at 12 to a ship chandler for nine years; self-taught algebra, calculus, Latin (for Newton), French (for Laplace).
