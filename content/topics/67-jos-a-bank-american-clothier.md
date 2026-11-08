@@ -15,7 +15,7 @@ Shops of their own came in the 1950s, a catalog around 1960. There were 11 store
 
 On 18 June 2014 Men's Wearhouse completed the purchase at 65 dollars a share, about 1.8 billion dollars, after the two companies had tried to buy each other in 2013. It was not a sale to Brooks Brothers in 2011. The parent company took the name Tailored Brands in 2016. In 2020 that parent went through Chapter 11 and emerged as a private company on 1 December. The brand still sells clothes. A current store count is easy to invent and is left out.
 
-No British chain named for the botanist turned up in the records checked for this lesson. Not finding a chain is not a proof that none ever existed. It is a reason not to tell that story. The Chicago firm Hart Schaffner & Marx, next, is another similar name with no documented tie to these Hartzes.
+No British chain named for the botanist turned up in the records checked for this lesson. Not finding a chain is not a proof that none ever existed. It is a reason not to tell that story. The Chicago firm Hart Schaffner & Marx is another similar name with no documented tie to these Hartzes.
 
 The illustrated lesson is [download the PDF](/downloads/Jos_A_Bank_American_Clothier_Baltimore_and_Ownership_Faria_Lesson_2026-11-07.pdf).
 
