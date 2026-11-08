@@ -119,23 +119,65 @@ def rates():
     ])
     return doc(480, 160, "Rate and accumulation", "Two panels. How fast right now is a rate of change. How much altogether is accumulation.", body)
 
+def bezier(p0, p1, p2, p3, t):
+    u = 1 - t
+    return (
+        u**3 * p0[0] + 3 * u**2 * t * p1[0] + 3 * u * t**2 * p2[0] + t**3 * p3[0],
+        u**3 * p0[1] + 3 * u**2 * t * p1[1] + 3 * u * t**2 * p2[1] + t**3 * p3[1],
+    )
+
+def bezier_d(p0, p1, p2, p3, t):
+    u = 1 - t
+    return (
+        3 * u**2 * (p1[0] - p0[0]) + 6 * u * t * (p2[0] - p1[0]) + 3 * t**2 * (p3[0] - p2[0]),
+        3 * u**2 * (p1[1] - p0[1]) + 6 * u * t * (p2[1] - p1[1]) + 3 * t**2 * (p3[1] - p2[1]),
+    )
+
 def secant():
-    # schematic curve rising
+    # One cubic. Markers are exact points on it. The solid line is the secant
+    # through those two points. The dashed line is the tangent at the later point.
+    p0, p1, p2, p3 = (50, 200), (120, 190), (150, 120), (250, 70)
+    ta, tb = 0.28, 0.72
+    a = bezier(p0, p1, p2, p3, ta)
+    b = bezier(p0, p1, p2, p3, tb)
+    d = bezier_d(p0, p1, p2, p3, tb)
+    length = (d[0] ** 2 + d[1] ** 2) ** 0.5
+    ux, uy = d[0] / length, d[1] / length
+    span = 42
+    t1 = (b[0] - span * ux, b[1] - span * uy)
+    t2 = (b[0] + span * ux, b[1] + span * uy)
+    # The secant is the segment that joins the two curve points. Its ends are those points.
+    def off_line(px, py, x1, y1, x2, y2):
+        return abs((px - x1) * (y2 - y1) - (py - y1) * (x2 - x1))
+    secant_len = ((b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2) ** 0.5
+    if off_line(b[0], b[1], t1[0], t1[1], t2[0], t2[1]) > 1e-9:
+        raise SystemExit("tangent missed the chosen point")
+    if abs((t1[0] - b[0]) * d[1] - (t1[1] - b[1]) * d[0]) > 1e-6:
+        raise SystemExit("tangent is not the cubic derivative")
+    if abs(off_line(a[0], a[1], a[0], a[1], b[0], b[1])) > 1e-9:
+        raise SystemExit("secant missed its first point")
+    if secant_len < 40:
+        raise SystemExit("secant collapsed")
+    # Four-decimal SVG text must still be the cubic, and the printed secant must join those points.
+    for t, pt in ((ta, a), (tb, b)):
+        hit = bezier(p0, p1, p2, p3, t)
+        if abs(round(pt[0], 4) - hit[0]) > 5e-5 or abs(round(pt[1], 4) - hit[1]) > 5e-5:
+            raise SystemExit("rounded marker left the cubic")
     body = "\n".join([
         T(16, 26, "A straight line, then the curve's own direction", 18),
-        '<path d="M50 200 C120 190 150 120 250 70" fill="none" stroke="#7a4b1e" stroke-width="2.2"/>',
-        '<line x1="70" y1="188" x2="210" y2="100" stroke="#22201c" stroke-width="1.4"/>',
-        '<line x1="150" y1="150" x2="250" y2="70" stroke="#6b645a" stroke-width="1.3" stroke-dasharray="5 3"/>',
-        '<circle cx="90" cy="180" r="4" fill="#22201c"/>',
-        '<circle cx="190" cy="112" r="4" fill="#7a4b1e"/>',
-        T(40, 214, "Straight line: average over the interval", 13, INK),
-        T(40, 234, "Dashed line: the direction right now", 13, MUTED),
-        T(280, 40, "Distance", 13, MUTED),
+        f'<path d="M{p0[0]} {p0[1]} C{p1[0]} {p1[1]} {p2[0]} {p2[1]} {p3[0]} {p3[1]}" fill="none" stroke="#7a4b1e" stroke-width="2.2"/>',
+        f'<line x1="{a[0]:.4f}" y1="{a[1]:.4f}" x2="{b[0]:.4f}" y2="{b[1]:.4f}" stroke="#22201c" stroke-width="1.4"/>',
+        f'<line x1="{t1[0]:.4f}" y1="{t1[1]:.4f}" x2="{t2[0]:.4f}" y2="{t2[1]:.4f}" stroke="#6b645a" stroke-width="1.3" stroke-dasharray="5 3"/>',
+        f'<circle cx="{a[0]:.4f}" cy="{a[1]:.4f}" r="4" fill="#22201c"/>',
+        f'<circle cx="{b[0]:.4f}" cy="{b[1]:.4f}" r="4" fill="#7a4b1e"/>',
+        T(40, 222, "Straight line: average over the interval", 13, INK),
+        T(40, 242, "Dashed line: the direction right now", 13, MUTED),
+        T(280, 48, "Distance", 13, MUTED),
         T(400, 210, "Time", 13, MUTED),
         '<line x1="50" y1="200" x2="50" y2="40" stroke="#22201c" stroke-width="1.2"/>',
         '<line x1="50" y1="200" x2="430" y2="200" stroke="#22201c" stroke-width="1.2"/>',
     ])
-    return doc(480, 256, "Average line and tangent", "A rising curve. A straight line joins two points, the average over that interval. A second line follows the curve's direction at one point.", body)
+    return doc(480, 264, "Average line and tangent", "A rising cubic. The solid line joins two points that lie on the curve. The dashed line is the tangent at the later point, using the derivative there.", body)
 
 def rectangles():
     body = "\n".join([
@@ -153,19 +195,25 @@ def rectangles():
     return doc(480, 236, "Two speed rectangles", "Two rectangles under a speed axis. The first is 20 miles, the second is 40 miles. Together 60.", body)
 
 def orbit():
+    # Planet at the rightmost point. Tangent there is vertical.
+    # Gravity points from the planet toward the Sun, which sits to its left.
     body = "\n".join([
         T(16, 26, "Forward, and inward", 20),
-        '<ellipse cx="180" cy="130" rx="90" ry="58" fill="none" stroke="#7a4b1e" stroke-width="1.8"/>',
-        '<circle cx="210" cy="130" r="8" fill="#7a4b1e"/>',
-        T(224, 134, "Sun", 14, ACCENT),
-        '<circle cx="270" cy="130" r="5" fill="#22201c"/>',
-        '<line x1="270" y1="130" x2="330" y2="130" stroke="#22201c" stroke-width="1.5"/>',
-        T(336, 134, "Direction now", 13),
-        '<line x1="270" y1="130" x2="230" y2="130" stroke="#7a4b1e" stroke-width="1.5"/>',
-        T(150, 118, "Gravity inward", 13, ACCENT),
-        T(16, 214, "Schematic ellipse. Sizes and distances are not to scale.", 14, MUTED),
+        '<ellipse cx="180" cy="140" rx="90" ry="58" fill="none" stroke="#7a4b1e" stroke-width="1.8"/>',
+        '<circle cx="210" cy="140" r="8" fill="#7a4b1e"/>',
+        T(222, 128, "Sun", 14, ACCENT),
+        '<circle cx="270" cy="140" r="5" fill="#22201c"/>',
+        # velocity: vertical, arrowhead up
+        '<line x1="270" y1="140" x2="270" y2="78" stroke="#22201c" stroke-width="1.6"/>',
+        '<polygon points="270,64 264,78 276,78" fill="#22201c"/>',
+        T(278, 72, "Direction now", 13),
+        # gravity: toward the Sun, arrowhead pointing left
+        '<line x1="262" y1="140" x2="236" y2="140" stroke="#7a4b1e" stroke-width="1.6"/>',
+        '<polygon points="224,140 236,134 236,146" fill="#7a4b1e"/>',
+        T(16, 214, "Gravity inward, toward the Sun. Direction now is straight up.", 13, MUTED),
+        T(16, 234, "Schematic ellipse. Sizes and distances are not to scale.", 14, MUTED),
     ])
-    return doc(480, 236, "Orbit sketch", "An ellipse around a sun. An arrow shows the direction of motion now. Another arrow shows gravity inward.", body)
+    return doc(480, 252, "Orbit sketch", "An ellipse. At the rightmost point the direction of motion is straight up, tangent to the ellipse. A separate arrow points from the planet toward the Sun.", body)
 
 def coffee():
     body = "\n".join([

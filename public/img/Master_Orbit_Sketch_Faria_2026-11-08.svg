@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="480" height="236" viewBox="0 0 480 236" role="img" aria-labelledby="t d">
-<title id="t">Orbit sketch</title><desc id="d">An ellipse around a sun. An arrow shows the direction of motion now. Another arrow shows gravity inward.</desc>
-<rect width="480" height="236" fill="#fbf8f2"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="252" viewBox="0 0 480 252" role="img" aria-labelledby="t d">
+<title id="t">Orbit sketch</title><desc id="d">An ellipse. At the rightmost point the direction of motion is straight up, tangent to the ellipse. A separate arrow points from the planet toward the Sun.</desc>
+<rect width="480" height="252" fill="#fbf8f2"/>
 <style>text { font-family: Georgia, 'Iowan Old Style', Palatino, 'Palatino Linotype', serif; fill: #22201c; }</style>
 <text x="16" y="26" font-size="20" fill="#22201c" text-anchor="start">Forward, and inward</text>
-<ellipse cx="180" cy="130" rx="90" ry="58" fill="none" stroke="#7a4b1e" stroke-width="1.8"/>
-<circle cx="210" cy="130" r="8" fill="#7a4b1e"/>
-<text x="224" y="134" font-size="14" fill="#7a4b1e" text-anchor="start">Sun</text>
-<circle cx="270" cy="130" r="5" fill="#22201c"/>
-<line x1="270" y1="130" x2="330" y2="130" stroke="#22201c" stroke-width="1.5"/>
-<text x="336" y="134" font-size="13" fill="#22201c" text-anchor="start">Direction now</text>
-<line x1="270" y1="130" x2="230" y2="130" stroke="#7a4b1e" stroke-width="1.5"/>
-<text x="150" y="118" font-size="13" fill="#7a4b1e" text-anchor="start">Gravity inward</text>
-<text x="16" y="214" font-size="14" fill="#6b645a" text-anchor="start">Schematic ellipse. Sizes and distances are not to scale.</text></svg>
+<ellipse cx="180" cy="140" rx="90" ry="58" fill="none" stroke="#7a4b1e" stroke-width="1.8"/>
+<circle cx="210" cy="140" r="8" fill="#7a4b1e"/>
+<text x="222" y="128" font-size="14" fill="#7a4b1e" text-anchor="start">Sun</text>
+<circle cx="270" cy="140" r="5" fill="#22201c"/>
+<line x1="270" y1="140" x2="270" y2="78" stroke="#22201c" stroke-width="1.6"/>
+<polygon points="270,64 264,78 276,78" fill="#22201c"/>
+<text x="278" y="72" font-size="13" fill="#22201c" text-anchor="start">Direction now</text>
+<line x1="262" y1="140" x2="236" y2="140" stroke="#7a4b1e" stroke-width="1.6"/>
+<polygon points="224,140 236,134 236,146" fill="#7a4b1e"/>
+<text x="16" y="214" font-size="13" fill="#6b645a" text-anchor="start">Gravity inward, toward the Sun. Direction now is straight up.</text>
+<text x="16" y="234" font-size="14" fill="#6b645a" text-anchor="start">Schematic ellipse. Sizes and distances are not to scale.</text></svg>
