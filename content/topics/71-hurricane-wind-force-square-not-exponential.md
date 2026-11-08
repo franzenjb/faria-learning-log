@@ -11,7 +11,12 @@ Force here means the push, a shove you could imagine weighing. Pressure means th
 
 NASA's Glenn Research Center puts the aerodynamic force in one sentence of that kind. The force equals a constant times the density times the speed times the speed. The dynamic pressure of the flow is one half of the density times the speed squared, and the force is directly proportional to that dynamic pressure. Doubling the speed quadruples the force. The constant is where the area and the shape sit. A National Weather Service technical note makes the density part vivid from the other direction: the same speed pushes less where the air is thinner, higher up, because there is less mass in each volume. Our comparison is the sea-level kind of comparison, comparable air, the same object.
 
-So the working rule, once the words are in place, is small. Dynamic pressure is one half times density times speed times speed. Force is that pressure times area times the drag coefficient. Cross out the things we are holding still, and force stands in proportion to speed times speed.
+So the working rule, once the words are in place, is small. Dynamic pressure is one half times density times speed times speed. Force is that pressure times area times the drag coefficient. Cross out the things we are holding still, and force stands in proportion to speed times speed. Proportional means the force grows as the square grows. It does not mean the force and the square are the same number, and it does not mean the force equals the velocity.
+
+![Speed rises linearly; force rises with the square of speed. Doubling wind speed gives 2 times the speed but 4 times the force, with air density, area, and drag coefficient held fixed. Shared axes: speed ratio from 0 to 2, multiplier from 0 to 4, baseline 100 miles per hour. Illustrative aerodynamic force, not measured damage.](../../img/Wind_Speed_Linear_and_Force_Quadratic_Faria_2026-11-08.svg)
+*Speed rises linearly; force rises with the square of speed. Doubling wind speed gives 2× speed but 4× force with air density, area, and drag coefficient held fixed.*
+
+The two lines share one pair of axes. The horizontal axis is wind speed divided by a baseline of 100 miles per hour, from 0 to 2. The vertical axis is the relative multiplier, from 0 to 4. At the right-hand end, 2 times the baseline is 200 miles per hour: the straight line is at 2, and the curve is at 4. The force line is an illustrative aerodynamic force, from the drag relation NASA states, not a measurement of hurricane damage. The same drawing is [a PNG](../../img/Wind_Speed_Linear_and_Force_Quadratic_Faria_2026-11-08.png) if the first does not appear, and [a one-page PDF](/downloads/Wind_Speed_Linear_and_Force_Quadratic_Faria_2026-11-08.pdf). The source for the proportion is NASA Glenn, [the drag equation](https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/drag-equation/).
 
 ## A fixed baseline of 100 miles per hour
 
@@ -75,6 +80,7 @@ The National Hurricane Center's Saffir-Simpson scale is a 1 to 5 rating based on
 Hold the three sentences apart. The push on a comparable surface follows the square of the speed. The power flowing in the wind follows the cube. An exponential curve is a fixed factor, repeated, as in compound interest. The hurricane did not sign up for that third sentence.
 
 ## Sources
+- NASA Glenn Research Center, "The Drag Equation," force proportional to density, area, drag coefficient, and speed squared: https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/drag-equation/
 - NASA Glenn Research Center, "Momentum Effects," on aerodynamic force in proportion to density times speed squared, and on doubling the speed quadrupling the force: https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/momentum-effects/
 - NASA Glenn Research Center, "Dynamic Pressure," defining dynamic pressure as one half the density times the speed squared: https://www.grc.nasa.gov/WWW/BGH/dynpress.html
 - NOAA National Weather Service, Central Region Technical Attachment 93-12, "Variation in the Force of Wind With Elevation," on force depending on the density of the air: https://repository.library.noaa.gov/view/noaa/30261
