@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 460" role="img">
-  <title>Wind force compared with a 100 mile per hour baseline</title>
+  <title>Hurricane Wind Force: Force Grows with Velocity Squared</title>
   <desc>Five bars for 100, 120, 140, 160, and 180 miles per hour, with air, area, and shape held fixed. Heights are the square of the speed ratio: 1.00, 1.44, 1.96, 2.56, and 3.24 times the force at 100 miles per hour. That is the baseline, then 44 percent more, 96 percent more, 156 percent more, and 224 percent more. The accent cap on each bar after the first is only the new piece from the latest 20 mile per hour step: 0.44, 0.52, 0.60, and 0.68 of the baseline force. Those additions grow. The whole force is not multiplied by one fixed factor.</desc>
   <rect width="920" height="460" fill="#fbf8f2"/>
   <style>text{font-family:"Palatino Linotype",Palatino,"Liberation Serif",Georgia,serif;fill:#1c1915}.m{fill:#5e584e}.a{fill:#8c3f1e}</style>

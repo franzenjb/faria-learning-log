@@ -31,7 +31,7 @@ Printed lessons and plates, grouped with the topic each one belongs to. The hurr
 
 ## 8 November 2026
 
-- [Hurricane wind force: a square, not an explosion](/topics/71-hurricane-wind-force-square-not-exponential/). This lesson is the web page. It has no separate PDF.
+- [Hurricane Wind Force: Force Grows with Velocity Squared](/topics/71-hurricane-wind-force-square-not-exponential/). This lesson is the web page. It has no separate PDF.
 
 ## Historical plate
 

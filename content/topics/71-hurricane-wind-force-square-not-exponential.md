@@ -1,11 +1,11 @@
 ---
-title: "Hurricane wind force: a square, not an explosion"
-summary: On a comparable wall, in comparable air, the force of the wind follows the square of the speed. Equal steps in miles per hour add larger and larger pieces of force, but they do not multiply the force by one fixed factor. That fixed factor is the exponential pattern, the one in compound interest, and it is not the wind's force. The power flowing in the wind is a third story, and it follows the cube.
+title: "Hurricane Wind Force: Force Grows with Velocity Squared"
+summary: On a comparable wall, in comparable air, wind force grows with the square of the velocity. That is not the same sentence as force equals velocity. Equal steps in miles per hour add larger and larger pieces of force, but they do not multiply the force by one fixed factor. That fixed factor is the exponential pattern, the one in compound interest, and it is not the wind's force. The power flowing in the wind is a third story, and it follows the cube.
 session: 2026-11-08
 order: 1
 tags: [hurricanes, mathematics, disasters]
 ---
-A hurricane wind field in a GIS is a map of speed. The number on the pixel is miles per hour. The load on a wall, a sign, or the edge of a roof is not that number, and it is not the word people reach for when the damage looks as if it ran away. They say the force grows exponentially. For the push itself, under conditions we can name, the honest word is quadratic. Quadratic means the speed is used twice: multiplied by itself.
+A hurricane wind field in a GIS is a map of speed. The number on the pixel is miles per hour. The load on a wall, a sign, or the edge of a roof is not that number, and it is not the word people reach for when the damage looks as if it ran away. They say the force grows exponentially. For the push itself, under conditions we can name, the force grows with the square of the velocity. The speed is used twice: multiplied by itself. That is quadratic growth. It is not the claim that the force and the velocity are the same number.
 
 Force here means the push, a shove you could imagine weighing. Pressure means that push spread over an area. Dynamic pressure is the pressure that moving air brings with it because the air has mass and speed. Density is how much mass sits in a given volume of air. A drag coefficient is the plain number that carries the shape: a flat sign and a round tank do not bargain with the wind in the same way. Area is how much surface the wind meets. Hold the density, the area, and the shape still, and the speed is the only thing left to change.
 
@@ -31,8 +31,8 @@ The same arithmetic, still against 100 miles per hour:
 
 Check the squares on a scrap of paper. 1.4 times 1.4 is 1.96. 1.6 times 1.6 is 2.56. 1.8 times 1.8 is 3.24. The percent-more column is the times column, minus 1, times 100. 2.56 times the baseline is one double, which would be 100 percent more, and then another 0.56, which is 56 percent more: 156 percent more. 3.24 times is a bit more than triple. Triple would be 200 percent more. The extra 0.24 makes 224 percent more.
 
-![Force on the same wall at 100, 120, 140, 160, and 180 miles per hour](../../img/Hurricane_Wind_Force_Square_Law_Tufte.svg?v=1)
-*Heights are the square of the speed ratio, with 100 miles per hour as 1. The accent cap is only the new piece from the latest 20 miles per hour. Those pieces grow. They are not a fixed multiplier of the whole force.*
+![Hurricane Wind Force: Force Grows with Velocity Squared, same wall and same air, from 100 to 180 miles per hour](../../img/Hurricane_Wind_Force_Square_Law_Tufte.svg?v=1)
+*Same wall, same air, same shape. Force grows with the square of the velocity, so the full-force ratios against 100 miles per hour are 1, 1.44, 1.96, 2.56, and 3.24: the baseline, then 44, 96, 156, and 224 percent more. Those additions get larger. They are not one fixed multiplier.*
 
 ## Why the curve bends, and why that is not exponential
 
