@@ -27,7 +27,7 @@ Printed lessons and plates, grouped with the topic each one belongs to. The hurr
 - [Jos. A. Bank](/topics/67-jos-a-bank-american-clothier/): [lesson PDF](/downloads/Jos_A_Bank_American_Clothier_Baltimore_and_Ownership_Faria_Lesson_2026-11-07.pdf)
 - [Hartz and Hart Schaffner and Marx](/topics/68-hartz-versus-hart-schaffner-marx/): [lesson PDF](/downloads/Hartz_Versus_Hart_Schaffner_Marx_Evidence_and_Family_Claims_Faria_Lesson_2026-11-07.pdf)
 - [Thumb to Moon](/topics/69-thumb-to-moon-calculating-the-moons-diameter/): [lesson PDF](/downloads/Thumb_to_Moon_Calculating_the_Moons_Diameter_Faria_Lesson_2026-11-07.pdf). Supplementary map, not its own topic: [the 2,100-mile circle (PDF)](/downloads/Moon_Diameter_Four_Cities_US_Map_Faria_2026-11-07.pdf)
-- [Time to longitude](/topics/70-time-to-longitude/): [lesson PDF](/downloads/Time_to_Longitude_Converting_Hours_Minutes_Seconds_to_Degrees_Faria_Lesson_2026-11-07.pdf). Plain-language chronometer sheet, not its own topic: [Longitude with a clock (PDF)](/downloads/Chronometer_Longitude_in_Plain_Language_Faria_2026-11-07.pdf)
+- [Time to longitude](/topics/70-time-to-longitude/): [lesson PDF](/downloads/Time_to_Longitude_Converting_Hours_Minutes_Seconds_to_Degrees_Faria_2026-11-07.pdf). Plain-language chronometer sheet, not its own topic: [Longitude with a clock (PDF)](/downloads/Chronometer_Longitude_in_Plain_Language_Faria_2026-11-07.pdf)
 
 ## 8 November 2026
 
