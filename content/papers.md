@@ -2,7 +2,7 @@
 title: "Papers"
 summary: Downloadable lesson PDFs, the supplementary Moon map, the chronometer sheet, and Picard's 1671 triangulation plate.
 ---
-Printed lessons and plates, grouped with the topic each one belongs to. A complete binder of the lessons is still being prepared and is not available for download here.
+Printed lessons and plates, grouped with the topic each one belongs to. The complete binder is linked at the bottom of this page.
 
 ## 6 November 2026
 
@@ -40,4 +40,4 @@ Printed lessons and plates, grouped with the topic each one belongs to. A comple
 
 ## Complete binder
 
-A single binder of the lessons is still being prepared. It is not on this page, and there is no download for it yet.
+[Complete lessons binder (PDF)](/downloads/Franzen_Complete_Lessons_Binder.pdf). 458 pages. 72 topics and 37 papers. The separate lesson PDFs on this page stay as they are.
