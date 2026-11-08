@@ -3,7 +3,7 @@ title: "Time to longitude: converting hours, minutes, and seconds to degrees"
 summary: Earth turns once in twenty-four hours of solar time, which is 360 degrees. Two hours and thirty-five minutes behind Greenwich is 38 degrees 45 arcminutes west, or 38.75 degrees, and -38.75 degrees in the common signed convention.
 session: 2026-11-07
 order: 18
-tags: [astronomy, mathematics, geography]
+tags: [astronomy, mathematics, geography, chronometer, harrison]
 ---
 Earth turns once relative to the mean Sun in twenty-four hours of solar time. That full turn is three hundred sixty degrees of longitude. Divide evenly and each hour of solar-time difference corresponds to fifteen degrees of longitude: two hours, thirty degrees. We work with solar time here, not with the slightly shorter sidereal day of a pure spin against the stars.
 

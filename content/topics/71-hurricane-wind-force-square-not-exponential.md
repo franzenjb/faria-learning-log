@@ -5,7 +5,7 @@ session: 2026-11-08
 order: 1
 tags: [hurricanes, mathematics, disasters]
 ---
-A hurricane wind field in a GIS is a map of speed. The number on the pixel is miles per hour. The load on a wall, a sign, or the edge of a roof is not that number, and it is not the word people reach for when the damage looks as if it ran away. They say the force grows exponentially. For the push itself, under conditions we can name, the force grows with the square of the velocity. The speed is used twice: multiplied by itself. That is quadratic growth. It is not the claim that the force and the velocity are the same number.
+A hurricane wind map stores a speed at each place. The number is miles per hour. The load on a wall, a sign, or the edge of a roof is not that number, and it is not the word people reach for when the damage looks as if it ran away. They say the force grows exponentially. For the push itself, under conditions we can name, the force grows with the square of the velocity. The speed is used twice: multiplied by itself. That is quadratic growth. It is not the claim that the force and the velocity are the same number.
 
 Force here means the push, a shove you could imagine weighing. Pressure means that push spread over an area. Dynamic pressure is the pressure that moving air brings with it because the air has mass and speed. Density is how much mass sits in a given volume of air. A drag coefficient is the plain number that carries the shape: a flat sign and a round tank do not bargain with the wind in the same way. Area is how much surface the wind meets. Hold the density, the area, and the shape still, and the speed is the only thing left to change.
 

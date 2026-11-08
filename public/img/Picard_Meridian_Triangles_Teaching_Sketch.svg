@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="460" viewBox="0 0 760 460" role="img" aria-labelledby="title desc">
+<title id="title">Teaching sketch of Picard's meridian triangles</title>
+<desc id="desc">A schematic chain from Malvoisine to Sourdon, with Amiens set to one side as the latitude check. Not the 1671 archival plate, and not drawn to the measured distances.</desc>
+<rect width="760" height="460" fill="#fbf8f2"/>
+<text x="36" y="40" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="22" fill="#22201c">A teaching sketch, not the 1671 plate</text>
+<text x="36" y="66" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#6b645a">Stations in Picard's order. Distances are not to scale.</text>
+<path d="M120 340 L250 230 L390 300 L530 180 L640 250" fill="none" stroke="#7a4b1e" stroke-width="2"/>
+<path d="M120 340 L390 300" fill="none" stroke="#7a4b1e" stroke-width="1.2"/>
+<path d="M250 230 L530 180" fill="none" stroke="#7a4b1e" stroke-width="1.2"/>
+<path d="M530 180 L700 90" fill="none" stroke="#7a4b1e" stroke-width="1.5" stroke-dasharray="5 4"/>
+<circle cx="120" cy="340" r="5" fill="#7a4b1e"/>
+<circle cx="250" cy="230" r="5" fill="#7a4b1e"/>
+<circle cx="390" cy="300" r="5" fill="#7a4b1e"/>
+<circle cx="530" cy="180" r="5" fill="#7a4b1e"/>
+<circle cx="640" cy="250" r="5" fill="#7a4b1e"/>
+<circle cx="700" cy="90" r="5" fill="#22201c"/>
+<text x="96" y="368" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="16" fill="#22201c">Malvoisine</text>
+<text x="230" y="214" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="16" fill="#22201c">Mareuil</text>
+<text x="400" y="328" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="16" fill="#22201c">Clermont</text>
+<text x="490" y="164" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="16" fill="#22201c">Sourdon</text>
+<text x="688" y="78" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="16" fill="#22201c">Amiens</text>
+<text x="36" y="410" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#22201c">The dashed leg is the latitude check toward Amiens. Orléans is not on this sheet.</text>
+<text x="36" y="436" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="14" fill="#6b645a">The measured baseline, Villejuif to Juvisy, sits south of Malvoisine and is not drawn here.</text>
+</svg>

@@ -34,7 +34,11 @@ Full lesson text. **bold**, *italic*, [links](../09-galveston-1900/), lists with
 - One line per fact. Everything under "## Key facts" goes on the Review page.
 ```
 
-- `session` must match the day file name. `order` sets the order on the day page.
+- `session` is the day the lesson was first written. It stays that day. `order` sets the order among the new lessons of that day.
+- To open an existing lesson again, add its slug to `revisits` on the later day file: `revisits: [18-eratosthenes-measures-the-earth, 53-captain-james-cook]`. Do not change the topic's `session`. The build rejects a missing slug, a repeated slug, and a slug that already belongs to that same day.
+- A PDF is optional, and only after the page exists. Link it from the lesson and from `content/papers.md`. The binder is a compilation, not a lesson. An archival plate is named as a plate and still belongs to its lesson page. Do not leave a lesson PDF with no page.
+- Tags are typed in frontmatter. The build does not invent them from the prose. Use a person, a place, a method, or a concept that the page actually teaches. Do not add a tag for a presentation deck, and do not add tags to hit a count.
+- Nothing in a conversation becomes a page by itself. `print/emit_nov7_topics.py` was a one-shot writer for files already committed. `node build.mjs` only renders the markdown that is there.
 - Reuse existing tags where possible (see `/tags/`): shakespeare, etymology, pronunciation, hurricanes, disasters, history-of-science, telegraph-cables, ships, verne, twain, dumas, geography, mathematics, astronomy, history. A new tag creates its own tag page automatically.
 - Link to another topic with `../<slug>/`.
 

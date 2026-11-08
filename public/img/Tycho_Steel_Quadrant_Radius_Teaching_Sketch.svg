@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="520" viewBox="0 0 760 520" role="img" aria-labelledby="title desc">
+<title id="title">Radius of Tycho's steel quadrant</title>
+<desc id="desc">A quarter circle with the radius drawn from the centre to the arc. The radius is about 1.94 metres. It is not the height of a pier and not the depth of a cellar.</desc>
+<rect width="760" height="520" fill="#fbf8f2"/>
+<text x="36" y="42" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="22" fill="#22201c">Radius, from centre to arc</text>
+<path d="M160 400 L160 160 A240 240 0 0 1 400 400 Z" fill="none" stroke="#c8c0b4" stroke-width="1"/>
+<path d="M160 400 A240 240 0 0 1 400 400" fill="none" stroke="#7a4b1e" stroke-width="3"/>
+<path d="M160 400 L400 400" fill="none" stroke="#22201c" stroke-width="1.4"/>
+<path d="M160 400 L160 160" fill="none" stroke="#22201c" stroke-width="1.4"/>
+<path d="M160 400 L330 230" fill="none" stroke="#7a4b1e" stroke-width="2"/>
+<circle cx="160" cy="400" r="5" fill="#7a4b1e"/>
+<text x="148" y="428" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="16" fill="#22201c">centre</text>
+<text x="220" y="330" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="16" fill="#7a4b1e">radius, about 1.94 m</text>
+<text x="300" y="448" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="16" fill="#22201c">90 degrees of arc</text>
+<text x="36" y="80" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#6b645a">Nearly five cubits, centre to circumference.</text>
+<text x="430" y="180" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="16" fill="#22201c">Not the height of the instrument.</text>
+<text x="430" y="206" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="16" fill="#22201c">Not the depth of the cellar.</text>
+<text x="36" y="490" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="14" fill="#6b645a">Teaching sketch from Tycho's own description in Astronomiae instauratae mechanica. Not a measured drawing of the surviving site.</text>
+</svg>

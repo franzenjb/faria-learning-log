@@ -3,7 +3,7 @@ title: "Captain James Cook: precision, encounter, and empire"
 summary: Cook's three Pacific voyages were feats of surveying, and meetings with people who already lived on the coasts he charted. He was killed at Kealakekua Bay in 1779. The third voyage itself lasted until the ships came home in 1780.
 session: 2026-11-07
 order: 1
-tags: [history, history-of-science, geography, ships]
+tags: [history, history-of-science, geography, ships, chronometer]
 ---
 James Cook was born in Yorkshire in 1728. He learned the sea in the coal trade, then joined the Royal Navy in 1755. Before any Pacific voyage he surveyed Newfoundland. The Navy already trusted him to draw a coast so that the next ship could use the drawing.
 
@@ -14,6 +14,8 @@ In 1768 the Admiralty gave him Endeavour. The announced task was the transit of 
 
 The second voyage, 1772 to 1775, in Resolution and Adventure, crossed the Antarctic Circle. Cook put an end to the hope of a green southern continent sitting in the temperate ocean. He did not claim to have seen the mainland of Antarctica.
 
+The clock on that voyage was not Harrison's own H4. In 1766 the Board of Longitude asked Larcum Kendall to copy H4. Kendall finished the copy, called K1, in 1769. The plate is engraved with his name and that year. Royal Museums Greenwich records that K1 was issued to Cook for the second voyage and that it also went on the third. The watch under test was the copy. H4 stayed the original. The arithmetic that turns a clock reading into a longitude is the [time-to-longitude lesson](/topics/70-time-to-longitude/).
+
 The third voyage, 1776 to 1780, in Resolution and Discovery, searched for a passage in the north. In 1778 the ships reached Hawaii. On 14 February 1779, at Kealakekua Bay, Cook was killed as a relationship that had already turned violent broke apart. His death did not end the expedition. Charles Clerke took command, and the ships reached England in 1780. The charts stayed in the Navy's hands. So did the harder consequence: disease, weapons, and later colonial power traveled along the same routes.
 
 Hold both parts of the man. The angles and the coastlines were careful. The encounters were not a blank page, and they were not a moral slogan in either direction. The transit itself, and the risk of getting the observers there, is the next lesson in this day's chain. Banks, who collected beside him and did not sail the second voyage, is the lesson after that.
@@ -22,10 +24,11 @@ The illustrated lesson is [download the PDF](/downloads/Captain_James_Cook_Preci
 
 ## Sources
 - Royal Museums Greenwich, "Captain James Cook: timeline," https://www.rmg.co.uk/stories/maritime-history/captain-james-cook-timeline
+- Royal Museums Greenwich, object record for K1, Kendall's 1769 copy of H4, issued to Cook: https://www.rmg.co.uk/collections/objects/rmgc-object-79143
 - Whipple Museum, Cambridge, on the quadrant stolen at Tahiti and recovered: https://www.whipplemuseum.cam.ac.uk/explore-whipple-collections/astronomy-and-empire/stolen-quadrant
 
 ## Key facts
 - Cook, born 1728 in Yorkshire, joined the Royal Navy in 1755 and had already surveyed Newfoundland.
 - Endeavour, 1768-1771: Tahiti transit on 3 June 1769 with Green; then charts of New Zealand and Australia's east coast, lands already inhabited.
-- Second voyage, 1772-1775, crossed the Antarctic Circle and did not claim a sighting of the Antarctic mainland.
+- Second voyage, 1772-1775, crossed the Antarctic Circle and did not claim a sighting of the Antarctic mainland. The watch issued for that voyage was Kendall's K1, a 1769 copy of H4, not Harrison's own watch.
 - Third voyage, 1776-1780, in Resolution and Discovery. Cook was killed at Kealakekua Bay on 14 February 1779. The ships came home in 1780.

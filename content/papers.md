@@ -33,11 +33,9 @@ Printed lessons and plates, grouped with the topic each one belongs to. The comp
 
 - [Hurricane Wind Force: Force Grows with Velocity Squared](/topics/71-hurricane-wind-force-square-not-exponential/): [velocity-squared curve (PDF)](/downloads/Wind_Force_Velocity_Squared_Curve_Faria_2026-11-08.pdf). One page. Linear axes from zero. The whole force, with 100 miles per hour equal to 1.
 - [A Feather and an Anvil Falling Through Air](/topics/72-feather-and-anvil-falling-through-air/): [velocity-time sheet (PDF)](/downloads/Falling_Objects_Velocity_Time_Curves_Faria_2026-11-08.pdf). One page. Chosen limits of 2 and 60 metres per second. An illustration, not a measurement.
-
-## Historical plate
-
-- [Picard's triangulation, 1669-1670 (PDF)](/downloads/Picard_1669_triangulation_map.pdf). Two pages. The plate is the 1671 preparatory sheet for *Mesure de la Terre*, preserved from the Bibliothèque de l'Observatoire de Paris, D5/42 (14), [ark:/11287/2hkG3](https://bibnum.obspm.fr/ark:/11287/2hkG3). Archive credit: Bibliothèque de l'Observatoire de Paris. No commercial use. The creator of the drawing is unknown.
+- [Picard measures a degree of the meridian](/topics/73-picard-triangulation-1669/): [the 1671 preparatory plate (PDF)](/downloads/Picard_1669_triangulation_map.pdf). Two pages. Bibliothèque de l'Observatoire de Paris, D5/42 (14), [ark:/11287/2hkG3](https://bibnum.obspm.fr/ark:/11287/2hkG3). Archive credit: Bibliothèque de l'Observatoire de Paris. No commercial use. The creator of the drawing is unknown. The lesson is the page. The plate is the deep dive.
+- [Tycho Brahe: the nose, the uncle, Uraniborg, and Stjerneborg](/topics/74-tycho-brahe-uraniborg-and-stjerneborg/). This lesson is the web page. It has no separate PDF.
 
 ## Complete binder
 
-[Complete lessons binder (PDF)](/downloads/Franzen_Complete_Lessons_Binder.pdf). 458 pages. 72 topics and 37 papers. The separate lesson PDFs on this page stay as they are.
+[Complete lessons binder (PDF)](/downloads/Franzen_Complete_Lessons_Binder.pdf). 458 pages. 72 topics and 37 papers, as assembled before the Picard lesson and the Tycho lesson. Those two pages are on the site and are not in this file. The binder has not been rebuilt. The separate lesson PDFs on this page stay as they are.
