@@ -1,82 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="480" height="360" viewBox="0 0 480 360" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="368" viewBox="0 0 480 368" role="img" aria-labelledby="t d">
 <title id="t">Each step multiplies by 2</title>
 <desc id="d">Doubling from 1 gives 2, 4, 8, 16, 32, 64, 128, 256. On a shared scale of output numbers, the square is 1, 4, 9, 16, 25, 36, 49, 64. At step 3, 8 is below 9. At step 5, 32 is above 25.</desc>
-<rect width="480" height="360" fill="#fbf8f2"/>
+<rect width="480" height="368" fill="#fbf8f2"/>
 <style>text { font-family: Georgia, 'Iowan Old Style', Palatino, 'Palatino Linotype', serif; fill: #22201c; }</style>
-<text x="24.0" y="26.0" font-size="22" fill="#22201c" text-anchor="start">Each step multiplies by 2</text>
-<text x="24.0" y="46.0" font-size="14" fill="#6b645a" text-anchor="start">Hour 0 is 1. The table begins at hour 1, which is 2.</text>
-<text x="20.0" y="78.0" font-size="13" fill="#6b645a" text-anchor="start">0</text>
-<circle cx="48.0" cy="68.0" r="4.4" fill="#7a4b1e"/>
-<text x="168.0" y="78.0" font-size="15" fill="#7a4b1e" text-anchor="start">1</text>
-<text x="20.0" y="98.0" font-size="13" fill="#6b645a" text-anchor="start">1</text>
-<circle cx="48.0" cy="88.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="61.0" cy="88.0" r="4.4" fill="#7a4b1e"/>
-<text x="168.0" y="98.0" font-size="15" fill="#7a4b1e" text-anchor="start">2</text>
-<text x="20.0" y="118.0" font-size="13" fill="#6b645a" text-anchor="start">2</text>
-<circle cx="48.0" cy="108.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="61.0" cy="108.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="74.0" cy="108.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="87.0" cy="108.0" r="4.4" fill="#7a4b1e"/>
-<text x="168.0" y="118.0" font-size="15" fill="#7a4b1e" text-anchor="start">4</text>
-<text x="20.0" y="138.0" font-size="13" fill="#6b645a" text-anchor="start">3</text>
-<circle cx="48.0" cy="128.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="61.0" cy="128.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="74.0" cy="128.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="87.0" cy="128.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="100.0" cy="128.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="113.0" cy="128.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="126.0" cy="128.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="139.0" cy="128.0" r="4.4" fill="#7a4b1e"/>
-<text x="168.0" y="138.0" font-size="15" fill="#7a4b1e" text-anchor="start">8</text>
-<text x="20.0" y="158.0" font-size="13" fill="#6b645a" text-anchor="start">4</text>
-<circle cx="48.0" cy="148.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="61.0" cy="148.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="74.0" cy="148.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="87.0" cy="148.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="100.0" cy="148.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="113.0" cy="148.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="126.0" cy="148.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="139.0" cy="148.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="48.0" cy="161.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="61.0" cy="161.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="74.0" cy="161.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="87.0" cy="161.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="100.0" cy="161.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="113.0" cy="161.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="126.0" cy="161.0" r="4.4" fill="#7a4b1e"/>
-<circle cx="139.0" cy="161.0" r="4.4" fill="#7a4b1e"/>
-<text x="168.0" y="158.0" font-size="15" fill="#7a4b1e" text-anchor="start">16</text>
-<text x="200.0" y="92.0" font-size="15" fill="#22201c" text-anchor="start">Then 32, 64, 128, 256.</text>
-<text x="24.0" y="168.0" font-size="13" fill="#6b645a" text-anchor="start">Output numbers, one scale, 0 to 256. Not the same unit.</text>
-<line x1="54.0" y1="318.0" x2="400.0" y2="318.0" stroke="#22201c" stroke-width="1.2" stroke-linecap="round"/>
-<line x1="54.0" y1="318.0" x2="54.0" y2="184.0" stroke="#22201c" stroke-width="1.2" stroke-linecap="round"/>
-<text x="48.0" y="322.0" font-size="13" fill="#6b645a" text-anchor="end">0</text>
-<text x="48.0" y="255.0" font-size="13" fill="#6b645a" text-anchor="end">128</text>
-<text x="48.0" y="188.0" font-size="13" fill="#6b645a" text-anchor="end">256</text>
-<polyline points="54.0,318.0 97.2,317.5 140.5,315.9 183.8,313.3 227.0,309.6 270.2,304.9 313.5,299.2 356.8,292.4 400.0,284.5" fill="none" stroke="#22201c" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
-<polyline points="54.0,317.5 97.2,317.0 140.5,315.9 183.8,313.8 227.0,309.6 270.2,301.2 313.5,284.5 356.8,251.0 400.0,184.0" fill="none" stroke="#7a4b1e" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
-<circle cx="54.0" cy="318.0" r="4" fill="#fbf8f2" stroke="#22201c" stroke-width="1.6"/>
-<circle cx="97.2" cy="317.5" r="4" fill="#fbf8f2" stroke="#22201c" stroke-width="1.6"/>
-<circle cx="140.5" cy="315.9" r="4" fill="#fbf8f2" stroke="#22201c" stroke-width="1.6"/>
-<circle cx="183.8" cy="313.3" r="4" fill="#fbf8f2" stroke="#22201c" stroke-width="1.6"/>
-<circle cx="227.0" cy="309.6" r="4" fill="#fbf8f2" stroke="#22201c" stroke-width="1.6"/>
-<circle cx="270.2" cy="304.9" r="4" fill="#fbf8f2" stroke="#22201c" stroke-width="1.6"/>
-<circle cx="313.5" cy="299.2" r="4" fill="#fbf8f2" stroke="#22201c" stroke-width="1.6"/>
-<circle cx="356.8" cy="292.4" r="4" fill="#fbf8f2" stroke="#22201c" stroke-width="1.6"/>
-<circle cx="400.0" cy="284.5" r="4" fill="#fbf8f2" stroke="#22201c" stroke-width="1.6"/>
-<circle cx="54.0" cy="317.5" r="4.2" fill="#7a4b1e"/>
-<circle cx="97.2" cy="317.0" r="4.2" fill="#7a4b1e"/>
-<circle cx="140.5" cy="315.9" r="4.2" fill="#7a4b1e"/>
-<circle cx="183.8" cy="313.8" r="4.2" fill="#7a4b1e"/>
-<circle cx="227.0" cy="309.6" r="4.2" fill="#7a4b1e"/>
-<circle cx="270.2" cy="301.2" r="4.2" fill="#7a4b1e"/>
-<circle cx="313.5" cy="284.5" r="4.2" fill="#7a4b1e"/>
-<circle cx="356.8" cy="251.0" r="4.2" fill="#7a4b1e"/>
-<circle cx="400.0" cy="184.0" r="4.2" fill="#7a4b1e"/>
-<text x="408.0" y="189.0" font-size="15" fill="#7a4b1e" text-anchor="start">256</text>
-<text x="408.0" y="289.5" font-size="15" fill="#22201c" text-anchor="start">64</text>
-<text x="262.2" y="293.2" font-size="14" fill="#7a4b1e" text-anchor="end">32</text>
-<text x="262.2" y="322.9" font-size="14" fill="#22201c" text-anchor="end">25</text>
-<text x="24.0" y="348.0" font-size="13" fill="#6b645a" text-anchor="start">Step 3: 8 below 9. Step 4: both 16. Step 5: 32 above 25.</text>
+<text x="24.0" y="24.0" font-size="20" fill="#22201c" text-anchor="start">Each step multiplies by 2</text>
+<text x="24.0" y="42.0" font-size="13" fill="#6b645a" text-anchor="start">Hour 0 is 1. The table begins at hour 1, which is 2.</text>
+<text x="12.0" y="66.0" font-size="12" fill="#6b645a" text-anchor="start">0</text>
+<circle cx="36.0" cy="58.0" r="4" fill="#7a4b1e"/>
+<text x="148.0" y="66.0" font-size="13" fill="#7a4b1e" text-anchor="start">1</text>
+<text x="12.0" y="84.0" font-size="12" fill="#6b645a" text-anchor="start">1</text>
+<circle cx="36.0" cy="76.0" r="4" fill="#7a4b1e"/>
+<circle cx="48.0" cy="76.0" r="4" fill="#7a4b1e"/>
+<text x="148.0" y="84.0" font-size="13" fill="#7a4b1e" text-anchor="start">2</text>
+<text x="12.0" y="102.0" font-size="12" fill="#6b645a" text-anchor="start">2</text>
+<circle cx="36.0" cy="94.0" r="4" fill="#7a4b1e"/>
+<circle cx="48.0" cy="94.0" r="4" fill="#7a4b1e"/>
+<circle cx="60.0" cy="94.0" r="4" fill="#7a4b1e"/>
+<circle cx="72.0" cy="94.0" r="4" fill="#7a4b1e"/>
+<text x="148.0" y="102.0" font-size="13" fill="#7a4b1e" text-anchor="start">4</text>
+<text x="12.0" y="120.0" font-size="12" fill="#6b645a" text-anchor="start">3</text>
+<circle cx="36.0" cy="112.0" r="4" fill="#7a4b1e"/>
+<circle cx="48.0" cy="112.0" r="4" fill="#7a4b1e"/>
+<circle cx="60.0" cy="112.0" r="4" fill="#7a4b1e"/>
+<circle cx="72.0" cy="112.0" r="4" fill="#7a4b1e"/>
+<circle cx="84.0" cy="112.0" r="4" fill="#7a4b1e"/>
+<circle cx="96.0" cy="112.0" r="4" fill="#7a4b1e"/>
+<circle cx="108.0" cy="112.0" r="4" fill="#7a4b1e"/>
+<circle cx="120.0" cy="112.0" r="4" fill="#7a4b1e"/>
+<text x="148.0" y="120.0" font-size="13" fill="#7a4b1e" text-anchor="start">8</text>
+<text x="12.0" y="138.0" font-size="12" fill="#6b645a" text-anchor="start">4</text>
+<circle cx="36.0" cy="130.0" r="4" fill="#7a4b1e"/>
+<circle cx="48.0" cy="130.0" r="4" fill="#7a4b1e"/>
+<circle cx="60.0" cy="130.0" r="4" fill="#7a4b1e"/>
+<circle cx="72.0" cy="130.0" r="4" fill="#7a4b1e"/>
+<circle cx="84.0" cy="130.0" r="4" fill="#7a4b1e"/>
+<circle cx="96.0" cy="130.0" r="4" fill="#7a4b1e"/>
+<circle cx="108.0" cy="130.0" r="4" fill="#7a4b1e"/>
+<circle cx="120.0" cy="130.0" r="4" fill="#7a4b1e"/>
+<circle cx="36.0" cy="143.0" r="4" fill="#7a4b1e"/>
+<circle cx="48.0" cy="143.0" r="4" fill="#7a4b1e"/>
+<circle cx="60.0" cy="143.0" r="4" fill="#7a4b1e"/>
+<circle cx="72.0" cy="143.0" r="4" fill="#7a4b1e"/>
+<circle cx="84.0" cy="143.0" r="4" fill="#7a4b1e"/>
+<circle cx="96.0" cy="143.0" r="4" fill="#7a4b1e"/>
+<circle cx="108.0" cy="143.0" r="4" fill="#7a4b1e"/>
+<circle cx="120.0" cy="143.0" r="4" fill="#7a4b1e"/>
+<text x="148.0" y="146.0" font-size="13" fill="#7a4b1e" text-anchor="start">16</text>
+<text x="230.0" y="70.0" font-size="13" fill="#6b645a" text-anchor="start">Then ×2</text>
+<text x="230.0" y="90.0" font-size="15" fill="#22201c" text-anchor="start">32, 64</text>
+<text x="230.0" y="110.0" font-size="15" fill="#22201c" text-anchor="start">128, 256</text>
+<text x="24.0" y="180.0" font-size="13" fill="#6b645a" text-anchor="start">Output numbers, one scale, 0 to 256. Not the same unit.</text>
+<line x1="54.0" y1="320.0" x2="390.0" y2="320.0" stroke="#22201c" stroke-width="1.2" stroke-linecap="round"/>
+<line x1="54.0" y1="320.0" x2="54.0" y2="200.0" stroke="#22201c" stroke-width="1.2" stroke-linecap="round"/>
+<text x="48.0" y="324.0" font-size="13" fill="#6b645a" text-anchor="end">0</text>
+<text x="48.0" y="264.0" font-size="13" fill="#6b645a" text-anchor="end">128</text>
+<text x="48.0" y="204.0" font-size="13" fill="#6b645a" text-anchor="end">256</text>
+<polyline points="54.0,320.0 96.0,319.5 138.0,318.1 180.0,315.8 222.0,312.5 264.0,308.3 306.0,303.1 348.0,297.0 390.0,290.0" fill="none" stroke="#22201c" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="54.0,319.5 96.0,319.1 138.0,318.1 180.0,316.2 222.0,312.5 264.0,305.0 306.0,290.0 348.0,260.0 390.0,200.0" fill="none" stroke="#7a4b1e" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="54.0" cy="320.0" r="4" fill="#fbf8f2" stroke="#22201c" stroke-width="1.6"/>
+<circle cx="96.0" cy="319.5" r="4" fill="#fbf8f2" stroke="#22201c" stroke-width="1.6"/>
+<circle cx="138.0" cy="318.1" r="4" fill="#fbf8f2" stroke="#22201c" stroke-width="1.6"/>
+<circle cx="180.0" cy="315.8" r="4" fill="#fbf8f2" stroke="#22201c" stroke-width="1.6"/>
+<circle cx="222.0" cy="312.5" r="4" fill="#fbf8f2" stroke="#22201c" stroke-width="1.6"/>
+<circle cx="264.0" cy="308.3" r="4" fill="#fbf8f2" stroke="#22201c" stroke-width="1.6"/>
+<circle cx="306.0" cy="303.1" r="4" fill="#fbf8f2" stroke="#22201c" stroke-width="1.6"/>
+<circle cx="348.0" cy="297.0" r="4" fill="#fbf8f2" stroke="#22201c" stroke-width="1.6"/>
+<circle cx="390.0" cy="290.0" r="4" fill="#fbf8f2" stroke="#22201c" stroke-width="1.6"/>
+<circle cx="54.0" cy="319.5" r="4.2" fill="#7a4b1e"/>
+<circle cx="96.0" cy="319.1" r="4.2" fill="#7a4b1e"/>
+<circle cx="138.0" cy="318.1" r="4.2" fill="#7a4b1e"/>
+<circle cx="180.0" cy="316.2" r="4.2" fill="#7a4b1e"/>
+<circle cx="222.0" cy="312.5" r="4.2" fill="#7a4b1e"/>
+<circle cx="264.0" cy="305.0" r="4.2" fill="#7a4b1e"/>
+<circle cx="306.0" cy="290.0" r="4.2" fill="#7a4b1e"/>
+<circle cx="348.0" cy="260.0" r="4.2" fill="#7a4b1e"/>
+<circle cx="390.0" cy="200.0" r="4.2" fill="#7a4b1e"/>
+<text x="398.0" y="205.0" font-size="15" fill="#7a4b1e" text-anchor="start">256</text>
+<text x="398.0" y="295.0" font-size="15" fill="#22201c" text-anchor="start">64</text>
+<text x="256.0" y="297.0" font-size="14" fill="#7a4b1e" text-anchor="end">32</text>
+<text x="256.0" y="326.3" font-size="14" fill="#22201c" text-anchor="end">25</text>
+<text x="24.0" y="342.0" font-size="13" fill="#6b645a" text-anchor="start">Step 3: 8 below 9. Step 4: both 16. Step 5: 32 above 25.</text>
 </svg>

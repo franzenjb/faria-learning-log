@@ -5,13 +5,15 @@ session: 2026-11-08
 order: 8
 tags: [mathematics, algebra, geometry, calculus]
 ---
-This page is the 22-page reading map, written out. It is not a test. Stop when an idea feels new. Read the words, look at the picture, then try the numbers. Nothing here requires formal calculus notation before the idea has a sentence. The shelter, the truck, the shadow, and the coffee are teaching examples. They are not operating limits or engineering advice. The historical stories named in the sources are the ones with books behind them.
+This page is the reading map. It is not a test. Stop when an idea feels new. Read the words, look at the picture, then try the numbers. Nothing here requires formal calculus notation before the idea has a sentence. The shelter, the truck, the shadow, and the coffee are teaching examples. They are not operating limits or engineering advice. The historical stories named in the sources are the ones with books behind them.
 
 The four subjects are not four locked doors. Each adds a new kind of question to the same habit: say what you know, say what you want, and connect the two.
 
 ## 1. Algebra starts with an empty place
 
 How many people in the shelter? Picture a shelter with three rooms. For this arithmetic example, imagine each room holds 40 people. How many people is that altogether?
+
+![Three rooms, each holding 40 people. Three times 40 is 120.](../../img/Master_Three_Rooms_Faria_2026-11-08.svg)
 
 Algebra is a way of reasoning about an unknown number. An unknown is simply the answer you have not found yet. You can leave an empty box for it, or give it a letter as a label.
 
@@ -32,6 +34,8 @@ The room capacity is invented for teaching. Real shelter capacity depends on spa
 ## 1.2 Work backward, then check
 
 How many pallets in the truck? A truck needs to carry a 3,000-pound load. Suppose each loaded pallet weighs 500 pounds. How many pallets make that load?
+
+![Six pallets, 500 pounds each. 3,000 divided by 500 is 6.](../../img/Master_Six_Pallets_Faria_2026-11-08.svg)
 
 Let P be the number of pallets. Before you know P, you can still describe the relationship: the number of pallets times the weight of each pallet gives the total weight.
 
@@ -65,6 +69,8 @@ A right triangle has one square corner. "Right" here means 90 degrees, not the r
 
 An equilateral triangle has three equal sides. On flat paper, each of its three angles is 60 degrees. It does not have a square corner.
 
+![A right triangle with one square corner, and an equilateral triangle with three equal sides.](../../img/Master_Two_Triangles_Faria_2026-11-08.svg)
+
 These are different triangles. The equal-sided one can be split to make a right triangle. That split is why the ladder's one-half relationship is not a calculator accident.
 
 ## 2.2 Pythagoras connects three lengths
@@ -72,6 +78,8 @@ These are different triangles. The equal-sided one can be split to make a right 
 Imagine a right triangle whose two square-corner sides measure 3 feet and 4 feet. Its hypotenuse measures 5 feet. Why do these three lengths fit?
 
 Pythagoras's theorem says that the area of the square built on the hypotenuse equals the areas of the other two squares added together. A theorem is a statement established by proof. Area means how much surface is covered. A square 3 feet on each side covers 3 times 3, or 9 square feet. A square foot is a square one foot on each side.
+
+![Squares on a 3-4-5 triangle: 9, 16, and 25 square feet. Nine plus 16 is 25.](../../img/Master_Pythagorean_Squares_Faria_2026-11-08.svg)
 
 The picture says: 3 × 3 + 4 × 4 = 5 × 5, or 9 + 16 = 25. The square on the 4-foot side is 16 square feet. The square on the 5-foot side is 25 square feet. If the long side were unknown, the question would be: what length times itself gives 25? The answer is 5.
 
@@ -83,6 +91,8 @@ Begin with an equilateral triangle: three equal sides, each 20 feet long. Every 
 
 The line splits the picture into two matching right triangles. It cuts the top angle into two 30-degree angles and the bottom side into two 10-foot pieces.
 
+![A 20-foot equilateral triangle split down the middle. Each half has a 10-foot base and a 30-degree angle.](../../img/Master_Equilateral_Split_Faria_2026-11-08.svg)
+
 In either half, the side opposite the 30-degree angle is 10 feet long. The sloping side, the hypotenuse, is 20 feet long. So the opposite side is half the hypotenuse.
 
 Turn that half-triangle around on the page. The lengths and the angles do not change. It is the same shape as a 20-foot ladder reaching 10 feet up a wall.
@@ -92,6 +102,8 @@ A ratio compares two lengths by division. Here, 10 ÷ 20 is one half. That compa
 This ratio is called sine. Geometry supplies the shape. Trigonometry uses its proportions.
 
 ## 3. One ladder, three questions
+
+![A right triangle: 20-foot ladder, 10-foot height, base about 17.32 feet. The 30-degree angle is where the ladder meets the ground. The square corner is at the wall.](../../img/Ladder_Sine_Cosine_Tangent_Teaching_Sketch.svg)
 
 Return to that right triangle. A ladder leaning against a wall makes the shape. The same ladder is kept throughout this section. Trigonometry connects angles with side lengths. It adds known ratios to algebra's search for an unknown. Calculus is not required yet.
 
@@ -206,6 +218,8 @@ In the late 1600s Isaac Newton and Gottfried Wilhelm Leibniz developed calculus 
 
 Two questions sit side by side. How fast, right now? That is a rate of change. How much altogether? That is accumulation.
 
+![Two panels. How fast, right now, is a rate of change. How much altogether is accumulation.](../../img/Master_Rate_And_Accumulation_Faria_2026-11-08.svg)
+
 A rate of change compares a change in one quantity with a change in another. Speed is a familiar example: how much the distance changes as time passes.
 
 Accumulation means adding up what happens over an interval. If the truck's speed is known throughout a journey, the small distances it covers can be added to find the whole trip.
@@ -224,6 +238,8 @@ Instantaneous speed means speed at a particular moment, the kind of reading a sp
 
 On a graph, time runs across and distance runs upward. The curve records a journey. Its slope means rise compared with horizontal run: here, distance change compared with time change.
 
+![A rising curve. A straight line joins two points, the average over the interval. Another line follows the curve's direction at one point.](../../img/Master_Secant_And_Tangent_Faria_2026-11-08.svg)
+
 A straight line joining two points on the curve is the average over that interval. A tangent line follows the curve's direction at one point. Its slope gives the rate there. Finding that local rate is called differentiation. The rate found is called a derivative.
 
 This is not the same use of "tangent" as tan on the ladder. There, tan is a triangle's height-to-base ratio. Here, a tangent line is a line beside a curve. Their connection is slope: rise divided by run.
@@ -235,6 +251,8 @@ The graph is conceptual. It is not the numerical record of the 60-mile trip abov
 Turn the question around. Suppose the speed is known. If the truck held 20 miles per hour for one hour, it covered 20 miles. If it then held 40 for another hour, it covered another 40.
 
 The whole distance is 20 + 40 = 60 miles. A total was found by adding the contributions of different parts of the journey.
+
+![Two rectangles under a speed graph: 20 miles in the first hour and 40 miles in the second. The area is 60 miles.](../../img/Master_Speed_Rectangles_Faria_2026-11-08.svg)
 
 In a speed-versus-time graph, a rectangle's height is the speed and its width is the time. Multiplying them gives the distance during that time. The area under the speed graph therefore represents distance. The first hour is a rectangle 20 miles per hour high. The second hour is a rectangle 40 miles per hour high. Their areas are 20 miles and 40 miles.
 
@@ -249,6 +267,8 @@ Differentiation asks for the local rate. Integration adds the pieces. Under suit
 For Newton, motion raised a deeper question: how does a pull change an object's journey? Gravity is the attraction between masses, between the Sun and a planet, or between Earth and the Moon.
 
 Velocity means speed with a direction. Acceleration means a change in velocity, so turning counts even when speed stays the same. Calculus relates position, velocity, and acceleration from moment to moment.
+
+![A schematic ellipse around the Sun. One arrow is the direction of motion now. Another is gravity inward. Sizes are not to scale.](../../img/Master_Orbit_Sketch_Faria_2026-11-08.svg)
 
 Forward motion and the Sun's inward pull make the planet's path curve. Without gravity it would continue straight in its current direction. Orbits need not be circles. Many are ellipses, oval-shaped paths. Any sketch of that ellipse on this page's source sheet is schematic. Sizes and distances are not to scale.
 
@@ -281,6 +301,8 @@ Example: coffee starts at 170°F in a 70°F room, a 100-degree gap. °F means de
 The model assumes steady room temperature and an approximately constant k. It only approximates real coffee. It approaches room temperature without reaching it exactly in finite time. That is the local-rate idea at work.
 
 ## 4.6 The derivative, one instant at a time
+
+![A falling coffee-temperature curve. Point A is held. Point B slides toward A. The straight line between them is the two-point estimate, not yet the derivative.](../../img/Master_Coffee_Derivative_Faria_2026-11-08.svg)
 
 On a coffee-temperature graph, time runs horizontally and temperature runs vertically. Choose an instant and mark its temperature as point A. Choose a nearby later instant and mark its temperature as point B. The letters are only labels.
 
@@ -398,15 +420,15 @@ The twenty flight words, which use the same rate and the same integral on an ima
 
 The historical stories are real. The shelter, the truck, and the shadow numbers are teaching examples. This page reworks the standalone ladder lesson into its trigonometry section. That ladder lesson keeps its own page.
 
-Geometry and its history: the University of St Andrews MacTutor histories of Euclid and Pythagoras. Euclid organized earlier knowledge. The right-triangle relationship predates Pythagoras.
+Geometry and its history: the University of St Andrews MacTutor histories of [Euclid](https://mathshistory.st-andrews.ac.uk/Biographies/Euclid/) and [Pythagoras](https://mathshistory.st-andrews.ac.uk/Biographies/Pythagoras/). Euclid organized earlier knowledge. The right-triangle relationship predates Pythagoras.
 
-Galileo's actual mountain calculation: *Sidereus Nuncius* (1610), E. S. Carlos translation (1880), pages 28 to 30, Project Gutenberg ebook 46036. Sunlit peaks beyond the terminator, a right-triangle calculation, "more than 4 Italian miles."
+Galileo's actual mountain calculation: *Sidereus Nuncius* (1610), E. S. Carlos translation (1880), pages 28 to 30, [Project Gutenberg ebook 46036](https://www.gutenberg.org/files/46036/46036-h/46036-h.htm). Sunlit peaks beyond the terminator, a right-triangle calculation, "more than 4 Italian miles."
 
-The related shadow method: Mary McIntyre, BBC Sky at Night Magazine, "How to measure craters on the Moon." Height equals shadow length times the tangent of the local Sun angle, with simplifying assumptions.
+The related shadow method: Mary McIntyre, BBC Sky at Night Magazine, ["How to measure craters on the Moon."](https://www.skyatnightmagazine.com/advice/skills/how-to-measure-lunar-craters-moon) Height equals shadow length times the tangent of the local Sun angle, with simplifying assumptions.
 
-Calculus and its development: MacTutor, "A history of the calculus," for earlier work, Newton, Leibniz, rates, and accumulation. Orbits: NASA, "Gravity & Mechanics."
+Calculus and its development: MacTutor, ["A history of the calculus,"](https://mathshistory.st-andrews.ac.uk/HistTopics/The_rise_of_calculus/) for earlier work, Newton, Leibniz, rates, and accumulation. Orbits: NASA, ["Gravity & Mechanics."](https://science.nasa.gov/learn/basics-of-space-flight/chapter3-3/)
 
-Why tides happen: NOAA, "Tides" and "What Causes Tides?" Uneven gravitational pull, the Moon and the Sun, and the influence of local geography.
+Why tides happen: NOAA, ["Tides"](https://www.noaa.gov/jetstream/ocean/tides) and ["What Causes Tides?"](https://oceanservice.noaa.gov/education/tutorial_tides/tides02_cause.html) Uneven gravitational pull, the Moon and the Sun, and the influence of local geography.
 
 Four questions, one growing toolkit. Algebra: what number is missing? Geometry: what shape and lengths are there? Trigonometry: what do the angles tell about the sides? Calculus: how is it changing, and what does it add up to? Recognizing the question is already a beginning.
 

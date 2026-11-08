@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="214" viewBox="0 0 480 214" role="img" aria-labelledby="t d">
+<title id="t">Right and equilateral</title><desc id="d">A right triangle with one square corner, and an equilateral triangle with three equal sides.</desc>
+<rect width="480" height="214" fill="#fbf8f2"/>
+<style>text { font-family: Georgia, 'Iowan Old Style', Palatino, 'Palatino Linotype', serif; fill: #22201c; }</style>
+<text x="16" y="28" font-size="20" fill="#22201c" text-anchor="start">Two different triangles</text>
+<path d="M40 150 L40 50 L150 150 Z" fill="none" stroke="#7a4b1e" stroke-width="2"/>
+<path d="M40 134 L56 134 L56 150" fill="none" stroke="#22201c" stroke-width="1.4"/>
+<text x="70" y="176" font-size="15" fill="#7a4b1e" text-anchor="middle">Right triangle</text>
+<text x="70" y="196" font-size="13" fill="#6b645a" text-anchor="middle">one square corner</text>
+<path d="M250 150 L310 46 L370 150 Z" fill="none" stroke="#7a4b1e" stroke-width="2"/>
+<text x="310" y="176" font-size="15" fill="#7a4b1e" text-anchor="middle">Equilateral</text>
+<text x="310" y="196" font-size="13" fill="#6b645a" text-anchor="middle">three equal sides</text></svg>

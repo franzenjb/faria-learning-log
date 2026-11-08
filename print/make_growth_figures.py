@@ -197,24 +197,26 @@ def exponential():
     assert doubling[3] < square[3]  # 8 < 9
     assert doubling[4] == square[4]  # 16
     assert doubling[5] > square[5]  # 32 > 25
-    W, H = 480, 360
+    W, H = 480, 368
     parts = [
-        T(24, 26, "Each step multiplies by 2", 22),
-        T(24, 46, "Hour 0 is 1. The table begins at hour 1, which is 2.", 14, MUTED),
+        T(24, 24, "Each step multiplies by 2", 20),
+        T(24, 42, "Hour 0 is 1. The table begins at hour 1, which is 2.", 13, MUTED),
     ]
     groups = [(0, 1), (1, 2), (2, 4), (3, 8), (4, 16)]
-    y = 68
+    y = 58
     for hour, count in groups:
-        parts.append(T(20, y + 10, f"{hour}", 13, MUTED))
+        parts.append(T(12, y + 8, f"{hour}", 12, MUTED))
         for i in range(count):
             col = i % 8
             row = i // 8
-            parts.append(dot(48 + col * 13, y + row * 13, 4.4))
-        parts.append(T(168, y + 10, str(count), 15, ACCENT))
-        y += 20 if count <= 8 else 34
-    parts.append(T(200, 92, "Then 32, 64, 128, 256.", 15))
-    parts.append(T(24, 168, "Output numbers, one scale, 0 to 256. Not the same unit.", 13, MUTED))
-    left, right, top, bottom = 54, 400, 184, 318
+            parts.append(dot(36 + col * 12, y + row * 13, 4))
+        parts.append(T(148, y + (8 if count <= 8 else 16), str(count), 13, ACCENT))
+        y += 18 if count <= 8 else 34
+    parts.append(T(230, 70, "Then ×2", 13, MUTED))
+    parts.append(T(230, 90, "32, 64", 15))
+    parts.append(T(230, 110, "128, 256", 15))
+    parts.append(T(24, y + 16, "Output numbers, one scale, 0 to 256. Not the same unit.", 13, MUTED))
+    left, right, top, bottom = 54, 390, y + 36, y + 156
     def X(n):
         return left + (n / 8) * (right - left)
     def Y(v):
@@ -236,7 +238,7 @@ def exponential():
     parts.append(T(right + 8, Y(64) + 5, "64", 15, INK))
     parts.append(T(X(5) - 8, Y(32) - 8, "32", 14, ACCENT, "end"))
     parts.append(T(X(5) - 8, Y(25) + 18, "25", 14, INK, "end"))
-    parts.append(T(24, 348, "Step 3: 8 below 9. Step 4: both 16. Step 5: 32 above 25.", 13, MUTED))
+    parts.append(T(24, bottom + 22, "Step 3: 8 below 9. Step 4: both 16. Step 5: 32 above 25.", 13, MUTED))
     desc = "Doubling from 1 gives 2, 4, 8, 16, 32, 64, 128, 256. On a shared scale of output numbers, the square is 1, 4, 9, 16, 25, 36, 49, 64. At step 3, 8 is below 9. At step 5, 32 is above 25."
     return document(W, H, "Each step multiplies by 2", desc, "\n".join(parts))
 

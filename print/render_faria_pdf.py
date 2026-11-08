@@ -66,6 +66,14 @@ h2 {
   margin: 0.16in 0 0.05in;
   break-after: avoid;
 }
+h3 {
+  font-family: "Liberation Serif", Georgia, serif;
+  font-weight: normal;
+  font-size: 13pt;
+  color: #7a4b1e;
+  margin: 0.12in 0 0.04in;
+  break-after: avoid;
+}
 p { margin: 0 0 0.08in; }
 ul, ol { margin: 0.04in 0 0.12in; padding-left: 0.22in; }
 li { margin: 0.04in 0; }
@@ -114,6 +122,8 @@ def blocks_of(body):
         if not line.strip():
             i += 1
             continue
+        if line.startswith("### "):
+            blocks.append(("h3", line[4:].strip())); i += 1; continue
         if line.startswith("## "):
             blocks.append(("h2", line[3:].strip())); i += 1; continue
         m = re.match(r"^!\[([^\]]*)\]\(([^)]+)\)\s*$", line)
@@ -146,6 +156,8 @@ def render(md_name, pdf_name, topic_url):
     for kind, data in blocks_of(text[fm.end():]):
         if kind == "h2":
             parts.append(f"<h2>{inline(data)}</h2>")
+        elif kind == "h3":
+            parts.append(f"<h3>{inline(data)}</h3>")
         elif kind == "p":
             if data.startswith("*") and data.endswith("*") and data.count("*") == 2:
                 parts.append(f'<p class="cap">{inline(data.strip("*"))}</p>')
@@ -189,8 +201,6 @@ JOBS = [
     ("63-hipparchus-lunar-parallax.md",
      "Hipparchus_Lunar_Parallax_Eclipse_Reports_and_Uncertainty_Faria_Lesson_2026-11-07.pdf",
      "https://faria.jbf.com/topics/63-hipparchus-lunar-parallax/"),
-    ("76-flight-calculus-terms.md", "Flight_Calculus_Terms.pdf",
-     "https://faria.jbf.com/topics/76-flight-calculus-terms/"),
     ("77-ladder-sine-cosine-and-tangent.md",
      "Trigonometry_Sine_Cosine_Tangent_Ladder_and_Galileos_Moon_Faria_2026-11-08.pdf",
      "https://faria.jbf.com/topics/77-ladder-sine-cosine-and-tangent/"),

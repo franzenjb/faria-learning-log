@@ -79,8 +79,8 @@ The same ladder sits inside the longer walk from algebra to calculus, [Mathemati
 
 ## Sources
 - The lesson sheet itself, for the 20-foot ladder, the ratios 0.5, 0.866, and 0.577, and the invented 1,000-foot shadow.
-- Galileo, *Sidereus Nuncius* (1610), E. S. Carlos translation (1880), pp. 28-30, Project Gutenberg ebook 46036.
-- BBC Sky at Night Magazine, "How to measure craters on the Moon," on the shadow method and its limits.
+- Galileo, *Sidereus Nuncius* (1610), E. S. Carlos translation (1880), pp. 28-30, [Project Gutenberg ebook 46036](https://www.gutenberg.org/files/46036/46036-h/46036-h.htm).
+- BBC Sky at Night Magazine, ["How to measure craters on the Moon,"](https://www.skyatnightmagazine.com/advice/skills/how-to-measure-lunar-craters-moon) on the shadow method and its limits.
 
 ## Key facts
 - Sine is height divided by the ladder. At 30 degrees that ratio is 1/2, so a 20-foot ladder reaches 10 feet.

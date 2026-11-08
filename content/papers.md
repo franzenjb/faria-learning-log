@@ -40,7 +40,7 @@ Printed lessons and plates, grouped with the topic each one belongs to. The comp
 - [Six ways numbers grow](/topics/75-six-ways-numbers-grow/): [sheet (PDF)](/downloads/Growth_Rates_Compared.pdf)
 - [Flight calculus, twenty terms](/topics/76-flight-calculus-terms/): [sheet (PDF)](/downloads/Flight_Calculus_Terms.pdf)
 - [One ladder: sine, cosine, and tangent](/topics/77-ladder-sine-cosine-and-tangent/): [sheet (PDF)](/downloads/Trigonometry_Sine_Cosine_Tangent_Ladder_and_Galileos_Moon_Faria_2026-11-08.pdf)
-- [Mathematics, one idea at a time](/topics/78-mathematics-one-idea-at-a-time/): [22-page map (PDF)](/downloads/Master_Mathematics_Algebra_Geometry_Trigonometry_Calculus_Faria_2026-11-08.pdf). Earlier drafts of that map are not published.
+- [Mathematics, one idea at a time](/topics/78-mathematics-one-idea-at-a-time/): [reading map (PDF)](/downloads/Master_Mathematics_Algebra_Geometry_Trigonometry_Calculus_Faria_2026-11-08.pdf). Earlier drafts of that map are not published.
 - [Cassini](/topics/79-cassini-paris-and-jupiter/), [Maurolico](/topics/80-francesco-maurolico/), [Snell](/topics/81-willebrord-snell/), [geodetic networks](/topics/82-geodetic-networks/), [the metre](/topics/83-the-metre-from-a-meridian/), and [Harrison's chronometer](/topics/84-harrison-and-the-marine-chronometer/). These lessons are the web pages. Harrison's plain-language clock sheet stays on the longitude lesson.
 
 ## Complete binder

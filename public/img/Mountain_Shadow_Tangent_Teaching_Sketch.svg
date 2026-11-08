@@ -3,9 +3,10 @@
 <rect width="760" height="420" fill="#fbf8f2"/>
 <text x="36" y="40" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="22" fill="#22201c">Invented example, not Galileo's data</text>
 <path d="M140 300 L140 120 L660 300 Z" fill="none" stroke="#7a4b1e" stroke-width="2.2"/>
+<path d="M140 280 L160 280 L160 300" fill="none" stroke="#22201c" stroke-width="1.6"/>
 <text x="100" y="220" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="16" fill="#22201c">about 577 ft</text>
 <text x="320" y="340" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="16" fill="#22201c">shadow 1,000 ft</text>
 <text x="360" y="200" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="16" fill="#7a4b1e">ray from the Sun</text>
-<text x="160" y="286" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="16" fill="#22201c">30°</text>
+<text x="520" y="278" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="16" fill="#22201c">30&#176; sun angle</text>
 <text x="36" y="390" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#6b645a">The upright line is the mountain's height. Level ground and one sun angle are assumed.</text>
 </svg>

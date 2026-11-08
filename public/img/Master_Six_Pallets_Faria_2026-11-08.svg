@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="160" viewBox="0 0 480 160" role="img" aria-labelledby="t d">
+<title id="t">Six pallets</title><desc id="d">Six boxes, each 500 pounds. 3,000 divided by 500 is 6.</desc>
+<rect width="480" height="160" fill="#fbf8f2"/>
+<style>text { font-family: Georgia, 'Iowan Old Style', Palatino, 'Palatino Linotype', serif; fill: #22201c; }</style>
+<text x="16" y="28" font-size="20" fill="#22201c" text-anchor="start">Six pallets, 500 pounds each</text>
+<rect x="16" y="48" width="68" height="64" fill="#fbf8f2" stroke="#7a4b1e" stroke-width="1.6"/>
+<text x="50" y="76" font-size="16" fill="#7a4b1e" text-anchor="middle">1</text>
+<text x="50" y="96" font-size="12" fill="#6b645a" text-anchor="middle">500 lb</text>
+<rect x="92" y="48" width="68" height="64" fill="#fbf8f2" stroke="#7a4b1e" stroke-width="1.6"/>
+<text x="126" y="76" font-size="16" fill="#7a4b1e" text-anchor="middle">2</text>
+<text x="126" y="96" font-size="12" fill="#6b645a" text-anchor="middle">500 lb</text>
+<rect x="168" y="48" width="68" height="64" fill="#fbf8f2" stroke="#7a4b1e" stroke-width="1.6"/>
+<text x="202" y="76" font-size="16" fill="#7a4b1e" text-anchor="middle">3</text>
+<text x="202" y="96" font-size="12" fill="#6b645a" text-anchor="middle">500 lb</text>
+<rect x="244" y="48" width="68" height="64" fill="#fbf8f2" stroke="#7a4b1e" stroke-width="1.6"/>
+<text x="278" y="76" font-size="16" fill="#7a4b1e" text-anchor="middle">4</text>
+<text x="278" y="96" font-size="12" fill="#6b645a" text-anchor="middle">500 lb</text>
+<rect x="320" y="48" width="68" height="64" fill="#fbf8f2" stroke="#7a4b1e" stroke-width="1.6"/>
+<text x="354" y="76" font-size="16" fill="#7a4b1e" text-anchor="middle">5</text>
+<text x="354" y="96" font-size="12" fill="#6b645a" text-anchor="middle">500 lb</text>
+<rect x="396" y="48" width="68" height="64" fill="#fbf8f2" stroke="#7a4b1e" stroke-width="1.6"/>
+<text x="430" y="76" font-size="16" fill="#7a4b1e" text-anchor="middle">6</text>
+<text x="430" y="96" font-size="12" fill="#6b645a" text-anchor="middle">500 lb</text>
+<text x="16" y="140" font-size="14" fill="#6b645a" text-anchor="start">3,000 ÷ 500 = 6. Weight arithmetic, not a loading plan.</text></svg>

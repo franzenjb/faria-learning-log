@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="236" viewBox="0 0 480 236" role="img" aria-labelledby="t d">
+<title id="t">Two speed rectangles</title><desc id="d">Two rectangles under a speed axis. The first is 20 miles, the second is 40 miles. Together 60.</desc>
+<rect width="480" height="236" fill="#fbf8f2"/>
+<style>text { font-family: Georgia, 'Iowan Old Style', Palatino, 'Palatino Linotype', serif; fill: #22201c; }</style>
+<text x="16" y="26" font-size="20" fill="#22201c" text-anchor="start">Area under speed is distance</text>
+<line x1="40" y1="160" x2="440" y2="160" stroke="#22201c" stroke-width="1.3"/>
+<line x1="40" y1="160" x2="40" y2="30" stroke="#22201c" stroke-width="1.3"/>
+<rect x="80" y="100" width="140" height="60" fill="#e4d5c4" stroke="#7a4b1e" stroke-width="1.4"/>
+<rect x="220" y="50" width="140" height="110" fill="#c4a484" stroke="#7a4b1e" stroke-width="1.4"/>
+<text x="150" y="136" font-size="14" fill="#7a4b1e" text-anchor="middle">20 miles</text>
+<text x="290" y="110" font-size="14" fill="#7a4b1e" text-anchor="middle">40 miles</text>
+<text x="150" y="180" font-size="13" fill="#6b645a" text-anchor="middle">First hour</text>
+<text x="290" y="180" font-size="13" fill="#6b645a" text-anchor="middle">Second hour</text>
+<text x="16" y="214" font-size="14" fill="#6b645a" text-anchor="start">20 + 40 = 60 miles. The picture is the sum, not a formula.</text></svg>

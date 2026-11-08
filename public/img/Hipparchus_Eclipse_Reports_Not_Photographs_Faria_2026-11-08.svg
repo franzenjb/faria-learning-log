@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="480" height="450" viewBox="0 0 480 450" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="408" viewBox="0 0 480 408" role="img" aria-labelledby="t d">
 <title id="t">Two reports, not two photographs</title>
-<desc id="d">Alexandria and the Hellespont on the Earth, the Moon between them and a very far Sun. Sightlines differ. The drawing exaggerates the angles. These are eclipse reports, not photographs of the stars taken at the same moment.</desc>
-<rect width="480" height="450" fill="#fbf8f2"/>
+<desc id="d">Parallel lines of the Sun's direction leave Alexandria and the Hellespont. The Moon sits on the Hellespont line, so the Sun is covered there. Alexandria's line to the Moon is a different direction from its line to the Sun, so the eclipse is partial. Angles are drawn large. These are reports, not photographs.</desc>
+<rect width="480" height="408" fill="#fbf8f2"/>
 <style>text { font-family: Georgia, 'Iowan Old Style', Palatino, 'Palatino Linotype', serif; fill: #22201c; }</style>
-<text x="24" y="36" font-size="24" fill="#22201c" text-anchor="start">Two reports, not two photographs</text>
-<text x="24" y="62" font-size="16" fill="#6b645a" text-anchor="start">The Sun is the far wall. Angles are drawn large.</text>
-<path d="M40 260 Q160 180 300 230" fill="none" stroke="#22201c" stroke-width="2"/>
-<circle cx="50" cy="252" r="6" fill="#22201c"/>
-<circle cx="218" cy="207" r="6" fill="#7a4b1e"/>
-<text x="24" y="278" font-size="15" fill="#22201c" text-anchor="start">Alexandria</text>
-<text x="228" y="232" font-size="15" fill="#7a4b1e" text-anchor="start">Hellespont</text>
-<circle cx="250" cy="120" r="10" fill="#7a4b1e"/>
-<text x="266" y="116" font-size="18" fill="#7a4b1e" text-anchor="start">Moon</text>
-<line x1="50" y1="246" x2="250" y2="130" stroke="#22201c" stroke-width="1.5" stroke-linecap="round"/>
-<line x1="218" y1="201" x2="250" y2="130" stroke="#7a4b1e" stroke-width="1.5" stroke-linecap="round"/>
-<line x1="40" y1="150" x2="450" y2="150" stroke="#6b645a" stroke-width="1.2" stroke-linecap="round"/>
-<line x1="40" y1="168" x2="450" y2="160" stroke="#6b645a" stroke-width="1.2" stroke-linecap="round"/>
-<text x="330" y="142" font-size="16" fill="#6b645a" text-anchor="start">Sun, very far</text>
-<text x="24" y="310" font-size="16" fill="#22201c" text-anchor="start">Total at the Hellespont.</text>
-<text x="24" y="334" font-size="16" fill="#22201c" text-anchor="start">About four-fifths covered at Alexandria.</text>
-<text x="24" y="358" font-size="16" fill="#22201c" text-anchor="start">The difference is a fifth of the Sun's width.</text>
-<text x="24" y="382" font-size="16" fill="#22201c" text-anchor="start">That is a change of direction, not yet miles.</text>
-<text x="24" y="410" font-size="16" fill="#6b645a" text-anchor="start">The miles come from the size of the Earth.</text>
+<text x="24" y="28" font-size="22" fill="#22201c" text-anchor="start">Two reports, not two photographs</text>
+<text x="24" y="48" font-size="14" fill="#6b645a" text-anchor="start">Angles are drawn large. The Sun is very far.</text>
+<path d="M40 250 Q150 150 320 220" fill="none" stroke="#22201c" stroke-width="2"/>
+<line x1="96" y1="214" x2="336" y2="198" stroke="#6b645a" stroke-width="1.4" stroke-linecap="round"/>
+<line x1="194" y1="192" x2="434" y2="176" stroke="#6b645a" stroke-width="1.4" stroke-linecap="round"/>
+<line x1="194" y1="192" x2="342.8" y2="182.08" stroke="#7a4b1e" stroke-width="2.2" stroke-linecap="round"/>
+<line x1="96" y1="214" x2="342.8" y2="182.08" stroke="#7a4b1e" stroke-width="1.8" stroke-linecap="round"/>
+<circle cx="96" cy="214" r="6" fill="#22201c"/>
+<circle cx="194" cy="192" r="6" fill="#7a4b1e"/>
+<circle cx="342.8" cy="182.08" r="9" fill="#7a4b1e"/>
+<text x="76" y="242" font-size="14" fill="#22201c" text-anchor="start">Alexandria</text>
+<text x="184" y="228" font-size="14" fill="#7a4b1e" text-anchor="start">Hellespont</text>
+<text x="324.8" y="166.08" font-size="15" fill="#7a4b1e" text-anchor="start">Moon</text>
+<text x="392" y="214" font-size="14" fill="#6b645a" text-anchor="start">Sun, very far</text>
+<text x="24" y="292" font-size="15" fill="#22201c" text-anchor="start">At the Hellespont the Moon lies on the Sun's direction.</text>
+<text x="24" y="314" font-size="15" fill="#22201c" text-anchor="start">The Sun is covered there.</text>
+<text x="24" y="338" font-size="15" fill="#22201c" text-anchor="start">At Alexandria the Moon is off that parallel direction.</text>
+<text x="24" y="360" font-size="15" fill="#22201c" text-anchor="start">Part of the Sun stays visible. The gap is the parallax.</text>
+<text x="24" y="384" font-size="14" fill="#6b645a" text-anchor="start">The miles come from the size of the Earth, not from the picture.</text>
 </svg>

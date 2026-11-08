@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="276" viewBox="0 0 480 276" role="img" aria-labelledby="t d">
+<title id="t">Coffee cooling curve</title><desc id="d">A falling temperature curve. Point A is held. Point B is later and slides toward A. The straight line between them is the two-point estimate.</desc>
+<rect width="480" height="276" fill="#fbf8f2"/>
+<style>text { font-family: Georgia, 'Iowan Old Style', Palatino, 'Palatino Linotype', serif; fill: #22201c; }</style>
+<text x="16" y="26" font-size="20" fill="#22201c" text-anchor="start">Two points, then one instant</text>
+<path d="M60 50 C90 60 110 90 150 130 C190 170 240 190 400 200" fill="none" stroke="#7a4b1e" stroke-width="2.2"/>
+<line x1="70" y1="210" x2="430" y2="210" stroke="#22201c" stroke-width="1.2"/>
+<line x1="70" y1="210" x2="70" y2="36" stroke="#22201c" stroke-width="1.2"/>
+<circle cx="120" cy="100" r="4.5" fill="#22201c"/>
+<circle cx="220" cy="175" r="4.5" fill="#7a4b1e"/>
+<line x1="120" y1="100" x2="220" y2="175" stroke="#22201c" stroke-width="1.3"/>
+<text x="128" y="92" font-size="13" fill="#22201c" text-anchor="start">A, held fixed</text>
+<text x="228" y="170" font-size="13" fill="#7a4b1e" text-anchor="start">B, slide toward A</text>
+<text x="360" y="40" font-size="13" fill="#6b645a" text-anchor="start">Temperature</text>
+<text x="360" y="228" font-size="13" fill="#6b645a" text-anchor="start">Time</text>
+<text x="16" y="256" font-size="13" fill="#6b645a" text-anchor="start">Schematic curve, not a measured cup. The dark line joins A and B.</text></svg>

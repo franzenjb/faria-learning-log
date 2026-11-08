@@ -39,6 +39,8 @@ Each person lines the steeple up against the hill and says how far around the st
 
 Now the distance, in words. A full turn is 360 degrees. The rim of a circle is about 6.28 times the distance from the middle to the rim. So one degree of the rim is 360 divided by 6.28, which is about 57 times shorter than that distance. Flip it: if the baseline covers 1 degree at the steeple, the distance to the steeple is about 57 baselines. 57 times 6 feet is 342 feet. That is a steeple a short walk away, not a steeple hundreds of miles off.
 
+The hill is not infinitely far. Move 6 feet and a ridge one mile away shifts by about 0.065 degree. Set beside a 1-degree difference, that leftover is about 6 percent. Calling the hill "the far wall" is a small approximation, not an exact shared direction. The Sun, or the stars, is far enough that the leftover shift is negligible for this kind of picture. The circle count, 360 divided by 6.28, is itself about 57, not a sharper instrument.
+
 Check the jobs. Measured: the 6 feet across, and each person's direction from the hill to the steeple. Calculated: the 1 degree difference, then the 342 feet. Not assumed: the steeple's height, or how far it was before you started. The ground between the two people is the ruler.
 
 ## After the distance, the width
@@ -65,14 +67,16 @@ A second book used a different guess about the Sun. Pappus reports the least lun
 
 Ptolemy, in the second century CE, later got a mean lunar distance of about 59 Earth radii from his own parallax measurement. That is his result in the Almagest. It is not a claim that he copied a number out of a lost page.
 
+The same idea of a baseline shows up at other sizes. The Venus stations of 1761 and 1769 stand on the Earth's surface, a baseline of hundreds or thousands of miles. Kepler's Mars triangles use a baseline the size of Earth's orbit. Hipparchus uses the cities of two reports. A single triangle that only compares sizes does not by itself give a distance in miles.
+
 The modern mean is about 60.3 Earth radii. NASA gives the Moon's average distance as 238,855 miles, which is 384,400 kilometers. The Earth's mean radius is 6,371 kilometers. 384,400 divided by 6,371 is about 60.3. The distance also changes through the month. Landing near that number is not the same thing as a tight measurement. Hipparchus's reported figures are 71 and 83 on one hypothesis, and 62, 67 and 1/3, and 72 and 2/3 on another. They are reconstructions from later writers, with an assumption about the Sun sitting inside the second set.
 
 ## Sources
-- Pappus, commentary on Almagest V, as quoted and translated in Christián C. Carman, "On the distances of the sun and moon according to Hipparchus," which prints the 71 and 83, the 62, the 67 and 1/3, and the solar distance 490: https://archive.nyu.edu/bitstream/2451/61288/56/11.%20Carman.pdf
-- G. J. Toomer, "Hipparchus on the distances of the sun and moon," Archive for History of Exact Sciences 14 (1974): 126–142, https://doi.org/10.1007/BF00329826 . The eclipse identification 14 March 190 BCE, the latitudes, and the reading of 71 as a minimum are his reconstruction. The paper is cited here; the lesson follows Toomer's own later summary in the Dictionary of Scientific Biography and Carman's quotation of Pappus.
-- G. J. Toomer, "Hipparchus," Dictionary of Scientific Biography, the summary of that reconstruction, including the shadow limit near 59: https://mathshistory.st-andrews.ac.uk/DSB/Hipparchus.pdf
-- NASA Science, Moon facts, average distance 238,855 miles (384,400 kilometers): https://science.nasa.gov/moon/facts/
-- NASA Space Science Data Coordinated Archive, Earth volumetric mean radius 6,371.0 kilometers: https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html
+- Pappus, commentary on Almagest V, as quoted and translated in Christián C. Carman, ["On the distances of the sun and moon according to Hipparchus,"](https://archive.nyu.edu/bitstream/2451/61288/56/11.%20Carman.pdf) which prints the 71 and 83, the 62, the 67 and 1/3, and the solar distance 490.
+- G. J. Toomer, ["Hipparchus on the distances of the sun and moon,"](https://doi.org/10.1007/BF00329826) Archive for History of Exact Sciences 14 (1974): 126–142. The eclipse identification 14 March 190 BCE, the latitudes, and the reading of 71 as a minimum are his reconstruction.
+- G. J. Toomer, ["Hipparchus,"](https://mathshistory.st-andrews.ac.uk/DSB/Hipparchus.pdf) Dictionary of Scientific Biography, the summary of that reconstruction, including the shadow limit near 59. MacTutor biography: [Hipparchus](https://mathshistory.st-andrews.ac.uk/Biographies/Hipparchus/).
+- NASA Science, [Moon facts,](https://science.nasa.gov/moon/facts/) average distance 238,855 miles (384,400 kilometers).
+- NASA Space Science Data Coordinated Archive, Earth volumetric mean radius 6,371.0 kilometers, on the [Moon fact sheet.](https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html)
 
 ## Key facts
 - A near thing shifts against a far background when the observer moves. The thing need not have moved.

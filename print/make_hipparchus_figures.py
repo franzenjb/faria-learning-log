@@ -106,29 +106,37 @@ def steeple():
     return doc(480, 490, "Two directions, one baseline", desc, body)
 
 def eclipse():
+    # Parallel solar rays leave each city toward a very far Sun.
+    # The Moon sits on the Hellespont ray: there the Sun is covered.
+    # Alexandria's ray is parallel and misses the Moon. Its sightline
+    # to the Moon is a different direction.
+    ax, ay = 96, 214
+    hx, hy = 194, 192
+    dx, dy = 240, -16
+    moon = (hx + 0.62 * dx, hy + 0.62 * dy)
     body = "\n".join([
-        T(24, 36, "Two reports, not two photographs", 24),
-        T(24, 62, "The Sun is the far wall. Angles are drawn large.", 16, MUTED),
-        f'<path d="M40 260 Q160 180 300 230" fill="none" stroke="{INK}" stroke-width="2"/>',
-        C(50, 252, 6, INK),
-        C(218, 207, 6, ACCENT),
-        T(24, 278, "Alexandria", 15),
-        T(228, 232, "Hellespont", 15, ACCENT),
-        C(250, 120, 10, ACCENT),
-        T(266, 116, "Moon", 18, ACCENT),
-        L(50, 246, 250, 130, INK, 1.5),
-        L(218, 201, 250, 130, ACCENT, 1.5),
-        L(40, 150, 450, 150, MUTED, 1.2),
-        L(40, 168, 450, 160, MUTED, 1.2),
-        T(330, 142, "Sun, very far", 16, MUTED),
-        T(24, 310, "Total at the Hellespont.", 16),
-        T(24, 334, "About four-fifths covered at Alexandria.", 16),
-        T(24, 358, "The difference is a fifth of the Sun's width.", 16),
-        T(24, 382, "That is a change of direction, not yet miles.", 16),
-        T(24, 410, "The miles come from the size of the Earth.", 16, MUTED),
+        T(24, 28, "Two reports, not two photographs", 22),
+        T(24, 48, "Angles are drawn large. The Sun is very far.", 14, MUTED),
+        f'<path d="M40 250 Q150 150 320 220" fill="none" stroke="{INK}" stroke-width="2"/>',
+        L(ax, ay, ax + dx, ay + dy, MUTED, 1.4),
+        L(hx, hy, hx + dx, hy + dy, MUTED, 1.4),
+        L(hx, hy, moon[0], moon[1], ACCENT, 2.2),
+        L(ax, ay, moon[0], moon[1], ACCENT, 1.8),
+        C(ax, ay, 6, INK),
+        C(hx, hy, 6, ACCENT),
+        C(moon[0], moon[1], 9, ACCENT),
+        T(ax - 20, ay + 28, "Alexandria", 14),
+        T(hx - 10, hy + 36, "Hellespont", 14, ACCENT),
+        T(moon[0] - 18, moon[1] - 16, "Moon", 15, ACCENT),
+        T(392, 214, "Sun, very far", 14, MUTED),
+        T(24, 292, "At the Hellespont the Moon lies on the Sun's direction.", 15),
+        T(24, 314, "The Sun is covered there.", 15),
+        T(24, 338, "At Alexandria the Moon is off that parallel direction.", 15),
+        T(24, 360, "Part of the Sun stays visible. The gap is the parallax.", 15),
+        T(24, 384, "The miles come from the size of the Earth, not from the picture.", 14, MUTED),
     ])
-    desc = "Alexandria and the Hellespont on the Earth, the Moon between them and a very far Sun. Sightlines differ. The drawing exaggerates the angles. These are eclipse reports, not photographs of the stars taken at the same moment."
-    return doc(480, 450, "Two reports, not two photographs", desc, body)
+    desc = "Parallel lines of the Sun's direction leave Alexandria and the Hellespont. The Moon sits on the Hellespont line, so the Sun is covered there. Alexandria's line to the Moon is a different direction from its line to the Sun, so the eclipse is partial. Angles are drawn large. These are reports, not photographs."
+    return doc(480, 408, "Two reports, not two photographs", desc, body)
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)

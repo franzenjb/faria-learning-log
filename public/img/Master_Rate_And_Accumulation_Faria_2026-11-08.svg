@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="160" viewBox="0 0 480 160" role="img" aria-labelledby="t d">
+<title id="t">Rate and accumulation</title><desc id="d">Two panels. How fast right now is a rate of change. How much altogether is accumulation.</desc>
+<rect width="480" height="160" fill="#fbf8f2"/>
+<style>text { font-family: Georgia, 'Iowan Old Style', Palatino, 'Palatino Linotype', serif; fill: #22201c; }</style>
+<text x="16" y="28" font-size="20" fill="#22201c" text-anchor="start">Two questions</text>
+<rect x="16" y="44" width="210" height="90" fill="#fbf8f2" stroke="#7a4b1e" stroke-width="1.6"/>
+<text x="121" y="82" font-size="16" fill="#7a4b1e" text-anchor="middle">How fast, right now?</text>
+<text x="121" y="106" font-size="13" fill="#6b645a" text-anchor="middle">A rate of change</text>
+<rect x="250" y="44" width="210" height="90" fill="#fbf8f2" stroke="#7a4b1e" stroke-width="1.6"/>
+<text x="355" y="82" font-size="16" fill="#7a4b1e" text-anchor="middle">How much altogether?</text>
+<text x="355" y="106" font-size="13" fill="#6b645a" text-anchor="middle">Accumulation</text></svg>
