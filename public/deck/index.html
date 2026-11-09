@@ -197,20 +197,22 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <section class="slide" data-title="Hours are slices" data-fx="clockhand">
   <div class="text">
     <p class="kicker">3 · Degrees are time</p>
-    <h1 id="hs-title">The Earth is a clock with 24 slices</h1>
-    <p class="lede">Look down on the North Pole. The Earth turns once in 24 hours, so cut it into 24 slices and each slice is one hour of turning: 15°.</p>
-    <p>Tap any slice to zoom into it. One slice is 15 degrees; one degree is 4 minutes of time; one minute of arc is 4 seconds. Time minutes and arc minutes are different things with the same name, and a navigator needs both.</p>
+    <h1 id="hs-title">The Earth is a 24-hour clock</h1>
+    <p class="lede">Look down on the North Pole. The Earth turns once in 24 hours. Each hour it turns 15°, and 24 × 15° = 360°, the whole circle.</p>
+    <p>Then break one hour into minutes and seconds, the same way a clock does. The numbers are written on the picture.</p>
     <div class="controls"><label><span class="row">Turning speed <output id="hs-speed-out">1 hour / 3 s</output></span><input id="hs-speed" type="range" min="0" max="4" step="0.25" value="1"></label></div>
-    <div class="btns"><button class="primary" id="hs-slice">Zoom into one slice</button><button id="hs-degree">Zoom into one degree</button><button id="hs-out">Back out</button><button id="hs-ship">Put a ship on it</button></div>
+    <div class="btns"><button id="hs-pause">Pause</button><button class="primary" id="hs-slice">Zoom into one hour</button><button id="hs-degree">Zoom into one minute</button><button id="hs-out">Back out</button></div>
+    <div class="btns"><button id="hs-ship">Ship at high noon</button><button id="hs-chrono">Give it a chronometer</button><button id="hs-land">On land: Jupiter’s moons</button></div>
     <div class="readout" id="hs-read"></div>
-    <div class="table-wrap" style="margin-top:1rem"><table style="width:100%;border-collapse:collapse;font:.9rem var(--sans)"><thead><tr style="color:var(--muted);text-align:left"><th style="padding:.3rem 0">Time</th><th>Angle</th><th>At the equator</th></tr></thead><tbody style="color:#dfd8ca">
-<tr><td style="padding:.3rem 0">1 hour</td><td>15°</td><td>1,036 mi</td></tr>
-<tr><td style="padding:.3rem 0">1 minute</td><td>15′ (¼°)</td><td>17.3 mi</td></tr>
-<tr><td style="padding:.3rem 0">4 minutes</td><td>1°</td><td>69 mi</td></tr>
-<tr><td style="padding:.3rem 0">1 second</td><td>15″</td><td>0.29 mi</td></tr>
-<tr><td style="padding:.3rem 0">4 seconds</td><td>1′</td><td>1 nautical mile</td></tr></tbody></table></div>
+    <div class="table-wrap" style="margin-top:1rem"><table style="width:100%;border-collapse:collapse;font:.95rem var(--sans)"><thead><tr style="color:var(--muted);text-align:left"><th style="padding:.3rem 0">Time</th><th>Earth turns</th><th>At the equator</th></tr></thead><tbody style="color:#dfd8ca">
+<tr><td style="padding:.35rem 0"><b>24 hours</b></td><td>360°</td><td>24,900 mi</td></tr>
+<tr><td style="padding:.35rem 0"><b>1 hour</b></td><td>15°</td><td>1,036 mi</td></tr>
+<tr><td style="padding:.35rem 0"><b>1 minute</b></td><td>15′ (¼°)</td><td>17.3 mi</td></tr>
+<tr><td style="padding:.35rem 0"><b>1 second</b></td><td>15″</td><td>0.29 mi</td></tr>
+<tr><td style="padding:.35rem 0;color:var(--muted)">4 minutes</td><td style="color:var(--muted)">1°</td><td style="color:var(--muted)">69 mi</td></tr>
+<tr><td style="padding:.35rem 0;color:var(--muted)">4 seconds</td><td style="color:var(--muted)">1′</td><td style="color:var(--muted)">1 nautical mile</td></tr></tbody></table></div>
   </div>
-  <div class="stage"><canvas id="c3h"></canvas><div class="hint" id="hs-hint">Tap a slice to zoom in · from above the North Pole · no continents, just the turning</div></div>
+  <div class="stage"><canvas id="c3h"></canvas><div class="hint" id="hs-hint">Tap an hour to zoom in · from above the North Pole · no continents, just the turning</div></div>
 </section>
 
 <!-- 2 · Eratosthenes -->
@@ -603,12 +605,12 @@ document.getElementById('fly-idl').onclick=()=>{show.idl=true;show.lon=true;sync
 SKY.chrono=`<svg viewBox="0 0 240 150"><path d="M15 110 Q120 -20 225 110" fill="none" stroke="#9a9382" stroke-dasharray="3 3"/><line x1="10" y1="110" x2="230" y2="110" stroke="#6fd48a" stroke-width="2"/><circle cx="120" cy="45" r="9" fill="#ffd66b"/><line x1="120" y1="54" x2="120" y2="110" stroke="#ffd66b" stroke-dasharray="2 3"/><text x="128" y="42" fill="#ffd66b" font-size="10">Sun highest = local noon</text><text x="12" y="124" fill="#6fd48a" font-size="9">horizon · watch the Sun with a sextant until it stops climbing</text><circle cx="40" cy="60" r="22" fill="#f3ead6" stroke="#b89a5a" stroke-width="2"/><line x1="40" y1="60" x2="40" y2="44" stroke="#2a2217" stroke-width="2"/><line x1="40" y1="60" x2="52" y2="66" stroke="#2a2217" stroke-width="1.5"/><text x="18" y="94" fill="#dfe7ff" font-size="9">chronometer: 16:40 GMT</text><text x="150" y="80" fill="#f0b35a" font-size="10">4 h 40 m late</text><text x="150" y="94" fill="#f0b35a" font-size="10">× 15° per hour</text><text x="150" y="108" fill="#f0b35a" font-size="11" font-weight="bold">= 70° West</text><text x="12" y="142" fill="#9a9382" font-size="9">Earth turns 360° in 24 h · 1 hour of clock = 15° of longitude · 4 s = 1 nautical mile</text></svg>`;
 document.getElementById('how-lon').onclick=()=>showCard('Longitude from a clock',SKY.chrono,'Set a chronometer to Greenwich time before sailing and never touch it. At sea, follow the Sun with a <span class="term" data-term="sextant">sextant</span> until it reaches its highest point: that instant is <span class="term" data-term="noon">local noon</span>, 12:00 where you stand. Read the chronometer. Every hour it shows past or before noon is 15° of longitude west or east. Harrison\u2019s H4 kept time to a few seconds a month; a pendulum clock on a rolling deck was useless. Cook carried K1, a copy of H4, on his second voyage.',true);
 function syncChips(){document.querySelectorAll('#globe-toggles button').forEach(x=>x.classList.toggle('on',show[x.dataset.k]));}
-const cities=[{n:'Cumberland Foreside',lat:43.8,lon:-70.2},{n:'Tampa',lat:27.9,lon:-82.5},{n:'Greenwich',lat:51.5,lon:0},{n:'Quito',lat:-0.2,lon:-78.5},{n:'Cape Town',lat:-33.9,lon:18.4},{n:'Sydney',lat:-33.9,lon:151.2},{n:'Alexandria',lat:31.2,lon:29.9},{n:'Syene',lat:24.1,lon:32.9}];
+const cities=[{n:'Cumberland Foreside',lat:43.8,lon:-70.2},{n:'Tampa',lat:27.9,lon:-82.5},{n:'Greenwich',lat:51.5,lon:0},{n:'Quito',lat:-0.2,lon:-78.5},{n:'Cape Town',lat:-33.9,lon:18.4},{n:'Sydney',lat:-33.9,lon:151.2},{n:'Alexandria',lat:31.2,lon:29.9},{n:'Syene',lat:24.1,lon:32.9},{n:'Null Island · 0°, 0°',lat:0,lon:0,nul:true}];
 // Southern Cross: RA (h) and Dec (°) of Acrux, Mimosa, Gacrux, Imai. Sky is fixed to the Earth here, which is fine for showing where the pole is.
 const crux=[{n:'Acrux',ra:12.44,dec:-63.1},{n:'Mimosa',ra:12.80,dec:-59.7},{n:'Gacrux',ra:12.52,dec:-57.1},{n:'Imai',ra:12.25,dec:-58.7}];const sky=s=>v3.mul(ll(s.dec,s.ra*15),2.4);
 function geom(){const{w,h}=o;return{cx:w*.5,cy:h*.5,R:Math.min(w,h)*.33*st.zoom};}
 function proj(p){const{cx,cy,R}=geom();const q=rot(p,st.yaw,st.pitch);return{x:cx+q[0]*R,y:cy-q[1]*R,z:q[2]};}
-function tap(p){const{cx,cy,R}=geom();const X=(p.x-cx)/R,Y=-(p.y-cy)/R;const r2=X*X+Y*Y;if(r2>1)return;const q=[X,Y,Math.sqrt(1-r2)];const wpt=unrot(q,st.yaw,st.pitch);me={lat:Math.asin(wpt[1])/DEG,lon:Math.atan2(-wpt[2],wpt[0])/DEG};readout();}
+function tap(p){const{cx,cy,R}=geom();const X=(p.x-cx)/R,Y=-(p.y-cy)/R;const r2=X*X+Y*Y;if(r2>1)return;const ni=proj(ll(0,0));if(ni.z>=0&&Math.hypot(p.x-ni.x,p.y-ni.y)<14){me={lat:0,lon:0};readout();openTerm('nullisland',o.c);return;}const q=[X,Y,Math.sqrt(1-r2)];const wpt=unrot(q,st.yaw,st.pitch);me={lat:Math.asin(wpt[1])/DEG,lon:Math.atan2(-wpt[2],wpt[0])/DEG};readout();}
 // a straight-on cross-section of the Earth for the latitude card: observer, horizon, parallel starlight, the two equal angles
 function latDiagram(lat){const north=lat>=0,a=Math.abs(lat)*DEG,W=480,H=320,cx=200,cy=175,R=110;const sgn=north?-1:1;// screen y of the pole end
 const px=cx+R*Math.cos(a),py=cy+sgn*R*Math.sin(a);const tx=-Math.sin(a),ty=sgn*Math.cos(a);// tangent toward the pole
@@ -661,7 +663,7 @@ if(show.crux){const ps=crux.map(s=>({...s,p:proj(sky(s))}));ps.forEach(s=>{ctx.f
 const a=ps.find(s=>s.n==='Gacrux').p,b=ps.find(s=>s.n==='Acrux').p;ctx.strokeStyle='rgba(255,255,255,.6)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);const m1=ps.find(s=>s.n==='Mimosa').p,m2=ps.find(s=>s.n==='Imai').p;ctx.moveTo(m1.x,m1.y);ctx.lineTo(m2.x,m2.y);ctx.stroke();
 ctx.setLineDash([3,5]);ctx.strokeStyle='rgba(255,125,111,.8)';ctx.beginPath();ctx.moveTo(b.x,b.y);ctx.lineTo(S.x,S.y);ctx.stroke();ctx.setLineDash([]);text(ctx,'4½ cross-lengths to the pole',(b.x+S.x)/2+8,(b.y+S.y)/2,{size:11,color:'#ff7d6f'});}
 // cities
-if(show.cities)for(const c of cities){const p=proj(ll(c.lat,c.lon));if(p.z<0)continue;ctx.fillStyle='#f0b35a';ctx.beginPath();ctx.arc(p.x,p.y,3,0,TAU);ctx.fill();text(ctx,c.n,p.x+6,p.y-4,{size:10,color:'#cfc8ba'});}
+for(const c of cities){if(!show.cities&&!c.nul)continue;const p=proj(ll(c.lat,c.lon));if(p.z<0)continue;if(c.nul){ctx.strokeStyle='#ff7d6f';ctx.lineWidth=2;ctx.beginPath();ctx.arc(p.x,p.y,7,0,TAU);ctx.stroke();ctx.fillStyle='#ff7d6f';ctx.beginPath();ctx.arc(p.x,p.y,2.5,0,TAU);ctx.fill();text(ctx,c.n,p.x+11,p.y-4,{size:10,color:'#ff7d6f'});text(ctx,'tap · where bad data goes',p.x+11,p.y+9,{size:9,color:'#9a9382'});continue;}ctx.fillStyle='#f0b35a';ctx.beginPath();ctx.arc(p.x,p.y,3,0,TAU);ctx.fill();text(ctx,c.n,p.x+6,p.y-4,{size:10,color:'#cfc8ba'});}
 // observer: local horizon (tangent line toward the pole), the sightline to the pole star along the axis, and the angle between them
 if(me){const u=ll(me.lat,me.lon);const p=proj(u);if(p.z>=-0.05){const north=me.lat>=0;const axis=[0,north?1:-1,0];
 let tng=v3.sub(axis,v3.mul(u,v3.dot(axis,u)));const tl=v3.len(tng);tng=tl>1e-6?v3.mul(tng,1/tl):[1,0,0];// horizon direction toward the pole
@@ -740,69 +742,95 @@ if(holdNoon)tag(ctx,'ship held at noon · slide GMT and the ship moves',w*.78-kr
 
 /* ---------- 3 · Hours are slices ---------- */
 {const o=setup('c3h');const speedIn=document.getElementById('hs-speed'),speedOut=document.getElementById('hs-speed-out'),read=document.getElementById('hs-read'),title=document.getElementById('hs-title'),hint=document.getElementById('hs-hint');
-let level=0,// 0 disc, 1 one slice, 2 one degree
+const pauseB=document.getElementById('hs-pause'),shipB=document.getElementById('hs-ship'),chronoB=document.getElementById('hs-chrono'),landB=document.getElementById('hs-land');
+let level=0,// 0 clock, 1 one hour, 2 one minute
 rotation=0,// radians the Earth has turned (Greenwich tick), counter-clockwise from the Sun (+x)
-focus=0,// which slice index (0..23) is being zoomed
-ship=null,// slice index of the ship, or null
-last=0,zoomAnim=null,zoomT=0;// zoomT: 0 disc .. 1 slice .. 2 degree
+focus=0,// which hour slice (0..23) is being zoomed
+paused=false,ship=null,// ship: angle (radians, in Earth frame, ccw from Greenwich) or null
+chrono=false,land=false,last=0,zoomAnim=null,zoomT=0;// zoomT: 0 clock .. 1 hour .. 2 minute
 speedIn.oninput=()=>{speedOut.textContent=+speedIn.value?`1 hour / ${fmt(3/ +speedIn.value,1)} s`:'stopped';};
 const ease=k=>k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
 function goLevel(n){level=n;zoomAnim={from:zoomT,to:n,t0:performance.now(),ms:1600};update();}
 document.getElementById('hs-slice').onclick=()=>goLevel(1);document.getElementById('hs-degree').onclick=()=>goLevel(2);document.getElementById('hs-out').onclick=()=>goLevel(0);
-document.getElementById('hs-ship').onclick=function(){ship=ship===null?(focus+18)%24:null;this.classList.toggle('on',ship!==null);update();};
-function update(){title.textContent=level===0?'The Earth is a clock with 24 slices':level===1?'One slice: 15° of turning, one hour of time':'One degree: 4 minutes of time, 60 minutes of arc';
-hint.textContent=level===0?'Tap a slice to zoom in · from above the North Pole · no continents, just the turning':level===1?'Tap a degree to zoom in · 15 degrees in the slice, 4 minutes each':'60 arcminutes in a degree · 4 seconds each · Back out to return';
-const sh=ship===null?'':`<br>The ship sits ${Math.abs(((ship-focus+36)%24)-12)===0?'on the Greenwich slice':`${((ship-focus+24)%24)>12?24-((ship-focus+24)%24):((ship-focus+24)%24)} slice${Math.abs(((ship-focus+36)%24)-12)===11?'':'s'} ${((ship-focus+24)%24)>12?'west':'east'} of Greenwich`}: its local clock is ${((ship-focus+24)%24)>12?24-((ship-focus+24)%24):((ship-focus+24)%24)} hour${((ship-focus+24)%24)===1||((ship-focus+24)%24)===23?'':'s'} ${((ship-focus+24)%24)>12?'behind':'ahead'}.`;
-read.innerHTML=level===0?`<strong>24 hours = 360°</strong><span class="big">1 hour = 15°</span><span>The whole Earth turns through one slice every hour. The Greenwich tick shows where noon is right now; every slice it passes is another hour.${sh}</span>`:
-level===1?`<strong>One slice = 15° = 1 hour</strong><span class="big">1° = 4 minutes</span><span>Fifteen degrees in the slice, sixty minutes in the hour: 60 ÷ 15 = 4 minutes of time per degree. At the equator a degree is 69 miles, so a clock that is four minutes off puts a ship 69 miles from where it thinks it is.${sh}</span>`:
-`<strong>One degree = 4 minutes of time = 60 minutes of arc</strong><span class="big">1′ of arc = 4 seconds</span><span>Here the names collide. A minute of arc is 1/60 of a degree: one nautical mile at the equator. A minute of time is 15 minutes of arc. Harrison's H4 lost 5 seconds in 81 days: 1¼ arcminutes, 1¼ nautical miles. That is why seconds mattered.${sh}</span>`;}
+pauseB.onclick=()=>{paused=!paused;pauseB.textContent=paused?'Resume':'Pause';pauseB.classList.toggle('on',paused);};
+// the ship: placed on the noon line at the moment you press, then it rides the turning Earth like everything else
+shipB.onclick=function(){if(ship===null){ship=((0-rotation)%TAU+TAU)%TAU;paused=true;pauseB.textContent='Resume';pauseB.classList.add('on');}else{ship=null;chrono=false;land=false;chronoB.classList.remove('on');landB.classList.remove('on');}this.classList.toggle('on',ship!==null);update();};
+chronoB.onclick=function(){if(ship===null)shipB.onclick.call(shipB);chrono=!chrono;if(chrono)land=false;this.classList.toggle('on',chrono);landB.classList.toggle('on',land);update();};
+landB.onclick=function(){if(ship===null)shipB.onclick.call(shipB);land=!land;if(land)chrono=false;this.classList.toggle('on',land);chronoB.classList.toggle('on',chrono);update();};
+const hoursWest=()=>{if(ship===null)return 0;// Greenwich is at angle `rotation` past noon; the ship is `ship` radians ccw of Greenwich
+let d=((rotation+ship)%TAU+TAU)%TAU;// ship's angle past noon (ccw from Sun)
+let hw=(((0-ship)%TAU+TAU)%TAU)/TAU*24;// hours the ship is west of Greenwich (Earth turns ccw, so west = clockwise = negative angle)
+return hw>12?hw-24:hw;};
+function update(){title.textContent=level===0?'The Earth is a 24-hour clock':level===1?'One hour: 15° of turning, 60 minutes':'One minute: 15′ of arc, 60 seconds';
+hint.textContent=level===0?'Tap an hour to zoom in · from above the North Pole · no continents, just the turning':level===1?'Tap again to zoom into one minute · 60 minutes in the hour, ¼° each':'60 seconds in the minute · 15″ of arc each · Back out to return';
+let sh='';if(ship!==null){const hw=hoursWest();const deg=Math.abs(hw)*15;const dir=hw>=0?'west':'east';
+sh=land?`<br><b>On land</b>, the observer sets up a telescope and watches Jupiter. The almanac, printed in Greenwich, says Io vanishes behind Jupiter at a known Greenwich time. The moment it happens, they read their own sundial. Difference: ${fmt(Math.abs(hw),1)} hours, so ${fmt(deg,0)}° ${dir}. Jupiter is a clock in the sky, but only from a steady platform: a telescope on a rolling deck cannot hold the planet.`:
+chrono?`<br><b>With a chronometer</b> set to Greenwich before sailing, the ship reads it at local noon: Greenwich says ${fmt(((12+hw)%24+24)%24,1)} h. The Sun has been overhead at Greenwich for ${fmt(Math.abs(hw),1)} hours ${hw>=0?'longer':'less'}, so the ship is ${fmt(deg,0)}° ${dir}.`:
+`<br><b>The ship at high noon</b> knows one thing: it is noon here. To know its longitude it also needs the time at Greenwich at this same instant, and there is no way to see Greenwich’s clock from the deck. Hours west: <b>?</b> Longitude: <b>?</b>`;}
+read.innerHTML=level===0?`<strong>24 hours = 360°</strong><span class="big">1 hour = 15°</span><span>Watch the Greenwich tick: every slice it passes is one more hour.${sh}</span>`:
+level===1?`<strong>One hour = 15° = 60 minutes</strong><span class="big">1 minute = ¼° = 15′ of arc</span><span>A clock one minute wrong puts a ship 17 miles wrong at the equator.${sh}</span>`:
+`<strong>One minute = 15′ of arc = 60 seconds</strong><span class="big">1 second = 15″ of arc</span><span>Four seconds is one minute of arc: one nautical mile. Harrison’s H4 lost 5 seconds in 81 days.${sh}</span>`;}
 update();
 const geom=()=>{const{w,h}=o;return{cx:w*.5,cy:h*.5,R:Math.min(w,h)*.4};};
-// pointer: tap a slice (level 0) or a degree (level 1)
 o.c.addEventListener('pointerdown',e=>{const r=o.c.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;const{cx,cy,R}=geom();
-if(level===0){const d=Math.hypot(x-cx,y-cy);if(d>R*1.05)return;const a=Math.atan2(cy-y,x-cx);// angle ccw from +x
-const rel=((a-rotation)%TAU+TAU)%TAU;focus=Math.floor(rel/(TAU/24));goLevel(1);}
+if(level===0){const d=Math.hypot(x-cx,y-cy);if(d>R*1.05)return;const a=Math.atan2(cy-y,x-cx);const rel=((a-rotation)%TAU+TAU)%TAU;focus=Math.floor(rel/(TAU/24));goLevel(1);}
 else if(level===1){goLevel(2);}});
-scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);const dt=last?(t-last)/1000:0;last=t;if(zoomT<.05&&+speedIn.value)rotation+=dt*(+speedIn.value)*(TAU/24)/3;// one slice per 3 s at speed 1
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);const dt=last?(t-last)/1000:0;last=t;if(!paused&&zoomT<.05&&+speedIn.value)rotation+=dt*(+speedIn.value)*(TAU/24)/3;
 if(zoomAnim){const k=Math.min(1,(t-zoomAnim.t0)/zoomAnim.ms);zoomT=zoomAnim.from+(zoomAnim.to-zoomAnim.from)*ease(k);if(k>=1)zoomAnim=null;}
 const{cx,cy}=geom();const R0=Math.min(w,h)*.4;
-// zoom: level 1 scales so one slice (15°) spans most of the stage; level 2 so one degree does
-const sliceA=TAU/24,degA=sliceA/15;
-const s1=R0*3.4,s2=R0*3.4*9;const R=zoomT<=1?R0+(s1-R0)*zoomT:s1+(s2-s1)*(zoomT-1);
-// rotate so the focused slice's centre points straight up (-y) when zoomed; blend from the live rotation
-const focusMid=rotation+(focus+.5)*sliceA;const want=Math.PI/2;let rot=rotation;if(zoomT>0){const kz=Math.min(1,zoomT);let d=((want-focusMid)%TAU+TAU)%TAU;if(d>Math.PI)d-=TAU;rot=rotation+d*kz;}
-// centre of the disc moves down so the top edge (the focused slice) is on screen
-const ccy=cy+(R-R0)*(zoomT>0?1:0)+(zoomT>0?R0*.0:0);const ox=cx,oy=zoomT<=1?cy+(R-R0)*zoomT*1.0+R0*.55*zoomT:cy+(s1-R0)+R0*.55+(R-s1)*1.0;
+const hourA=TAU/24,minA=hourA/60;
+// zoom: level 1 so one hour spans the stage; level 2 so one minute does (60× further)
+const s1=R0*3.4,s2=R0*3.4*115;const R=zoomT<=1?R0+(s1-R0)*zoomT:s1+(s2-s1)*Math.pow(zoomT-1,2);
+const focusMid=rotation+(focus+.5)*hourA;const want=Math.PI/2;let rot=rotation;if(zoomT>0){const kz=Math.min(1,zoomT);let d=((want-focusMid)%TAU+TAU)%TAU;if(d>Math.PI)d-=TAU;rot=rotation+d*kz;}
+const ox=cx,oy=zoomT<=1?cy+(R-R0)*zoomT+R0*.55*zoomT:cy+(s1-R0)+R0*.55+(R-s1);
 const arcPt=(ang,r)=>({x:ox+r*Math.cos(ang),y:oy-r*Math.sin(ang)});
 // sunlight from the right
 for(let y=0;y<h;y+=h/14){ctx.strokeStyle='rgba(255,214,107,.1)';ctx.beginPath();ctx.moveTo(w,y);ctx.lineTo(w*.5,y);ctx.stroke();}
 const sg=ctx.createRadialGradient(w+60,h*.5,0,w+60,h*.5,220);sg.addColorStop(0,'rgba(255,214,107,.8)');sg.addColorStop(1,'rgba(255,214,107,0)');ctx.fillStyle=sg;ctx.beginPath();ctx.arc(w+60,h*.5,220,0,TAU);ctx.fill();
-// 24 slices
-for(let i=0;i<24;i++){const a0=rot+i*sliceA,a1=a0+sliceA;const mid=(a0+a1)/2;const lit=Math.cos(mid)>0;const isF=i===focus&&zoomT>0;ctx.fillStyle=isF?'rgba(240,179,90,.28)':(i%2?(lit?'#2b4f7a':'#17283f'):(lit?'#234369':'#132236'));ctx.beginPath();ctx.moveTo(ox,oy);ctx.arc(ox,oy,R,-a1,-a0);ctx.closePath();ctx.fill();ctx.strokeStyle='rgba(10,14,24,.9)';ctx.lineWidth=zoomT>0?2:1;ctx.stroke();
-if(zoomT<.6){const p=arcPt(mid,R*.82);const hr=((i-0)%24+24)%24;text(ctx,String(i===0?'noon':i===12?'midnight':(i<12?`+${i}h`:`−${24-i}h`)),p.x,p.y+4,{size:11,align:'center',color:lit?'#ece6da':'#9a9382',font:'mono'});}}
+// 24 hour slices
+for(let i=0;i<24;i++){const a0=rot+i*hourA,a1=a0+hourA;const mid=(a0+a1)/2;const lit=Math.cos(mid)>0;const isF=i===focus&&zoomT>0;ctx.fillStyle=isF?'rgba(240,179,90,.28)':(i%2?(lit?'#2b4f7a':'#17283f'):(lit?'#234369':'#132236'));ctx.beginPath();ctx.moveTo(ox,oy);ctx.arc(ox,oy,R,-a1,-a0);ctx.closePath();ctx.fill();ctx.strokeStyle='rgba(10,14,24,.9)';ctx.lineWidth=zoomT>0?2:1;ctx.stroke();
+if(zoomT<.6){const p=arcPt(mid,R*.82);text(ctx,String(i===0?'noon':i===12?'midnight':(i<12?`+${i}h`:`−${24-i}h`)),p.x,p.y+4,{size:11,align:'center',color:lit?'#ece6da':'#9a9382',font:'mono'});const q=arcPt(mid,R*.68);text(ctx,'15°',q.x,q.y+4,{size:9,align:'center',color:'rgba(236,230,218,.45)',font:'mono'});}}
 ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(ox,oy,R,0,TAU);ctx.stroke();
-// the Greenwich tick and the noon line
+// Greenwich tick and the noon line
 const gA=rot;const gp=arcPt(gA,R);if(zoomT<.6){ctx.strokeStyle='#ece6da';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(ox,oy);ctx.lineTo(gp.x,gp.y);ctx.stroke();tag(ctx,'Greenwich',gp.x+8,gp.y+4,'#ece6da',12);
 ctx.setLineDash([5,5]);ctx.strokeStyle='rgba(255,214,107,.6)';ctx.beginPath();ctx.moveTo(ox,oy);ctx.lineTo(ox+R*1.15,oy);ctx.stroke();ctx.setLineDash([]);text(ctx,'noon · Sun overhead',ox+R*1.17,oy+4,{size:11,color:'#ffd66b'});
-const hrs=((gA%TAU)+TAU)%TAU/TAU*24;tag(ctx,`Greenwich has turned ${fmt(hrs,1)} h past noon · ${fmt(hrs*15,0)}°`,ox-R,oy+R+28,'#cfc8ba',12);
+const hrs=((gA%TAU)+TAU)%TAU/TAU*24;tag(ctx,`Greenwich: ${fmt(hrs,1)} h past noon · ${fmt(hrs*15,0)}° turned`,ox-R,oy+R+28,'#cfc8ba',12);
 ctx.fillStyle='#ece6da';ctx.beginPath();ctx.arc(ox,oy,4,0,TAU);ctx.fill();text(ctx,'North Pole',ox+8,oy-8,{size:11,color:'#ece6da'});}
-// ship
-if(ship!==null&&zoomT<.6){const sa=rot+(ship+.5)*sliceA;const sp=arcPt(sa,R*.6);ctx.fillStyle='#f0b35a';ctx.beginPath();ctx.arc(sp.x,sp.y,8,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();const local=((sa%TAU)+TAU)%TAU/TAU*24;tag(ctx,`ship · local ${fmt(local,1)} h past noon`,sp.x+12,sp.y+4,'#f0b35a',12);}
-// zoomed detail: degrees within the slice, arcminutes within a degree
-if(zoomT>.4){const a0=rot+focus*sliceA;const alpha=Math.min(1,(zoomT-.4)/.4);ctx.globalAlpha=alpha;
-for(let d=0;d<=15;d++){const a=a0+d*degA;const p1=arcPt(a,R*(d%5?.965:.94)),p2=arcPt(a,R);ctx.strokeStyle=d%5?'rgba(236,230,218,.5)':'#ece6da';ctx.lineWidth=d%5?1:2;ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.lineTo(p2.x,p2.y);ctx.stroke();if(d<15&&zoomT<1.5){const pm=arcPt(a+degA/2,R*.955);text(ctx,String(d+1)+'°',pm.x,pm.y+4,{size:11,align:'center',color:'#cfc8ba',font:'mono'});if(d%5===2){const pq=arcPt(a+degA/2,R*.905);text(ctx,'4 min each',pq.x,pq.y+4,{size:11,align:'center',color:'#f0b35a',font:'mono'});}}}
-const pm=arcPt(a0+sliceA/2,R*.86);if(zoomT<1.5)tag(ctx,'one slice · 15° · 1 hour · 15 degrees × 4 minutes',pm.x-150,pm.y,'#f0b35a',14);ctx.globalAlpha=1;}
-if(zoomT>1.4){const a0=rot+focus*sliceA+7*degA;// the middle degree of the slice
-const alpha=Math.min(1,(zoomT-1.4)/.5);ctx.globalAlpha=alpha;ctx.fillStyle='rgba(111,212,138,.18)';ctx.beginPath();ctx.moveTo(ox,oy);ctx.arc(ox,oy,R,-(a0+degA),-a0);ctx.closePath();ctx.fill();
-for(let m=0;m<=60;m++){const a=a0+m*degA/60;const p1=arcPt(a,R*(m%10?.985:.97)),p2=arcPt(a,R);ctx.strokeStyle=m%10?'rgba(111,212,138,.6)':'#6fd48a';ctx.lineWidth=m%10?1:2;ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.lineTo(p2.x,p2.y);ctx.stroke();if(m%10===0&&m<60){const pm2=arcPt(a+degA/120*10,R*.978);text(ctx,`${m}′`,pm2.x,pm2.y+4,{size:11,align:'center',color:'#6fd48a',font:'mono'});}}
-const pc=arcPt(a0+degA/2,R*.9);tag(ctx,'one degree · 4 minutes of time · 60 minutes of arc · 4 seconds each',pc.x-200,pc.y+40,'#6fd48a',14);tag(ctx,'1′ = 1 nautical mile at the equator',pc.x-110,pc.y+66,'#cfc8ba',12);ctx.globalAlpha=1;}
+// ship (or land observer) and the longitude question
+if(ship!==null&&zoomT<.6){const sa=rot+ship;const sp=arcPt(sa,R*.62);const hw=hoursWest();
+// arc from Greenwich to the ship: the unknown
+ctx.strokeStyle=chrono||land?'#6fd48a':'#ff7d6f';ctx.lineWidth=4;ctx.beginPath();ctx.arc(ox,oy,R*.5,-gA,-sa,hw>0);ctx.stroke();
+const ma=(gA+sa)/2+(hw>0?0:0);const mp=arcPt(hw>0?gA-Math.abs(hw)*hourA/2:gA+Math.abs(hw)*hourA/2,R*.5);
+if(chrono||land)tag(ctx,`${fmt(Math.abs(hw),1)} h = ${fmt(Math.abs(hw)*15,0)}° ${hw>=0?'west':'east'}`,mp.x-50,mp.y,'#6fd48a',15);else tag(ctx,'? hours = ? degrees',mp.x-60,mp.y,'#ff7d6f',15);
+if(land){// a hill with a telescope and Jupiter above it
+ctx.fillStyle='#4a6b3a';ctx.beginPath();ctx.arc(sp.x,sp.y+10,16,Math.PI,0);ctx.fill();ctx.strokeStyle='#ece6da';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(sp.x,sp.y-4);ctx.lineTo(sp.x+16,sp.y-22);ctx.stroke();
+const jx=sp.x+46,jy=sp.y-52;ctx.fillStyle='#e8c89a';ctx.beginPath();ctx.arc(jx,jy,9,0,TAU);ctx.fill();ctx.strokeStyle='#b88a5a';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(jx-9,jy-2);ctx.lineTo(jx+9,jy-2);ctx.moveTo(jx-9,jy+3);ctx.lineTo(jx+9,jy+3);ctx.stroke();[-22,-14,13,20].forEach((d,i)=>{ctx.fillStyle=i===1?'#ff7d6f':'#ece6da';ctx.beginPath();ctx.arc(jx+d,jy,i===1?2.5:1.8,0,TAU);ctx.fill();});
+tag(ctx,'Io vanishes · almanac says the Greenwich time',jx+14,jy+4,'#ece6da',11);tag(ctx,'on land · telescope on a steady tripod',sp.x+20,sp.y+18,'#6fd48a',12);}
+else{// ship: hull + sail
+ctx.fillStyle='#f0b35a';ctx.beginPath();ctx.moveTo(sp.x-16,sp.y+4);ctx.lineTo(sp.x+16,sp.y+4);ctx.lineTo(sp.x+10,sp.y+12);ctx.lineTo(sp.x-10,sp.y+12);ctx.closePath();ctx.fill();ctx.strokeStyle='#ece6da';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sp.x,sp.y+4);ctx.lineTo(sp.x,sp.y-20);ctx.stroke();ctx.fillStyle='#ece6da';ctx.beginPath();ctx.moveTo(sp.x,sp.y-20);ctx.lineTo(sp.x+14,sp.y-4);ctx.lineTo(sp.x,sp.y-4);ctx.closePath();ctx.fill();
+tag(ctx,'ship · local noon',sp.x+20,sp.y+2,'#f0b35a',12);if(chrono)tag(ctx,`chronometer: Greenwich ${fmt(((12+hw)%24+24)%24,1)} h`,sp.x+20,sp.y+20,'#6fd48a',12);else tag(ctx,'Greenwich time: unknown',sp.x+20,sp.y+20,'#ff7d6f',12);}}
+// zoom level 1: 60 minutes in the hour, degree ticks bold
+if(zoomT>.4){const a0=rot+focus*hourA;const alpha=Math.min(1,(zoomT-.4)/.4);ctx.globalAlpha=alpha;
+for(let m=0;m<=60;m++){const a=a0+m*minA;const isDeg=m%4===0;const p1=arcPt(a,R*(isDeg?.955:.975)),p2=arcPt(a,R);ctx.strokeStyle=isDeg?'#ece6da':'rgba(236,230,218,.45)';ctx.lineWidth=isDeg?2:1;ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.lineTo(p2.x,p2.y);ctx.stroke();
+if(zoomT<1.5&&isDeg&&m<60&&(m/4)%2===0){const pm=arcPt(a+2*minA,R-62);text(ctx,`${15-m/4}°`,pm.x,pm.y+4,{size:11,align:'center',color:'#cfc8ba',font:'mono'});}
+}if(zoomT<1.5){const pc=arcPt(a0+30*minA,R-110);text(ctx,'← 60 minutes of time · 15° →',pc.x,pc.y+4,{size:12,align:'center',color:'#f0b35a'});}ctx.globalAlpha=1;}
+// zoom level 2: one minute, 60 seconds, every 4th bold = 1′ of arc
+if(zoomT>1.4){const a0=rot+focus*hourA+29.5*minA;const alpha=Math.min(1,(zoomT-1.4)/.5);ctx.globalAlpha=alpha;ctx.fillStyle='rgba(111,212,138,.18)';ctx.beginPath();ctx.moveTo(ox,oy);ctx.arc(ox,oy,R,-(a0+minA),-a0);ctx.closePath();ctx.fill();
+for(let sec=0;sec<=60;sec++){const a=a0+sec*minA/60;const isArcMin=sec%4===0;const p1=arcPt(a,R-(isArcMin?46:22)),p2=arcPt(a,R);ctx.strokeStyle=isArcMin?'#6fd48a':'rgba(111,212,138,.55)';ctx.lineWidth=isArcMin?2:1;ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.lineTo(p2.x,p2.y);ctx.stroke();
+if(sec%12===0&&sec>0&&sec<60){const pm2=arcPt(a,R-100);text(ctx,`${60-sec} s`,pm2.x,pm2.y+4,{size:12,align:'center',color:'#6fd48a',font:'mono'});}
+if(isArcMin&&sec<60&&sec%4===0){const pq=arcPt(a+2*minA/60,R-66);text(ctx,`${15-sec/4}′`,pq.x,pq.y+4,{size:11,align:'center',color:'#cfc8ba',font:'mono'});}}const pc=arcPt(a0+minA/2,R-150);text(ctx,'← 60 seconds of time · 15′ of arc · 15 nautical miles →',pc.x,pc.y+4,{size:12,align:'center',color:'#6fd48a'});ctx.globalAlpha=1;}
+// the explainer: plain lines written on the stage for whatever is on screen
+{const L=zoomT<.5?[['A 24-HOUR CLOCK','#9a9382',13],['1 hour = 15°','#f0b35a',30],['24 hours × 15° = 360°','#ece6da',18],['tap an hour to break it into minutes','#9a9382',14]]:zoomT<1.5?[['ONE HOUR','#9a9382',13],['1 hour = 15° = 60 minutes','#f0b35a',30],['each tick is 1 minute of time = ¼° = 15′ of arc','#ece6da',18],['bold ticks every 4 minutes = 1° = 69 miles','#9a9382',14]]:[['ONE MINUTE','#9a9382',13],['1 minute = 15′ of arc = 60 seconds','#f0b35a',30],['each tick is 1 second of time = 15″ of arc','#6fd48a',18],['bold ticks every 4 seconds = 1′ of arc = 1 nautical mile','#9a9382',14]];
+let y=h*.12;ctx.fillStyle='rgba(10,14,24,.75)';ctx.fillRect(w*.04-14,y-30,Math.min(w*.56,620),L.length*34+22);for(const[s,c,sz]of L){text(ctx,s,w*.04,y,{size:sz,color:c,font:sz>=22?'mono':undefined});y+=sz>=22?38:30;}}
 text(ctx,'Earth from above the North Pole · turning counter-clockwise · the Sun stays to the right',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}});}
 
 /* ---------- 2 · Eratosthenes ---------- */
-{const o=setup('c2');const angIn=document.getElementById('era-ang'),distIn=document.getElementById('era-dist'),stadIn=document.getElementById('era-stad'),read=document.getElementById('era-read');let flat=false;const ez={zoom:1};
+{const o=setup('c2');const angIn=document.getElementById('era-ang'),distIn=document.getElementById('era-dist'),stadIn=document.getElementById('era-stad'),read=document.getElementById('era-read');let flat=false;const ez={zoom:1,pan:0};
 // scroll or pinch to zoom in on the sticks
-{const pts=new Map();let p0=0,z0=1;const pos=e=>{const r=o.c.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};};o.c.addEventListener('wheel',e=>{e.preventDefault();ez.zoom=Math.max(1,Math.min(12,ez.zoom*(e.deltaY<0?1.12:.89)));},{passive:false});o.c.addEventListener('pointerdown',e=>{pts.set(e.pointerId,pos(e));if(pts.size===2){const[a,b]=[...pts.values()];p0=Math.hypot(a.x-b.x,a.y-b.y);z0=ez.zoom;}});o.c.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;pts.set(e.pointerId,pos(e));if(pts.size===2){const[a,b]=[...pts.values()];ez.zoom=Math.max(1,Math.min(12,z0*Math.hypot(a.x-b.x,a.y-b.y)/p0));}});const end=e=>pts.delete(e.pointerId);o.c.addEventListener('pointerup',end);o.c.addEventListener('pointercancel',end);}
-function eraGeom(){const{w,h}=o;const R=h*.78*ez.zoom;return{cx:w*.5-(ez.zoom-1)*w*.08,cy:h*.17+R,R};}
+{const pts=new Map();let p0=0,z0=1;const pos=e=>{const r=o.c.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};};o.c.addEventListener('wheel',e=>{e.preventDefault();ez.zoom=Math.max(1,Math.min(12,ez.zoom*(e.deltaY<0?1.12:.89)));},{passive:false});let panning=false;o.c.addEventListener('pointerdown',e=>{const q=pos(e);pts.set(e.pointerId,q);if(pts.size===2){const[a,b]=[...pts.values()];p0=Math.hypot(a.x-b.x,a.y-b.y);z0=ez.zoom;panning=false;}else{// one finger away from Alexandria drags the whole Earth sideways
+const{cx,cy,R}=eraGeom();const th=+angIn.value*DEG;const ax=cx-R*Math.sin(th),ay=cy-R*Math.cos(th);panning=Math.hypot(q.x-ax,q.y-ay)>140*Math.sqrt(ez.zoom);}});o.c.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;const prev=pts.get(e.pointerId),q=pos(e);pts.set(e.pointerId,q);if(pts.size===2){const[a,b]=[...pts.values()];ez.zoom=Math.max(1,Math.min(12,z0*Math.hypot(a.x-b.x,a.y-b.y)/p0));}else if(panning){ez.pan+=q.x-prev.x;const lim=o.w*.45*ez.zoom;ez.pan=Math.max(-lim,Math.min(lim,ez.pan));}});const end=e=>pts.delete(e.pointerId);o.c.addEventListener('pointerup',end);o.c.addEventListener('pointercancel',end);}
+// the midpoint between the two sticks stays where it was at zoom 1, so zooming closes in on them; pan slides it sideways
+function eraGeom(){const{w,h}=o;const R1=h*.78,R=R1*ez.zoom,hf=(+angIn.value*DEG)/2;const mx1=w*.5-R1*Math.sin(hf),my0=h*.17+R1-R1*Math.cos(hf),kz=Math.min(1,(ez.zoom-1)/3),my1=my0+(h*.42-my0)*kz;return{cx:mx1+ez.pan+R*Math.sin(hf),cy:my1+R*Math.cos(hf),R};}
 const outs={ang:document.getElementById('era-ang-out'),dist:document.getElementById('era-dist-out'),stad:document.getElementById('era-stad-out')};
 [angIn,distIn,stadIn].forEach(i=>i.oninput=update);
 document.getElementById('era-reset').onclick=()=>{angIn.value=7.2;distIn.value=5000;stadIn.value=157.5;flat=false;update();};
@@ -820,7 +848,7 @@ function move(p){if(flat)return;const{cx,cy,R}=eraGeom();const a=Math.atan2(cx-p
 scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);const th=+angIn.value*DEG;const{cx,cy,R}=eraGeom();const sl=46*Math.sqrt(ez.zoom);
 // sun rays
 const sp=w*.055;for(let x=cx-Math.ceil(cx/sp)*sp;x<w*.98;x+=sp){if(Math.abs(x-cx)<1)continue;/* the ray down the well is drawn with the well itself */ctx.strokeStyle='rgba(255,214,107,.28)';ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,flat?h*.4:cy-R*Math.cos(Math.asin(Math.min(1,Math.abs(x-cx)/R)))+2);ctx.stroke();}
-text(ctx,'Sunlight at noon, summer solstice · parallel rays · scroll or pinch to zoom in on the sticks',w*.5,24,{size:12,color:'#ffd66b',align:'center'});
+text(ctx,'Sunlight at noon, summer solstice · parallel rays · scroll or pinch to zoom in on the sticks · drag the Earth sideways',w*.5,24,{size:12,color:'#ffd66b',align:'center'});
 if(flat){const gy=h*.5;ctx.fillStyle='#1b2a3f';ctx.fillRect(0,gy,w,h-gy);ctx.strokeStyle='#3b5f8a';ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(w,gy);ctx.stroke();
 const stick=(x,label)=>{ctx.strokeStyle='#ece6da';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(x,gy);ctx.lineTo(x,gy-70);ctx.stroke();text(ctx,label,x,gy+22,{size:13,align:'center'});text(ctx,'no shadow',x,gy+40,{size:11,align:'center',color:'#9a9382'});};stick(w*.62,'Syene');stick(w*.3,'Alexandria');
 text(ctx,'Same Sun, same angle, same shadow everywhere. That is not what was seen.',w*.5,h*.85,{size:14,color:'#ff7d6f',align:'center'});return;}
@@ -1533,6 +1561,7 @@ if(flyT>0){const k=Math.min(1,(t-flyT)/4000);const p=gcPts[Math.floor(k*120)];co
 text(ctx,flatT<.05?'globe · the great circle is the straight one':flatT<1?'unrolling':'Mercator · the rhumb line is the straight one',cx,h-54,{size:12,color:'#9a9382',align:'center'});}
 text(ctx,`zoom ${fmt(st.zoom,1)}×`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}});
 // glossary entries
+GLOSS.nullisland={t:'Null Island: 0° latitude, 0° longitude',g:`<svg viewBox="0 0 480 300"><defs><linearGradient id="nsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8ec5ff"/><stop offset="1" stop-color="#e9f3ff"/></linearGradient><linearGradient id="nsea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1f6fb2"/><stop offset="1" stop-color="#0b3f73"/></linearGradient><radialGradient id="nsand" cx=".5" cy=".4" r=".7"><stop offset="0" stop-color="#f3e2b4"/><stop offset="1" stop-color="#cdb27a"/></radialGradient></defs><rect width="480" height="300" fill="url(#nsky)"/><circle cx="400" cy="56" r="26" fill="#fff3b0"/><ellipse cx="90" cy="70" rx="46" ry="14" fill="#fff" opacity=".9"/><ellipse cx="120" cy="64" rx="30" ry="12" fill="#fff" opacity=".9"/><rect y="170" width="480" height="130" fill="url(#nsea)"/><path d="M0 178 Q 40 170 80 178 T 160 178 T 240 178 T 320 178 T 400 178 T 480 178" fill="none" stroke="#dff1ff" stroke-width="2" opacity=".6"/><path d="M0 200 Q 60 192 120 200 T 240 200 T 360 200 T 480 200" fill="none" stroke="#9fd0ff" stroke-width="1.5" opacity=".5"/><ellipse cx="240" cy="188" rx="150" ry="26" fill="url(#nsand)"/><path d="M 150 176 Q 160 160 175 176" fill="#8fb36a"/><path d="M 300 178 Q 312 158 326 178" fill="#8fb36a"/><rect x="178" y="94" width="10" height="90" rx="2" fill="#8a5a2b"/><path d="M183 96 C 150 90 130 110 125 128 C 150 112 170 108 183 100 Z" fill="#2f8f4e"/><path d="M183 96 C 215 88 238 104 246 124 C 222 108 200 106 183 100 Z" fill="#35a058"/><path d="M183 94 C 170 70 178 52 196 44 C 186 64 190 80 183 94 Z" fill="#2f8f4e"/><path d="M183 94 C 200 72 222 68 236 76 C 216 78 200 86 183 94 Z" fill="#3fae62"/><circle cx="186" cy="100" r="4" fill="#6b4a1e"/><circle cx="178" cy="98" r="4" fill="#6b4a1e"/><rect x="256" y="120" width="8" height="70" fill="#7a5230"/><rect x="214" y="112" width="92" height="44" rx="3" fill="#2d5a3d" stroke="#1d3a27" stroke-width="2"/><rect x="218" y="116" width="84" height="36" rx="2" fill="none" stroke="#e8e2c8" stroke-width="1.5"/><text x="260" y="131" fill="#f4efdc" font-size="10" font-family="Georgia,serif" text-anchor="middle" letter-spacing="1">WELCOME TO</text><text x="260" y="147" fill="#ffffff" font-size="14" font-family="Georgia,serif" font-weight="700" text-anchor="middle">NULL ISLAND</text><rect x="212" y="160" width="96" height="22" rx="2" fill="#f4efdc" stroke="#7a5230" stroke-width="1.5"/><text x="260" y="169" fill="#2b2b2b" font-size="7" font-family="Menlo,monospace" text-anchor="middle">LAT 0.000000  LON 0.000000</text><text x="260" y="178" fill="#2b2b2b" font-size="7" font-family="Menlo,monospace" text-anchor="middle">POP. 0 · ELEV. 0 · ALL YOUR DATA</text><rect x="60" y="212" width="8" height="18" fill="#ff7d6f"/><rect x="56" y="224" width="16" height="6" fill="#ece6da"/><circle cx="64" cy="210" r="3" fill="#ffd66b"/><text x="78" y="226" fill="#dff1ff" font-size="9">buoy 13010 “Soul”, the only real thing here</text><g fill="#ff7d6f" opacity=".85"><circle cx="330" cy="186" r="2"/><circle cx="338" cy="190" r="2"/><circle cx="345" cy="184" r="2"/><circle cx="352" cy="189" r="2"/><circle cx="360" cy="185" r="2"/><circle cx="334" cy="194" r="2"/><circle cx="348" cy="194" r="2"/></g><text x="366" y="206" fill="#ffd0c8" font-size="9">← your unlocated records</text><text x="12" y="290" fill="#ffffff" font-size="11" opacity=".85">Gulf of Guinea · nearest land 380 mi · no island, just a lot of bad coordinates</text></svg>`,p:'There is no island at 0°, 0°, just open ocean in the Gulf of Guinea and a single moored weather buoy. But it is the most populated point in the world’s databases. When a geocoder fails it often returns <b>0, 0</b>. When a spreadsheet has an empty latitude and longitude, a loader reads the blanks as zeros. When a field crew leaves the GPS off, the form writes zeros. All of it plots on the same spot, so GIS people gave it a name and a flag. <b>The lesson:</b> a point at Null Island is not a location, it is a failure that looks like a location. Filter for it before you map anything, and treat the count there as a measure of how much of your data never got a real place.'};
 GLOSS.rhumb={t:'Rhumb line',g:`<svg viewBox="0 0 480 300"><rect x="40" y="40" width="400" height="220" fill="#15294a" stroke="#3b5f8a"/><line x1="80" y1="220" x2="400" y2="80" stroke="#6fb3ff" stroke-width="3" stroke-dasharray="8 5"/><path d="M80 220 Q200 60 400 80" fill="none" stroke="#f0b35a" stroke-width="3"/><text x="90" y="245" fill="#ece6da" font-size="12">A</text><text x="405" y="75" fill="#ece6da" font-size="12">B</text><text x="250" y="190" fill="#6fb3ff" font-size="12">rhumb line · one compass bearing · straight on Mercator</text><text x="130" y="100" fill="#f0b35a" font-size="12">great circle · shortest · bends poleward</text><text x="40" y="285" fill="#9a9382" font-size="12">Mercator's whole purpose, 1569: make a constant bearing a straight line.</text></svg>`,p:'A rhumb line, or loxodrome, crosses every meridian at the same angle, so a ship can hold one compass heading from port to port. On a globe it spirals toward the pole; Mercator built his 1569 projection so that it would draw as a straight line, which is why navigators have used Mercator charts ever since. The cost is that it is not the shortest route, and the stretching needed to straighten it inflates everything near the poles.'};
 GLOSS.greatcircle={t:'Great circle',g:`<svg viewBox="0 0 480 300"><circle cx="240" cy="150" r="110" fill="#15294a" stroke="#3b5f8a"/><ellipse cx="240" cy="150" rx="110" ry="30" fill="none" stroke="#9a9382" stroke-dasharray="4 4"/><path d="M135 185 A110 110 0 0 1 345 110" fill="none" stroke="#f0b35a" stroke-width="3"/><circle cx="135" cy="185" r="5" fill="#fff"/><circle cx="345" cy="110" r="5" fill="#fff"/><text x="40" y="60" fill="#f0b35a" font-size="12">a circle whose centre is the Earth's centre</text><text x="40" y="285" fill="#9a9382" font-size="12">The equator and every meridian are great circles; other parallels are not.</text></svg>`,p:'The shortest path between two points on a sphere runs along the great circle through them: the circle cut by a plane through the Earth’s centre. Stretch a string between two cities on a globe and it lies on one. Flights from New York to London arc up past Newfoundland for this reason. On Mercator the great circle looks like a detour toward the pole, which is the map lying, not the pilot.'};
 }
