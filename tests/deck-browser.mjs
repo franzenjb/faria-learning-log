@@ -35,5 +35,17 @@ assert.equal(await page.locator('#moon-toggles button.on').count(), 4);
 const m = await page.locator('#c4').boundingBox();
 await page.mouse.click(m.x + m.width * .5, m.y + m.height * .52); // the centre lies on R, R+h and the diameter: a tap toggles the nearest one
 assert.notEqual(await page.locator('#moon-toggles button.on').count(), 4);
+await slide(5);
+assert.match(await page.locator('#tv-read .big').innerText(), /they differ by/);
+assert.match(await page.locator('#tv-read').innerText(), /15\d million km/);
+await page.click('#tv-contact'); await page.click('#tv-play'); await page.waitForTimeout(800);
+const tv = await page.locator('#c5').boundingBox();
+await page.mouse.click(tv.x + tv.width * .26, tv.y + tv.height * .5); // post observer A on the globe
+assert.match(await page.locator('#tv-pairs button.on').count().then(String), /0/);
+await page.click('#m5 button[data-mode=rare]');
+assert.match(await page.locator('#tv-rare-read .big').innerText(), /TRANSIT/); // 1769
+await page.click('#tv-next'); await page.waitForTimeout(2100);
+assert.match(await page.locator('#tv-year-out').innerText(), /^1874/);
+await page.click('#tv-tilt'); assert.match(await page.locator('#tv-rare-read strong').innerText(), /no tilt/);
 assert.deepEqual(errors, []);
 await browser.close(); console.log('deck ok');

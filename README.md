@@ -10,4 +10,4 @@ See `ADDING_A_SESSION.md` for adding a day.
 
 ## Interactive deck
 
-`/deck/` is a presenter deck of four live models (latitude from Polaris and longitude from a chronometer, Eratosthenes, Galileo's moons of Jupiter, the height of a Moon mountain). Source: `public/deck/index.html`, no dependencies. Arrow keys move between slides, F toggles full screen, `#n` in the URL opens slide n. Smoke test: `node build.mjs && PLAYWRIGHT_MODULE=<path to playwright> node tests/deck-browser.mjs`.
+`/deck/` is a presenter deck of five live models (a spinnable globe for latitude and the pole stars plus a chronometer for longitude, Eratosthenes, Galileo's moons of Jupiter, a 3D Moon for the mountain-height geometry, and the transit of Venus with Halley's parallax method and the orbital reason transits are rare). Source: `public/deck/index.html`, no dependencies. Arrow keys move between slides, F toggles full screen, `#n` in the URL opens slide n. Smoke test: `node build.mjs && PLAYWRIGHT_MODULE=<path to playwright> node tests/deck-browser.mjs`.

@@ -14,6 +14,7 @@ button,input{font:inherit}
 .deck{position:relative;height:100%;width:100%}
 .slide{position:absolute;inset:0;display:grid;grid-template-columns:minmax(300px,30rem) 1fr;grid-template-rows:1fr;gap:0;opacity:0;pointer-events:none;transition:opacity .5s ease}
 .slide.active{opacity:1;pointer-events:auto}
+.venus-dot{position:fixed;top:50%;width:2.2vw;height:2.2vw;margin-top:-1.1vw;border-radius:50%;background:#000;box-shadow:0 0 0 3px rgba(255,214,107,.9),0 0 40px 12px rgba(255,214,107,.45);z-index:9;pointer-events:none}
 .chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.2rem 0 .8rem}
 .chips button{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:.3rem .75rem;font:500 .78rem var(--sans);cursor:pointer}
 .chips button.on{background:#2a3350;border-color:var(--sky);color:#fff}
@@ -88,6 +89,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
       <li><strong>2.</strong> Eratosthenes sizes the Earth with a well and a stick.</li>
       <li><strong>3.</strong> Galileo sees four moons circling Jupiter.</li>
       <li><strong>4.</strong> Galileo measures a mountain on the Moon from its shadow.</li>
+      <li><strong>5.</strong> Venus crosses the Sun and the solar system gets a size.</li>
     </ul>
     <p><small>Use → and ← keys, or the dots below. Press F for full screen.</small></p>
   </div>
@@ -186,6 +188,37 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
   <div class="stage"><canvas id="c4"></canvas><div class="hint">Drag to spin · pinch or scroll to zoom · tap a line to name it</div></div>
 </section>
 
+<!-- 5 · Transit of Venus -->
+<section class="slide" data-title="Transit of Venus" data-fx="venus">
+  <div class="text">
+    <p class="kicker">5 · 1761 and 1769 · The whole world looks up</p>
+    <h1>Venus crosses the Sun, and the solar system gets a size</h1>
+    <div class="modes" id="m5"><button class="on" data-mode="measure">Measure the Sun's distance</button><button data-mode="rare">Why it almost never happens</button></div>
+
+    <div id="tv-measure">
+      <p class="lede">Halley's idea: two observers far apart on Earth see Venus cross the Sun on slightly different lines. Time both crossings. The difference gives the distance to the Sun.</p>
+      <p>Tap the globe to post one observer, tap again for the second, then play the transit. Their stopwatches disagree, and that disagreement is a ruler for the solar system.</p>
+      <div class="chips" id="tv-pairs"><button data-a="tahiti" data-b="vardo" class="on">Cook at Tahiti · Hell at Vardø</button><button data-a="tahiti" data-b="hudson">Tahiti · Hudson Bay</button><button data-a="capetown" data-b="stjohns">1761 · Mason &amp; Dixon at Cape Town · St John's</button><button data-a="pondicherry" data-b="vardo">Le Gentil at Pondicherry (cloud)</button></div>
+      <div class="controls">
+        <label><span class="row">Transit clock <output id="tv-t-out">1st contact</output></span><input id="tv-t" type="range" min="-30" max="400" step="1" value="-30"></label>
+        <label><span class="row">Exaggerate the parallax <output id="tv-ex-out">×6</output></span><input id="tv-ex" type="range" min="1" max="20" step="1" value="6"></label>
+        <label><span class="row">Black drop timing error <output id="tv-err-out">±0 s</output></span><input id="tv-err" type="range" min="0" max="90" step="5" value="0"></label>
+      </div>
+      <div class="btns"><button class="primary" id="tv-play">Play the transit</button><button id="tv-contact">Jump to 2nd contact</button></div>
+      <div class="readout" id="tv-read"></div>
+    </div>
+
+    <div id="tv-rare" hidden>
+      <p class="lede">Venus passes between us and the Sun every 584 days. Almost every time it slips above or below the Sun, because its orbit is tilted 3.4°.</p>
+      <p>Only when the lineup falls where the two orbits cross does Venus show on the Sun's face: a pair eight years apart, then more than a century of nothing. The dates below are computed live from the orbits, not typed in.</p>
+      <div class="controls"><label><span class="row">Year <output id="tv-year-out">1769</output></span><input id="tv-year" type="range" min="1600" max="2150" step="0.01" value="1769.42"></label></div>
+      <div class="btns"><button class="primary" id="tv-next">Fly to the next transit</button><button id="tv-prev">Previous transit</button><button id="tv-tilt">Flatten the orbit</button></div>
+      <div class="readout" id="tv-rare-read"></div>
+    </div>
+  </div>
+  <div class="stage"><canvas id="c5"></canvas><div class="hint" id="h5">Tap the globe to place two observers · drag to spin</div></div>
+</section>
+
 </div>
 
 <nav class="nav" aria-label="Slides">
@@ -203,9 +236,11 @@ const FX={fade:[{opacity:0,transform:'scale(1.06)'},{opacity:1,transform:'none'}
  iris:[{clipPath:'circle(0% at 50% 50%)'},{clipPath:'circle(80% at 50% 50%)'}],
  sunrise:[{clipPath:'inset(100% 0 0 0)',filter:'brightness(2.5)'},{clipPath:'inset(0 0 0 0)',filter:'brightness(1)'}],
  telescope:[{transform:'scale(.2)',filter:'blur(16px)',opacity:0},{transform:'none',filter:'blur(0px)',opacity:1}],
- terminator:[{clipPath:'polygon(0 0,0 0,-40% 100%,0 100%)'},{clipPath:'polygon(0 0,140% 0,100% 100%,0 100%)'}]};
+ terminator:[{clipPath:'polygon(0 0,0 0,-40% 100%,0 100%)'},{clipPath:'polygon(0 0,140% 0,100% 100%,0 100%)'}],
+ venus:[{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0 0 0)'}]};
 function go(i){const prev=cur;cur=(i+slides.length)%slides.length;slides.forEach((s,k)=>s.classList.toggle('active',k===cur));
-if(prev!==cur){const s=slides[cur];s.getAnimations().forEach(a=>a.cancel());s.animate(FX[s.dataset.fx]||FX.fade,{duration:1000,easing:'cubic-bezier(.2,.7,.2,1)'});}[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===cur));document.getElementById('counter').textContent=`${cur} / ${slides.length-1} · ${slides[cur].dataset.title.replace('&amp;','&')}`;location.hash=cur?`#${cur}`:'';resizeAll();}
+if(prev!==cur){const s=slides[cur];s.getAnimations().forEach(a=>a.cancel());const fx=s.dataset.fx;s.animate(FX[fx]||FX.fade,{duration:fx==='venus'?1500:1000,easing:fx==='venus'?'linear':'cubic-bezier(.2,.7,.2,1)'});
+if(fx==='venus'){const d=document.createElement('div');d.className='venus-dot';document.body.appendChild(d);d.animate([{left:'-3%'},{left:'101%'}],{duration:1500,easing:'linear'}).onfinish=()=>d.remove();}}[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===cur));document.getElementById('counter').textContent=`${cur} / ${slides.length-1} · ${slides[cur].dataset.title.replace('&amp;','&')}`;location.hash=cur?`#${cur}`:'';resizeAll();}
 document.getElementById('prev').onclick=()=>go(cur-1);document.getElementById('next').onclick=()=>go(cur+1);
 addEventListener('keydown',e=>{if(e.target.matches('input,button'))e.target.blur();if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')go(cur+1);else if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);else if(e.key.toLowerCase()==='f'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}});
 let tx=null;addEventListener('touchstart',e=>{if(!e.target.closest('canvas'))tx=e.touches[0].clientX;},{passive:true});addEventListener('touchend',e=>{if(tx==null)return;const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>70)go(cur+(dx<0?1:-1));tx=null;});
@@ -477,6 +512,123 @@ if(show.d){seg(T,P,'#6fd48a',3);tag(ctx,`d = ${fmtI(dm)} mi`,(T.x+P.x)/2-40,Math
 if(Math.abs(st.pitch)<0.3)text(ctx,'What Galileo saw · terminator runs top to bottom',cx,cy-R-24,{size:12,align:'center',color:'#9a9382'});
 ctx.fillStyle='rgba(236,230,218,.6)';ctx.beginPath();ctx.arc(O.x,O.y,2,0,TAU);ctx.fill();
 text(ctx,`zoom ${fmt(st.zoom,1)}× · heights exaggerated`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}});}
+
+/* ---------- 5 · Transit of Venus ---------- */
+{const o=setup('c5');let mode='measure';
+const AU=149.6e6,RE=6371,RS=945,RV=29,B0=609,VEL=4.13;// arcsec, arcsec/min. 1769 geometry: Venus passed 609" from the Sun's centre
+const K=(1/0.277-1)*206265/AU;// arcsec of relative Venus-Sun shift per km of observer displacement
+const SUN=ll(22.5,-150);// sub-solar point at mid-transit, 3 June 1769 (Sun over the Pacific, Tahiti near noon)
+const Vdir=v3.norm(v3.cross([0,1,0],SUN)),Udir=v3.cross(SUN,Vdir);// path direction and sky-north on the Sun's disc
+const sites={tahiti:{n:'Tahiti · Cook, Green & Solander',lat:-17.5,lon:-149.6},vardo:{n:'Vardø · Maximilian Hell',lat:70.4,lon:31.1},hudson:{n:'Hudson Bay · Wales & Dymond',lat:58.8,lon:-94.2},capetown:{n:'Cape Town · Mason & Dixon, 1761',lat:-33.9,lon:18.4},stjohns:{n:'St John’s, Newfoundland',lat:47.6,lon:-52.7},pondicherry:{n:'Pondicherry · Le Gentil, clouded out',lat:11.9,lon:79.8}};
+let obs=[{...sites.tahiti,c:'#f0b35a'},{...sites.vardo,c:'#6fb3ff'}],next=0,playing=false,last=0;
+const st={yaw:2.4,pitch:0.1,zoom:.75,anim:null,enabled:()=>mode==='measure'};
+const tIn=document.getElementById('tv-t'),tOut=document.getElementById('tv-t-out'),exIn=document.getElementById('tv-ex'),exOut=document.getElementById('tv-ex-out'),errIn=document.getElementById('tv-err'),errOut=document.getElementById('tv-err-out'),read=document.getElementById('tv-read'),playB=document.getElementById('tv-play'),hint=document.getElementById('h5');
+let tt=-30;
+const fmtDur=m=>{const s=Math.round(m*60);return `${Math.floor(s/3600)}h ${String(Math.floor(s%3600/60)).padStart(2,'0')}m ${String(s%60).padStart(2,'0')}s`;};
+document.querySelectorAll('#m5 button').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;document.querySelectorAll('#m5 button').forEach(x=>x.classList.toggle('on',x===b));document.getElementById('tv-measure').hidden=mode!=='measure';document.getElementById('tv-rare').hidden=mode!=='rare';hint.textContent=mode==='measure'?'Tap the globe to place two observers · drag to spin':'Drag to tilt the orbits · slide the years';rareUpdate();});
+document.querySelectorAll('#tv-pairs button').forEach(b=>b.onclick=()=>{obs=[{...sites[b.dataset.a],c:'#f0b35a'},{...sites[b.dataset.b],c:'#6fb3ff'}];next=0;document.querySelectorAll('#tv-pairs button').forEach(x=>x.classList.toggle('on',x===b));update();});
+tIn.oninput=()=>{tt=+tIn.value;update();};exIn.oninput=errIn.oninput=update;
+playB.onclick=()=>{playing=!playing;playB.textContent=playing?'Pause':'Play the transit';last=0;if(playing&&tt>=400)tt=-30;};
+document.getElementById('tv-contact').onclick=()=>{const g=geomAll();tt=Math.round(g[0].tII)-3;tIn.value=tt;update();};
+function geomAll(){return obs.map(s=>{const p=ll(s.lat,s.lon);const dPerp=RE*v3.dot(p,Udir),dPar=RE*v3.dot(p,Vdir);const b=B0-dPerp*K,tau=-dPar*K/VEL;const inside=(RS-RV)*(RS-RV)-b*b;const half=inside>0?Math.sqrt(inside)/VEL:0;return{...s,p,dPerp,dPar,b,tau,sunUp:v3.dot(p,SUN)>0,tII:175-half+tau,tIII:175+half+tau,dur:2*half};});}
+function solve(g,err){// Halley's inversion: durations → impact parameters → their difference → the AU
+const bOf=d=>{const q=(RS-RV)*(RS-RV)-(d*VEL/2)*(d*VEL/2);return q>0?Math.sqrt(q):NaN;};const dA=g[0].dur,dB=g[1].dur+err/60;const db=bOf(dB)-bOf(dA);const base=g[1].dPerp-g[0].dPerp;if(!base||!isFinite(db)||Math.abs(db)<1e-6)return NaN;return -(1/0.277-1)*206265*base/db;}
+function update(){const g=geomAll();exOut.textContent='×'+exIn.value;errOut.textContent='±'+errIn.value+' s';
+tOut.textContent=tt<0?`${-tt} min before 1st contact`:tt<175?`${tt} min in`:tt<350?`${tt} min in · past mid-transit`:tt<=360?'last contact':'over';
+const dT=g[1].dur-g[0].dur,au=solve(g,0),auHi=solve(g,+errIn.value),auLo=solve(g,-errIn.value);
+const sunWarn=g.filter(s=>!s.sunUp).map(s=>s.n.split(' ·')[0]);
+if(sunWarn.length){read.className='readout bad';read.innerHTML=`<strong>The Sun is below the horizon at ${sunWarn.join(' and ')}.</strong><span>Nothing to time there. That is why the 1769 stations were spread from Tahiti to the Arctic: the whole transit had to be visible.</span>`;return;}
+if(!isFinite(au)||Math.abs(g[1].dPerp-g[0].dPerp)<500){read.className='readout bad';read.innerHTML=`<strong>Both observers see nearly the same chord.</strong><span>They need to be far apart north to south as seen from the Sun. Post one near the Arctic and one in the tropics or the south.</span>`;return;}
+const pct=au?Math.abs(au-AU)/AU*100:0;read.className='readout'+(Math.abs(dT)>2?' ok':'');
+read.innerHTML=`<strong>${g[0].n.split(' ·')[0]} times ${fmtDur(g[0].dur)} · ${g[1].n.split(' ·')[0]} times ${fmtDur(g[1].dur)}</strong><span class="big">they differ by ${fmtDur(Math.abs(dT))}</span><span>The two chords sit ${fmt(Math.abs(g[1].b-g[0].b),1)}″ apart on the Sun. The observers are ${fmtI(Math.abs(g[1].dPerp-g[0].dPerp))} km apart as the Sun sees them. One divided by the other, with Venus 0.28 of the way to the Sun, gives the Sun at <b>${fmtI(au/1e6)} million km</b>${+errIn.value?` · with ${errIn.value} s of black-drop error, anywhere from ${fmtI(Math.min(auLo,auHi)/1e6)} to ${fmtI(Math.max(auLo,auHi)/1e6)} million km`:''}. The 1769 campaign settled on 93 to 97 million miles. The modern value is 149.6 million km, 92.96 million miles.</span>`;}
+update();
+function geomG(){const{w,h}=o;return{cx:w*.26,cy:h*.5,R:Math.min(w*.22,h*.3)*st.zoom};}
+function projG(p){const{cx,cy,R}=geomG();const q=rot(p,st.yaw,st.pitch);return{x:cx+q[0]*R,y:cy-q[1]*R,z:q[2]};}
+function tap(p){if(mode!=='measure')return;const{cx,cy,R}=geomG();const X=(p.x-cx)/R,Y=-(p.y-cy)/R;const r2=X*X+Y*Y;if(r2>1)return;const q=[X,Y,Math.sqrt(1-r2)];const wpt=unrot(q,st.yaw,st.pitch);const lat=Math.asin(wpt[1])/DEG,lon=Math.atan2(-wpt[2],wpt[0])/DEG;obs[next]={n:`Observer ${next?'B':'A'} · ${fmt(Math.abs(lat),0)}°${lat<0?'S':'N'} ${fmt(Math.abs(lon),0)}°${lon<0?'W':'E'}`,lat,lon,c:next?'#6fb3ff':'#f0b35a'};next=1-next;document.querySelectorAll('#tv-pairs button').forEach(x=>x.classList.remove('on'));update();}
+orbit(o,st,tap);
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);if(mode==='measure'){if(playing){if(last)tt=Math.min(400,tt+(t-last)/1000*22);last=t;tIn.value=Math.round(tt);if(tt>=400){playing=false;playB.textContent='Play the transit';}update();}stepAnim(st,t);drawMeasure(t);}else drawRare(t);}});
+function drawMeasure(t){const{ctx,w,h}=o;const{cx,cy,R}=geomG();const g=geomAll();
+// globe with day side toward the Sun
+const L=rot(SUN,st.yaw,st.pitch);const sa=Math.atan2(-L[1],L[0]);
+const gr=ctx.createRadialGradient(cx,cy,R*.1,cx,cy,R);gr.addColorStop(0,'#2f5a8c');gr.addColorStop(1,'#15294a');ctx.fillStyle=gr;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();
+ctx.save();ctx.translate(cx,cy);ctx.rotate(sa);ctx.fillStyle='rgba(5,8,16,.78)';ctx.beginPath();ctx.arc(0,0,R,Math.PI/2,3*Math.PI/2);for(let i=0;i<=40;i++){const a=i*Math.PI/40;ctx.lineTo(-R*L[2]*Math.sin(a),-R*Math.cos(a));}ctx.closePath();ctx.fill();ctx.restore();
+const line=(pts,color)=>{ctx.strokeStyle=color;ctx.lineWidth=1;ctx.beginPath();let pen=false;for(const p of pts){const q=projG(p);if(q.z>=0){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}ctx.stroke();};
+for(let la=-60;la<=60;la+=30){const pts=[];for(let lo=0;lo<=360;lo+=5)pts.push(ll(la,lo));line(pts,la?'rgba(236,230,218,.18)':'rgba(240,179,90,.5)');}
+for(let lo=0;lo<360;lo+=30){const pts=[];for(let la=-90;la<=90;la+=5)pts.push(ll(la,lo));line(pts,'rgba(236,230,218,.18)');}
+ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.stroke();
+// direction to the Sun
+const sp=projG(v3.mul(SUN,1.45));arrow(ctx,cx+Math.cos(sa)*R*1.05,cy+Math.sin(sa)*R*1.05,cx+Math.cos(sa)*R*1.45,cy+Math.sin(sa)*R*1.45,'#ffd66b',2);text(ctx,'to the Sun',cx+Math.cos(sa)*R*1.5,cy+Math.sin(sa)*R*1.5+4,{size:11,color:'#ffd66b',align:Math.cos(sa)<0?'right':'left'});
+// observers
+g.forEach((s,i)=>{const p=projG(s.p);if(p.z<-0.02)return;ctx.fillStyle=s.c;ctx.beginPath();ctx.arc(p.x,p.y,6,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();tag(ctx,(i?'B · ':'A · ')+s.n.split(' ·')[0]+(s.sunUp?'':' · night'),p.x+10,p.y+5,s.c,11);});
+// baseline as the Sun sees it
+const a=projG(g[0].p),b=projG(g[1].p);if(a.z>-0.02&&b.z>-0.02){ctx.setLineDash([3,5]);ctx.strokeStyle='rgba(236,230,218,.5)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();ctx.setLineDash([]);}
+text(ctx,'3 June 1769 · tap to move an observer',cx,cy+R+26,{size:11,color:'#9a9382',align:'center'});
+// the Sun's disc
+const sx=w*.7,sy=h*.5,SR=Math.min(w*.24,h*.4),sc=SR/RS,ex=+exIn.value;
+const sg=ctx.createRadialGradient(sx,sy,SR*.2,sx,sy,SR);sg.addColorStop(0,'#fff3c4');sg.addColorStop(.85,'#ffd66b');sg.addColorStop(1,'#e8a23a');ctx.fillStyle=sg;ctx.beginPath();ctx.arc(sx,sy,SR,0,TAU);ctx.fill();
+const glow=ctx.createRadialGradient(sx,sy,SR,sx,sy,SR*1.25);glow.addColorStop(0,'rgba(255,214,107,.35)');glow.addColorStop(1,'rgba(255,214,107,0)');ctx.fillStyle=glow;ctx.beginPath();ctx.arc(sx,sy,SR*1.25,0,TAU);ctx.fill();
+text(ctx,'the Sun · Venus’s path for each observer, parallax ×'+ex,sx,sy-SR-20,{size:12,color:'#ffd66b',align:'center'});
+const yOf=s=>sy-(B0+(s.b-B0)*ex)*sc;
+g.forEach((s,i)=>{const y=yOf(s);const dy=(y-sy)/sc;if(Math.abs(dy)>=RS){tag(ctx,`${i?'B':'A'}: lower the exaggeration to keep this path on the Sun`,sx-SR,sy-SR-44+i*22,s.c,11);return;}const hx=Math.sqrt(RS*RS-dy*dy)*sc;ctx.strokeStyle=s.c;ctx.lineWidth=1.5;ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(sx-hx,y);ctx.lineTo(sx+hx,y);ctx.stroke();ctx.setLineDash([]);
+// contact ticks
+const hin=Math.sqrt(Math.max(0,(RS-RV)*(RS-RV)-dy*dy))*sc;[-1,1].forEach(k=>{ctx.strokeStyle=s.c;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sx+k*hin,y-7);ctx.lineTo(sx+k*hin,y+7);ctx.stroke();});
+// Venus
+const x=sx+((tt-175)*VEL-s.tau*VEL*ex)*sc;if(x>sx-SR-RV*sc*2&&x<sx+SR+RV*sc*2){ctx.fillStyle='#0a0e18';ctx.beginPath();ctx.arc(x,y,RV*sc,0,TAU);ctx.fill();ctx.strokeStyle=s.c;ctx.lineWidth=1.5;ctx.stroke();}
+// stopwatch
+const el=tt<s.tII?0:tt>s.tIII?s.dur:tt-s.tII;tag(ctx,`${i?'B':'A'} stopwatch · ${fmtDur(el)}${tt>s.tIII?' · stopped':tt<s.tII?' · waiting for 2nd contact':''}`,sx-SR,sy+SR+22+i*24,s.c,12);});
+// black-drop magnifier near 2nd contact for observer A
+const A=g[0];if(Math.abs(tt-A.tII)<=4){const mx=w*.88,my=h*.2,mr=Math.min(w,h)*.09;ctx.fillStyle='#0a0e18';ctx.beginPath();ctx.arc(mx,my,mr,0,TAU);ctx.fill();ctx.save();ctx.beginPath();ctx.arc(mx,my,mr,0,TAU);ctx.clip();
+// limb: Sun fills the right portion
+ctx.fillStyle='#ffd66b';ctx.beginPath();ctx.arc(mx+mr*2.2,my,mr*2.6,0,TAU);ctx.fill();
+const prog=(tt-A.tII+4)/8;// 0..1 across the window; Venus moves inward
+const vx=mx-mr*.9+prog*mr*1.6,vr=mr*.32;ctx.fillStyle='#0a0e18';ctx.filter='blur(2px)';ctx.beginPath();ctx.arc(vx,my,vr,0,TAU);ctx.fill();
+if(prog<.75){ctx.beginPath();ctx.ellipse(vx-vr*.6,my,vr*.9,vr*.45*(1-prog),0,0,TAU);ctx.fill();}// the dark bridge: the "black drop"
+ctx.filter='none';ctx.restore();ctx.strokeStyle='#283048';ctx.lineWidth=2;ctx.beginPath();ctx.arc(mx,my,mr,0,TAU);ctx.stroke();text(ctx,'the black drop',mx,my+mr+16,{size:11,color:'#ff7d6f',align:'center'});text(ctx,'when exactly is 2nd contact?',mx,my+mr+30,{size:10,color:'#9a9382',align:'center'});}}
+
+/* why so rare: the two orbits, computed from mean elements with secular rates (Standish, J2000) */
+const EL={E:{L:[100.46457166,35999.37244981],w:[102.93768193,0.32327364],e:[0.01671123,-0.00004392],i:[0,0],O:[0,0],a:1},V:{L:[181.97909950,58517.81538729],w:[131.60246718,0.00268329],e:[0.00677672,-0.00004107],i:[3.39467605,-0.00078890],O:[76.67984255,-0.27769418],a:0.7233}};
+let tilt=1;const yearIn=document.getElementById('tv-year'),yearOut=document.getElementById('tv-year-out'),rareRead=document.getElementById('tv-rare-read');const ost={yaw:0.3,pitch:0.9,zoom:1,anim:null,enabled:()=>mode==='rare'};orbit(o,ost,null);let yearAnim=null;
+const elems=(P,c)=>{const q={};for(const k in P)q[k]=Array.isArray(P[k])?P[k][0]+P[k][1]*c:P[k];return q;};
+function body(P,days){const c=days/36525,p=elems(P,c);const M=(p.L-p.w)*DEG;const lon=p.L+(2*p.e*Math.sin(M)+1.25*p.e*p.e*Math.sin(2*M))/DEG;const r=p.a*(1-p.e*p.e)/(1+p.e*Math.cos(lon*DEG-p.w*DEG));const beta=Math.asin(Math.sin(p.i*DEG*tilt)*Math.sin((lon-p.O)*DEG));return{lon,r,beta,pos:[r*Math.cos(beta)*Math.cos(lon*DEG),r*Math.sin(beta),-r*Math.cos(beta)*Math.sin(lon*DEG)],O:p.O};}
+const yearToDays=y=>(y-2000)*365.25;const daysToDate=d=>new Date((2451545+d-2440587.5)*864e5).toISOString().slice(0,10);
+function conjunctions(y0,y1){const out=[];let prev=null;for(let d=yearToDays(y0);d<yearToDays(y1);d+=0.25){const e=body(EL.E,d),v=body(EL.V,d);const dd=((v.lon-e.lon)%360+540)%360-180;if(prev!==null&&prev<0&&dd>=0&&Math.abs(dd)<10){const geo=v.beta/DEG*0.723/0.277;out.push({d,geo,transit:Math.abs(geo)<0.29});}prev=dd;}return out;}
+const savedTilt=tilt;tilt=1;const conj=conjunctions(1600,2150);tilt=savedTilt;const transits=conj.filter(c=>c.transit);
+function nearestConj(days){let best=null;for(const c of conj){if(!best||Math.abs(c.d-days)<Math.abs(best.d-days))best=c;}return best;}
+yearIn.oninput=()=>{yearAnim=null;rareUpdate();};
+document.getElementById('tv-next').onclick=()=>{const d=yearToDays(+yearIn.value);const n=transits.find(c=>c.d>d+30);if(n)yearAnim={from:+yearIn.value,to:2000+n.d/365.25,t0:performance.now()};};
+document.getElementById('tv-prev').onclick=()=>{const d=yearToDays(+yearIn.value);const n=[...transits].reverse().find(c=>c.d<d-30);if(n)yearAnim={from:+yearIn.value,to:2000+n.d/365.25,t0:performance.now()};};
+document.getElementById('tv-tilt').onclick=function(){tilt=tilt?0:1;this.textContent=tilt?'Flatten the orbit':'Restore the 3.4° tilt';rareUpdate();};
+function rareUpdate(){const y=+yearIn.value;const days=yearToDays(y);yearOut.textContent=daysToDate(days);const c=nearestConj(days);if(!c)return;const sep=Math.abs(c.geo);const inDays=Math.abs(c.d-days);
+if(!tilt){rareRead.className='readout ok';rareRead.innerHTML=`<strong>With no tilt, every lineup is a transit.</strong><span>Venus would cross the Sun every 584 days. The 3.4° tilt is the whole reason transits are rare.</span>`;return;}
+rareRead.className='readout'+(c.transit?' ok':'');rareRead.innerHTML=`<strong>${inDays<2?'Today':'Nearest lineup'}: ${daysToDate(c.d)}</strong><span class="big">${c.transit?'TRANSIT':'miss'} · ${fmt(sep,2)}° ${c.geo>0?'north':'south'} of centre</span><span>${c.transit?`Venus crosses the Sun's face (its radius is 0.27°). ${transitsNote(c)}`:`The Sun is only 0.27° in radius, so Venus slips past ${fmt(sep/0.27,1)} solar radii from the centre. Nothing to see.`}</span>`;}
+function transitsNote(c){const i=transits.indexOf(c);const prev=transits[i-1],nx=transits[i+1];const gap=(a,b)=>fmt((b.d-a.d)/365.25,1)+' years';return `${prev?`Previous: ${daysToDate(prev.d).slice(0,4)}, ${gap(prev,c)} earlier.`:''} ${nx?`Next: ${daysToDate(nx.d).slice(0,4)}, ${gap(c,nx)} later.`:''}`;}
+rareUpdate();
+function drawRare(t){const{ctx,w,h}=o;stepAnim(ost,t);if(yearAnim){const k=Math.min(1,(t-yearAnim.t0)/1800),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;yearIn.value=(yearAnim.from+(yearAnim.to-yearAnim.from)*e).toFixed(2);rareUpdate();if(k>=1)yearAnim=null;}
+const days=yearToDays(+yearIn.value);const cx=w*.42,cy=h*.46,S=Math.min(w*.3,h*.36)*ost.zoom;const P=p=>{const q=rot(p,ost.yaw,ost.pitch);return{x:cx+q[0]*S,y:cy-q[1]*S,z:q[2]};};
+// orbits
+const orbit=(Pl,color,wd)=>{ctx.strokeStyle=color;ctx.lineWidth=wd;ctx.beginPath();for(let k=0;k<=180;k++){const q=P(body(Pl,days+k/180*(Pl===EL.E?365.25:224.7)).pos);k?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);}ctx.stroke();};
+// ecliptic plane hint
+ctx.strokeStyle='rgba(236,230,218,.08)';ctx.lineWidth=1;for(let r=.25;r<=1.25;r+=.25){ctx.beginPath();for(let k=0;k<=90;k++){const a=k/90*TAU;const q=P([r*Math.cos(a),0,r*Math.sin(a)]);k?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);}ctx.stroke();}
+orbit(EL.E,'rgba(111,179,255,.6)',1.5);orbit(EL.V,'rgba(240,179,90,.8)',1.5);
+// line of nodes
+const vb=body(EL.V,days);const nd=[Math.cos(vb.O*DEG),0,-Math.sin(vb.O*DEG)];const n1=P(v3.mul(nd,1.15)),n2=P(v3.mul(nd,-1.15));ctx.setLineDash([5,5]);ctx.strokeStyle='rgba(255,125,111,.8)';ctx.beginPath();ctx.moveTo(n1.x,n1.y);ctx.lineTo(n2.x,n2.y);ctx.stroke();ctx.setLineDash([]);text(ctx,'where the orbits cross · early June / early December',n1.x,n1.y-8,{size:11,color:'#ff7d6f',align:n1.x>cx?'left':'right'});
+// Sun
+const sg=ctx.createRadialGradient(cx,cy,0,cx,cy,S*.09);sg.addColorStop(0,'#fff3c4');sg.addColorStop(.6,'#ffd66b');sg.addColorStop(1,'rgba(255,214,107,0)');ctx.fillStyle=sg;ctx.beginPath();ctx.arc(cx,cy,S*.09,0,TAU);ctx.fill();
+const eb=body(EL.E,days),ep=P(eb.pos),vp=P(vb.pos);
+// sightline Earth → Sun
+ctx.strokeStyle='rgba(236,230,218,.35)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(ep.x,ep.y);ctx.lineTo(cx,cy);ctx.stroke();
+// Venus height above/below the plane
+const vflat=P([vb.pos[0],0,vb.pos[2]]);ctx.strokeStyle='rgba(240,179,90,.5)';ctx.beginPath();ctx.moveTo(vflat.x,vflat.y);ctx.lineTo(vp.x,vp.y);ctx.stroke();
+ctx.fillStyle='#6fb3ff';ctx.beginPath();ctx.arc(ep.x,ep.y,6,0,TAU);ctx.fill();text(ctx,'Earth',ep.x+9,ep.y+4,{size:11,color:'#6fb3ff'});
+ctx.fillStyle='#f0b35a';ctx.beginPath();ctx.arc(vp.x,vp.y,5,0,TAU);ctx.fill();text(ctx,'Venus',vp.x+8,vp.y+4,{size:11,color:'#f0b35a'});
+text(ctx,tilt?'Venus’s orbit tilted 3.4° · drawn to scale':'orbit flattened',cx,cy+S*1.3+10,{size:11,color:'#9a9382',align:'center'});
+// inset: the Sun's disc as seen from Earth at the nearest lineup
+const c=nearestConj(days);if(c){const ix=w*.84,iy=h*.3,ir=Math.min(w,h)*.08;ctx.fillStyle='#ffd66b';ctx.beginPath();ctx.arc(ix,iy,ir,0,TAU);ctx.fill();const vy=iy-(tilt?c.geo:0)/0.27*ir;ctx.fillStyle=Math.abs(vy-iy)<ir?'#0a0e18':'#f0b35a';ctx.beginPath();ctx.arc(ix,Math.max(iy-ir*2.6,Math.min(iy+ir*2.6,vy)),ir*.08+2,0,TAU);ctx.fill();if(Math.abs(c.geo)/0.27*ir>ir*2.6){text(ctx,'↑ far off the disc',ix,iy-ir*2.7,{size:10,color:'#9a9382',align:'center'});}text(ctx,`the Sun from Earth · ${daysToDate(c.d)}`,ix,iy+ir+18,{size:11,color:'#9a9382',align:'center'});}
+// timeline
+const y0=1600,y1=2150,tx0=w*.08,tx1=w*.92,ty=h*.9;ctx.strokeStyle='#283048';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(tx0,ty);ctx.lineTo(tx1,ty);ctx.stroke();for(let y=1600;y<=2150;y+=50){const x=tx0+(y-y0)/(y1-y0)*(tx1-tx0);ctx.strokeStyle='#283048';ctx.beginPath();ctx.moveTo(x,ty-4);ctx.lineTo(x,ty+4);ctx.stroke();text(ctx,y,x,ty+18,{size:10,color:'#9a9382',align:'center',font:'mono'});}
+for(const c of conj){const yr=2000+c.d/365.25;const x=tx0+(yr-y0)/(y1-y0)*(tx1-tx0);if(c.transit){ctx.fillStyle='#f0b35a';ctx.beginPath();ctx.arc(x,ty,4,0,TAU);ctx.fill();text(ctx,String(Math.round(yr)),x,ty-(transits.indexOf(c)%2?22:10),{size:9,color:'#f0b35a',align:'center',font:'mono'});}else{ctx.fillStyle='rgba(236,230,218,.25)';ctx.fillRect(x,ty-2,1,4);}}
+const yx=tx0+(+yearIn.value-y0)/(y1-y0)*(tx1-tx0);ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(yx,ty-14);ctx.lineTo(yx,ty+8);ctx.stroke();text(ctx,'every lineup of Venus and Earth · gold = transit',tx0,ty-26,{size:10,color:'#9a9382'});}
+}
 
 /* ---------- loop ---------- */
 function frame(t){const s=scenes[cur];if(s&&s.o.w)s.draw(t);requestAnimationFrame(frame);}
