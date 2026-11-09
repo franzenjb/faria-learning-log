@@ -115,6 +115,9 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
       <li data-go="Cook"><strong>9.</strong> Cook: a collier, a clock, and the coast he charted.</li>
       <li data-go="Mason &amp; Dixon"><strong>10.</strong> Mason and Dixon: a sea fight, a transit, and a line across America.</li>
       <li data-go="Flat maps lie"><strong>11.</strong> Flat maps lie: Greenland, Africa, and the shortest way across.</li>
+      <li data-go="The storm wire"><strong>12.</strong> The storm wire: telegraph, Viñes, and Galveston.</li>
+      <li data-go="Twice the wind"><strong>13.</strong> Twice the wind is four times the force.</li>
+      <li data-go="The shelter decision"><strong>14.</strong> The shelter decision: a crisp edge, a fuzzy answer.</li>
     </ul>
     <p><small>→ and ← keys move between slides. F for full screen. Dotted words open an explanation.</small></p>
   </div>
@@ -353,6 +356,54 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
     </div>
   </div>
   <div class="stage"><canvas id="c9"></canvas><div class="hint" id="h9">Drag to spin · scroll to zoom · drag the Greenland cutout when the map is flat</div></div>
+</section>
+
+<!-- 12 · The storm wire -->
+<section class="slide" data-title="The storm wire" data-fx="morse">
+  <div class="text">
+    <p class="kicker">12 · Decisions · A warning is an inference, and not yet safety</p>
+    <h1 id="sw-title">Telegraph reports could outrun a storm</h1>
+    <div class="chips" id="sw-chapters"><button data-ch="0" class="on">1 · The wire</button><button data-ch="1">2 · Viñes, 1875</button><button data-ch="2">3 · Galveston, 1900</button></div>
+    <div id="sw-body"></div>
+    <div class="controls"><label><span class="row">Storm clock <output id="sw-t-out">day 0</output></span><input id="sw-t" type="range" min="0" max="1" step="0.005" value="0"></label></div>
+    <div class="btns"><button class="primary" id="sw-play">Play</button><button id="sw-prev">◀ Back</button><button id="sw-next">Next ▶</button></div>
+    <div class="readout" id="sw-read"></div>
+    <figure class="md-fig" id="sw-fig" hidden><img id="sw-img" alt=""><figcaption id="sw-cap"></figcaption></figure>
+  </div>
+  <div class="stage"><canvas id="c12"></canvas><div class="hint" id="sw-hint">Play the clock · tap a station</div><div class="card" id="sw-card" hidden><button class="x" id="sw-card-x" aria-label="Close">×</button><h3 id="sw-card-t"></h3><div id="sw-card-g"></div><p id="sw-card-p"></p></div></div>
+</section>
+
+<!-- 13 · Twice the wind -->
+<section class="slide" data-title="Twice the wind" data-fx="gust">
+  <div class="text">
+    <p class="kicker">13 · Decisions · Before comparing winds, compare definitions</p>
+    <h1>Twice the wind is four times the force</h1>
+    <p class="lede">Drag the wind up. Force on a wall grows with the square of the speed; the power in the flow grows with the cube. Twenty percent more wind is forty-four percent more force.</p>
+    <p>And the number itself depends on who measured it. The US agencies average over one minute; Japan and Australia average over ten. A gust is a separate short peak. There is no universal multiplier between them, so compare definitions before you compare storms.</p>
+    <div class="controls"><label><span class="row">Wind speed <output id="wd-v-out">100 mph</output></span><input id="wd-v" type="range" min="40" max="200" step="1" value="100"></label></div>
+    <div class="chips" id="wd-agency"><button data-a="NHC" class="on">NHC · US · 1 min</button><button data-a="JTWC">JTWC · US · 1 min</button><button data-a="JMA">JMA · Japan · 10 min</button><button data-a="BoM">BoM · Australia · 10 min</button></div>
+    <div class="btns"><button class="primary" id="wd-120">120 mph</button><button id="wd-200">200 mph</button><button id="wd-curve">Quadratic vs exponential</button></div>
+    <div class="readout" id="wd-read"></div>
+  </div>
+  <div class="stage"><canvas id="c13"></canvas><div class="hint">Drag the wind slider · the house feels the force</div></div>
+</section>
+
+<!-- 14 · The shelter decision -->
+<section class="slide" data-title="The shelter decision" data-fx="edge">
+  <div class="text">
+    <p class="kicker">14 · Decisions · A crisp edge can conceal a fuzzy answer</p>
+    <h1>Is the shelter outside the hazard?</h1>
+    <p class="lede">A fictional coast, a fictional hazard, a fictional shelter. Drag either one. The drawn edge is crisp; the real edge is a band, and so is the shelter’s position. The verdict says only what the geometry allows.</p>
+    <p>Toggle the layers: wind, surge, rainfall flooding and road access answer different questions, and a wind category is not the whole map. The last card lists what a useful decision map makes visible.</p>
+    <div class="chips" id="sh-layers"><button data-k="wind" class="on">Wind</button><button data-k="surge" class="on">Surge</button><button data-k="rain">Rainfall flooding</button><button data-k="access">Access</button></div>
+    <div class="controls">
+      <label><span class="row">Hazard edge uncertainty <output id="sh-eu-out">± 2 mi</output></span><input id="sh-eu" type="range" min="0" max="6" step="0.5" value="2"></label>
+      <label><span class="row">Shelter position uncertainty <output id="sh-pu-out">± 1 mi</output></span><input id="sh-pu" type="range" min="0" max="4" step="0.25" value="1"></label>
+    </div>
+    <div class="btns"><button class="primary" id="sh-checks">What would change the decision?</button><button id="sh-reset">Reset</button></div>
+    <div class="readout" id="sh-read"></div>
+  </div>
+  <div class="stage"><canvas id="c14"></canvas><div class="hint">Drag the shelter · drag the hazard edge · fictional teaching example</div></div>
 </section>
 
 </div>
@@ -1384,6 +1435,119 @@ onChapter(ch){document.getElementById('ck-transit').hidden=ch!==2;}});
 document.getElementById('ck-transit').onclick=()=>{go(slides.findIndex(x=>x.dataset.title==='Transit of Venus'));document.querySelector('#tv-pairs button[data-a=tahiti]').click();};
 }
 
+/* ---------- 12 · The storm wire ---------- */
+{let swT=0,swPlaying=false,swLast=0;const tIn=document.getElementById('sw-t'),tOut=document.getElementById('sw-t-out'),playB=document.getElementById('sw-play');
+tIn.oninput=()=>{swT=+tIn.value;};playB.onclick=()=>{swPlaying=!swPlaying;playB.textContent=swPlaying?'Pause':'Play';swLast=0;if(swPlaying&&swT>=1)swT=0;};
+// conceptual storm tracks (lat, lon) for each chapter, parameter u in 0..1
+const tracks=[
+ [[12,-60],[16,-70],[20,-78],[24,-84],[28,-88],[31,-90]],// a generic Gulf storm
+ [[13,-56],[15,-63],[18,-70],[21,-77],[23.5,-82.5],[27,-88]],// 1875: through the Caribbean past Havana toward the Gulf
+ [[16,-62],[19,-72],[21.5,-79],[24,-84],[27,-91],[29.3,-94.8],[32,-97]]];// 1900: Cuba, Gulf, Galveston
+const stations=[
+ [{n:'A · Key West',lat:24.55,lon:-81.78},{n:'B · Havana',lat:23.13,lon:-82.38},{n:'C · New Orleans',lat:29.95,lon:-90.07},{n:'Washington · Signal Service',lat:38.9,lon:-77.04,hq:true}],
+ [{n:'Belén Observatory · Havana',lat:23.13,lon:-82.38,hq:true},{n:'Santiago de Cuba',lat:20.02,lon:-75.82},{n:'Cienfuegos',lat:22.15,lon:-80.44}],
+ [{n:'Havana',lat:23.13,lon:-82.38},{n:'Key West',lat:24.55,lon:-81.78},{n:'Galveston · Isaac Cline',lat:29.3,lon:-94.8,hq:true},{n:'Washington · Weather Bureau',lat:38.9,lon:-77.04}]];
+const stormPos=(tr,u)=>{const n=tr.length-1;const i=Math.min(n-1,Math.floor(u*n)),f=u*n-i;const a=ll(tr[i][0],tr[i][1]),b=ll(tr[i+1][0],tr[i+1][1]);return slerp(a,b,f);};
+const sw=storySlide({canvas:'c12',prefix:'sw',start:{lat:24,lon:-82,zoom:2.4},extraCoast:typeof COAST_GULF!=='undefined'?COAST_GULF:null,routes:[],
+sites:[
+ {n:'Key West',lat:24.55,lon:-81.78,c:'#6fb3ff',ch:0,upto:2,quiet:5,t:'The cable from Havana came ashore here in 1867 and joined the land lines north. Cuban observations reached Washington the same day.'},
+ {n:'Havana',lat:23.13,lon:-82.38,c:'#f0b35a',ch:0,upto:2,quiet:5,t:'Father Benito Viñes ran the Jesuit Belén Observatory from 1870. He read pressure, wind direction and the motion of high cloud, and worked out how a hurricane’s winds circle its centre so he could place the storm from one station.'},
+ {n:'New Orleans',lat:29.95,lon:-90.07,c:'#6fd48a',ch:0,quiet:5,t:'A Signal Service station. Reports from A, B and C reached Washington by wire within hours; the storm took days to cover the same distance.'},
+ {n:'Washington',lat:38.9,lon:-77.04,c:'#ece6da',ch:0,upto:2,quiet:5,t:'The U.S. Army Signal Service began coordinated weather observations in 1870 and issued the first storm warnings. In 1891 the work passed to the civilian Weather Bureau.'},
+ {n:'Galveston',lat:29.3,lon:-94.8,c:'#ff7d6f',ch:2,quiet:5,t:'8 September 1900. Isaac Cline, the Weather Bureau’s man in Galveston, raised the hurricane flags and later said he rode the beach warning people. The surge was 15 feet. His own house, built to be a shelter, collapsed with fifty people inside; his wife was among the six to eight thousand dead.'}],
+chapters:[
+ {t:'Telegraph reports could outrun a storm',cam:camFor(27,-84,2.2),hint:'Play the clock · messages race the storm',body:`<p class="lede">A hurricane moves at ten or twenty miles an hour. A telegraph message moves at the speed of light. For the first time in history, news of a storm could arrive before the storm.</p><p>Observers at A, B and C each report pressure and wind. The wires carry the reports to one desk, the desk compares them, and a warning goes back out ahead of the weather. This is a network, and the network is the instrument.</p>`,read:'<strong>Play the clock.</strong><span>Dots on the wires are messages. The grey circle is the storm.</span>'},
+ {t:'Viñes turns observations into a warning, 1875',cam:camFor(21,-80,3.2),hint:'Play the clock · watch the three clues fill',body:`<p class="lede">Belén Observatory, Havana, 11 September 1875. Father Benito Viñes read a falling barometer, a backing wind, and high cirrus streaming from the south-east, and issued the first hurricane warning ever published in the Americas. The storm struck two days later.</p><p>No single clue was proof. Three separate clues, each pointing the same way, supported one inference. That is what a forecast is.</p>`,read:'<strong>Three clues, one inference.</strong><span>Pressure trend, wind direction, cloud motion. The warning fires when all three agree.</span>'},
+ {t:'A warning is not yet safety: Galveston, 1900',cam:camFor(27,-90,2.6),hint:'Play the clock · the warning arrives, the water still comes',body:`<p class="lede">Cuban forecasters saw the storm turn toward the Gulf; the Weather Bureau in Washington, which had banned Cuban cables as alarmist, expected it to curve to the Atlantic. Warnings for Galveston went up on 7 September. On 8 September the sea rose 15 feet over an island whose highest point was 8.7 feet.</p><p>Reports were received. The public was warned. Safe shelter was not assured. Cline’s own house, where fifty people had gathered because it was the strongest on the block, went into the water. Between six and eight thousand people died, the deadliest disaster in United States history.</p>`,read:'<strong>Reports → warnings → shelter.</strong><span>Each arrow can fail on its own. The last one failed here.</span>'}]});
+// per-chapter drawing of the storm, messages and clues, layered on top of the story engine via a second scene that reuses the engine's canvas
+const o2=scenes[scenes.length-1].o;const baseDraw=scenes[scenes.length-1].draw;const proj=sw.proj;
+scenes[scenes.length-1].draw=function(t){if(swPlaying){if(swLast)swT=Math.min(1,swT+(t-swLast)/1000/10);swLast=t;tIn.value=swT;if(swT>=1){swPlaying=false;playB.textContent='Play';}}tOut.textContent=`day ${fmt(swT*5,1)}`;
+baseDraw.call(this,t);const ctx=o2.ctx,w=o2.w,h=o2.h,ch=sw.ch,tr=tracks[ch];
+// storm
+const sp=stormPos(tr,swT);const q=proj(sp);if(q.z>0){const R=Math.min(w,h)*.045*sw.st.zoom/2.4;const g=ctx.createRadialGradient(q.x,q.y,R*.1,q.x,q.y,R*2.2);g.addColorStop(0,'rgba(236,230,218,.0)');g.addColorStop(.3,'rgba(236,230,218,.22)');g.addColorStop(1,'rgba(236,230,218,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(q.x,q.y,R*2.2,0,TAU);ctx.fill();ctx.strokeStyle='rgba(236,230,218,.7)';ctx.lineWidth=1.5;for(let k=0;k<3;k++){ctx.beginPath();for(let a=0;a<TAU*1.5;a+=.1){const r=R*.15+R*.6*a/(TAU*1.5);const ang=a+k*TAU/3-t*.002;const x=q.x+r*Math.cos(ang),y=q.y+r*Math.sin(ang);a?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.stroke();}tag(ctx,ch===2?'the storm · 15 ft of water':'the storm',q.x+R*2,q.y,'#cfc8ba',11);}
+// track so far
+ctx.strokeStyle='rgba(236,230,218,.3)';ctx.setLineDash([3,5]);ctx.beginPath();let pen=false;for(let u=0;u<=swT;u+=.01){const p=proj(stormPos(tr,u));if(p.z>0){pen?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y);pen=true;}else pen=false;}ctx.stroke();ctx.setLineDash([]);
+const sts=stations[ch];const hq=sts.find(s=>s.hq);const hqP=proj(ll(hq.lat,hq.lon));
+if(ch===0){// wires from A,B,C to Washington; a message leaves each station when the storm passes within reach, and races along the wire
+sts.filter(s=>!s.hq).forEach((s,i)=>{const a=proj(ll(s.lat,s.lon));const wire=[];for(let k=0;k<=30;k++)wire.push(proj(slerp(ll(s.lat,s.lon),ll(hq.lat,hq.lon),k/30)));ctx.strokeStyle='rgba(111,179,255,.35)';ctx.lineWidth=1;ctx.beginPath();wire.forEach((p,k)=>k?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke();
+const trigger=[.3,.45,.7][i];if(swT>trigger){const m=Math.min(1,(swT-trigger)*12);const p=wire[Math.floor(m*30)];ctx.fillStyle='#6fb3ff';ctx.beginPath();ctx.arc(p.x,p.y,m<1?5:3,0,TAU);ctx.fill();if(m>=1)tag(ctx,`report from ${s.n.split(' · ')[1]} received`,hqP.x+10,hqP.y+18+i*16,'#6fb3ff',10);}});
+if(swT>.78){tag(ctx,'WARNING issued → Gulf coast',hqP.x+10,hqP.y-14,'#ff7d6f',12);const c=proj(ll(29.95,-90.07));ctx.strokeStyle='#ff7d6f';ctx.lineWidth=2;ctx.setLineDash([6,4]);ctx.beginPath();ctx.moveTo(hqP.x,hqP.y);ctx.lineTo(c.x,c.y);ctx.stroke();ctx.setLineDash([]);}
+text(ctx,'the storm takes days; the wire takes minutes · conceptual network, not historical wire routes or a measured track',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}
+if(ch===1){// three clue gauges at Havana
+const bx=w*.06,by=h*.14;const clues=[['Pressure',Math.min(1,swT*1.6),'falling'],['Wind direction',Math.min(1,Math.max(0,swT-.15)*1.8),'backing NE → N'],['High cloud',Math.min(1,Math.max(0,swT-.3)*2),'streaming from SE']];clues.forEach(([n,v,d],i)=>{const y=by+i*54;ctx.fillStyle='#111727';ctx.fillRect(bx,y,220,18);ctx.fillStyle=v>=1?'#6fd48a':'#ffd66b';ctx.fillRect(bx,y,220*v,18);ctx.strokeStyle='#283048';ctx.strokeRect(bx,y,220,18);text(ctx,n,bx,y-5,{size:11,color:'#cfc8ba'});text(ctx,v>=1?d:'watching…',bx+226,y+14,{size:11,color:v>=1?'#6fd48a':'#9a9382'});});
+const all=clues.every(c=>c[1]>=1);if(all){const p=hqP;const gl=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,40);gl.addColorStop(0,'rgba(255,125,111,.8)');gl.addColorStop(1,'rgba(255,125,111,0)');ctx.fillStyle=gl;ctx.beginPath();ctx.arc(p.x,p.y,40,0,TAU);ctx.fill();tag(ctx,'WARNING for Cuba · 11 September 1875 · the first in the Americas',p.x+14,p.y-18,'#ff7d6f',12);text(ctx,'Separate clues support one inference. The storm arrived on the 13th.',bx,by+170,{size:12,color:'#6fd48a'});}
+text(ctx,'conceptual model · not a reconstruction of the 1875 observations or message routes',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}
+if(ch===2){// three stages: reports, warnings, shelter
+const bx=w*.06,by=h*.12;const stages=[['Reports received',swT>.3,'#6fb3ff'],['Public warned',swT>.55,'#ffd66b'],['Safe shelter',false,'#ff7d6f']];stages.forEach(([n,ok,c],i)=>{const y=by+i*46;ctx.fillStyle=ok?c:'#111727';ctx.strokeStyle=c;ctx.lineWidth=1.5;ctx.beginPath();ctx.roundRect?ctx.roundRect(bx,y,190,30,6):ctx.rect(bx,y,190,30);ctx.fill();ctx.stroke();text(ctx,n+(i===2?(swT>.9?' · NOT ASSURED':''):ok?' ✓':''),bx+10,y+20,{size:12,color:ok?'#0a0e18':c});if(i<2){ctx.strokeStyle='rgba(236,230,218,.4)';ctx.beginPath();ctx.moveTo(bx+95,y+30);ctx.lineTo(bx+95,y+46);ctx.stroke();}});
+if(swT>.9){const g=proj(ll(29.3,-94.8));if(g.z>0){ctx.fillStyle='rgba(111,179,255,.25)';ctx.beginPath();ctx.arc(g.x,g.y,Math.min(w,h)*.06,0,TAU);ctx.fill();tag(ctx,'8 Sept 1900 · surge 15 ft over an island 8.7 ft high · 6,000 to 8,000 dead',g.x+16,g.y+30,'#ff7d6f',12);}text(ctx,'Warnings circulated. Cline’s own shelter still collapsed.',bx,by+160,{size:12,color:'#ff7d6f'});}
+text(ctx,'Cline’s account · not a complete explanation of the disaster · track schematic',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}};
+document.getElementById('sw-chapters').addEventListener('click',()=>{swT=0;tIn.value=0;swPlaying=false;playB.textContent='Play';});
+GLOSS.surge={t:'Storm surge',g:`<svg viewBox="0 0 480 300"><rect x="0" y="200" width="480" height="100" fill="#1b3558"/><path d="M0 200 Q120 120 240 150 T480 60 L480 300 L0 300 Z" fill="rgba(111,179,255,.5)"/><line x1="60" y1="200" x2="60" y2="130" stroke="#ece6da" stroke-width="3"/><rect x="40" y="110" width="40" height="20" fill="#cfc8ba"/><text x="90" y="120" fill="#cfc8ba" font-size="12">Galveston, 8.7 ft above the sea</text><text x="300" y="50" fill="#6fb3ff" font-size="12">surge 15 ft</text><text x="20" y="285" fill="#9a9382" font-size="12">Wind piles water against the shore; low pressure lifts it. The sea arrives before the eye.</text></svg>`,p:'Storm surge is the sea pushed ashore by a hurricane’s wind and lifted by its low pressure, on top of the normal tide. It is water, not wind, that kills most people in hurricanes. At Galveston in 1900 the surge was about 15 feet on an island whose highest ground was under 9. The city afterwards raised itself: 500 blocks were jacked up and filled, and a 17-foot seawall was built. Wind category says nothing about surge height, which is why the two are now forecast separately.'};
+}
+
+/* ---------- 13 · Twice the wind ---------- */
+{const o=setup('c13');const vIn=document.getElementById('wd-v'),vOut=document.getElementById('wd-v-out'),read=document.getElementById('wd-read');let agency='NHC',showCurve=false;const particles=Array.from({length:140},()=>({x:Math.random(),y:Math.random(),s:.5+Math.random()}));
+const AG={NHC:{avg:1,unit:'kt',note:'National Hurricane Center. Sustained wind averaged over 1 minute, archived in knots. Category 3 begins at 96 kt (111 mph).'},JTWC:{avg:1,unit:'kt',note:'Joint Typhoon Warning Center, US Navy and Air Force, for the Pacific and Indian Oceans. Also 1-minute sustained, so its numbers run higher than the local agencies’ for the same storm.'},JMA:{avg:10,unit:'kt',note:'Japan Meteorological Agency. Sustained wind averaged over 10 minutes. A 10-minute mean is lower than a 1-minute mean of the same wind by roughly 12 percent, but the ratio varies with the storm and the sea, so no fixed conversion is honest.'},BoM:{avg:10,unit:'kt',note:'Australian Bureau of Meteorology. 10-minute sustained, with its own category scale (1 to 5) that is not the Saffir–Simpson scale. Class numbers are not interchangeable.'}};
+vIn.oninput=update;document.getElementById('wd-120').onclick=()=>{vIn.value=120;update();};document.getElementById('wd-200').onclick=()=>{vIn.value=200;update();};document.getElementById('wd-curve').onclick=function(){showCurve=!showCurve;this.classList.toggle('on',showCurve);};
+document.querySelectorAll('#wd-agency button').forEach(b=>b.onclick=()=>{agency=b.dataset.a;document.querySelectorAll('#wd-agency button').forEach(x=>x.classList.toggle('on',x===b));update();});
+function update(){const v=+vIn.value,r=v/100;vOut.textContent=v+' mph';const f=r*r,p=r*r*r;read.innerHTML=`<strong>${v} mph is ${fmt(r,2)}× the 100 mph baseline</strong><span class="big">force ×${fmt(f,2)} · power ×${fmt(p,2)}</span><span>${v===120?'1.2 × 1.2 = 1.44: twenty percent more wind, forty-four percent more force.':v===200?'Double the wind: four times the force on a wall, eight times the power in the flow.':`Force scales as speed squared (${fmt(r,2)}² = ${fmt(f,2)}); available power as speed cubed (${fmt(r,2)}³ = ${fmt(p,2)}). Air density, area and drag coefficient held fixed.`} <br><b>${agency}</b>: ${AG[agency].note} In knots this wind is ${fmtI(v/1.1508)} ${AG[agency].unit}${AG[agency].avg===10?', if it was a 10-minute mean; the same storm’s 1-minute figure would read higher.':'.'}</span>`;}
+update();
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);const v=+vIn.value,r=v/100;
+// wind particles streaming left to right
+const dt=16;for(const p of particles){p.x+=dt*v*.000045*p.s;if(p.x>1){p.x=0;p.y=Math.random();}ctx.strokeStyle=`rgba(223,231,255,${.15+.5*p.s*Math.min(1,r)})`;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(p.x*w,p.y*h*.75+h*.05);ctx.lineTo(p.x*w-v*.25*p.s,p.y*h*.75+h*.05);ctx.stroke();}
+// house with a force arrow
+const gx=w*.62,gy=h*.74,hw=Math.min(w,h)*.12,hh=hw*.8;ctx.fillStyle='#1b2a3f';ctx.fillRect(0,gy,w,h*.08);ctx.fillStyle='#cfc8ba';ctx.fillRect(gx-hw/2,gy-hh,hw,hh);ctx.fillStyle='#8a7a5c';ctx.beginPath();ctx.moveTo(gx-hw/2-10,gy-hh);ctx.lineTo(gx,gy-hh-hw*.5);ctx.lineTo(gx+hw/2+10,gy-hh);ctx.closePath();ctx.fill();
+const F=hw*1.2*r*r;arrow(ctx,gx-hw/2-F-30,gy-hh*.5,gx-hw/2-8,gy-hh*.5,'#ff7d6f',Math.max(2,6*r*r));tag(ctx,`force ×${fmt(r*r,2)}`,gx-hw/2-F-30,gy-hh*.5-22,'#ff7d6f',14);
+// the bars: speed, force, power relative to baseline
+const bx=w*.08,by=h*.12,bw=w*.24,bh=h*.5;const bars=[['speed',r,'#6fb3ff'],['force (v²)',r*r,'#ff7d6f'],['power (v³)',r*r*r,'#f0b35a']];const maxV=8;ctx.strokeStyle='#283048';ctx.beginPath();ctx.moveTo(bx,by+bh);ctx.lineTo(bx+bw,by+bh);ctx.stroke();bars.forEach(([n,val,c],i)=>{const x=bx+i*bw/3+10,ww=bw/3-20;const hh2=Math.min(bh,val/maxV*bh);ctx.fillStyle=c;ctx.fillRect(x,by+bh-hh2,ww,hh2);text(ctx,n,x+ww/2,by+bh+16,{size:11,align:'center',color:'#cfc8ba'});text(ctx,'×'+fmt(val,2),x+ww/2,by+bh-hh2-8,{size:12,align:'center',color:c,font:'mono'});});for(let k=1;k<=maxV;k*=2){const y=by+bh-k/maxV*bh;ctx.strokeStyle='rgba(236,230,218,.12)';ctx.beginPath();ctx.moveTo(bx,y);ctx.lineTo(bx+bw,y);ctx.stroke();text(ctx,'×'+k,bx-6,y+4,{size:10,align:'right',color:'#9a9382',font:'mono'});}text(ctx,'relative to 100 mph',bx,by-10,{size:11,color:'#9a9382'});
+if(showCurve){// quadratic vs exponential, equal input steps
+const cx0=w*.42,cy0=h*.62,cw=w*.5,chh=h*.5;ctx.fillStyle='rgba(17,23,39,.92)';ctx.fillRect(cx0-20,cy0-chh-30,cw+40,chh+70);ctx.strokeStyle='#283048';ctx.strokeRect(cx0-20,cy0-chh-30,cw+40,chh+70);
+const half=cw/2-20;[['Quadratic: input × input',[1,4,9,16],'#ff7d6f','adds 3, then 5, then 7'],['Exponential: double each step',[2,4,8,16],'#6fd48a','multiplies by 2 each time']].forEach(([n,vals,c,sub],j)=>{const ox=cx0+j*(half+40);ctx.strokeStyle='#283048';ctx.beginPath();ctx.moveTo(ox,cy0);ctx.lineTo(ox+half,cy0);ctx.moveTo(ox,cy0);ctx.lineTo(ox,cy0-chh);ctx.stroke();text(ctx,n,ox,cy0-chh-10,{size:12,color:c});vals.forEach((val,i)=>{const x=ox+(i+1)/4.5*half,y=cy0-val/16*chh*.9;ctx.fillStyle=c;ctx.beginPath();ctx.arc(x,y,5,0,TAU);ctx.fill();text(ctx,val,x,y-10,{size:11,align:'center',color:c,font:'mono'});if(i){const px=ox+i/4.5*half,py=cy0-vals[i-1]/16*chh*.9;ctx.strokeStyle=c;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(x,y);ctx.stroke();}});text(ctx,sub,ox,cy0+18,{size:11,color:'#9a9382'});text(ctx,'equal input steps 1 → 4',ox,cy0+34,{size:10,color:'#9a9382'});});
+text(ctx,'Both bend upward. Only one doubles every step. "Exponential" is a specific claim, not a synonym for fast.',cx0+cw/2,cy0+56,{size:12,align:'center',color:'#cfc8ba'});}
+text(ctx,'illustrative drag force, not damage prediction · mph = miles per hour · kt = knots = nautical miles per hour',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}});
+GLOSS.sustained={t:'Sustained wind',g:`<svg viewBox="0 0 480 300"><polyline points="${Array.from({length:120},(_,i)=>`${20+i*3.6},${150-40*Math.sin(i*.4)-25*Math.sin(i*1.7)-(i>70&&i<78?60:0)}`).join(' ')}" fill="none" stroke="#6fb3ff" stroke-width="1.5"/><line x1="20" y1="150" x2="452" y2="150" stroke="#f0b35a" stroke-width="2" stroke-dasharray="6 4"/><text x="300" y="142" fill="#f0b35a" font-size="12">1-minute mean</text><line x1="20" y1="162" x2="452" y2="162" stroke="#6fd48a" stroke-width="2" stroke-dasharray="6 4"/><text x="300" y="180" fill="#6fd48a" font-size="12">10-minute mean · lower</text><text x="250" y="60" fill="#ff7d6f" font-size="12">gust · a few seconds</text><text x="20" y="285" fill="#9a9382" font-size="12">Same wind, three numbers. Say which one you mean.</text></svg>`,p:'A "sustained" wind is an average over a stated interval, measured at 10 metres above open ground. The US agencies (NHC, JTWC) average over one minute; the WMO standard used by Japan, Australia and most of the world averages over ten. The ten-minute figure is lower, typically by a tenth or so, but the ratio depends on the storm. A gust is a separate few-second peak and can be a third higher again. NOAA’s IBTrACS archive keeps each agency’s own numbers side by side for this reason.'};
+}
+
+/* ---------- 14 · The shelter decision ---------- */
+{const o=setup('c14');const euIn=document.getElementById('sh-eu'),puIn=document.getElementById('sh-pu'),euOut=document.getElementById('sh-eu-out'),puOut=document.getElementById('sh-pu-out'),read=document.getElementById('sh-read');
+const layers={wind:true,surge:true,rain:false,access:false};let shelter={x:.62,y:.42},edgeX=.5,drag=null;// normalised stage coords; miles per unit width = 40
+const MPU=40;
+document.querySelectorAll('#sh-layers button').forEach(b=>b.onclick=()=>{layers[b.dataset.k]=!layers[b.dataset.k];b.classList.toggle('on',layers[b.dataset.k]);});
+euIn.oninput=puIn.oninput=update;document.getElementById('sh-reset').onclick=()=>{shelter={x:.62,y:.42};edgeX=.5;euIn.value=2;puIn.value=1;update();};
+document.getElementById('sh-checks').onclick=function(){openTerm('checks',this);};
+function verdict(){const eu=+euIn.value/MPU,pu=+puIn.value/MPU;const d=(shelter.x-edgeX)*MPU;// miles east of the drawn edge (positive = outside)
+const dmin=d-(+euIn.value)-(+puIn.value);const dmax=d+(+euIn.value)+(+puIn.value);return{d,dmin,dmax,state:dmin>0?'clear':dmax<0?'inside':'overlap'};}
+function update(){euOut.textContent=`± ${euIn.value} mi`;puOut.textContent=`± ${puIn.value} mi`;const v=verdict();read.className='readout'+(v.state==='clear'?' ok':v.state==='inside'?' bad':'');
+read.innerHTML=`<strong>${v.state==='clear'?'The ranges do not touch: the shelter is outside.':v.state==='inside'?'The ranges do not touch: the shelter is inside the hazard.':'The ranges overlap. The dot looks '+(v.d>0?'outside':'inside')+', but this map cannot settle it.'}</strong><span class="big">${fmt(Math.abs(v.d),1)} mi ${v.d>0?'outside':'inside'} the drawn edge · edge ±${euIn.value} · position ±${puIn.value}</span><span>${v.state==='overlap'?'Neither the dot nor the edge decides it. Ask: where exactly is the shelter? When is this edge valid? What changed since it was drawn? A crisp line on a map is a drawing choice, not a measurement.':'Even so: valid when? The hazard moves; the edge was drawn for one moment and one source. No probability or distance threshold is implied here.'}</span>`;}
+update();
+const pos=e=>{const r=o.c.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width,y:(e.clientY-r.top)/r.height};};
+o.c.addEventListener('pointerdown',e=>{const p=pos(e);if(Math.hypot((p.x-shelter.x)*o.w,(p.y-shelter.y)*o.h)<26)drag='shelter';else if(Math.abs((p.x-edgeX)*o.w)<24)drag='edge';if(drag)o.c.setPointerCapture(e.pointerId);});
+o.c.addEventListener('pointermove',e=>{if(!drag)return;const p=pos(e);if(drag==='shelter')shelter={x:Math.max(.05,Math.min(.95,p.x)),y:Math.max(.1,Math.min(.85,p.y))};else edgeX=Math.max(.15,Math.min(.85,p.x));update();});
+const end=()=>drag=null;o.c.addEventListener('pointerup',end);o.c.addEventListener('pointercancel',end);
+// a fictional coastline: a wobbly line down the left third
+const coast=Array.from({length:40},(_,i)=>({y:i/39,x:.22+.05*Math.sin(i*.6)+.03*Math.sin(i*1.9)}));
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);ctx.fillStyle='#0f1f33';ctx.fillRect(0,0,w,h);
+// sea and land
+ctx.fillStyle='#1b2a3f';ctx.beginPath();ctx.moveTo(coast[0].x*w,0);coast.forEach(c=>ctx.lineTo(c.x*w,c.y*h));ctx.lineTo(w,h);ctx.lineTo(w,0);ctx.closePath();ctx.fill();ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.beginPath();coast.forEach((c,i)=>i?ctx.lineTo(c.x*w,c.y*h):ctx.moveTo(c.x*w,c.y*h));ctx.stroke();text(ctx,'sea',w*.08,h*.5,{size:12,color:'#6fb3ff'});
+// hazard layers (fictional extents)
+const ex=edgeX*w,eu=+euIn.value/MPU*w;
+if(layers.surge){ctx.fillStyle='rgba(111,179,255,.22)';ctx.beginPath();ctx.moveTo(coast[0].x*w,0);coast.forEach(c=>ctx.lineTo(c.x*w,c.y*h));ctx.lineTo(Math.min(ex,w*.42),h);ctx.lineTo(Math.min(ex,w*.42),0);ctx.closePath();ctx.fill();text(ctx,'surge',w*.3,h*.08,{size:11,color:'#6fb3ff'});}
+if(layers.wind){ctx.fillStyle='rgba(255,125,111,.16)';ctx.fillRect(0,0,ex,h);
+// fuzzy band
+const g=ctx.createLinearGradient(ex-eu,0,ex+eu,0);g.addColorStop(0,'rgba(255,125,111,.3)');g.addColorStop(.5,'rgba(255,125,111,.12)');g.addColorStop(1,'rgba(255,125,111,0)');ctx.fillStyle=g;ctx.fillRect(ex-eu,0,2*eu,h);
+ctx.strokeStyle='#ff7d6f';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(ex,0);ctx.lineTo(ex,h);ctx.stroke();ctx.setLineDash([4,5]);ctx.strokeStyle='rgba(255,125,111,.6)';ctx.lineWidth=1;[ex-eu,ex+eu].forEach(x=>{ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke();});ctx.setLineDash([]);tag(ctx,'drawn hazard edge · drag',ex+8,h*.14,'#ff7d6f',12);tag(ctx,`edge range ±${euIn.value} mi`,ex+8,h*.14+22,'#cfc8ba',11);text(ctx,'wind hazard side',w*.18,h*.94,{size:11,color:'#ff7d6f'});}
+if(layers.rain){ctx.fillStyle='rgba(111,212,138,.14)';[[.45,.55,.2],[.7,.75,.14],[.3,.3,.1]].forEach(([x,y,r])=>{ctx.beginPath();ctx.ellipse(x*w,y*h,r*w,r*h*1.4,0,0,TAU);ctx.fill();});text(ctx,'rainfall flooding · low ground, anywhere',w*.45,h*.8,{size:11,color:'#6fd48a'});}
+if(layers.access){ctx.strokeStyle='rgba(236,230,218,.5)';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(w*.3,h*.9);ctx.lineTo(w*.5,h*.6);ctx.lineTo(w*.62,h*.42);ctx.lineTo(w*.9,h*.2);ctx.stroke();ctx.fillStyle='#ff7d6f';[[.5,.6],[.76,.31]].forEach(([x,y])=>{ctx.font='bold 18px sans-serif';ctx.textAlign='center';ctx.fillText('×',x*w,y*h+6);});text(ctx,'× = invented road closure · can you reach it?',w*.55,h*.84,{size:11,color:'#cfc8ba'});}
+// shelter with position range
+const sx=shelter.x*w,sy=shelter.y*h,pu=+puIn.value/MPU*w;ctx.fillStyle='rgba(240,179,90,.14)';ctx.beginPath();ctx.arc(sx,sy,pu,0,TAU);ctx.fill();ctx.strokeStyle='rgba(240,179,90,.6)';ctx.setLineDash([3,4]);ctx.beginPath();ctx.arc(sx,sy,pu,0,TAU);ctx.stroke();ctx.setLineDash([]);
+ctx.fillStyle='#f0b35a';ctx.beginPath();ctx.arc(sx,sy,9,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();tag(ctx,'mapped shelter · drag',sx+14,sy+4,'#f0b35a',12);tag(ctx,`position range ±${puIn.value} mi`,sx+14,sy+26,'#cfc8ba',11);
+// scale bar
+ctx.strokeStyle='#cfc8ba';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(w*.72,h*.9);ctx.lineTo(w*.72+10/MPU*w,h*.9);ctx.stroke();text(ctx,'10 mi',w*.72+5/MPU*w,h*.9-8,{size:11,align:'center',color:'#cfc8ba'});
+const v=verdict();tag(ctx,v.state==='overlap'?'ranges overlap · not settled':v.state==='clear'?'ranges clear · outside':'ranges clear · inside',w*.5,h*.06,v.state==='overlap'?'#ffd66b':v.state==='clear'?'#6fd48a':'#ff7d6f',14);
+text(ctx,'FICTIONAL TEACHING EXAMPLE · no real site, forecast, probability or operating guidance',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}});
+GLOSS.checks={t:'A useful decision map makes its limits visible',g:`<svg viewBox="0 0 480 300"><rect x="20" y="110" width="110" height="80" rx="8" fill="#15294a" stroke="#6fb3ff"/><text x="75" y="155" fill="#dfe7ff" font-size="14" text-anchor="middle">Question</text><rect x="170" y="40" width="140" height="220" rx="8" fill="#15294a" stroke="#f0b35a"/><text x="240" y="70" fill="#f0b35a" font-size="13" text-anchor="middle">Evidence</text><text x="240" y="100" fill="#cfc8ba" font-size="12" text-anchor="middle">source + time</text><text x="240" y="140" fill="#cfc8ba" font-size="12" text-anchor="middle">frame + units</text><text x="240" y="180" fill="#cfc8ba" font-size="12" text-anchor="middle">uncertainty</text><text x="240" y="230" fill="#ff7d6f" font-size="12" text-anchor="middle">what is missing</text><rect x="350" y="110" width="110" height="80" rx="8" fill="#15294a" stroke="#6fd48a"/><text x="405" y="150" fill="#6fd48a" font-size="14" text-anchor="middle">Next check</text><text x="405" y="170" fill="#9a9382" font-size="11" text-anchor="middle">valid until when?</text><line x1="130" y1="150" x2="170" y2="150" stroke="#9a9382"/><line x1="310" y1="150" x2="350" y2="150" stroke="#9a9382"/><text x="20" y="290" fill="#9a9382" font-size="12">Checks support a decision; they do not replace authority.</text></svg>`,p:'Before a map changes a decision, five things should be visible on it or beside it. <b>The question</b> it answers (wind? water? access?). <b>The source and time</b> of every layer. <b>The frame and units</b>: which datum, which projection, miles or kilometres, 1-minute or 10-minute wind. <b>The uncertainty</b>: a band, not a line, for every edge and every position. And <b>the next check</b>: when this stops being valid and what would change the call. Make the missing evidence visible. A map that hides what it does not know is more dangerous than no map.'};
+}
+
 /* ---------- transitions: drawn live on an overlay canvas, each one a piece of the slide's own story ---------- */
 const fxC=document.createElement('canvas');fxC.id='fx';document.body.appendChild(fxC);const fx=fxC.getContext('2d');
 function fxSize(){const d=devicePixelRatio||1;fxC.width=innerWidth*d;fxC.height=innerHeight*d;fx.setTransform(d,0,0,d,0,0);}fxSize();addEventListener('resize',fxSize);
@@ -1418,6 +1582,19 @@ for(let i=0;i<shown;i++){fx.strokeStyle='rgba(236,230,218,.9)';fx.lineWidth=2.5;
 if(k<.45){fx.fillStyle='#f0b35a';fx.font='600 12px -apple-system,Segoe UI,Roboto,sans-serif';fx.textAlign='left';fx.fillText('66 feet · 100 links',Math.min(W-160,shown*34+8),y-18);}break;}
 case 'compass':{// a compass needle swings and settles on north; the slide opens as the rose fills
 doSwap();const cx=W/2,cy=H/2,R=Math.hypot(W,H)*.55*e;slideEl.style.clipPath=`circle(${R}px at 50% 50%)`;const r=Math.min(W,H)*.22;const swing=(1-e)*Math.sin(k*Math.PI*4)*1.2;const a=-Math.PI/2+swing;fx.globalAlpha=1-Math.max(0,(k-.7)/.3);fx.strokeStyle='rgba(236,230,218,.5)';fx.lineWidth=1.5;fx.beginPath();fx.arc(cx,cy,r,0,TAU);fx.stroke();for(let d=0;d<360;d+=10){const q=d*DEG-Math.PI/2;const big=d%90===0;fx.beginPath();fx.moveTo(cx+(r-(big?18:8))*Math.cos(q),cy+(r-(big?18:8))*Math.sin(q));fx.lineTo(cx+r*Math.cos(q),cy+r*Math.sin(q));fx.strokeStyle=big?'#ece6da':'rgba(236,230,218,.4)';fx.lineWidth=big?2:1;fx.stroke();}fx.font='600 16px Georgia,serif';fx.fillStyle='#ece6da';fx.textAlign='center';[['N',0],['E',90],['S',180],['W',270]].forEach(([l,d])=>{const q=d*DEG-Math.PI/2;fx.fillText(l,cx+(r-34)*Math.cos(q),cy+(r-34)*Math.sin(q)+6);});fx.fillStyle='#ff7d6f';fx.beginPath();fx.moveTo(cx+r*.8*Math.cos(a),cy+r*.8*Math.sin(a));fx.lineTo(cx+10*Math.cos(a+Math.PI/2),cy+10*Math.sin(a+Math.PI/2));fx.lineTo(cx+10*Math.cos(a-Math.PI/2),cy+10*Math.sin(a-Math.PI/2));fx.closePath();fx.fill();fx.fillStyle='#dfe7ff';fx.beginPath();fx.moveTo(cx-r*.8*Math.cos(a),cy-r*.8*Math.sin(a));fx.lineTo(cx+10*Math.cos(a+Math.PI/2),cy+10*Math.sin(a+Math.PI/2));fx.lineTo(cx+10*Math.cos(a-Math.PI/2),cy+10*Math.sin(a-Math.PI/2));fx.closePath();fx.fill();fx.globalAlpha=1;break;}
+case 'morse':{// a telegraph key taps the slide's name in Morse and each dash opens a strip of the slide
+doSwap();const code='-- .- .--.';// MAP
+const units=[];for(const ch of code){if(ch==='-')units.push(3);else if(ch==='.')units.push(1);else units.push(2);units.push(1);}const total=units.reduce((a,b)=>a+b,0);let acc=0,on=false,idx=0;const pos=k*total;for(let i=0;i<units.length;i++){if(pos<acc+units[i]){on=(i%2===0)&&code[Math.floor(i/2)]!==' ';idx=i;break;}acc+=units[i];}
+slideEl.style.clipPath=`inset(0 ${(1-e)*100}% 0 0)`;const kx=W*.5,ky=H*.5;fx.fillStyle=on?'#f0b35a':'#283048';fx.beginPath();fx.arc(kx,ky,18,0,TAU);fx.fill();fx.strokeStyle='rgba(236,230,218,.5)';fx.lineWidth=2;fx.beginPath();fx.moveTo(0,ky);fx.lineTo(W,ky);fx.stroke();if(on){fx.strokeStyle='rgba(240,179,90,.8)';fx.lineWidth=3;fx.beginPath();fx.moveTo(kx+20,ky);fx.lineTo(kx+20+(1-k)*W*.5,ky);fx.stroke();}
+fx.fillStyle='#cfc8ba';fx.font='600 14px Menlo,monospace';fx.textAlign='center';fx.fillText(code.slice(0,Math.ceil(k*code.length)),kx,ky-40);fx.globalAlpha=1;break;}
+case 'gust':{// a gust blows the old frame away in strips and the new slide stands behind
+doSwap();const strips=14;let poly=[];for(let i=0;i<strips;i++){const y0=i/strips*H,y1=(i+1)/strips*H;const off=Math.pow(Math.max(0,e-i*.03),1.4)*W*1.4;poly.push(`${off}px ${y0}px, ${W}px ${y0}px, ${W}px ${y1}px, ${off}px ${y1}px`);}
+// build a single polygon by zig-zag along strip left edges
+let pts=[];for(let i=0;i<strips;i++){const y0=i/strips*H,y1=(i+1)/strips*H;const off=Math.min(W,Math.pow(Math.max(0,e*1.15-i*.025),1.3)*W*1.5);pts.push(`${W-off}px ${y0}px`,`${W-off}px ${y1}px`);}
+slideEl.style.clipPath=`polygon(${W}px 0px, ${pts.join(',')}, ${W}px ${H}px)`;slideEl.style.clipPath=`polygon(0px 0px, ${pts.map((p,i)=>{const[x,y]=p.split(' ');return `${W-parseFloat(x)}px ${y}`;}).join(',')}, 0px ${H}px)`;
+for(let i=0;i<40;i++){const yy=(i*97)%H,xx=((t*0.8+i*137)%W);fx.strokeStyle=`rgba(223,231,255,${.3*(1-k)})`;fx.lineWidth=1;fx.beginPath();fx.moveTo(xx,yy);fx.lineTo(xx-60,yy+4);fx.stroke();}break;}
+case 'edge':{// a crisp edge sweeps across, then softens into a band as the slide settles
+doSwap();const x=W*e;slideEl.style.clipPath=`inset(0 ${(1-e)*100}% 0 0)`;const band=Math.max(2,(1-Math.abs(2*k-1))*120);const g=fx.createLinearGradient(x-band,0,x+band,0);g.addColorStop(0,'rgba(255,125,111,0)');g.addColorStop(.5,'rgba(255,125,111,.45)');g.addColorStop(1,'rgba(255,125,111,0)');fx.fillStyle=g;fx.fillRect(x-band,0,2*band,H);fx.strokeStyle='#ff7d6f';fx.lineWidth=k<.5?3:1;fx.beginPath();fx.moveTo(x,0);fx.lineTo(x,H);fx.stroke();fx.fillStyle='#cfc8ba';fx.font='500 12px -apple-system,Segoe UI,Roboto,sans-serif';fx.textAlign='left';fx.fillText(k<.5?'a crisp edge…':'…is really a band',x+10,H*.5);break;}
 case 'wake':{// a ship crosses and its wake opens the slide behind it
 doSwap();const y=H*.5,x=-80+(W+160)*e;slideEl.style.clipPath=`polygon(0 ${y-(x+80)*.22}px, ${x}px ${y}px, 0 ${y+(x+80)*.22}px)`;if(k>.5)slideEl.style.clipPath=`polygon(0 ${Math.max(0,y-(x+80)*.22)}px, ${x}px ${y}px, 0 ${Math.min(H,y+(x+80)*.22)}px, 0 0, ${k>.75?W:0}px 0, ${k>.75?W:0}px ${H}px, 0 ${H}px)`;
 fx.strokeStyle='rgba(223,231,255,.55)';fx.lineWidth=2;fx.beginPath();fx.moveTo(x,y);fx.lineTo(0,y-(x+80)*.22);fx.moveTo(x,y);fx.lineTo(0,y+(x+80)*.22);fx.stroke();for(let i=1;i<6;i++){const xx=x-i*60;if(xx<0)break;fx.strokeStyle=`rgba(223,231,255,${.35-i*.05})`;fx.beginPath();fx.moveTo(xx,y-i*14);fx.lineTo(xx-30,y-i*14-8);fx.moveTo(xx,y+i*14);fx.lineTo(xx-30,y+i*14+8);fx.stroke();}
@@ -1433,7 +1610,7 @@ doSwap();const cx=W/2,cy=H/2,R=Math.hypot(W,H)*.55*e;slideEl.style.clipPath=`cir
 default:doSwap();slideEl.style.opacity=e;}
 if(k<1)run.raf=requestAnimationFrame(frame);else{fx.clearRect(0,0,W,H);slideEl.style.clipPath='';slideEl.style.transform='';slideEl.style.filter='';slideEl.style.opacity='';fxRun=null;}};
 run.raf=requestAnimationFrame(frame);}
-const FXMAP={fade:'warp',iris:'sweep',sunrise:'rays',telescope:'warp',terminator:'eclipse',venus:'venus',survey:'chain',orbit:'orbit',compass:'compass',unroll:'unroll',triangles:'triangles',wake:'wake'};
+const FXMAP={fade:'warp',iris:'sweep',sunrise:'rays',telescope:'warp',terminator:'eclipse',venus:'venus',survey:'chain',orbit:'orbit',compass:'compass',unroll:'unroll',triangles:'triangles',wake:'wake',morse:'morse',gust:'gust',edge:'edge'};
 
 /* ---------- loop ---------- */
 function frame(t){const el=slides[cur];const s=scenes.find(sc=>el.contains(sc.o.c));if(s&&s.o.w)s.draw(t);requestAnimationFrame(frame);}
