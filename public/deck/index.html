@@ -112,8 +112,9 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
       <li data-go="Moon mountains"><strong>6.</strong> Galileo measures a mountain on the Moon from its shadow.</li>
       <li data-go="Kepler to Halley"><strong>7.</strong> Kepler, Horrocks and Halley: a map with no scale bar.</li>
       <li data-go="Transit of Venus"><strong>8.</strong> Venus crosses the Sun and the solar system gets a size.</li>
-      <li data-go="Mason &amp; Dixon"><strong>9.</strong> Mason and Dixon: a sea fight, a transit, and a line across America.</li>
-      <li data-go="Flat maps lie"><strong>10.</strong> Flat maps lie: Greenland, Africa, and the shortest way across.</li>
+      <li data-go="Cook"><strong>9.</strong> Cook: a collier, a clock, and the coast he charted.</li>
+      <li data-go="Mason &amp; Dixon"><strong>10.</strong> Mason and Dixon: a sea fight, a transit, and a line across America.</li>
+      <li data-go="Flat maps lie"><strong>11.</strong> Flat maps lie: Greenland, Africa, and the shortest way across.</li>
     </ul>
     <p><small>→ and ← keys move between slides. F for full screen. Dotted words open an explanation.</small></p>
   </div>
@@ -303,10 +304,24 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
   <div class="stage"><canvas id="c5"></canvas><div class="hint" id="h5">Tap the globe to place two observers · drag to spin</div></div>
 </section>
 
+<!-- 9 · Cook -->
+<section class="slide" data-title="Cook" data-fx="wake">
+  <div class="text">
+    <p class="kicker">9 · 1768 to 1775 · A collier, a clock, and a coast</p>
+    <h1 id="ck-title">A Whitby coal ship sails for Venus</h1>
+    <div class="chips" id="ck-chapters"><button data-ch="0" class="on">1 · Endeavour</button><button data-ch="1">2 · To Tahiti</button><button data-ch="2">3 · The transit</button><button data-ch="3">4 · The east coast</button><button data-ch="4">5 · K1</button></div>
+    <div id="ck-body"></div>
+    <div class="btns"><button id="ck-prev">◀ Back</button><button class="primary" id="ck-next">Next ▶</button><button id="ck-transit" hidden>Open the 1769 transit from Tahiti</button></div>
+    <div class="readout" id="ck-read"></div>
+    <figure class="md-fig" id="ck-fig" hidden><img id="ck-img" alt=""><figcaption id="ck-cap"></figcaption></figure>
+  </div>
+  <div class="stage"><canvas id="c9k"></canvas><div class="hint" id="ck-hint">Drag to spin · pinch or scroll to zoom · tap a marker</div><div class="card" id="ck-card" hidden><button class="x" id="ck-card-x" aria-label="Close">×</button><h3 id="ck-card-t"></h3><div id="ck-card-g"></div><p id="ck-card-p"></p></div></div>
+</section>
+
 <!-- 6 · Mason and Dixon -->
 <section class="slide" data-title="Mason &amp; Dixon" data-fx="survey">
   <div class="text">
-    <p class="kicker">9 · 1761 to 1767 · Two men, one line</p>
+    <p class="kicker">10 · 1761 to 1767 · Two men, one line</p>
     <h1 id="md-title">Mason and Dixon</h1>
     <div class="chips" id="md-chapters"><button data-ch="0" class="on">1 · Two men</button><button data-ch="1">2 · The Seahorse</button><button data-ch="2">3 · The Cape</button><button data-ch="3">4 · To America</button><button data-ch="4">5 · The line</button><button data-ch="5">6 · The stones</button></div>
     <div id="md-body"></div>
@@ -320,7 +335,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 9 · Flat maps lie -->
 <section class="slide" data-title="Flat maps lie" data-fx="unroll">
   <div class="text">
-    <p class="kicker">10 · Frames · Every flat map is a choice</p>
+    <p class="kicker">11 · Frames · Every flat map is a choice</p>
     <h1 id="fm-title">How many Greenlands fit in Africa?</h1>
     <div class="modes" id="m9"><button class="on" data-mode="greenland">Greenland vs Africa</button><button data-mode="routes">Straight is not shortest</button></div>
     <div id="fm-greenland">
@@ -1307,6 +1322,68 @@ GLOSS.baseline={t:'Baseline',g:`<svg viewBox="0 0 480 300"><line x1="60" y1="240
 GLOSS.triangulation={t:'Triangulation',g:`<svg viewBox="0 0 480 300"><polyline points="40,250 160,120 280,230 380,80 440,220" fill="none" stroke="#ece6da" stroke-width="2"/><line x1="40" y1="250" x2="280" y2="230" stroke="#ece6da" stroke-width="2"/><line x1="160" y1="120" x2="380" y2="80" stroke="#ece6da" stroke-width="2"/><line x1="280" y1="230" x2="440" y2="220" stroke="#ece6da" stroke-width="2"/><line x1="40" y1="250" x2="160" y2="120" stroke="#ff7d6f" stroke-width="4"/><text x="40" y="290" fill="#9a9382" font-size="12">One red side measured. Each new station: sight it from two known stations, compute its position.</text></svg>`,p:'Triangulation builds a map from a single measured baseline and a chain of measured angles. Snellius proposed it in 1615; Picard made it precise with a telescope on his quadrant in 1669; Cassini’s family carried it across France over a century, and the Ordnance Survey across Britain. Every national map until GPS rested on a few measured baselines and tens of thousands of angles. Error accumulates along the chain, so surveyors measured a second baseline at the far end as a check.'};
 }
 
+/* ---------- shared: a story slide on the globe — chapters with camera flights, routes that draw themselves, tappable sites, cards ---------- */
+// cfg: {canvas, prefix, chapters:[{t,cam,body,read,route?,hint?,draw?(ctx,proj,st,ch,routeT)}], sites:[{n,lat,lon,c,ch,t,g?,photo?}], routes:[{pts:[[lat,lon],...],color,chapter,ms}], extraCoast?: set, start:{lat,lon,zoom}, onChapter?(ch)}
+function storySlide(cfg){const o=setup(cfg.canvas);const P=cfg.prefix;const $=id=>document.getElementById(P+'-'+id);
+const st={yaw:camFor(cfg.start.lat,cfg.start.lon,1).yaw,pitch:camFor(cfg.start.lat,cfg.start.lon,1).pitch,zoom:cfg.start.zoom,anim:null,maxZoom:160,enabled:()=>true};
+const body=$('body'),read=$('read'),title=$('title'),card=$('card'),fig=$('fig'),img=$('img'),cap=$('cap'),hint=$('hint');let ch=0,routeT=0,routeAnim=null,hot=null;
+const wp=w=>{const pts=[];for(let i=0;i<w.length-1;i++){const a=ll(w[i][0],w[i][1]),b=ll(w[i+1][0],w[i+1][1]);const n=Math.max(8,Math.round(Math.acos(Math.max(-1,Math.min(1,v3.dot(a,b))))/DEG*2));for(let k=0;k<n;k++)pts.push(slerp(a,b,k/n));}pts.push(ll(w[w.length-1][0],w[w.length-1][1]));return pts;};
+const routes=cfg.routes.map(r=>({...r,P:wp(r.pts)}));
+function setChapter(n){ch=Math.max(0,Math.min(cfg.chapters.length-1,n));const c=cfg.chapters[ch];title.textContent=c.t;body.innerHTML=c.body;read.innerHTML=c.read||'';document.querySelectorAll('#'+P+'-chapters button').forEach(b=>b.classList.toggle('on',+b.dataset.ch===ch));card.hidden=true;hot=null;
+const target={...c.cam};let dy=target.yaw-st.yaw;dy=((dy+Math.PI)%TAU+TAU)%TAU-Math.PI;target.yaw=st.yaw+dy;fly(st,target,1800);
+const r=routes.find(r=>r.chapter===ch);routeT=0;routeAnim=r?{t0:performance.now(),ms:r.ms||4000}:null;if(!r)routeT=1;
+hint.textContent=c.hint||'Drag to spin · pinch or scroll to zoom · tap a marker';
+if(img){const src=`img/${P}-${ch+1}.jpg`;img.onload=()=>{fig.hidden=false;};img.onerror=()=>{fig.hidden=true;};img.src=src;cap.textContent='';}
+cfg.onChapter&&cfg.onChapter(ch);}
+document.querySelectorAll('#'+P+'-chapters button').forEach(b=>b.onclick=()=>setChapter(+b.dataset.ch));
+$('next').onclick=()=>setChapter(ch+1);$('prev').onclick=()=>setChapter(ch-1);$('card-x').onclick=()=>{card.hidden=true;hot=null;};
+function geom(){const{w,h}=o;return{cx:w*.5,cy:h*.5,R:Math.min(w,h)*.36*st.zoom};}
+function proj(p){const{cx,cy,R}=geom();const q=rot(p,st.yaw,st.pitch);return{x:cx+q[0]*R,y:cy-q[1]*R,z:q[2]};}
+function openSite(s){hot=s;$('card-t').textContent=s.n;$('card-p').innerHTML=s.t||'';$('card-g').innerHTML=s.g||'';if(s.photo){const im=new Image();im.onload=()=>{$('card-g').innerHTML='';$('card-g').appendChild(im);};im.src=s.photo;im.alt=s.n;}card.hidden=false;}
+function tap(p){const cand=[];for(const s of cfg.sites){if(s.ch!==undefined&&s.ch!==ch&&!(s.upto!==undefined&&ch<=s.upto&&ch>=s.ch))continue;if(s.ch!==undefined&&s.ch!==ch&&s.upto===undefined)continue;const q=proj(ll(s.lat,s.lon));if(q.z>0)cand.push({s,d:Math.hypot(q.x-p.x,q.y-p.y)});}cand.sort((a,b)=>a.d-b.d);if(cand.length&&cand[0].d<18)openSite(cand[0].s);}
+orbit(o,st,tap);setChapter(0);
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);stepAnim(st,t);if(routeAnim){routeT=Math.min(1,(t-routeAnim.t0)/routeAnim.ms);if(routeT>=1)routeAnim=null;}
+const{cx,cy,R}=geom();const c=cfg.chapters[ch];
+const g=ctx.createRadialGradient(cx-R*.3,cy-R*.3,R*.05,cx,cy,R);g.addColorStop(0,'#1f3f66');g.addColorStop(1,'#0e1a2e');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();
+if(st.zoom<30){ctx.strokeStyle='rgba(236,230,218,.08)';ctx.lineWidth=1;for(let la=-60;la<=60;la+=30){ctx.beginPath();let pen=false;for(let lo=0;lo<=360;lo+=5){const q=proj(ll(la,lo));if(q.z>=0){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}ctx.stroke();}}
+drawCoast(ctx,proj,st.zoom,{hi:st.zoom>8,borders:st.zoom>8,width:st.zoom>8?1.2:1});
+if(cfg.extraCoast&&st.zoom>3){ctx.strokeStyle='rgba(236,230,218,.85)';ctx.lineWidth=1.2;ctx.beginPath();for(const ln of cfg.extraCoast.lines){let pen=false;for(let i=0;i<ln.length;i+=2){const q=proj(ll(ln[i+1]/cfg.extraCoast.q,ln[i]/cfg.extraCoast.q));if(q.z>=-0.01){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}}ctx.stroke();}
+ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.stroke();
+// routes up to this chapter
+let ship=null;for(const r of routes){if(r.chapter>ch)continue;const frac=r.chapter===ch?routeT:1;ctx.strokeStyle=r.color;ctx.lineWidth=r.width||2;ctx.beginPath();let pen=false;const n=Math.floor(r.P.length*frac);for(let i=0;i<n;i++){const q=proj(r.P[i]);if(q.z>=0){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}ctx.stroke();if(r.chapter===ch&&n)ship=proj(r.P[Math.max(0,n-1)]);}
+if(ship&&ship.z>=0&&routeAnim){ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(ship.x,ship.y,4,0,TAU);ctx.fill();text(ctx,'⛵',ship.x+6,ship.y+5,{size:14});}
+// sites for this chapter (or ranges)
+for(const s of cfg.sites){const vis=s.ch===undefined||s.ch===ch||(s.upto!==undefined&&ch>=s.ch&&ch<=s.upto);if(!vis)continue;const q=proj(ll(s.lat,s.lon));if(q.z<0)continue;const on=hot===s;ctx.fillStyle=on?'#fff':s.c;ctx.beginPath();ctx.arc(q.x,q.y,on?8:6,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();if(!s.quiet||on||st.zoom>s.quiet)tag(ctx,s.n,q.x+10,q.y+5,s.c,11);}
+c.draw&&c.draw(ctx,proj,st,ch,routeT,o);
+text(ctx,`zoom ${fmt(st.zoom,1)}×`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}});
+return{setChapter,st,proj,get ch(){return ch;}};}
+
+/* ---------- 9 · Cook ---------- */
+{const ck=storySlide({canvas:'c9k',prefix:'ck',start:{lat:52,lon:-3,zoom:1.4},extraCoast:typeof COAST_AUS!=='undefined'?COAST_AUS:null,
+routes:[
+ {chapter:1,color:'#f0b35a',ms:5000,pts:[[50.37,-4.14],[32.6,-16.9],[-22.9,-43.2],[-52,-62],[-56.5,-67.5],[-58,-80],[-40,-110],[-25,-135],[-17.53,-149.57]]},// Plymouth · Madeira · Rio · Horn · Tahiti, 26 Aug 1768 to 13 Apr 1769
+ {chapter:3,color:'#6fd48a',ms:4500,pts:[[-17.53,-149.57],[-38,-170],[-41.3,174.8],[-46,167],[-38,150.5],[-34.0,151.2],[-27.5,153.5],[-23.4,151.0],[-16.8,145.9],[-15.8,145.6],[-10.7,142.2]]},// Tahiti · NZ · Point Hicks 19 Apr 1770 · Botany Bay · Endeavour Reef · Possession Island 22 Aug
+ {chapter:4,color:'#6fb3ff',ms:4500,pts:[[50.37,-4.14],[-33.9,18.4],[-66,40],[-43,172],[-50,-100],[-55,-67],[50.37,-4.14]]}],// Resolution 1772–75, simplified
+sites:[
+ {n:'Whitby · Endeavour built as the collier Earl of Pembroke',lat:54.49,lon:-0.61,c:'#cfc8ba',ch:0,t:'A flat-bottomed Whitby coal ship: slow, roomy, could be beached for repair. Cook had learned the sea in them. The Admiralty bought her in 1768 for £2,800 and renamed her Endeavour.'},
+ {n:'Plymouth · sailed 26 August 1768',lat:50.37,lon:-4.14,c:'#ece6da',ch:0,upto:1,t:'94 men, 18 months of stores, Joseph Banks and his party of naturalists at Banks’s own expense, and sealed orders to be opened after the transit.'},
+ {n:'Point Venus, Tahiti · 3 June 1769',lat:-17.49,lon:-149.5,c:'#f0b35a',ch:1,upto:2,t:'Matavai Bay. Cook built Fort Venus, with a wall and swivel guns, to protect the instruments. Cook, Green and Solander each timed the contacts; their times disagreed by many seconds because of the black drop.'},
+ {n:'Point Hicks · 19 April 1770 · first sight of the east coast',lat:-37.8,lon:149.3,c:'#6fd48a',ch:3,t:'Lieutenant Zachary Hicks saw land at dawn. Cook turned north and charted 2,000 miles of coast in four months.'},
+ {n:'Botany Bay · 29 April 1770',lat:-34.0,lon:151.2,c:'#6fd48a',ch:3,t:'Eight days ashore. Banks and Solander collected so many plants that Cook renamed Stingray Harbour for them. The Gweagal people watched from the shore and two men opposed the landing with spears; Cook’s party fired on them.'},
+ {n:'Endeavour Reef · 11 June 1770',lat:-15.78,lon:145.6,c:'#ff7d6f',ch:3,t:'The ship struck coral at night and stuck fast for 23 hours. They threw guns and ballast overboard, fothered the hole with a sail, and limped to the Endeavour River for seven weeks of repair. The Guugu Yimithirr people there gave the world the word kangaroo.'},
+ {n:'Possession Island · 22 August 1770',lat:-10.72,lon:142.4,c:'#ff7d6f',ch:3,t:'Cook hoisted the colours and claimed the whole east coast for George III as New South Wales. His instructions told him to take possession “with the consent of the natives”. No consent was asked. The coast he charted had been inhabited for at least 50,000 years.'},
+ {n:'Cape Town · K1 checked against the observatory',lat:-33.93,lon:18.42,c:'#6fb3ff',ch:4,t:'On the second voyage Cook carried K1, Larcum Kendall’s copy of Harrison’s H4, and checked it against known longitudes at every port. Its daily rate was tracked for three years and it never failed him.'},
+ {n:'Dusky Sound, New Zealand',lat:-45.7,lon:166.6,c:'#6fb3ff',ch:4,t:'Longitude by K1 and by lunar distance agreed to within a few miles after 117 days out of sight of land. Cook called the watch “our trusty friend” and “our never-failing guide”.'}],
+chapters:[
+ {t:'A Whitby coal ship sails for Venus',cam:camFor(53,-3,1.6),body:`<p class="lede">James Cook, 1728 to 1779, a Yorkshire farm labourer’s son who learned navigation in the Whitby coal trade and surveying in the St Lawrence and Newfoundland. The Royal Society wanted the 1769 transit observed from the South Pacific and the Admiralty wanted the South Pacific explored. Both got Cook.</p><p>He sailed from Plymouth on 26 August 1768 in a converted collier with 94 people aboard, including Joseph Banks, Daniel Solander and the astronomer Charles Green.</p>`,read:'<strong>Tap Whitby and Plymouth.</strong><span>The ship mattered as much as the man: flat, strong and slow.</span>'},
+ {t:'Eight months to Tahiti',cam:camFor(-30,-90,1),body:`<p class="lede">Madeira, Rio de Janeiro, round Cape Horn in January, then north-west across the empty Pacific to Tahiti, sighted on 11 April 1769 and reached two days later. No one aboard died of scurvy: Cook made the crew eat sauerkraut.</p><p>The route is drawn as the ship’s track; watch it run.</p>`,read:'<strong>Watch the route draw.</strong><span>Tahiti was chosen because Wallis had found it two years earlier and fixed its longitude.</span>',hint:'Watch the track · tap Tahiti when it arrives'},
+ {t:'Fort Venus, 3 June 1769',cam:camFor(-17.5,-149.5,6),body:`<p class="lede">A clear day. Cook, Green and Solander each watched Venus cross the Sun through their own telescopes and each wrote down different times for the contacts: the <span class="term" data-term="blackdrop">black drop</span> made the instant impossible to call.</p><p>Their station was the southern anchor of Halley’s network. Hell at Vardø in the Arctic was its northern one. The two chords on the Sun, thousands of miles apart on Earth, are what slide 8 measures.</p>`,read:'<strong>Open slide 8 with the Tahiti and Vardø pair</strong><span>to see the two chords and the stopwatch difference.</span>',transit:true,hint:'Tap Point Venus · the button opens the transit slide'},
+ {t:'The sealed orders: the east coast of Australia',cam:camFor(-27,150,2.6),body:`<p class="lede">After Tahiti the sealed orders sent Cook south to look for a continent. He circled New Zealand, then on 19 April 1770 sighted the south-east corner of Australia and sailed north for four months charting a coast no European had drawn.</p><p>A precise chart does not mean an empty land. Aboriginal peoples had lived along this coast for tens of thousands of years, and the chart records their fires. Surveying is not consent: Cook’s instructions required it, he did not seek it, and at Possession Island he claimed the coast anyway.</p>`,read:'<strong>Tap the four markers.</strong><span>Point Hicks, Botany Bay, Endeavour Reef, Possession Island.</span>',hint:'Pinch in on the coast · tap a marker'},
+ {t:'The second voyage: a clock that worked at sea',cam:camFor(-40,60,1),body:`<p class="lede">1772 to 1775. Cook took the Resolution three times across the Antarctic Circle and proved the great southern continent did not exist where the maps put it. He also carried K1, Kendall’s copy of Harrison’s H4, and tested it against <span class="term" data-term="lunar">lunar distances</span> at every landfall.</p><p>The <span class="term" data-term="chronometer">chronometer</span> won. Cook’s charts from this voyage were the first with longitudes good to a few miles, and his endorsement did more than the Board of Longitude’s prize to put clocks on every ship.</p>`,read:'<strong>Tap Cape Town and Dusky Sound.</strong><span>Where the watch was checked and where it was trusted.</span>'}],
+onChapter(ch){document.getElementById('ck-transit').hidden=ch!==2;}});
+document.getElementById('ck-transit').onclick=()=>{go(slides.findIndex(x=>x.dataset.title==='Transit of Venus'));document.querySelector('#tv-pairs button[data-a=tahiti]').click();};
+}
+
 /* ---------- transitions: drawn live on an overlay canvas, each one a piece of the slide's own story ---------- */
 const fxC=document.createElement('canvas');fxC.id='fx';document.body.appendChild(fxC);const fx=fxC.getContext('2d');
 function fxSize(){const d=devicePixelRatio||1;fxC.width=innerWidth*d;fxC.height=innerHeight*d;fx.setTransform(d,0,0,d,0,0);}fxSize();addEventListener('resize',fxSize);
@@ -1341,6 +1418,10 @@ for(let i=0;i<shown;i++){fx.strokeStyle='rgba(236,230,218,.9)';fx.lineWidth=2.5;
 if(k<.45){fx.fillStyle='#f0b35a';fx.font='600 12px -apple-system,Segoe UI,Roboto,sans-serif';fx.textAlign='left';fx.fillText('66 feet · 100 links',Math.min(W-160,shown*34+8),y-18);}break;}
 case 'compass':{// a compass needle swings and settles on north; the slide opens as the rose fills
 doSwap();const cx=W/2,cy=H/2,R=Math.hypot(W,H)*.55*e;slideEl.style.clipPath=`circle(${R}px at 50% 50%)`;const r=Math.min(W,H)*.22;const swing=(1-e)*Math.sin(k*Math.PI*4)*1.2;const a=-Math.PI/2+swing;fx.globalAlpha=1-Math.max(0,(k-.7)/.3);fx.strokeStyle='rgba(236,230,218,.5)';fx.lineWidth=1.5;fx.beginPath();fx.arc(cx,cy,r,0,TAU);fx.stroke();for(let d=0;d<360;d+=10){const q=d*DEG-Math.PI/2;const big=d%90===0;fx.beginPath();fx.moveTo(cx+(r-(big?18:8))*Math.cos(q),cy+(r-(big?18:8))*Math.sin(q));fx.lineTo(cx+r*Math.cos(q),cy+r*Math.sin(q));fx.strokeStyle=big?'#ece6da':'rgba(236,230,218,.4)';fx.lineWidth=big?2:1;fx.stroke();}fx.font='600 16px Georgia,serif';fx.fillStyle='#ece6da';fx.textAlign='center';[['N',0],['E',90],['S',180],['W',270]].forEach(([l,d])=>{const q=d*DEG-Math.PI/2;fx.fillText(l,cx+(r-34)*Math.cos(q),cy+(r-34)*Math.sin(q)+6);});fx.fillStyle='#ff7d6f';fx.beginPath();fx.moveTo(cx+r*.8*Math.cos(a),cy+r*.8*Math.sin(a));fx.lineTo(cx+10*Math.cos(a+Math.PI/2),cy+10*Math.sin(a+Math.PI/2));fx.lineTo(cx+10*Math.cos(a-Math.PI/2),cy+10*Math.sin(a-Math.PI/2));fx.closePath();fx.fill();fx.fillStyle='#dfe7ff';fx.beginPath();fx.moveTo(cx-r*.8*Math.cos(a),cy-r*.8*Math.sin(a));fx.lineTo(cx+10*Math.cos(a+Math.PI/2),cy+10*Math.sin(a+Math.PI/2));fx.lineTo(cx+10*Math.cos(a-Math.PI/2),cy+10*Math.sin(a-Math.PI/2));fx.closePath();fx.fill();fx.globalAlpha=1;break;}
+case 'wake':{// a ship crosses and its wake opens the slide behind it
+doSwap();const y=H*.5,x=-80+(W+160)*e;slideEl.style.clipPath=`polygon(0 ${y-(x+80)*.22}px, ${x}px ${y}px, 0 ${y+(x+80)*.22}px)`;if(k>.5)slideEl.style.clipPath=`polygon(0 ${Math.max(0,y-(x+80)*.22)}px, ${x}px ${y}px, 0 ${Math.min(H,y+(x+80)*.22)}px, 0 0, ${k>.75?W:0}px 0, ${k>.75?W:0}px ${H}px, 0 ${H}px)`;
+fx.strokeStyle='rgba(223,231,255,.55)';fx.lineWidth=2;fx.beginPath();fx.moveTo(x,y);fx.lineTo(0,y-(x+80)*.22);fx.moveTo(x,y);fx.lineTo(0,y+(x+80)*.22);fx.stroke();for(let i=1;i<6;i++){const xx=x-i*60;if(xx<0)break;fx.strokeStyle=`rgba(223,231,255,${.35-i*.05})`;fx.beginPath();fx.moveTo(xx,y-i*14);fx.lineTo(xx-30,y-i*14-8);fx.moveTo(xx,y+i*14);fx.lineTo(xx-30,y+i*14+8);fx.stroke();}
+fx.fillStyle='#ece6da';fx.beginPath();fx.moveTo(x-26,y+6);fx.lineTo(x+26,y+6);fx.lineTo(x+16,y+16);fx.lineTo(x-16,y+16);fx.closePath();fx.fill();fx.beginPath();fx.moveTo(x,y+6);fx.lineTo(x,y-34);fx.lineTo(x+22,y-4);fx.closePath();fx.fill();break;}
 case 'triangles':{// a chain of survey triangles grows across the screen and the slide shows through them
 doSwap();const n=9,stepx=W/(n-1);const pts=[];for(let i=0;i<n;i++)pts.push([i*stepx,i%2?H*.3:H*.7]);const shown=e*(n-1);let poly='';const done=Math.floor(shown);const frac=shown-done;const tri=[];for(let i=0;i<done&&i<n-2;i++)tri.push([pts[i],pts[i+1],pts[i+2]]);if(done<n-2){const a=pts[done],b=pts[done+1],c=pts[done+2];tri.push([a,b,[b[0]+(c[0]-b[0])*frac,b[1]+(c[1]-b[1])*frac]]);}
 const parts=tri.map(t=>`polygon(${t.map(p=>p[0]+'px '+p[1]+'px').join(',')})`);// union via multiple polygons is not supported; approximate with a growing inset plus drawn lines
@@ -1352,7 +1433,7 @@ doSwap();const cx=W/2,cy=H/2,R=Math.hypot(W,H)*.55*e;slideEl.style.clipPath=`cir
 default:doSwap();slideEl.style.opacity=e;}
 if(k<1)run.raf=requestAnimationFrame(frame);else{fx.clearRect(0,0,W,H);slideEl.style.clipPath='';slideEl.style.transform='';slideEl.style.filter='';slideEl.style.opacity='';fxRun=null;}};
 run.raf=requestAnimationFrame(frame);}
-const FXMAP={fade:'warp',iris:'sweep',sunrise:'rays',telescope:'warp',terminator:'eclipse',venus:'venus',survey:'chain',orbit:'orbit',compass:'compass',unroll:'unroll',triangles:'triangles'};
+const FXMAP={fade:'warp',iris:'sweep',sunrise:'rays',telescope:'warp',terminator:'eclipse',venus:'venus',survey:'chain',orbit:'orbit',compass:'compass',unroll:'unroll',triangles:'triangles',wake:'wake'};
 
 /* ---------- loop ---------- */
 function frame(t){const el=slides[cur];const s=scenes.find(sc=>el.contains(sc.o.c));if(s&&s.o.w)s.draw(t);requestAnimationFrame(frame);}
