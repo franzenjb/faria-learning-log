@@ -44,3 +44,12 @@ Previous known source is `c2b918d` (before this addition). A maintainer can reve
 
 ## Maintenance And Evidence
 Last source verification: November 8, 2026. Geometry tests passed, including independent ray/sphere visibility across control ranges. Local Chrome behavior and desktop/mobile light/dark screenshots checked. Whole-site style audit reports existing multi-font/color conventions; no unrelated restyle attempted. Live release evidence is recorded in `docs/RELEASE.md` after deployment. Recheck sources and browser behavior when modifying the lesson. No unattended refresh job exists or is needed. See `Galileo Change Register 2026-11-08.xlsx` (authoritative manual tracker; no automated synchronization). User acceptance remains Jeff's decision.
+
+```json
+{
+  "project": "faria-learning-log",
+  "live_url": "https://faria.jbf.com",
+  "verified": "2026-11-08",
+  "vercel_project": "faria-learning-log"
+}
+```
