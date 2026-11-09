@@ -17,7 +17,7 @@ await page.click('#fly-crux'); await page.waitForTimeout(200);
 assert.match(await page.locator('#globe-read strong').innerText(), /Southern Cross/);
 await page.click('#m1 button[data-mode=lon]'); await page.click('#find-noon');
 assert.match(await page.locator('#lon-read strong').innerText(), /Local noon/);
-assert.match(await page.locator('#lon-read .big').innerText(), /70\.\d° W/);
+assert.match(await page.locator('#lon-read .big').innerText(), /−70\.\d° · West/);
 await slide(2);
 assert.match(await page.locator('#era-read .big').innerText(), /250,000 stadia/);
 const c = await page.locator('#c2').boundingBox();
