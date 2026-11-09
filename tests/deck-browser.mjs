@@ -74,11 +74,10 @@ await page.click('#mtn-width'); await page.waitForTimeout(200);
 assert.match(await page.locator('.slide.active .card.gloss h3').innerText(), /How wide/);
 assert.ok((await page.locator('.slide.active .card.gloss svg path').count()) > 100);
 await page.click('.slide.active .card.gloss .x');
-await page.click('#mtn-side'); await page.waitForTimeout(1300);
+await page.click('#mtn-side');
 assert.equal(await page.locator('#moon-toggles button.on').count(), 4);
-const m = await page.locator('#c4').boundingBox();
-await page.mouse.click(m.x + m.width * .5, m.y + m.height * .52); // the centre lies on R, R+h and the diameter: a tap toggles the nearest one
-assert.notEqual(await page.locator('#moon-toggles button.on').count(), 4);
+await page.click('#moon-toggles button[data-k=circ]');
+assert.equal(await page.locator('#moon-toggles button.on').count(), 5);
 await slide(10);
 assert.match(await page.locator('#kp-title').innerText(), /scale bar/);
 await page.click('#m7 button[data-mode=halley]'); await page.waitForTimeout(300);
