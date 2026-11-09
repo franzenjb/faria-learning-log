@@ -72,6 +72,15 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 .dots button.on{background:var(--accent);border-color:var(--accent)}
 .nav .arrows button{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:.4rem;padding:.3rem .7rem;cursor:pointer;margin-left:.3rem}
 .counter{font:500 .75rem var(--mono);color:var(--muted)}
+.cover{grid-template-columns:1fr}
+.cover .stage{background:radial-gradient(ellipse at 50% 60%,#121a2e 0%,#0a0e18 70%)}
+.cover-text{position:absolute;left:0;right:0;top:50%;transform:translateY(-58%);text-align:center;pointer-events:none;padding:0 2rem}
+.cover-text h1{font-size:clamp(3rem,9vw,7.5rem);line-height:1;margin:.4rem 0 1rem;letter-spacing:-.02em;text-shadow:0 4px 40px rgba(0,0,0,.8)}
+.cover-text .kicker{font-size:.9rem;letter-spacing:.3em}
+.cover-text .sub{font-size:clamp(1.1rem,2.4vw,1.7rem);color:#dfd8ca;margin:0 0 1.4rem}
+.cover-text .who{font:500 1rem var(--sans);color:var(--muted);margin:0}
+.cover-text .go{font:500 .8rem var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-top:3rem;animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
 .title .text{display:flex;flex-direction:column;justify-content:center}
 .title h1{font-size:3rem}
 .title .lede{font-size:1.15rem}
@@ -95,6 +104,19 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 </head>
 <body>
 <div class="deck" id="deck">
+
+<!-- Cover -->
+<section class="slide cover" data-title="Cover" data-fx="fade">
+  <div class="stage"><canvas id="c00"></canvas>
+    <div class="cover-text">
+      <p class="kicker">GIS Month 2026 · an interactive lecture</p>
+      <h1>Where Am I?</h1>
+      <p class="sub">Six connected stories of measurement and mapping</p>
+      <p class="who">Jeff Franzen · Disaster GIS, American Red Cross</p>
+      <p class="go">press → to begin</p>
+    </div>
+  </div>
+</section>
 
 <!-- 0 · Title -->
 <section class="slide title" data-title="Title" data-fx="fade">
@@ -428,7 +450,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
   <div class="text">
     <p class="kicker">16 · Decisions · A crisp edge can conceal a fuzzy answer</p>
     <h1>Is the shelter outside the hazard?</h1>
-    <p class="lede">A fictional coast, a fictional hazard, a fictional shelter. Drag either one. The drawn edge is crisp; the real edge is a band, and so is the shelter’s position. The verdict says only what the geometry allows.</p>
+    <p class="lede">The real coast of Galveston Bay with a fictional hazard and a fictional shelter. Drag either one. The drawn edge is crisp; the real edge is a band, and so is the shelter’s position. The verdict says only what the geometry allows.</p>
     <p>Toggle the layers: wind, surge, rainfall flooding and road access answer different questions, and a wind category is not the whole map. The last card lists what a useful decision map makes visible.</p>
     <div class="chips" id="sh-layers"><button data-k="wind" class="on">Wind</button><button data-k="surge" class="on">Surge</button><button data-k="rain">Rainfall flooding</button><button data-k="access">Access</button></div>
     <div class="controls">
@@ -477,6 +499,14 @@ function arrow(ctx,x1,y1,x2,y2,color,w=1.5){ctx.strokeStyle=color;ctx.fillStyle=
 const stars=Array.from({length:260},()=>({x:Math.random(),y:Math.random(),r:Math.random()*1.3+.3,a:Math.random()}));
 function drawStars(o,t){const{ctx,w,h}=o;for(const s of stars){ctx.globalAlpha=.35+.65*Math.abs(Math.sin(t*.0007+s.a*9));ctx.fillStyle='#dfe7ff';ctx.beginPath();ctx.arc(s.x*w,s.y*h,s.r,0,TAU);ctx.fill();}ctx.globalAlpha=1;}
 const scenes=[];function resizeAll(){scenes.forEach(s=>s.o.resize());}addEventListener('resize',resizeAll);
+
+/* ---------- cover: a slow Earth low in the frame ---------- */
+{const o=setup('c00');const st={yaw:0.9,pitch:0.22,zoom:1,anim:null};let lastT=0;
+scenes.push({o,draw(t){const dt=lastT?(t-lastT)/1000:0;lastT=t;st.yaw+=dt*.06;const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);const cx=w*.5,cy=h*1.08,R=Math.min(w,h)*.78;const proj=p=>{const q=rot(p,st.yaw,st.pitch);return{x:cx+q[0]*R,y:cy-q[1]*R,z:q[2]};};
+const g=ctx.createRadialGradient(cx-R*.3,cy-R*.5,R*.1,cx,cy,R);g.addColorStop(0,'#2f5a8c');g.addColorStop(.7,'#15294a');g.addColorStop(1,'#0b1526');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();
+ctx.strokeStyle='rgba(236,230,218,.08)';ctx.lineWidth=1;for(let la=-60;la<=60;la+=15){ctx.beginPath();let pen=false;for(let lo=0;lo<=360;lo+=4){const q=proj(ll(la,lo));if(q.z>=0){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}ctx.stroke();}
+drawCoast(ctx,proj,1,{color:'rgba(236,230,218,.7)'});const rim=ctx.createRadialGradient(cx,cy,R*.92,cx,cy,R*1.06);rim.addColorStop(0,'rgba(111,179,255,0)');rim.addColorStop(.6,'rgba(111,179,255,.25)');rim.addColorStop(1,'rgba(111,179,255,0)');ctx.fillStyle=rim;ctx.beginPath();ctx.arc(cx,cy,R*1.06,0,TAU);ctx.fill();
+const N=proj([0,1.25,0]);const gl=ctx.createRadialGradient(N.x,N.y,0,N.x,N.y,22);gl.addColorStop(0,'#fff');gl.addColorStop(.3,'rgba(111,179,255,.8)');gl.addColorStop(1,'rgba(111,179,255,0)');ctx.fillStyle=gl;ctx.beginPath();ctx.arc(N.x,N.y,22,0,TAU);ctx.fill();}});}
 
 /* ---------- 0 · title: a spinning Earth you can grab ---------- */
 {const o=setup('c0');const st={yaw:0.6,pitch:0.3,zoom:.9,anim:null,maxZoom:6,enabled:()=>true};let lastT=0,idle=0;
@@ -534,6 +564,8 @@ orbit(o,st,null);setQ(0);
 const pin=(ctx,name,ll_,color,dy=4)=>{const q=proj(ll(ll_[0],ll_[1]));if(q.z<0)return null;ctx.fillStyle=color;ctx.beginPath();ctx.arc(q.x,q.y,5,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();tag(ctx,name,q.x+9,q.y+dy,color,11);return q;};
 const arcLine=(ctx,pts,color,width,dash)=>{ctx.strokeStyle=color;ctx.lineWidth=width;ctx.setLineDash(dash||[]);ctx.beginPath();let pen=false;for(const p of pts){const q=proj(p);if(q.z>=0){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}ctx.stroke();ctx.setLineDash([]);};
 scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);stepAnim(st,t);const{cx,cy,R}=geom();
+const kk=revealed?Math.min(1,(t-revealT)/2200):0;if(!revealed){text(ctx,'?',w*.5,h*.5+40,{size:160,align:'center',color:'rgba(240,179,90,.35)',font:'serif'});text(ctx,'answer from memory · the globe appears on reveal',w*.5,h*.5+90,{size:14,align:'center',color:'#9a9382'});return;}
+ctx.globalAlpha=Math.min(1,kk*2.5);
 const g=ctx.createRadialGradient(cx-R*.35,cy-R*.35,R*.05,cx,cy,R);g.addColorStop(0,'#2f5a8c');g.addColorStop(.7,'#15294a');g.addColorStop(1,'#0b1526');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();
 ctx.strokeStyle='rgba(236,230,218,.1)';ctx.lineWidth=1;for(let la=-60;la<=60;la+=15){arcLine(ctx,Array.from({length:73},(_,k)=>ll(la,k*5)),'rgba(236,230,218,.1)',1);}for(let lo=0;lo<360;lo+=15){arcLine(ctx,Array.from({length:37},(_,k)=>ll(-90+k*5,lo)),'rgba(236,230,218,.1)',1);}
 drawCoast(ctx,proj,st.zoom,{color:'rgba(236,230,218,.85)',hi:st.zoom>8});ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.stroke();
@@ -541,9 +573,9 @@ const k=revealed?Math.min(1,(t-revealT)/2200):0;
 if(qi===0){pin(ctx,'Havana · 82.4° W',C.havana,'#f0b35a');if(revealed){// the meridian grows southward from Havana
 const lat1=23.13-(23.13+40)*k;arcLine(ctx,Array.from({length:60},(_,i)=>ll(23.13+(lat1-23.13)*i/59,-82.38)),'#ff7d6f',3);if(k>.6){pin(ctx,'Punta Pariñas · 81.3° W · westernmost mainland',C.parinas,'#6fd48a',-8);pin(ctx,'Bogotá',C.bogota,'#9a9382');pin(ctx,'Quito',C.quito,'#9a9382');pin(ctx,'Lima',C.lima,'#9a9382');}if(k>=1){const q=proj(ll(-12,-82.38));if(q.z>0)tag(ctx,'due south of Havana: open Pacific all the way',q.x-20,q.y+28,'#ff7d6f',12);}}}
 else if(qi===1){pin(ctx,'Reno · 119.8° W',C.reno,'#6fb3ff');pin(ctx,'Los Angeles · 118.2° W',C.la,'#f0b35a');if(revealed){arcLine(ctx,Array.from({length:40},(_,i)=>ll(20+30*i/39*k,-119.82)),'#6fb3ff',2.5,[6,5]);arcLine(ctx,Array.from({length:40},(_,i)=>ll(20+30*i/39*k,-118.24)),'#f0b35a',2.5,[6,5]);if(k>=1){const q=proj(ll(27,-119));if(q.z>0)tag(ctx,'Reno’s meridian is 1.6° farther west',q.x-60,q.y,'#6fb3ff',12);}}}
-else{pin(ctx,'Rome · 41.9° N',C.rome,'#f0b35a');pin(ctx,'Boston · 42.4° N',C.boston,'#6fd48a',-8);pin(ctx,'New York · 40.7° N',C.nyc,'#9a9382',14);pin(ctx,'Washington · 38.9° N',C.dc,'#9a9382',14);pin(ctx,'Atlanta · 33.7° N',C.atlanta,'#9a9382');if(revealed){// the 41.9° parallel runs from Rome westward to America
-arcLine(ctx,Array.from({length:80},(_,i)=>ll(41.9,12.5-(12.5+71.06)*i/79*k)),'#f0b35a',3);if(k>=1){const q=proj(ll(41.9,-40));if(q.z>0)tag(ctx,'the 41.9° parallel · same angle from the equator, very different weather',q.x-120,q.y-14,'#f0b35a',12);}}}
-text(ctx,`zoom ${fmt(st.zoom,1)}×`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}});}
+else{pin(ctx,'Rome · 41.9° N',C.rome,'#f0b35a');pin(ctx,'Boston · 42.4° N',C.boston,'#6fd48a',-8);pin(ctx,'New York · 40.7° N',C.nyc,'#9a9382',14);pin(ctx,'Washington · 38.9° N',C.dc,'#9a9382',14);pin(ctx,'Atlanta · 33.7° N',C.atlanta,'#9a9382');if(revealed){// Rome's parallel runs west round the world; Boston's runs east. Both go all the way round.
+arcLine(ctx,Array.from({length:181},(_,i)=>ll(41.9,12.5-360*i/180*k)),'#f0b35a',3);arcLine(ctx,Array.from({length:181},(_,i)=>ll(42.36,-71.06+360*i/180*k)),'#6fd48a',2.5,[8,6]);[33.75,38.9,40.71].forEach(la=>arcLine(ctx,Array.from({length:181},(_,i)=>ll(la,-80+360*i/180*k)),'rgba(236,230,218,.18)',1));if(k>=1){const q=proj(ll(41.9,-40));if(q.z>0)tag(ctx,'Rome’s parallel, 41.9° N, runs through Boston’s latitude · gold Rome, green Boston',q.x-160,q.y-16,'#f0b35a',12);const q2=proj(ll(33.75,-40));if(q2.z>0)tag(ctx,'Atlanta’s parallel passes south of Gibraltar',q2.x-100,q2.y+18,'#cfc8ba',11);}}}
+ctx.globalAlpha=1;text(ctx,`zoom ${fmt(st.zoom,1)}×`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}});}
 
 /* ---------- 1 · latitude & longitude ---------- */
 {const o=setup('c1');let mode='globe';
@@ -557,7 +589,7 @@ document.querySelectorAll('#m1 button').forEach(b=>b.onclick=()=>{mode=b.dataset
 document.querySelectorAll('#globe-toggles button').forEach(b=>b.onclick=()=>{const k=b.dataset.k;show[k]=!show[k];if(k==='grid'&&show.grid){show.lat=show.lon=true;}if((k==='lat'||k==='lon')&&!show[k])show.grid=false;document.querySelectorAll('#globe-toggles button').forEach(x=>x.classList.toggle('on',show[x.dataset.k]));});
 const gcard=document.getElementById('g-card');document.getElementById('g-card-x').onclick=()=>gcard.hidden=true;
 function showCard(t,g,p,left){gcard.style.right=left?'auto':'';gcard.style.left=left?'1rem':'';document.getElementById('g-card-t').textContent=t;document.getElementById('g-card-g').innerHTML=g;document.getElementById('g-card-p').innerHTML=p;gcard.hidden=false;}
-const SKY={polaris:`<svg viewBox="0 0 240 150"><g fill="#dfe7ff"><circle cx="30" cy="110" r="2.5"/><circle cx="55" cy="118" r="2.5"/><circle cx="80" cy="112" r="2.5"/><circle cx="104" cy="100" r="2.5"/><circle cx="100" cy="72" r="3"/><circle cx="130" cy="96" r="3"/><circle cx="128" cy="66" r="3"/></g><polyline points="30,110 55,118 80,112 104,100 130,96 128,66 100,72 104,100" fill="none" stroke="#9a9382" stroke-width="1"/><line x1="130" y1="96" x2="128" y2="66" stroke="#f0b35a" stroke-width="2"/><line x1="128" y1="66" x2="118" y2="12" stroke="#f0b35a" stroke-width="1" stroke-dasharray="3 3"/><circle cx="118" cy="12" r="4" fill="#fff"/><text x="126" y="16" fill="#dfe7ff" font-size="10">Polaris</text><text x="138" y="84" fill="#f0b35a" font-size="9">the Pointers · 5× their gap</text><text x="14" y="140" fill="#9a9382" font-size="10">Big Dipper: follow the two end stars of the bowl</text><line x1="170" y1="130" x2="235" y2="130" stroke="#6fd48a" stroke-width="2"/><line x1="170" y1="130" x2="215" y2="92" stroke="#6fb3ff" stroke-width="2"/><path d="M190 130 A20 20 0 0 0 185 117" fill="none" stroke="#f0b35a" stroke-width="1.5"/><text x="194" y="124" fill="#f0b35a" font-size="9">= lat</text></svg>`,
+const SKY={polaris:`<svg viewBox="0 0 240 150"><g fill="#dfe7ff"><circle cx="30" cy="110" r="2.5"/><circle cx="55" cy="118" r="2.5"/><circle cx="80" cy="112" r="2.5"/><circle cx="104" cy="100" r="2.5"/><circle cx="100" cy="72" r="3"/><circle cx="130" cy="96" r="3"/><circle cx="128" cy="66" r="3"/></g><polyline points="30,110 55,118 80,112 104,100 130,96 128,66 100,72 104,100" fill="none" stroke="#9a9382" stroke-width="1"/><line x1="130" y1="96" x2="128" y2="66" stroke="#f0b35a" stroke-width="2.5"/><line x1="128" y1="66" x2="124.4" y2="12" stroke="#f0b35a" stroke-width="1" stroke-dasharray="3 3"/><circle cx="124.4" cy="12" r="4" fill="#fff"/><text x="132" y="16" fill="#dfe7ff" font-size="10">Polaris</text><text x="136" y="84" fill="#f0b35a" font-size="6.5">Merak → Dubhe, straight on, 5× the gap</text><text x="8" y="143" fill="#9a9382" font-size="6.5">Big Dipper: follow the two end stars of the bowl in a straight line</text><line x1="170" y1="130" x2="235" y2="130" stroke="#6fd48a" stroke-width="2"/><line x1="170" y1="130" x2="215" y2="92" stroke="#6fb3ff" stroke-width="2"/><path d="M190 130 A20 20 0 0 0 185 117" fill="none" stroke="#f0b35a" stroke-width="1.5"/><text x="194" y="124" fill="#f0b35a" font-size="7">= lat</text></svg>`,
 crux:`<svg viewBox="0 0 240 150"><g fill="#fff"><circle cx="70" cy="20" r="2.5"/><circle cx="74" cy="44" r="3.5"/><circle cx="56" cy="36" r="2.5"/><circle cx="90" cy="30" r="3"/></g><line x1="70" y1="20" x2="74" y2="44" stroke="#fff" stroke-width="1.2"/><line x1="56" y1="36" x2="90" y2="30" stroke="#fff" stroke-width="1"/><line x1="74" y1="44" x2="88" y2="128" stroke="#ff7d6f" stroke-width="1" stroke-dasharray="3 3"/><text x="40" y="14" fill="#dfe7ff" font-size="9">Gacrux</text><text x="80" y="54" fill="#dfe7ff" font-size="9">Acrux</text><g fill="#dfe7ff"><circle cx="178" cy="82" r="3"/><circle cx="162" cy="58" r="3"/></g><text x="184" y="86" fill="#dfe7ff" font-size="9">α Cen</text><text x="140" y="54" fill="#dfe7ff" font-size="9">β Cen</text><line x1="162" y1="58" x2="178" y2="82" stroke="#9a9382" stroke-width="1"/><line x1="170" y1="70" x2="88" y2="128" stroke="#6fb3ff" stroke-width="1" stroke-dasharray="3 3"/><circle cx="88" cy="128" r="5" fill="none" stroke="#ff7d6f"/><text x="96" y="142" fill="#ff7d6f" font-size="9">south celestial pole · empty</text><text x="8" y="100" fill="#9a9382" font-size="9">long arm × 4½, straight on</text><text x="150" y="112" fill="#6fb3ff" font-size="9">right angle from the</text><text x="150" y="123" fill="#6fb3ff" font-size="9">middle of the Pointers</text></svg>`};
 document.getElementById('fly-north').onclick=()=>{me=me||{lat:43.8,lon:-70.2};show.polaris=true;syncChips();fly(st,{yaw:st.yaw,pitch:-0.05,zoom:0.7});readout();showCard('Finding Polaris, reading latitude',SKY.polaris,'Follow the two stars at the end of the Big Dipper\u2019s bowl about five times their spacing to Polaris. Then measure its height above the horizon with a quadrant or sextant: sight the star along one edge and read the plumb line against the scale. That angle is your latitude, to within the degree Polaris sits off the true pole.');};
 document.getElementById('fly-crux').onclick=()=>{show.crux=true;syncChips();fly(st,{yaw:st.yaw,pitch:-1.2,zoom:1.6},1600);showCard('The Southern Cross points, it does not mark',SKY.crux,'No bright star sits on the south celestial pole. Extend the long arm of the Cross, Gacrux through Acrux, four and a half times, and you land on it. Cross-check with the Pointers, Alpha and Beta Centauri: the line that cuts between them at right angles meets the same spot. Drop straight down from there to the horizon for true south; the height of that empty point above the horizon is your latitude south.');read.innerHTML='<strong>The Southern Cross</strong><span>Follow the long arm of the cross about four and a half times its length and you reach the south celestial pole. There is no bright star there. Navigators found south by that empty point.</span>';};
@@ -1689,41 +1721,61 @@ GLOSS.sustained={t:'Sustained wind',g:`<svg viewBox="0 0 480 300"><polyline poin
 
 /* ---------- 14 · The shelter decision ---------- */
 {const o=setup('c14');const euIn=document.getElementById('sh-eu'),puIn=document.getElementById('sh-pu'),euOut=document.getElementById('sh-eu-out'),puOut=document.getElementById('sh-pu-out'),read=document.getElementById('sh-read');
-const layers={wind:true,surge:true,rain:false,access:false};let shelter={x:.62,y:.42},edgeX=.5,drag=null;// normalised stage coords; miles per unit width = 40
-const MPU=40;
-document.querySelectorAll('#sh-layers button').forEach(b=>b.onclick=()=>{layers[b.dataset.k]=!layers[b.dataset.k];b.classList.toggle('on',layers[b.dataset.k]);});
-euIn.oninput=puIn.oninput=update;document.getElementById('sh-reset').onclick=()=>{shelter={x:.62,y:.42};edgeX=.5;euIn.value=2;puIn.value=1;update();};
+const layers={wind:true,surge:true,rain:false,access:false};
+// the stage is a real stretch of the Texas coast around Galveston Bay; the hazard, shelter and roads are fictional
+const lat0=29.45,lon0=-95.05,MPD=69;// miles per degree of latitude
+let shelter={lat:29.62,lon:-95.15},edgeMi=14,drag=null;// edgeMi: inland distance of the drawn wind-hazard edge from the open coast line
+euIn.oninput=puIn.oninput=update;document.getElementById('sh-reset').onclick=()=>{shelter={lat:29.62,lon:-95.15};edgeMi=14;euIn.value=2;puIn.value=1;update();};
 document.getElementById('sh-checks').onclick=function(){openTerm('checks',this);};
-function verdict(){const eu=+euIn.value/MPU,pu=+puIn.value/MPU;const d=(shelter.x-edgeX)*MPU;// miles east of the drawn edge (positive = outside)
-const dmin=d-(+euIn.value)-(+puIn.value);const dmax=d+(+euIn.value)+(+puIn.value);return{d,dmin,dmax,state:dmin>0?'clear':dmax<0?'inside':'overlap'};}
+document.querySelectorAll('#sh-layers button').forEach(b=>b.onclick=()=>{layers[b.dataset.k]=!layers[b.dataset.k];b.classList.toggle('on',layers[b.dataset.k]);});
+function geom(){const{w,h}=o;const sc=Math.min(w,h)/2.2;return{P:(la,lo)=>({x:w*.5+(lo-lon0)*Math.cos(lat0*DEG)*sc,y:h*.5-(la-lat0)*sc}),inv:(x,y)=>({lat:lat0-(y-h*.5)/sc,lon:lon0+(x-w*.5)/(Math.cos(lat0*DEG)*sc)}),sc};}
+// the open-coast reference line (Galveston Island / Bolivar), a straight line from SW to NE; "inland" is perpendicular to it
+const C0={lat:29.0,lon:-95.4},C1={lat:29.55,lon:-94.35};const cdir=[(C1.lon-C0.lon)*Math.cos(lat0*DEG),C1.lat-C0.lat];const cl=Math.hypot(cdir[0],cdir[1]);const u=[cdir[0]/cl,cdir[1]/cl];const nrm=[-u[1],u[0]];// points inland (NW)
+const inlandMi=(la,lo)=>(((lo-C0.lon)*Math.cos(lat0*DEG))*nrm[0]+(la-C0.lat)*nrm[1])*MPD;
+function verdict(){const d=inlandMi(shelter.lat,shelter.lon)-edgeMi;const dmin=d-(+euIn.value)-(+puIn.value),dmax=d+(+euIn.value)+(+puIn.value);return{d,state:dmin>0?'clear':dmax<0?'inside':'overlap'};}
 function update(){euOut.textContent=`± ${euIn.value} mi`;puOut.textContent=`± ${puIn.value} mi`;const v=verdict();read.className='readout'+(v.state==='clear'?' ok':v.state==='inside'?' bad':'');
-read.innerHTML=`<strong>${v.state==='clear'?'The ranges do not touch: the shelter is outside.':v.state==='inside'?'The ranges do not touch: the shelter is inside the hazard.':'The ranges overlap. The dot looks '+(v.d>0?'outside':'inside')+', but this map cannot settle it.'}</strong><span class="big">${fmt(Math.abs(v.d),1)} mi ${v.d>0?'outside':'inside'} the drawn edge · edge ±${euIn.value} · position ±${puIn.value}</span><span>${v.state==='overlap'?'Neither the dot nor the edge decides it. Ask: where exactly is the shelter? When is this edge valid? What changed since it was drawn? A crisp line on a map is a drawing choice, not a measurement.':'Even so: valid when? The hazard moves; the edge was drawn for one moment and one source. No probability or distance threshold is implied here.'}</span>`;}
+read.innerHTML=`<strong>${v.state==='clear'?'The bands do not touch: the shelter is outside the wind hazard.':v.state==='inside'?'The bands do not touch: the shelter is inside the wind hazard.':'The bands overlap. The dot looks '+(v.d>0?'outside':'inside')+', but this map cannot settle it.'}</strong><span class="big">${fmt(Math.abs(v.d),1)} mi ${v.d>0?'inland of':'seaward of'} the drawn edge · edge ±${euIn.value} · position ±${puIn.value}</span><span>${v.state==='overlap'?'Neither the dot nor the line decides it. Ask: where exactly is the shelter? When is this edge valid? What changed since it was drawn? A crisp line on a map is a drawing choice, not a measurement.':'Even so: valid when? The storm moves; the edge was drawn for one forecast and one source. No probability or distance threshold is implied here.'}</span>`;}
 update();
-const pos=e=>{const r=o.c.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width,y:(e.clientY-r.top)/r.height};};
-o.c.addEventListener('pointerdown',e=>{const p=pos(e);if(Math.hypot((p.x-shelter.x)*o.w,(p.y-shelter.y)*o.h)<26)drag='shelter';else if(Math.abs((p.x-edgeX)*o.w)<24)drag='edge';if(drag)o.c.setPointerCapture(e.pointerId);});
-o.c.addEventListener('pointermove',e=>{if(!drag)return;const p=pos(e);if(drag==='shelter')shelter={x:Math.max(.05,Math.min(.95,p.x)),y:Math.max(.1,Math.min(.85,p.y))};else edgeX=Math.max(.15,Math.min(.85,p.x));update();});
+const pos=e=>{const r=o.c.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};};
+o.c.addEventListener('pointerdown',e=>{const p=pos(e);const{P}=geom();const sp=P(shelter.lat,shelter.lon);if(Math.hypot(p.x-sp.x,p.y-sp.y)<28)drag='shelter';else{const{inv}=geom();const q=inv(p.x,p.y);if(Math.abs(inlandMi(q.lat,q.lon)-edgeMi)<3)drag='edge';}if(drag)o.c.setPointerCapture(e.pointerId);});
+o.c.addEventListener('pointermove',e=>{if(!drag)return;const{inv}=geom();const q=inv(pos(e).x,pos(e).y);if(drag==='shelter')shelter={lat:q.lat,lon:q.lon};else edgeMi=Math.max(2,Math.min(60,inlandMi(q.lat,q.lon)));update();});
 const end=()=>drag=null;o.c.addEventListener('pointerup',end);o.c.addEventListener('pointercancel',end);
-// a fictional coastline: a wobbly line down the left third
-const coast=Array.from({length:40},(_,i)=>({y:i/39,x:.22+.05*Math.sin(i*.6)+.03*Math.sin(i*1.9)}));
-scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);ctx.fillStyle='#0f1f33';ctx.fillRect(0,0,w,h);
-// sea and land
-ctx.fillStyle='#1b2a3f';ctx.beginPath();ctx.moveTo(coast[0].x*w,0);coast.forEach(c=>ctx.lineTo(c.x*w,c.y*h));ctx.lineTo(w,h);ctx.lineTo(w,0);ctx.closePath();ctx.fill();ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.beginPath();coast.forEach((c,i)=>i?ctx.lineTo(c.x*w,c.y*h):ctx.moveTo(c.x*w,c.y*h));ctx.stroke();text(ctx,'sea',w*.08,h*.5,{size:12,color:'#6fb3ff'});
-// hazard layers (fictional extents)
-const ex=edgeX*w,eu=+euIn.value/MPU*w;
-if(layers.surge){ctx.fillStyle='rgba(111,179,255,.22)';ctx.beginPath();ctx.moveTo(coast[0].x*w,0);coast.forEach(c=>ctx.lineTo(c.x*w,c.y*h));ctx.lineTo(Math.min(ex,w*.42),h);ctx.lineTo(Math.min(ex,w*.42),0);ctx.closePath();ctx.fill();text(ctx,'surge',w*.3,h*.08,{size:11,color:'#6fb3ff'});}
-if(layers.wind){ctx.fillStyle='rgba(255,125,111,.16)';ctx.fillRect(0,0,ex,h);
-// fuzzy band
-const g=ctx.createLinearGradient(ex-eu,0,ex+eu,0);g.addColorStop(0,'rgba(255,125,111,.3)');g.addColorStop(.5,'rgba(255,125,111,.12)');g.addColorStop(1,'rgba(255,125,111,0)');ctx.fillStyle=g;ctx.fillRect(ex-eu,0,2*eu,h);
-ctx.strokeStyle='#ff7d6f';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(ex,0);ctx.lineTo(ex,h);ctx.stroke();ctx.setLineDash([4,5]);ctx.strokeStyle='rgba(255,125,111,.6)';ctx.lineWidth=1;[ex-eu,ex+eu].forEach(x=>{ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke();});ctx.setLineDash([]);tag(ctx,'drawn hazard edge · drag',ex+8,h*.14,'#ff7d6f',12);tag(ctx,`edge range ±${euIn.value} mi`,ex+8,h*.14+22,'#cfc8ba',11);text(ctx,'wind hazard side',w*.18,h*.94,{size:11,color:'#ff7d6f'});}
-if(layers.rain){ctx.fillStyle='rgba(111,212,138,.14)';[[.45,.55,.2],[.7,.75,.14],[.3,.3,.1]].forEach(([x,y,r])=>{ctx.beginPath();ctx.ellipse(x*w,y*h,r*w,r*h*1.4,0,0,TAU);ctx.fill();});text(ctx,'rainfall flooding · low ground, anywhere',w*.45,h*.8,{size:11,color:'#6fd48a'});}
-if(layers.access){ctx.strokeStyle='rgba(236,230,218,.5)';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(w*.3,h*.9);ctx.lineTo(w*.5,h*.6);ctx.lineTo(w*.62,h*.42);ctx.lineTo(w*.9,h*.2);ctx.stroke();ctx.fillStyle='#ff7d6f';[[.5,.6],[.76,.31]].forEach(([x,y])=>{ctx.font='bold 18px sans-serif';ctx.textAlign='center';ctx.fillText('×',x*w,y*h+6);});text(ctx,'× = invented road closure · can you reach it?',w*.55,h*.84,{size:11,color:'#cfc8ba'});}
-// shelter with position range
-const sx=shelter.x*w,sy=shelter.y*h,pu=+puIn.value/MPU*w;ctx.fillStyle='rgba(240,179,90,.14)';ctx.beginPath();ctx.arc(sx,sy,pu,0,TAU);ctx.fill();ctx.strokeStyle='rgba(240,179,90,.6)';ctx.setLineDash([3,4]);ctx.beginPath();ctx.arc(sx,sy,pu,0,TAU);ctx.stroke();ctx.setLineDash([]);
-ctx.fillStyle='#f0b35a';ctx.beginPath();ctx.arc(sx,sy,9,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();tag(ctx,'mapped shelter · drag',sx+14,sy+4,'#f0b35a',12);tag(ctx,`position range ±${puIn.value} mi`,sx+14,sy+26,'#cfc8ba',11);
+// fictional road network and places
+const roads=[{n:'I-45',pts:[[29.3,-94.8],[29.45,-95.0],[29.62,-95.2],[29.76,-95.37]]},{n:'TX-146',pts:[[29.3,-94.9],[29.55,-94.98],[29.75,-95.0]]},{n:'FM-1764',pts:[[29.38,-95.3],[29.4,-95.05],[29.42,-94.9]]},{n:'TX-288',pts:[[29.05,-95.4],[29.4,-95.4],[29.72,-95.4]]}];
+const closures=[[29.38,-94.92],[29.5,-95.06]];
+const places=[['Galveston',29.3,-94.8],['Texas City',29.38,-94.9],['League City',29.5,-95.09],['Houston',29.76,-95.37],['Baytown',29.74,-94.98],['Freeport',28.95,-95.36]];
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);const{P,sc}=geom();const miPx=sc/MPD;
+ctx.fillStyle='#0f1f33';ctx.fillRect(0,0,w,h);// sea everywhere, land drawn as a darker field inland of the coast reference
+// land: a big polygon inland of the open-coast line
+const far=(la,lo,mi)=>({lat:la+nrm[1]*mi/MPD,lon:lo+nrm[0]*mi/MPD/Math.cos(lat0*DEG)});const L0=far(C0.lat-0.6*u[1],C0.lon-0.6*u[0]/Math.cos(lat0*DEG),0),L1=far(C1.lat+0.6*u[1],C1.lon+0.6*u[0]/Math.cos(lat0*DEG),0);const L2=far(L1.lat,L1.lon,200),L3=far(L0.lat,L0.lon,200);
+ctx.fillStyle='#17283a';ctx.beginPath();[L0,L1,L2,L3].forEach((q,i)=>{const pp=P(q.lat,q.lon);i?ctx.lineTo(pp.x,pp.y):ctx.moveTo(pp.x,pp.y);});ctx.closePath();ctx.fill();
+// surge: a band following the real coast, S miles wide (fictional extent)
+if(layers.surge){ctx.save();ctx.strokeStyle='rgba(111,179,255,.28)';ctx.lineWidth=8*miPx;ctx.lineJoin='round';ctx.lineCap='round';ctx.beginPath();for(const ln of COAST_GULF.lines){let pen=false;for(let i=0;i<ln.length;i+=2){const q=P(ln[i+1]/COAST_GULF.q,ln[i]/COAST_GULF.q);if(q.x<-200||q.x>w+200||q.y<-200||q.y>h+200){pen=false;continue;}pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}}ctx.stroke();ctx.restore();}
+// real coastline
+ctx.strokeStyle='rgba(236,230,218,.85)';ctx.lineWidth=1.5;ctx.beginPath();for(const ln of COAST_GULF.lines){let pen=false;for(let i=0;i<ln.length;i+=2){const q=P(ln[i+1]/COAST_GULF.q,ln[i]/COAST_GULF.q);if(q.x<-200||q.x>w+200||q.y<-200||q.y>h+200){pen=false;continue;}pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}}ctx.stroke();
+// wind hazard: everything seaward of a line `edgeMi` inland, with a fuzzy band of ±eu
+if(layers.wind){const eu=+euIn.value;const lineAt=(mi)=>[far(L0.lat,L0.lon,mi),far(L1.lat,L1.lon,mi)];const [a,b]=lineAt(edgeMi);const pa=P(a.lat,a.lon),pb=P(b.lat,b.lon);
+ctx.fillStyle='rgba(255,125,111,.16)';ctx.beginPath();const s0=P(L0.lat-2,L0.lon),s1=P(L1.lat-2,L1.lon+2);ctx.moveTo(pa.x,pa.y);ctx.lineTo(pb.x,pb.y);const seaA=far(a.lat,a.lon,-200),seaB=far(b.lat,b.lon,-200);const qa=P(seaB.lat,seaB.lon),qb=P(seaA.lat,seaA.lon);ctx.lineTo(qa.x,qa.y);ctx.lineTo(qb.x,qb.y);ctx.closePath();ctx.fill();
+// the band
+const g=ctx.createLinearGradient(pa.x+nrm[0]*0,pa.y,pa.x+nrm[0]*eu*miPx*Math.cos(0),pa.y);const [a1,b1]=lineAt(edgeMi-eu),[a2,b2]=lineAt(edgeMi+eu);const p1=P(a1.lat,a1.lon),p2=P(b1.lat,b1.lon),p3=P(b2.lat,b2.lon),p4=P(a2.lat,a2.lon);ctx.fillStyle='rgba(255,125,111,.14)';ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.lineTo(p2.x,p2.y);ctx.lineTo(p3.x,p3.y);ctx.lineTo(p4.x,p4.y);ctx.closePath();ctx.fill();
+ctx.setLineDash([5,6]);ctx.strokeStyle='rgba(255,125,111,.7)';ctx.lineWidth=1;[[p1,p2],[p4,p3]].forEach(([m,n])=>{ctx.beginPath();ctx.moveTo(m.x,m.y);ctx.lineTo(n.x,n.y);ctx.stroke();});ctx.setLineDash([]);
+ctx.strokeStyle='#ff7d6f';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(pa.x,pa.y);ctx.lineTo(pb.x,pb.y);ctx.stroke();const mid={x:(pa.x+pb.x)/2,y:(pa.y+pb.y)/2};tag(ctx,`drawn wind-hazard edge · ${fmt(edgeMi,0)} mi inland · drag`,mid.x+10,mid.y-14,'#ff7d6f',12);tag(ctx,`edge band ±${eu} mi`,mid.x+10,mid.y+10,'#cfc8ba',11);}
+// rain: low ground along the bayous (fictional blobs)
+if(layers.rain){ctx.fillStyle='rgba(111,212,138,.18)';[[29.7,-95.3,10,6],[29.58,-95.0,8,5],[29.45,-95.2,7,4],[29.8,-95.1,9,4]].forEach(([la,lo,rx,ry])=>{const q=P(la,lo);ctx.beginPath();ctx.ellipse(q.x,q.y,rx*miPx,ry*miPx,-.4,0,TAU);ctx.fill();});}
+// roads
+if(layers.access){roads.forEach(r=>{ctx.strokeStyle='rgba(236,230,218,.55)';ctx.lineWidth=3;ctx.beginPath();r.pts.forEach(([la,lo],i)=>{const q=P(la,lo);i?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);});ctx.stroke();const q=P(r.pts[1][0],r.pts[1][1]);text(ctx,r.n,q.x+6,q.y-6,{size:10,color:'#cfc8ba'});});
+closures.forEach(([la,lo])=>{const q=P(la,lo);ctx.strokeStyle='#ff7d6f';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(q.x-8,q.y-8);ctx.lineTo(q.x+8,q.y+8);ctx.moveTo(q.x+8,q.y-8);ctx.lineTo(q.x-8,q.y+8);ctx.stroke();});}
+// places
+places.forEach(([n,la,lo])=>{const q=P(la,lo);ctx.fillStyle='#cfc8ba';ctx.beginPath();ctx.arc(q.x,q.y,2.5,0,TAU);ctx.fill();text(ctx,n,q.x+6,q.y+4,{size:11,color:'#cfc8ba'});});
+// shelter: a house with its position band
+const sp=P(shelter.lat,shelter.lon),pu=+puIn.value*miPx;ctx.fillStyle='rgba(240,179,90,.15)';ctx.beginPath();ctx.arc(sp.x,sp.y,pu,0,TAU);ctx.fill();ctx.setLineDash([3,4]);ctx.strokeStyle='rgba(240,179,90,.7)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(sp.x,sp.y,pu,0,TAU);ctx.stroke();ctx.setLineDash([]);
+ctx.fillStyle='#f0b35a';ctx.beginPath();ctx.moveTo(sp.x-11,sp.y+9);ctx.lineTo(sp.x-11,sp.y-2);ctx.lineTo(sp.x,sp.y-12);ctx.lineTo(sp.x+11,sp.y-2);ctx.lineTo(sp.x+11,sp.y+9);ctx.closePath();ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();tag(ctx,'mapped shelter · drag',sp.x+16,sp.y-4,'#f0b35a',12);tag(ctx,`position band ±${puIn.value} mi`,sp.x+16,sp.y+18,'#cfc8ba',11);
+// legend
+const lx=w*.03,ly=h*.06;ctx.fillStyle='rgba(17,23,39,.85)';ctx.fillRect(lx,ly,230,layers.access?124:104);ctx.strokeStyle='#283048';ctx.strokeRect(lx,ly,230,layers.access?124:104);const row=(i,col,label,on)=>{ctx.globalAlpha=on?1:.35;ctx.fillStyle=col;ctx.fillRect(lx+12,ly+14+i*22,18,12);text(ctx,label,lx+40,ly+25+i*22,{size:12,color:'#ece6da'});ctx.globalAlpha=1;};row(0,'rgba(255,125,111,.6)','wind hazard · seaward of the red line',layers.wind);row(1,'rgba(111,179,255,.6)','surge · within 8 mi of the shore',layers.surge);row(2,'rgba(111,212,138,.6)','rainfall flooding · low ground',layers.rain);row(3,'rgba(236,230,218,.6)','roads · × = closure',layers.access);if(!layers.access)ctx.clearRect(lx+1,ly+80,228,0);
 // scale bar
-ctx.strokeStyle='#cfc8ba';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(w*.72,h*.9);ctx.lineTo(w*.72+10/MPU*w,h*.9);ctx.stroke();text(ctx,'10 mi',w*.72+5/MPU*w,h*.9-8,{size:11,align:'center',color:'#cfc8ba'});
-const v=verdict();tag(ctx,v.state==='overlap'?'ranges overlap · not settled':v.state==='clear'?'ranges clear · outside':'ranges clear · inside',w*.5,h*.06,v.state==='overlap'?'#ffd66b':v.state==='clear'?'#6fd48a':'#ff7d6f',14);
-text(ctx,'FICTIONAL TEACHING EXAMPLE · no real site, forecast, probability or operating guidance',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}});
+const sx=w*.78,sy=h*.93;ctx.strokeStyle='#cfc8ba';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(sx+10*miPx,sy);ctx.stroke();text(ctx,'10 miles',sx+5*miPx,sy-8,{size:11,align:'center',color:'#cfc8ba'});
+const v=verdict();tag(ctx,v.state==='overlap'?'bands overlap · not settled':v.state==='clear'?'bands clear · outside':'bands clear · inside',w*.5-80,h*.06+12,v.state==='overlap'?'#ffd66b':v.state==='clear'?'#6fd48a':'#ff7d6f',15);
+text(ctx,'Galveston Bay, real coastline · hazard extents, shelter and roads are FICTIONAL · no forecast, probability or operating guidance',w*.5,h-54,{size:11,color:'#9a9382',align:'center'});}});
 GLOSS.checks={t:'A useful decision map makes its limits visible',g:`<svg viewBox="0 0 480 300"><rect x="20" y="110" width="110" height="80" rx="8" fill="#15294a" stroke="#6fb3ff"/><text x="75" y="155" fill="#dfe7ff" font-size="14" text-anchor="middle">Question</text><rect x="170" y="40" width="140" height="220" rx="8" fill="#15294a" stroke="#f0b35a"/><text x="240" y="70" fill="#f0b35a" font-size="13" text-anchor="middle">Evidence</text><text x="240" y="100" fill="#cfc8ba" font-size="12" text-anchor="middle">source + time</text><text x="240" y="140" fill="#cfc8ba" font-size="12" text-anchor="middle">frame + units</text><text x="240" y="180" fill="#cfc8ba" font-size="12" text-anchor="middle">uncertainty</text><text x="240" y="230" fill="#ff7d6f" font-size="12" text-anchor="middle">what is missing</text><rect x="350" y="110" width="110" height="80" rx="8" fill="#15294a" stroke="#6fd48a"/><text x="405" y="150" fill="#6fd48a" font-size="14" text-anchor="middle">Next check</text><text x="405" y="170" fill="#9a9382" font-size="11" text-anchor="middle">valid until when?</text><line x1="130" y1="150" x2="170" y2="150" stroke="#9a9382"/><line x1="310" y1="150" x2="350" y2="150" stroke="#9a9382"/><text x="20" y="290" fill="#9a9382" font-size="12">Checks support a decision; they do not replace authority.</text></svg>`,p:'Before a map changes a decision, five things should be visible on it or beside it. <b>The question</b> it answers (wind? water? access?). <b>The source and time</b> of every layer. <b>The frame and units</b>: which datum, which projection, miles or kilometres, 1-minute or 10-minute wind. <b>The uncertainty</b>: a band, not a line, for every edge and every position. And <b>the next check</b>: when this stops being valid and what would change the call. Make the missing evidence visible. A map that hides what it does not know is more dangerous than no map.'};
 }
 
@@ -1797,6 +1849,7 @@ const FXMAP={fade:'warp',iris:'sweep',sunrise:'rays',telescope:'warp',terminator
 
 /* ---------- presenter mode: a second window with notes, a chapter menu and a clock; P opens it, slides stay in sync ---------- */
 const NOTES={
+'Cover':['Where am I? Six stories: mental maps, Earth and sky, triangles, clocks, frames, decisions.','Press → for the menu.'],
 'Title':['Every slide is a live model. Invite the room to call out what to drag.','The order follows the six sessions of the course: mental maps, Earth and sky, triangles, clocks, frames, decisions.'],
 'Mental maps':['Vote before the reveal. Most rooms pick Peru for Havana and Los Angeles for Reno.','Follow one meridian, not your mental map. "Coastal" and "farther west" are not the same thing.','Rome and Boston share a parallel and little else: latitude is one input to climate, not a model.'],
 'Latitude & Longitude':['Tap the globe to stand somewhere; the angle at your feet is the angle at the centre. Polaris is 0.7° off the pole: a guide, not the pole.','Chronometer mode: slide the clock until the Sun is highest over the ship. 1 hour = 15°. West is negative and the local clock runs behind.','One nautical mile is one minute of latitude, fixed at 1,852 m in 1929. Four seconds of clock error is a mile of longitude.'],
