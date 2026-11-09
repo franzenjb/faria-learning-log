@@ -14,6 +14,12 @@ button,input{font:inherit}
 .deck{position:relative;height:100%;width:100%}
 .slide{position:absolute;inset:0;display:grid;grid-template-columns:minmax(300px,30rem) 1fr;grid-template-rows:1fr;gap:0;opacity:0;pointer-events:none;transition:opacity .5s ease}
 .slide.active{opacity:1;pointer-events:auto}
+.card{position:absolute;right:1rem;bottom:3.6rem;width:min(44%,330px);background:rgba(17,23,39,.96);border:1px solid var(--line);border-radius:.6rem;padding:.8rem 1rem;font-family:var(--sans);box-shadow:0 10px 40px rgba(0,0,0,.5)}
+.card h3{margin:0 1.5rem .4rem 0;font:600 1rem var(--serif)}
+.card p{margin:.4rem 0 0;font-size:.85rem;color:#cfc8ba;line-height:1.45}
+.card svg,.card img{width:100%;height:auto;display:block;border-radius:.3rem;background:#0a0e18}
+.card .x{position:absolute;right:.5rem;top:.4rem;border:0;background:transparent;color:var(--muted);font-size:1.2rem;cursor:pointer}
+.md-fig{margin:1rem 0 0}.md-fig img{width:100%;border-radius:.4rem;display:block}.md-fig figcaption{font:.75rem var(--sans);color:var(--muted);margin-top:.3rem}
 .venus-dot{position:fixed;top:50%;width:2.2vw;height:2.2vw;margin-top:-1.1vw;border-radius:50%;background:#000;box-shadow:0 0 0 3px rgba(255,214,107,.9),0 0 40px 12px rgba(255,214,107,.45);z-index:9;pointer-events:none}
 .chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.2rem 0 .8rem}
 .chips button{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:.3rem .75rem;font:500 .78rem var(--sans);cursor:pointer}
@@ -90,6 +96,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
       <li><strong>3.</strong> Galileo sees four moons circling Jupiter.</li>
       <li><strong>4.</strong> Galileo measures a mountain on the Moon from its shadow.</li>
       <li><strong>5.</strong> Venus crosses the Sun and the solar system gets a size.</li>
+      <li><strong>6.</strong> Mason and Dixon: a sea fight, a transit, and a line across America.</li>
     </ul>
     <p><small>Use → and ← keys, or the dots below. Press F for full screen.</small></p>
   </div>
@@ -219,6 +226,20 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
   <div class="stage"><canvas id="c5"></canvas><div class="hint" id="h5">Tap the globe to place two observers · drag to spin</div></div>
 </section>
 
+<!-- 6 · Mason and Dixon -->
+<section class="slide" data-title="Mason &amp; Dixon" data-fx="survey">
+  <div class="text">
+    <p class="kicker">6 · 1761 to 1767 · Two men, one line</p>
+    <h1 id="md-title">Mason and Dixon</h1>
+    <div class="chips" id="md-chapters"><button data-ch="0" class="on">1 · Two men</button><button data-ch="1">2 · The Seahorse</button><button data-ch="2">3 · The Cape</button><button data-ch="3">4 · To America</button><button data-ch="4">5 · The line</button><button data-ch="5">6 · The stones</button></div>
+    <div id="md-body"></div>
+    <div class="btns"><button id="md-prev">◀ Back</button><button class="primary" id="md-next">Next ▶</button><button id="md-transit" hidden>Open the 1761 transit from the Cape</button></div>
+    <div class="readout" id="md-read"></div>
+    <figure class="md-fig" id="md-fig" hidden><img id="md-img" alt=""><figcaption id="md-cap"></figcaption></figure>
+  </div>
+  <div class="stage"><canvas id="c6"></canvas><div class="hint" id="h6">Drag to spin · pinch or scroll to zoom · tap a marker</div><div class="card" id="md-card" hidden><button class="x" id="md-card-x" aria-label="Close">×</button><h3 id="md-card-t"></h3><div id="md-card-g"></div><p id="md-card-p"></p></div></div>
+</section>
+
 </div>
 
 <nav class="nav" aria-label="Slides">
@@ -227,6 +248,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
   <div class="arrows"><button id="prev" aria-label="Previous slide">←</button><button id="next" aria-label="Next slide">→</button></div>
 </nav>
 
+<script src="coast.js"></script>
 <script>
 /* ---------- deck plumbing ---------- */
 const slides=[...document.querySelectorAll('.slide')];let cur=0;
@@ -237,7 +259,8 @@ const FX={fade:[{opacity:0,transform:'scale(1.06)'},{opacity:1,transform:'none'}
  sunrise:[{clipPath:'inset(100% 0 0 0)',filter:'brightness(2.5)'},{clipPath:'inset(0 0 0 0)',filter:'brightness(1)'}],
  telescope:[{transform:'scale(.2)',filter:'blur(16px)',opacity:0},{transform:'none',filter:'blur(0px)',opacity:1}],
  terminator:[{clipPath:'polygon(0 0,0 0,-40% 100%,0 100%)'},{clipPath:'polygon(0 0,140% 0,100% 100%,0 100%)'}],
- venus:[{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0 0 0)'}]};
+ venus:[{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0 0 0)'}],
+ survey:[{clipPath:'inset(50% 100% 50% 0)'},{clipPath:'inset(49.8% 0 49.8% 0)',offset:.45},{clipPath:'inset(0 0 0 0)'}]};
 function go(i){const prev=cur;cur=(i+slides.length)%slides.length;slides.forEach((s,k)=>s.classList.toggle('active',k===cur));
 if(prev!==cur){const s=slides[cur];s.getAnimations().forEach(a=>a.cancel());const fx=s.dataset.fx;s.animate(FX[fx]||FX.fade,{duration:fx==='venus'?1500:1000,easing:fx==='venus'?'linear':'cubic-bezier(.2,.7,.2,1)'});
 if(fx==='venus'){const d=document.createElement('div');d.className='venus-dot';document.body.appendChild(d);d.animate([{left:'-3%'},{left:'101%'}],{duration:1500,easing:'linear'}).onfinish=()=>d.remove();}}[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===cur));document.getElementById('counter').textContent=`${cur} / ${slides.length-1} · ${slides[cur].dataset.title.replace('&amp;','&')}`;location.hash=cur?`#${cur}`:'';resizeAll();}
@@ -274,10 +297,10 @@ const ll=(lat,lon)=>[Math.cos(lat*DEG)*Math.cos(lon*DEG),Math.sin(lat*DEG),-Math
 // orbit controls with one-finger rotate, two-finger pinch, wheel zoom, and tap detection
 function orbit(o,st,onTap){const pts=new Map();let moved=false,start=null,pinch0=0,zoom0=1;const pos=e=>{const r=o.c.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};};
 o.c.addEventListener('pointerdown',e=>{if(st.enabled&&!st.enabled())return;o.c.setPointerCapture(e.pointerId);pts.set(e.pointerId,pos(e));moved=false;start=pos(e);if(pts.size===2){const[a,b]=[...pts.values()];pinch0=Math.hypot(a.x-b.x,a.y-b.y);zoom0=st.zoom;}e.preventDefault();});
-o.c.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;const p=pos(e),prev=pts.get(e.pointerId);pts.set(e.pointerId,p);if(pts.size===1){const dx=p.x-prev.x,dy=p.y-prev.y;if(Math.abs(p.x-start.x)+Math.abs(p.y-start.y)>4)moved=true;if(moved){st.yaw+=dx*.008;st.pitch=Math.max(-1.55,Math.min(1.55,st.pitch+dy*.008));st.anim=null;o.c.classList.add('dragging');}}else if(pts.size===2){const[a,b]=[...pts.values()];const d=Math.hypot(a.x-b.x,a.y-b.y);st.zoom=Math.max(.5,Math.min(6,zoom0*d/pinch0));st.anim=null;moved=true;}});
+o.c.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;const p=pos(e),prev=pts.get(e.pointerId);pts.set(e.pointerId,p);if(pts.size===1){const dx=p.x-prev.x,dy=p.y-prev.y;if(Math.abs(p.x-start.x)+Math.abs(p.y-start.y)>4)moved=true;if(moved){st.yaw+=dx*.008;st.pitch=Math.max(-1.55,Math.min(1.55,st.pitch+dy*.008));st.anim=null;o.c.classList.add('dragging');}}else if(pts.size===2){const[a,b]=[...pts.values()];const d=Math.hypot(a.x-b.x,a.y-b.y);st.zoom=Math.max(.5,Math.min(st.maxZoom||6,zoom0*d/pinch0));st.anim=null;moved=true;}});
 const end=e=>{pts.delete(e.pointerId);if(pts.size===0){o.c.classList.remove('dragging');if(!moved&&start&&onTap)onTap(start);start=null;}};
 o.c.addEventListener('pointerup',end);o.c.addEventListener('pointercancel',end);
-o.c.addEventListener('wheel',e=>{if(st.enabled&&!st.enabled())return;e.preventDefault();st.zoom=Math.max(.5,Math.min(6,st.zoom*(e.deltaY<0?1.1:.9)));st.anim=null;},{passive:false});}
+o.c.addEventListener('wheel',e=>{if(st.enabled&&!st.enabled())return;e.preventDefault();st.zoom=Math.max(.5,Math.min(st.maxZoom||6,st.zoom*(e.deltaY<0?1.1:.9)));st.anim=null;},{passive:false});}
 // smooth camera flight
 function fly(st,to,ms=1200){st.anim={from:{yaw:st.yaw,pitch:st.pitch,zoom:st.zoom},to,t0:performance.now(),ms};}
 function stepAnim(st,t){if(!st.anim)return;const a=st.anim,k=Math.min(1,(t-a.t0)/a.ms),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;for(const key of['yaw','pitch','zoom'])st[key]=a.from[key]+(a.to[key]-a.from[key])*e;if(k>=1)st.anim=null;}
@@ -316,6 +339,7 @@ const g=ctx.createRadialGradient(cx-R*.35,cy-R*.35,R*.05,cx,cy,R);g.addColorStop
 for(const l of latLines)line(l.pts,'rgba(236,230,218,.08)',1,false);for(const l of lonLines)line(l.pts,'rgba(236,230,218,.08)',1,false);
 for(const l of latLines)line(l.pts,l.bold?'rgba(240,179,90,.9)':'rgba(236,230,218,.35)',l.bold?2:1,true);
 for(const l of lonLines)line(l.pts,l.bold?'rgba(111,179,255,.9)':'rgba(236,230,218,.35)',l.bold?2:1,true);
+drawCoast(ctx,proj,st.zoom,{color:'rgba(236,230,218,.8)'});
 ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.stroke();
 if(show.lat){const e=proj(ll(0,-st.yaw/DEG+90));if(e.z>0)text(ctx,'equator',e.x,e.y-6,{size:11,color:'#f0b35a',align:'center'});}
 if(show.lon){const p=proj(ll(20,0));if(p.z>0)text(ctx,'prime meridian',p.x+6,p.y,{size:11,color:'#6fb3ff'});}
@@ -555,6 +579,7 @@ ctx.save();ctx.translate(cx,cy);ctx.rotate(sa);ctx.fillStyle='rgba(5,8,16,.78)';
 const line=(pts,color)=>{ctx.strokeStyle=color;ctx.lineWidth=1;ctx.beginPath();let pen=false;for(const p of pts){const q=projG(p);if(q.z>=0){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}ctx.stroke();};
 for(let la=-60;la<=60;la+=30){const pts=[];for(let lo=0;lo<=360;lo+=5)pts.push(ll(la,lo));line(pts,la?'rgba(236,230,218,.18)':'rgba(240,179,90,.5)');}
 for(let lo=0;lo<360;lo+=30){const pts=[];for(let la=-90;la<=90;la+=5)pts.push(ll(la,lo));line(pts,'rgba(236,230,218,.18)');}
+drawCoast(ctx,projG,st.zoom,{color:'rgba(236,230,218,.7)'});
 ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.stroke();
 // direction to the Sun
 const sp=projG(v3.mul(SUN,1.45));arrow(ctx,cx+Math.cos(sa)*R*1.05,cy+Math.sin(sa)*R*1.05,cx+Math.cos(sa)*R*1.45,cy+Math.sin(sa)*R*1.45,'#ffd66b',2);text(ctx,'to the Sun',cx+Math.cos(sa)*R*1.5,cy+Math.sin(sa)*R*1.5+4,{size:11,color:'#ffd66b',align:Math.cos(sa)<0?'right':'left'});
@@ -629,6 +654,96 @@ const y0=1600,y1=2150,tx0=w*.08,tx1=w*.92,ty=h*.9;ctx.strokeStyle='#283048';ctx.
 for(const c of conj){const yr=2000+c.d/365.25;const x=tx0+(yr-y0)/(y1-y0)*(tx1-tx0);if(c.transit){ctx.fillStyle='#f0b35a';ctx.beginPath();ctx.arc(x,ty,4,0,TAU);ctx.fill();text(ctx,String(Math.round(yr)),x,ty-(transits.indexOf(c)%2?22:10),{size:9,color:'#f0b35a',align:'center',font:'mono'});}else{ctx.fillStyle='rgba(236,230,218,.25)';ctx.fillRect(x,ty-2,1,4);}}
 const yx=tx0+(+yearIn.value-y0)/(y1-y0)*(tx1-tx0);ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(yx,ty-14);ctx.lineTo(yx,ty+8);ctx.stroke();text(ctx,'every lineup of Venus and Earth · gold = transit',tx0,ty-26,{size:10,color:'#9a9382'});}
 }
+
+/* ---------- shared: coastlines on any orthographic globe ---------- */
+// projFn maps a world unit vector to {x,y,z}. Draws the world coast; above `hiZoom` adds the clipped 10 m coast and state lines.
+function drawCoast(ctx,projFn,zoom,{color='rgba(236,230,218,.75)',hi=false,borders=false,width=1}={}){const draw=(set,col,wd)=>{ctx.strokeStyle=col;ctx.lineWidth=wd;ctx.beginPath();for(const ln of set.lines){let pen=false;for(let i=0;i<ln.length;i+=2){const q=projFn(ll(ln[i+1]/set.q,ln[i]/set.q));if(q.z>=-0.01){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}}ctx.stroke();};
+if(typeof COAST==='undefined')return;draw(COAST,color,width);if(hi&&typeof COAST_HI!=='undefined'){draw(COAST_HI,color,width);if(borders)draw(BORDERS_HI,'rgba(240,179,90,.55)',1);}}
+// camera that centres a place: yaw = -90° - lon, pitch = lat
+const camFor=(lat,lon,zoom)=>({yaw:-Math.PI/2-lon*DEG,pitch:lat*DEG,zoom});
+const slerp=(a,b,t)=>{const w=Math.acos(Math.max(-1,Math.min(1,v3.dot(a,b))));if(w<1e-6)return a;const s=Math.sin(w);return v3.norm(v3.add(v3.mul(a,Math.sin((1-t)*w)/s),v3.mul(b,Math.sin(t*w)/s)));};
+
+/* ---------- 6 · Mason and Dixon ---------- */
+{const o=setup('c6');const st={yaw:camFor(52,-2,1).yaw,pitch:camFor(52,-2,1).pitch,zoom:1.6,anim:null,maxZoom:160,enabled:()=>true};
+const body=document.getElementById('md-body'),read=document.getElementById('md-read'),title=document.getElementById('md-title'),card=document.getElementById('md-card'),fig=document.getElementById('md-fig'),img=document.getElementById('md-img'),cap=document.getElementById('md-cap'),transitB=document.getElementById('md-transit');
+let ch=0,routeT=0,routeAnim=null,hot=null;
+// the voyages, as waypoints [lat, lon]
+const seahorse=[[50.80,-1.09],[50.3,-2.6],[49.6,-4.5],[49.9,-5.9]];// Portsmouth → the Channel fight (10 Jan 1761) → back to Plymouth
+const toCape=[[50.37,-4.14],[48,-9],[36,-16],[14,-24],[-2,-20],[-20,-15],[-33.9,18.4]];// Plymouth → Cape Town, 3 Feb to 27 Apr 1761
+const toAmerica=[[-33.9,18.4],[-16,-6],[8,-25],[36,-30],[50.8,-1.09],[49,-20],[42,-50],[39.95,-75.15]];// via St Helena, home, then Philadelphia 15 Nov 1763
+const waypoints=w=>{const pts=[];for(let i=0;i<w.length-1;i++){const a=ll(w[i][0],w[i][1]),b=ll(w[i+1][0],w[i+1][1]);for(let k=0;k<24;k++)pts.push(slerp(a,b,k/24));}pts.push(ll(w[w.length-1][0],w[w.length-1][1]));return pts;};
+const R1=waypoints(seahorse),R2=waypoints(toCape),R3=waypoints(toAmerica);
+const sites=[{n:'Greenwich · Mason, assistant to Bradley',lat:51.48,lon:0,c:'#f0b35a',ch:0},{n:'Cockfield, Durham · Dixon',lat:54.62,lon:-1.82,c:'#6fb3ff',ch:0},{n:'Portsmouth · sailed 8 Jan 1761',lat:50.80,lon:-1.09,c:'#ece6da',ch:1},{n:'The fight · 10 Jan 1761',lat:49.6,lon:-4.5,c:'#ff7d6f',ch:1},{n:'Cape Town · transit, 6 June 1761',lat:-33.93,lon:18.42,c:'#f0b35a',ch:2},{n:'Philadelphia · arrived 15 Nov 1763',lat:39.95,lon:-75.15,c:'#6fd48a',ch:3}];
+// the line itself
+const L={phila:[39.9397,-75.15],stargazer:[39.9425,-75.7497],postmark:[39.7217,-75.7497],newcastle:[39.6580,-75.5663],tangent:[39.6956,-75.7883],middle:[38.4600,-75.6905],end:[39.7219,-80.12]};
+const hotspots=[
+{k:'stargazer',n:'Stargazer’s Stone',t:'Harlan’s farm, 31 miles west of Philadelphia, January 1764. Here Mason set up the zenith sector and watched stars pass nearly overhead to fix the latitude of the city’s southernmost house. Everything else was measured from this patch of ground.',g:'sector'},
+{k:'postmark',n:'Post Mark’d West',t:'Fifteen miles due south of Philadelphia’s latitude. The charter said the boundary ran 15 miles south of the city, so this post, at 39°43′18″, became the east end of the West Line.',g:'chain'},
+{k:'newcastle',n:'The New Castle circle',t:'Delaware’s odd curved top is a 12-mile circle drawn around the courthouse spire at New Castle. Penn’s charter wrote it in. Mason and Dixon had to find where it met the rest of the line.',g:'circle'},
+{k:'tangent',n:'The Tangent Point',t:'Where the straight line north from Middle Point just touches the circle. In August 1764 a trial tangent about 81 miles long missed an older mark by 22.51 chains, about 1,486 feet. Mason remeasured within a link, eight inches, and proportional offsets fixed it in place.',g:'tangent'},
+{k:'middle',n:'Middle Point',t:'The midpoint of the Transpeninsular Line across the Delmarva peninsula, the south end of the Tangent Line. The stone here is the oldest of the set, placed in 1751 before Mason and Dixon arrived.',g:'stone'},
+{k:'end',n:'The war path · 9 October 1767',t:'233 miles west of Post Mark’d West the Six Nations escort said this was as far as the chiefs had commissioned him to go, and he would not take one step farther west. The line stopped at Dunkard Creek, 36 miles short of its planned end.',g:'end'}];
+const chapters=[
+{t:'Two men nobody painted',cam:camFor(53,-2,1.8),body:`<p class="lede">Charles Mason, born 1728 in Gloucestershire, assistant to the Astronomer Royal at Greenwich from 1756. Jeremiah Dixon, born 1733 at Cockfield in County Durham, a Quaker surveyor and amateur astronomer.</p><p>Instrument maker John Bird is credited with putting Dixon forward when the Royal Society needed a second man for the 1761 transit. No portrait of either man survives. We know them by what they measured.</p>`,read:'<strong>Tap the two markers.</strong><span>Astronomer and surveyor. The Royal Society needed both on one road.</span>'},
+{t:'HMS Seahorse, January 1761',cam:camFor(50,-3.5,4),route:1,body:`<p class="lede">They sailed from Portsmouth on 8 January 1761 bound for Bencoolen in Sumatra. Two days out, a French frigate, <em>Le Grand</em>, caught the Seahorse in the Channel.</p><p>An hour’s fight: 11 dead and 37 wounded. The ship limped back to Plymouth. Mason and Dixon wrote to the Royal Society asking to be excused. The Society answered that quitting would bring "the utmost disgrace" and legal action. They sailed again on 3 February.</p>`,read:'<strong>Watch the route draw.</strong><span>The red burst is the fight. The return to Plymouth cost them Sumatra: there was no longer time.</span>'},
+{t:'The Cape of Good Hope',cam:camFor(-20,5,1.3),route:2,body:`<p class="lede">With Sumatra out of reach they put in at the Cape on 27 April 1761 and built an observatory. On 6 June they timed the end of the transit of Venus.</p><p>Theirs was the only successful observation in the Southern Hemisphere that year, which made it the southern anchor for everyone else’s parallax. A clock time from the Cape is only as good as the place you assign to the Cape, and Pingré later argued about that longitude in print.</p>`,read:'<strong>Open slide 5 with the Cape Town pair</strong><span>to see why a southern station mattered so much.</span>',transit:true},
+{t:'Hired by the Penns and the Calverts',cam:camFor(30,-40,1.1),route:3,body:`<p class="lede">Home by way of St Helena. Then in 1763 the two families who had argued for eighty years over the Pennsylvania–Maryland border hired the pair who had just measured the solar system.</p><p>They landed at Philadelphia on 15 November 1763 with a zenith sector by John Bird, chains, a transit instrument and a clock. The job: turn a charter’s words into marks on the ground.</p>`,read:'<strong>Next: zoom into the line.</strong><span>It is not one straight stroke. It is a circle, a tangent and a parallel.</span>'},
+{t:'The line',cam:camFor(39.4,-77.2,42),route:3,hot:true,body:`<p class="lede">Tap each marker. A 12-mile circle around New Castle, a tangent line up the Delmarva peninsula, and a parallel of latitude at 39°43′ running west for 233 miles.</p><p>Latitude came from the zenith sector pointed almost straight up. Distance came from Gunter’s chain, 66 feet of 100 links, 80 chains to the mile, with every slope levelled out. On a round Earth a line that looks straight on the ground is not yet a parallel, so they computed the parallel and stepped offsets to stay on it.</p>`,read:'<strong>Pinch in further.</strong><span>The coast and state lines are drawn from survey data. The orange line is the boundary they laid.</span>'},
+{t:'The stones',cam:camFor(39.72,-76.6,80),route:3,hot:true,stones:true,body:`<p class="lede">Limestone markers quarried in England and shipped across the Atlantic, set every mile: P on the Pennsylvania face, M on the Maryland face. Every fifth mile a crownstone carrying the Penn and Calvert coats of arms.</p><p>Some two hundred of them are still there, in fields, woods and back yards. Later the line became a symbol of North and South. That is a nineteenth-century use of an eighteenth-century boundary. The geometry here is only the geometry.</p>`,read:'<strong>Tap the stones along the line.</strong><span>Drop your own photographs into <b>public/deck/img/</b> as stone-1.jpg, stone-2.jpg… and they appear here.</span>'}];
+function setChapter(n){ch=Math.max(0,Math.min(chapters.length-1,n));const c=chapters[ch];title.textContent=c.t;body.innerHTML=c.body;read.innerHTML=c.read;document.querySelectorAll('#md-chapters button').forEach(b=>b.classList.toggle('on',+b.dataset.ch===ch));transitB.hidden=!c.transit;card.hidden=true;hot=null;
+const target={...c.cam};let dy=target.yaw-st.yaw;dy=((dy+Math.PI)%TAU+TAU)%TAU-Math.PI;target.yaw=st.yaw+dy;fly(st,target,1800);
+routeT=0;routeAnim=c.route?{t0:performance.now(),ms:c.route===1?2500:4000}:null;if(!c.route)routeT=1;
+document.getElementById('h6').textContent=c.hot?'Tap a marker on the line · pinch to zoom in':'Drag to spin · pinch or scroll to zoom';
+// optional photo for this chapter
+const src=`img/md-${ch+1}.jpg`;img.onload=()=>{fig.hidden=false;};img.onerror=()=>{fig.hidden=true;};img.src=src;cap.textContent='';}
+document.querySelectorAll('#md-chapters button').forEach(b=>b.onclick=()=>setChapter(+b.dataset.ch));
+document.getElementById('md-next').onclick=()=>setChapter(ch+1);document.getElementById('md-prev').onclick=()=>setChapter(ch-1);
+transitB.onclick=()=>{go(5);document.querySelector('#tv-pairs button[data-a=capetown]').click();};
+document.getElementById('md-card-x').onclick=()=>{card.hidden=true;hot=null;};
+const G={sector:`<svg viewBox="0 0 200 110"><line x1="100" y1="10" x2="100" y2="100" stroke="#9a9382" stroke-dasharray="3 3"/><line x1="100" y1="100" x2="112" y2="14" stroke="#ece6da" stroke-width="4"/><path d="M100 60 A40 40 0 0 1 106 60" stroke="#f0b35a" fill="none"/><circle cx="100" cy="100" r="4" fill="#f0b35a"/><text x="118" y="50" fill="#f0b35a" font-size="11">tiny angle from the zenith</text><text x="30" y="20" fill="#dfe7ff" font-size="11">★ star overhead</text><text x="20" y="104" fill="#9a9382" font-size="10">plumb line = true vertical</text></svg>`,
+chain:`<svg viewBox="0 0 200 110">${Array.from({length:10},(_,i)=>`<ellipse cx="${15+i*19}" cy="40" rx="10" ry="5" fill="none" stroke="#ece6da" stroke-width="2"/>`).join('')}<text x="10" y="70" fill="#f0b35a" font-size="11">Gunter’s chain: 66 ft, 100 links</text><text x="10" y="88" fill="#9a9382" font-size="10">80 chains = 1 mile · 10 sq chains = 1 acre</text><text x="10" y="104" fill="#9a9382" font-size="10">22.51 chains = 1,486 ft · 1 link = 7.92 in</text></svg>`,
+circle:`<svg viewBox="0 0 200 110"><circle cx="130" cy="60" r="44" fill="none" stroke="#f0b35a" stroke-dasharray="4 3"/><circle cx="130" cy="60" r="3" fill="#ece6da"/><text x="100" y="52" fill="#ece6da" font-size="10">New Castle</text><line x1="130" y1="60" x2="174" y2="60" stroke="#6fb3ff"/><text x="134" y="74" fill="#6fb3ff" font-size="10">12 miles</text><text x="8" y="20" fill="#9a9382" font-size="10">Delaware’s curved top</text></svg>`,
+tangent:`<svg viewBox="0 0 200 110"><circle cx="140" cy="40" r="34" fill="none" stroke="#f0b35a" stroke-dasharray="4 3"/><line x1="40" y1="105" x2="108" y2="24" stroke="#6fd48a" stroke-width="2"/><circle cx="108" cy="24" r="3" fill="#6fd48a"/><circle cx="40" cy="105" r="3" fill="#ece6da"/><text x="46" y="100" fill="#ece6da" font-size="10">Middle Point</text><text x="112" y="18" fill="#6fd48a" font-size="10">tangent point</text><text x="8" y="20" fill="#9a9382" font-size="10">81 miles, missed by 22.51 chains, then corrected</text></svg>`,
+stone:`<svg viewBox="0 0 200 110"><rect x="40" y="20" width="36" height="80" rx="4" fill="#cfc8ba"/><text x="52" y="70" font-size="30" fill="#2a2217" font-family="Georgia">M</text><rect x="110" y="20" width="36" height="80" rx="4" fill="#cfc8ba"/><text x="124" y="70" font-size="30" fill="#2a2217" font-family="Georgia">P</text><text x="8" y="14" fill="#9a9382" font-size="10">a mile stone, two faces</text></svg>`,
+end:`<svg viewBox="0 0 200 110"><line x1="10" y1="60" x2="150" y2="60" stroke="#f0b35a" stroke-width="3"/><line x1="150" y1="30" x2="150" y2="90" stroke="#ff7d6f" stroke-width="3"/><text x="12" y="50" fill="#f0b35a" font-size="10">233 miles of parallel</text><text x="156" y="64" fill="#ff7d6f" font-size="10">war path</text><text x="12" y="100" fill="#9a9382" font-size="10">the limit of the escort’s commission, not of the geometry</text></svg>`,
+crown:`<svg viewBox="0 0 200 110"><rect x="70" y="14" width="60" height="90" rx="5" fill="#cfc8ba"/><path d="M85 30 h30 v26 q0 14 -15 20 q-15 -6 -15 -20z" fill="#7a4b1e"/><path d="M90 34 h20 v18 q0 9 -10 13 q-10 -4 -10 -13z" fill="#f0b35a"/><text x="8" y="20" fill="#9a9382" font-size="10">crownstone, every 5th mile</text><text x="8" y="104" fill="#9a9382" font-size="10">Penn arms one side, Calvert the other</text></svg>`};
+function geom(){const{w,h}=o;return{cx:w*.5,cy:h*.5,R:Math.min(w,h)*.36*st.zoom};}
+function proj(p){const{cx,cy,R}=geom();const q=rot(p,st.yaw,st.pitch);return{x:cx+q[0]*R,y:cy-q[1]*R,z:q[2]};}
+function tap(p){const c=chapters[ch];const cand=[];if(c.hot)for(const h of hotspots){const q=proj(ll(L[h.k][0],L[h.k][1]));if(q.z>0)cand.push({h,d:Math.hypot(q.x-p.x,q.y-p.y)});}
+if(c.stones)for(let m=5;m<=230;m+=5){const q=proj(ll(L.postmark[0],L.postmark[1]-m/53.2));if(q.z>0)cand.push({h:{n:`Mile ${m} · crownstone`,t:'Set in the 1760s and still standing in most cases. The Mason-Dixon Line Preservation Partnership has catalogued and repaired them since 1990.',g:'crown',photo:`img/stone-${m/5}.jpg`},d:Math.hypot(q.x-p.x,q.y-p.y)});}
+for(const s of sites){if(s.ch!==ch)continue;const q=proj(ll(s.lat,s.lon));if(q.z>0)cand.push({h:{n:s.n,t:s.n.includes('Mason')?'Charles Mason, 1728–1786. Baker’s son from Gloucestershire; Bradley’s assistant at Greenwich from 1756; later computed lunar tables for the Nautical Almanac. Died in Philadelphia.':s.n.includes('Dixon')?'Jeremiah Dixon, 1733–1779. Quaker from Cockfield, County Durham; surveyor and amateur astronomer; recommended through John Bird. Back in Durham he surveyed estates until his death.':s.n.includes('fight')?'10 January 1761. The 24-gun Seahorse against the 34-gun Le Grand off the Isle of Wight. Eleven of the Seahorse’s crew killed, thirty-seven wounded, the ship’s rigging cut to pieces.':s.n.includes('Cape')?'The observatory stood near the present Cape Town centre. They timed the egress on 6 June 1761, then stayed to observe through the winter before sailing home via St Helena.':s.n.split(' · ')[1]||'',g:null},d:Math.hypot(q.x-p.x,q.y-p.y)});}
+cand.sort((a,b)=>a.d-b.d);if(cand.length&&cand[0].d<18){hot=cand[0].h;document.getElementById('md-card-t').textContent=hot.n;document.getElementById('md-card-p').textContent=hot.t;document.getElementById('md-card-g').innerHTML=hot.g?G[hot.g]:'';if(hot.photo){const im=new Image();im.onload=()=>{document.getElementById('md-card-g').innerHTML='';document.getElementById('md-card-g').appendChild(im);};im.src=hot.photo;im.alt=hot.n;}card.hidden=false;}}
+orbit(o,st,tap);setChapter(0);
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);stepAnim(st,t);if(routeAnim){routeT=Math.min(1,(t-routeAnim.t0)/routeAnim.ms);if(routeT>=1)routeAnim=null;}
+const{cx,cy,R}=geom();const c=chapters[ch];
+// globe
+const g=ctx.createRadialGradient(cx-R*.3,cy-R*.3,R*.05,cx,cy,R);g.addColorStop(0,'#1f3f66');g.addColorStop(1,'#0e1a2e');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();
+if(st.zoom<30){ctx.strokeStyle='rgba(236,230,218,.08)';ctx.lineWidth=1;for(let la=-60;la<=60;la+=30){ctx.beginPath();let pen=false;for(let lo=0;lo<=360;lo+=5){const q=proj(ll(la,lo));if(q.z>=0){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}ctx.stroke();}}
+drawCoast(ctx,proj,st.zoom,{hi:st.zoom>8,borders:st.zoom>8,width:st.zoom>8?1.2:1});
+ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.stroke();
+// routes
+const route=(pts,color,frac,wd=2)=>{ctx.strokeStyle=color;ctx.lineWidth=wd;ctx.beginPath();let pen=false;const n=Math.floor(pts.length*frac);for(let i=0;i<n;i++){const q=proj(pts[i]);if(q.z>=0){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}ctx.stroke();return n?proj(pts[Math.max(0,n-1)]):null;};
+let ship=null;if(ch>=1){const f1=ch===1?routeT:1;ship=route(R1,'#ece6da',f1);}
+if(ch>=2){const f=ch===2?routeT:1;ship=route(R2,'#f0b35a',f)||ship;}
+if(ch>=3){const f=ch===3?routeT:1;ship=route(R3,'#6fd48a',f)||ship;}
+if(ship&&ship.z>=0&&routeAnim){ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(ship.x,ship.y,4,0,TAU);ctx.fill();text(ctx,'⛵',ship.x+6,ship.y+5,{size:14});}
+// the fight burst
+if(ch===1&&routeT>0.45){const q=proj(ll(49.6,-4.5));const k=Math.min(1,(routeT-.45)*4);ctx.strokeStyle=`rgba(255,125,111,${1-k*.6})`;ctx.lineWidth=2;ctx.beginPath();ctx.arc(q.x,q.y,6+k*22,0,TAU);ctx.stroke();text(ctx,'Le Grand, 34 guns · 11 dead, 37 wounded',q.x+14,q.y-12,{size:11,color:'#ff7d6f'});}
+// site markers for this chapter
+for(const s of sites){if(s.ch!==ch)continue;const q=proj(ll(s.lat,s.lon));if(q.z<0)continue;ctx.fillStyle=s.c;ctx.beginPath();ctx.arc(q.x,q.y,6,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();tag(ctx,s.n,q.x+10,q.y+5,s.c,11);}
+// the boundary
+if(ch>=4){const seg=(a,b,color,wd)=>{const pa=ll(a[0],a[1]),pb=ll(b[0],b[1]);ctx.strokeStyle=color;ctx.lineWidth=wd;ctx.beginPath();for(let k=0;k<=40;k++){const q=proj(slerp(pa,pb,k/40));k?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);}ctx.stroke();};
+seg(L.middle,L.tangent,'#6fd48a',2.5);seg(L.tangent,[L.postmark[0],L.tangent[1]],'#6fd48a',2.5);
+// west line along the parallel
+ctx.strokeStyle='#f0b35a';ctx.lineWidth=3;ctx.beginPath();for(let k=0;k<=80;k++){const lon=L.tangent[1]+(L.end[1]-L.tangent[1])*k/80;const q=proj(ll(L.postmark[0],lon));k?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);}ctx.stroke();
+// the 12-mile circle
+ctx.strokeStyle='rgba(240,179,90,.9)';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);ctx.beginPath();const nc=ll(L.newcastle[0],L.newcastle[1]);const e1=v3.norm(v3.cross(nc,[0,1,0])),e2=v3.cross(e1,nc);const rr=12*1.609/6371;for(let k=0;k<=72;k++){const a=k/72*TAU;const q=proj(v3.norm(v3.add(nc,v3.add(v3.mul(e1,rr*Math.cos(a)),v3.mul(e2,rr*Math.sin(a))))));k?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);}ctx.stroke();ctx.setLineDash([]);
+// Philadelphia reference
+const ph=proj(ll(L.phila[0],L.phila[1]));ctx.fillStyle='#ece6da';ctx.beginPath();ctx.arc(ph.x,ph.y,3,0,TAU);ctx.fill();text(ctx,'Philadelphia',ph.x+6,ph.y+4,{size:10,color:'#cfc8ba'});
+for(const hs of hotspots){const q=proj(ll(L[hs.k][0],L[hs.k][1]));if(q.z<0)continue;const on=hot&&hot.n===hs.n;ctx.fillStyle=on?'#fff':'#f0b35a';ctx.beginPath();ctx.arc(q.x,q.y,on?8:6,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();if(st.zoom>20||on)tag(ctx,hs.n,q.x+10,q.y+5,'#f0b35a',11);}
+if(c.stones)for(let m=5;m<=230;m+=5){const q=proj(ll(L.postmark[0],L.postmark[1]-m/53.2));if(q.z<0)continue;ctx.fillStyle='#cfc8ba';ctx.fillRect(q.x-3,q.y-5,6,10);ctx.strokeStyle='#0a0e18';ctx.lineWidth=1;ctx.strokeRect(q.x-3,q.y-5,6,10);if(st.zoom>60)text(ctx,String(m),q.x,q.y+20,{size:9,color:'#cfc8ba',align:'center',font:'mono'});}
+if(c.stones)text(ctx,'crownstones every fifth mile · tap one',w*.5,h-56,{size:12,color:'#9a9382',align:'center'});}
+text(ctx,`zoom ${fmt(st.zoom,1)}×`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}});}
 
 /* ---------- loop ---------- */
 function frame(t){const s=scenes[cur];if(s&&s.o.w)s.draw(t);requestAnimationFrame(frame);}
