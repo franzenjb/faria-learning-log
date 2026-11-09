@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="300" viewBox="0 0 480 300" role="img" aria-labelledby="t d">
+<title id="t">Same opening, two sizes</title>
+<desc id="d">A 1 centimeter mark, 110 centimeters from the eye, and the Moon, about 3,480 kilometers wide and 384,400 kilometers away, stand in the same opening. The stretch between them is shortened on the page.</desc>
+<rect width="480" height="300" fill="#fbf8f2"/>
+<style>text { font-family: Georgia, "Iowan Old Style", Palatino, "Palatino Linotype", serif; }</style>
+<line x1="72" y1="158" x2="387.00" y2="197.69" stroke="#7a4b1e" stroke-width="1.6"/>
+<line x1="72" y1="158" x2="387.00" y2="118.31" stroke="#7a4b1e" stroke-width="1.6"/>
+<circle cx="72" cy="158" r="4.5" fill="#22201c"/>
+<line x1="172.00" y1="145.40" x2="172.00" y2="170.60" stroke="#22201c" stroke-width="3.2" stroke-linecap="round"/>
+<circle cx="392" cy="158" r="40" fill="none" stroke="#7a4b1e" stroke-width="2.2"/>
+<text x="22" y="178" font-size="14" fill="#6b645a">eye</text>
+<text x="86" y="100" font-size="15" fill="#7a4b1e">same opening</text>
+<text x="198" y="102" font-size="15" fill="#22201c">1 cm wide</text>
+<text x="100" y="214" font-size="14" fill="#6b645a">110 cm from the eye</text>
+<text x="286" y="92" font-size="15" fill="#22201c">about 3,480 km wide</text>
+<text x="292" y="236" font-size="14" fill="#6b645a">384,400 km from the eye</text>
+<text x="24" y="276" font-size="14" fill="#6b645a">The stretch is shortened. The opening is the real one.</text>
+</svg>

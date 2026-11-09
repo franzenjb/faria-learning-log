@@ -1,67 +1,42 @@
 ---
-title: "Thumb to Moon: calculating the Moon's diameter"
-summary: A thumb can hide the Moon because apparent size depends on distance. Half a degree at an assumed 240,000 miles is about 2,100 miles if you divide the whole circle by 720, close to the Moon's real 2,160-mile diameter.
+title: "Thumb to Moon: how wide it looks is not how wide it is"
+summary: A thumb shows how wide the Moon looks, not how many kilometers across it is. The real width needs a distance measured some other way. NASA's average distance is 384,400 km, and the width is about 3,480 km.
 session: 2026-11-07
 order: 17
 tags: [astronomy, mathematics]
 ---
+A thumb held up at the Moon shows how wide the Moon looks. It does not show how many kilometers across the Moon is.
 
-## A little window on a large Moon
-Let us put the arithmetic aside for a moment. Imagine the Moon as a distant coin. It has a real width, measured in miles, and an apparent width: how much of your view it occupies. A nearby thumb can hide that enormous object because apparent width depends on distance as well as size.
+Call that look the opening: the small wedge of view the Moon fills. A small thing near your eye can fill the same opening as a large thing far away. The look matches. The sizes do not.
 
-Close one eye and hold your thumb at arm’s length. For a rough picture, think of a thumb about two centimeters—roughly three-quarters of an inch—wide, held about sixty centimeters, or two feet, from your eye. It covers about two degrees. Your own thumb and arm may differ; this is a picture, not a precision instrument. Never use this exercise to look at the Sun.
+![The same opening. A 1 cm mark at 110 cm, and the Moon about 3,480 km wide at 384,400 km. The stretch is shortened.](../../img/Thumb_Moon_Same_Opening_Faria_2026-11-08.svg)
 
-The Moon spans about half a degree. That is roughly one-quarter of our two-degree thumb width. So a small object covering the Moon at a distance of two feet would be only about a fifth of an inch wide: approximately 0.21 inches, or 5.3 millimeters, at 24 inches.
+The drawing pulls the Moon in so both fit. They share one opening. Read the sizes from the labels, not from the lengths on the page.
 
-## A correction worth keeping
-A TWO-INCH-wide thumb held 24 inches away would cover about 4.77 degrees, not two degrees. Centimeters and inches cannot be exchanged without changing the answer. The rough two-degree example above uses two centimeters, not two inches.
+A thumb is usually too wide to be the Moon's match. Picture a thumb about 2 centimeters across, about 60 centimeters from the eye. Yours may differ. This is a picture, not a ruler. In that picture the Moon fills a bit more than a quarter of the thumb, not the whole thumb. Do not look at the Sun this way.
 
-## The rule behind the picture
-For the SAME apparent width, an object twice as far away must be twice as wide. Imagine sliding a small coin farther from your eye while enlarging it just enough to keep its edges on the same two sightlines. The triangle grows; its shape stays the same. Moving your thumb does not change the Moon. It changes only how much of your view the thumb covers.
+The real width needs the distance, and the distance has to come from somewhere else. A thumb does not measure it. A photo of the Moon does not measure it. The photo only keeps the opening.
 
+NASA's Moon facts give the average distance as 384,400 kilometers. The same page gives a radius of about 1,740 kilometers. The radius is the line from the center to the edge. The diameter is the width straight through the middle, two times the radius, so about 3,480 kilometers.
 
-## From your arm to the Moon
-We must already know the distance before we can calculate the Moon’s physical width. Take a rounded distance of 240,000 miles. A mile contains 5,280 feet, so that is 1,267,200,000 feet. Divide by our two-foot arm length: the Moon is about 633,600,000 arm lengths away.
+Check the round picture. Multiply 110 by 3,480.
 
-Enlarge the 0.21-inch Moon-covering width by that same factor. The units look cumbersome, but the thought is simple: the same narrow view reaches a much wider object farther away. Converting the enlarged width back into miles gives about 2,100 miles.
+100 times 3,480 is 348,000. 10 times 3,480 is 34,800. Added, that is 382,800.
 
-![A measuring circle: half a degree is one part in 720 of the circumference](../../img/Thumb_to_Moon_Circumference_Not_Radius_Tufte.svg?v=1)
-*Teaching circle centered on the eye, not the Moon's orbit. Drawn for this page from the lesson's own arithmetic. The distance is assumed.*
+NASA's distance is 384,400. The miss is 1,600 kilometers, small beside 384,400. So the Moon is about 110 times farther away than it is wide.
 
-## An easier route: go around a circle
-Imagine an enormous circle centered on your eye, with a radius reaching to the Moon: 240,000 miles. This is an imaginary measuring circle, not a claim about the Moon’s orbit. A full turn contains 360 degrees; half a degree is one part in 720.
+A mark 1 centimeter wide, held 110 centimeters from the eye, is also about 110 times farther away than it is wide. It matches the Moon's look. The mark is narrower than a thumb, and 110 centimeters is longer than a comfortable arm. That is why the thumb covers more.
 
-We must divide the WHOLE circumference by 720—not the radius. The distance around a circle is about 6.28 times its radius. That factor is twice pi; pi is approximately 3.14. Our circle is therefore about 1,508,000 miles around.
+## An older map, not the method
+A separate sheet draws a circle about 2,100 miles across on a map of the United States. It is a picture of a rounded width. It is not how the width is found. [The Moon's width on a US map (PDF)](/downloads/Moon_Diameter_Four_Cities_US_Map_Faria_2026-11-07.pdf).
 
-Diameter ≈ 240,000 × 6.28 ÷ 720 ≈ 2,100 miles.
-
-The little arc covering half a degree is almost the same length as the straight width across it. At this tiny angle, the difference is negligible for our rough inputs. Dividing the distance alone by 720 would give about 333 miles and omit the essential distance-around-the-circle step.
-
-## Putting the Moon's width on a US map
-The rounded 2,100 miles is a diameter. On the Earth that is a circle 1,050 miles in radius. The map sets that circle on the United States as a best fit to four real cities: Chicago, Boston, Miami, and Denver. The cities stay put. At this diameter the circle cannot pass through all four. Chicago sits about 272 miles inside, Boston about 327 miles outside, Miami about 267 miles inside, and Denver about 89 miles inside.
-
-This is a best fit, not an exact match, and not a literal footprint of the Moon pressed onto the curved Earth. The lesson's 2,100 miles is the rounded figure. The Moon's real mean diameter is about 2,160 miles. The city dots are place markers from Natural Earth, which is in the public domain. They are not survey monuments.
-
-![Best-fit circle 2100 miles across on a US map, with Chicago, Boston, Miami, and Denver](../../img/Moon_Diameter_Four_Cities_US_Map_Faria_2026-11-07.svg?v=1)
-*A 1,050-mile geodesic circle, drawn on an azimuthal projection centered so distances from the middle stay true. Chicago, Miami, and Denver fall inside. Boston falls outside. The fit is the best one of this size, not a circle through every city.*
-
-The map itself, already reviewed, is [The Moon's width on a US map (PDF)](/downloads/Moon_Diameter_Four_Cities_US_Map_Faria_2026-11-07.pdf).
-
-## Does the answer make sense?
-Yes. The Moon’s known mean diameter is about 2,160 miles, or 3,475 kilometers. Our rounded calculation gives about 2,100 miles, roughly 3,370 kilometers: a good approximation, not an exact measurement. Apparent size changes with lunar distance, and our thumb and arm are rough guides.
-
-We have not discovered the distance with a thumb. We assumed it. Angular width PLUS distance gives physical width. Ancient eclipse geometry offers a different route to size and distance relationships.
-
-## SOURCE
-NASA Science, Moon Facts: mean distance 238,855 miles (384,400 km); rounded radius 1,080 miles (1,740 km). Geometry and illustrative calculations in this lesson are modern derivations, not claims about an exact ancient measurement.
-https://science.nasa.gov/moon/facts/
-
-
-The printed lesson, reviewed and kept byte for byte, is [Thumb to Moon (PDF)](/downloads/Thumb_to_Moon_Calculating_the_Moons_Diameter_Faria_Lesson_2026-11-07.pdf).
+## Sources
+- [NASA Moon facts](https://science.nasa.gov/moon/facts/): average distance 384,400 kilometers, radius about 1,740 kilometers.
 
 ## Key facts
-- A thumb about 2 cm wide at 60 cm covers about 2 degrees. A 2-inch thumb at 24 inches covers about 4.77 degrees. The units are not interchangeable.
-- Half a degree at an assumed 240,000 miles is about 2,100 miles if you divide the circumference by 720. Dividing the distance alone by 720 gives about 333 miles and drops the factor of about 6.28.
-- The Moon's mean diameter is about 2,160 miles. The thumb does not measure the distance. It uses a distance you already assumed.
-- On a US map, a 2,100-mile circle fitted to Chicago, Boston, Miami, and Denver does not pass through all four. Chicago is about 272 miles inside, Boston about 327 outside, Miami about 267 inside, Denver about 89 inside.
-- NASA's figures: mean distance 238,855 miles, radius about 1,080 miles. https://science.nasa.gov/moon/facts/
+- A thumb shows how wide the Moon looks. It does not give the width in kilometers.
+- The same opening can be a small near thing or a large far thing. A thumb is usually wider than the Moon's look.
+- NASA's average distance is 384,400 kilometers. The width is about 3,480 kilometers, twice a radius of about 1,740.
+- 110 times 3,480 is 382,800, close to 384,400. A 1 centimeter mark at 110 centimeters matches that picture.
+
+The printed page is [Thumb to Moon (PDF)](/downloads/Thumb_to_Moon_Calculating_the_Moons_Diameter_Faria_Lesson_2026-11-07.pdf).
