@@ -15,6 +15,8 @@ tags: [astronomy, history-of-science, history, literature, geography, poetry]
 ## The telescope, 1609
 In 1608 Dutch spectacle-makers produced a **spyglass** magnifying about 3 times. Hearing of it in **1609**, Galileo worked out the optics and ground his own lenses, reaching about **8×, then 20×, and later about 30×**. He first called it a ***perspicillum***. The name ***telescope*** (Greek *tele*, "far," + *skopein*, "to look") was proposed by **Giovanni Demisiani** at a **banquet in Rome in April 1611** held by the Accademia dei Lincei in Galileo's honor.
 
+[Try The Interactive Moon Mountain: Move The Peak, Change Its Height, And Adjust The Sun](/galileo/)
+
 ## The five discoveries
 **1. Mountains on the Moon (late 1609).** Near the **terminator**, the line between lunar day and night, he saw **points of light in the dark part**: mountaintops catching sunrise before the plains below. From how far beyond the terminator they lay, he calculated heights of about **four miles**. He recorded what he saw in **ink-wash drawings**. The Moon was not a perfect crystal sphere; it was a world like Earth.
 

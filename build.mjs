@@ -78,7 +78,9 @@ const fmtDate = s => new Date(s + "T12:00:00").toLocaleDateString("en-US", { wee
 const page = (title, main, depth = 0) => {
   const r = depth ? "../".repeat(depth) : "./";
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${esc(title)} · Faria</title><meta name="description" content="Faria: a learning log of lessons, one topic at a time.">
+<title>${esc(title)} · Faria</title>
+<!-- Continuity: https://handoff.jbf.com · source: franzenjb/faria-learning-log -->
+<link rel="author" href="https://handoff.jbf.com/?repo=faria-learning-log"><meta name="description" content="Faria: a learning log of lessons, one topic at a time.">
 <script>try{const n=Number(localStorage.getItem("faria-reading-scale"));if(n>=85&&n<=150){const s=Math.min(150,Math.max(85,Math.round(n/5)*5));document.documentElement.style.setProperty("--reading-scale",String(s/100))}}catch(e){}</script>
 <link rel="stylesheet" href="${r}style.css"><link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✦</text></svg>">
 <script>try{const t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script></head><body>
@@ -105,6 +107,8 @@ for (const t of topics) {
   write(`topics/${t.slug}`, page(t.title, `<article><p class="kicker">${s ? `<a href="../../sessions/${s.slug}/">${fmtDate(s.slug)}</a>` : ""}</p>${againHtml}<h1>${esc(t.title)}</h1>${t.summary ? `<p class="lede">${esc(t.summary)}</p>` : ""}${tagLinks(t.tags, "../../")}${t.html}</article>
 ${related.length ? `<section class="related"><h2>Related topics</h2><ul class="cards">${related.map(o => card(o, "../../")).join("")}</ul></section>` : ""}${nav}`, 2));
 }
+// The interactive shares Faria's navigation, theme, text-size controls and feedback.
+write("galileo", page("Galileo's Moon Mountains", fs.readFileSync("public/galileo/lesson.html", "utf8"), 1));
 const dayLabel = s => {
   const fresh = freshOn(s), again = revisitedOn(s);
   return again.length ? `${fresh.length} new · ${again.length} revisited` : `${fresh.length} topics`;
