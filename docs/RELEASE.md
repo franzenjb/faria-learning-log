@@ -24,3 +24,5 @@ The geometry revision is live: source 03f55ed, Vercel dpl_CGdnJcG4xRRQH1N6dXYN8p
 
 ## Observation Gallery — November 8 Eastern / November 9 UTC
 Added authentic manuscript drawings, a modern first-quarter Moon photograph, full-size links, source and license captions, and an explanation of the half-lit phase. Corrected the existing printed-illustration caption. Local Chrome passed image decoding, disclosure, sliders, geometry, drag, keyboard, themes and phone layouts. Desktop and 320px gallery screenshots inspected. Production evidence follows after deployment.
+
+Published source 54fd53d through Vercel EfuyA2g5a3q1S5o1dy2qtSKTqQX7. Live Chrome passed the complete interaction/layout suite and gallery image decoding. Both new served images exactly match source bytes and return max-age=0, must-revalidate. Existing /deck/ returns HTTP 200. Desktop and phone gallery inspected. Jeff review remains pending.

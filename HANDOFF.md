@@ -1,4 +1,4 @@
-GIT_OWNER: Codex
+GIT_OWNER: none
 
 # Galileo Interactive — 2026-11-08
 
@@ -16,5 +16,5 @@ Project cockpit refresh ran on November 8, 2026. Its validation failed: "Index i
 ## Geometry Correction Published
 Jeff rejected the first visual because it omitted the whole-Moon geometry, right angle, diameter and circumference. Restored these visibly with live side lengths and calculation; all controls retained. Source 03f55ed is deployed and production Chrome verified. The angle is explicitly calculated from the geometry, not a degree reading by Galileo. New geometry tests and display-toggle checks pass. Registry b027640 is pushed.
 
-## Observation Images In Progress
-Adding authentic manuscript watercolors and a licensed modern first-quarter photograph. Preserve Claude's newly merged /deck/ work (9049002).
+## Observation Images Published
+Codex added authentic manuscript watercolors and an attributed modern first-quarter photograph in 54fd53d. Production Chrome and exact image bytes verified; sources/rights documented. Claude’s newly merged /deck/ work (9049002) preserved. Jeff review pending.
