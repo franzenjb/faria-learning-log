@@ -119,7 +119,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
       <li data-go="Twice the wind"><strong>13.</strong> Twice the wind is four times the force.</li>
       <li data-go="The shelter decision"><strong>14.</strong> The shelter decision: a crisp edge, a fuzzy answer.</li>
     </ul>
-    <p><small>→ and ← keys move between slides. F for full screen. Dotted words open an explanation.</small></p>
+    <p><small>→ and ← keys move between slides. F for full screen. P opens presenter notes in a second window. Dotted words open an explanation.</small></p>
   </div>
   <div class="stage"><canvas id="c0"></canvas><div class="hint">Drag to spin the Earth · scroll to zoom</div></div>
 </section>
@@ -411,7 +411,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <nav class="nav" aria-label="Slides">
   <span class="counter" id="counter"></span>
   <div class="dots" id="dots"></div>
-  <div class="arrows"><button id="prev" aria-label="Previous slide">←</button><button id="next" aria-label="Next slide">→</button></div>
+  <div class="arrows"><button id="presenter" title="Presenter notes (P)">notes</button><button id="prev" aria-label="Previous slide">←</button><button id="next" aria-label="Next slide">→</button></div>
 </nav>
 
 <script src="coast.js"></script>
@@ -422,12 +422,13 @@ const slides=[...document.querySelectorAll('.slide')];let cur=0;
 const dots=document.getElementById('dots');
 slides.forEach((s,i)=>{const b=document.createElement('button');b.title=s.dataset.title;b.addEventListener('click',()=>go(i));dots.appendChild(b);});
 function go(i){const target=(i+slides.length)%slides.length;const prev=cur;
-const commit=()=>{cur=target;slides.forEach((s,k)=>s.classList.toggle('active',k===cur));[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===cur));document.getElementById('counter').textContent=`${cur} / ${slides.length-1} · ${slides[cur].dataset.title.replace('&amp;','&')}`;location.hash=cur?`#${cur}`:'';resizeAll();};
+const commit=()=>{cur=target;slides.forEach((s,k)=>s.classList.toggle('active',k===cur));[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===cur));document.getElementById('counter').textContent=`${cur} / ${slides.length-1} · ${slides[cur].dataset.title.replace('&amp;','&')}`;location.hash=cur?`#${cur}`:'';resizeAll();if(typeof presenterSync==='function')presenterSync();};
 if(prev===target||typeof playFx!=='function'){commit();return;}
 const s=slides[target];const name=FXMAP[s.dataset.fx]||'warp';playFx(name,s,{swap:commit,ms:name==='eclipse'?1700:name==='sweep'?1400:name==='chain'?1500:1200});}
 document.querySelectorAll('.menu li').forEach(li=>li.onclick=()=>{const want=li.dataset.go.replace('&amp;','&');const i=slides.findIndex(x=>x.dataset.title.replace('&amp;','&')===want);if(i>=0)go(i);});
+document.getElementById('presenter').onclick=()=>openPresenter();
 document.getElementById('prev').onclick=()=>go(cur-1);document.getElementById('next').onclick=()=>go(cur+1);
-addEventListener('keydown',e=>{if(e.target.matches('input,button'))e.target.blur();if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')go(cur+1);else if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);else if(e.key.toLowerCase()==='f'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}});
+addEventListener('keydown',e=>{if(e.target.matches('input,button'))e.target.blur();if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')go(cur+1);else if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);else if(e.key.toLowerCase()==='f'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}else if(e.key.toLowerCase()==='p'){openPresenter();}});
 let tx=null;addEventListener('touchstart',e=>{if(!e.target.closest('canvas'))tx=e.touches[0].clientX;},{passive:true});addEventListener('touchend',e=>{if(tx==null)return;const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>70)go(cur+(dx<0?1:-1));tx=null;});
 
 const TAU=Math.PI*2,DEG=Math.PI/180;
@@ -1611,6 +1612,39 @@ default:doSwap();slideEl.style.opacity=e;}
 if(k<1)run.raf=requestAnimationFrame(frame);else{fx.clearRect(0,0,W,H);slideEl.style.clipPath='';slideEl.style.transform='';slideEl.style.filter='';slideEl.style.opacity='';fxRun=null;}};
 run.raf=requestAnimationFrame(frame);}
 const FXMAP={fade:'warp',iris:'sweep',sunrise:'rays',telescope:'warp',terminator:'eclipse',venus:'venus',survey:'chain',orbit:'orbit',compass:'compass',unroll:'unroll',triangles:'triangles',wake:'wake',morse:'morse',gust:'gust',edge:'edge'};
+
+/* ---------- presenter mode: a second window with notes, a chapter menu and a clock; P opens it, slides stay in sync ---------- */
+const NOTES={
+'Title':['Every slide is a live model. Invite the room to call out what to drag.','The order follows the six sessions of the course: mental maps, Earth and sky, triangles, clocks, frames, decisions.'],
+'Mental maps':['Vote before the reveal. Most rooms pick Peru for Havana and Los Angeles for Reno.','Follow one meridian, not your mental map. "Coastal" and "farther west" are not the same thing.','Rome and Boston share a parallel and little else: latitude is one input to climate, not a model.'],
+'Latitude & Longitude':['Tap the globe to stand somewhere; the angle at your feet is the angle at the centre. Polaris is 0.7° off the pole: a guide, not the pole.','Chronometer mode: slide the clock until the Sun is highest over the ship. 1 hour = 15°. West is negative and the local clock runs behind.','One nautical mile is one minute of latitude, fixed at 1,852 m in 1929. Four seconds of clock error is a mile of longitude.'],
+'Eratosthenes':['Sun rays arrive parallel because the Sun is 93 million miles off. The well and the stick see the same rays.','Euclid I.29: a line across parallels makes equal alternate angles. The shadow angle is the centre angle.','360 ÷ 7.2 = 50. Fifty times the distance. The unit (stadion) is the uncertainty, not the method.'],
+'Baselines':['Blink one eye then the other. Your eyes are a 2½-inch baseline. Everything after is this picture with a longer baseline.','One degree of parallax = 57 baselines. Small angles are hard, so baselines want to be long.','Picard measured one line with rods and computed the rest. One length sets the scale of a whole network; Newton used his degree.'],
+"Jupiter's moons":['Drag to tilt: edge-on is what Galileo saw, from above is what was happening. The eyepiece squashes 3D onto a line.','Clock mode: Io\'s eclipses are a public clock. Rømer: they run late when Earth is far. Light has a speed.','Florence quiz: 2 hours behind Florence = 30° west of 11.25° E = 18.75° W. Start from the reference clock, not Greenwich.'],
+'Moon mountains':['Lit peaks past the terminator must poke above the grazing ray. Pythagoras: h = √(R² + d²) − R.','Galileo: d = 1/20 of the width, 2,000-mile Moon, "more than four Italian miles". Modern diameter gives 5.4.','Width card: 0.5° at 240,000 miles = 2,100 miles across. Denver to Boston.'],
+'Kepler to Halley':['Kepler\'s third law gives every distance as a multiple of the Earth\'s. A perfect map with no scale bar.','Horrocks, 1639, between church services. 59 million miles from Venus\'s size. Dead at 22.','Halley, 1716, writes the plan for astronomers not yet born. Star day vs Sun day: 3 min 56 s.'],
+'Transit of Venus':['Two observers, two chords, two durations. The difference and the baseline give the AU.','Black drop limited the timings to tens of seconds. 1769 result: 93 to 97 million miles. Modern 92.96.','Rare because of the 3.4° tilt: flatten it and every lineup is a transit.'],
+'Cook':['A Whitby collier: slow, strong, beachable. Banks paid his own way.','Fort Venus, 3 June 1769: three observers, three times, black drop.','East coast of Australia: a precise chart does not mean an empty land. Surveying is not consent. K1 on the second voyage settled the longitude argument.'],
+'Mason & Dixon':['The Seahorse fight cost them Sumatra; the Cape was the only southern observation of 1761.','The line is a circle, a tangent and a parallel. Zenith sector for latitude, Gunter\'s chain for distance.','22.51 chains corrected in place, not a restart. The escort stopped at the limit of its commission, 9 October 1767.'],
+'Flat maps lie':['Vote on Greenland. Peel the globe flat; Mercator inflates the poles; equal-area squashes the shapes. About 14.','Rhumb line: one bearing, straight on Mercator. Great circle: shortest, straight on the globe. Peel back and they swap.'],
+'The storm wire':['A storm moves at 15 mph; a message at the speed of light. The network is the instrument.','Viñes: three separate clues support one inference. That is a forecast.','Galveston: reports, warnings, shelter. Each arrow can fail. The last one did.'],
+'Twice the wind':['Force goes as v², power as v³. 20% more wind is 44% more force.','1-minute vs 10-minute sustained wind: no universal multiplier. Say which one you mean.','Quadratic and exponential both bend up. Only one doubles every step.'],
+'The shelter decision':['A crisp edge is a drawing choice. The real edge is a band, and so is the position.','Wind, surge, rain, access answer different questions. A wind category is not the hazard map.','Question, evidence with source and time, frame and units, uncertainty, next check. Make the missing evidence visible.']};
+let presWin=null,presT0=null;
+function presenterHTML(){const items=slides.map((s,i)=>`<li data-i="${i}" class="${i===cur?'on':''}"><span class="n">${i}</span>${s.dataset.title.replace('&amp;','&')}</li>`).join('');
+return `<!doctype html><html><head><meta charset="utf-8"><title>Presenter · Measuring the Sky</title><style>
+body{margin:0;background:#0a0e18;color:#ece6da;font:18px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;display:grid;grid-template-columns:18rem 1fr;height:100vh}
+aside{border-right:1px solid #283048;padding:1rem;overflow:auto}aside ol{list-style:none;margin:0;padding:0}aside li{padding:.45rem .6rem;border-radius:.4rem;cursor:pointer;color:#cfc8ba;display:flex;gap:.6rem}aside li .n{font:600 .8rem Menlo,monospace;color:#9a9382;min-width:1.4rem}aside li:hover{background:#161d30}aside li.on{background:#2a3350;color:#fff}
+main{padding:1.5rem 2rem;overflow:auto}.k{font:600 .72rem -apple-system,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#f0b35a}h1{font:600 2rem/1.15 Georgia,serif;margin:.3rem 0 1rem}
+.notes li{margin:0 0 .9rem;font-size:1.25rem;line-height:1.45}.row{display:flex;gap:2rem;align-items:baseline;margin-top:2rem;color:#9a9382}.clock{font:600 2.4rem Menlo,monospace;color:#ece6da}.next{color:#9a9382;margin-top:1.5rem;font-size:1rem}.next b{color:#cfc8ba}
+.keys{position:fixed;bottom:1rem;right:1.5rem;color:#9a9382;font-size:.85rem}
+</style></head><body><aside><div class="k">Slides</div><ol id="list">${items}</ol></aside><main><div class="k" id="k"></div><h1 id="t"></h1><ol class="notes" id="n"></ol><div class="next">Next: <b id="nx"></b></div><div class="row"><span>elapsed</span><span class="clock" id="c">00:00</span><button id="reset" style="border:1px solid #283048;background:#111727;color:#ece6da;border-radius:.4rem;padding:.3rem .7rem;cursor:pointer">reset</button></div></main><div class="keys">← → change slides here too · this window follows the deck</div>
+<script>const op=window.opener;document.getElementById('list').onclick=e=>{const li=e.target.closest('li');if(li&&op)op.postMessage({go:+li.dataset.i},'*');};addEventListener('keydown',e=>{if(e.key==='ArrowRight'&&op)op.postMessage({go:'next'},'*');if(e.key==='ArrowLeft'&&op)op.postMessage({go:'prev'},'*');});document.getElementById('reset').onclick=()=>op&&op.postMessage({reset:1},'*');
+addEventListener('message',e=>{const d=e.data||{};if(d.title!==undefined){document.getElementById('k').textContent='Slide '+d.i+' of '+d.total;document.getElementById('t').textContent=d.title;document.getElementById('n').innerHTML=(d.notes||[]).map(x=>'<li>'+x+'</li>').join('');document.getElementById('nx').textContent=d.next||'—';document.querySelectorAll('#list li').forEach(li=>li.classList.toggle('on',+li.dataset.i===d.i));}if(d.clock!==undefined)document.getElementById('c').textContent=d.clock;});<\/script></body></html>`;}
+function presenterSync(){if(!presWin||presWin.closed)return;const s=slides[cur];const title=s.dataset.title.replace('&amp;','&');const nx=slides[(cur+1)%slides.length].dataset.title.replace('&amp;','&');presWin.postMessage({i:cur,total:slides.length-1,title,notes:NOTES[title]||[],next:nx},'*');}
+function openPresenter(){if(presWin&&!presWin.closed){presWin.focus();return;}presWin=window.open('','faria-presenter','width=1100,height=720');if(!presWin)return;presWin.document.open();presWin.document.write(presenterHTML());presWin.document.close();presT0=presT0||performance.now();setTimeout(presenterSync,300);}
+addEventListener('message',e=>{const d=e.data||{};if(d.go==='next')go(cur+1);else if(d.go==='prev')go(cur-1);else if(typeof d.go==='number')go(d.go);if(d.reset)presT0=performance.now();});
+setInterval(()=>{if(presWin&&!presWin.closed&&presT0){const s=Math.floor((performance.now()-presT0)/1000);presWin.postMessage({clock:`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`},'*');}},1000);
 
 /* ---------- loop ---------- */
 function frame(t){const el=slides[cur];const s=scenes.find(sc=>el.contains(sc.o.c));if(s&&s.o.w)s.draw(t);requestAnimationFrame(frame);}

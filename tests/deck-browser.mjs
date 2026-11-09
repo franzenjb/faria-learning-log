@@ -122,5 +122,12 @@ assert.match(await page.locator('#sh-read strong').innerText(), /outside|overlap
 await page.locator('#sh-eu').fill('0'); await page.locator('#sh-eu').dispatchEvent('input'); await page.locator('#sh-pu').fill('0'); await page.locator('#sh-pu').dispatchEvent('input');
 assert.match(await page.locator('#sh-read strong').innerText(), /do not touch/);
 await page.click('#sh-checks'); assert.match(await page.locator('.slide.active .card.gloss h3').innerText(), /limits visible/);
+// presenter window
+const [pres] = await Promise.all([page.context().waitForEvent('page'), page.keyboard.press('p')]);
+await pres.waitForLoadState(); await page.waitForTimeout(600);
+assert.match(await pres.locator('#t').innerText(), /shelter/i);
+await pres.click('#list li[data-i="3"]'); await page.waitForTimeout(1900);
+assert.match(await page.locator('#counter').innerText(), /Eratosthenes/);
+assert.match(await pres.locator('#t').innerText(), /Eratosthenes/);
 assert.deepEqual(errors, []);
 await browser.close(); console.log('deck ok');
