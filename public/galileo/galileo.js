@@ -1,4 +1,5 @@
 import {R,defaults,calculate} from './model.js';
+import {drawGeometry} from './geometry.js';
 const $=id=>document.getElementById(id), scene=$('scene');
 const controls=['position','height','sun'];
 let state={...defaults}, geometry, drag=null;
@@ -36,10 +37,12 @@ function render(){
   $('state').textContent=m.groundLit?'The ground and peak are in daylight.':m.peakLit?'The peak catches sunlight. The ground is still dark.':'The mountain is too low to catch the Sun.';
   $('result').textContent=m.groundLit?'Move the mountain left or lower the Sun to put the ground back into darkness.':`The mountain is ${num(m.gap)} miles beyond the daylight edge. Here, a peak needs to be about ${num(m.minimumHeight)} miles high to reach sunlight.`;
   controls.forEach(k=>$(k).setAttribute('aria-valuetext',$(k+'-value').textContent));
+  drawGeometry(state,m);
 }
 controls.forEach(k=>$(k).addEventListener('input',e=>{state[k]=Number(e.target.value);render();}));
 $('example').addEventListener('click',()=>{state={...defaults};render();});
 scene.addEventListener('pointerdown',e=>{if(!e.target.closest('.handle'))return;drag=e.pointerId;scene.setPointerCapture(drag);e.preventDefault();});
 scene.addEventListener('pointermove',e=>{if(drag!==e.pointerId)return;const rect=scene.getBoundingClientRect();const x=(e.clientX-rect.left-geometry.center)/geometry.sx,z=(geometry.baseline-(e.clientY-rect.top))/geometry.sy;state.position=Math.max(-120,Math.min(120,Math.atan2(x,z+R)*R));state.height=Math.max(0,Math.min(8,Math.hypot(x,z+R)-R));state.position=Math.round(state.position*10)/10;state.height=Math.round(state.height*10)/10;render();});
 scene.addEventListener('pointerup',()=>{drag=null;});scene.addEventListener('pointercancel',()=>{drag=null;});
+['show-lines','show-distances','show-angle'].forEach(id=>$(id).addEventListener('change',render));
 new ResizeObserver(render).observe(scene);render();

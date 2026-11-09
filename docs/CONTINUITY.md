@@ -3,7 +3,7 @@ project: faria-learning-log
 url: https://faria.jbf.com
 repo: https://github.com/franzenjb/faria-learning-log
 vercel_project: faria-learning-log
-verified: 2026-11-08
+verified: 2026-11-09
 ---
 # Faria Owner's Manual
 
@@ -44,3 +44,18 @@ Previous known source is `c2b918d` (before this addition). A maintainer can reve
 
 ## Maintenance And Evidence
 Last source verification: November 8, 2026. Geometry tests passed, including independent ray/sphere visibility across control ranges. Local Chrome behavior and desktop/mobile light/dark screenshots checked. Whole-site style audit reports existing multi-font/color conventions; no unrelated restyle attempted. Live release evidence is recorded in `docs/RELEASE.md` after deployment. Recheck sources and browser behavior when modifying the lesson. No unattended refresh job exists or is needed. See `Galileo Change Register 2026-11-08.xlsx` (authoritative manual tracker; no automated synchronization). User acceptance remains Jeff's decision.
+
+```json
+{
+  "project": "faria-learning-log",
+  "live_url": "https://faria.jbf.com",
+  "verified": "2026-11-09",
+  "vercel_project": "faria-learning-log"
+}
+```
+
+## Geometry Revision — November 8 Eastern / November 9 UTC
+Jeff rejected the first release's missing geometry. The revised default view includes a true-scale full circle, diameter, circumference, sunlight, a center angle explicitly labeled calculated, and a separate enlarged right triangle. The triangle foot Q is the perpendicular projection of the current peak onto the line through the center perpendicular to sunlight. It lies on the surface only in the grazing-light case; at other settings the diagram labels it inside or above the surface. The triangle uses physical side lengths even though the enlarged drawing is stretched. Model tests verify perpendicular legs and Pythagorean recovery of height across all control ranges. Galileo's observed gap was estimated relative to the Moon's apparent width; the center angle is not presented as his direct observation.
+
+## Observation Images
+The lesson now serves Galileo’s 1609 manuscript studies and Astrobond’s 2019 first-quarter photograph locally, with full-size links and visible credits. Keep the photograph unchanged and retain its CC BY-SA 4.0 attribution. Source URLs and rights are in `docs/GALILEO_IMAGE_SOURCES.md`. The older image filename says ink wash, but its corrected caption identifies printed 1610 illustrations. Browser checks also decode every gallery image and check mobile layouts.
