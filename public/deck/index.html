@@ -504,7 +504,7 @@ const scenes=[];function resizeAll(){scenes.forEach(s=>s.o.resize());}addEventLi
 {const o=setup('c00');const st={yaw:0.9,pitch:0.22,zoom:1,anim:null};let lastT=0;
 scenes.push({o,draw(t){const dt=lastT?(t-lastT)/1000:0;lastT=t;st.yaw+=dt*.06;const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);const cx=w*.5,cy=h*1.08,R=Math.min(w,h)*.78;const proj=p=>{const q=rot(p,st.yaw,st.pitch);return{x:cx+q[0]*R,y:cy-q[1]*R,z:q[2]};};
 const g=ctx.createRadialGradient(cx-R*.3,cy-R*.5,R*.1,cx,cy,R);g.addColorStop(0,'#2f5a8c');g.addColorStop(.7,'#15294a');g.addColorStop(1,'#0b1526');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();
-ctx.strokeStyle='rgba(236,230,218,.08)';ctx.lineWidth=1;for(let la=-60;la<=60;la+=15){ctx.beginPath();let pen=false;for(let lo=0;lo<=360;lo+=4){const q=proj(ll(la,lo));if(q.z>=0){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}ctx.stroke();}
+for(let la=-80;la<=80;la+=20){ctx.strokeStyle=la?'rgba(236,230,218,.08)':'rgba(240,179,90,.6)';ctx.lineWidth=la?1:1.5;ctx.beginPath();let pen=false;for(let lo=0;lo<=360;lo+=4){const q=proj(ll(la,lo));if(q.z>=0){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}ctx.stroke();}ctx.strokeStyle='rgba(236,230,218,.08)';ctx.lineWidth=1;
 drawCoast(ctx,proj,1,{color:'rgba(236,230,218,.7)'});const rim=ctx.createRadialGradient(cx,cy,R*.92,cx,cy,R*1.06);rim.addColorStop(0,'rgba(111,179,255,0)');rim.addColorStop(.6,'rgba(111,179,255,.25)');rim.addColorStop(1,'rgba(111,179,255,0)');ctx.fillStyle=rim;ctx.beginPath();ctx.arc(cx,cy,R*1.06,0,TAU);ctx.fill();
 const N=proj([0,1.25,0]);const gl=ctx.createRadialGradient(N.x,N.y,0,N.x,N.y,22);gl.addColorStop(0,'#fff');gl.addColorStop(.3,'rgba(111,179,255,.8)');gl.addColorStop(1,'rgba(111,179,255,0)');ctx.fillStyle=gl;ctx.beginPath();ctx.arc(N.x,N.y,22,0,TAU);ctx.fill();}});}
 
@@ -515,7 +515,7 @@ function proj(p){const{cx,cy,R}=geom();const q=rot(p,st.yaw,st.pitch);return{x:c
 o.c.addEventListener('pointerdown',()=>idle=0);
 scenes.push({o,draw(t){const dt=lastT?(t-lastT)/1000:0;lastT=t;idle+=dt;if(idle>2&&!o.c.classList.contains('dragging'))st.yaw+=dt*.12;const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);const{cx,cy,R}=geom();
 const g=ctx.createRadialGradient(cx-R*.35,cy-R*.35,R*.05,cx,cy,R);g.addColorStop(0,'#2f5a8c');g.addColorStop(.7,'#15294a');g.addColorStop(1,'#0b1526');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();
-ctx.strokeStyle='rgba(236,230,218,.1)';ctx.lineWidth=1;for(let la=-60;la<=60;la+=30){ctx.beginPath();let pen=false;for(let lo=0;lo<=360;lo+=5){const q=proj(ll(la,lo));if(q.z>=0){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}ctx.stroke();}
+for(let la=-80;la<=80;la+=20){ctx.strokeStyle=la?'rgba(236,230,218,.1)':'rgba(240,179,90,.6)';ctx.lineWidth=la?1:1.5;ctx.beginPath();let pen=false;for(let lo=0;lo<=360;lo+=5){const q=proj(ll(la,lo));if(q.z>=0){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}ctx.stroke();}ctx.strokeStyle='rgba(236,230,218,.1)';ctx.lineWidth=1;
 drawCoast(ctx,proj,st.zoom,{color:'rgba(236,230,218,.85)',hi:st.zoom>8});ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.stroke();
 const N=proj([0,1.5,0]);const gl=ctx.createRadialGradient(N.x,N.y,0,N.x,N.y,18);gl.addColorStop(0,'#fff');gl.addColorStop(.3,'rgba(111,179,255,.8)');gl.addColorStop(1,'rgba(111,179,255,0)');ctx.fillStyle=gl;ctx.beginPath();ctx.arc(N.x,N.y,18,0,TAU);ctx.fill();
 const np=proj([0,1,0]);ctx.setLineDash([4,6]);ctx.strokeStyle='rgba(236,230,218,.4)';ctx.beginPath();ctx.moveTo(np.x,np.y);ctx.lineTo(N.x,N.y);ctx.stroke();ctx.setLineDash([]);}});
@@ -570,7 +570,7 @@ scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);st
 const kk=revealed?Math.min(1,(t-revealT)/2200):0;if(!revealed){text(ctx,'?',w*.5,h*.5+40,{size:160,align:'center',color:'rgba(240,179,90,.35)',font:'serif'});text(ctx,'answer from memory · the globe appears on reveal',w*.5,h*.5+90,{size:14,align:'center',color:'#9a9382'});return;}
 ctx.globalAlpha=Math.min(1,kk*2.5);
 const g=ctx.createRadialGradient(cx-R*.35,cy-R*.35,R*.05,cx,cy,R);g.addColorStop(0,'#2f5a8c');g.addColorStop(.7,'#15294a');g.addColorStop(1,'#0b1526');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();
-ctx.strokeStyle='rgba(236,230,218,.1)';ctx.lineWidth=1;for(let la=-60;la<=60;la+=15){arcLine(ctx,Array.from({length:73},(_,k)=>ll(la,k*5)),'rgba(236,230,218,.1)',1);}for(let lo=0;lo<360;lo+=15){arcLine(ctx,Array.from({length:37},(_,k)=>ll(-90+k*5,lo)),'rgba(236,230,218,.1)',1);}
+ctx.strokeStyle='rgba(236,230,218,.1)';ctx.lineWidth=1;for(let la=-80;la<=80;la+=20){arcLine(ctx,Array.from({length:73},(_,k)=>ll(la,k*5)),la?'rgba(236,230,218,.1)':'rgba(240,179,90,.6)',la?1:1.5);}for(let lo=0;lo<360;lo+=15){arcLine(ctx,Array.from({length:37},(_,k)=>ll(-90+k*5,lo)),'rgba(236,230,218,.1)',1);}
 drawCoast(ctx,proj,st.zoom,{color:'rgba(236,230,218,.85)',hi:st.zoom>8});ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.stroke();
 const k=revealed?Math.min(1,(t-revealT)/2200):0;
 if(qi===0){pin(ctx,'Havana · 82.4° W',C.havana,'#f0b35a');if(revealed){// the meridian grows southward from Havana
@@ -637,8 +637,8 @@ function drawGlobe(t){const{ctx,w,h}=o;const{cx,cy,R}=geom();
 const N=proj([0,1.9,0]),S=proj([0,-1.9,0]),np=proj([0,1,0]),sp=proj([0,-1,0]);
 // back-side graticule first (faint), then sphere, then front graticule
 const line=(pts,color,width,front)=>{ctx.strokeStyle=color;ctx.lineWidth=width;ctx.beginPath();let pen=false;for(const p of pts){const q=proj(p);const vis=front?q.z>=0:q.z<0;if(vis){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}ctx.stroke();};
-const latLines=[],lonLines=[];const step=show.grid?10:15;
-if(show.lat)for(let la=-(step===15?75:80);la<=80;la+=step){const pts=[];for(let lo=0;lo<=360;lo+=4)pts.push(ll(la,lo));latLines.push({pts,bold:la===0});}
+const latLines=[],lonLines=[];const step=show.grid?10:15,lstep=show.grid?10:20;
+if(show.lat)for(let la=-80;la<=80;la+=lstep){const pts=[];for(let lo=0;lo<=360;lo+=4)pts.push(ll(la,lo));latLines.push({pts,bold:la===0});}
 if(show.lon)for(let lo=0;lo<360;lo+=step){const pts=[];for(let la=-90;la<=90;la+=3)pts.push(ll(la,lo));lonLines.push({pts,bold:lo===0});}
 // sphere body
 const g=ctx.createRadialGradient(cx-R*.35,cy-R*.35,R*.05,cx,cy,R);g.addColorStop(0,'#2f5a8c');g.addColorStop(.7,'#15294a');g.addColorStop(1,'#0b1526');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();
@@ -673,7 +673,7 @@ ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;ctx.beginPath();for(let k=0;k<=24;k++)
 const mid=v3.add(v3.mul(tng,Math.cos(a/2)),v3.mul(e2,Math.sin(a/2)));const ml=proj(v3.add(u,v3.mul(mid,.4)));tag(ctx,fmt(Math.abs(me.lat))+'°',ml.x-14,ml.y+5,'#f0b35a',13);
 ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(p.x,p.y,6,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();tag(ctx,'you',p.x+10,p.y+18,'#ece6da',11);}}
 if(showNM&&me&&st.zoom>40){const la0=Math.floor(me.lat*60)/60,la1=la0+1/60;const a=proj(ll(la0,me.lon)),b=proj(ll(la1,me.lon));ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;[la0,la1].forEach(la=>{ctx.beginPath();let pen=false;for(let dl=-.5;dl<=.5;dl+=.02){const q=proj(ll(la,me.lon+dl));if(q.z>=0){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}}ctx.stroke();});ctx.strokeStyle='#6fd48a';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();const dm=(la)=>`${Math.floor(la)}° ${String(Math.round((la%1)*60)).padStart(2,'0')}′ N`;tag(ctx,dm(la0),a.x+12,a.y+4,'#f0b35a',12);tag(ctx,dm(la1),b.x+12,b.y+4,'#f0b35a',12);tag(ctx,'1 nautical mile · 6,076 ft · 1,852 m',(a.x+b.x)/2+14,(a.y+b.y)/2+5,'#6fd48a',14);}
-text(ctx,`${show.grid?'10°':'15°'} graticule · zoom ${fmt(st.zoom,1)}×`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}
+text(ctx,`${show.grid?'10° graticule':'parallels 20° · meridians 15°'} · zoom ${fmt(st.zoom,1)}×`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}
 
 /* chronometer mode (2D) */
 document.getElementById('find-noon').onclick=()=>{clockIn.value=Math.round(((12-shipLon/15)*60%1440+1440)%1440);updateLon();};
