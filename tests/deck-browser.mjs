@@ -55,10 +55,12 @@ assert.match(await page.locator('#bl-read .big').innerText(), /34[0-9] ft away �
 await page.click('#m4 button[data-mode=picard]'); await page.click('#bl-all');
 assert.match(await page.locator('#bl-read strong').innerText(), /4 stations added · 1 side measured · 8 computed/);
 await slide(7);
-assert.match(await page.locator('#pc-title').innerText(), /rods/);
+assert.match(await page.locator('#pc-title').innerText(), /Eratosthenes/);
 await page.click('#pc-chapters button[data-ch="2"]'); await page.waitForTimeout(300);
-assert.match(await page.locator('#pc-read .big').innerText(), /24,880 miles/);
+assert.match(await page.locator('#pc-title').innerText(), /castle/);
 await page.click('#pc-chapters button[data-ch="4"]'); await page.waitForTimeout(300);
+assert.match(await page.locator('#pc-read .big').innerText(), /24,880 miles/);
+await page.click('#pc-chapters button[data-ch="5"]'); await page.waitForTimeout(300);
 assert.match(await page.locator('#pc-read strong').innerText(), /Brest/);
 await slide(8);
 await page.click('#jup-sketch'); await page.locator('#jup-t').fill('3'); await page.locator('#jup-t').dispatchEvent('input'); await page.click('#jup-sketch');
