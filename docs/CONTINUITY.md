@@ -3,7 +3,7 @@ project: faria-learning-log
 url: https://faria.jbf.com
 repo: https://github.com/franzenjb/faria-learning-log
 vercel_project: faria-learning-log
-verified: 2026-11-08
+verified: 2026-11-09
 ---
 # Faria Owner's Manual
 
@@ -49,7 +49,10 @@ Last source verification: November 8, 2026. Geometry tests passed, including ind
 {
   "project": "faria-learning-log",
   "live_url": "https://faria.jbf.com",
-  "verified": "2026-11-08",
+  "verified": "2026-11-09",
   "vercel_project": "faria-learning-log"
 }
 ```
+
+## Geometry Revision — November 8 Eastern / November 9 UTC
+Jeff rejected the first release's missing geometry. The revised default view includes a true-scale full circle, diameter, circumference, sunlight, a center angle explicitly labeled calculated, and a separate enlarged right triangle. The triangle foot Q is the perpendicular projection of the current peak onto the line through the center perpendicular to sunlight. It lies on the surface only in the grazing-light case; at other settings the diagram labels it inside or above the surface. The triangle uses physical side lengths even though the enlarged drawing is stretched. Model tests verify perpendicular legs and Pythagorean recovery of height across all control ranges. Galileo's observed gap was estimated relative to the Moon's apparent width; the center angle is not presented as his direct observation.

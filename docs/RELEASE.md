@@ -14,3 +14,8 @@ Prepared by Codex within Faria, after Jeff replaced the initial galileo.jbf.com 
 - Served assets match local bytes: galileo.js cf91d25c35481b15908b81622f9426977712b5d02f251a6d8da0057f263f0dd2; model.js 1334dda11cf8fea5006aef2a786617c4528cdeca798600d7c56369e6bcdceb91; galileo.css f6baf1da945b69eeb5a524ed82deaa61dae4a2e977f8162e09435ab06ed5e5f0.
 - All three assets return public, max-age=0, must-revalidate.
 - Remaining: Jeff's acceptance; rollback procedure documented, not rehearsed. Existing site-wide style audit findings remain outside scope.
+
+## Geometry Correction — November 8 Eastern / November 9 UTC
+Jeff identified that the first release omitted the geometry. Codex added the full Moon, visible diameter and circumference, actual calculated center angle, perpendicular square-corner marker, enlarged triangle and live Pythagorean height calculation. Position, height, Sun angle and direct peak dragging remain. Visibility toggles cover lines, distances and calculated angle. The lesson now explains that Galileo estimated a gap relative to the Moon's width; he did not need a degree marker. Historical one-twentieth-width observations are distinguished from the modern four-mile example.
+
+Three geometry tests pass, including independent sunlight checks and triangle length/perpendicularity across the input ranges. Local Chrome checks pass for all previous controls plus geometry labels, live calculations and visibility toggles. Desktop, phone, light and dark screenshots inspected. Production verification of this revision follows below.

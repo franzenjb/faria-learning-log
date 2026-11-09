@@ -1,4 +1,4 @@
-GIT_OWNER: none
+GIT_OWNER: Codex
 
 # Galileo Interactive — 2026-11-08
 
@@ -12,3 +12,6 @@ Open loops: Jeff review; existing broad style audit findings; rollback not rehea
 
 ## Closeout Check
 Project cockpit refresh ran on November 8, 2026. Its validation failed: "Index is too large; details leaked back into the initial payload" (2,507,036 bytes; 2,513 records). This is an existing cross-project inventory concern, not a Galileo runtime failure. Generated inventory changes were left for that project's maintainer; no unrelated repair or bulk commit attempted. Brain registry commit 575a65c is pushed to main; canonical local vault still has an unrelated IAP edit that prevents fast-forward, so do not claim its local tree is synchronized.
+
+## Geometry Correction In Progress
+Jeff rejected the first visual because it omitted the whole-Moon geometry, right angle, diameter and circumference. Add these visibly with live side lengths and calculation; retain all controls.
