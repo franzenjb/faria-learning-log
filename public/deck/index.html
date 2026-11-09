@@ -36,6 +36,14 @@ h1{font-size:2rem;line-height:1.1;margin:0 0 .9rem;font-weight:600}
 .facts{margin:.8rem 0 1.2rem;padding:0;list-style:none}
 .facts li{padding:.45rem 0;border-top:1px solid var(--line);font-size:.95rem;color:#d8d1c3}
 .facts li:last-child{border-bottom:1px solid var(--line)}
+.quiz{display:grid;gap:.5rem;margin:.4rem 0 .6rem}
+.quiz .opt{position:relative;overflow:hidden;display:flex;align-items:center;gap:.7rem;text-align:left;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:.6rem;padding:.7rem .9rem;font:500 1rem var(--sans);cursor:pointer}
+.quiz .opt .letter{font:600 .8rem var(--mono);color:var(--accent);border:1px solid var(--accent);border-radius:50%;width:1.5rem;height:1.5rem;display:grid;place-items:center;flex:none}
+.quiz .opt .label{flex:1;position:relative;z-index:1}
+.quiz .opt .count{font:600 .9rem var(--mono);color:var(--muted);position:relative;z-index:1}
+.quiz .opt .bar{position:absolute;left:0;top:0;bottom:0;background:rgba(240,179,90,.14);transition:width .3s}
+.quiz .opt.ok{border-color:var(--ok);background:rgba(111,212,138,.12)}.quiz .opt.ok .letter{color:var(--ok);border-color:var(--ok)}
+.quiz .opt.no{opacity:.55}
 .menu li{cursor:pointer;padding-left:.4rem;transition:background .15s,color .15s}
 .menu li:hover{background:#161d30;color:var(--accent)}
 .controls{display:grid;gap:.9rem;margin:1rem 0}
@@ -96,23 +104,38 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
     <p class="lede">How looking up turned into knowing where you are, how big the world is, and how far away the Sun is.</p>
     <p>Every slide is a working model. Drag, slide, press play. Tap a line below to jump straight to it.</p>
     <ul class="facts menu">
-      <li data-go="Latitude &amp; Longitude"><strong>1.</strong> Latitude is an angle to Polaris. Longitude is a clock.</li>
-      <li data-go="Eratosthenes"><strong>2.</strong> Eratosthenes sizes the Earth with a well and a stick.</li>
-      <li data-go="Jupiter's moons"><strong>3.</strong> Galileo sees four moons circling Jupiter.</li>
-      <li data-go="Moon mountains"><strong>4.</strong> Galileo measures a mountain on the Moon from its shadow.</li>
-      <li data-go="Kepler to Halley"><strong>5.</strong> Kepler, Horrocks and Halley: a map with no scale bar.</li>
-      <li data-go="Transit of Venus"><strong>6.</strong> Venus crosses the Sun and the solar system gets a size.</li>
-      <li data-go="Mason &amp; Dixon"><strong>7.</strong> Mason and Dixon: a sea fight, a transit, and a line across America.</li>
+      <li data-go="Mental maps"><strong>1.</strong> Three questions your mental map gets wrong.</li>
+      <li data-go="Latitude &amp; Longitude"><strong>2.</strong> Latitude is an angle to Polaris. Longitude is a clock.</li>
+      <li data-go="Eratosthenes"><strong>3.</strong> Eratosthenes sizes the Earth with a well and a stick.</li>
+      <li data-go="Jupiter's moons"><strong>4.</strong> Galileo sees four moons circling Jupiter.</li>
+      <li data-go="Moon mountains"><strong>5.</strong> Galileo measures a mountain on the Moon from its shadow.</li>
+      <li data-go="Kepler to Halley"><strong>6.</strong> Kepler, Horrocks and Halley: a map with no scale bar.</li>
+      <li data-go="Transit of Venus"><strong>7.</strong> Venus crosses the Sun and the solar system gets a size.</li>
+      <li data-go="Mason &amp; Dixon"><strong>8.</strong> Mason and Dixon: a sea fight, a transit, and a line across America.</li>
     </ul>
     <p><small>→ and ← keys move between slides. F for full screen. Dotted words open an explanation.</small></p>
   </div>
   <div class="stage"><canvas id="c0"></canvas><div class="hint">Drag to spin the Earth · scroll to zoom</div></div>
 </section>
 
+<!-- 1 · Mental maps -->
+<section class="slide" data-title="Mental maps" data-fx="compass">
+  <div class="text">
+    <p class="kicker">1 · Test an intuition before you measure anything</p>
+    <h1 id="qz-title">Fly due south from Havana. Which country do you hit first?</h1>
+    <div class="modes" id="m1q"><button class="on" data-q="0">Havana</button><button data-q="1">Reno or LA</button><button data-q="2">Rome's latitude</button></div>
+    <p class="lede" id="qz-lede">Follow one meridian, not your mental map. Tap the answers the room calls out, then reveal.</p>
+    <div class="quiz" id="qz-opts"></div>
+    <div class="btns"><button class="primary" id="qz-reveal">Reveal on the globe</button><button id="qz-reset">Clear votes</button></div>
+    <div class="readout" id="qz-read"><strong>Vote first.</strong><span>Each tap on an answer adds a vote. The globe stays quiet until you reveal.</span></div>
+  </div>
+  <div class="stage"><canvas id="c1q"></canvas><div class="hint" id="h1q">Drag to spin · scroll to zoom · the reveal flies the globe</div></div>
+</section>
+
 <!-- 1 · Latitude and longitude -->
 <section class="slide" data-title="Latitude &amp; Longitude" data-fx="iris">
   <div class="text">
-    <p class="kicker">1 · Where am I?</p>
+    <p class="kicker">2 · Where am I?</p>
     <h1>Latitude is an angle. Longitude is a time.</h1>
     <div class="modes" id="m1"><button class="on" data-mode="globe">The globe and the sky</button><button data-mode="lon">Longitude · Chronometer</button></div>
 
@@ -122,7 +145,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
       <div class="chips" id="globe-toggles">
         <button data-k="lat" class="on">Latitude lines</button><button data-k="lon" class="on">Longitude lines</button><button data-k="grid">Full grid</button><button data-k="polaris" class="on">Polaris</button><button data-k="crux">Southern Cross</button><button data-k="idl">Date Line</button><button data-k="cities" class="on">Places</button>
       </div>
-      <div class="btns"><button class="primary" id="fly-north">Look up at Polaris</button><button id="fly-crux">Fly to the Southern Cross</button><button id="fly-idl">Fly to the Date Line</button><button id="globe-reset">Reset view</button></div>
+      <div class="btns"><button class="primary" id="fly-north">Look up at Polaris</button><button id="fly-crux">Fly to the Southern Cross</button><button id="fly-idl">Fly to the Date Line</button><button id="fly-nm">One nautical mile</button><button id="globe-reset">Reset view</button></div>
       <div class="readout" id="globe-read"><strong>Tap the globe to place yourself.</strong><span>Drag to spin · pinch or scroll to zoom</span></div>
     </div>
 
@@ -133,7 +156,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
         <label><span class="row">Greenwich chronometer <output id="clock-out">12:00</output></span><input id="clock" type="range" min="0" max="1439" step="1" value="720"></label>
         <label><span class="row">Chronometer drift <output id="drift-out">0 s/day</output></span><input id="drift" type="range" min="0" max="60" step="1" value="0"></label>
       </div>
-      <div class="btns"><button class="primary" id="find-noon">Find local noon</button><button id="hold-noon">Hold the ship at noon</button><button id="deg-time">Degrees → time</button><button id="harrison">Harrison's H4 · 5 s in 81 days</button><button id="how-lon">How the chronometer works</button></div>
+      <div class="btns"><button class="primary" id="find-noon">Find local noon</button><button id="hold-noon">Hold the ship at noon</button><button id="deg-time">Degrees → time</button><button id="wedge">15° at the equator vs 60° N</button><button id="harrison">Harrison's H4 · 5 s in 81 days</button><button id="how-lon">How the chronometer works</button></div>
       <div class="readout" id="lon-read"></div>
     </div>
   </div>
@@ -143,7 +166,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 2 · Eratosthenes -->
 <section class="slide" data-title="Eratosthenes" data-fx="sunrise">
   <div class="text">
-    <p class="kicker">2 · How big is the world? · c. 240 BC</p>
+    <p class="kicker">3 · How big is the world? · c. 240 BC</p>
     <h1>A well, a stick, and the size of the Earth</h1>
     <p class="lede">At noon on the summer solstice the Sun shone straight down a well at Syene. The same moment in Alexandria, a vertical stick, a <span class="term" data-term="gnomon">gnomon</span>, cast a shadow of about 7.2°, one fiftieth of a circle.</p>
     <p>The Sun is so far away its rays arrive parallel. If the ground were flat, both sticks would cast the same shadow. They did not, so the ground curves, and by <span class="term" data-term="euclid">Euclid’s rule for parallel lines</span> the shadow angle at Alexandria equals the angle between the two cities at the center of the Earth. Fifty times the distance between them, measured in <span class="term" data-term="stadion">stadia</span>, is the whole way around.</p>
@@ -161,7 +184,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 3 · Jupiter's moons -->
 <section class="slide" data-title="Jupiter's moons" data-fx="telescope">
   <div class="text">
-    <p class="kicker">3 · January 1610 · Padua</p>
+    <p class="kicker">4 · January 1610 · Padua</p>
     <h1>Four little stars that would not stay still</h1>
     <p class="lede">Galileo pointed a new telescope at Jupiter and saw three, then four, small stars in a line beside it. Night after night they changed sides. They were moons, and they circled Jupiter, not the Earth.</p>
     <p>This was the first thing anyone had seen orbiting something other than the Earth. Aristotle and Ptolemy had the whole sky turning about us. Here was a small system turning about a planet, and a planet that carried its moons along as it moved. If Jupiter could do that, so could the Earth.</p>
@@ -184,7 +207,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 4 · Moon mountains -->
 <section class="slide" data-title="Moon mountains" data-fx="terminator">
   <div class="text">
-    <p class="kicker">4 · Sidereus Nuncius · 1610</p>
+    <p class="kicker">5 · Sidereus Nuncius · 1610</p>
     <h1>How tall is a mountain on the Moon?</h1>
     <p class="lede">Galileo saw bright points on the dark side of the Moon, well past the <span class="term" data-term="terminator">terminator</span>, the line between day and night. They were peaks, still catching sunlight while the ground around them was in shadow.</p>
     <p>Spin the Moon to look at the peak from above the pole and the geometry appears: a right triangle with the Moon's radius <em>R</em> as one leg, the distance <em>d</em> past the terminator as the other, and <em>R + h</em> as the hypotenuse. Tap the rim, the centre line, a radius, or the triangle itself to call out each piece.</p>
@@ -204,7 +227,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 5 · Kepler, Horrocks, Halley -->
 <section class="slide" data-title="Kepler to Halley" data-fx="orbit">
   <div class="text">
-    <p class="kicker">5 · 1609 to 1742 · A relay across three lifetimes</p>
+    <p class="kicker">6 · 1609 to 1742 · A relay across three lifetimes</p>
     <h1 id="kp-title">A map of the solar system with no scale bar</h1>
     <div class="modes" id="m7"><button class="on" data-mode="kepler">Kepler</button><button data-mode="horrocks">Horrocks · 1639</button><button data-mode="halley">Halley · the plan</button></div>
     <div id="kp-body"></div>
@@ -221,7 +244,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 5 · Transit of Venus -->
 <section class="slide" data-title="Transit of Venus" data-fx="venus">
   <div class="text">
-    <p class="kicker">6 · 1761 and 1769 · The whole world looks up</p>
+    <p class="kicker">7 · 1761 and 1769 · The whole world looks up</p>
     <h1>Venus crosses the Sun, and the solar system gets a size</h1>
     <div class="modes" id="m5"><button class="on" data-mode="measure">Measure the Sun's distance</button><button data-mode="rare">Why it almost never happens</button></div>
 
@@ -252,7 +275,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 6 · Mason and Dixon -->
 <section class="slide" data-title="Mason &amp; Dixon" data-fx="survey">
   <div class="text">
-    <p class="kicker">7 · 1761 to 1767 · Two men, one line</p>
+    <p class="kicker">8 · 1761 to 1767 · Two men, one line</p>
     <h1 id="md-title">Mason and Dixon</h1>
     <div class="chips" id="md-chapters"><button data-ch="0" class="on">1 · Two men</button><button data-ch="1">2 · The Seahorse</button><button data-ch="2">3 · The Cape</button><button data-ch="3">4 · To America</button><button data-ch="4">5 · The line</button><button data-ch="5">6 · The stones</button></div>
     <div id="md-body"></div>
@@ -327,10 +350,47 @@ o.c.addEventListener('wheel',e=>{if(st.enabled&&!st.enabled())return;e.preventDe
 // smooth camera flight
 function fly(st,to,ms=1200){st.anim={from:{yaw:st.yaw,pitch:st.pitch,zoom:st.zoom},to,t0:performance.now(),ms};}
 function stepAnim(st,t){if(!st.anim)return;const a=st.anim,k=Math.min(1,(t-a.t0)/a.ms),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;for(const key of['yaw','pitch','zoom'])st[key]=a.from[key]+(a.to[key]-a.from[key])*e;if(k>=1)st.anim=null;}
+const camFor=(lat,lon,zoom)=>({yaw:-Math.PI/2-lon*DEG,pitch:lat*DEG,zoom});
+const slerp=(a,b,t)=>{const w=Math.acos(Math.max(-1,Math.min(1,v3.dot(a,b))));if(w<1e-6)return a;const s=Math.sin(w);return v3.norm(v3.add(v3.mul(a,Math.sin((1-t)*w)/s),v3.mul(b,Math.sin(t*w)/s)));};
+
+/* ---------- 1 · Mental maps: three questions the room gets wrong, answered on the globe ---------- */
+{const o=setup('c1q');const st={yaw:camFor(15,-70,1).yaw,pitch:camFor(15,-70,1).pitch,zoom:1,anim:null,maxZoom:8,enabled:()=>true};
+const title=document.getElementById('qz-title'),lede=document.getElementById('qz-lede'),opts=document.getElementById('qz-opts'),read=document.getElementById('qz-read');
+const C={havana:[23.13,-82.38],parinas:[-4.68,-81.33],bogota:[4.71,-74.07],quito:[-0.18,-78.47],lima:[-12.05,-77.04],reno:[39.53,-119.82],la:[34.05,-118.24],rome:[41.9,12.5],atlanta:[33.75,-84.39],nyc:[40.71,-74.01],boston:[42.36,-71.06],dc:[38.9,-77.04]};
+const Q=[
+{t:'Fly due south from Havana. Which mainland South American country do you cross first?',l:'Follow one meridian, not your mental map.',a:['Colombia','Ecuador','Peru','None of them'],ok:3,cam:camFor(8,-82,1.6),
+ read:'<strong>None. Havana is at 82.4° W; the westernmost point of mainland South America, Punta Pariñas in Peru, is at 81.3° W.</strong><span>The whole continent lies east of Havana’s meridian. On a flat map your eye slides it west under the Caribbean. On the globe the line runs down the Pacific side and never touches land.</span>'},
+{t:'Reno or Los Angeles: which is farther west?',l:'Locate both in your mind. Then choose.',a:['Los Angeles','Reno','Same longitude','Depends on the map'],ok:1,cam:camFor(37,-119,3.2),
+ read:'<strong>Reno, by 1.6°.</strong><span>Reno sits at 119.8° W, Los Angeles at 118.2° W. The California coast bends east as it runs south, so "coastal" and "farther west" are not the same thing. The two meridians on the globe settle it.</span>'},
+{t:'Rome is at 41.9° N. Which of these cities is closest in latitude?',l:'Closest in latitude, not closest in miles.',a:['Atlanta','New York','Boston','Washington, D.C.'],ok:2,cam:camFor(42,-40,1.1),
+ read:'<strong>Boston, at 42.4° N. New York is 40.7°, Washington 38.9°, Atlanta 33.7°.</strong><span>Rome and Boston share a parallel and little else: oceans store heat and the Gulf Stream and westerlies carry it to Italy. Latitude is one input to climate, not the whole model.</span>'}];
+let qi=0,votes=[0,0,0,0],revealed=false,revealT=0;
+function setQ(i){qi=i;votes=[0,0,0,0];revealed=false;const q=Q[i];title.textContent=q.t;lede.textContent=q.l+' Tap the answers the room calls out, then reveal.';document.querySelectorAll('#m1q button').forEach(b=>b.classList.toggle('on',+b.dataset.q===i));read.className='readout';read.innerHTML='<strong>Vote first.</strong><span>Each tap on an answer adds a vote. The globe stays quiet until you reveal.</span>';renderOpts();fly(st,i===0?camFor(15,-75,1):i===1?camFor(37,-112,1.6):camFor(40,-45,1),1400);}
+function renderOpts(){const total=votes.reduce((a,b)=>a+b,0)||1;opts.innerHTML=Q[qi].a.map((a,k)=>`<button class="opt${revealed&&k===Q[qi].ok?' ok':''}${revealed&&k!==Q[qi].ok&&votes[k]?' no':''}" data-k="${k}"><span class="letter">${'ABCD'[k]}</span><span class="label">${a}</span><span class="bar" style="width:${Math.round(votes[k]/total*100)}%"></span><span class="count">${votes[k]||''}</span></button>`).join('');
+opts.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(revealed)return;votes[+b.dataset.k]++;renderOpts();});}
+document.querySelectorAll('#m1q button').forEach(b=>b.onclick=()=>setQ(+b.dataset.q));
+document.getElementById('qz-reset').onclick=()=>{votes=[0,0,0,0];revealed=false;renderOpts();read.className='readout';read.innerHTML='<strong>Votes cleared.</strong><span>Ask again.</span>';};
+document.getElementById('qz-reveal').onclick=()=>{revealed=true;revealT=performance.now();renderOpts();const q=Q[qi];read.className='readout ok';read.innerHTML=q.read;fly(st,q.cam,1800);};
+function geom(){const{w,h}=o;return{cx:w*.5,cy:h*.5,R:Math.min(w,h)*.38*st.zoom};}
+function proj(p){const{cx,cy,R}=geom();const q=rot(p,st.yaw,st.pitch);return{x:cx+q[0]*R,y:cy-q[1]*R,z:q[2]};}
+orbit(o,st,null);setQ(0);
+const pin=(ctx,name,ll_,color,dy=4)=>{const q=proj(ll(ll_[0],ll_[1]));if(q.z<0)return null;ctx.fillStyle=color;ctx.beginPath();ctx.arc(q.x,q.y,5,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();tag(ctx,name,q.x+9,q.y+dy,color,11);return q;};
+const arcLine=(ctx,pts,color,width,dash)=>{ctx.strokeStyle=color;ctx.lineWidth=width;ctx.setLineDash(dash||[]);ctx.beginPath();let pen=false;for(const p of pts){const q=proj(p);if(q.z>=0){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}ctx.stroke();ctx.setLineDash([]);};
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);stepAnim(st,t);const{cx,cy,R}=geom();
+const g=ctx.createRadialGradient(cx-R*.35,cy-R*.35,R*.05,cx,cy,R);g.addColorStop(0,'#2f5a8c');g.addColorStop(.7,'#15294a');g.addColorStop(1,'#0b1526');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();
+ctx.strokeStyle='rgba(236,230,218,.1)';ctx.lineWidth=1;for(let la=-60;la<=60;la+=15){arcLine(ctx,Array.from({length:73},(_,k)=>ll(la,k*5)),'rgba(236,230,218,.1)',1);}for(let lo=0;lo<360;lo+=15){arcLine(ctx,Array.from({length:37},(_,k)=>ll(-90+k*5,lo)),'rgba(236,230,218,.1)',1);}
+drawCoast(ctx,proj,st.zoom,{color:'rgba(236,230,218,.85)',hi:st.zoom>8});ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.stroke();
+const k=revealed?Math.min(1,(t-revealT)/2200):0;
+if(qi===0){pin(ctx,'Havana · 82.4° W',C.havana,'#f0b35a');if(revealed){// the meridian grows southward from Havana
+const lat1=23.13-(23.13+40)*k;arcLine(ctx,Array.from({length:60},(_,i)=>ll(23.13+(lat1-23.13)*i/59,-82.38)),'#ff7d6f',3);if(k>.6){pin(ctx,'Punta Pariñas · 81.3° W · westernmost mainland',C.parinas,'#6fd48a',-8);pin(ctx,'Bogotá',C.bogota,'#9a9382');pin(ctx,'Quito',C.quito,'#9a9382');pin(ctx,'Lima',C.lima,'#9a9382');}if(k>=1){const q=proj(ll(-12,-82.38));if(q.z>0)tag(ctx,'due south of Havana: open Pacific all the way',q.x-20,q.y+28,'#ff7d6f',12);}}}
+else if(qi===1){pin(ctx,'Reno · 119.8° W',C.reno,'#6fb3ff');pin(ctx,'Los Angeles · 118.2° W',C.la,'#f0b35a');if(revealed){arcLine(ctx,Array.from({length:40},(_,i)=>ll(20+30*i/39*k,-119.82)),'#6fb3ff',2.5,[6,5]);arcLine(ctx,Array.from({length:40},(_,i)=>ll(20+30*i/39*k,-118.24)),'#f0b35a',2.5,[6,5]);if(k>=1){const q=proj(ll(27,-119));if(q.z>0)tag(ctx,'Reno’s meridian is 1.6° farther west',q.x-60,q.y,'#6fb3ff',12);}}}
+else{pin(ctx,'Rome · 41.9° N',C.rome,'#f0b35a');pin(ctx,'Boston · 42.4° N',C.boston,'#6fd48a',-8);pin(ctx,'New York · 40.7° N',C.nyc,'#9a9382',14);pin(ctx,'Washington · 38.9° N',C.dc,'#9a9382',14);pin(ctx,'Atlanta · 33.7° N',C.atlanta,'#9a9382');if(revealed){// the 41.9° parallel runs from Rome westward to America
+arcLine(ctx,Array.from({length:80},(_,i)=>ll(41.9,12.5-(12.5+71.06)*i/79*k)),'#f0b35a',3);if(k>=1){const q=proj(ll(41.9,-40));if(q.z>0)tag(ctx,'the 41.9° parallel · same angle from the equator, very different weather',q.x-120,q.y-14,'#f0b35a',12);}}}
+text(ctx,`zoom ${fmt(st.zoom,1)}×`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}});}
 
 /* ---------- 1 · latitude & longitude ---------- */
 {const o=setup('c1');let mode='globe';
-const st={yaw:0.8,pitch:0.35,zoom:.8,anim:null,enabled:()=>mode==='globe'};const show={lat:true,lon:true,grid:false,polaris:true,crux:false,idl:false,cities:true};
+const st={yaw:0.8,pitch:0.35,zoom:.8,anim:null,maxZoom:160,enabled:()=>mode==='globe'};let showNM=false;const show={lat:true,lon:true,grid:false,polaris:true,crux:false,idl:false,cities:true};
 // the International Date Line, approximate vertices [lat, lon] with its jogs
 const IDL=[[90,180],[75,180],[65.5,180],[65.5,-169],[60,180],[53,170],[48,180],[3.5,180],[3.5,-150],[-10,-150],[-10,180],[-15,180],[-15,-172.5],[-51,-172.5],[-51,180],[-90,180]];let me=null;// observer {lat,lon}
 const read=document.getElementById('globe-read'),hint=document.getElementById('h1');
@@ -344,7 +404,8 @@ const SKY={polaris:`<svg viewBox="0 0 240 150"><g fill="#dfe7ff"><circle cx="30"
 crux:`<svg viewBox="0 0 240 150"><g fill="#fff"><circle cx="70" cy="20" r="2.5"/><circle cx="74" cy="44" r="3.5"/><circle cx="56" cy="36" r="2.5"/><circle cx="90" cy="30" r="3"/></g><line x1="70" y1="20" x2="74" y2="44" stroke="#fff" stroke-width="1.2"/><line x1="56" y1="36" x2="90" y2="30" stroke="#fff" stroke-width="1"/><line x1="74" y1="44" x2="88" y2="128" stroke="#ff7d6f" stroke-width="1" stroke-dasharray="3 3"/><text x="40" y="14" fill="#dfe7ff" font-size="9">Gacrux</text><text x="80" y="54" fill="#dfe7ff" font-size="9">Acrux</text><g fill="#dfe7ff"><circle cx="178" cy="82" r="3"/><circle cx="162" cy="58" r="3"/></g><text x="184" y="86" fill="#dfe7ff" font-size="9">α Cen</text><text x="140" y="54" fill="#dfe7ff" font-size="9">β Cen</text><line x1="162" y1="58" x2="178" y2="82" stroke="#9a9382" stroke-width="1"/><line x1="170" y1="70" x2="88" y2="128" stroke="#6fb3ff" stroke-width="1" stroke-dasharray="3 3"/><circle cx="88" cy="128" r="5" fill="none" stroke="#ff7d6f"/><text x="96" y="142" fill="#ff7d6f" font-size="9">south celestial pole · empty</text><text x="8" y="100" fill="#9a9382" font-size="9">long arm × 4½, straight on</text><text x="150" y="112" fill="#6fb3ff" font-size="9">right angle from the</text><text x="150" y="123" fill="#6fb3ff" font-size="9">middle of the Pointers</text></svg>`};
 document.getElementById('fly-north').onclick=()=>{me=me||{lat:43.8,lon:-70.2};show.polaris=true;syncChips();fly(st,{yaw:st.yaw,pitch:-0.05,zoom:0.7});readout();showCard('Finding Polaris, reading latitude',SKY.polaris,'Follow the two stars at the end of the Big Dipper\u2019s bowl about five times their spacing to Polaris. Then measure its height above the horizon with a quadrant or sextant: sight the star along one edge and read the plumb line against the scale. That angle is your latitude, to within the degree Polaris sits off the true pole.');};
 document.getElementById('fly-crux').onclick=()=>{show.crux=true;syncChips();fly(st,{yaw:st.yaw,pitch:-1.2,zoom:1.6},1600);showCard('The Southern Cross points, it does not mark',SKY.crux,'No bright star sits on the south celestial pole. Extend the long arm of the Cross, Gacrux through Acrux, four and a half times, and you land on it. Cross-check with the Pointers, Alpha and Beta Centauri: the line that cuts between them at right angles meets the same spot. Drop straight down from there to the horizon for true south; the height of that empty point above the horizon is your latitude south.');read.innerHTML='<strong>The Southern Cross</strong><span>Follow the long arm of the cross about four and a half times its length and you reach the south celestial pole. There is no bright star there. Navigators found south by that empty point.</span>';};
-document.getElementById('globe-reset').onclick=()=>{fly(st,{yaw:0.8,pitch:0.35,zoom:.8});gcard.hidden=true;};
+document.getElementById('globe-reset').onclick=()=>{fly(st,{yaw:0.8,pitch:0.35,zoom:.8});gcard.hidden=true;showNM=false;};
+document.getElementById('fly-nm').onclick=()=>{me=me||{lat:43.8,lon:-70.2};showNM=true;const c=camFor(me.lat+1/120,me.lon,140);fly(st,{yaw:c.yaw,pitch:c.pitch,zoom:140},2600);showCard('One nautical mile',`<svg viewBox="0 0 480 300"><line x1="60" y1="80" x2="420" y2="80" stroke="#f0b35a" stroke-width="2"/><line x1="60" y1="220" x2="420" y2="220" stroke="#f0b35a" stroke-width="2"/><line x1="240" y1="80" x2="240" y2="220" stroke="#6fd48a" stroke-width="3"/><text x="250" y="155" fill="#6fd48a" font-size="16">1′ of latitude = 1 nautical mile</text><text x="60" y="70" fill="#f0b35a" font-size="12">43° 49′ N</text><text x="60" y="240" fill="#f0b35a" font-size="12">43° 48′ N</text><text x="60" y="280" fill="#9a9382" font-size="12">6,076 ft · 1,852 m · 1.15 statute miles · 60 to a degree</text></svg>`,'The Earth\u2019s arc gave the unit: one minute of latitude, a sixtieth of a degree, was defined as one nautical mile. The arc varies slightly with latitude, so in 1929 the mile was fixed at exactly 1,852 metres (6,076 feet). A knot is one nautical mile per hour. Because the mile is a minute of arc, a navigator can read distance straight off the latitude scale at the side of any chart, and four seconds of <span class="term" data-term="chronometer">chronometer</span> error at the equator is one mile of longitude.');};
 SKY.idl=(()=>{const X=lo=>((lo<0?lo+360:lo)-150)*240/80,Y=la=>(90-la)*150/180;const pts=IDL.map(([la,lo])=>`${X(lo).toFixed(1)},${Y(la).toFixed(1)}`).join(' ');return `<svg viewBox="0 0 240 150"><line x1="${X(180)}" y1="0" x2="${X(180)}" y2="150" stroke="#9a9382" stroke-dasharray="3 3"/><text x="${X(180)+4}" y="10" fill="#9a9382" font-size="6.5">180° exactly</text><polyline points="${pts}" fill="none" stroke="#ff7d6f" stroke-width="2"/><text x="${X(-169)+4}" y="${Y(66)}" fill="#dfe7ff" font-size="6">Bering Strait · Russia west, Alaska east</text><text x="${X(160)}" y="${Y(50)+4}" fill="#dfe7ff" font-size="6">Aleutians stay with Alaska</text><text x="${X(-150)+4}" y="${Y(-3)}" fill="#dfe7ff" font-size="6">Kiribati, 1995</text><text x="${X(-172.5)+4}" y="${Y(-30)}" fill="#dfe7ff" font-size="6">Samoa &amp; Tokelau 2011 · Tonga · Chathams</text><text x="4" y="146" fill="#9a9382" font-size="6">150°E → 140°W · approximate course</text></svg>`;})();
 document.getElementById('fly-idl').onclick=()=>{show.idl=true;show.lon=true;syncChips();fly(st,{yaw:camFor(10,180,1.3).yaw,pitch:camFor(10,180,1.3).pitch,zoom:1.3},1600);showCard('The other side of Greenwich: the Date Line',SKY.idl,'In 1884 the Washington conference made Greenwich the prime meridian, so the 180° line on the far side of the world became the natural place for the date to change. No treaty draws the Date Line; each country decides which day it keeps, and the line jogs to follow them. It bends east through the Bering Strait so all of Russia shares one date, west round the Aleutians so they stay with Alaska, and in 1995 Kiribati pushed it 1,500 miles east so its Line Islands would no longer be a day behind the capital. Samoa and Tokelau jumped west on 30 December 2011 to trade with Australia and New Zealand on the same day: that Friday never happened there. Tonga and New Zealand\u2019s Chatham Islands keep the same side. Cross it westward and you lose a day; Magellan\u2019s crew came home in 1522 convinced they had miscounted.');};
 SKY.chrono=`<svg viewBox="0 0 240 150"><path d="M15 110 Q120 -20 225 110" fill="none" stroke="#9a9382" stroke-dasharray="3 3"/><line x1="10" y1="110" x2="230" y2="110" stroke="#6fd48a" stroke-width="2"/><circle cx="120" cy="45" r="9" fill="#ffd66b"/><line x1="120" y1="54" x2="120" y2="110" stroke="#ffd66b" stroke-dasharray="2 3"/><text x="128" y="42" fill="#ffd66b" font-size="10">Sun highest = local noon</text><text x="12" y="124" fill="#6fd48a" font-size="9">horizon · watch the Sun with a sextant until it stops climbing</text><circle cx="40" cy="60" r="22" fill="#f3ead6" stroke="#b89a5a" stroke-width="2"/><line x1="40" y1="60" x2="40" y2="44" stroke="#2a2217" stroke-width="2"/><line x1="40" y1="60" x2="52" y2="66" stroke="#2a2217" stroke-width="1.5"/><text x="18" y="94" fill="#dfe7ff" font-size="9">chronometer: 16:40 GMT</text><text x="150" y="80" fill="#f0b35a" font-size="10">4 h 40 m late</text><text x="150" y="94" fill="#f0b35a" font-size="10">× 15° per hour</text><text x="150" y="108" fill="#f0b35a" font-size="11" font-weight="bold">= 70° West</text><text x="12" y="142" fill="#9a9382" font-size="9">Earth turns 360° in 24 h · 1 hour of clock = 15° of longitude · 4 s = 1 nautical mile</text></svg>`;
@@ -419,12 +480,13 @@ const a=Math.abs(me.lat)*DEG;let e2=v3.sub(axis,v3.mul(tng,v3.dot(axis,tng)));e2
 ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;ctx.beginPath();for(let k=0;k<=24;k++){const th=a*k/24;const dir=v3.add(v3.mul(tng,Math.cos(th)),v3.mul(e2,Math.sin(th)));const q=proj(v3.add(u,v3.mul(dir,.3)));k?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);}ctx.stroke();
 const mid=v3.add(v3.mul(tng,Math.cos(a/2)),v3.mul(e2,Math.sin(a/2)));const ml=proj(v3.add(u,v3.mul(mid,.4)));tag(ctx,fmt(Math.abs(me.lat))+'°',ml.x-14,ml.y+5,'#f0b35a',13);
 ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(p.x,p.y,6,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();tag(ctx,'you',p.x+10,p.y+18,'#ece6da',11);}}
+if(showNM&&me&&st.zoom>40){const la0=Math.floor(me.lat*60)/60,la1=la0+1/60;const a=proj(ll(la0,me.lon)),b=proj(ll(la1,me.lon));ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;[la0,la1].forEach(la=>{ctx.beginPath();let pen=false;for(let dl=-.5;dl<=.5;dl+=.02){const q=proj(ll(la,me.lon+dl));if(q.z>=0){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}}ctx.stroke();});ctx.strokeStyle='#6fd48a';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();const dm=(la)=>`${Math.floor(la)}° ${String(Math.round((la%1)*60)).padStart(2,'0')}′ N`;tag(ctx,dm(la0),a.x+12,a.y+4,'#f0b35a',12);tag(ctx,dm(la1),b.x+12,b.y+4,'#f0b35a',12);tag(ctx,'1 nautical mile · 6,076 ft · 1,852 m',(a.x+b.x)/2+14,(a.y+b.y)/2+5,'#6fd48a',14);}
 text(ctx,`${show.grid?'10°':'15°'} graticule · zoom ${fmt(st.zoom,1)}×`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}
 
 /* chronometer mode (2D) */
 document.getElementById('find-noon').onclick=()=>{clockIn.value=Math.round(((12-shipLon/15)*60%1440+1440)%1440);updateLon();};
 document.getElementById('hold-noon').onclick=function(){holdNoon=!holdNoon;this.classList.toggle('on',holdNoon);if(holdNoon)clockIn.value=Math.round(((12-shipLon/15)*60%1440+1440)%1440);updateLon();};
-document.getElementById('deg-time').onclick=function(){openTerm('slices',this);};
+document.getElementById('deg-time').onclick=function(){openTerm('slices',this);};let showWedge=false;document.getElementById('wedge').onclick=function(){showWedge=!showWedge;this.classList.toggle('on',showWedge);};
 document.getElementById('harrison').onclick=()=>{driftIn.value=0;shipLon=-76.8;shipLat=17.9;holdNoon=true;document.getElementById('hold-noon').classList.add('on');clockIn.value=Math.round(((12-shipLon/15)*60%1440+1440)%1440);updateLon();openTerm('chronometer',document.getElementById('harrison'));const pEl=document.querySelector('#c1').closest('.stage').querySelector('.card.gloss p');pEl.innerHTML='<b>The ship has sailed to Port Royal, Jamaica, where H4 was checked against the Sun in January 1762 after 81 days at sea: 5 seconds slow, 1¼ nautical miles. The Board of Longitude had asked for 30 miles.</b> '+pEl.innerHTML;};
 clockIn.oninput=driftIn.oninput=updateLon;
 function clock(){return+clockIn.value;}
@@ -459,6 +521,7 @@ const np=P(90,0);if(np.z>=0){ctx.fillStyle='#ece6da';ctx.beginPath();ctx.arc(np.
 text(ctx,e<1?'tipping over to look down on the North Pole…':'Earth seen from above the North Pole',cx,cy+R+26,{size:12,color:'#9a9382',align:'center'});
 text(ctx,'noon side',cx+R*.55,cy-R*.9,{size:11,color:'#ffd66b'});text(ctx,'midnight side',cx-R*.55,cy-R*.9,{size:11,color:'#9a9382',align:'right'});
 if(e>.9){ctx.globalAlpha=(e-.9)*10;ctx.strokeStyle='rgba(236,230,218,.4)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(cx,cy,R*1.12,-0.9,-0.4,false);ctx.stroke();const ea=-0.4;arrow(ctx,cx+R*1.12*Math.cos(ea+.05),cy+R*1.12*Math.sin(ea+.05),cx+R*1.12*Math.cos(ea),cy+R*1.12*Math.sin(ea),'rgba(236,230,218,.5)');text(ctx,'15° per hour',cx+R*1.14*Math.cos(-.65),cy+R*1.14*Math.sin(-.65)-6,{size:11,color:'#9a9382'});ctx.globalAlpha=1;}
+if(showWedge&&e>.9){[[0,'1,036 mi · 1,668 km',.9],[60,'518 mi · 834 km',.45]].forEach(([la,lab])=>{ctx.strokeStyle=la?'#6fb3ff':'#f0b35a';ctx.lineWidth=4;ctx.beginPath();let pen=false;for(let k=0;k<=24;k++){const q=P(la,g+15*DEG*k/24);if(q.z>=0){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}}ctx.stroke();const m2=P(la,g+7.5*DEG);tag(ctx,`15° at ${la}°: ${lab}`,m2.x+10,m2.y-8,la?'#6fb3ff':'#f0b35a',12);});const c0=P(90,0);tag(ctx,'same hour of rotation, half the distance',c0.x+12,c0.y+24,'#cfc8ba',11);}
 // Greenwich and the ship, at their real latitudes
 const gp=P(51.5,g);if(gp.z>=0){ctx.fillStyle='#ece6da';ctx.beginPath();ctx.arc(gp.x,gp.y,4,0,TAU);ctx.fill();tag(ctx,'Greenwich',gp.x+8,gp.y+4,'#ece6da',12);}
 const s=g+shipLon*DEG;const sp=P(shipLat,s);
@@ -817,8 +880,6 @@ const yx=tx0+(+yearIn.value-y0)/(y1-y0)*(tx1-tx0);ctx.strokeStyle='#fff';ctx.lin
 function drawCoast(ctx,projFn,zoom,{color='rgba(236,230,218,.75)',hi=false,borders=false,width=1}={}){const draw=(set,col,wd)=>{ctx.strokeStyle=col;ctx.lineWidth=wd;ctx.beginPath();for(const ln of set.lines){let pen=false;for(let i=0;i<ln.length;i+=2){const q=projFn(ll(ln[i+1]/set.q,ln[i]/set.q));if(q.z>=-0.01){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}}ctx.stroke();};
 if(typeof COAST==='undefined')return;draw(COAST,color,width);if(hi&&typeof COAST_HI!=='undefined'){draw(COAST_HI,color,width);if(borders)draw(BORDERS_HI,'rgba(240,179,90,.55)',1);}}
 // camera that centres a place: yaw = -90° - lon, pitch = lat
-const camFor=(lat,lon,zoom)=>({yaw:-Math.PI/2-lon*DEG,pitch:lat*DEG,zoom});
-const slerp=(a,b,t)=>{const w=Math.acos(Math.max(-1,Math.min(1,v3.dot(a,b))));if(w<1e-6)return a;const s=Math.sin(w);return v3.norm(v3.add(v3.mul(a,Math.sin((1-t)*w)/s),v3.mul(b,Math.sin(t*w)/s)));};
 
 /* ---------- 6 · Mason and Dixon ---------- */
 {const o=setup('c6');const st={yaw:camFor(52,-2,1).yaw,pitch:camFor(52,-2,1).pitch,zoom:1.6,anim:null,maxZoom:160,enabled:()=>true};
@@ -958,7 +1019,7 @@ let fxRun=null;
 function playFx(name,slideEl,{swap,ms=1300}={}){if(fxRun)cancelAnimationFrame(fxRun.raf);const W=innerWidth,H=innerHeight,t0=performance.now();let swapped=false;const run={};fxRun=run;
 const ease=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;
 const doSwap=()=>{if(!swapped){swapped=true;swap&&swap();}};
-const frame=t=>{const k=Math.min(1,(t-t0)/ms),e=ease(k);fx.clearRect(0,0,W,H);
+const frame=t=>{const k=Math.max(0,Math.min(1,(t-t0)/ms)),e=ease(k);fx.clearRect(0,0,W,H);
 switch(name){
 case 'warp':{// starfield rushes outward while the slide racks into focus
 doSwap();const cx=W/2,cy=H/2;fx.lineCap='round';for(const s of stars){const dx=s.x*W-cx,dy=s.y*H-cy,r=Math.hypot(dx,dy)||1;const len=(1-Math.abs(2*k-1))*140*(r/Math.max(W,H))*2.2;fx.strokeStyle=`rgba(223,231,255,${(1-k)*.9})`;fx.lineWidth=s.r;fx.beginPath();fx.moveTo(cx+dx*(1+e*.5),cy+dy*(1+e*.5));fx.lineTo(cx+dx*(1+e*.5)+dx/r*len,cy+dy*(1+e*.5)+dy/r*len);fx.stroke();}
@@ -983,12 +1044,14 @@ case 'chain':{// a surveyor's chain is dragged across the middle and the land op
 doSwap();const y=H/2,n=Math.ceil(W/34)+2,shown=Math.floor(e*n);slideEl.style.clipPath=k<.45?`inset(${49.5-0}% ${(1-e/.45*1)*100}% ${49.5}% 0)`:`inset(${Math.max(0,49.5*(1-(k-.45)/.55))}% 0 ${Math.max(0,49.5*(1-(k-.45)/.55))}% 0)`;
 for(let i=0;i<shown;i++){fx.strokeStyle='rgba(236,230,218,.9)';fx.lineWidth=2.5;fx.beginPath();fx.ellipse(17+i*34,y,16,6,0,0,TAU);fx.stroke();if(i%10===9){fx.strokeStyle='#f0b35a';fx.lineWidth=3;fx.beginPath();fx.moveTo(17+i*34+16,y-14);fx.lineTo(17+i*34+16,y+14);fx.stroke();}}
 if(k<.45){fx.fillStyle='#f0b35a';fx.font='600 12px -apple-system,Segoe UI,Roboto,sans-serif';fx.textAlign='left';fx.fillText('66 feet · 100 links',Math.min(W-160,shown*34+8),y-18);}break;}
+case 'compass':{// a compass needle swings and settles on north; the slide opens as the rose fills
+doSwap();const cx=W/2,cy=H/2,R=Math.hypot(W,H)*.55*e;slideEl.style.clipPath=`circle(${R}px at 50% 50%)`;const r=Math.min(W,H)*.22;const swing=(1-e)*Math.sin(k*Math.PI*4)*1.2;const a=-Math.PI/2+swing;fx.globalAlpha=1-Math.max(0,(k-.7)/.3);fx.strokeStyle='rgba(236,230,218,.5)';fx.lineWidth=1.5;fx.beginPath();fx.arc(cx,cy,r,0,TAU);fx.stroke();for(let d=0;d<360;d+=10){const q=d*DEG-Math.PI/2;const big=d%90===0;fx.beginPath();fx.moveTo(cx+(r-(big?18:8))*Math.cos(q),cy+(r-(big?18:8))*Math.sin(q));fx.lineTo(cx+r*Math.cos(q),cy+r*Math.sin(q));fx.strokeStyle=big?'#ece6da':'rgba(236,230,218,.4)';fx.lineWidth=big?2:1;fx.stroke();}fx.font='600 16px Georgia,serif';fx.fillStyle='#ece6da';fx.textAlign='center';[['N',0],['E',90],['S',180],['W',270]].forEach(([l,d])=>{const q=d*DEG-Math.PI/2;fx.fillText(l,cx+(r-34)*Math.cos(q),cy+(r-34)*Math.sin(q)+6);});fx.fillStyle='#ff7d6f';fx.beginPath();fx.moveTo(cx+r*.8*Math.cos(a),cy+r*.8*Math.sin(a));fx.lineTo(cx+10*Math.cos(a+Math.PI/2),cy+10*Math.sin(a+Math.PI/2));fx.lineTo(cx+10*Math.cos(a-Math.PI/2),cy+10*Math.sin(a-Math.PI/2));fx.closePath();fx.fill();fx.fillStyle='#dfe7ff';fx.beginPath();fx.moveTo(cx-r*.8*Math.cos(a),cy-r*.8*Math.sin(a));fx.lineTo(cx+10*Math.cos(a+Math.PI/2),cy+10*Math.sin(a+Math.PI/2));fx.lineTo(cx+10*Math.cos(a-Math.PI/2),cy+10*Math.sin(a-Math.PI/2));fx.closePath();fx.fill();fx.globalAlpha=1;break;}
 case 'orbit':{// a planet runs one orbit and the slide fills the circle it traces
 doSwap();const cx=W/2,cy=H/2,R=Math.hypot(W,H)*.55*e;slideEl.style.clipPath=`circle(${R}px at 50% 50%)`;const a=-Math.PI/2+e*TAU*1.5;fx.strokeStyle='rgba(240,179,90,.35)';fx.lineWidth=1;fx.beginPath();fx.arc(cx,cy,R,0,TAU);fx.stroke();const px=cx+R*Math.cos(a),py=cy+R*Math.sin(a);const gl=fx.createRadialGradient(px,py,0,px,py,22);gl.addColorStop(0,'#fff');gl.addColorStop(.3,'rgba(240,179,90,.9)');gl.addColorStop(1,'rgba(240,179,90,0)');fx.fillStyle=gl;fx.beginPath();fx.arc(px,py,22,0,TAU);fx.fill();for(let k=1;k<12;k++){const aa=a-k*.06;fx.fillStyle=`rgba(240,179,90,${(1-k/12)*.5})`;fx.beginPath();fx.arc(cx+R*Math.cos(aa),cy+R*Math.sin(aa),4,0,TAU);fx.fill();}break;}
 default:doSwap();slideEl.style.opacity=e;}
 if(k<1)run.raf=requestAnimationFrame(frame);else{fx.clearRect(0,0,W,H);slideEl.style.clipPath='';slideEl.style.transform='';slideEl.style.filter='';slideEl.style.opacity='';fxRun=null;}};
 run.raf=requestAnimationFrame(frame);}
-const FXMAP={fade:'warp',iris:'sweep',sunrise:'rays',telescope:'warp',terminator:'eclipse',venus:'venus',survey:'chain',orbit:'orbit'};
+const FXMAP={fade:'warp',iris:'sweep',sunrise:'rays',telescope:'warp',terminator:'eclipse',venus:'venus',survey:'chain',orbit:'orbit',compass:'compass'};
 
 /* ---------- loop ---------- */
 function frame(t){const s=scenes[cur];if(s&&s.o.w)s.draw(t);requestAnimationFrame(frame);}
