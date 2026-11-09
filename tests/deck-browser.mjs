@@ -9,6 +9,9 @@ const browser = await chromium.launch({headless: true});
 const page = await browser.newPage({viewport: {width: 1400, height: 900}});
 const errors = []; page.on('pageerror', e => errors.push(e.message));
 const slide = async n => { await page.goto(url + '#' + n); await page.waitForTimeout(1900); }; // let the entrance transition finish
+await slide(0);
+await page.click('.menu li[data-go="Eratosthenes"]'); await page.waitForTimeout(1600);
+assert.match(await page.locator('#counter').innerText(), /Eratosthenes/);
 await slide(1);
 const g = await page.locator('#c1').boundingBox();
 await page.mouse.click(g.x + g.width * .5, g.y + g.height * .45);
@@ -36,6 +39,10 @@ const m = await page.locator('#c4').boundingBox();
 await page.mouse.click(m.x + m.width * .5, m.y + m.height * .52); // the centre lies on R, R+h and the diameter: a tap toggles the nearest one
 assert.notEqual(await page.locator('#moon-toggles button.on').count(), 4);
 await slide(5);
+assert.match(await page.locator('#kp-title').innerText(), /scale bar/);
+await page.click('#m7 button[data-mode=halley]'); await page.waitForTimeout(300);
+assert.match(await page.locator('#kp-title').innerText(), /Halley/);
+await slide(6);
 assert.match(await page.locator('#tv-read .big').innerText(), /they differ by/);
 assert.match(await page.locator('#tv-read').innerText(), /9\d million miles/);
 await page.click('#tv-contact'); await page.click('#tv-play'); await page.waitForTimeout(800);
@@ -47,7 +54,7 @@ assert.match(await page.locator('#tv-rare-read .big').innerText(), /TRANSIT/); /
 await page.click('#tv-next'); await page.waitForTimeout(2100);
 assert.match(await page.locator('#tv-year-out').innerText(), /^1874/);
 await page.click('#tv-tilt'); assert.match(await page.locator('#tv-rare-read strong').innerText(), /no tilt/);
-await slide(6);
+await slide(7);
 assert.match(await page.locator('#md-title').innerText(), /Two men/);
 const md = await page.locator('#c6').boundingBox();
 for (let i = 0; i < 4; i++) { await page.click('#md-next'); await page.waitForTimeout(400); }
