@@ -11,6 +11,8 @@ Galileo saw bright mountaintops in the dark part of the Moon. The peaks caught s
 
 Move the mountain, change its height, or change the Sun angle. You can use the sliders or drag the mountain's peak. The four-mile example starts with a sunlit peak above dark ground. Lower it to two miles and watch the peak go dark.
 
+[Compare Galileo’s manuscript drawings with a modern first-quarter Moon photograph](/galileo/#moon-images). Look for bright crater rims and dark interiors along the daylight edge.
+
 ## The Geometry Behind The Estimate
 The interactive now shows the whole Moon, its 2,160-mile diameter, its approximately 6,786-mile circumference, a marked 90-degree corner, and an enlarged right triangle with changing side lengths. Half the diameter gives a center-to-edge distance of 1,080 miles. Find the center-to-peak distance from the triangle, then subtract 1,080 miles to get mountain height.
 

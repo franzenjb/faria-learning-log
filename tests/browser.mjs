@@ -18,10 +18,20 @@ await page.locator('#show-distances').uncheck();assert.equal(await page.locator(
 await page.locator('#show-lines').uncheck();assert.equal(await page.locator('#right-triangle .right-angle').count(),0);await page.locator('#show-lines').check();
 await page.locator('#show-angle').uncheck();assert.equal(await page.locator('#whole-moon .angle-area').count(),0);await page.locator('#show-angle').check();
 await slider('height',2);assert.match(await page.locator('#geometry-equation').innerText(),/2.0 miles/);await page.locator('#example').click();
+await page.locator('#moon-images').scrollIntoViewIfNeeded();
+for (const img of await page.locator('#moon-images .moon-image-grid img').all()) {
+  await img.evaluate(el => el.decode());
+  assert.ok(await img.evaluate(el => el.naturalWidth >= 400));
+}
+assert.match(await page.locator('#moon-images').innerText(), /Astrobond/);
+await page.locator('#moon-images details summary').click();
+await page.locator('#moon-images details img').evaluate(el => el.decode());
+await page.locator('#moon-images details summary').click();
+await page.locator('#moon-images').screenshot({path:'/tmp/faria-gallery-desktop.png'});
 await page.screenshot({path:'/tmp/faria-galileo-desktop.png',fullPage:true});
 await page.locator('#theme-btn').click();await page.screenshot({path:'/tmp/faria-galileo-dark.png',fullPage:true});
 await page.locator('#theme-btn').click();
-for(const width of [390,320]){await page.setViewportSize({width,height:900});await page.waitForTimeout(100);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);await page.screenshot({path:`/tmp/faria-galileo-mobile-${width}.png`,fullPage:true});}
+for(const width of [390,320]){await page.setViewportSize({width,height:900});await page.waitForTimeout(100);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);await page.locator('#moon-images').screenshot({path:`/tmp/faria-gallery-${width}.png`});await page.screenshot({path:`/tmp/faria-galileo-mobile-${width}.png`,fullPage:true});}
 await page.locator('#reading-size').fill('150');await page.locator('#reading-size').dispatchEvent('input');assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
 await page.goto(base+'/topics/86-galileo-moon-mountains/');assert.equal(await page.locator('a[href="/galileo/"]').count(),1);
 await page.goto(base+'/');assert.ok(await page.locator('a[href="./topics/86-galileo-moon-mountains/"]').count());

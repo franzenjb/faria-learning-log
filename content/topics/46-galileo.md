@@ -20,8 +20,8 @@ In 1608 Dutch spectacle-makers produced a **spyglass** magnifying about 3 times.
 ## The five discoveries
 **1. Mountains on the Moon (late 1609).** Near the **terminator**, the line between lunar day and night, he saw **points of light in the dark part**: mountaintops catching sunrise before the plains below. From how far beyond the terminator they lay, he calculated heights of about **four miles**. He recorded what he saw in **ink-wash drawings**. The Moon was not a perfect crystal sphere; it was a world like Earth.
 
-![Galileo's ink-wash drawings of the Moon, 1609](../../img/Galileo_Moon_Ink_Wash_Drawings_1609.jpg?v=1)
-*Galileo's ink-wash drawings of the Moon, 1609. Galileo Galilei, Public domain, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Galileo%27s_sketches_of_the_moon.png).*
+![Printed lunar illustrations from Galileo's Starry Messenger, 1610](../../img/Galileo_Moon_Ink_Wash_Drawings_1609.jpg?v=1)
+*Printed lunar illustrations from Galileo's Starry Messenger, 1610. Galileo Galilei, Public domain, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Galileo%27s_sketches_of_the_moon.png).*
 
 **2. Jupiter's moons (7 January 1610).** He saw **three, then four, "stars"** strung in a line beside Jupiter, changing position night to night: moons circling Jupiter. He named them the **"Medicean Stars"** for **Cosimo II de' Medici**, Grand Duke of Tuscany, and his brothers, and won the post of **court mathematician and philosopher** in Florence. They answered a key objection to Copernicus, that **a moving Earth would leave the Moon behind**: Jupiter moves and keeps four.
 
