@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Measuring the Sky</title>
+<meta name="description" content="Four interactive slides: latitude from Polaris, longitude from a clock, Eratosthenes measuring the Earth, Galileo's moons of Jupiter, and the height of a mountain on the Moon.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✦</text></svg>">
+<style>
+:root{--bg:#0a0e18;--panel:#111727;--ink:#ece6da;--muted:#9a9382;--line:#283048;--accent:#f0b35a;--sun:#ffd66b;--sky:#6fb3ff;--ok:#6fd48a;--bad:#ff7d6f;--serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;--mono:"SF Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:17px/1.5 var(--serif);overflow:hidden}
+button,input{font:inherit}
+.deck{position:relative;height:100%;width:100%}
+.slide{position:absolute;inset:0;display:grid;grid-template-columns:minmax(300px,30rem) 1fr;grid-template-rows:1fr;gap:0;opacity:0;pointer-events:none;transform:translateX(40px);transition:opacity .45s ease,transform .45s ease}
+.slide.active{opacity:1;pointer-events:auto;transform:none}
+.text{padding:2.2rem 2rem 5rem 2.4rem;overflow:auto;border-right:1px solid var(--line);background:linear-gradient(180deg,#0e1322,#0a0e18)}
+.kicker{font:600 .72rem/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin:0 0 .9rem}
+h1{font-size:2rem;line-height:1.1;margin:0 0 .9rem;font-weight:600}
+.lede{font-size:1.05rem;color:var(--ink);margin:0 0 1.1rem}
+.text p{margin:0 0 .8rem;color:#cfc8ba}
+.text p small{color:var(--muted)}
+.facts{margin:.8rem 0 1.2rem;padding:0;list-style:none}
+.facts li{padding:.45rem 0;border-top:1px solid var(--line);font-size:.95rem;color:#d8d1c3}
+.facts li:last-child{border-bottom:1px solid var(--line)}
+.controls{display:grid;gap:.9rem;margin:1rem 0}
+.controls label{display:grid;gap:.25rem;font:500 .8rem/1.2 var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.controls label output{color:var(--ink);font:600 .95rem var(--mono);text-transform:none;letter-spacing:0;float:right}
+.controls label .row{display:flex;justify-content:space-between;align-items:baseline}
+input[type=range]{width:100%;accent-color:var(--accent);margin:0}
+.btns{display:flex;flex-wrap:wrap;gap:.5rem;margin:.6rem 0 1rem}
+.btns button,.modes button{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:.4rem .9rem;font:500 .82rem var(--sans);cursor:pointer}
+.btns button:hover{border-color:var(--accent)}
+.btns button.primary{background:var(--accent);color:#1a1206;border-color:var(--accent)}
+.modes{display:flex;gap:.4rem;margin:0 0 1rem}
+.modes button.on{background:var(--accent);color:#1a1206;border-color:var(--accent)}
+.readout{margin-top:.6rem;padding:.9rem 1rem;border-radius:.6rem;background:var(--panel);border:1px solid var(--line);font-family:var(--sans)}
+.readout strong{display:block;font-size:1rem;margin-bottom:.25rem}
+.readout span{color:var(--muted);font-size:.9rem}
+.readout .big{font:600 1.6rem/1.1 var(--mono);color:var(--accent);display:block;margin:.3rem 0}
+.readout.ok strong{color:var(--ok)}.readout.bad strong{color:var(--bad)}
+.stage{position:relative;overflow:hidden;background:radial-gradient(ellipse at 60% 40%,#121a2e 0%,#0a0e18 70%)}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+.stage canvas.dragging{cursor:grabbing}
+.hint{position:absolute;left:1rem;top:1rem;font:500 .74rem var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);pointer-events:none}
+.nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:center;padding:.6rem 1rem;background:linear-gradient(0deg,rgba(10,14,24,.95),rgba(10,14,24,0));font-family:var(--sans);z-index:5}
+.dots{display:flex;gap:.5rem}
+.dots button{width:.65rem;height:.65rem;border-radius:50%;border:1px solid var(--muted);background:transparent;padding:0;cursor:pointer}
+.dots button.on{background:var(--accent);border-color:var(--accent)}
+.nav .arrows button{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:.4rem;padding:.3rem .7rem;cursor:pointer;margin-left:.3rem}
+.counter{font:500 .75rem var(--mono);color:var(--muted)}
+.title .text{display:flex;flex-direction:column;justify-content:center}
+.title h1{font-size:3rem}
+.title .lede{font-size:1.15rem}
+.notebook{position:absolute;right:1rem;top:1rem;width:min(40%,260px);max-height:calc(100% - 2rem);overflow:auto;background:#f3ead6;color:#2a2217;border-radius:.3rem;padding:.6rem .7rem;font:13px/1.35 var(--serif);box-shadow:0 8px 30px rgba(0,0,0,.5);opacity:.97}
+.notebook h3{margin:0 0 .3rem;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;font-family:var(--sans);color:#6a5533}
+.notebook .row{display:grid;grid-template-columns:3.4rem 1fr;align-items:center;gap:.4rem;border-bottom:1px dotted #c9b893;padding:.2rem 0}
+.notebook .row .d{font-size:.75rem;color:#6a5533;font-family:var(--sans)}
+.notebook .row svg{width:100%;height:14px;display:block}
+.notebook .empty{color:#8a7555;font-style:italic;font-size:.8rem}
+@media (max-width:860px){
+  html,body{overflow:auto}
+  .slide{position:relative;grid-template-columns:1fr;grid-template-rows:auto 60vh;display:none;transform:none}
+  .slide.active{display:grid}
+  .text{border-right:0;border-bottom:1px solid var(--line);padding:1.4rem 1rem 1rem}
+  h1{font-size:1.6rem}.title h1{font-size:2.1rem}
+  .nav{position:fixed}
+  .slide.active{padding-bottom:3.5rem}
+  .notebook{width:46%;font-size:11px}
+}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- 0 · Title -->
+<section class="slide title" data-title="Title">
+  <div class="text">
+    <p class="kicker">Faria · An interactive lecture</p>
+    <h1>Measuring the Sky</h1>
+    <p class="lede">Four ideas that turned looking up into knowing where you are, how big the world is, and what the heavens are made of.</p>
+    <p>Every slide is a working model. Drag, slide, press play. Nothing here is a video.</p>
+    <ul class="facts">
+      <li><strong>1.</strong> Latitude is an angle to Polaris. Longitude is a clock.</li>
+      <li><strong>2.</strong> Eratosthenes sizes the Earth with a well and a stick.</li>
+      <li><strong>3.</strong> Galileo sees four moons circling Jupiter.</li>
+      <li><strong>4.</strong> Galileo measures a mountain on the Moon from its shadow.</li>
+    </ul>
+    <p><small>Use → and ← keys, or the dots below. Press F for full screen.</small></p>
+  </div>
+  <div class="stage"><canvas id="c0"></canvas><div class="hint">Move your mouse across the stars</div></div>
+</section>
+
+<!-- 1 · Latitude and longitude -->
+<section class="slide" data-title="Latitude &amp; Longitude">
+  <div class="text">
+    <p class="kicker">1 · Where am I?</p>
+    <h1>Latitude is an angle. Longitude is a time.</h1>
+    <div class="modes" id="m1"><button class="on" data-mode="lat">Latitude · Polaris</button><button data-mode="lon">Longitude · Chronometer</button></div>
+
+    <div id="lat-panel">
+      <p class="lede">Polaris sits almost exactly over the North Pole. Its height above your horizon, in degrees, <em>is</em> your latitude.</p>
+      <p>Drag the observer along the Earth. The horizon tilts, the star does not move, and the angle between them is the angle you are north of the equator. Sailors measured it with a quadrant or sextant for a thousand years.</p>
+      <div class="controls"><label><span class="row">Observer latitude <output id="lat-out">43.8°</output></span><input id="lat" type="range" min="0" max="90" step="0.1" value="43.8"></label></div>
+      <div class="btns"><button data-lat="43.8">Cumberland Foreside</button><button data-lat="27.9">Tampa</button><button data-lat="0">Equator</button><button data-lat="90">North Pole</button></div>
+      <div class="readout" id="lat-read"></div>
+    </div>
+
+    <div id="lon-panel" hidden>
+      <p class="lede">The Earth turns 15° every hour. If you know the time back home when the Sun is highest where you are, you know how far around the world you have gone.</p>
+      <p>Drag the ship. Then slide the Greenwich chronometer until the Sun stands highest over the ship (local noon). Read the clock. Every hour of difference is 15° of longitude. Without a clock that keeps home time at sea, this is impossible, which is why Harrison's chronometer mattered.</p>
+      <div class="controls">
+        <label><span class="row">Greenwich chronometer <output id="clock-out">12:00</output></span><input id="clock" type="range" min="0" max="1439" step="1" value="720"></label>
+        <label><span class="row">Chronometer drift <output id="drift-out">0 s/day</output></span><input id="drift" type="range" min="0" max="60" step="1" value="0"></label>
+      </div>
+      <div class="btns"><button class="primary" id="find-noon">Find local noon</button><button id="harrison">Harrison's H4 · 5 s in 81 days</button></div>
+      <div class="readout" id="lon-read"></div>
+    </div>
+  </div>
+  <div class="stage"><canvas id="c1"></canvas><div class="hint" id="h1">Drag the observer along the Earth</div></div>
+</section>
+
+<!-- 2 · Eratosthenes -->
+<section class="slide" data-title="Eratosthenes">
+  <div class="text">
+    <p class="kicker">2 · How big is the world? · c. 240 BC</p>
+    <h1>A well, a stick, and the size of the Earth</h1>
+    <p class="lede">At noon on the summer solstice the Sun shone straight down a well at Syene. The same moment in Alexandria, a vertical stick cast a shadow of about 7.2°, one fiftieth of a circle.</p>
+    <p>The Sun is so far away its rays arrive parallel. If the ground were flat, both sticks would cast the same shadow. They did not, so the ground curves, and the shadow angle at Alexandria equals the angle between the two cities at the center of the Earth. Fifty times the distance between them is the whole way around.</p>
+    <div class="controls">
+      <label><span class="row">Shadow angle at Alexandria <output id="era-ang-out">7.2°</output></span><input id="era-ang" type="range" min="1" max="30" step="0.1" value="7.2"></label>
+      <label><span class="row">Distance Syene to Alexandria <output id="era-dist-out">5,000 stadia</output></span><input id="era-dist" type="range" min="3000" max="7000" step="50" value="5000"></label>
+      <label><span class="row">Length of a stadion <output id="era-stad-out">157.5 m</output></span><input id="era-stad" type="range" min="150" max="200" step="0.5" value="157.5"></label>
+    </div>
+    <div class="btns"><button class="primary" id="era-reset">Eratosthenes' numbers</button><button id="era-flat">What if the Earth were flat?</button></div>
+    <div class="readout" id="era-read"></div>
+  </div>
+  <div class="stage"><canvas id="c2"></canvas><div class="hint">Drag Alexandria along the surface</div></div>
+</section>
+
+<!-- 3 · Jupiter's moons -->
+<section class="slide" data-title="Jupiter's moons">
+  <div class="text">
+    <p class="kicker">3 · January 1610 · Padua</p>
+    <h1>Four little stars that would not stay still</h1>
+    <p class="lede">Galileo pointed a new telescope at Jupiter and saw three, then four, small stars in a line beside it. Night after night they changed sides. They were moons, and they circled Jupiter, not the Earth.</p>
+    <p>This was the first thing anyone had seen orbiting something other than the Earth. Aristotle and Ptolemy had the whole sky turning about us. Here was a small system turning about a planet, and a planet that carried its moons along as it moved. If Jupiter could do that, so could the Earth.</p>
+    <div class="controls">
+      <label><span class="row">Night <output id="jup-t-out">7 January 1610</output></span><input id="jup-t" type="range" min="0" max="40" step="0.01" value="0"></label>
+      <label><span class="row">Speed <output id="jup-speed-out">1 day / 4 s</output></span><input id="jup-speed" type="range" min="0.5" max="6" step="0.5" value="1"></label>
+    </div>
+    <div class="btns"><button class="primary" id="jup-play">Play</button><button id="jup-sketch">Sketch tonight</button><button id="jup-view">Show from above</button><button id="jup-clear">Clear notebook</button></div>
+    <ul class="facts">
+      <li>Io · 1.77 days · 5.9 Jupiter radii</li>
+      <li>Europa · 3.55 days · 9.4 radii</li>
+      <li>Ganymede · 7.15 days · 15.0 radii</li>
+      <li>Callisto · 16.69 days · 26.3 radii</li>
+    </ul>
+    <p><small>Periods and distances are real. Starting positions are an illustration, not an ephemeris.</small></p>
+  </div>
+  <div class="stage"><canvas id="c3"></canvas><div class="notebook" id="notebook"><h3>Sidereus Nuncius</h3><div id="nb-rows"><p class="empty">Press “Sketch tonight” to record what the telescope shows.</p></div></div><div class="hint" id="h3">Telescope view · east is left, as Galileo drew it</div></div>
+</section>
+
+<!-- 4 · Moon mountains -->
+<section class="slide" data-title="Moon mountains">
+  <div class="text">
+    <p class="kicker">4 · Sidereus Nuncius · 1610</p>
+    <h1>How tall is a mountain on the Moon?</h1>
+    <p class="lede">Galileo saw bright points on the dark side of the Moon, well past the line between day and night. They were peaks, still catching sunlight while the ground around them was in shadow.</p>
+    <p>A peak lit from across the terminator must poke above the Sun's grazing ray. If the peak is a distance <em>d</em> into the dark side on a Moon of radius <em>R</em>, Pythagoras gives its height: <em>h = √(R² + d²) − R</em>. Galileo measured <em>d</em> as about one twentieth of the Moon's width and got more than four miles, higher than any mountain he knew on Earth.</p>
+    <div class="controls">
+      <label><span class="row">Peak's distance past the terminator <output id="mtn-d-out">1/20 of the width</output></span><input id="mtn-d" type="range" min="0.5" max="12" step="0.1" value="5"></label>
+      <label><span class="row">Assumed Moon diameter <output id="mtn-D-out">2,000 miles</output></span><input id="mtn-D" type="range" min="1500" max="2500" step="10" value="2000"></label>
+    </div>
+    <div class="btns"><button class="primary" id="mtn-galileo">Galileo's numbers</button><button id="mtn-modern">Modern Moon · 2,159 mi</button></div>
+    <div class="readout" id="mtn-read"></div>
+  </div>
+  <div class="stage"><canvas id="c4"></canvas><div class="hint">Drag the bright peak left or right</div></div>
+</section>
+
+</div>
+
+<nav class="nav" aria-label="Slides">
+  <span class="counter" id="counter"></span>
+  <div class="dots" id="dots"></div>
+  <div class="arrows"><button id="prev" aria-label="Previous slide">←</button><button id="next" aria-label="Next slide">→</button></div>
+</nav>
+
+<script>
+/* ---------- deck plumbing ---------- */
+const slides=[...document.querySelectorAll('.slide')];let cur=0;
+const dots=document.getElementById('dots');
+slides.forEach((s,i)=>{const b=document.createElement('button');b.title=s.dataset.title;b.addEventListener('click',()=>go(i));dots.appendChild(b);});
+function go(i){cur=(i+slides.length)%slides.length;slides.forEach((s,k)=>s.classList.toggle('active',k===cur));[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===cur));document.getElementById('counter').textContent=`${cur} / ${slides.length-1} · ${slides[cur].dataset.title.replace('&amp;','&')}`;location.hash=cur?`#${cur}`:'';resizeAll();}
+document.getElementById('prev').onclick=()=>go(cur-1);document.getElementById('next').onclick=()=>go(cur+1);
+addEventListener('keydown',e=>{if(e.target.matches('input,button'))e.target.blur();if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')go(cur+1);else if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);else if(e.key.toLowerCase()==='f'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}});
+let tx=null;addEventListener('touchstart',e=>{if(!e.target.closest('canvas'))tx=e.touches[0].clientX;},{passive:true});addEventListener('touchend',e=>{if(tx==null)return;const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>70)go(cur+(dx<0?1:-1));tx=null;});
+
+const TAU=Math.PI*2,DEG=Math.PI/180;
+const fmt=(n,d=1)=>n.toLocaleString('en-US',{maximumFractionDigits:d,minimumFractionDigits:d});
+const fmtI=n=>Math.round(n).toLocaleString('en-US');
+function setup(id){const c=document.getElementById(id),ctx=c.getContext('2d');const o={c,ctx,w:0,h:0,resize(){const r=c.getBoundingClientRect(),dpr=devicePixelRatio||1;if(!r.width)return;o.w=r.width;o.h=r.height;c.width=r.width*dpr;c.height=r.height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}};return o;}
+function pointer(o,down,move,up){const pos=e=>{const r=o.c.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};};o.c.addEventListener('pointerdown',e=>{if(down(pos(e))){o.c.setPointerCapture(e.pointerId);o.c.classList.add('dragging');e.preventDefault();}});o.c.addEventListener('pointermove',e=>{if(o.c.classList.contains('dragging'))move(pos(e));});const end=e=>{o.c.classList.remove('dragging');up&&up();};o.c.addEventListener('pointerup',end);o.c.addEventListener('pointercancel',end);}
+function text(ctx,s,x,y,{size=13,color='#cfc8ba',align='left',font='sans',weight=500,base='alphabetic'}={}){ctx.font=`${weight} ${size}px ${font==='mono'?'Menlo,Consolas,monospace':font==='serif'?'Georgia,serif':'-apple-system,Segoe UI,Roboto,sans-serif'}`;ctx.fillStyle=color;ctx.textAlign=align;ctx.textBaseline=base;ctx.fillText(s,x,y);}
+function arrow(ctx,x1,y1,x2,y2,color,w=1.5){ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=w;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();const a=Math.atan2(y2-y1,x2-x1);ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-9*Math.cos(a-.4),y2-9*Math.sin(a-.4));ctx.lineTo(x2-9*Math.cos(a+.4),y2-9*Math.sin(a+.4));ctx.closePath();ctx.fill();}
+const stars=Array.from({length:260},()=>({x:Math.random(),y:Math.random(),r:Math.random()*1.3+.3,a:Math.random()}));
+function drawStars(o,t){const{ctx,w,h}=o;for(const s of stars){ctx.globalAlpha=.35+.65*Math.abs(Math.sin(t*.0007+s.a*9));ctx.fillStyle='#dfe7ff';ctx.beginPath();ctx.arc(s.x*w,s.y*h,s.r,0,TAU);ctx.fill();}ctx.globalAlpha=1;}
+const scenes=[];function resizeAll(){scenes.forEach(s=>s.o.resize());}addEventListener('resize',resizeAll);
+
+/* ---------- 0 · title: sky that follows the pointer ---------- */
+{const o=setup('c0');let mx=.5,my=.5;o.c.addEventListener('pointermove',e=>{const r=o.c.getBoundingClientRect();mx=(e.clientX-r.left)/r.width;my=(e.clientY-r.top)/r.height;});
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);ctx.save();ctx.translate((mx-.5)*-30,(my-.5)*-30);drawStars(o,t);ctx.restore();
+const cx=w*.5+(mx-.5)*-14,cy=h*.42+(my-.5)*-14,R=Math.min(w,h)*.26;
+for(let i=1;i<=4;i++){ctx.strokeStyle='rgba(240,179,90,'+(.08+.08*i)+')';ctx.lineWidth=1;ctx.beginPath();ctx.ellipse(cx,cy,R*i*.5,R*i*.18,(t*.00005*i)%TAU,0,TAU);ctx.stroke();const a=t*.0004/i+i;ctx.fillStyle='#f0b35a';const px=cx+R*i*.5*Math.cos(a),py=cy+R*i*.18*Math.sin(a);ctx.save();ctx.translate(cx,cy);ctx.rotate((t*.00005*i)%TAU);ctx.translate(-cx,-cy);ctx.beginPath();ctx.arc(px,py,2.5,0,TAU);ctx.fill();ctx.restore();}
+const g=ctx.createRadialGradient(cx,cy,0,cx,cy,R*.45);g.addColorStop(0,'#ffe6a8');g.addColorStop(.5,'#f0b35a');g.addColorStop(1,'rgba(240,179,90,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R*.45,0,TAU);ctx.fill();
+text(ctx,'✦',w*.5,h*.86,{size:22,color:'#f0b35a',align:'center'});}});}
+
+/* ---------- 1 · latitude & longitude ---------- */
+{const o=setup('c1');let mode='lat';
+const latIn=document.getElementById('lat'),latOut=document.getElementById('lat-out'),latRead=document.getElementById('lat-read');
+const clockIn=document.getElementById('clock'),clockOut=document.getElementById('clock-out'),driftIn=document.getElementById('drift'),driftOut=document.getElementById('drift-out'),lonRead=document.getElementById('lon-read'),hint=document.getElementById('h1');
+let shipLon=-70.2; // degrees, east positive (Portland, Maine)
+document.querySelectorAll('#m1 button').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;document.querySelectorAll('#m1 button').forEach(x=>x.classList.toggle('on',x===b));document.getElementById('lat-panel').hidden=mode!=='lat';document.getElementById('lon-panel').hidden=mode!=='lon';hint.textContent=mode==='lat'?'Drag the observer along the Earth':'Drag the ship · slide the clock until the Sun is highest over it';update();});
+document.querySelectorAll('[data-lat]').forEach(b=>b.onclick=()=>{latIn.value=b.dataset.lat;update();});
+latIn.oninput=clockIn.oninput=driftIn.oninput=update;
+document.getElementById('find-noon').onclick=()=>{clockIn.value=Math.round(((12-shipLon/15)*60%1440+1440)%1440);update();};
+document.getElementById('harrison').onclick=()=>{driftIn.value=0;update();lonRead.className='readout ok';lonRead.innerHTML='<strong>Harrison’s H4, 1761</strong><span class="big">5 s in 81 days</span><span>Portsmouth to Jamaica. About 1.25 nautical miles of error in longitude. The Board of Longitude had asked for 30 miles. Slide the drift control to see what an ordinary clock would have done.</span>';};
+function lat(){return+latIn.value;}function clock(){return+clockIn.value;}
+function update(){const phi=lat();latOut.textContent=fmt(phi)+'°';latRead.innerHTML=`<strong>Polaris stands ${fmt(phi)}° above the horizon</strong><span class="big">latitude ${fmt(phi)}° N</span><span>${phi<1?'On the equator Polaris sits on the horizon.':phi>89?'At the pole Polaris is straight overhead.':'The star is fixed. Only your horizon tilts.'}</span>`;
+const m=clock(),hh=String(Math.floor(m/60)).padStart(2,'0'),mm=String(m%60).padStart(2,'0');clockOut.textContent=`${hh}:${mm}`;driftOut.textContent=`${driftIn.value} s/day`;
+const local=((m/60+shipLon/15)%24+24)%24;const dNoon=Math.abs(local-12);const trueNoonGMT=12-shipLon/15;const lonEst=(12-m/60)*15;const driftErrMi=(+driftIn.value*81/3600)*15*60*Math.cos(43.7*DEG);
+if(dNoon<0.2){lonRead.className='readout ok';lonRead.innerHTML=`<strong>Local noon. Chronometer reads ${hh}:${mm} GMT.</strong><span class="big">${fmt(Math.abs(lonEst))}° ${lonEst<0?'W':'E'}</span><span>${fmt(Math.abs(12-m/60),2)} h × 15°/h. True longitude ${fmt(Math.abs(shipLon))}° ${shipLon<0?'W':'E'}.${+driftIn.value?` A clock drifting ${driftIn.value} s/day for 81 days would be ${fmt(+driftIn.value*81/60)} min off, putting the ship about ${fmtI(driftErrMi)} nautical miles from where it really is.`:''}</span>`;}
+else{lonRead.className='readout';lonRead.innerHTML=`<strong>${local<12?'Morning':'Afternoon'} at the ship · local ${String(Math.floor(local)).padStart(2,'0')}:${String(Math.floor(local%1*60)).padStart(2,'0')}</strong><span>Keep sliding until the Sun is highest. Noon over the ship comes when Greenwich reads ${String(Math.floor(((trueNoonGMT%24)+24)%24)).padStart(2,'0')}:${String(Math.round(((trueNoonGMT%1)+1)%1*60)%60).padStart(2,'0')}.</span>`;}}
+update();
+pointer(o,p=>{dragging=true;move(p);return true;},move,()=>dragging=false);let dragging=false;
+function move(p){const{w,h}=o;if(mode==='lat'){const cx=w*.42,cy=h*.5;const a=Math.atan2(cy-p.y,p.x-cx);latIn.value=Math.max(0,Math.min(90,a/DEG)).toFixed(1);}else{const cx=w*.36,cy=h*.5;const a=Math.atan2(cy-p.y,p.x-cx);// screen angle of pointer, ccw from +x
+const gAng=greenwichAngle();let lon=((a-gAng)/DEG+540)%360-180;shipLon=Math.round(lon*10)/10;}update();}
+function greenwichAngle(){// Sun is to the right (+x). Greenwich faces the sun at 12:00. Earth turns counterclockwise seen from the north, so at time t Greenwich has turned (t-12)*15° past the sun.
+return (clock()/60-12)*15*DEG;}
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);if(mode==='lat')drawLat(t);else drawLon(t);},});
+function drawLat(t){const{ctx,w,h}=o;const cx=w*.42,cy=h*.5,R=Math.min(w,h)*.3,phi=lat()*DEG;
+// Polaris rays (parallel, from top)
+for(let x=cx-R*1.3;x<=cx+R*1.6;x+=R*.19){ctx.strokeStyle='rgba(111,179,255,.18)';ctx.setLineDash([4,6]);ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,cy+R*1.1);ctx.stroke();}ctx.setLineDash([]);
+text(ctx,'✦ Polaris · so far away its light arrives in parallel lines',w-16,h*.09,{size:12,color:'#6fb3ff',align:'right'});
+// Earth
+const g=ctx.createRadialGradient(cx-R*.3,cy-R*.3,R*.1,cx,cy,R);g.addColorStop(0,'#2b4f7a');g.addColorStop(1,'#0f1f33');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.stroke();
+// axis & equator
+ctx.strokeStyle='rgba(236,230,218,.35)';ctx.setLineDash([6,5]);ctx.beginPath();ctx.moveTo(cx,cy-R*1.12);ctx.lineTo(cx,cy+R*1.12);ctx.stroke();ctx.beginPath();ctx.moveTo(cx-R*1.12,cy);ctx.lineTo(cx+R*1.12,cy);ctx.stroke();ctx.setLineDash([]);
+text(ctx,'N',cx,cy-R*1.16,{size:12,align:'center',base:'bottom'});text(ctx,'equator',cx+R*1.14,cy+4,{size:11,color:'#9a9382'});
+// latitude angle at center
+ctx.strokeStyle='#f0b35a';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+R*Math.cos(phi),cy-R*Math.sin(phi));ctx.stroke();ctx.beginPath();ctx.arc(cx,cy,R*.3,-phi,0);ctx.stroke();text(ctx,fmt(lat())+'°',cx+R*.36*Math.cos(phi/2),cy-R*.36*Math.sin(phi/2)+4,{size:13,color:'#f0b35a',font:'mono'});
+// observer
+const px=cx+R*Math.cos(phi),py=cy-R*Math.sin(phi);
+// horizon = tangent
+const tx=-Math.sin(phi),ty=-Math.cos(phi);const L=R*.95;ctx.strokeStyle='#6fd48a';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(px-tx*L,py-ty*L);ctx.lineTo(px+tx*L,py+ty*L);ctx.stroke();text(ctx,'horizon',px+tx*L,py+ty*L-8,{size:11,color:'#6fd48a',align:'center'});
+// up vector to Polaris
+arrow(ctx,px,py,px,py-R*.9,'#6fb3ff',2);
+// altitude angle arc between horizon (direction toward -tx,-ty i.e. north along tangent) and up
+ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;ctx.beginPath();const r2=R*.28;ctx.arc(px,py,r2,-Math.PI/2,-(Math.PI/2+phi),true);ctx.stroke();const am=Math.PI/2+phi/2;text(ctx,fmt(lat())+'°',px+(r2+16)*Math.cos(am),py-(r2+16)*Math.sin(am)+4,{size:14,color:'#f0b35a',font:'mono',align:'center'});
+// observer figure
+ctx.fillStyle='#ece6da';ctx.beginPath();ctx.arc(px,py,7,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();
+text(ctx,'you',px+12,py+5,{size:12});
+text(ctx,'The angle at the center and the angle at your feet are the same angle.',w*.5,h-56,{size:13,color:'#9a9382',align:'center'});}
+function drawLon(t){const{ctx,w,h}=o;const cx=w*.36,cy=h*.5,R=Math.min(w*.26,h*.3);
+// sun rays from the right
+for(let y=cy-R*1.3;y<=cy+R*1.3;y+=R*.17){ctx.strokeStyle='rgba(255,214,107,.22)';ctx.beginPath();ctx.moveTo(w,y);ctx.lineTo(cx,y);ctx.stroke();}
+const sg=ctx.createRadialGradient(w+40,cy,0,w+40,cy,170);sg.addColorStop(0,'rgba(255,214,107,.9)');sg.addColorStop(1,'rgba(255,214,107,0)');ctx.fillStyle=sg;ctx.beginPath();ctx.arc(w+40,cy,170,0,TAU);ctx.fill();text(ctx,'Sun',w-16,cy-180,{size:12,color:'#ffd66b',align:'right'});
+// Earth top-down: lit half faces right
+ctx.fillStyle='#0f1f33';ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();ctx.fillStyle='#2b4f7a';ctx.beginPath();ctx.arc(cx,cy,R,-Math.PI/2,Math.PI/2);ctx.fill();ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.stroke();
+text(ctx,'Earth seen from above the North Pole',cx,cy+R+26,{size:12,color:'#9a9382',align:'center'});
+text(ctx,'noon side',cx+R*.55,cy-R*.9,{size:11,color:'#ffd66b'});text(ctx,'midnight side',cx-R*.55,cy-R*.9,{size:11,color:'#9a9382',align:'right'});
+// rotation arrow
+ctx.strokeStyle='rgba(236,230,218,.4)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(cx,cy,R*1.12,-0.9,-0.4,false);ctx.stroke();const ea=-0.4;arrow(ctx,cx+R*1.12*Math.cos(ea+.05),cy+R*1.12*Math.sin(ea+.05),cx+R*1.12*Math.cos(ea),cy+R*1.12*Math.sin(ea),'rgba(236,230,218,.5)');
+text(ctx,'15° per hour',cx+R*1.14*Math.cos(-.65),cy+R*1.14*Math.sin(-.65)-6,{size:11,color:'#9a9382'});
+// meridians every 15°
+const g=greenwichAngle();for(let k=0;k<24;k++){const a=g+k*15*DEG;ctx.strokeStyle=k?'rgba(236,230,218,.12)':'#ece6da';ctx.lineWidth=k?1:2;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+R*Math.cos(a),cy-R*Math.sin(a));ctx.stroke();}
+const gx=cx+R*Math.cos(g),gy=cy-R*Math.sin(g);ctx.fillStyle='#ece6da';ctx.beginPath();ctx.arc(gx,gy,4,0,TAU);ctx.fill();text(ctx,'Greenwich',cx+(R+14)*Math.cos(g),cy-(R+14)*Math.sin(g)+4,{size:12,align:Math.cos(g)<0?'right':'left'});
+// ship
+const s=g+shipLon*DEG,sx=cx+R*Math.cos(s),sy=cy-R*Math.sin(s);
+// angle arc between greenwich and ship
+ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,R*.45,-g,-s,shipLon>0);ctx.stroke();const mid=g+shipLon*DEG/2;text(ctx,fmt(Math.abs(shipLon))+'°'+(shipLon<0?' W':' E'),cx+R*.56*Math.cos(mid),cy-R*.56*Math.sin(mid)+4,{size:13,color:'#f0b35a',font:'mono',align:'center'});
+ctx.fillStyle='#f0b35a';ctx.beginPath();ctx.arc(sx,sy,9,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();text(ctx,'⛵ ship',cx+(R+16)*Math.cos(s),cy-(R+16)*Math.sin(s)+4,{size:12,color:'#f0b35a',align:Math.cos(s)<0?'right':'left'});
+// sun altitude gauge at ship
+const alt=Math.max(0,Math.cos(s));const bx=w*.74,by=h*.2,bw=18,bh=h*.42;ctx.fillStyle='#111727';ctx.fillRect(bx,by,bw,bh);ctx.fillStyle=alt>.998?'#6fd48a':'#ffd66b';ctx.fillRect(bx,by+bh*(1-alt),bw,bh*alt);ctx.strokeStyle='#283048';ctx.strokeRect(bx,by,bw,bh);text(ctx,'Sun over ship',bx+bw/2,by-10,{size:11,align:'center',color:'#9a9382'});text(ctx,alt>.998?'NOON':alt<=0?'night':fmt(Math.asin(alt)/DEG,0)+'° up',bx+bw/2,by+bh+16,{size:12,align:'center',color:alt>.998?'#6fd48a':'#cfc8ba',font:'mono'});
+// chronometer dial
+const kx=w*.86,ky=h*.76,kr=Math.min(w,h)*.08;ctx.fillStyle='#f3ead6';ctx.beginPath();ctx.arc(kx,ky,kr,0,TAU);ctx.fill();ctx.strokeStyle='#b89a5a';ctx.lineWidth=3;ctx.stroke();for(let i=0;i<12;i++){const a=i*30*DEG;ctx.strokeStyle='#4a3a1e';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(kx+kr*.85*Math.sin(a),ky-kr*.85*Math.cos(a));ctx.lineTo(kx+kr*.95*Math.sin(a),ky-kr*.95*Math.cos(a));ctx.stroke();}
+const m=clock();const ha=(m/60%12)*30*DEG,ma=(m%60)*6*DEG;ctx.strokeStyle='#2a2217';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(kx,ky);ctx.lineTo(kx+kr*.5*Math.sin(ha),ky-kr*.5*Math.cos(ha));ctx.stroke();ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(kx,ky);ctx.lineTo(kx+kr*.78*Math.sin(ma),ky-kr*.78*Math.cos(ma));ctx.stroke();text(ctx,'GMT',kx,ky+kr*.45,{size:9,color:'#6a5533',align:'center'});text(ctx,'chronometer',kx,ky+kr+16,{size:11,color:'#9a9382',align:'center'});}
+}
+
+/* ---------- 2 · Eratosthenes ---------- */
+{const o=setup('c2');const angIn=document.getElementById('era-ang'),distIn=document.getElementById('era-dist'),stadIn=document.getElementById('era-stad'),read=document.getElementById('era-read');let flat=false;
+const outs={ang:document.getElementById('era-ang-out'),dist:document.getElementById('era-dist-out'),stad:document.getElementById('era-stad-out')};
+[angIn,distIn,stadIn].forEach(i=>i.oninput=update);
+document.getElementById('era-reset').onclick=()=>{angIn.value=7.2;distIn.value=5000;stadIn.value=157.5;flat=false;update();};
+document.getElementById('era-flat').onclick=function(){flat=!flat;this.textContent=flat?'Back to the round Earth':'What if the Earth were flat?';update();};
+function update(){const th=+angIn.value,d=+distIn.value,st=+stadIn.value;outs.ang.textContent=fmt(th)+'°';outs.dist.textContent=fmtI(d)+' stadia';outs.stad.textContent=fmt(st)+' m';const circ=360/th*d,km=circ*st/1000,err=(km-40008)/40008*100;
+read.className='readout'+(flat?' bad':'');read.innerHTML=flat?`<strong>On a flat Earth both sticks would cast the same shadow.</strong><span>Parallel sunlight meets a flat ground at one angle everywhere. A shadow in Alexandria and none in Syene cannot happen. The difference is the curvature.</span>`:`<strong>360° ÷ ${fmt(th)}° = ${fmt(360/th,1)} · so the Earth is ${fmt(360/th,1)} × ${fmtI(d)} stadia around</strong><span class="big">${fmtI(circ)} stadia ≈ ${fmtI(km)} km</span><span>Modern value 40,008 km around the poles. ${Math.abs(err)<2?'Within 2 percent, with a well and a stick.':`Off by ${fmt(Math.abs(err),0)}%.`}</span>`;}
+update();
+pointer(o,p=>{move(p);return true;},move);
+function move(p){if(flat)return;const{w,h}=o;const cx=w*.5,cy=h*.95,R=h*.78;const a=Math.atan2(cx-p.x,cy-p.y);angIn.value=Math.max(1,Math.min(30,a/DEG)).toFixed(1);update();}
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);const th=+angIn.value*DEG;const cx=w*.5,cy=h*.95,R=h*.78;
+// sun rays
+for(let x=w*.12;x<w*.95;x+=w*.055){ctx.strokeStyle='rgba(255,214,107,.28)';ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,flat?h*.4:cy-R*Math.cos(Math.asin(Math.min(1,Math.abs(x-cx)/R)))+2);ctx.stroke();}
+text(ctx,'Sunlight at noon, summer solstice · parallel rays',w*.5,24,{size:12,color:'#ffd66b',align:'center'});
+if(flat){const gy=h*.5;ctx.fillStyle='#1b2a3f';ctx.fillRect(0,gy,w,h-gy);ctx.strokeStyle='#3b5f8a';ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(w,gy);ctx.stroke();
+const stick=(x,label)=>{ctx.strokeStyle='#ece6da';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(x,gy);ctx.lineTo(x,gy-70);ctx.stroke();text(ctx,label,x,gy+22,{size:13,align:'center'});text(ctx,'no shadow',x,gy+40,{size:11,align:'center',color:'#9a9382'});};stick(w*.62,'Syene');stick(w*.3,'Alexandria');
+text(ctx,'Same Sun, same angle, same shadow everywhere. That is not what was seen.',w*.5,h*.85,{size:14,color:'#ff7d6f',align:'center'});return;}
+// Earth
+const g=ctx.createRadialGradient(cx,cy-R*.4,R*.1,cx,cy,R);g.addColorStop(0,'#2b4f7a');g.addColorStop(1,'#0f1f33');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.stroke();
+// Syene at top
+const sx=cx,sy=cy-R;const ax=cx-R*Math.sin(th),ay=cy-R*Math.cos(th);
+// radii to center
+ctx.strokeStyle='rgba(236,230,218,.35)';ctx.setLineDash([5,5]);ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(sx,sy);ctx.moveTo(cx,cy);ctx.lineTo(ax,ay);ctx.stroke();ctx.setLineDash([]);
+// center angle arc
+ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,R*.22,-Math.PI/2-th,-Math.PI/2);ctx.stroke();text(ctx,fmt(+angIn.value)+'°',cx-R*.3*Math.sin(th/2),cy-R*.3*Math.cos(th/2)+4,{size:14,color:'#f0b35a',font:'mono',align:'center'});
+text(ctx,'center of the Earth',cx,cy-10,{size:11,align:'center',color:'#9a9382'});
+// arc between cities
+ctx.strokeStyle='#f0b35a';ctx.lineWidth=4;ctx.beginPath();ctx.arc(cx,cy,R,-Math.PI/2-th,-Math.PI/2);ctx.stroke();text(ctx,fmtI(+distIn.value)+' stadia',cx-R*1.06*Math.sin(th/2),cy-R*1.06*Math.cos(th/2)-10,{size:12,color:'#f0b35a',align:'center'});
+// Syene well
+const sl=46;ctx.strokeStyle='#ece6da';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(sx,sy-sl);ctx.stroke();ctx.strokeStyle='rgba(255,214,107,.9)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sx,sy-sl-40);ctx.lineTo(sx,sy+26);ctx.stroke();ctx.fillStyle='#0a0e18';ctx.fillRect(sx-7,sy,14,26);ctx.strokeStyle='#ece6da';ctx.lineWidth=1;ctx.strokeRect(sx-7,sy,14,26);text(ctx,'Syene · the Sun lights the bottom of the well',sx+14,sy-sl-6,{size:12});text(ctx,'no shadow',sx+14,sy-sl+12,{size:11,color:'#6fd48a'});
+// Alexandria gnomon (radial) with shadow
+const ux=-Math.sin(th),uy=-Math.cos(th);const gx=ax+ux*sl,gy=ay+uy*sl;ctx.strokeStyle='#ece6da';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(ax,ay);ctx.lineTo(gx,gy);ctx.stroke();
+// shadow: along tangent, length = sl*tan(th), direction away from sun (sun is +y up => shadow goes toward -x... compute: tangent direction pointing away from Syene = (-cos th, sin th) in screen)
+const tx=-Math.cos(th),ty=Math.sin(th);const shl=sl*Math.tan(th);ctx.strokeStyle='#000';ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(ax,ay);ctx.lineTo(ax+tx*shl,ay+ty*shl);ctx.stroke();
+// ray hitting tip
+ctx.strokeStyle='rgba(255,214,107,.9)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(gx,gy-60);ctx.lineTo(ax+tx*shl,ay+ty*shl);ctx.stroke();
+// shadow angle arc at gnomon tip
+ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;ctx.beginPath();ctx.arc(gx,gy,28,Math.PI/2-th,Math.PI/2);ctx.stroke();
+text(ctx,fmt(+angIn.value)+'°',gx-6,gy+46,{size:13,color:'#f0b35a',font:'mono',align:'right'});
+text(ctx,'Alexandria · a stick casts a shadow',ax-16,ay-sl-26,{size:12,align:'right'});
+// zoom inset: the stick and its shadow, enlarged
+const ix=w*.8,iy=h*.6,ir=Math.min(w,h)*.17;ctx.fillStyle='rgba(17,23,39,.94)';ctx.strokeStyle='#283048';ctx.lineWidth=1;ctx.beginPath();ctx.rect(ix-ir,iy-ir*1.1,ir*2,ir*2.3);ctx.fill();ctx.stroke();text(ctx,'The stick at Alexandria, enlarged',ix,iy-ir*1.1+18,{size:12,align:'center',color:'#9a9382'});
+const gl=ir*1.1,gy0=iy+ir*.75,gx0=ix+ir*.25,shv=gl*Math.tan(th);
+ctx.fillStyle='#8a7a5c';ctx.fillRect(ix-ir+8,gy0,ir*2-16,ir*.3);
+ctx.fillStyle='rgba(0,0,0,.75)';ctx.fillRect(gx0-shv,gy0,shv,ir*.3);
+for(let x=ix-ir+14;x<ix+ir-8;x+=16){ctx.strokeStyle='rgba(255,214,107,.25)';ctx.beginPath();ctx.moveTo(x+gl*Math.tan(th)*.6,gy0-gl*1.2);ctx.lineTo(x,gy0);ctx.stroke();}
+ctx.strokeStyle='#ffd66b';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(gx0+ (gl*.35)*Math.tan(th),gy0-gl-gl*.35);ctx.lineTo(gx0-shv,gy0);ctx.stroke();
+ctx.strokeStyle='#ece6da';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(gx0,gy0);ctx.lineTo(gx0,gy0-gl);ctx.stroke();
+ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;ctx.beginPath();ctx.arc(gx0,gy0-gl,34,Math.PI/2,Math.PI/2+th);ctx.stroke();text(ctx,fmt(+angIn.value)+'°',gx0-14,gy0-gl+54,{size:13,color:'#f0b35a',font:'mono',align:'right'});
+text(ctx,'shadow',gx0-shv-6,gy0-8,{size:11,align:'right',color:'#cfc8ba'});text(ctx,'stick',gx0+10,gy0-gl/2,{size:11,color:'#cfc8ba'});
+text(ctx,'shadow ÷ stick = tan '+fmt(+angIn.value)+'° = '+fmt(Math.tan(th),3),ix,iy+ir*1.2-6,{size:11,align:'center',color:'#9a9382'});
+}});}
+
+/* ---------- 3 · Jupiter ---------- */
+{const o=setup('c3');const tIn=document.getElementById('jup-t'),tOut=document.getElementById('jup-t-out'),spIn=document.getElementById('jup-speed'),spOut=document.getElementById('jup-speed-out'),playB=document.getElementById('jup-play'),rows=document.getElementById('nb-rows'),hint=document.getElementById('h3');
+const moons=[{n:'Io',P:1.769,a:5.9,ph:4.4,c:'#f5d58a'},{n:'Europa',P:3.551,a:9.4,ph:1.2,c:'#dfe7ff'},{n:'Ganymede',P:7.155,a:15.0,ph:2.6,c:'#c9b89a'},{n:'Callisto',P:16.689,a:26.3,ph:5.3,c:'#a8a8b8'}];
+let playing=false,top=false,last=0,sketches=[],jt=0;
+const date=(d,short)=>{const base=new Date(Date.UTC(1610,0,7));const x=new Date(base.getTime()+d*864e5);return x.toLocaleDateString('en-US',short?{day:'numeric',month:'short',timeZone:'UTC'}:{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'});};
+const posX=(m,d)=>m.a*Math.sin(TAU*d/m.P+m.ph),posZ=(m,d)=>m.a*Math.cos(TAU*d/m.P+m.ph);
+function update(){tOut.textContent=date(jt)+(jt%1>0.02?` +${Math.round(jt%1*24)}h`:'');spOut.textContent=`1 day / ${fmt(4/ +spIn.value,1)} s`;}
+tIn.oninput=()=>{jt=+tIn.value;update();};spIn.oninput=update;update();
+playB.onclick=()=>{playing=!playing;playB.textContent=playing?'Pause':'Play';last=0;};
+document.getElementById('jup-view').onclick=function(){top=!top;this.textContent=top?'Back to the telescope':'Show from above';hint.textContent=top?'Seen from above Jupiter’s pole · Earth is far below the screen':'Telescope view · east is left, as Galileo drew it';};
+document.getElementById('jup-clear').onclick=()=>{sketches=[];renderNb();};
+document.getElementById('jup-sketch').onclick=()=>{const d=jt;if(sketches.some(s=>Math.abs(s.d-d)<.001))return;sketches.push({d,xs:moons.map(m=>posX(m,d))});sketches.sort((a,b)=>a.d-b.d);renderNb();};
+function renderNb(){if(!sketches.length){rows.innerHTML='<p class="empty">Press “Sketch tonight” to record what the telescope shows.</p>';return;}rows.innerHTML=sketches.map(s=>{const dots=s.xs.map(x=>`<text x="${(50-x*1.6).toFixed(1)}" y="11" font-size="11" text-anchor="middle" fill="#2a2217">✱</text>`).join('');return `<div class="row"><span class="d">${date(s.d,true)}</span><svg viewBox="0 0 100 14"><circle cx="50" cy="7" r="3" fill="#2a2217"/>${dots}</svg></div>`;}).join('');}
+scenes.push({o,draw(t){if(playing){if(last)jt=Math.min(40,jt+(t-last)/1000*(+spIn.value/4));last=t;tIn.value=jt;if(jt>=40){playing=false;playB.textContent='Play';}update();}
+const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);const d=jt;const cx=w*.42,cy=h*.47,sc=Math.min(w*.4,h*.38)/27;
+if(top){// orbits
+moons.forEach(m=>{ctx.strokeStyle='rgba(236,230,218,.18)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(cx,cy,m.a*sc,0,TAU);ctx.stroke();});
+drawJup(ctx,cx,cy,sc);
+moons.forEach(m=>{const x=cx-posX(m,d)*sc,y=cy-posZ(m,d)*sc;ctx.fillStyle=m.c;ctx.beginPath();ctx.arc(x,y,4,0,TAU);ctx.fill();text(ctx,m.n,x+8,y-6,{size:11,color:m.c});});
+// line of sight to Earth
+ctx.strokeStyle='rgba(111,179,255,.4)';ctx.setLineDash([4,6]);ctx.beginPath();ctx.moveTo(cx-27*sc,cy+27*sc+8);ctx.lineTo(cx+27*sc,cy+27*sc+8);ctx.stroke();ctx.setLineDash([]);text(ctx,'what the telescope sees: everything flattened onto this line  ↓  (Earth is this way)',cx,cy+27*sc+26,{size:12,color:'#6fb3ff',align:'center'});
+moons.forEach(m=>{const x=cx-posX(m,d)*sc;ctx.strokeStyle='rgba(236,230,218,.15)';ctx.beginPath();ctx.moveTo(x,cy-posZ(m,d)*sc);ctx.lineTo(x,cy+27*sc+8);ctx.stroke();ctx.fillStyle=m.c;ctx.beginPath();ctx.arc(x,cy+27*sc+8,3,0,TAU);ctx.fill();});}
+else{// telescope circle
+ctx.save();ctx.beginPath();ctx.arc(cx,cy,Math.min(w,h)*.44,0,TAU);ctx.strokeStyle='#283048';ctx.lineWidth=2;ctx.stroke();ctx.clip();
+drawJup(ctx,cx,cy,sc);
+// sort by z so near moons draw on top; moons behind jupiter hidden
+const order=[...moons].sort((a,b)=>posZ(a,d)-posZ(b,d));
+order.forEach(m=>{const x=posX(m,d),z=posZ(m,d);if(z>0&&Math.abs(x)<1)return;const sx=cx-x*sc;ctx.fillStyle=m.c;ctx.beginPath();ctx.arc(sx,cy,4,0,TAU);ctx.fill();text(ctx,m.n,sx,cy+22,{size:11,color:m.c,align:'center'});});
+ctx.restore();text(ctx,'E',cx-Math.min(w,h)*.44+16,cy+5,{size:13,color:'#9a9382'});text(ctx,'W',cx+Math.min(w,h)*.44-24,cy+5,{size:13,color:'#9a9382'});text(ctx,date(d),cx,cy-Math.min(w,h)*.44+28,{size:14,align:'center',font:'serif',color:'#ece6da'});}
+}});
+function drawJup(ctx,cx,cy,sc){const r=Math.max(6,sc);const g=ctx.createRadialGradient(cx-r*.3,cy-r*.3,r*.2,cx,cy,r);g.addColorStop(0,'#f6e2bd');g.addColorStop(1,'#b98a55');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,r,0,TAU);ctx.fill();ctx.strokeStyle='rgba(120,80,40,.5)';ctx.lineWidth=Math.max(1,r*.12);ctx.beginPath();ctx.moveTo(cx-r*.9,cy-r*.3);ctx.lineTo(cx+r*.9,cy-r*.3);ctx.moveTo(cx-r*.95,cy+r*.25);ctx.lineTo(cx+r*.95,cy+r*.25);ctx.stroke();text(ctx,'Jupiter',cx,cy-r-10,{size:12,align:'center',color:'#f0b35a'});}
+}
+
+/* ---------- 4 · Moon mountains ---------- */
+{const o=setup('c4');const dIn=document.getElementById('mtn-d'),DIn=document.getElementById('mtn-D'),read=document.getElementById('mtn-read'),dOut=document.getElementById('mtn-d-out'),DOut=document.getElementById('mtn-D-out');
+dIn.oninput=DIn.oninput=update;document.getElementById('mtn-galileo').onclick=()=>{dIn.value=5;DIn.value=2000;update();};document.getElementById('mtn-modern').onclick=()=>{dIn.value=5;DIn.value=2159;update();};
+function calc(){const D=+DIn.value,R=D/2,d=D*(+dIn.value/100);return{D,R,d,h:Math.hypot(R,d)-R};}
+function update(){const{D,R,d,h}=calc();dOut.textContent=`${fmt(+dIn.value)}% of the width${Math.abs(+dIn.value-5)<.05?' · 1/20':''}`;DOut.textContent=fmtI(D)+' miles';
+read.innerHTML=`<strong>d = ${fmtI(d)} mi · R = ${fmtI(R)} mi</strong><span class="big">h ≥ ${fmt(h,1)} miles</span><span>√(${fmtI(R)}² + ${fmtI(d)}²) − ${fmtI(R)} = ${fmt(h,2)} mi ≈ ${fmtI(h*5280)} ft. ${h>5.5?'Taller than Everest.':h>4?'Galileo wrote “more than four Italian miles”, and that the Moon is rougher than the Earth.':h>1?'Already higher than the Alps as Galileo knew them.':'A hill.'}</span>`;}
+update();
+pointer(o,p=>{move(p);return true;},move);
+function move(p){const{w,h}=o;const cx=w*.27,cy=h*.52,R=Math.min(w*.2,h*.33);const v=(cx-p.x)/(2*R)*100;dIn.value=Math.max(.5,Math.min(12,v)).toFixed(1);update();}
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);const{R:Rm,d:dm,h:hm}=calc();const frac=+dIn.value/100;
+// telescope moon: left panel, lit on the right (sun to the right), terminator vertical through center
+const cx=w*.27,cy=h*.52,R=Math.min(w*.2,h*.33);
+ctx.fillStyle='#1c1a16';ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();const g=ctx.createRadialGradient(cx+R*.4,cy-R*.3,R*.1,cx,cy,R);g.addColorStop(0,'#f1ead8');g.addColorStop(1,'#a89f8c');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,-Math.PI/2,Math.PI/2);ctx.fill();
+// craters
+[[.35,-.4,.08],[.6,.2,.05],[.25,.45,.06],[.75,-.1,.04],[.5,.6,.035]].forEach(([x,y,r])=>{ctx.strokeStyle='rgba(60,50,40,.35)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(cx+x*R,cy+y*R,r*R,0,TAU);ctx.stroke();});
+ctx.strokeStyle='rgba(236,230,218,.35)';ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(cx,cy-R);ctx.lineTo(cx,cy+R);ctx.stroke();ctx.setLineDash([]);text(ctx,'terminator',cx,cy+R+18,{size:11,align:'center',color:'#9a9382'});
+const px=cx-frac*2*R;// peak in dark side
+// distance marker
+ctx.strokeStyle='#f0b35a';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(cx,cy-R*.65);ctx.lineTo(px,cy-R*.65);ctx.stroke();text(ctx,'d',(cx+px)/2,cy-R*.65-8,{size:13,color:'#f0b35a',align:'center',font:'serif'});
+const gl=ctx.createRadialGradient(px,cy,0,px,cy,14);gl.addColorStop(0,'#fff6dc');gl.addColorStop(.3,'#f0b35a');gl.addColorStop(1,'rgba(240,179,90,0)');ctx.fillStyle=gl;ctx.beginPath();ctx.arc(px,cy,14,0,TAU);ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(px,cy,2.5,0,TAU);ctx.fill();
+text(ctx,'a lit peak in the dark',px-6,cy+28,{size:11,align:'right',color:'#f0b35a'});
+text(ctx,'What Galileo saw',cx,cy-R-22,{size:13,align:'center',color:'#9a9382'});text(ctx,'Sun →',cx+R+10,cy+5,{size:12,color:'#ffd66b'});
+// side view: right panel. Moon circle, sun rays from right, terminator at top point T. peak at arc distance d counterclockwise from T (into dark side, i.e. to the left), height h so that the grazing ray through T touches the peak.
+const sx=w*.72,sy=h*.6,S=Math.min(w*.2,h*.3);
+const vis=Math.min(1.1,.58*Math.sqrt(frac/.05));// visual exaggeration so the mountain is visible// visual arc angle (radians) exaggerated
+const Rv=S,ang=vis;const T={x:sx,y:sy-Rv};
+const P0={x:sx-Rv*Math.sin(ang),y:sy-Rv*Math.cos(ang)};const hv=Rv/Math.cos(ang)-Rv;const Pk={x:sx-(Rv+hv)*Math.sin(ang),y:sy-(Rv+hv)*Math.cos(ang)};
+// moon body: lit right half
+ctx.fillStyle='#1c1a16';ctx.beginPath();ctx.arc(sx,sy,Rv,0,TAU);ctx.fill();ctx.fillStyle='#8f877a';ctx.beginPath();ctx.arc(sx,sy,Rv,-Math.PI/2,Math.PI/2);ctx.fill();
+// rays
+for(let y=sy-Rv-60;y<sy+Rv;y+=28){ctx.strokeStyle='rgba(255,214,107,.15)';ctx.beginPath();ctx.moveTo(w,y);ctx.lineTo(sx+Math.sqrt(Math.max(0,Rv*Rv-(y-sy)**2)),y);ctx.stroke();}
+// grazing ray through T to the peak and beyond
+ctx.strokeStyle='#ffd66b';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(w,T.y);ctx.lineTo(Pk.x,T.y);ctx.stroke();text(ctx,'grazing sunlight',w-10,T.y-10,{size:11,color:'#ffd66b',align:'right'});
+// mountain
+ctx.fillStyle='#d9d0bd';ctx.beginPath();const bw=.16;ctx.moveTo(sx-Rv*Math.sin(ang+bw),sy-Rv*Math.cos(ang+bw));ctx.lineTo(Pk.x,Pk.y);ctx.lineTo(sx-Rv*Math.sin(ang-bw),sy-Rv*Math.cos(ang-bw));ctx.closePath();ctx.fill();
+// labels: R to peak foot, h, d arc
+ctx.strokeStyle='rgba(236,230,218,.5)';ctx.setLineDash([4,4]);ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(Pk.x,Pk.y);ctx.moveTo(sx,sy);ctx.lineTo(T.x,T.y);ctx.stroke();ctx.setLineDash([]);
+text(ctx,'R',(sx+T.x)/2+8,(sy+T.y)/2,{size:14,color:'#cfc8ba',font:'serif'});text(ctx,'R + h',(sx+Pk.x)/2-26,(sy+Pk.y)/2,{size:14,color:'#f0b35a',font:'serif'});
+ctx.strokeStyle='#f0b35a';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(T.x,T.y);ctx.lineTo(Pk.x,T.y);ctx.stroke();text(ctx,'d',(T.x+Pk.x)/2,T.y-10,{size:14,color:'#f0b35a',font:'serif',align:'center'});
+ctx.strokeStyle='#6fd48a';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(P0.x,P0.y);ctx.lineTo(Pk.x,Pk.y);ctx.stroke();text(ctx,'h',Pk.x-14,(P0.y+Pk.y)/2+4,{size:14,color:'#6fd48a',font:'serif',align:'center'});
+// right angle mark at T
+ctx.strokeStyle='rgba(236,230,218,.6)';ctx.lineWidth=1;ctx.strokeRect(T.x-10,T.y,10,10);
+text(ctx,'Side view · not to scale',sx,sy+Rv+24,{size:12,align:'center',color:'#9a9382'});
+text(ctx,`(R + h)² = R² + d²`,sx,h*.1,{size:16,align:'center',color:'#ece6da',font:'serif'});text(ctx,`h = √(${fmtI(Rm)}² + ${fmtI(dm)}²) − ${fmtI(Rm)} = ${fmt(hm,1)} mi`,sx,h*.1+22,{size:13,align:'center',color:'#f0b35a',font:'mono'});
+}});}
+
+/* ---------- loop ---------- */
+function frame(t){const s=scenes[cur];if(s&&s.o.w)s.draw(t);requestAnimationFrame(frame);}
+addEventListener('hashchange',()=>{const n=parseInt(location.hash.slice(1))||0;if(n!==cur)go(n);});
+go(parseInt(location.hash.slice(1))||0);requestAnimationFrame(frame);
+</script>
+</body>
+</html>

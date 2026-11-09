@@ -7,3 +7,7 @@ A learning log: one page per lesson topic, a short index per day, tags, search a
 - Hosting: Vercel project `faria-learning-log`, deploys on every push to `main`
 
 See `ADDING_A_SESSION.md` for adding a day.
+
+## Interactive deck
+
+`/deck/` is a presenter deck of four live models (latitude from Polaris and longitude from a chronometer, Eratosthenes, Galileo's moons of Jupiter, the height of a Moon mountain). Source: `public/deck/index.html`, no dependencies. Arrow keys move between slides, F toggles full screen, `#n` in the URL opens slide n. Smoke test: `node build.mjs && PLAYWRIGHT_MODULE=<path to playwright> node tests/deck-browser.mjs`.
