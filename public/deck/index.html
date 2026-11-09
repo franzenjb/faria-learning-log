@@ -15,7 +15,7 @@ button,input{font:inherit}
 #fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:6}
 .slide{position:absolute;inset:0;display:grid;grid-template-columns:minmax(300px,30rem) 1fr;grid-template-rows:1fr;gap:0;opacity:0;pointer-events:none;transform-origin:50% 50%}
 .slide.active{opacity:1;pointer-events:auto}
-.card{position:absolute;right:1.2rem;bottom:3.6rem;width:min(62%,640px);max-height:calc(100% - 5rem);overflow:auto;background:rgba(17,23,39,.97);border:1px solid var(--line);border-radius:.8rem;padding:1.2rem 1.4rem 1.3rem;font-family:var(--sans);box-shadow:0 14px 50px rgba(0,0,0,.6)}
+.card{position:absolute;right:1.2rem;bottom:3.6rem;width:min(calc(100% - 2.4rem),820px);max-height:calc(100% - 5rem);overflow:auto;background:rgba(17,23,39,.97);border:1px solid var(--line);border-radius:.8rem;padding:1.2rem 1.4rem 1.3rem;font-family:var(--sans);box-shadow:0 14px 50px rgba(0,0,0,.6)}
 .card h3{margin:0 2rem .6rem 0;font:600 1.5rem/1.2 var(--serif)}
 .card p{margin:.7rem 0 0;font-size:1.1rem;color:#dfd8ca;line-height:1.5}
 .card svg,.card img{width:100%;height:auto;display:block;border-radius:.3rem;background:#0a0e18}
@@ -106,18 +106,19 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
     <ul class="facts menu">
       <li data-go="Mental maps"><strong>1.</strong> Three questions your mental map gets wrong.</li>
       <li data-go="Latitude &amp; Longitude"><strong>2.</strong> Latitude is an angle to Polaris. Longitude is a clock.</li>
-      <li data-go="Eratosthenes"><strong>3.</strong> Eratosthenes sizes the Earth with a well and a stick.</li>
-      <li data-go="Baselines"><strong>4.</strong> Baselines: your finger, a steeple, and Picard's network.</li>
-      <li data-go="Jupiter's moons"><strong>5.</strong> Galileo sees four moons circling Jupiter.</li>
-      <li data-go="Moon mountains"><strong>6.</strong> Galileo measures a mountain on the Moon from its shadow.</li>
-      <li data-go="Kepler to Halley"><strong>7.</strong> Kepler, Horrocks and Halley: a map with no scale bar.</li>
-      <li data-go="Transit of Venus"><strong>8.</strong> Venus crosses the Sun and the solar system gets a size.</li>
-      <li data-go="Cook"><strong>9.</strong> Cook: a collier, a clock, and the coast he charted.</li>
-      <li data-go="Mason &amp; Dixon"><strong>10.</strong> Mason and Dixon: a sea fight, a transit, and a line across America.</li>
-      <li data-go="Flat maps lie"><strong>11.</strong> Flat maps lie: Greenland, Africa, and the shortest way across.</li>
-      <li data-go="The storm wire"><strong>12.</strong> The storm wire: telegraph, Viñes, and Galveston.</li>
-      <li data-go="Twice the wind"><strong>13.</strong> Twice the wind is four times the force.</li>
-      <li data-go="The shelter decision"><strong>14.</strong> The shelter decision: a crisp edge, a fuzzy answer.</li>
+      <li data-go="Hours are slices"><strong>3.</strong> Hours are slices: the Earth as a 24-piece clock, down to the arcminute.</li>
+      <li data-go="Eratosthenes"><strong>4.</strong> Eratosthenes sizes the Earth with a well and a stick.</li>
+      <li data-go="Baselines"><strong>5.</strong> Baselines: your finger, a steeple, and Picard's network.</li>
+      <li data-go="Jupiter's moons"><strong>6.</strong> Galileo sees four moons circling Jupiter.</li>
+      <li data-go="Moon mountains"><strong>7.</strong> Galileo measures a mountain on the Moon from its shadow.</li>
+      <li data-go="Kepler to Halley"><strong>8.</strong> Kepler, Horrocks and Halley: a map with no scale bar.</li>
+      <li data-go="Transit of Venus"><strong>9.</strong> Venus crosses the Sun and the solar system gets a size.</li>
+      <li data-go="Cook"><strong>10.</strong> Cook: a collier, a clock, and the coast he charted.</li>
+      <li data-go="Mason &amp; Dixon"><strong>11.</strong> Mason and Dixon: a sea fight, a transit, and a line across America.</li>
+      <li data-go="Flat maps lie"><strong>12.</strong> Flat maps lie: Greenland, Africa, and the shortest way across.</li>
+      <li data-go="The storm wire"><strong>13.</strong> The storm wire: telegraph, Viñes, and Galveston.</li>
+      <li data-go="Twice the wind"><strong>14.</strong> Twice the wind is four times the force.</li>
+      <li data-go="The shelter decision"><strong>15.</strong> The shelter decision: a crisp edge, a fuzzy answer.</li>
     </ul>
     <p><small>→ and ← keys move between slides. F for full screen. P opens presenter notes in a second window. Dotted words open an explanation.</small></p>
   </div>
@@ -162,17 +163,37 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
         <label><span class="row">Greenwich chronometer <output id="clock-out">12:00</output></span><input id="clock" type="range" min="0" max="1439" step="1" value="720"></label>
         <label><span class="row">Chronometer drift <output id="drift-out">0 s/day</output></span><input id="drift" type="range" min="0" max="60" step="1" value="0"></label>
       </div>
-      <div class="btns"><button class="primary" id="find-noon">Find local noon</button><button id="hold-noon">Hold the ship at noon</button><button id="deg-time">Degrees → time</button><button id="wedge">15° at the equator vs 60° N</button><button id="harrison">Harrison's H4 · 5 s in 81 days</button><button id="how-lon">How the chronometer works</button></div>
+      <div class="btns"><button class="primary" id="find-noon">Find local noon</button><button id="hold-noon">Hold the ship at noon</button><button id="wedge">15° at the equator vs 60° N</button><button id="harrison">Harrison's H4 · 5 s in 81 days</button><button id="how-lon">How the chronometer works</button></div>
       <div class="readout" id="lon-read"></div>
     </div>
   </div>
   <div class="stage"><canvas id="c1"></canvas><div class="hint" id="h1">Drag to spin · pinch or scroll to zoom · tap to stand there</div><div class="card" id="g-card" hidden><button class="x" id="g-card-x" aria-label="Close">×</button><h3 id="g-card-t"></h3><div id="g-card-g"></div><p id="g-card-p"></p></div></div>
 </section>
 
+<!-- 3 · Hours are slices -->
+<section class="slide" data-title="Hours are slices" data-fx="clockhand">
+  <div class="text">
+    <p class="kicker">3 · Degrees are time</p>
+    <h1 id="hs-title">The Earth is a clock with 24 slices</h1>
+    <p class="lede">Look down on the North Pole. The Earth turns once in 24 hours, so cut it into 24 slices and each slice is one hour of turning: 15°.</p>
+    <p>Tap any slice to zoom into it. One slice is 15 degrees; one degree is 4 minutes of time; one minute of arc is 4 seconds. Time minutes and arc minutes are different things with the same name, and a navigator needs both.</p>
+    <div class="controls"><label><span class="row">Turning speed <output id="hs-speed-out">1 hour / 3 s</output></span><input id="hs-speed" type="range" min="0" max="4" step="0.25" value="1"></label></div>
+    <div class="btns"><button class="primary" id="hs-slice">Zoom into one slice</button><button id="hs-degree">Zoom into one degree</button><button id="hs-out">Back out</button><button id="hs-ship">Put a ship on it</button></div>
+    <div class="readout" id="hs-read"></div>
+    <div class="table-wrap" style="margin-top:1rem"><table style="width:100%;border-collapse:collapse;font:.9rem var(--sans)"><thead><tr style="color:var(--muted);text-align:left"><th style="padding:.3rem 0">Time</th><th>Angle</th><th>At the equator</th></tr></thead><tbody style="color:#dfd8ca">
+<tr><td style="padding:.3rem 0">1 hour</td><td>15°</td><td>1,036 mi</td></tr>
+<tr><td style="padding:.3rem 0">1 minute</td><td>15′ (¼°)</td><td>17.3 mi</td></tr>
+<tr><td style="padding:.3rem 0">4 minutes</td><td>1°</td><td>69 mi</td></tr>
+<tr><td style="padding:.3rem 0">1 second</td><td>15″</td><td>0.29 mi</td></tr>
+<tr><td style="padding:.3rem 0">4 seconds</td><td>1′</td><td>1 nautical mile</td></tr></tbody></table></div>
+  </div>
+  <div class="stage"><canvas id="c3h"></canvas><div class="hint" id="hs-hint">Tap a slice to zoom in · from above the North Pole · no continents, just the turning</div></div>
+</section>
+
 <!-- 2 · Eratosthenes -->
 <section class="slide" data-title="Eratosthenes" data-fx="sunrise">
   <div class="text">
-    <p class="kicker">3 · How big is the world? · c. 240 BC</p>
+    <p class="kicker">4 · How big is the world? · c. 240 BC</p>
     <h1>A well, a stick, and the size of the Earth</h1>
     <p class="lede">At noon on the summer solstice the Sun shone straight down a well at Syene. The same moment in Alexandria, a vertical stick, a <span class="term" data-term="gnomon">gnomon</span>, cast a shadow of about 7.2°, one fiftieth of a circle.</p>
     <p>The Sun is so far away its rays arrive parallel. If the ground were flat, both sticks would cast the same shadow. They did not, so the ground curves, and by <span class="term" data-term="euclid">Euclid’s rule for parallel lines</span> the shadow angle at Alexandria equals the angle between the two cities at the center of the Earth. Fifty times the distance between them, measured in <span class="term" data-term="stadion">stadia</span>, is the whole way around.</p>
@@ -181,7 +202,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
       <label><span class="row">Distance Syene to Alexandria <output id="era-dist-out">5,000 stadia</output></span><input id="era-dist" type="range" min="3000" max="7000" step="50" value="5000"></label>
       <label><span class="row">Length of a stadion <output id="era-stad-out">157.5 m</output></span><input id="era-stad" type="range" min="150" max="200" step="0.5" value="157.5"></label>
     </div>
-    <div class="btns"><button class="primary" id="era-reset">Eratosthenes' numbers</button><button id="era-flat">What if the Earth were flat?</button><button id="era-euclid">Why the angles are equal</button></div>
+    <div class="btns"><button class="primary" id="era-reset">Eratosthenes' numbers</button><button id="era-mult">Do the multiplication</button><button id="era-euclid">Why the angles are equal</button></div>
     <div class="readout" id="era-read"></div>
   </div>
   <div class="stage"><canvas id="c2"></canvas><div class="hint">Drag Alexandria along the surface</div></div>
@@ -190,7 +211,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 4 · Baselines -->
 <section class="slide" data-title="Baselines" data-fx="triangles">
   <div class="text">
-    <p class="kicker">4 · Triangles · One measured length, everything else computed</p>
+    <p class="kicker">5 · Triangles · One measured length, everything else computed</p>
     <h1 id="bl-title">Switch eyes. The finger jumps; the wall does not.</h1>
     <div class="modes" id="m4"><button class="on" data-mode="finger">Your finger</button><button data-mode="steeple">A steeple</button><button data-mode="picard">Picard's network · 1670</button></div>
     <div id="bl-body"></div>
@@ -204,7 +225,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 3 · Jupiter's moons -->
 <section class="slide" data-title="Jupiter's moons" data-fx="telescope">
   <div class="text">
-    <p class="kicker">5 · January 1610 · Padua</p>
+    <p class="kicker">6 · January 1610 · Padua</p>
     <h1 id="jup-title">Four little stars that would not stay still</h1>
     <div class="modes" id="m5j"><button class="on" data-mode="moons">The moons</button><button data-mode="clock">Jupiter as a clock</button></div>
     <div id="jup-moons-panel">
@@ -242,7 +263,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 4 · Moon mountains -->
 <section class="slide" data-title="Moon mountains" data-fx="terminator">
   <div class="text">
-    <p class="kicker">6 · Sidereus Nuncius · 1610</p>
+    <p class="kicker">7 · Sidereus Nuncius · 1610</p>
     <h1>How tall is a mountain on the Moon?</h1>
     <p class="lede">Galileo saw bright points on the dark side of the Moon, well past the <span class="term" data-term="terminator">terminator</span>, the line between day and night. They were peaks, still catching sunlight while the ground around them was in shadow.</p>
     <p>Spin the Moon to look at the peak from above the pole and the geometry appears: a right triangle with the Moon's radius <em>R</em> as one leg, the distance <em>d</em> past the terminator as the other, and <em>R + h</em> as the hypotenuse. Tap the rim, the centre line, a radius, or the triangle itself to call out each piece.</p>
@@ -262,7 +283,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 5 · Kepler, Horrocks, Halley -->
 <section class="slide" data-title="Kepler to Halley" data-fx="orbit">
   <div class="text">
-    <p class="kicker">7 · 1609 to 1742 · A relay across three lifetimes</p>
+    <p class="kicker">8 · 1609 to 1742 · A relay across three lifetimes</p>
     <h1 id="kp-title">A map of the solar system with no scale bar</h1>
     <div class="modes" id="m7"><button class="on" data-mode="kepler">Kepler</button><button data-mode="horrocks">Horrocks · 1639</button><button data-mode="halley">Halley · the plan</button><button data-mode="starday">Star day vs Sun day</button></div>
     <div id="kp-body"></div>
@@ -279,7 +300,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 5 · Transit of Venus -->
 <section class="slide" data-title="Transit of Venus" data-fx="venus">
   <div class="text">
-    <p class="kicker">8 · 1761 and 1769 · The whole world looks up</p>
+    <p class="kicker">9 · 1761 and 1769 · The whole world looks up</p>
     <h1>Venus crosses the Sun, and the solar system gets a size</h1>
     <div class="modes" id="m5"><button class="on" data-mode="measure">Measure the Sun's distance</button><button data-mode="rare">Why it almost never happens</button></div>
 
@@ -310,7 +331,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 9 · Cook -->
 <section class="slide" data-title="Cook" data-fx="wake">
   <div class="text">
-    <p class="kicker">9 · 1768 to 1775 · A collier, a clock, and a coast</p>
+    <p class="kicker">10 · 1768 to 1775 · A collier, a clock, and a coast</p>
     <h1 id="ck-title">A Whitby coal ship sails for Venus</h1>
     <div class="chips" id="ck-chapters"><button data-ch="0" class="on">1 · Endeavour</button><button data-ch="1">2 · To Tahiti</button><button data-ch="2">3 · The transit</button><button data-ch="3">4 · The east coast</button><button data-ch="4">5 · K1</button></div>
     <div id="ck-body"></div>
@@ -324,7 +345,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 6 · Mason and Dixon -->
 <section class="slide" data-title="Mason &amp; Dixon" data-fx="survey">
   <div class="text">
-    <p class="kicker">10 · 1761 to 1767 · Two men, one line</p>
+    <p class="kicker">11 · 1761 to 1767 · Two men, one line</p>
     <h1 id="md-title">Mason and Dixon</h1>
     <div class="chips" id="md-chapters"><button data-ch="0" class="on">1 · Two men</button><button data-ch="1">2 · The Seahorse</button><button data-ch="2">3 · The Cape</button><button data-ch="3">4 · To America</button><button data-ch="4">5 · The line</button><button data-ch="5">6 · The stones</button></div>
     <div id="md-body"></div>
@@ -338,7 +359,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 9 · Flat maps lie -->
 <section class="slide" data-title="Flat maps lie" data-fx="unroll">
   <div class="text">
-    <p class="kicker">11 · Frames · Every flat map is a choice</p>
+    <p class="kicker">12 · Frames · Every flat map is a choice</p>
     <h1 id="fm-title">How many Greenlands fit in Africa?</h1>
     <div class="modes" id="m9"><button class="on" data-mode="greenland">Greenland vs Africa</button><button data-mode="routes">Straight is not shortest</button></div>
     <div id="fm-greenland">
@@ -361,7 +382,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 12 · The storm wire -->
 <section class="slide" data-title="The storm wire" data-fx="morse">
   <div class="text">
-    <p class="kicker">12 · Decisions · A warning is an inference, and not yet safety</p>
+    <p class="kicker">13 · Decisions · A warning is an inference, and not yet safety</p>
     <h1 id="sw-title">Telegraph reports could outrun a storm</h1>
     <div class="chips" id="sw-chapters"><button data-ch="0" class="on">1 · The wire</button><button data-ch="1">2 · Viñes, 1875</button><button data-ch="2">3 · Galveston, 1900</button></div>
     <div id="sw-body"></div>
@@ -376,7 +397,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 13 · Twice the wind -->
 <section class="slide" data-title="Twice the wind" data-fx="gust">
   <div class="text">
-    <p class="kicker">13 · Decisions · Before comparing winds, compare definitions</p>
+    <p class="kicker">14 · Decisions · Before comparing winds, compare definitions</p>
     <h1>Twice the wind is four times the force</h1>
     <p class="lede">Drag the wind up. Force on a wall grows with the square of the speed; the power in the flow grows with the cube. Twenty percent more wind is forty-four percent more force.</p>
     <p>And the number itself depends on who measured it. The US agencies average over one minute; Japan and Australia average over ten. A gust is a separate short peak. There is no universal multiplier between them, so compare definitions before you compare storms.</p>
@@ -391,7 +412,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 14 · The shelter decision -->
 <section class="slide" data-title="The shelter decision" data-fx="edge">
   <div class="text">
-    <p class="kicker">14 · Decisions · A crisp edge can conceal a fuzzy answer</p>
+    <p class="kicker">15 · Decisions · A crisp edge can conceal a fuzzy answer</p>
     <h1>Is the shelter outside the hazard?</h1>
     <p class="lede">A fictional coast, a fictional hazard, a fictional shelter. Drag either one. The drawn edge is crisp; the real edge is a band, and so is the shelter’s position. The verdict says only what the geometry allows.</p>
     <p>Toggle the layers: wind, surge, rainfall flooding and road access answer different questions, and a wind category is not the whole map. The last card lists what a useful decision map makes visible.</p>
@@ -540,7 +561,7 @@ function geom(){const{w,h}=o;return{cx:w*.5,cy:h*.5,R:Math.min(w,h)*.33*st.zoom}
 function proj(p){const{cx,cy,R}=geom();const q=rot(p,st.yaw,st.pitch);return{x:cx+q[0]*R,y:cy-q[1]*R,z:q[2]};}
 function tap(p){const{cx,cy,R}=geom();const X=(p.x-cx)/R,Y=-(p.y-cy)/R;const r2=X*X+Y*Y;if(r2>1)return;const q=[X,Y,Math.sqrt(1-r2)];const wpt=unrot(q,st.yaw,st.pitch);me={lat:Math.asin(wpt[1])/DEG,lon:Math.atan2(-wpt[2],wpt[0])/DEG};readout();}
 // a straight-on cross-section of the Earth for the latitude card: observer, horizon, parallel starlight, the two equal angles
-function latDiagram(lat){const north=lat>=0,a=Math.abs(lat)*DEG,W=480,H=300,cx=200,cy=170,R=120;const sgn=north?-1:1;// screen y of the pole end
+function latDiagram(lat){const north=lat>=0,a=Math.abs(lat)*DEG,W=480,H=320,cx=200,cy=175,R=110;const sgn=north?-1:1;// screen y of the pole end
 const px=cx+R*Math.cos(a),py=cy+sgn*R*Math.sin(a);const tx=-Math.sin(a),ty=sgn*Math.cos(a);// tangent toward the pole
 const nx=Math.cos(a),ny=sgn*Math.sin(a);// outward normal (straight up from the ground)
 const hx1=px-tx*150,hy1=py-ty*150,hx2=px+tx*150,hy2=py+ty*150;const star=north?'Polaris':'south celestial pole';
@@ -551,12 +572,12 @@ const r2=44;const arcPts=[];for(let k=0;k<=20;k++){const th=a*k/20;arcPts.push(`
 const arcO=`<polyline points="${arcPts.join(' ')}" fill="none" stroke="#f0b35a" stroke-width="2"/>`;
 const mid=a/2;const lx=px+(r2+18)*(tx*Math.cos(mid)+nx*Math.sin(mid)),ly=py+(r2+18)*(ty*Math.cos(mid)+ny*Math.sin(mid));
 return `<svg viewBox="0 0 ${W} ${H}" style="background:#0a0e18">${rays}<text x="${cx+95}" y="${north?16:H-8}" fill="#6fb3ff" font-size="11">starlight from ${star} · parallel lines</text>
-<circle cx="${cx}" cy="${cy}" r="${R}" fill="#1b3558" stroke="#3b5f8a"/><line x1="${cx}" y1="${cy-R*1.25}" x2="${cx}" y2="${cy+R*1.25}" stroke="#ece6da" stroke-opacity=".5" stroke-dasharray="5 5"/><line x1="${cx-R*1.15}" y1="${cy}" x2="${cx+R*1.15}" y2="${cy}" stroke="#f0b35a" stroke-opacity=".6" stroke-dasharray="5 5"/><text x="${cx+R*1.17}" y="${cy+4}" fill="#f0b35a" font-size="11">equator</text><text x="${cx+5}" y="${north?cy-R*1.27:cy+R*1.27+10}" fill="#ece6da" font-size="11">${north?'N':'S'} pole</text>
-<line x1="${cx}" y1="${cy}" x2="${px}" y2="${py}" stroke="#f0b35a" stroke-width="1.5"/>${arcC}<text x="${cx+52*Math.cos(a/2)+4}" y="${cy+sgn*52*Math.sin(a/2)+4}" fill="#f0b35a" font-size="13" font-family="Menlo,monospace">${fmt(Math.abs(lat))}°</text>
-<line x1="${hx1}" y1="${hy1}" x2="${hx2}" y2="${hy2}" stroke="#6fd48a" stroke-width="2.5"/><text x="${hx2+6}" y="${hy2+4}" fill="#6fd48a" font-size="12">horizon</text>
-<line x1="${px}" y1="${py}" x2="${px}" y2="${py+sgn*120}" stroke="#6fb3ff" stroke-width="2.5"/><polygon points="${px},${py+sgn*126} ${px-6},${py+sgn*112} ${px+6},${py+sgn*112}" fill="#6fb3ff"/><text x="${px+8}" y="${py+sgn*110}" fill="#6fb3ff" font-size="12">to ${star}</text>
+<circle cx="${cx}" cy="${cy}" r="${R}" fill="#1b3558" stroke="#3b5f8a"/><line x1="${cx}" y1="${cy-R*1.25}" x2="${cx}" y2="${cy+R*1.25}" stroke="#ece6da" stroke-opacity=".5" stroke-dasharray="5 5"/><line x1="${cx-R*1.15}" y1="${cy}" x2="${cx+R*1.15}" y2="${cy}" stroke="#f0b35a" stroke-opacity=".6" stroke-dasharray="5 5"/><text x="${cx+R*1.17}" y="${cy+4}" fill="#f0b35a" font-size="11">equator</text><text x="${cx-14}" y="${north?Math.max(12,cy-R*1.27):Math.min(H-4,cy+R*1.27+10)}" fill="#ece6da" font-size="11" text-anchor="end">${north?'N':'S'} pole</text>
+<line x1="${cx}" y1="${cy}" x2="${px}" y2="${py}" stroke="#f0b35a" stroke-width="1.5"/>${arcC}<text x="${cx+58*Math.cos(a/2)+2}" y="${Math.max(14,Math.min(H-6,cy+sgn*58*Math.sin(a/2)+5))}" fill="#f0b35a" font-size="13" font-family="Menlo,monospace">${fmt(Math.abs(lat))}°</text>
+<line x1="${hx1}" y1="${hy1}" x2="${hx2}" y2="${hy2}" stroke="#6fd48a" stroke-width="2.5"/><text x="${hx2+6}" y="${hy2+4}" fill="#6fd48a" font-size="12">horizon · the ground under your feet</text>
+<line x1="${px}" y1="${py}" x2="${px}" y2="${py+sgn*120}" stroke="#6fb3ff" stroke-width="2.5"/><polygon points="${px},${py+sgn*126} ${px-6},${py+sgn*112} ${px+6},${py+sgn*112}" fill="#6fb3ff"/><text x="${px+8}" y="${Math.max(14,Math.min(H-6,py+sgn*110))}" fill="#6fb3ff" font-size="12">to ${star}</text>
 ${arcO}<text x="${lx}" y="${ly+4}" fill="#f0b35a" font-size="14" font-family="Menlo,monospace" text-anchor="middle">${fmt(Math.abs(lat))}°</text>
-<circle cx="${px}" cy="${py}" r="6" fill="#fff" stroke="#0a0e18" stroke-width="2"/><text x="${px+10}" y="${py+16}" fill="#ece6da" font-size="12">you</text>
+<g stroke="#ece6da" stroke-width="2.5" stroke-linecap="round" fill="none"><line x1="${px}" y1="${py}" x2="${px+nx*22}" y2="${py-ny*22}"/><line x1="${px+nx*22}" y1="${py-ny*22}" x2="${px+nx*22-tx*9}" y2="${py-ny*22+ty*9}"/><line x1="${px+nx*22}" y1="${py-ny*22}" x2="${px+nx*22+tx*9}" y2="${py-ny*22-ty*9}"/><line x1="${px}" y1="${py}" x2="${px-tx*7+nx*0}" y2="${py+ty*7}"/><line x1="${px}" y1="${py}" x2="${px+tx*7}" y2="${py-ty*7}"/></g><circle cx="${px+nx*30}" cy="${py-ny*30}" r="6" fill="#ece6da"/><text x="${px+nx*30+10}" y="${py-ny*30+4}" fill="#ece6da" font-size="12">you, standing on the ground</text>
 <text x="12" y="${H-10}" fill="#9a9382" font-size="11">Same angle twice: at the centre of the Earth, and between your horizon and the star.</text></svg>`;}
 function readout(){if(!me)return;const north=me.lat>=0,a=Math.abs(me.lat);const where=`${fmt(a)}° ${north?'N':'S'}, ${fmt(Math.abs(me.lon))}° ${me.lon<0?'W':'E'}`;read.innerHTML=`<strong>You are at ${where}</strong><span>${north?'Polaris':'The south celestial pole'} stands ${fmt(a)}° above your horizon. Details on the right.</span>`;
 showCard(`${north?'Polaris':'The south celestial pole'} ${fmt(a)}° above the horizon`,latDiagram(me.lat),`You are at ${where}. ${north?(a<1?'On the equator Polaris sits right on the horizon: latitude zero.':'Sight Polaris with a quadrant and read its height above the horizon. The starlight arrives in parallel lines, so the angle you measure between horizon and star is exactly the angle between the equator and you at the centre of the Earth. That number is your latitude.'):'There is no bright star over the southern pole, so southern navigators found the empty point with the Southern Cross and measured its height instead. The angle is still the latitude.'}`);}
@@ -608,7 +629,7 @@ text(ctx,`${show.grid?'10°':'15°'} graticule · zoom ${fmt(st.zoom,1)}×`,w-16
 /* chronometer mode (2D) */
 document.getElementById('find-noon').onclick=()=>{clockIn.value=Math.round(((12-shipLon/15)*60%1440+1440)%1440);updateLon();};
 document.getElementById('hold-noon').onclick=function(){holdNoon=!holdNoon;this.classList.toggle('on',holdNoon);if(holdNoon)clockIn.value=Math.round(((12-shipLon/15)*60%1440+1440)%1440);updateLon();};
-document.getElementById('deg-time').onclick=function(){openTerm('slices',this);};let showWedge=false;document.getElementById('wedge').onclick=function(){showWedge=!showWedge;this.classList.toggle('on',showWedge);};
+let showWedge=false;document.getElementById('wedge').onclick=function(){showWedge=!showWedge;this.classList.toggle('on',showWedge);};
 document.getElementById('harrison').onclick=()=>{driftIn.value=0;shipLon=-76.8;shipLat=17.9;holdNoon=true;document.getElementById('hold-noon').classList.add('on');clockIn.value=Math.round(((12-shipLon/15)*60%1440+1440)%1440);updateLon();openTerm('chronometer',document.getElementById('harrison'));const pEl=document.querySelector('#c1').closest('.stage').querySelector('.card.gloss p');pEl.innerHTML='<b>The ship has sailed to Port Royal, Jamaica, where H4 was checked against the Sun in January 1762 after 81 days at sea: 5 seconds slow, 1¼ nautical miles. The Board of Longitude had asked for 30 miles.</b> '+pEl.innerHTML;};
 clockIn.oninput=driftIn.oninput=updateLon;
 function clock(){return+clockIn.value;}
@@ -668,6 +689,66 @@ const diffMin=Math.round(shipLon*4);tag(ctx,`${diffMin<0?'−':'+'}${Math.floor(
 if(holdNoon)tag(ctx,'ship held at noon · slide GMT and the ship moves',w*.78-kr*.9,h*.78-kr-16,'#6fd48a',11);}
 }
 
+/* ---------- 3 · Hours are slices ---------- */
+{const o=setup('c3h');const speedIn=document.getElementById('hs-speed'),speedOut=document.getElementById('hs-speed-out'),read=document.getElementById('hs-read'),title=document.getElementById('hs-title'),hint=document.getElementById('hs-hint');
+let level=0,// 0 disc, 1 one slice, 2 one degree
+rotation=0,// radians the Earth has turned (Greenwich tick), counter-clockwise from the Sun (+x)
+focus=0,// which slice index (0..23) is being zoomed
+ship=null,// slice index of the ship, or null
+last=0,zoomAnim=null,zoomT=0;// zoomT: 0 disc .. 1 slice .. 2 degree
+speedIn.oninput=()=>{speedOut.textContent=+speedIn.value?`1 hour / ${fmt(3/ +speedIn.value,1)} s`:'stopped';};
+const ease=k=>k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+function goLevel(n){level=n;zoomAnim={from:zoomT,to:n,t0:performance.now(),ms:1600};update();}
+document.getElementById('hs-slice').onclick=()=>goLevel(1);document.getElementById('hs-degree').onclick=()=>goLevel(2);document.getElementById('hs-out').onclick=()=>goLevel(0);
+document.getElementById('hs-ship').onclick=function(){ship=ship===null?(focus+18)%24:null;this.classList.toggle('on',ship!==null);update();};
+function update(){title.textContent=level===0?'The Earth is a clock with 24 slices':level===1?'One slice: 15° of turning, one hour of time':'One degree: 4 minutes of time, 60 minutes of arc';
+hint.textContent=level===0?'Tap a slice to zoom in · from above the North Pole · no continents, just the turning':level===1?'Tap a degree to zoom in · 15 degrees in the slice, 4 minutes each':'60 arcminutes in a degree · 4 seconds each · Back out to return';
+const sh=ship===null?'':`<br>The ship sits ${Math.abs(((ship-focus+36)%24)-12)===0?'on the Greenwich slice':`${((ship-focus+24)%24)>12?24-((ship-focus+24)%24):((ship-focus+24)%24)} slice${Math.abs(((ship-focus+36)%24)-12)===11?'':'s'} ${((ship-focus+24)%24)>12?'west':'east'} of Greenwich`}: its local clock is ${((ship-focus+24)%24)>12?24-((ship-focus+24)%24):((ship-focus+24)%24)} hour${((ship-focus+24)%24)===1||((ship-focus+24)%24)===23?'':'s'} ${((ship-focus+24)%24)>12?'behind':'ahead'}.`;
+read.innerHTML=level===0?`<strong>24 hours = 360°</strong><span class="big">1 hour = 15°</span><span>The whole Earth turns through one slice every hour. The Greenwich tick shows where noon is right now; every slice it passes is another hour.${sh}</span>`:
+level===1?`<strong>One slice = 15° = 1 hour</strong><span class="big">1° = 4 minutes</span><span>Fifteen degrees in the slice, sixty minutes in the hour: 60 ÷ 15 = 4 minutes of time per degree. At the equator a degree is 69 miles, so a clock that is four minutes off puts a ship 69 miles from where it thinks it is.${sh}</span>`:
+`<strong>One degree = 4 minutes of time = 60 minutes of arc</strong><span class="big">1′ of arc = 4 seconds</span><span>Here the names collide. A minute of arc is 1/60 of a degree: one nautical mile at the equator. A minute of time is 15 minutes of arc. Harrison's H4 lost 5 seconds in 81 days: 1¼ arcminutes, 1¼ nautical miles. That is why seconds mattered.${sh}</span>`;}
+update();
+const geom=()=>{const{w,h}=o;return{cx:w*.5,cy:h*.5,R:Math.min(w,h)*.4};};
+// pointer: tap a slice (level 0) or a degree (level 1)
+o.c.addEventListener('pointerdown',e=>{const r=o.c.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;const{cx,cy,R}=geom();
+if(level===0){const d=Math.hypot(x-cx,y-cy);if(d>R*1.05)return;const a=Math.atan2(cy-y,x-cx);// angle ccw from +x
+const rel=((a-rotation)%TAU+TAU)%TAU;focus=Math.floor(rel/(TAU/24));goLevel(1);}
+else if(level===1){goLevel(2);}});
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);const dt=last?(t-last)/1000:0;last=t;if(zoomT<.05&&+speedIn.value)rotation+=dt*(+speedIn.value)*(TAU/24)/3;// one slice per 3 s at speed 1
+if(zoomAnim){const k=Math.min(1,(t-zoomAnim.t0)/zoomAnim.ms);zoomT=zoomAnim.from+(zoomAnim.to-zoomAnim.from)*ease(k);if(k>=1)zoomAnim=null;}
+const{cx,cy}=geom();const R0=Math.min(w,h)*.4;
+// zoom: level 1 scales so one slice (15°) spans most of the stage; level 2 so one degree does
+const sliceA=TAU/24,degA=sliceA/15;
+const s1=R0*3.4,s2=R0*3.4*9;const R=zoomT<=1?R0+(s1-R0)*zoomT:s1+(s2-s1)*(zoomT-1);
+// rotate so the focused slice's centre points straight up (-y) when zoomed; blend from the live rotation
+const focusMid=rotation+(focus+.5)*sliceA;const want=Math.PI/2;let rot=rotation;if(zoomT>0){const kz=Math.min(1,zoomT);let d=((want-focusMid)%TAU+TAU)%TAU;if(d>Math.PI)d-=TAU;rot=rotation+d*kz;}
+// centre of the disc moves down so the top edge (the focused slice) is on screen
+const ccy=cy+(R-R0)*(zoomT>0?1:0)+(zoomT>0?R0*.0:0);const ox=cx,oy=zoomT<=1?cy+(R-R0)*zoomT*1.0+R0*.55*zoomT:cy+(s1-R0)+R0*.55+(R-s1)*1.0;
+const arcPt=(ang,r)=>({x:ox+r*Math.cos(ang),y:oy-r*Math.sin(ang)});
+// sunlight from the right
+for(let y=0;y<h;y+=h/14){ctx.strokeStyle='rgba(255,214,107,.1)';ctx.beginPath();ctx.moveTo(w,y);ctx.lineTo(w*.5,y);ctx.stroke();}
+const sg=ctx.createRadialGradient(w+60,h*.5,0,w+60,h*.5,220);sg.addColorStop(0,'rgba(255,214,107,.8)');sg.addColorStop(1,'rgba(255,214,107,0)');ctx.fillStyle=sg;ctx.beginPath();ctx.arc(w+60,h*.5,220,0,TAU);ctx.fill();
+// 24 slices
+for(let i=0;i<24;i++){const a0=rot+i*sliceA,a1=a0+sliceA;const mid=(a0+a1)/2;const lit=Math.cos(mid)>0;const isF=i===focus&&zoomT>0;ctx.fillStyle=isF?'rgba(240,179,90,.28)':(i%2?(lit?'#2b4f7a':'#17283f'):(lit?'#234369':'#132236'));ctx.beginPath();ctx.moveTo(ox,oy);ctx.arc(ox,oy,R,-a1,-a0);ctx.closePath();ctx.fill();ctx.strokeStyle='rgba(10,14,24,.9)';ctx.lineWidth=zoomT>0?2:1;ctx.stroke();
+if(zoomT<.6){const p=arcPt(mid,R*.82);const hr=((i-0)%24+24)%24;text(ctx,String(i===0?'noon':i===12?'midnight':(i<12?`+${i}h`:`−${24-i}h`)),p.x,p.y+4,{size:11,align:'center',color:lit?'#ece6da':'#9a9382',font:'mono'});}}
+ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(ox,oy,R,0,TAU);ctx.stroke();
+// the Greenwich tick and the noon line
+const gA=rot;const gp=arcPt(gA,R);if(zoomT<.6){ctx.strokeStyle='#ece6da';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(ox,oy);ctx.lineTo(gp.x,gp.y);ctx.stroke();tag(ctx,'Greenwich',gp.x+8,gp.y+4,'#ece6da',12);
+ctx.setLineDash([5,5]);ctx.strokeStyle='rgba(255,214,107,.6)';ctx.beginPath();ctx.moveTo(ox,oy);ctx.lineTo(ox+R*1.15,oy);ctx.stroke();ctx.setLineDash([]);text(ctx,'noon · Sun overhead',ox+R*1.17,oy+4,{size:11,color:'#ffd66b'});
+const hrs=((gA%TAU)+TAU)%TAU/TAU*24;tag(ctx,`Greenwich has turned ${fmt(hrs,1)} h past noon · ${fmt(hrs*15,0)}°`,ox-R,oy+R+28,'#cfc8ba',12);
+ctx.fillStyle='#ece6da';ctx.beginPath();ctx.arc(ox,oy,4,0,TAU);ctx.fill();text(ctx,'North Pole',ox+8,oy-8,{size:11,color:'#ece6da'});}
+// ship
+if(ship!==null&&zoomT<.6){const sa=rot+(ship+.5)*sliceA;const sp=arcPt(sa,R*.6);ctx.fillStyle='#f0b35a';ctx.beginPath();ctx.arc(sp.x,sp.y,8,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();const local=((sa%TAU)+TAU)%TAU/TAU*24;tag(ctx,`ship · local ${fmt(local,1)} h past noon`,sp.x+12,sp.y+4,'#f0b35a',12);}
+// zoomed detail: degrees within the slice, arcminutes within a degree
+if(zoomT>.4){const a0=rot+focus*sliceA;const alpha=Math.min(1,(zoomT-.4)/.4);ctx.globalAlpha=alpha;
+for(let d=0;d<=15;d++){const a=a0+d*degA;const p1=arcPt(a,R*(d%5?.965:.94)),p2=arcPt(a,R);ctx.strokeStyle=d%5?'rgba(236,230,218,.5)':'#ece6da';ctx.lineWidth=d%5?1:2;ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.lineTo(p2.x,p2.y);ctx.stroke();if(d<15&&zoomT<1.5){const pm=arcPt(a+degA/2,R*.955);text(ctx,String(d+1)+'°',pm.x,pm.y+4,{size:11,align:'center',color:'#cfc8ba',font:'mono'});if(d%5===2){const pq=arcPt(a+degA/2,R*.905);text(ctx,'4 min each',pq.x,pq.y+4,{size:11,align:'center',color:'#f0b35a',font:'mono'});}}}
+const pm=arcPt(a0+sliceA/2,R*.86);if(zoomT<1.5)tag(ctx,'one slice · 15° · 1 hour · 15 degrees × 4 minutes',pm.x-150,pm.y,'#f0b35a',14);ctx.globalAlpha=1;}
+if(zoomT>1.4){const a0=rot+focus*sliceA+7*degA;// the middle degree of the slice
+const alpha=Math.min(1,(zoomT-1.4)/.5);ctx.globalAlpha=alpha;ctx.fillStyle='rgba(111,212,138,.18)';ctx.beginPath();ctx.moveTo(ox,oy);ctx.arc(ox,oy,R,-(a0+degA),-a0);ctx.closePath();ctx.fill();
+for(let m=0;m<=60;m++){const a=a0+m*degA/60;const p1=arcPt(a,R*(m%10?.985:.97)),p2=arcPt(a,R);ctx.strokeStyle=m%10?'rgba(111,212,138,.6)':'#6fd48a';ctx.lineWidth=m%10?1:2;ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.lineTo(p2.x,p2.y);ctx.stroke();if(m%10===0&&m<60){const pm2=arcPt(a+degA/120*10,R*.955);text(ctx,`${m}′`,pm2.x,pm2.y+4,{size:11,align:'center',color:'#6fd48a',font:'mono'});}}
+const pc=arcPt(a0+degA/2,R*.9);tag(ctx,'one degree · 4 minutes of time · 60 minutes of arc · 4 seconds each',pc.x-200,pc.y+40,'#6fd48a',14);tag(ctx,'1′ = 1 nautical mile at the equator',pc.x-110,pc.y+66,'#cfc8ba',12);ctx.globalAlpha=1;}
+text(ctx,'Earth from above the North Pole · turning counter-clockwise · the Sun stays to the right',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}});}
+
 /* ---------- 2 · Eratosthenes ---------- */
 {const o=setup('c2');const angIn=document.getElementById('era-ang'),distIn=document.getElementById('era-dist'),stadIn=document.getElementById('era-stad'),read=document.getElementById('era-read');let flat=false;const ez={zoom:1};
 // scroll or pinch to zoom in on the sticks
@@ -677,9 +758,13 @@ const outs={ang:document.getElementById('era-ang-out'),dist:document.getElementB
 [angIn,distIn,stadIn].forEach(i=>i.oninput=update);
 document.getElementById('era-reset').onclick=()=>{angIn.value=7.2;distIn.value=5000;stadIn.value=157.5;flat=false;update();};
 document.getElementById('era-euclid').onclick=function(){openTerm('euclid',this);};
-document.getElementById('era-flat').onclick=function(){flat=!flat;this.textContent=flat?'Back to the round Earth':'What if the Earth were flat?';update();};
+let multStep=0;document.getElementById('era-mult').onclick=function(){multStep=(multStep%4)+1;this.textContent=multStep<4?'Next step':'Do the multiplication';update();};
 function update(){const th=+angIn.value,d=+distIn.value,st=+stadIn.value;outs.ang.textContent=fmt(th)+'°';outs.dist.textContent=fmtI(d)+' stadia';outs.stad.textContent=fmt(st)+' m';const circ=360/th*d,km=circ*st/1000,mi=km*0.621371,err=(mi-24860)/24860*100;
-read.className='readout'+(flat?' bad':'');read.innerHTML=flat?`<strong>On a flat Earth both sticks would cast the same shadow.</strong><span>Parallel sunlight meets a flat ground at one angle everywhere. A shadow in Alexandria and none in Syene cannot happen. The difference is the curvature.</span>`:`<strong>360° ÷ ${fmt(th)}° = ${fmt(360/th,1)} · so the Earth is ${fmt(360/th,1)} × ${fmtI(d)} stadia around</strong><span class="big">${fmtI(circ)} stadia ≈ ${fmtI(mi)} miles</span><span>Modern value 24,860 miles around the poles (${fmtI(km)} km here). ${Math.abs(err)<2?'Within 2 percent, with a well and a stick.':`Off by ${fmt(Math.abs(err),0)}%.`}</span>`;}
+const steps=[`<strong>Step 1 · the shadow angle</strong><span class="big">${fmt(th)}°</span><span>Measured at Alexandria at noon on the solstice, the moment the Sun stands straight over the well at Syene. By Euclid, this is also the angle between the two cities at the centre of the Earth.</span>`,
+`<strong>Step 2 · what fraction of a circle is that?</strong><span class="big">360° ÷ ${fmt(th)}° = ${fmt(360/th,1)}</span><span>The two cities are ${fmt(th)}° apart on a 360° circle, so the arc between them is one ${fmt(360/th,0)}th of the whole way around.</span>`,
+`<strong>Step 3 · how long is that arc on the ground?</strong><span class="big">${fmtI(d)} stadia</span><span>Syene to Alexandria, paced by the royal surveyors who walked the Nile road and counted steps, with camel caravans as a check. The one measured length in the whole calculation.</span>`,
+`<strong>Step 4 · multiply</strong><span class="big">${fmt(360/th,1)} × ${fmtI(d)} = ${fmtI(circ)} stadia</span><span>At ${fmt(st)} m per stadion that is ${fmtI(mi)} miles around. Modern value 24,860 miles around the poles. ${Math.abs(err)<2?'Within 2 percent, with a well, a stick and a walk.':`Off by ${fmt(Math.abs(err),0)}%.`}</span>`];
+read.className='readout'+(multStep===4?' ok':'');read.innerHTML=multStep?steps[multStep-1]:`<strong>360° ÷ ${fmt(th)}° = ${fmt(360/th,1)} · so the Earth is ${fmt(360/th,1)} × ${fmtI(d)} stadia around</strong><span class="big">${fmtI(circ)} stadia ≈ ${fmtI(mi)} miles</span><span>Modern value 24,860 miles around the poles (${fmtI(km)} km here). ${Math.abs(err)<2?'Within 2 percent, with a well and a stick.':`Off by ${fmt(Math.abs(err),0)}%.`} Press "Do the multiplication" to walk through it.</span>`;}
 update();
 pointer(o,p=>{const{cx,cy,R}=eraGeom();const th=+angIn.value*DEG;const ax=cx-R*Math.sin(th),ay=cy-R*Math.cos(th);if(Math.hypot(p.x-ax,p.y-ay)>140*Math.sqrt(ez.zoom))return false;move(p);return true;},move);
 function move(p){if(flat)return;const{cx,cy,R}=eraGeom();const a=Math.atan2(cx-p.x,cy-p.y);angIn.value=Math.max(1,Math.min(30,a/DEG)).toFixed(1);update();}
@@ -713,6 +798,7 @@ ctx.strokeStyle='rgba(255,214,107,.9)';ctx.lineWidth=2;ctx.beginPath();ctx.moveT
 ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;ctx.beginPath();ctx.arc(gx,gy,28,Math.PI/2-th,Math.PI/2);ctx.stroke();
 text(ctx,fmt(+angIn.value)+'°',gx-6,gy+46,{size:13,color:'#f0b35a',font:'mono',align:'right'});
 text(ctx,'Alexandria · a stick casts a shadow',ax-16,ay-sl-26,{size:12,align:'right'});
+if(multStep>=2){const n=Math.round(360/th);ctx.strokeStyle='rgba(240,179,90,.35)';ctx.lineWidth=1;for(let k=0;k<n;k++){const a=-Math.PI/2-th*k;const q={x:cx+R*Math.cos(a),y:cy+R*Math.sin(a)};ctx.beginPath();ctx.moveTo(cx+(R-14)*Math.cos(a),cy+(R-14)*Math.sin(a));ctx.lineTo(q.x,q.y);ctx.stroke();}tag(ctx,`${fmt(360/th,1)} arcs of ${fmt(th)}° make the whole circle`,cx+R*.3,cy-R*.3,'#f0b35a',13);if(multStep>=4)tag(ctx,`${fmt(360/th,1)} × ${fmtI(+distIn.value)} stadia = ${fmtI(360/th*+distIn.value)} stadia around`,cx+R*.3,cy-R*.3+26,'#6fd48a',13);}
 // zoom inset: the stick and its shadow, enlarged
 const ix=w*.8,iy=h*.6,ir=Math.min(w,h)*.17;ctx.fillStyle='rgba(17,23,39,.94)';ctx.strokeStyle='#283048';ctx.lineWidth=1;ctx.beginPath();ctx.rect(ix-ir,iy-ir*1.1,ir*2,ir*2.3);ctx.fill();ctx.stroke();text(ctx,'The stick at Alexandria, enlarged',ix,iy-ir*1.1+18,{size:12,align:'center',color:'#9a9382'});
 const gl=ir*1.1,gy0=iy+ir*.75,gx0=ix+ir*.25,shv=gl*Math.tan(th);
@@ -1151,11 +1237,17 @@ if(c.stones)text(ctx,'crownstones every fifth mile · tap one',w*.5,h-56,{size:1
 text(ctx,`zoom ${fmt(st.zoom,1)}×`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}});}
 
 /* ---------- glossary: tap a dotted term anywhere and a card opens on the right of that slide ---------- */
-const GLOSS={euclid:{t:'Euclid\u2019s rule: a line across parallel lines',g:`<svg viewBox="0 0 480 300"><line x1="60" y1="70" x2="440" y2="70" stroke="#ffd66b" stroke-width="2"/><line x1="60" y1="210" x2="440" y2="210" stroke="#ffd66b" stroke-width="2"/><text x="446" y="74" fill="#ffd66b" font-size="11">sun ray</text><text x="446" y="214" fill="#ffd66b" font-size="11">sun ray</text><line x1="150" y1="260" x2="330" y2="20" stroke="#ece6da" stroke-width="3"/><text x="336" y="18" fill="#ece6da" font-size="11">the stick\u2019s line, through the Earth\u2019s centre</text>
-<path d="M 292 70 A 26 26 0 0 0 283.7 49.2" fill="none" stroke="#f0b35a" stroke-width="2.5"/><text x="300" y="52" fill="#f0b35a" font-size="14" font-family="Menlo,monospace">θ</text><text x="300" y="36" fill="#9a9382" font-size="10">at the stick\u2019s tip: shadow angle</text>
-<path d="M 161 210 A 26 26 0 0 1 171 230.4" fill="none" stroke="#f0b35a" stroke-width="2.5"/><text x="130" y="236" fill="#f0b35a" font-size="14" font-family="Menlo,monospace">θ</text><text x="40" y="256" fill="#9a9382" font-size="10">at the Earth\u2019s centre: angle between the cities</text>
-<text x="20" y="290" fill="#9a9382" font-size="12">Alternate interior angles: when a line crosses two parallel lines, the angles on opposite sides of it are equal. Euclid, Elements I.29.</text></svg>`,
-p:'The Sun is so far away that its rays reach Syene and Alexandria as parallel lines. At Alexandria the stick points straight down toward the centre of the Earth, so the stick\u2019s line crosses both rays: the one that grazes the stick\u2019s tip and the one that goes down the well at Syene and on to the centre. Euclid proved (Elements, Book I, Proposition 29) that a line crossing two parallels makes equal alternate angles. So the small angle the shadow makes at the top of the stick is exactly the angle at the centre of the Earth between the two cities. Measure one, and you have the other, and the other is a slice of the whole circle.'},slices:{t:'Degrees are time: 24 slices of one hour',g:`<svg viewBox="0 0 480 300"><path d="M150 150 L260.0 150.0 A110 110 0 0 0 256.3 121.5 Z" fill="#f0b35a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L256.3 121.5 A110 110 0 0 0 245.3 95.0 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L245.3 95.0 A110 110 0 0 0 227.8 72.2 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L227.8 72.2 A110 110 0 0 0 205.0 54.7 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L205.0 54.7 A110 110 0 0 0 178.5 43.7 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L178.5 43.7 A110 110 0 0 0 150.0 40.0 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L150.0 40.0 A110 110 0 0 0 121.5 43.7 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L121.5 43.7 A110 110 0 0 0 95.0 54.7 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L95.0 54.7 A110 110 0 0 0 72.2 72.2 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L72.2 72.2 A110 110 0 0 0 54.7 95.0 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L54.7 95.0 A110 110 0 0 0 43.7 121.5 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L43.7 121.5 A110 110 0 0 0 40.0 150.0 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L40.0 150.0 A110 110 0 0 0 43.7 178.5 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L43.7 178.5 A110 110 0 0 0 54.7 205.0 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L54.7 205.0 A110 110 0 0 0 72.2 227.8 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L72.2 227.8 A110 110 0 0 0 95.0 245.3 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L95.0 245.3 A110 110 0 0 0 121.5 256.3 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L121.5 256.3 A110 110 0 0 0 150.0 260.0 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L150.0 260.0 A110 110 0 0 0 178.5 256.3 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L178.5 256.3 A110 110 0 0 0 205.0 245.3 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L205.0 245.3 A110 110 0 0 0 227.8 227.8 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L227.8 227.8 A110 110 0 0 0 245.3 205.0 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L245.3 205.0 A110 110 0 0 0 256.3 178.5 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L256.3 178.5 A110 110 0 0 0 260.0 150.0 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><text x="150" y="30" fill="#cfc8ba" font-size="12" text-anchor="middle">Earth from above the pole · 24 hours = 360°</text><text x="150" y="285" fill="#9a9382" font-size="11" text-anchor="middle">each slice: the Earth turns through it in one hour</text>
+const GLOSS={euclid:{t:'Euclid\u2019s rule: a line across parallel lines',g:`<svg viewBox="0 0 720 360">
+<line x1="470" y1="20" x2="470" y2="150" stroke="#ffd66b" stroke-width="2"/><line x1="270" y1="20" x2="270" y2="150" stroke="#ffd66b" stroke-width="2"/><line x1="370" y1="20" x2="370" y2="110" stroke="#ffd66b" stroke-opacity=".35" stroke-dasharray="4 5"/><line x1="170" y1="20" x2="170" y2="130" stroke="#ffd66b" stroke-opacity=".35" stroke-dasharray="4 5"/><text x="480" y="40" fill="#ffd66b" font-size="12">sun ray down the well at Syene</text><text x="130" y="40" fill="#ffd66b" font-size="12" text-anchor="end">sun ray at Alexandria</text>
+<path d="M 60 170 A 410 410 0 0 1 680 170" fill="none" stroke="#3b5f8a" stroke-width="2"/><path d="M 60 170 A 410 410 0 0 1 680 170 L 680 360 L 60 360 Z" fill="#15294a" fill-opacity=".6"/>
+<line x1="470" y1="150" x2="470" y2="560" stroke="#ece6da" stroke-opacity=".45" stroke-dasharray="5 5"/>
+<line x1="270" y1="100" x2="470" y2="560" stroke="#ece6da" stroke-width="2.5"/><text x="150" y="98" fill="#ece6da" font-size="12">the stick at Alexandria, extended</text><text x="150" y="114" fill="#9a9382" font-size="11">points at the Earth\u2019s centre</text>
+<line x1="270" y1="100" x2="270" y2="160" stroke="#ece6da" stroke-width="6" stroke-linecap="round"/>
+<path d="M 270 134 A 34 34 0 0 1 274.3 134.3" fill="none" stroke="#f0b35a" stroke-width="3"/><path d="M 270 70 A 30 30 0 0 1 283 73" fill="none" stroke="#f0b35a" stroke-width="2.5"/><text x="288" y="68" fill="#f0b35a" font-size="15" font-family="Menlo,monospace">7.2\u00b0</text><text x="288" y="86" fill="#9a9382" font-size="11">between the ray and the stick: the shadow angle</text>
+<text x="470" y="352" fill="#9a9382" font-size="11" text-anchor="middle">Earth\u2019s centre is far below \u2193</text>
+<path d="M 470 300 A 60 60 0 0 1 455 293" fill="none" stroke="#f0b35a" stroke-width="2.5"/><text x="400" y="298" fill="#f0b35a" font-size="15" font-family="Menlo,monospace" text-anchor="end">7.2\u00b0</text><text x="400" y="316" fill="#9a9382" font-size="11" text-anchor="end">between the two cities at the centre</text>
+<text x="20" y="200" fill="#cfc8ba" font-size="12">The two sun rays are parallel. The stick\u2019s line crosses both.</text><text x="20" y="218" fill="#cfc8ba" font-size="12">Euclid, Elements I.29: a line across two parallels makes equal alternate angles.</text><text x="20" y="236" fill="#cfc8ba" font-size="12">So the small angle at the top of the stick equals the big angle at the Earth\u2019s centre.</text></svg>`,
+p:'The Sun is so far away that its rays reach Syene and Alexandria as parallel lines. At Alexandria the stick points straight down toward the centre of the Earth, so the stick\u2019s line crosses both rays: the one that grazes the stick\u2019s tip and the one that goes down the well at Syene and on to the centre. Euclid proved that a line crossing two parallels makes equal alternate angles. So the 7.2\u00b0 the shadow makes at the top of the stick is exactly the 7.2\u00b0 at the centre of the Earth between the two cities. Measure one, and you have the other, and the other is one fiftieth of the whole circle.'},slices:{t:'Degrees are time: 24 slices of one hour',g:`<svg viewBox="0 0 480 300"><path d="M150 150 L260.0 150.0 A110 110 0 0 0 256.3 121.5 Z" fill="#f0b35a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L256.3 121.5 A110 110 0 0 0 245.3 95.0 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L245.3 95.0 A110 110 0 0 0 227.8 72.2 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L227.8 72.2 A110 110 0 0 0 205.0 54.7 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L205.0 54.7 A110 110 0 0 0 178.5 43.7 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L178.5 43.7 A110 110 0 0 0 150.0 40.0 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L150.0 40.0 A110 110 0 0 0 121.5 43.7 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L121.5 43.7 A110 110 0 0 0 95.0 54.7 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L95.0 54.7 A110 110 0 0 0 72.2 72.2 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L72.2 72.2 A110 110 0 0 0 54.7 95.0 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L54.7 95.0 A110 110 0 0 0 43.7 121.5 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L43.7 121.5 A110 110 0 0 0 40.0 150.0 Z" fill="#2b4f7a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L40.0 150.0 A110 110 0 0 0 43.7 178.5 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L43.7 178.5 A110 110 0 0 0 54.7 205.0 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L54.7 205.0 A110 110 0 0 0 72.2 227.8 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L72.2 227.8 A110 110 0 0 0 95.0 245.3 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L95.0 245.3 A110 110 0 0 0 121.5 256.3 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L121.5 256.3 A110 110 0 0 0 150.0 260.0 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L150.0 260.0 A110 110 0 0 0 178.5 256.3 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L178.5 256.3 A110 110 0 0 0 205.0 245.3 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L205.0 245.3 A110 110 0 0 0 227.8 227.8 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L227.8 227.8 A110 110 0 0 0 245.3 205.0 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L245.3 205.0 A110 110 0 0 0 256.3 178.5 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><path d="M150 150 L256.3 178.5 A110 110 0 0 0 260.0 150.0 Z" fill="#15294a" stroke="#0a0e18" stroke-width="1"/><text x="150" y="30" fill="#cfc8ba" font-size="12" text-anchor="middle">Earth from above the pole · 24 hours = 360°</text><text x="150" y="285" fill="#9a9382" font-size="11" text-anchor="middle">each slice: the Earth turns through it in one hour</text>
 <path d="M300 240 L460 240 A160 160 0 0 0 454.5 198.6 Z" fill="#f0b35a" stroke="#0a0e18"/><text x="330" y="232" fill="#1a1206" font-size="13" font-weight="bold">one slice</text><text x="300" y="100" fill="#f0b35a" font-size="16">15° = 1 hour</text><text x="300" y="124" fill="#cfc8ba" font-size="13">1° = 4 minutes of time</text><text x="300" y="146" fill="#cfc8ba" font-size="13">1′ of arc = 4 seconds</text><text x="300" y="168" fill="#cfc8ba" font-size="13">15′ of arc = 1 minute</text><text x="300" y="60" fill="#9a9382" font-size="11">zoom in on the gold slice:</text></svg>`,
 p:'Seen from above the North Pole the Earth is a clock face with 24 slices instead of 12. It turns once in 24 hours, so each slice is one hour of rotation and one twenty-fourth of 360°: 15°. Zoom in on a single slice and the same ratio carries down: one degree of longitude is four minutes of time, one minute of arc (a nautical mile at the equator) is four seconds. That is why a <span class="term" data-term="chronometer">chronometer</span> that drifts four seconds has moved the ship a mile, and why the Board of Longitude wanted clocks good to seconds, not minutes.'},
 
@@ -1606,18 +1698,21 @@ const parts=tri.map(t=>`polygon(${t.map(p=>p[0]+'px '+p[1]+'px').join(',')})`);/
 slideEl.style.clipPath=`inset(0 ${Math.max(0,(1-e)*100)}% 0 0)`;fx.strokeStyle='rgba(236,230,218,.9)';fx.lineWidth=2;for(const t of tri){fx.beginPath();fx.moveTo(t[0][0],t[0][1]);fx.lineTo(t[1][0],t[1][1]);fx.lineTo(t[2][0],t[2][1]);fx.closePath();fx.stroke();}fx.strokeStyle='#ff7d6f';fx.lineWidth=4;fx.beginPath();fx.moveTo(pts[0][0],pts[0][1]);fx.lineTo(pts[1][0],pts[1][1]);fx.stroke();fx.globalAlpha=1-k;fx.fillStyle='#ff7d6f';fx.font='600 12px -apple-system,Segoe UI,Roboto,sans-serif';fx.fillText('measured',pts[0][0]+10,pts[0][1]+20);fx.globalAlpha=1;break;}
 case 'unroll':{// a chart unrolls from the left edge; the roll itself is drawn as a shaded cylinder
 doSwap();const x=W*e;slideEl.style.clipPath=`inset(0 ${(1-e)*100}% 0 0)`;const rw=Math.max(8,40*(1-e)+8);const gl=fx.createLinearGradient(x,0,x+rw*2,0);gl.addColorStop(0,'rgba(236,230,218,.0)');gl.addColorStop(.3,'rgba(236,230,218,.55)');gl.addColorStop(.6,'rgba(120,110,90,.6)');gl.addColorStop(1,'rgba(0,0,0,0)');fx.fillStyle=gl;fx.fillRect(x,0,rw*2,H);fx.strokeStyle='rgba(240,179,90,.7)';fx.lineWidth=2;fx.beginPath();fx.moveTo(x,0);fx.lineTo(x,H);fx.stroke();break;}
+case 'clockhand':{// a 24-hour clock hand sweeps once and the slide fills behind it
+doSwap();const cx=W/2,cy=H/2,R=Math.hypot(W,H)/2+10,a=-Math.PI/2+e*TAU;const pts=[`${cx}px ${cy}px`,`${cx}px ${cy-R}px`];for(let q=-Math.PI/2;q<=a;q+=.08)pts.push(`${cx+R*Math.cos(q)}px ${cy+R*Math.sin(q)}px`);pts.push(`${cx+R*Math.cos(a)}px ${cy+R*Math.sin(a)}px`);slideEl.style.clipPath=k<1?`polygon(${pts.join(',')})`:'';const rr=Math.min(W,H)*.42;fx.globalAlpha=1-Math.max(0,(k-.8)*5);fx.strokeStyle='rgba(236,230,218,.35)';fx.lineWidth=1;fx.beginPath();fx.arc(cx,cy,rr,0,TAU);fx.stroke();for(let i=0;i<24;i++){const q=-Math.PI/2+i*TAU/24;fx.strokeStyle='rgba(236,230,218,.6)';fx.lineWidth=i%6?1:2;fx.beginPath();fx.moveTo(cx+(rr-12)*Math.cos(q),cy+(rr-12)*Math.sin(q));fx.lineTo(cx+rr*Math.cos(q),cy+rr*Math.sin(q));fx.stroke();if(i%6===0){fx.fillStyle='#ece6da';fx.font='12px Menlo,monospace';fx.textAlign='center';fx.fillText(['0','6','12','18'][i/6]+'h',cx+(rr-28)*Math.cos(q),cy+(rr-28)*Math.sin(q)+4);}}fx.strokeStyle='#f0b35a';fx.lineWidth=3;fx.beginPath();fx.moveTo(cx,cy);fx.lineTo(cx+rr*.9*Math.cos(a),cy+rr*.9*Math.sin(a));fx.stroke();fx.globalAlpha=1;break;}
 case 'orbit':{// a planet runs one orbit and the slide fills the circle it traces
 doSwap();const cx=W/2,cy=H/2,R=Math.hypot(W,H)*.55*e;slideEl.style.clipPath=`circle(${R}px at 50% 50%)`;const a=-Math.PI/2+e*TAU*1.5;fx.strokeStyle='rgba(240,179,90,.35)';fx.lineWidth=1;fx.beginPath();fx.arc(cx,cy,R,0,TAU);fx.stroke();const px=cx+R*Math.cos(a),py=cy+R*Math.sin(a);const gl=fx.createRadialGradient(px,py,0,px,py,22);gl.addColorStop(0,'#fff');gl.addColorStop(.3,'rgba(240,179,90,.9)');gl.addColorStop(1,'rgba(240,179,90,0)');fx.fillStyle=gl;fx.beginPath();fx.arc(px,py,22,0,TAU);fx.fill();for(let k=1;k<12;k++){const aa=a-k*.06;fx.fillStyle=`rgba(240,179,90,${(1-k/12)*.5})`;fx.beginPath();fx.arc(cx+R*Math.cos(aa),cy+R*Math.sin(aa),4,0,TAU);fx.fill();}break;}
 default:doSwap();slideEl.style.opacity=e;}
 if(k<1)run.raf=requestAnimationFrame(frame);else{fx.clearRect(0,0,W,H);slideEl.style.clipPath='';slideEl.style.transform='';slideEl.style.filter='';slideEl.style.opacity='';fxRun=null;}};
 run.raf=requestAnimationFrame(frame);}
-const FXMAP={fade:'warp',iris:'sweep',sunrise:'rays',telescope:'warp',terminator:'eclipse',venus:'venus',survey:'chain',orbit:'orbit',compass:'compass',unroll:'unroll',triangles:'triangles',wake:'wake',morse:'morse',gust:'gust',edge:'edge'};
+const FXMAP={fade:'warp',iris:'sweep',sunrise:'rays',telescope:'warp',terminator:'eclipse',venus:'venus',survey:'chain',orbit:'orbit',compass:'compass',unroll:'unroll',clockhand:'clockhand',triangles:'triangles',wake:'wake',morse:'morse',gust:'gust',edge:'edge'};
 
 /* ---------- presenter mode: a second window with notes, a chapter menu and a clock; P opens it, slides stay in sync ---------- */
 const NOTES={
 'Title':['Every slide is a live model. Invite the room to call out what to drag.','The order follows the six sessions of the course: mental maps, Earth and sky, triangles, clocks, frames, decisions.'],
 'Mental maps':['Vote before the reveal. Most rooms pick Peru for Havana and Los Angeles for Reno.','Follow one meridian, not your mental map. "Coastal" and "farther west" are not the same thing.','Rome and Boston share a parallel and little else: latitude is one input to climate, not a model.'],
 'Latitude & Longitude':['Tap the globe to stand somewhere; the angle at your feet is the angle at the centre. Polaris is 0.7° off the pole: a guide, not the pole.','Chronometer mode: slide the clock until the Sun is highest over the ship. 1 hour = 15°. West is negative and the local clock runs behind.','One nautical mile is one minute of latitude, fixed at 1,852 m in 1929. Four seconds of clock error is a mile of longitude.'],
+'Hours are slices':['24 slices, one hour each, 15°. Tap a slice.','One degree is 4 minutes of time. One arcminute is 4 seconds and one nautical mile.','Time minutes are not arcminutes: a minute of time is 15 minutes of arc.'],
 'Eratosthenes':['Sun rays arrive parallel because the Sun is 93 million miles off. The well and the stick see the same rays.','Euclid I.29: a line across parallels makes equal alternate angles. The shadow angle is the centre angle.','360 ÷ 7.2 = 50. Fifty times the distance. The unit (stadion) is the uncertainty, not the method.'],
 'Baselines':['Blink one eye then the other. Your eyes are a 2½-inch baseline. Everything after is this picture with a longer baseline.','One degree of parallax = 57 baselines. Small angles are hard, so baselines want to be long.','Picard measured one line with rods and computed the rest. One length sets the scale of a whole network; Newton used his degree.'],
 "Jupiter's moons":['Drag to tilt: edge-on is what Galileo saw, from above is what was happening. The eyepiece squashes 3D onto a line.','Clock mode: Io\'s eclipses are a public clock. Rømer: they run late when Earth is far. Light has a speed.','Florence quiz: 2 hours behind Florence = 30° west of 11.25° E = 18.75° W. Start from the reference clock, not Greenwich.'],
