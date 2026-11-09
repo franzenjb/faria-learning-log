@@ -48,7 +48,7 @@ h1{font-size:2rem;line-height:1.1;margin:0 0 .9rem;font-weight:600}
 .menu li:hover{background:#161d30;color:var(--accent)}
 .controls{display:grid;gap:.9rem;margin:1rem 0}
 .controls label{display:grid;gap:.25rem;font:500 .8rem/1.2 var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
-.controls label output{color:var(--ink);font:600 .95rem var(--mono);text-transform:none;letter-spacing:0;float:right}
+.controls label output{color:var(--ink);font:600 .95rem var(--mono);text-transform:none;letter-spacing:0;float:right;font-variant-numeric:tabular-nums}
 .controls label .row{display:flex;justify-content:space-between;align-items:baseline}
 input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 .btns{display:flex;flex-wrap:wrap;gap:.5rem;margin:.6rem 0 1rem}
@@ -1250,7 +1250,7 @@ function geomAll(){return obs.map(s=>{const p=ll(s.lat,s.lon);const dPerp=RE*v3.
 function solve(g,err){// Halley's inversion: durations → impact parameters → their difference → the AU
 const bOf=d=>{const q=(RS-RV)*(RS-RV)-(d*VEL/2)*(d*VEL/2);return q>0?Math.sqrt(q):NaN;};const dA=g[0].dur,dB=g[1].dur+err/60;const db=bOf(dB)-bOf(dA);const base=g[1].dPerp-g[0].dPerp;if(!base||!isFinite(db)||Math.abs(db)<1e-6)return NaN;return -(1/0.277-1)*206265*base/db;}
 function update(){const g=geomAll();exOut.textContent='×'+exIn.value;errOut.textContent='±'+errIn.value+' s';
-tOut.textContent=tt<0?`${-tt} min before 1st contact`:tt<175?`${tt} min in`:tt<350?`${tt} min in · past mid-transit`:tt<=360?'last contact':'over';
+const tm=Math.round(tt);tOut.textContent=tm<0?`${-tm} min before 1st contact`:tm<175?`${tm} min in`:tm<350?`${tm} min in · past mid-transit`:tm<=360?'last contact':'over';
 const dT=g[1].dur-g[0].dur,au=solve(g,0),auHi=solve(g,+errIn.value),auLo=solve(g,-errIn.value);
 const sunWarn=g.filter(s=>!s.sunUp).map(s=>s.n.split(' ·')[0]);
 if(sunWarn.length){read.className='readout bad';read.innerHTML=`<strong>The Sun is below the horizon at ${sunWarn.join(' and ')}.</strong><span>Nothing to time there. That is why the 1769 stations were spread from Tahiti to the Arctic: the whole transit had to be visible.</span>`;return;}
