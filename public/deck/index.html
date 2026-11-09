@@ -302,18 +302,18 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
     <p class="kicker">8 · Sidereus Nuncius · 1610</p>
     <h1>How tall is a mountain on the Moon?</h1>
     <p class="lede">Galileo saw bright points on the dark side of the Moon, well past the <span class="term" data-term="terminator">terminator</span>, the line between day and night. They were peaks, still catching sunlight while the ground around them was in shadow.</p>
-    <p>Spin the Moon to look at the peak from above the pole and the geometry appears: a right triangle with the Moon's radius <em>R</em> as one leg, the distance <em>d</em> past the terminator as the other, and <em>R + h</em> as the hypotenuse. Tap the rim, the centre line, a radius, or the triangle itself to call out each piece.</p>
+    <p>Left: the telescope view. Right: the same peak seen from above the pole. A right triangle: the Moon's radius <em>R</em> as one leg, the distance <em>d</em> past the terminator as the other, and <em>R + h</em> as the hypotenuse. Drag the peak on the left and watch the triangle change.</p>
     <div class="chips" id="moon-toggles">
       <button data-k="circ">Circumference</button><button data-k="diam">Diameter</button><button data-k="R">Radius R</button><button data-k="Rh">R + h</button><button data-k="d">d</button><button data-k="tri">The triangle</button>
     </div>
     <div class="controls">
-      <label><span class="row">Peak's distance past the terminator <output id="mtn-d-out">1/20 of the width</output></span><input id="mtn-d" type="range" min="0.5" max="12" step="0.1" value="5"></label>
+      <label><span class="row">Peak's distance past the terminator <output id="mtn-d-out">1/20 of the width</output></span><input id="mtn-d" type="range" min="1" max="12" step="0.1" value="5"></label>
       <label><span class="row">Assumed Moon diameter <output id="mtn-D-out">2,000 miles</output></span><input id="mtn-D" type="range" min="1500" max="2500" step="10" value="2000"></label>
     </div>
-    <div class="btns"><button class="primary" id="mtn-side">See the geometry</button><button id="mtn-face">Telescope view</button><button id="mtn-galileo">Galileo's numbers</button><button id="mtn-modern">Modern Moon · 2,159 mi</button><button id="mtn-width">How wide is the Moon?</button></div>
+    <div class="btns"><button class="primary" id="mtn-side">Label every side</button><button id="mtn-face">Just the triangle</button><button id="mtn-galileo">Galileo's numbers</button><button id="mtn-modern">Modern Moon · 2,159 mi</button><button id="mtn-width">How wide is the Moon?</button></div>
     <div class="readout" id="mtn-read"></div>
   </div>
-  <div class="stage"><canvas id="c4"></canvas><div class="hint">Drag to spin · pinch or scroll to zoom · tap a line to name it</div></div>
+  <div class="stage"><canvas id="c4"></canvas><div class="hint">Drag the bright peak on the left · chips highlight parts of the triangle</div></div>
 </section>
 
 <!-- 5 · Kepler, Horrocks, Halley -->
@@ -1002,17 +1002,23 @@ text(ctx,date(d),cx,h*.08,{size:16,align:'center',font:'serif',color:'#ece6da'})
 text(ctx,tilt<.3?'E':'',cx-Math.min(w,h)*.42,cy+5,{size:13,color:'#9a9382'});text(ctx,tilt<.3?'W':'',cx+Math.min(w,h)*.42-12,cy+5,{size:13,color:'#9a9382'});
 text(ctx,`tilt ${fmt(Math.abs(st.pitch)/DEG,0)}° · zoom ${fmt(st.zoom,1)}×`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}});}
 
-/* ---------- 4 · Moon mountains (3D) ---------- */
+/* ---------- 4 · Moon mountains ---------- */
 {const o=setup('c4');const dIn=document.getElementById('mtn-d'),DIn=document.getElementById('mtn-D'),read=document.getElementById('mtn-read'),dOut=document.getElementById('mtn-d-out'),DOut=document.getElementById('mtn-D-out');
-const st={yaw:0,pitch:0,zoom:1,anim:null,enabled:()=>true};const show={circ:false,diam:false,R:false,Rh:false,d:false,tri:false};
-const SUN=[1,0,0];// sunlight travels toward -x; the lit hemisphere is x>0; the terminator is the plane x=0
-dIn.oninput=DIn.oninput=update;
-document.getElementById('mtn-galileo').onclick=()=>{dIn.value=5;DIn.value=2000;update();};document.getElementById('mtn-modern').onclick=()=>{dIn.value=5;DIn.value=2159;update();};
-document.getElementById('mtn-side').onclick=()=>{fly(st,{yaw:0,pitch:-1.5,zoom:1.15});Object.assign(show,{R:true,Rh:true,d:true,tri:true});syncChips();};
-document.getElementById('mtn-face').onclick=()=>{fly(st,{yaw:0,pitch:0,zoom:1});};
+const show={circ:false,diam:false,R:false,Rh:false,d:false,tri:true};
+dIn.oninput=DIn.oninput=update;document.getElementById('mtn-galileo').onclick=()=>{dIn.value=5;DIn.value=2000;update();};document.getElementById('mtn-modern').onclick=()=>{dIn.value=5;DIn.value=2159;update();};
+document.getElementById('mtn-side').onclick=()=>{Object.assign(show,{R:true,Rh:true,d:true,tri:true});syncChips();};document.getElementById('mtn-face').onclick=()=>{Object.assign(show,{circ:false,diam:false,R:false,Rh:false,d:false,tri:true});syncChips();};
 document.querySelectorAll('#moon-toggles button').forEach(b=>b.onclick=()=>{show[b.dataset.k]=!show[b.dataset.k];syncChips();});
-function syncChips(){document.querySelectorAll('#moon-toggles button').forEach(x=>x.classList.toggle('on',show[x.dataset.k]));}
+function syncChips(){document.querySelectorAll('#moon-toggles button').forEach(x=>x.classList.toggle('on',show[x.dataset.k]));}syncChips();
 function calc(){const D=+DIn.value,R=D/2,d=D*(+dIn.value/100);return{D,R,d,h:Math.hypot(R,d)-R};}
+function update(){const{D,R,d,h}=calc();dOut.textContent=`${fmt(+dIn.value)}% of the width${Math.abs(+dIn.value-5)<.05?' · 1/20':''}`;DOut.textContent=fmtI(D)+' miles';
+read.innerHTML=`<strong>d = ${fmtI(d)} mi · R = ${fmtI(R)} mi</strong><span class="big">h ≥ ${fmt(h,1)} miles</span><span>√(${fmtI(R)}² + ${fmtI(d)}²) − ${fmtI(R)} = ${fmt(h,2)} mi ≈ ${fmtI(h*5280)} ft. ${h>5.5?'Taller than Everest.':h>4?'Galileo wrote "more than four Italian miles", and that the Moon is rougher than the Earth.':h>1?'Already higher than the Alps as Galileo knew them.':'A hill.'}</span>`;}
+update();
+// drag the lit peak on the telescope view
+pointer(o,p=>{const{w,h}=o;const cx=w*.25,cy=h*.52,R=Math.min(w*.18,h*.3);if(Math.abs(p.y-cy)>R*1.2||p.x>cx+R*.2||p.x<cx-R*1.3)return false;move(p);return true;},move);
+function move(p){const{w,h}=o;const cx=w*.25,cy=h*.52,R=Math.min(w*.18,h*.3);const v=(cx-p.x)/(2*R)*100;dIn.value=Math.max(.5,Math.min(12,v)).toFixed(1);update();}
+// the real Moon: Astrobond's first-quarter photograph (CC BY-SA 4.0), disc centre (332,444) radius 390 in the 900px copy
+const moonImg=new Image();moonImg.src='img/moon-first-quarter.jpg';
+// width card (unchanged)
 // the Moon's width from its distance: 0.5° at 240,000 miles, dropped on a US map
 function usMapSVG(){const W=480,H=300,lat0=39,lon0=-96;const sc=W/60;// 60 degrees of longitude across
 const X=lo=>W/2+(lo-lon0)*Math.cos(lat0*DEG)*sc,Y=la=>H/2-(la-lat0)*sc;let paths='';for(const ln of STATES_US.lines){let d='';for(let i=0;i<ln.length;i+=2){const x=X(ln[i]/STATES_US.q),y=Y(ln[i+1]/STATES_US.q);if(x<-20||x>W+20||y<-20||y>H+20){d+='|';continue;}d+=(d===''||d.endsWith('|')?'M':'L')+x.toFixed(1)+' '+y.toFixed(1);}paths+=`<path d="${d.replace(/\|/g,' ')}" fill="none" stroke="rgba(236,230,218,.45)" stroke-width="1"/>`;}
@@ -1020,52 +1026,32 @@ const cxm=X(-88),cym=Y(39.5),r=1050/69*sc;// 1,050 miles in degrees of latitude
 const city=(n,la,lo)=>`<circle cx="${X(lo)}" cy="${Y(la)}" r="3" fill="#f0b35a"/><text x="${X(lo)+5}" y="${Y(la)-4}" fill="#f0b35a" font-size="10">${n}</text>`;
 return `<svg viewBox="0 0 ${W} ${H}">${paths}<circle cx="${cxm}" cy="${cym}" r="${r}" fill="rgba(217,208,189,.12)" stroke="#d9d0bd" stroke-width="2"/>${city('Denver',39.7,-105)}${city('Chicago',41.9,-87.6)}${city('Boston',42.4,-71.1)}${city('Miami',25.8,-80.2)}<text x="${cxm}" y="${cym-r-8}" fill="#d9d0bd" font-size="12" text-anchor="middle">the Moon, 2,100 miles across</text><text x="10" y="${H-8}" fill="#9a9382" font-size="10">circle of 1,050-mile radius centred on Illinois · Boston just outside</text></svg>`;}
 document.getElementById('mtn-width').onclick=function(){const stage=this.closest('.slide').querySelector('.stage');let card=stage.querySelector('.card.gloss');if(!card){card=document.createElement('div');card.className='card gloss';card.innerHTML='<button class="x" aria-label="Close">×</button><h3></h3><div class="g"></div><p></p>';card.querySelector('.x').onclick=()=>card.hidden=true;stage.appendChild(card);}card.querySelector('h3').textContent='How wide is the Moon? Distance first, width second';card.querySelector('.g').innerHTML=usMapSVG();card.querySelector('p').innerHTML='The Moon is about 240,000 miles away and covers half a degree of sky, 1/720 of a full circle. A circle of radius 240,000 miles is 2π × 240,000 = 1,508,000 miles around; one 720th of that is about 2,100 miles. Lay that on the United States and it reaches from Denver almost to Boston. Galileo’s four-mile mountain is a speck on it, which is the point: once you have one distance, the sizes follow.';card.hidden=false;};
-function update(){const{D,R,d,h}=calc();dOut.textContent=`${fmt(+dIn.value)}% of the width${Math.abs(+dIn.value-5)<.05?' · 1/20':''}`;DOut.textContent=fmtI(D)+' miles';
-read.innerHTML=`<strong>d = ${fmtI(d)} mi · R = ${fmtI(R)} mi</strong><span class="big">h ≥ ${fmt(h,1)} miles</span><span>√(${fmtI(R)}² + ${fmtI(d)}²) − ${fmtI(R)} = ${fmt(h,2)} mi ≈ ${fmtI(h*5280)} ft. ${h>5.5?'Taller than Everest.':h>4?'Galileo wrote “more than four Italian miles”, and that the Moon is rougher than the Earth.':h>1?'Already higher than the Alps as Galileo knew them.':'A hill.'}</span>`;}
-update();
-function geom(){const{w,h}=o;return{cx:w*.5,cy:h*.52,R:Math.min(w,h)*.3*st.zoom};}
-function proj(p){const{cx,cy,R}=geom();const q=rot(p,st.yaw,st.pitch);return{x:cx+q[0]*R,y:cy-q[1]*R,z:q[2]};}
-// mountain geometry in world units (Moon radius = 1), exaggerated so it can be seen
-function mtn(){const frac=+dIn.value/100;const th=Math.min(1.1,.58*Math.sqrt(frac/.05));const base=[-Math.sin(th),0,Math.cos(th)];const hv=1/Math.cos(th)-1;return{th,base,peak:v3.mul(base,1+hv),hv,T:[0,0,1]};}
-const segDist=(p,a,b)=>{const dx=b.x-a.x,dy=b.y-a.y,l2=dx*dx+dy*dy||1;let t=((p.x-a.x)*dx+(p.y-a.y)*dy)/l2;t=Math.max(0,Math.min(1,t));return Math.hypot(p.x-(a.x+dx*t),p.y-(a.y+dy*t));};
-function tap(p){const{cx,cy,R}=geom();const m=mtn();const O=proj([0,0,0]),T=proj(m.T),P=proj(m.peak),A=proj([0,0,-1]);const rim=Math.abs(Math.hypot(p.x-cx,p.y-cy)-R);
-const hits=[['Rh',segDist(p,O,P)],['R',segDist(p,O,T)],['d',segDist(p,T,P)],['diam',segDist(p,A,T)],['circ',rim]].filter(([k,dd])=>dd<14).sort((a,b)=>a[1]-b[1]);
-if(hits.length){show[hits[0][0]]=!show[hits[0][0]];}
-else{// inside the triangle?
-const inTri=(p,a,b,c)=>{const s=(a.x-c.x)*(p.y-c.y)-(a.y-c.y)*(p.x-c.x),t=(b.x-a.x)*(p.y-a.y)-(b.y-a.y)*(p.x-a.x);if((s<0)!==(t<0)&&s!==0&&t!==0)return false;const d=(c.x-b.x)*(p.y-b.y)-(c.y-b.y)*(p.x-b.x);return d===0||(d<0)===(s+t<=0);};if(inTri(p,O,T,P))show.tri=!show.tri;}
-syncChips();}
-orbit(o,st,tap);
-scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);stepAnim(st,t);const{cx,cy,R}=geom();const{R:Rm,d:dm,h:hm,D}=calc();const m=mtn();
-// sun rays
-const L=rot(SUN,st.yaw,st.pitch);const sa=Math.atan2(-L[1],L[0]);// screen angle of the sun direction
-ctx.save();ctx.translate(cx,cy);ctx.rotate(sa);for(let y=-R*1.4;y<=R*1.4;y+=R*.12){ctx.strokeStyle='rgba(255,214,107,.13)';ctx.beginPath();ctx.moveTo(w,y);ctx.lineTo(R*1.05,y);ctx.stroke();}ctx.restore();
-text(ctx,'Sun →',cx+Math.cos(sa)*(R+40)-20,cy+Math.sin(sa)*(R+40)+4,{size:12,color:'#ffd66b'});
-// moon: lit disc, then dark region bounded by the projected terminator
-const g=ctx.createRadialGradient(cx+R*.3*Math.cos(sa),cy+R*.3*Math.sin(sa),R*.1,cx,cy,R);g.addColorStop(0,'#f1ead8');g.addColorStop(1,'#a89f8c');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();
-const lxy=Math.hypot(L[0],L[1]),lz=L[2];ctx.save();ctx.translate(cx,cy);ctx.rotate(sa);ctx.fillStyle='#17150f';ctx.beginPath();ctx.arc(0,0,R,Math.PI/2,3*Math.PI/2);// left half, from bottom through left to top
-for(let i=0;i<=40;i++){const tt=i*Math.PI/40;const x=-R*lz*Math.sin(tt),y=-R*Math.cos(tt);ctx.lineTo(x,y);}ctx.closePath();ctx.fill();ctx.restore();
-// craters on the lit side for texture
-[[.35,-.4,.08],[.6,.2,.05],[.25,.45,.06],[.75,-.1,.04],[.5,.6,.035]].forEach(([x,y,r])=>{const p=proj(v3.norm([Math.cos(y)*Math.cos(x),Math.sin(y),Math.cos(y)*Math.sin(x)]));if(p.z<0.1)return;ctx.strokeStyle='rgba(60,50,40,.3)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(p.x,p.y,r*R*Math.max(.2,p.z),0,TAU);ctx.stroke();});
-// mountain: triangle from two base points (perpendicular to view) to the peak
-const view=unrot([0,0,1],st.yaw,st.pitch);const side=v3.norm(v3.cross(m.base,view));const bw=.14;const b1=proj(v3.add(m.base,v3.mul(side,bw))),b2=proj(v3.sub(m.base,v3.mul(side,bw))),P=proj(m.peak),B=proj(m.base);
-const front=B.z>-0.15;if(front){ctx.globalAlpha=.3+.7*(1-Math.max(0,B.z));ctx.fillStyle=P.z>0?'#d9d0bd':'#6b655a';ctx.beginPath();ctx.moveTo(b1.x,b1.y);ctx.lineTo(P.x,P.y);ctx.lineTo(b2.x,b2.y);ctx.closePath();ctx.fill();ctx.globalAlpha=1;
-// lit tip: the peak is lit because it is above the grazing ray (x of peak > 0 or outside the shadow cylinder)
-const lit=m.peak[0]>0||Math.hypot(m.peak[1],m.peak[2])>=1-1e-9;if(lit){const gl=ctx.createRadialGradient(P.x,P.y,0,P.x,P.y,16);gl.addColorStop(0,'#fff6dc');gl.addColorStop(.3,'#f0b35a');gl.addColorStop(1,'rgba(240,179,90,0)');ctx.fillStyle=gl;ctx.beginPath();ctx.arc(P.x,P.y,16,0,TAU);ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(P.x,P.y,2.5,0,TAU);ctx.fill();}}
-// grazing ray: from the sun, parallel to x, through T, continuing to the peak
-const T=proj(m.T),O=proj([0,0,0]),A=proj([0,0,-1]);const far=proj([2.2,0,1]);ctx.strokeStyle='rgba(255,214,107,.9)';ctx.lineWidth=2;ctx.setLineDash([]);ctx.beginPath();ctx.moveTo(far.x,far.y);ctx.lineTo(P.x,P.y);ctx.stroke();
-if(Math.abs(st.pitch)>0.9)text(ctx,'grazing sunlight',far.x,far.y-10,{size:11,color:'#ffd66b',align:'right'});
-// geometry overlays
-const lab=(s,a,b,color,off=12)=>tag(ctx,s,(a.x+b.x)/2+off,(a.y+b.y)/2-6,color,14);
-const seg=(a,b,color,wdt=3,dash)=>{ctx.strokeStyle=color;ctx.lineWidth=wdt;ctx.setLineDash(dash||[]);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();ctx.setLineDash([]);};
-if(show.tri){ctx.fillStyle='rgba(240,179,90,.18)';ctx.beginPath();ctx.moveTo(O.x,O.y);ctx.lineTo(T.x,T.y);ctx.lineTo(P.x,P.y);ctx.closePath();ctx.fill();ctx.strokeStyle='rgba(240,179,90,.6)';ctx.lineWidth=1;ctx.stroke();ctx.strokeStyle='rgba(236,230,218,.7)';ctx.strokeRect(T.x-10,T.y,10,10);text(ctx,'(R + h)² = R² + d²',cx,h*.08,{size:16,align:'center',color:'#ece6da',font:'serif'});text(ctx,`h = √(${fmtI(Rm)}² + ${fmtI(dm)}²) − ${fmtI(Rm)} = ${fmt(hm,1)} mi`,cx,h*.08+22,{size:13,align:'center',color:'#f0b35a',font:'mono'});}
-if(show.circ){ctx.strokeStyle='#6fb3ff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.stroke();text(ctx,`circumference = π × ${fmtI(D)} = ${fmtI(Math.PI*D)} mi`,cx,cy+R+28,{size:13,align:'center',color:'#6fb3ff'});}
-if(show.diam){seg(A,T,'#dfe7ff',2,[6,5]);tag(ctx,`diameter = ${fmtI(D)} mi`,A.x+10,A.y+(A.y>T.y?-10:24),'#dfe7ff',14);}
-if(show.R){seg(O,T,'#cfc8ba',3);lab(`R = ${fmtI(Rm)} mi`,O,T,'#cfc8ba');}
-if(show.Rh){seg(O,P,'#f0b35a',3);lab(`R + h = ${fmt(Rm+hm,1)} mi`,O,P,'#f0b35a',-130);}
-if(show.d){seg(T,P,'#6fd48a',3);tag(ctx,`d = ${fmtI(dm)} mi`,(T.x+P.x)/2-40,Math.min(T.y,P.y)-14,'#6fd48a',14);}
-if(Math.abs(st.pitch)<0.3)text(ctx,'What Galileo saw · terminator runs top to bottom',cx,cy-R-24,{size:12,align:'center',color:'#9a9382'});
-ctx.fillStyle='rgba(236,230,218,.6)';ctx.beginPath();ctx.arc(O.x,O.y,2,0,TAU);ctx.fill();
-text(ctx,`zoom ${fmt(st.zoom,1)}× · heights exaggerated`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}});}
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);const{R:Rm,d:dm,h:hm,D}=calc();const frac=+dIn.value/100;
+// LEFT · what Galileo saw: half-lit Moon, terminator down the middle, a lit point in the dark
+const cx=w*.25,cy=h*.52,R=Math.min(w*.18,h*.3);
+if(moonImg.complete&&moonImg.naturalWidth){const sc=R/390;ctx.save();ctx.beginPath();ctx.arc(cx,cy,R*1.01,0,TAU);ctx.clip();ctx.drawImage(moonImg,cx-332*sc,cy-444*sc,900*sc,900*sc);ctx.restore();}else{ctx.fillStyle='#1c1a16';ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();ctx.fillStyle='#bdb3a0';ctx.beginPath();ctx.arc(cx,cy,R,-Math.PI/2,Math.PI/2);ctx.fill();}
+ctx.strokeStyle='rgba(236,230,218,.25)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.stroke();text(ctx,'Photo: Astrobond, 2019 · CC BY-SA 4.0',cx,cy+R+34,{size:9,align:'center',color:'#6b655a'});
+ctx.strokeStyle='rgba(236,230,218,.35)';ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(cx,cy-R);ctx.lineTo(cx,cy+R);ctx.stroke();ctx.setLineDash([]);text(ctx,'terminator · the edge of night',cx,cy+R+18,{size:11,align:'center',color:'#9a9382'});
+const px=cx-frac*2*R;ctx.strokeStyle='#f0b35a';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(cx,cy-R*.65);ctx.lineTo(px,cy-R*.65);ctx.stroke();text(ctx,'d',(cx+px)/2,cy-R*.65-8,{size:14,color:'#f0b35a',align:'center',font:'serif'});
+const gl=ctx.createRadialGradient(px,cy,0,px,cy,14);gl.addColorStop(0,'#fff6dc');gl.addColorStop(.3,'#f0b35a');gl.addColorStop(1,'rgba(240,179,90,0)');ctx.fillStyle=gl;ctx.beginPath();ctx.arc(px,cy,14,0,TAU);ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(px,cy,2.5,0,TAU);ctx.fill();
+tag(ctx,'a lit peak in the dark · drag it',px-6,cy+30,'#f0b35a',11);text(ctx,'What Galileo saw',cx,cy-R-24,{size:13,align:'center',color:'#9a9382'});text(ctx,'Sun →',cx+R+10,cy+5,{size:12,color:'#ffd66b'});
+// RIGHT · side view from above the pole: one right triangle
+const sx=w*.74,sy=h*.6,Rv=Math.min(w*.2,h*.3);const ang=Math.min(1.1,.58*Math.sqrt(frac/.05));// exaggerated so the triangle is visible
+const T={x:sx,y:sy-Rv},P0={x:sx-Rv*Math.sin(ang),y:sy-Rv*Math.cos(ang)},hv=Rv/Math.cos(ang)-Rv,Pk={x:sx-(Rv+hv)*Math.sin(ang),y:sy-(Rv+hv)*Math.cos(ang)},O={x:sx,y:sy};
+ctx.fillStyle='#1c1a16';ctx.beginPath();ctx.arc(sx,sy,Rv,0,TAU);ctx.fill();ctx.fillStyle='#8f877a';ctx.beginPath();ctx.arc(sx,sy,Rv,-Math.PI/2,Math.PI/2);ctx.fill();
+for(let y=sy-Rv-60;y<sy+Rv;y+=28){ctx.strokeStyle='rgba(255,214,107,.15)';ctx.beginPath();ctx.moveTo(w,y);ctx.lineTo(sx+Math.sqrt(Math.max(0,Rv*Rv-(y-sy)**2)),y);ctx.stroke();}
+ctx.strokeStyle='#ffd66b';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(w,T.y);ctx.lineTo(Pk.x,T.y);ctx.stroke();text(ctx,'grazing sunlight',w-10,T.y-10,{size:11,color:'#ffd66b',align:'right'});
+ctx.fillStyle='#d9d0bd';ctx.beginPath();const bw=.16;ctx.moveTo(sx-Rv*Math.sin(ang+bw),sy-Rv*Math.cos(ang+bw));ctx.lineTo(Pk.x,Pk.y);ctx.lineTo(sx-Rv*Math.sin(ang-bw),sy-Rv*Math.cos(ang-bw));ctx.closePath();ctx.fill();
+const seg=(a,b,color,wd=3,dash)=>{ctx.strokeStyle=color;ctx.lineWidth=wd;ctx.setLineDash(dash||[]);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();ctx.setLineDash([]);};
+if(show.tri){ctx.fillStyle='rgba(240,179,90,.15)';ctx.beginPath();ctx.moveTo(O.x,O.y);ctx.lineTo(T.x,T.y);ctx.lineTo(Pk.x,Pk.y);ctx.closePath();ctx.fill();ctx.strokeStyle='rgba(236,230,218,.7)';ctx.lineWidth=1;ctx.strokeRect(T.x-10,T.y,10,10);}
+if(show.circ){ctx.strokeStyle='#6fb3ff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(sx,sy,Rv,0,TAU);ctx.stroke();tag(ctx,`circumference = π × ${fmtI(D)} = ${fmtI(Math.PI*D)} mi`,sx-120,sy+Rv+28,'#6fb3ff',13);}
+if(show.diam){seg({x:sx,y:sy+Rv},T,'#dfe7ff',2,[6,5]);tag(ctx,`diameter = ${fmtI(D)} mi`,sx+10,sy+Rv*.6,'#dfe7ff',13);}
+if(show.R||show.tri){seg(O,T,'#cfc8ba',show.R?3:1.5,show.R?[]:[4,4]);tag(ctx,`R = ${fmtI(Rm)} mi`,(O.x+T.x)/2+8,(O.y+T.y)/2,'#cfc8ba',14);}
+if(show.Rh||show.tri){seg(O,Pk,'#f0b35a',show.Rh?3:1.5,show.Rh?[]:[4,4]);tag(ctx,`R + h = ${fmt(Rm+hm,1)} mi`,(O.x+Pk.x)/2-150,(O.y+Pk.y)/2,'#f0b35a',14);}
+if(show.d||show.tri){seg(T,Pk,'#6fd48a',show.d?3:2);tag(ctx,`d = ${fmtI(dm)} mi`,(T.x+Pk.x)/2-40,T.y-12,'#6fd48a',14);}
+seg(P0,Pk,'#6fd48a',3);tag(ctx,`h = ${fmt(hm,1)} mi`,Pk.x-90,(P0.y+Pk.y)/2+4,'#6fd48a',14);
+text(ctx,'Side view from above the pole · height exaggerated so you can see it',sx,sy+Rv+(show.circ?48:28),{size:12,align:'center',color:'#9a9382'});
+text(ctx,'(R + h)² = R² + d²',sx,h*.09,{size:18,align:'center',color:'#ece6da',font:'serif'});text(ctx,`h = √(${fmtI(Rm)}² + ${fmtI(dm)}²) − ${fmtI(Rm)} = ${fmt(hm,1)} mi`,sx,h*.09+24,{size:13,align:'center',color:'#f0b35a',font:'mono'});}});}
 
 /* ---------- 5 · Kepler, Horrocks, Halley: the relay ---------- */
 {const o=setup('c7');let mode='kepler',playing=true,last=0,yr=1639.92,sel=null;const st={yaw:0.4,pitch:0.9,zoom:1,anim:null,maxZoom:6,enabled:()=>true};
