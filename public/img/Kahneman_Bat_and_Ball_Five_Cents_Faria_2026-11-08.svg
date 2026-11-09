@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="392" viewBox="0 0 360 392" role="img" aria-labelledby="t d">
+<title id="t">Five cents and one dollar five cents</title>
+<desc id="d">The ball is 5 cents. The bat is 1 dollar and 5 cents. Together they are 1 dollar and 10 cents. The bat is 1 dollar more than the ball.</desc>
+<rect width="360" height="392" fill="#fbf8f2"/>
+<style>text { font-family: Georgia, "Iowan Old Style", Palatino, "Palatino Linotype", serif; }</style>
+<text x="180" y="58" font-size="40" fill="#7a4b1e" text-anchor="middle">5&#162;</text>
+<text x="180" y="86" font-size="16" fill="#6b645a" text-anchor="middle">ball</text>
+<text x="180" y="128" font-size="28" fill="#22201c" text-anchor="middle">+</text>
+<text x="180" y="184" font-size="40" fill="#7a4b1e" text-anchor="middle">$1.05</text>
+<text x="180" y="212" font-size="16" fill="#6b645a" text-anchor="middle">bat</text>
+<text x="180" y="254" font-size="28" fill="#22201c" text-anchor="middle">=</text>
+<text x="180" y="310" font-size="40" fill="#7a4b1e" text-anchor="middle">$1.10</text>
+<text x="180" y="338" font-size="16" fill="#6b645a" text-anchor="middle">together</text>
+<text x="180" y="372" font-size="16" fill="#22201c" text-anchor="middle">The bat is $1.00 more than the ball.</text>
+</svg>
