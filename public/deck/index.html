@@ -112,6 +112,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
       <li data-go="Kepler to Halley"><strong>6.</strong> Kepler, Horrocks and Halley: a map with no scale bar.</li>
       <li data-go="Transit of Venus"><strong>7.</strong> Venus crosses the Sun and the solar system gets a size.</li>
       <li data-go="Mason &amp; Dixon"><strong>8.</strong> Mason and Dixon: a sea fight, a transit, and a line across America.</li>
+      <li data-go="Flat maps lie"><strong>9.</strong> Flat maps lie: Greenland, Africa, and the shortest way across.</li>
     </ul>
     <p><small>→ and ← keys move between slides. F for full screen. Dotted words open an explanation.</small></p>
   </div>
@@ -284,6 +285,29 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
     <figure class="md-fig" id="md-fig" hidden><img id="md-img" alt=""><figcaption id="md-cap"></figcaption></figure>
   </div>
   <div class="stage"><canvas id="c6"></canvas><div class="hint" id="h6">Drag to spin · pinch or scroll to zoom · tap a marker</div><div class="card" id="md-card" hidden><button class="x" id="md-card-x" aria-label="Close">×</button><h3 id="md-card-t"></h3><div id="md-card-g"></div><p id="md-card-p"></p></div></div>
+</section>
+
+<!-- 9 · Flat maps lie -->
+<section class="slide" data-title="Flat maps lie" data-fx="unroll">
+  <div class="text">
+    <p class="kicker">9 · Frames · Every flat map is a choice</p>
+    <h1 id="fm-title">How many Greenlands fit in Africa?</h1>
+    <div class="modes" id="m9"><button class="on" data-mode="greenland">Greenland vs Africa</button><button data-mode="routes">Straight is not shortest</button></div>
+    <div id="fm-greenland">
+      <p class="lede">On the wall map they look about the same size. Vote, then peel the globe flat and slide Greenland down onto Africa.</p>
+      <div class="quiz" id="fm-opts"></div>
+      <div class="controls"><label><span class="row">Peel the globe flat <output id="fm-morph-out">globe</output></span><input id="fm-morph" type="range" min="0" max="2" step="0.01" value="0"></label></div>
+      <div class="btns"><button class="primary" id="fm-reveal">Reveal</button><button id="fm-merc">Mercator</button><button id="fm-equal">Equal-area</button><button id="fm-globe">Back to the globe</button></div>
+      <div class="readout" id="fm-read"><strong>Vote first.</strong><span>Then slide "Peel the globe flat". The first half of the slider unrolls the globe into Mercator; the second half squashes Mercator into an equal-area map.</span></div>
+    </div>
+    <div id="fm-routes" hidden>
+      <p class="lede">Drag the two ports. On Mercator the straight line is a <span class="term" data-term="rhumb">rhumb line</span>: one compass bearing all the way. The curve is the <span class="term" data-term="greatcircle">great circle</span>, the shortest path. Peel back to the globe and they swap roles.</p>
+      <div class="controls"><label><span class="row">Peel the globe flat <output id="fm-morph2-out">globe</output></span><input id="fm-morph2" type="range" min="0" max="1" step="0.01" value="1"></label></div>
+      <div class="btns"><button class="primary" id="fm-fly">Fly the great circle</button><button id="fm-pair-ny">New York → London</button><button id="fm-pair-sf">San Francisco → Tokyo</button><button id="fm-pair-cape">Cape Town → Sydney</button></div>
+      <div class="readout" id="fm-read2"></div>
+    </div>
+  </div>
+  <div class="stage"><canvas id="c9"></canvas><div class="hint" id="h9">Drag to spin · scroll to zoom · drag the Greenland cutout when the map is flat</div></div>
 </section>
 
 </div>
@@ -1012,6 +1036,92 @@ function openTerm(key,fromEl){const d=GLOSS[key];if(!d)return;const stage=fromEl
 stage.querySelectorAll('.card').forEach(c=>{if(c!==card)c.hidden=true;});card.querySelector('h3').textContent=d.t;card.querySelector('.g').innerHTML=d.g;card.querySelector('p').innerHTML=d.p;card.style.right='';card.style.left='';card.hidden=false;}
 document.addEventListener('click',e=>{const t=e.target.closest('.term');if(t){e.preventDefault();openTerm(t.dataset.term,t);}});
 
+/* ---------- shared: flat map projections with a morph from the globe ---------- */
+// mapXY(lat, lon, kind) returns normalised map coordinates: x in [-1,1] for lon −180..180, y in [-1,1] north up.
+const MAPS={merc:{y:lat=>{const l=Math.max(-85,Math.min(85,lat))*DEG;return Math.log(Math.tan(Math.PI/4+l/2))/Math.PI;},area:1},
+ equal:{y:lat=>Math.sin(lat*DEG)/ (Math.PI/2) *1.0,area:1}};// Lambert cylindrical equal-area, scaled so the map is 2 wide, 2/π·... tall
+function mapXY(lat,lon,kind){const k=MAPS[kind];return{x:lon/180,y:k.y(lat)};}
+function morphProj(lat,lon,st,t,kind,w,h,centerLon){// t 0 = orthographic globe, 1 = flat map `kind`
+ const{cx,cy,R}=st.geom();const q=rot(ll(lat,lon),st.yaw,st.pitch);const g={x:cx+q[0]*R,y:cy-q[1]*R,z:q[2]};
+ const m=mapXY(lat,((lon-centerLon+540)%360)-180,kind);const S=Math.min(w*.46,h*.46)*st.zoom;const f={x:cx+m.x*S,y:cy-m.y*S*(kind==='merc'?1:1),z:1};
+ if(t<=0)return g;if(t>=1)return f;const e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;// the back of the globe is lifted toward the viewer as it unwraps
+ const gz=g.z<0?g.z*(1-e):g.z;return{x:g.x+(f.x-g.x)*e,y:g.y+(f.y-g.y)*e,z:gz+(1-gz)*e};}
+
+/* ---------- 9 · Flat maps lie ---------- */
+{const o=setup('c9');let mode='greenland';const st={yaw:camFor(20,-20,1).yaw,pitch:camFor(20,-20,1).pitch,zoom:1,anim:null,maxZoom:5,enabled:()=>true};st.geom=()=>{const{w,h}=o;return{cx:w*.5,cy:h*.5,R:Math.min(w,h)*.36*st.zoom};};
+const morphIn=document.getElementById('fm-morph'),morphOut=document.getElementById('fm-morph-out'),morph2In=document.getElementById('fm-morph2'),morph2Out=document.getElementById('fm-morph2-out'),read=document.getElementById('fm-read'),read2=document.getElementById('fm-read2'),opts=document.getElementById('fm-opts'),title=document.getElementById('fm-title'),hint=document.getElementById('h9');
+const centerLon=-20;let votes=[0,0,0,0],revealed=false;const answers=['About 1','About 3','About 7','About 14'];
+// Greenland outline pulled from the coastline data: lines whose points fall in its bounding box
+const GL=COAST.lines.filter(ln=>{let n=0,inb=0;for(let i=0;i<ln.length;i+=2){n++;const lo=ln[i]/10,la=ln[i+1]/10;if(lo>-74&&lo<-10&&la>59&&la<84)inb++;}return n>20&&inb/n>.9;});
+let glOff={dlat:0,dlon:0},dragGL=false;// the cutout's displacement in map space (degrees of lon; map-y handled per projection)
+function renderOpts(){const total=votes.reduce((a,b)=>a+b,0)||1;opts.innerHTML=answers.map((a,k)=>`<button class="opt${revealed&&k===3?' ok':''}${revealed&&k!==3&&votes[k]?' no':''}" data-k="${k}"><span class="letter">${'ABCD'[k]}</span><span class="label">${a}</span><span class="bar" style="width:${Math.round(votes[k]/total*100)}%"></span><span class="count">${votes[k]||''}</span></button>`).join('');opts.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(revealed)return;votes[+b.dataset.k]++;renderOpts();});}
+renderOpts();
+const setMorph=(v)=>{morphIn.value=v;morphOut.textContent=v<.05?'globe':v<1?'unrolling…':v<1.05?'Mercator':v<2?'squashing…':'equal-area';};
+let morphAnim=null;const animMorph=(to,ms=1800)=>{morphAnim={from:+morphIn.value,to,t0:performance.now(),ms};};
+document.getElementById('fm-merc').onclick=()=>animMorph(1);document.getElementById('fm-equal').onclick=()=>animMorph(2);document.getElementById('fm-globe').onclick=()=>{animMorph(0);glOff={dlat:0,dlon:0};};
+morphIn.oninput=()=>{morphAnim=null;setMorph(+morphIn.value);};morph2In.oninput=()=>{morph2Out.textContent=+morph2In.value<.05?'globe':+morph2In.value<1?'unrolling…':'Mercator';};
+document.getElementById('fm-reveal').onclick=()=>{revealed=true;renderOpts();read.className='readout ok';read.innerHTML='<strong>About 14. Africa is 11.7 million square miles; Greenland is 0.84 million.</strong><span>Mercator stretches everything toward the poles to keep compass bearings straight. Greenland sits at 60–84° N and is blown up roughly four times in width and far more in area. Slide to the equal-area map and drag the cutout onto Africa: it is a small patch of the Sahara.</span>';animMorph(1);};
+document.querySelectorAll('#m9 button').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;document.querySelectorAll('#m9 button').forEach(x=>x.classList.toggle('on',x===b));document.getElementById('fm-greenland').hidden=mode!=='greenland';document.getElementById('fm-routes').hidden=mode!=='routes';hint.textContent=mode==='greenland'?'Drag to spin · scroll to zoom · drag the Greenland cutout when the map is flat':'Drag a port · peel the globe flat and back';title.textContent=mode==='greenland'?'How many Greenlands fit in Africa?':'Straight on the map is not shortest on the Earth';if(mode==='routes')routeUpdate();});
+// routes mode
+let A=[40.7,-74],B=[51.5,-0.1],dragPort=null,flyT=-1;const pairs={ny:[[40.7,-74],[51.5,-0.1]],sf:[[37.8,-122.4],[35.7,139.7]],cape:[[-33.9,18.4],[-33.9,151.2]]};
+document.getElementById('fm-pair-ny').onclick=()=>{[A,B]=pairs.ny.map(p=>[...p]);routeUpdate();};document.getElementById('fm-pair-sf').onclick=()=>{[A,B]=pairs.sf.map(p=>[...p]);routeUpdate();};document.getElementById('fm-pair-cape').onclick=()=>{[A,B]=pairs.cape.map(p=>[...p]);routeUpdate();};
+document.getElementById('fm-fly').onclick=()=>{flyT=performance.now();};
+const gcDist=(a,b)=>Math.acos(Math.max(-1,Math.min(1,v3.dot(ll(a[0],a[1]),ll(b[0],b[1])))))*3959;
+const rhumbDist=(a,b)=>{const l1=a[0]*DEG,l2=b[0]*DEG;let dlon=(b[1]-a[1])*DEG;if(Math.abs(dlon)>Math.PI)dlon-=Math.sign(dlon)*TAU;const dpsi=Math.log(Math.tan(Math.PI/4+l2/2)/Math.tan(Math.PI/4+l1/2));const q=Math.abs(dpsi)>1e-9?(l2-l1)/dpsi:Math.cos(l1);return Math.hypot(l2-l1,q*dlon)*3959;};
+const rhumbBearing=(a,b)=>{const l1=a[0]*DEG,l2=b[0]*DEG;let dlon=(b[1]-a[1])*DEG;if(Math.abs(dlon)>Math.PI)dlon-=Math.sign(dlon)*TAU;const dpsi=Math.log(Math.tan(Math.PI/4+l2/2)/Math.tan(Math.PI/4+l1/2));return((Math.atan2(dlon,dpsi)/DEG)+360)%360;};
+function routeUpdate(){const gc=gcDist(A,B),rh=rhumbDist(A,B);read2.className='readout';read2.innerHTML=`<strong>Great circle ${fmtI(gc)} mi · rhumb line ${fmtI(rh)} mi</strong><span class="big">${fmtI(rh-gc)} miles saved</span><span>The rhumb line holds one bearing, ${fmt(rhumbBearing(A,B),0)}°, the whole way and looks straight on Mercator. The great circle changes heading continuously, bends toward the pole on the map, and is the straight one on the globe. Mercator keeps angles true so a navigator can steer by it; the price is distance and area.</span>`;}
+routeUpdate();
+// pointer: Greenland cutout and ports
+const pos=e=>{const r=o.c.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};};
+const curT=()=>mode==='greenland'?+morphIn.value:+morph2In.value;const curKind=()=>mode==='greenland'&&+morphIn.value>1?'equal':'merc';
+const P=(lat,lon,off)=>{const t=curT();const kind=curKind();const tt=mode==='greenland'?(t<=1?t:1):t;return morphProj(lat,lon,st,tt,kind,o.w,o.h,centerLon);};
+// for the equal-area morph (t in 1..2) we blend mercator and equal-area flat coordinates
+const PF=(lat,lon)=>{const t=+morphIn.value;if(mode!=='greenland'||t<=1)return P(lat,lon);const{cx,cy}=st.geom();const S=Math.min(o.w*.46,o.h*.46)*st.zoom;const m1=mapXY(lat,((lon-centerLon+540)%360)-180,'merc'),m2=mapXY(lat,((lon-centerLon+540)%360)-180,'equal');const e=t-1;return{x:cx+m1.x*S,y:cy-(m1.y+(m2.y-m1.y)*e)*S,z:1};};
+const invFlat=(x,y)=>{// inverse of the flat map at the current morph for the Greenland drag (lon only + map-y)
+const{cx,cy}=st.geom();const S=Math.min(o.w*.46,o.h*.46)*st.zoom;return{mx:(x-cx)/S,my:-(y-cy)/S};};
+let glGrab=null;
+o.c.addEventListener('pointerdown',e=>{const p=pos(e);if(mode==='routes'&&curT()>.95){for(const[port,name]of[[A,'A'],[B,'B']]){const q=PF(port[0],port[1]);if(Math.hypot(q.x-p.x,q.y-p.y)<18){dragPort=name;o.c.setPointerCapture(e.pointerId);e.stopImmediatePropagation();return;}}}
+if(mode==='greenland'&&+morphIn.value>=.98){const c=glCenter();if(c&&Math.hypot(c.x-p.x,c.y-p.y)<Math.min(o.w,o.h)*.12){dragGL=true;glGrab={p,off:{...glOff}};o.c.setPointerCapture(e.pointerId);e.stopImmediatePropagation();}}},true);
+o.c.addEventListener('pointermove',e=>{const p=pos(e);if(dragPort){const t=curT();const{cx,cy}=st.geom();const S=Math.min(o.w*.46,o.h*.46)*st.zoom;const mx=(p.x-cx)/S,my=-(p.y-cy)/S;const lon=((mx*180+centerLon+540)%360)-180;const lat=Math.max(-80,Math.min(84,(2*Math.atan(Math.exp(my*Math.PI))-Math.PI/2)/DEG));if(dragPort==='A')A=[lat,lon];else B=[lat,lon];routeUpdate();}
+if(dragGL&&glGrab){const S=Math.min(o.w*.46,o.h*.46)*st.zoom;glOff={dlon:glGrab.off.dlon+(p.x-glGrab.p.x)/S*180,dmy:(glGrab.off.dmy||0)-(p.y-glGrab.p.y)/S};}},true);
+const endDrag=()=>{dragPort=null;dragGL=false;glGrab=null;};o.c.addEventListener('pointerup',endDrag,true);o.c.addEventListener('pointercancel',endDrag,true);
+orbit(o,st,null);
+function glCenter(){const q=PFoff(72,-40);return q;}
+function PFoff(lat,lon){// Greenland cutout: shift in flat map space by glOff
+const q=PF(lat,lon+(glOff.dlon||0));const S=Math.min(o.w*.46,o.h*.46)*st.zoom;return{x:q.x,y:q.y-(glOff.dmy||0)*S,z:q.z};}
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);stepAnim(st,t);if(morphAnim){const k=Math.min(1,(t-morphAnim.t0)/morphAnim.ms),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;setMorph(morphAnim.from+(morphAnim.to-morphAnim.from)*e);if(k>=1)morphAnim=null;}
+const{cx,cy,R}=st.geom();const tm=curT();const flatT=mode==='greenland'?Math.min(1,tm):tm;const S=Math.min(w*.46,h*.46)*st.zoom;
+// globe disc fades out as the map flattens; a map frame fades in
+if(flatT<1){ctx.globalAlpha=1-flatT;const g=ctx.createRadialGradient(cx-R*.35,cy-R*.35,R*.05,cx,cy,R);g.addColorStop(0,'#2f5a8c');g.addColorStop(.7,'#15294a');g.addColorStop(1,'#0b1526');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.stroke();ctx.globalAlpha=1;}
+if(flatT>0){const kind=curKind();const yTop=(mode==='greenland'&&tm>1)?(MAPS.merc.y(85)+(MAPS.equal.y(85)-MAPS.merc.y(85))*(tm-1)):MAPS[kind].y(85);ctx.globalAlpha=flatT;ctx.fillStyle='rgba(21,41,74,.6)';ctx.fillRect(cx-S,cy-yTop*S,2*S,2*yTop*S);ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.strokeRect(cx-S,cy-yTop*S,2*S,2*yTop*S);ctx.globalAlpha=1;}
+// graticule and coast through the morph
+const proj=(p)=>{const lat=Math.asin(p[1])/DEG,lon=Math.atan2(-p[2],p[0])/DEG;return PF(lat,lon);};
+ctx.strokeStyle='rgba(236,230,218,.12)';ctx.lineWidth=1;for(let la=-60;la<=80;la+=20){ctx.beginPath();let pen=false;for(let lo=-180;lo<=180;lo+=3){const q=PF(la,lo+centerLon);if(q.z>=-0.01&&!(flatT>0&&Math.abs(((lo+540)%360)-180)>177)){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}ctx.stroke();}
+for(let lo=-180;lo<180;lo+=30){ctx.beginPath();let pen=false;for(let la=-85;la<=85;la+=3){const q=PF(la,lo+centerLon);if(q.z>=-0.01){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}ctx.stroke();}
+// coast: break lines at the antimeridian seam when flat
+const drawSet=(set,col,wd,projFn)=>{ctx.strokeStyle=col;ctx.lineWidth=wd;ctx.beginPath();for(const ln of set.lines){let pen=false,prev=null;for(let i=0;i<ln.length;i+=2){const lat=ln[i+1]/set.q,lon=ln[i]/set.q;const q=projFn(lat,lon);const seam=prev&&flatT>0&&Math.abs(q.x-prev.x)>S*.8;if(q.z>=-0.01&&!seam){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;prev=q;}}ctx.stroke();};
+drawSet(COAST,'rgba(236,230,218,.8)',1,PF);
+if(mode==='greenland'){// Africa label and the Greenland cutout
+const af=PF(5,20);tag(ctx,'Africa · 11.7 million sq mi',af.x-60,af.y,'#f0b35a',12);
+if(flatT>=.98){ctx.save();ctx.fillStyle='rgba(240,179,90,.22)';ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;for(const ln of GL){ctx.beginPath();for(let i=0;i<ln.length;i+=2){const q=PFoff(ln[i+1]/10,ln[i]/10);i?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);}ctx.closePath();ctx.fill();ctx.stroke();}ctx.restore();const c=glCenter();tag(ctx,'Greenland · 0.84 million sq mi · drag me',c.x-70,c.y,'#f0b35a',12);}
+else{const c=PF(72,-40);if(c.z>0)tag(ctx,'Greenland',c.x-30,c.y,'#cfc8ba',11);}
+const label=tm<.05?'globe · areas true':tm<1?'unrolling toward Mercator':tm<1.05?'Mercator · angles true, areas stretched toward the poles':tm<2?'squashing toward equal-area':'Gall–Peters equal-area · areas true, shapes stretched';text(ctx,label,cx,h-54,{size:12,color:'#9a9382',align:'center'});}
+else{// routes
+const gcPts=[];const a=ll(A[0],A[1]),b=ll(B[0],B[1]);for(let k=0;k<=120;k++){const p=slerp(a,b,k/120);gcPts.push([Math.asin(p[1])/DEG,Math.atan2(-p[2],p[0])/DEG]);}
+// rhumb: interpolate linearly in mercator space
+const rhPts=[];{const m1=mapXY(A[0],A[1],'merc'),m2=mapXY(B[0],B[1],'merc');let dx=m2.x-m1.x;if(Math.abs(dx)>1)dx-=Math.sign(dx)*2;for(let k=0;k<=120;k++){const x=m1.x+dx*k/120,y=m1.y+(m2.y-m1.y)*k/120;const lon=((x*180+540)%360)-180,lat=(2*Math.atan(Math.exp(y*Math.PI))-Math.PI/2)/DEG;rhPts.push([lat,lon]);}}
+const line=(pts,col,wd,dash)=>{ctx.strokeStyle=col;ctx.lineWidth=wd;ctx.setLineDash(dash||[]);ctx.beginPath();let pen=false,prev=null;for(const[la,lo]of pts){const q=PF(la,lo);const seam=prev&&flatT>0&&Math.abs(q.x-prev.x)>S*.8;if(q.z>=-0.01&&!seam){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;prev=q;}ctx.stroke();ctx.setLineDash([]);};
+line(rhPts,'#6fb3ff',2.5,[7,5]);line(gcPts,'#f0b35a',3);
+const qa=PF(A[0],A[1]),qb=PF(B[0],B[1]);[[qa,'A'],[qb,'B']].forEach(([q,n])=>{if(q.z<-0.01)return;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(q.x,q.y,7,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();tag(ctx,n+(flatT>.95?' · drag':''),q.x+10,q.y+4,'#ece6da',12);});
+const mid=gcPts[60],qm=PF(mid[0],mid[1]);if(qm.z>0)tag(ctx,`great circle · ${fmtI(gcDist(A,B))} mi · shortest`,qm.x+10,qm.y-12,'#f0b35a',12);const rm=rhPts[60],qr=PF(rm[0],rm[1]);if(qr.z>0)tag(ctx,`rhumb line · ${fmtI(rhumbDist(A,B))} mi · one bearing`,qr.x+10,qr.y+18,'#6fb3ff',12);
+if(flyT>0){const k=Math.min(1,(t-flyT)/4000);const p=gcPts[Math.floor(k*120)];const q=PF(p[0],p[1]);if(q.z>-0.01){ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(q.x,q.y,5,0,TAU);ctx.fill();text(ctx,'✈',q.x+8,q.y+6,{size:16,color:'#fff'});}if(k>=1)flyT=-1;}
+text(ctx,flatT<.05?'globe · the great circle is the straight one':flatT<1?'unrolling':'Mercator · the rhumb line is the straight one',cx,h-54,{size:12,color:'#9a9382',align:'center'});}
+text(ctx,`zoom ${fmt(st.zoom,1)}×`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}});
+// glossary entries
+GLOSS.rhumb={t:'Rhumb line',g:`<svg viewBox="0 0 480 300"><rect x="40" y="40" width="400" height="220" fill="#15294a" stroke="#3b5f8a"/><line x1="80" y1="220" x2="400" y2="80" stroke="#6fb3ff" stroke-width="3" stroke-dasharray="8 5"/><path d="M80 220 Q200 60 400 80" fill="none" stroke="#f0b35a" stroke-width="3"/><text x="90" y="245" fill="#ece6da" font-size="12">A</text><text x="405" y="75" fill="#ece6da" font-size="12">B</text><text x="250" y="190" fill="#6fb3ff" font-size="12">rhumb line · one compass bearing · straight on Mercator</text><text x="130" y="100" fill="#f0b35a" font-size="12">great circle · shortest · bends poleward</text><text x="40" y="285" fill="#9a9382" font-size="12">Mercator's whole purpose, 1569: make a constant bearing a straight line.</text></svg>`,p:'A rhumb line, or loxodrome, crosses every meridian at the same angle, so a ship can hold one compass heading from port to port. On a globe it spirals toward the pole; Mercator built his 1569 projection so that it would draw as a straight line, which is why navigators have used Mercator charts ever since. The cost is that it is not the shortest route, and the stretching needed to straighten it inflates everything near the poles.'};
+GLOSS.greatcircle={t:'Great circle',g:`<svg viewBox="0 0 480 300"><circle cx="240" cy="150" r="110" fill="#15294a" stroke="#3b5f8a"/><ellipse cx="240" cy="150" rx="110" ry="30" fill="none" stroke="#9a9382" stroke-dasharray="4 4"/><path d="M135 185 A110 110 0 0 1 345 110" fill="none" stroke="#f0b35a" stroke-width="3"/><circle cx="135" cy="185" r="5" fill="#fff"/><circle cx="345" cy="110" r="5" fill="#fff"/><text x="40" y="60" fill="#f0b35a" font-size="12">a circle whose centre is the Earth's centre</text><text x="40" y="285" fill="#9a9382" font-size="12">The equator and every meridian are great circles; other parallels are not.</text></svg>`,p:'The shortest path between two points on a sphere runs along the great circle through them: the circle cut by a plane through the Earth’s centre. Stretch a string between two cities on a globe and it lies on one. Flights from New York to London arc up past Newfoundland for this reason. On Mercator the great circle looks like a detour toward the pole, which is the map lying, not the pilot.'};
+}
+
 /* ---------- transitions: drawn live on an overlay canvas, each one a piece of the slide's own story ---------- */
 const fxC=document.createElement('canvas');fxC.id='fx';document.body.appendChild(fxC);const fx=fxC.getContext('2d');
 function fxSize(){const d=devicePixelRatio||1;fxC.width=innerWidth*d;fxC.height=innerHeight*d;fx.setTransform(d,0,0,d,0,0);}fxSize();addEventListener('resize',fxSize);
@@ -1046,12 +1156,14 @@ for(let i=0;i<shown;i++){fx.strokeStyle='rgba(236,230,218,.9)';fx.lineWidth=2.5;
 if(k<.45){fx.fillStyle='#f0b35a';fx.font='600 12px -apple-system,Segoe UI,Roboto,sans-serif';fx.textAlign='left';fx.fillText('66 feet · 100 links',Math.min(W-160,shown*34+8),y-18);}break;}
 case 'compass':{// a compass needle swings and settles on north; the slide opens as the rose fills
 doSwap();const cx=W/2,cy=H/2,R=Math.hypot(W,H)*.55*e;slideEl.style.clipPath=`circle(${R}px at 50% 50%)`;const r=Math.min(W,H)*.22;const swing=(1-e)*Math.sin(k*Math.PI*4)*1.2;const a=-Math.PI/2+swing;fx.globalAlpha=1-Math.max(0,(k-.7)/.3);fx.strokeStyle='rgba(236,230,218,.5)';fx.lineWidth=1.5;fx.beginPath();fx.arc(cx,cy,r,0,TAU);fx.stroke();for(let d=0;d<360;d+=10){const q=d*DEG-Math.PI/2;const big=d%90===0;fx.beginPath();fx.moveTo(cx+(r-(big?18:8))*Math.cos(q),cy+(r-(big?18:8))*Math.sin(q));fx.lineTo(cx+r*Math.cos(q),cy+r*Math.sin(q));fx.strokeStyle=big?'#ece6da':'rgba(236,230,218,.4)';fx.lineWidth=big?2:1;fx.stroke();}fx.font='600 16px Georgia,serif';fx.fillStyle='#ece6da';fx.textAlign='center';[['N',0],['E',90],['S',180],['W',270]].forEach(([l,d])=>{const q=d*DEG-Math.PI/2;fx.fillText(l,cx+(r-34)*Math.cos(q),cy+(r-34)*Math.sin(q)+6);});fx.fillStyle='#ff7d6f';fx.beginPath();fx.moveTo(cx+r*.8*Math.cos(a),cy+r*.8*Math.sin(a));fx.lineTo(cx+10*Math.cos(a+Math.PI/2),cy+10*Math.sin(a+Math.PI/2));fx.lineTo(cx+10*Math.cos(a-Math.PI/2),cy+10*Math.sin(a-Math.PI/2));fx.closePath();fx.fill();fx.fillStyle='#dfe7ff';fx.beginPath();fx.moveTo(cx-r*.8*Math.cos(a),cy-r*.8*Math.sin(a));fx.lineTo(cx+10*Math.cos(a+Math.PI/2),cy+10*Math.sin(a+Math.PI/2));fx.lineTo(cx+10*Math.cos(a-Math.PI/2),cy+10*Math.sin(a-Math.PI/2));fx.closePath();fx.fill();fx.globalAlpha=1;break;}
+case 'unroll':{// a chart unrolls from the left edge; the roll itself is drawn as a shaded cylinder
+doSwap();const x=W*e;slideEl.style.clipPath=`inset(0 ${(1-e)*100}% 0 0)`;const rw=Math.max(8,40*(1-e)+8);const gl=fx.createLinearGradient(x,0,x+rw*2,0);gl.addColorStop(0,'rgba(236,230,218,.0)');gl.addColorStop(.3,'rgba(236,230,218,.55)');gl.addColorStop(.6,'rgba(120,110,90,.6)');gl.addColorStop(1,'rgba(0,0,0,0)');fx.fillStyle=gl;fx.fillRect(x,0,rw*2,H);fx.strokeStyle='rgba(240,179,90,.7)';fx.lineWidth=2;fx.beginPath();fx.moveTo(x,0);fx.lineTo(x,H);fx.stroke();break;}
 case 'orbit':{// a planet runs one orbit and the slide fills the circle it traces
 doSwap();const cx=W/2,cy=H/2,R=Math.hypot(W,H)*.55*e;slideEl.style.clipPath=`circle(${R}px at 50% 50%)`;const a=-Math.PI/2+e*TAU*1.5;fx.strokeStyle='rgba(240,179,90,.35)';fx.lineWidth=1;fx.beginPath();fx.arc(cx,cy,R,0,TAU);fx.stroke();const px=cx+R*Math.cos(a),py=cy+R*Math.sin(a);const gl=fx.createRadialGradient(px,py,0,px,py,22);gl.addColorStop(0,'#fff');gl.addColorStop(.3,'rgba(240,179,90,.9)');gl.addColorStop(1,'rgba(240,179,90,0)');fx.fillStyle=gl;fx.beginPath();fx.arc(px,py,22,0,TAU);fx.fill();for(let k=1;k<12;k++){const aa=a-k*.06;fx.fillStyle=`rgba(240,179,90,${(1-k/12)*.5})`;fx.beginPath();fx.arc(cx+R*Math.cos(aa),cy+R*Math.sin(aa),4,0,TAU);fx.fill();}break;}
 default:doSwap();slideEl.style.opacity=e;}
 if(k<1)run.raf=requestAnimationFrame(frame);else{fx.clearRect(0,0,W,H);slideEl.style.clipPath='';slideEl.style.transform='';slideEl.style.filter='';slideEl.style.opacity='';fxRun=null;}};
 run.raf=requestAnimationFrame(frame);}
-const FXMAP={fade:'warp',iris:'sweep',sunrise:'rays',telescope:'warp',terminator:'eclipse',venus:'venus',survey:'chain',orbit:'orbit',compass:'compass'};
+const FXMAP={fade:'warp',iris:'sweep',sunrise:'rays',telescope:'warp',terminator:'eclipse',venus:'venus',survey:'chain',orbit:'orbit',compass:'compass',unroll:'unroll'};
 
 /* ---------- loop ---------- */
 function frame(t){const s=scenes[cur];if(s&&s.o.w)s.draw(t);requestAnimationFrame(frame);}
