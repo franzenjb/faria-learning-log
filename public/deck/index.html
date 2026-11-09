@@ -107,12 +107,13 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
       <li data-go="Mental maps"><strong>1.</strong> Three questions your mental map gets wrong.</li>
       <li data-go="Latitude &amp; Longitude"><strong>2.</strong> Latitude is an angle to Polaris. Longitude is a clock.</li>
       <li data-go="Eratosthenes"><strong>3.</strong> Eratosthenes sizes the Earth with a well and a stick.</li>
-      <li data-go="Jupiter's moons"><strong>4.</strong> Galileo sees four moons circling Jupiter.</li>
-      <li data-go="Moon mountains"><strong>5.</strong> Galileo measures a mountain on the Moon from its shadow.</li>
-      <li data-go="Kepler to Halley"><strong>6.</strong> Kepler, Horrocks and Halley: a map with no scale bar.</li>
-      <li data-go="Transit of Venus"><strong>7.</strong> Venus crosses the Sun and the solar system gets a size.</li>
-      <li data-go="Mason &amp; Dixon"><strong>8.</strong> Mason and Dixon: a sea fight, a transit, and a line across America.</li>
-      <li data-go="Flat maps lie"><strong>9.</strong> Flat maps lie: Greenland, Africa, and the shortest way across.</li>
+      <li data-go="Baselines"><strong>4.</strong> Baselines: your finger, a steeple, and Picard's network.</li>
+      <li data-go="Jupiter's moons"><strong>5.</strong> Galileo sees four moons circling Jupiter.</li>
+      <li data-go="Moon mountains"><strong>6.</strong> Galileo measures a mountain on the Moon from its shadow.</li>
+      <li data-go="Kepler to Halley"><strong>7.</strong> Kepler, Horrocks and Halley: a map with no scale bar.</li>
+      <li data-go="Transit of Venus"><strong>8.</strong> Venus crosses the Sun and the solar system gets a size.</li>
+      <li data-go="Mason &amp; Dixon"><strong>9.</strong> Mason and Dixon: a sea fight, a transit, and a line across America.</li>
+      <li data-go="Flat maps lie"><strong>10.</strong> Flat maps lie: Greenland, Africa, and the shortest way across.</li>
     </ul>
     <p><small>→ and ← keys move between slides. F for full screen. Dotted words open an explanation.</small></p>
   </div>
@@ -182,10 +183,24 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
   <div class="stage"><canvas id="c2"></canvas><div class="hint">Drag Alexandria along the surface</div></div>
 </section>
 
+<!-- 4 · Baselines -->
+<section class="slide" data-title="Baselines" data-fx="triangles">
+  <div class="text">
+    <p class="kicker">4 · Triangles · One measured length, everything else computed</p>
+    <h1 id="bl-title">Switch eyes. The finger jumps; the wall does not.</h1>
+    <div class="modes" id="m4"><button class="on" data-mode="finger">Your finger</button><button data-mode="steeple">A steeple</button><button data-mode="picard">Picard's network · 1670</button></div>
+    <div id="bl-body"></div>
+    <div class="controls" id="bl-controls"></div>
+    <div class="btns" id="bl-btns"></div>
+    <div class="readout" id="bl-read"></div>
+  </div>
+  <div class="stage"><canvas id="c4b"></canvas><div class="hint" id="h4b">Drag the finger nearer or farther · drag the eyes apart</div></div>
+</section>
+
 <!-- 3 · Jupiter's moons -->
 <section class="slide" data-title="Jupiter's moons" data-fx="telescope">
   <div class="text">
-    <p class="kicker">4 · January 1610 · Padua</p>
+    <p class="kicker">5 · January 1610 · Padua</p>
     <h1>Four little stars that would not stay still</h1>
     <p class="lede">Galileo pointed a new telescope at Jupiter and saw three, then four, small stars in a line beside it. Night after night they changed sides. They were moons, and they circled Jupiter, not the Earth.</p>
     <p>This was the first thing anyone had seen orbiting something other than the Earth. Aristotle and Ptolemy had the whole sky turning about us. Here was a small system turning about a planet, and a planet that carried its moons along as it moved. If Jupiter could do that, so could the Earth.</p>
@@ -208,7 +223,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 4 · Moon mountains -->
 <section class="slide" data-title="Moon mountains" data-fx="terminator">
   <div class="text">
-    <p class="kicker">5 · Sidereus Nuncius · 1610</p>
+    <p class="kicker">6 · Sidereus Nuncius · 1610</p>
     <h1>How tall is a mountain on the Moon?</h1>
     <p class="lede">Galileo saw bright points on the dark side of the Moon, well past the <span class="term" data-term="terminator">terminator</span>, the line between day and night. They were peaks, still catching sunlight while the ground around them was in shadow.</p>
     <p>Spin the Moon to look at the peak from above the pole and the geometry appears: a right triangle with the Moon's radius <em>R</em> as one leg, the distance <em>d</em> past the terminator as the other, and <em>R + h</em> as the hypotenuse. Tap the rim, the centre line, a radius, or the triangle itself to call out each piece.</p>
@@ -228,7 +243,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 5 · Kepler, Horrocks, Halley -->
 <section class="slide" data-title="Kepler to Halley" data-fx="orbit">
   <div class="text">
-    <p class="kicker">6 · 1609 to 1742 · A relay across three lifetimes</p>
+    <p class="kicker">7 · 1609 to 1742 · A relay across three lifetimes</p>
     <h1 id="kp-title">A map of the solar system with no scale bar</h1>
     <div class="modes" id="m7"><button class="on" data-mode="kepler">Kepler</button><button data-mode="horrocks">Horrocks · 1639</button><button data-mode="halley">Halley · the plan</button></div>
     <div id="kp-body"></div>
@@ -245,7 +260,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 5 · Transit of Venus -->
 <section class="slide" data-title="Transit of Venus" data-fx="venus">
   <div class="text">
-    <p class="kicker">7 · 1761 and 1769 · The whole world looks up</p>
+    <p class="kicker">8 · 1761 and 1769 · The whole world looks up</p>
     <h1>Venus crosses the Sun, and the solar system gets a size</h1>
     <div class="modes" id="m5"><button class="on" data-mode="measure">Measure the Sun's distance</button><button data-mode="rare">Why it almost never happens</button></div>
 
@@ -276,7 +291,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 6 · Mason and Dixon -->
 <section class="slide" data-title="Mason &amp; Dixon" data-fx="survey">
   <div class="text">
-    <p class="kicker">8 · 1761 to 1767 · Two men, one line</p>
+    <p class="kicker">9 · 1761 to 1767 · Two men, one line</p>
     <h1 id="md-title">Mason and Dixon</h1>
     <div class="chips" id="md-chapters"><button data-ch="0" class="on">1 · Two men</button><button data-ch="1">2 · The Seahorse</button><button data-ch="2">3 · The Cape</button><button data-ch="3">4 · To America</button><button data-ch="4">5 · The line</button><button data-ch="5">6 · The stones</button></div>
     <div id="md-body"></div>
@@ -290,7 +305,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 9 · Flat maps lie -->
 <section class="slide" data-title="Flat maps lie" data-fx="unroll">
   <div class="text">
-    <p class="kicker">9 · Frames · Every flat map is a choice</p>
+    <p class="kicker">10 · Frames · Every flat map is a choice</p>
     <h1 id="fm-title">How many Greenlands fit in Africa?</h1>
     <div class="modes" id="m9"><button class="on" data-mode="greenland">Greenland vs Africa</button><button data-mode="routes">Straight is not shortest</button></div>
     <div id="fm-greenland">
@@ -1122,6 +1137,95 @@ GLOSS.rhumb={t:'Rhumb line',g:`<svg viewBox="0 0 480 300"><rect x="40" y="40" wi
 GLOSS.greatcircle={t:'Great circle',g:`<svg viewBox="0 0 480 300"><circle cx="240" cy="150" r="110" fill="#15294a" stroke="#3b5f8a"/><ellipse cx="240" cy="150" rx="110" ry="30" fill="none" stroke="#9a9382" stroke-dasharray="4 4"/><path d="M135 185 A110 110 0 0 1 345 110" fill="none" stroke="#f0b35a" stroke-width="3"/><circle cx="135" cy="185" r="5" fill="#fff"/><circle cx="345" cy="110" r="5" fill="#fff"/><text x="40" y="60" fill="#f0b35a" font-size="12">a circle whose centre is the Earth's centre</text><text x="40" y="285" fill="#9a9382" font-size="12">The equator and every meridian are great circles; other parallels are not.</text></svg>`,p:'The shortest path between two points on a sphere runs along the great circle through them: the circle cut by a plane through the Earth’s centre. Stretch a string between two cities on a globe and it lies on one. Flights from New York to London arc up past Newfoundland for this reason. On Mercator the great circle looks like a detour toward the pole, which is the map lying, not the pilot.'};
 }
 
+/* ---------- 4 · Baselines: finger, steeple, Picard ---------- */
+{const o=setup('c4b');let mode='finger';const body=document.getElementById('bl-body'),ctrls=document.getElementById('bl-controls'),btns=document.getElementById('bl-btns'),read=document.getElementById('bl-read'),title=document.getElementById('bl-title'),hint=document.getElementById('h4b');
+// finger: eyes at y=bottom, finger at distance d (ft), wall at far distance
+let eyeSep=2.5,fingerD=12,wallD=40;// inches / inches / ft→ work in inches: finger 12in=1ft? use inches: eyes 2.5in apart, finger 10..30 in, wall 480 in
+fingerD=18;wallD=480;
+// steeple: baseline b (ft), parallax angle a (deg)
+let baseB=6,angA=1;
+// picard: stations
+const PIC={base:[[0,0],[1,0]],// A,B baseline, 11.04 km
+ stations:[{n:'C',p:[1.6,1.1]},{n:'D',p:[0.4,1.9]},{n:'E',p:[1.9,2.6]},{n:'F',p:[0.9,3.3]}]};let picked=[];
+const modes={
+finger:{t:'Switch eyes. The finger jumps; the wall does not.',hint:'Drag the finger nearer or farther · drag the eyes apart',body:`<p class="lede">Hold up a finger, shut one eye, then the other. The finger jumps against the far wall. That jump is parallax, and the nearer the finger, the bigger the jump.</p><p>Two eyes are two observing stations on a short <span class="term" data-term="baseline">baseline</span>. Everything that follows in this deck, from the steeple to the Sun's distance, is this picture with a longer baseline.</p>`,
+ ctrls:`<label><span class="row">Finger distance <output id="bl-fd"></output></span><input id="bl-fd-in" type="range" min="6" max="40" step="0.5" value="18"></label><label><span class="row">Eye separation <output id="bl-es"></output></span><input id="bl-es-in" type="range" min="1.5" max="6" step="0.1" value="2.5"></label>`,btns:`<button class="primary" id="bl-blink">Blink</button>`},
+steeple:{t:'A measured baseline makes distance possible',hint:'Drag observer B along the baseline · drag the steeple',body:`<p class="lede">Two observers a known distance apart both sight the same steeple. The small angle between their two sightlines, with the baseline, gives the distance.</p><p>At one degree of parallax the steeple is about 57 baselines away: 57 × 6 ft is 342 ft. The angle is everything, and small angles are hard to measure, which is why the baseline wants to be long.</p>`,
+ ctrls:`<label><span class="row">Baseline <output id="bl-b"></output></span><input id="bl-b-in" type="range" min="2" max="40" step="0.5" value="6"></label><label><span class="row">Parallax angle <output id="bl-a"></output></span><input id="bl-a-in" type="range" min="0.2" max="10" step="0.1" value="1"></label>`,btns:`<button class="primary" id="bl-57">The 1° case</button>`},
+picard:{t:'Picard measures one line and computes a country',hint:'Tap a station to add it to the network · measured in red, computed in white',body:`<p class="lede">Jean Picard, 1669–70. He measured a single baseline with wooden rods, Villejuif to Juvisy, 5,663 toises, about 6.86 miles (11.04 km). Every other distance in his survey of the Paris meridian was computed from angles.</p><p>Measure one side and the angles at its ends and the triangle is fixed. Each new station needs only two more angles. One length sets the scale of the whole network. Tap the stations in any order.</p>`,
+ ctrls:``,btns:`<button class="primary" id="bl-all">Build the whole network</button><button id="bl-clear">Clear</button><button id="bl-tri">What is triangulation?</button>`}};
+function setMode(m){mode=m;document.querySelectorAll('#m4 button').forEach(b=>b.classList.toggle('on',b.dataset.mode===m));const d=modes[m];title.textContent=d.t;body.innerHTML=d.body;ctrls.innerHTML=d.ctrls;btns.innerHTML=d.btns;hint.textContent=d.hint;
+if(m==='finger'){const fd=document.getElementById('bl-fd-in'),es=document.getElementById('bl-es-in');fd.oninput=()=>{fingerD=+fd.value;upd();};es.oninput=()=>{eyeSep=+es.value;upd();};document.getElementById('bl-blink').onclick=()=>{blinkT=performance.now();};}
+if(m==='steeple'){const b=document.getElementById('bl-b-in'),a=document.getElementById('bl-a-in');b.oninput=()=>{baseB=+b.value;upd();};a.oninput=()=>{angA=+a.value;upd();};document.getElementById('bl-57').onclick=()=>{baseB=6;angA=1;b.value=6;a.value=1;upd();};}
+if(m==='picard'){picked=[];document.getElementById('bl-all').onclick=()=>{picked=PIC.stations.map(s=>s.n);upd();};document.getElementById('bl-clear').onclick=()=>{picked=[];upd();};document.getElementById('bl-tri').onclick=function(){openTerm('triangulation',this);};}
+upd();}
+let blinkT=-1;
+function upd(){if(mode==='finger'){document.getElementById('bl-fd').textContent=fmt(fingerD,1)+' in';document.getElementById('bl-es').textContent=fmt(eyeSep,1)+' in';const jump=eyeSep*(wallD-fingerD)/fingerD;const ang=2*Math.atan(eyeSep/2/fingerD)/DEG;read.innerHTML=`<strong>Parallax angle ${fmt(ang,1)}°</strong><span class="big">the finger jumps ${fmt(jump/12,1)} ft on a wall ${wallD/12} ft away</span><span>Halve the finger distance and the jump doubles. Distance = baseline ÷ angle (in radians): ${fmt(eyeSep,1)} in ÷ ${fmt(ang*DEG,3)} = ${fmt(eyeSep/(ang*DEG),1)} in. Same recipe for a steeple, the Moon, or Venus.</span>`;}
+else if(mode==='steeple'){document.getElementById('bl-b').textContent=fmt(baseB,1)+' ft';document.getElementById('bl-a').textContent=fmt(angA,1)+'°';const dist=baseB/(angA*DEG);read.innerHTML=`<strong>${fmt(baseB,1)} ft baseline · ${fmt(angA,1)}° between the sightlines</strong><span class="big">steeple ≈ ${fmtI(dist)} ft away · ${fmt(dist/baseB,0)} baselines</span><span>One degree is 1/57.3 of a radian, so at 1° anything is about 57 baselines off. At 0.2° it is 286 baselines, and a tenth of a degree of error in the angle moves the answer by a third. Longer baseline, smaller error.</span>`;}
+else{const n=picked.length;const sides=1+2*n;read.innerHTML=`<strong>${n} station${n===1?'':'s'} added · 1 side measured · ${sides-1} computed</strong><span class="big">${fmt(6.86*scaleOf(),1)} miles of network from 6.86 measured</span><span>Picard's chain of 13 triangles ran from Malvoisine south of Paris to Sourdon near Amiens: 78 miles of meridian, measured once with rods and then only with a quadrant and a telescope. His degree came to 69.1 miles; Newton used it to check gravity against the Moon.</span>`;}}
+function scaleOf(){// rough total span of the picked network in baseline units
+if(!picked.length)return 1;let maxY=0;for(const s of PIC.stations)if(picked.includes(s.n))maxY=Math.max(maxY,s.p[1]);return 1+maxY;}
+document.querySelectorAll('#m4 button').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
+// pointer handling per mode
+let drag=null;const pos=e=>{const r=o.c.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};};
+function fingerGeom(){const{w,h}=o;return{ex:w*.5,ey:h*.86,scale:Math.min(w,h)*.0016*12};}// px per inch... scale px per inch
+o.c.addEventListener('pointerdown',e=>{const p=pos(e);if(mode==='finger'){const g=fingerGeom();const fy=g.ey-fingerD*g.scale;if(Math.abs(p.y-fy)<30&&Math.abs(p.x-g.ex)<60)drag='finger';else if(Math.abs(p.y-g.ey)<30)drag='eyes';}
+else if(mode==='steeple'){const g=steepleGeom();if(Math.hypot(p.x-g.bx,p.y-g.by)<30)drag='B';else if(Math.abs(p.x-g.sx)<60&&p.y<g.sy+40)drag='steeple';}
+else if(mode==='picard'){const g=picGeom();for(const s of PIC.stations){const q=g.P(s.p);if(Math.hypot(q.x-p.x,q.y-p.y)<22){if(picked.includes(s.n))picked=picked.filter(x=>x!==s.n);else picked.push(s.n);upd();}}}
+if(drag)o.c.setPointerCapture(e.pointerId);});
+o.c.addEventListener('pointermove',e=>{if(!drag)return;const p=pos(e);if(mode==='finger'){const g=fingerGeom();if(drag==='finger'){fingerD=Math.max(6,Math.min(40,(g.ey-p.y)/g.scale));document.getElementById('bl-fd-in').value=fingerD;}else{eyeSep=Math.max(1.5,Math.min(6,Math.abs(p.x-g.ex)*2/g.scale));document.getElementById('bl-es-in').value=eyeSep;}upd();}
+else if(mode==='steeple'){const g=steepleGeom();if(drag==='B'){baseB=Math.max(2,Math.min(40,(p.x-g.ax)/g.pxft));document.getElementById('bl-b-in').value=baseB;}else{const dist=Math.max(20,(g.ay-p.y)/g.pxft);angA=Math.max(.2,Math.min(10,baseB/dist/DEG));document.getElementById('bl-a-in').value=angA.toFixed(1);}upd();}});
+const end=()=>drag=null;o.c.addEventListener('pointerup',end);o.c.addEventListener('pointercancel',end);
+function steepleGeom(){const{w,h}=o;const pxft=Math.min(w,h)*.0011*5;const ax=w*.3,ay=h*.88;const dist=baseB/(angA*DEG);const shown=Math.min(dist,(h*.8)/pxft);return{ax,ay,bx:ax+baseB*pxft,by:ay,sx:ax+baseB*pxft/2,sy:ay-shown*pxft,pxft,dist,shown,clipped:dist>shown};}
+function picGeom(){const{w,h}=o;const u=Math.min(w*.3,h*.2);const ox=w*.3,oy=h*.84;return{P:p=>({x:ox+p[0]*u,y:oy-p[1]*u}),u};}
+setMode('finger');
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);
+if(mode==='finger'){const g=fingerGeom();const fy=g.ey-fingerD*g.scale;const wy=h*.1;const lx=g.ex-eyeSep/2*g.scale,rx=g.ex+eyeSep/2*g.scale;
+// wall with marks
+ctx.strokeStyle='#283048';ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(w*.1,wy);ctx.lineTo(w*.9,wy);ctx.stroke();text(ctx,'far wall · '+wallD/12+' ft away',w*.9,wy-12,{size:11,color:'#9a9382',align:'right'});
+for(let x=w*.1;x<=w*.9;x+=40){ctx.strokeStyle='rgba(236,230,218,.2)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,wy);ctx.lineTo(x,wy+10);ctx.stroke();}
+// sightlines from each eye through the finger to the wall
+const blink=blinkT>0?Math.min(1,(t-blinkT)/1600):-1;const which=blink<0?2:(blink<.5?0:1);// 0 left open, 1 right open, 2 both
+const hit=(ex)=>{const k=(g.ey-wy)/(g.ey-fy);return ex+(g.ex-ex)*k;};
+[[lx,'#6fb3ff',0],[rx,'#f0b35a',1]].forEach(([ex,col,i])=>{const on=which===2||which===i;ctx.globalAlpha=on?1:.15;ctx.strokeStyle=col;ctx.lineWidth=2;ctx.setLineDash([6,5]);ctx.beginPath();ctx.moveTo(ex,g.ey);ctx.lineTo(hit(ex),wy);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle=col;ctx.beginPath();ctx.arc(hit(ex),wy,6,0,TAU);ctx.fill();tag(ctx,i?'right-eye mark':'left-eye mark',hit(ex)+(i?10:-110),wy+26,col,11);ctx.globalAlpha=1;});
+// jump bracket
+const jl=hit(lx),jr=hit(rx);ctx.strokeStyle='#6fd48a';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(jl,wy+46);ctx.lineTo(jr,wy+46);ctx.stroke();tag(ctx,'the jump',(jl+jr)/2-28,wy+68,'#6fd48a',12);
+// finger
+ctx.fillStyle='#e8d5a8';ctx.beginPath();ctx.roundRect?ctx.roundRect(g.ex-9,fy,18,g.ey-fy-60,9):ctx.rect(g.ex-9,fy,18,g.ey-fy-60);ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(g.ex,fy,9,0,TAU);ctx.fill();tag(ctx,`finger · ${fmt(fingerD,0)} in · drag`,g.ex+16,fy+5,'#ece6da',12);
+// eyes
+[[lx,'#6fb3ff','L',0],[rx,'#f0b35a','R',1]].forEach(([ex,col,l,i])=>{const open=which===2||which===i;ctx.fillStyle=open?'#fff':'#283048';ctx.beginPath();ctx.ellipse(ex,g.ey,16,open?10:3,0,0,TAU);ctx.fill();if(open){ctx.fillStyle=col;ctx.beginPath();ctx.arc(ex,g.ey,5,0,TAU);ctx.fill();}});
+ctx.strokeStyle='#cfc8ba';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(lx,g.ey+24);ctx.lineTo(rx,g.ey+24);ctx.stroke();text(ctx,`baseline · ${fmt(eyeSep,1)} in · drag the eyes`,g.ex,g.ey+44,{size:12,color:'#cfc8ba',align:'center'});
+// parallax angle at the finger
+const a1=Math.atan2(g.ey-fy,lx-g.ex),a2=Math.atan2(g.ey-fy,rx-g.ex);ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;ctx.beginPath();ctx.arc(g.ex,fy,36,a1,a2,true);ctx.stroke();tag(ctx,fmt(2*Math.atan(eyeSep/2/fingerD)/DEG,1)+'°',g.ex-14,fy+62,'#f0b35a',13);
+if(blink>=1)blinkT=-1;}
+else if(mode==='steeple'){const g=steepleGeom();// ground
+ctx.strokeStyle='#283048';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(w*.05,g.ay);ctx.lineTo(w*.95,g.ay);ctx.stroke();
+// steeple
+const sh=Math.min(w,h)*.08;ctx.fillStyle='#cfc8ba';ctx.beginPath();ctx.moveTo(g.sx,g.sy-sh);ctx.lineTo(g.sx-sh*.3,g.sy);ctx.lineTo(g.sx+sh*.3,g.sy);ctx.closePath();ctx.fill();ctx.fillRect(g.sx-sh*.3,g.sy,sh*.6,sh*.5);
+if(g.clipped){ctx.setLineDash([3,6]);ctx.strokeStyle='rgba(236,230,218,.3)';ctx.beginPath();ctx.moveTo(g.sx,g.sy+sh*.5);ctx.lineTo(g.sx,g.sy+sh*.5+30);ctx.stroke();ctx.setLineDash([]);tag(ctx,'farther than the screen · '+fmtI(g.dist)+' ft',g.sx+sh*.4,g.sy+sh*.5+22,'#9a9382',11);}
+// sightlines
+[[g.ax,'#6fb3ff','A'],[g.bx,'#f0b35a','B · drag']].forEach(([x,col,l])=>{ctx.strokeStyle=col;ctx.lineWidth=2;ctx.setLineDash([6,5]);ctx.beginPath();ctx.moveTo(x,g.ay);ctx.lineTo(g.sx,g.sy);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(x,g.ay,7,0,TAU);ctx.fill();tag(ctx,l,x-10,g.ay+28,col,12);});
+ctx.strokeStyle='#6fd48a';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(g.ax,g.ay+50);ctx.lineTo(g.bx,g.ay+50);ctx.stroke();tag(ctx,`baseline · ${fmt(baseB,1)} ft measured`,(g.ax+g.bx)/2-60,g.ay+72,'#6fd48a',12);
+const aa=Math.atan2(g.ay-g.sy,g.ax-g.sx),ab=Math.atan2(g.ay-g.sy,g.bx-g.sx);ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;ctx.beginPath();ctx.arc(g.sx,g.sy,Math.min(60,(g.ay-g.sy)*.3),Math.min(aa,ab),Math.max(aa,ab));ctx.stroke();tag(ctx,fmt(angA,1)+'° · parallax',g.sx+14,g.sy+Math.min(60,(g.ay-g.sy)*.3)+20,'#f0b35a',13);
+tag(ctx,`distance ≈ baseline ÷ angle = ${fmtI(g.dist)} ft`,w*.55,h*.2,'#ece6da',14);}
+else{const g=picGeom();const A=g.P(PIC.base[0]),B=g.P(PIC.base[1]);const pts={A:PIC.base[0],B:PIC.base[1]};PIC.stations.forEach(s=>pts[s.n]=s.p);
+// faint terrain hint: Paris meridian
+ctx.setLineDash([3,8]);ctx.strokeStyle='rgba(236,230,218,.15)';ctx.beginPath();ctx.moveTo(g.P([.7,-.3]).x,g.P([.7,-.3]).y);ctx.lineTo(g.P([.7,3.8]).x,g.P([.7,3.8]).y);ctx.stroke();ctx.setLineDash([]);text(ctx,'Paris meridian',g.P([.7,3.8]).x+8,g.P([.7,3.8]).y,{size:11,color:'#9a9382'});
+// measured baseline
+ctx.strokeStyle='#ff7d6f';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(A.x,A.y);ctx.lineTo(B.x,B.y);ctx.stroke();tag(ctx,'measured with rods · 5,663 toises · 6.86 mi',(A.x+B.x)/2-80,A.y+28,'#ff7d6f',12);
+// network: for each picked station connect to the two nearest already-known points
+const known=['A','B'];const order=PIC.stations.filter(s=>picked.includes(s.n)).map(s=>s.n);const links=[];
+for(const n of order){const d=known.map(k=>({k,d:Math.hypot(pts[n][0]-pts[k][0],pts[n][1]-pts[k][1])})).sort((a,b)=>a.d-b.d).slice(0,2);d.forEach(({k})=>links.push([k,n]));known.push(n);}
+ctx.strokeStyle='#ece6da';ctx.lineWidth=2;for(const[a,b]of links){const pa=g.P(pts[a]),pb=g.P(pts[b]);ctx.beginPath();ctx.moveTo(pa.x,pa.y);ctx.lineTo(pb.x,pb.y);ctx.stroke();const len=Math.hypot(pts[a][0]-pts[b][0],pts[a][1]-pts[b][1])*6.86;tag(ctx,fmt(len,1)+' mi · computed',(pa.x+pb.x)/2-30,(pa.y+pb.y)/2-6,'#cfc8ba',10);
+// angle arcs at the known ends
+}
+// stations
+for(const[n,p]of Object.entries(pts)){const q=g.P(p);const on=known.includes(n);ctx.fillStyle=on?'#f0b35a':'#283048';ctx.beginPath();ctx.arc(q.x,q.y,on?8:10,0,TAU);ctx.fill();ctx.strokeStyle=on?'#0a0e18':'#f0b35a';ctx.lineWidth=2;ctx.stroke();tag(ctx,n+(on?'':' · tap'),q.x+12,q.y+4,on?'#f0b35a':'#9a9382',12);}
+text(ctx,'Schematic network · station positions illustrative · every white length is trigonometry, not tape',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}}});
+GLOSS.baseline={t:'Baseline',g:`<svg viewBox="0 0 480 300"><line x1="60" y1="240" x2="260" y2="240" stroke="#ff7d6f" stroke-width="4"/><text x="90" y="264" fill="#ff7d6f" font-size="12">the one length you measure</text><line x1="60" y1="240" x2="330" y2="60" stroke="#ece6da" stroke-width="1.5" stroke-dasharray="6 5"/><line x1="260" y1="240" x2="330" y2="60" stroke="#ece6da" stroke-width="1.5" stroke-dasharray="6 5"/><circle cx="330" cy="60" r="6" fill="#f0b35a"/><text x="342" y="64" fill="#f0b35a" font-size="12">the target</text><path d="M100 240 A40 40 0 0 0 92 216" fill="none" stroke="#6fd48a" stroke-width="2"/><path d="M230 240 A30 30 0 0 1 240 211" fill="none" stroke="#6fd48a" stroke-width="2"/><text x="60" y="290" fill="#9a9382" font-size="12">Two angles and the side between them fix the triangle: distance follows by trigonometry.</text></svg>`,p:'A baseline is the one distance in a survey that is measured directly, with rods, chain or tape, as carefully as humanly possible. Everything else is angles. Your two eyes are a 2½-inch baseline; Picard’s was 7 miles of rods; Halley’s was the whole Earth, with observers on opposite sides of it. The longer the baseline relative to the target distance, the larger the parallax angle and the smaller the error.'};
+GLOSS.triangulation={t:'Triangulation',g:`<svg viewBox="0 0 480 300"><polyline points="40,250 160,120 280,230 380,80 440,220" fill="none" stroke="#ece6da" stroke-width="2"/><line x1="40" y1="250" x2="280" y2="230" stroke="#ece6da" stroke-width="2"/><line x1="160" y1="120" x2="380" y2="80" stroke="#ece6da" stroke-width="2"/><line x1="280" y1="230" x2="440" y2="220" stroke="#ece6da" stroke-width="2"/><line x1="40" y1="250" x2="160" y2="120" stroke="#ff7d6f" stroke-width="4"/><text x="40" y="290" fill="#9a9382" font-size="12">One red side measured. Each new station: sight it from two known stations, compute its position.</text></svg>`,p:'Triangulation builds a map from a single measured baseline and a chain of measured angles. Snellius proposed it in 1615; Picard made it precise with a telescope on his quadrant in 1669; Cassini’s family carried it across France over a century, and the Ordnance Survey across Britain. Every national map until GPS rested on a few measured baselines and tens of thousands of angles. Error accumulates along the chain, so surveyors measured a second baseline at the far end as a check.'};
+}
+
 /* ---------- transitions: drawn live on an overlay canvas, each one a piece of the slide's own story ---------- */
 const fxC=document.createElement('canvas');fxC.id='fx';document.body.appendChild(fxC);const fx=fxC.getContext('2d');
 function fxSize(){const d=devicePixelRatio||1;fxC.width=innerWidth*d;fxC.height=innerHeight*d;fx.setTransform(d,0,0,d,0,0);}fxSize();addEventListener('resize',fxSize);
@@ -1156,6 +1260,10 @@ for(let i=0;i<shown;i++){fx.strokeStyle='rgba(236,230,218,.9)';fx.lineWidth=2.5;
 if(k<.45){fx.fillStyle='#f0b35a';fx.font='600 12px -apple-system,Segoe UI,Roboto,sans-serif';fx.textAlign='left';fx.fillText('66 feet · 100 links',Math.min(W-160,shown*34+8),y-18);}break;}
 case 'compass':{// a compass needle swings and settles on north; the slide opens as the rose fills
 doSwap();const cx=W/2,cy=H/2,R=Math.hypot(W,H)*.55*e;slideEl.style.clipPath=`circle(${R}px at 50% 50%)`;const r=Math.min(W,H)*.22;const swing=(1-e)*Math.sin(k*Math.PI*4)*1.2;const a=-Math.PI/2+swing;fx.globalAlpha=1-Math.max(0,(k-.7)/.3);fx.strokeStyle='rgba(236,230,218,.5)';fx.lineWidth=1.5;fx.beginPath();fx.arc(cx,cy,r,0,TAU);fx.stroke();for(let d=0;d<360;d+=10){const q=d*DEG-Math.PI/2;const big=d%90===0;fx.beginPath();fx.moveTo(cx+(r-(big?18:8))*Math.cos(q),cy+(r-(big?18:8))*Math.sin(q));fx.lineTo(cx+r*Math.cos(q),cy+r*Math.sin(q));fx.strokeStyle=big?'#ece6da':'rgba(236,230,218,.4)';fx.lineWidth=big?2:1;fx.stroke();}fx.font='600 16px Georgia,serif';fx.fillStyle='#ece6da';fx.textAlign='center';[['N',0],['E',90],['S',180],['W',270]].forEach(([l,d])=>{const q=d*DEG-Math.PI/2;fx.fillText(l,cx+(r-34)*Math.cos(q),cy+(r-34)*Math.sin(q)+6);});fx.fillStyle='#ff7d6f';fx.beginPath();fx.moveTo(cx+r*.8*Math.cos(a),cy+r*.8*Math.sin(a));fx.lineTo(cx+10*Math.cos(a+Math.PI/2),cy+10*Math.sin(a+Math.PI/2));fx.lineTo(cx+10*Math.cos(a-Math.PI/2),cy+10*Math.sin(a-Math.PI/2));fx.closePath();fx.fill();fx.fillStyle='#dfe7ff';fx.beginPath();fx.moveTo(cx-r*.8*Math.cos(a),cy-r*.8*Math.sin(a));fx.lineTo(cx+10*Math.cos(a+Math.PI/2),cy+10*Math.sin(a+Math.PI/2));fx.lineTo(cx+10*Math.cos(a-Math.PI/2),cy+10*Math.sin(a-Math.PI/2));fx.closePath();fx.fill();fx.globalAlpha=1;break;}
+case 'triangles':{// a chain of survey triangles grows across the screen and the slide shows through them
+doSwap();const n=9,stepx=W/(n-1);const pts=[];for(let i=0;i<n;i++)pts.push([i*stepx,i%2?H*.3:H*.7]);const shown=e*(n-1);let poly='';const done=Math.floor(shown);const frac=shown-done;const tri=[];for(let i=0;i<done&&i<n-2;i++)tri.push([pts[i],pts[i+1],pts[i+2]]);if(done<n-2){const a=pts[done],b=pts[done+1],c=pts[done+2];tri.push([a,b,[b[0]+(c[0]-b[0])*frac,b[1]+(c[1]-b[1])*frac]]);}
+const parts=tri.map(t=>`polygon(${t.map(p=>p[0]+'px '+p[1]+'px').join(',')})`);// union via multiple polygons is not supported; approximate with a growing inset plus drawn lines
+slideEl.style.clipPath=`inset(0 ${Math.max(0,(1-e)*100)}% 0 0)`;fx.strokeStyle='rgba(236,230,218,.9)';fx.lineWidth=2;for(const t of tri){fx.beginPath();fx.moveTo(t[0][0],t[0][1]);fx.lineTo(t[1][0],t[1][1]);fx.lineTo(t[2][0],t[2][1]);fx.closePath();fx.stroke();}fx.strokeStyle='#ff7d6f';fx.lineWidth=4;fx.beginPath();fx.moveTo(pts[0][0],pts[0][1]);fx.lineTo(pts[1][0],pts[1][1]);fx.stroke();fx.globalAlpha=1-k;fx.fillStyle='#ff7d6f';fx.font='600 12px -apple-system,Segoe UI,Roboto,sans-serif';fx.fillText('measured',pts[0][0]+10,pts[0][1]+20);fx.globalAlpha=1;break;}
 case 'unroll':{// a chart unrolls from the left edge; the roll itself is drawn as a shaded cylinder
 doSwap();const x=W*e;slideEl.style.clipPath=`inset(0 ${(1-e)*100}% 0 0)`;const rw=Math.max(8,40*(1-e)+8);const gl=fx.createLinearGradient(x,0,x+rw*2,0);gl.addColorStop(0,'rgba(236,230,218,.0)');gl.addColorStop(.3,'rgba(236,230,218,.55)');gl.addColorStop(.6,'rgba(120,110,90,.6)');gl.addColorStop(1,'rgba(0,0,0,0)');fx.fillStyle=gl;fx.fillRect(x,0,rw*2,H);fx.strokeStyle='rgba(240,179,90,.7)';fx.lineWidth=2;fx.beginPath();fx.moveTo(x,0);fx.lineTo(x,H);fx.stroke();break;}
 case 'orbit':{// a planet runs one orbit and the slide fills the circle it traces
@@ -1163,10 +1271,10 @@ doSwap();const cx=W/2,cy=H/2,R=Math.hypot(W,H)*.55*e;slideEl.style.clipPath=`cir
 default:doSwap();slideEl.style.opacity=e;}
 if(k<1)run.raf=requestAnimationFrame(frame);else{fx.clearRect(0,0,W,H);slideEl.style.clipPath='';slideEl.style.transform='';slideEl.style.filter='';slideEl.style.opacity='';fxRun=null;}};
 run.raf=requestAnimationFrame(frame);}
-const FXMAP={fade:'warp',iris:'sweep',sunrise:'rays',telescope:'warp',terminator:'eclipse',venus:'venus',survey:'chain',orbit:'orbit',compass:'compass',unroll:'unroll'};
+const FXMAP={fade:'warp',iris:'sweep',sunrise:'rays',telescope:'warp',terminator:'eclipse',venus:'venus',survey:'chain',orbit:'orbit',compass:'compass',unroll:'unroll',triangles:'triangles'};
 
 /* ---------- loop ---------- */
-function frame(t){const s=scenes[cur];if(s&&s.o.w)s.draw(t);requestAnimationFrame(frame);}
+function frame(t){const el=slides[cur];const s=scenes.find(sc=>el.contains(sc.o.c));if(s&&s.o.w)s.draw(t);requestAnimationFrame(frame);}
 addEventListener('hashchange',()=>{const n=parseInt(location.hash.slice(1))||0;if(n!==cur)go(n);});
 go(parseInt(location.hash.slice(1))||0);requestAnimationFrame(frame);
 </script>
