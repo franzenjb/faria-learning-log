@@ -201,7 +201,9 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <section class="slide" data-title="Jupiter's moons" data-fx="telescope">
   <div class="text">
     <p class="kicker">5 · January 1610 · Padua</p>
-    <h1>Four little stars that would not stay still</h1>
+    <h1 id="jup-title">Four little stars that would not stay still</h1>
+    <div class="modes" id="m5j"><button class="on" data-mode="moons">The moons</button><button data-mode="clock">Jupiter as a clock</button></div>
+    <div id="jup-moons-panel">
     <p class="lede">Galileo pointed a new telescope at Jupiter and saw three, then four, small stars in a line beside it. Night after night they changed sides. They were moons, and they circled Jupiter, not the Earth.</p>
     <p>This was the first thing anyone had seen orbiting something other than the Earth. Aristotle and Ptolemy had the whole sky turning about us. Here was a small system turning about a planet, and a planet that carried its moons along as it moved. If Jupiter could do that, so could the Earth.</p>
     <div class="controls">
@@ -216,6 +218,19 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
       <li>Callisto · 16.69 days · 26.3 radii</li>
     </ul>
     <p><small>Drag the picture to tilt it: edge-on is what Galileo saw, from above is what was really happening. Periods and distances are real; starting positions are an illustration, not an ephemeris.</small></p>
+    </div>
+    <div id="jup-clock-panel" hidden>
+      <p class="lede">Io vanishes into Jupiter’s shadow about every 42 hours, and the whole world sees it at the same instant. Galileo saw a clock in the sky: predict the eclipse, compare the predicted time with your local time, and the difference is your longitude.</p>
+      <p>It worked on land and fixed the map of France. On a rolling deck nobody could hold Jupiter in the eyepiece. And in 1676 Ole Rømer noticed the eclipses ran late when Earth was far from Jupiter: light itself takes time to arrive.</p>
+      <div class="controls"><label><span class="row">Earth along its orbit <output id="rm-pos-out">nearest Jupiter</output></span><input id="rm-pos" type="range" min="0" max="1" step="0.01" value="0"></label></div>
+      <div class="btns"><button class="primary" id="rm-fire">Io enters the shadow</button><button id="rm-far">Earth far side</button><button id="rm-near">Earth near side</button></div>
+      <div class="readout" id="rm-read"><strong>Press the button</strong><span>and watch the light leave Io. It reaches Earth 35 to 52 minutes later, depending where Earth is.</span></div>
+      <h3 style="margin:1.2rem 0 .4rem;font-size:1.05rem">One eclipse, two clocks: where are you?</h3>
+      <p>Florence, at 11.25° E, records Io’s eclipse at 9:14 pm local mean time. Your clock, set to your own local noon, reads 7:14 pm at the same instant. Where are you?</p>
+      <div class="quiz" id="rm-opts"></div>
+      <div class="btns"><button class="primary" id="rm-reveal">Reveal</button></div>
+      <div class="readout" id="rm-read2"><strong>Vote first.</strong><span>Ignore light-travel and almanac corrections for this one.</span></div>
+    </div>
   </div>
   <div class="stage"><canvas id="c3"></canvas><div class="notebook" id="notebook"><h3>Sidereus Nuncius</h3><div id="nb-rows"><p class="empty">Press “Sketch tonight” to record what the telescope shows.</p></div></div><div class="hint" id="h3">Telescope view · east is left, as Galileo drew it · drag to tilt</div></div>
 </section>
@@ -234,7 +249,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
       <label><span class="row">Peak's distance past the terminator <output id="mtn-d-out">1/20 of the width</output></span><input id="mtn-d" type="range" min="0.5" max="12" step="0.1" value="5"></label>
       <label><span class="row">Assumed Moon diameter <output id="mtn-D-out">2,000 miles</output></span><input id="mtn-D" type="range" min="1500" max="2500" step="10" value="2000"></label>
     </div>
-    <div class="btns"><button class="primary" id="mtn-side">See the geometry</button><button id="mtn-face">Telescope view</button><button id="mtn-galileo">Galileo's numbers</button><button id="mtn-modern">Modern Moon · 2,159 mi</button></div>
+    <div class="btns"><button class="primary" id="mtn-side">See the geometry</button><button id="mtn-face">Telescope view</button><button id="mtn-galileo">Galileo's numbers</button><button id="mtn-modern">Modern Moon · 2,159 mi</button><button id="mtn-width">How wide is the Moon?</button></div>
     <div class="readout" id="mtn-read"></div>
   </div>
   <div class="stage"><canvas id="c4"></canvas><div class="hint">Drag to spin · pinch or scroll to zoom · tap a line to name it</div></div>
@@ -245,13 +260,13 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
   <div class="text">
     <p class="kicker">7 · 1609 to 1742 · A relay across three lifetimes</p>
     <h1 id="kp-title">A map of the solar system with no scale bar</h1>
-    <div class="modes" id="m7"><button class="on" data-mode="kepler">Kepler</button><button data-mode="horrocks">Horrocks · 1639</button><button data-mode="halley">Halley · the plan</button></div>
+    <div class="modes" id="m7"><button class="on" data-mode="kepler">Kepler</button><button data-mode="horrocks">Horrocks · 1639</button><button data-mode="halley">Halley · the plan</button><button data-mode="starday">Star day vs Sun day</button></div>
     <div id="kp-body"></div>
     <div class="controls" id="kp-controls">
       <label><span class="row">Spread the orbits <output id="kp-spread-out">compressed</output></span><input id="kp-spread" type="range" min="0.5" max="1" step="0.01" value="0.6"></label>
       <label><span class="row">Speed <output id="kp-speed-out">1 year / 6 s</output></span><input id="kp-speed" type="range" min="0.25" max="4" step="0.25" value="1"></label>
     </div>
-    <div class="btns"><button class="primary" id="kp-play">Pause</button><button id="kp-top">From above</button><button id="kp-edge">Edge-on</button><button id="kp-transit" hidden>Go to the transit of Venus ▶</button></div>
+    <div class="btns"><button class="primary" id="kp-play">Pause</button><button id="kp-top">From above</button><button id="kp-edge">Edge-on</button><button id="kp-mars">Earth's orbit as a baseline</button><button id="kp-step" hidden>Turn the Earth once</button><button id="kp-transit" hidden>Go to the transit of Venus ▶</button></div>
     <div class="readout" id="kp-read"></div>
   </div>
   <div class="stage"><canvas id="c7"></canvas><div class="hint" id="h7">Drag to tilt · pinch or scroll to zoom · tap a planet</div></div>
@@ -334,6 +349,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 </nav>
 
 <script src="coast.js"></script>
+<script src="coast2.js"></script>
 <script>
 /* ---------- deck plumbing ---------- */
 const slides=[...document.querySelectorAll('.slide')];let cur=0;
@@ -653,6 +669,21 @@ const pos=(m,d)=>[m.a*Math.sin(TAU*d/m.P+m.ph),0,m.a*Math.cos(TAU*d/m.P+m.ph)];/
 function update(){tOut.textContent=date(jt)+(jt%1>0.02?` +${Math.round(jt%1*24)}h`:'');spOut.textContent=`1 day / ${fmt(4/ +spIn.value,1)} s`;}
 tIn.oninput=()=>{jt=+tIn.value;update();};spIn.oninput=update;update();
 playB.onclick=()=>{playing=!playing;playB.textContent=playing?'Pause':'Play';last=0;};
+let jmode='moons';const jtitle=document.getElementById('jup-title');document.querySelectorAll('#m5j button').forEach(b=>b.onclick=()=>{jmode=b.dataset.mode;document.querySelectorAll('#m5j button').forEach(x=>x.classList.toggle('on',x===b));document.getElementById('jup-moons-panel').hidden=jmode!=='moons';document.getElementById('jup-clock-panel').hidden=jmode!=='clock';document.getElementById('notebook').hidden=jmode!=='moons';jtitle.textContent=jmode==='moons'?'Four little stars that would not stay still':'A clock in the sky, and light that takes its time';hint.textContent=jmode==='moons'?'Telescope view · east is left, as Galileo drew it · drag to tilt':'Slide Earth around its orbit · fire the eclipse · watch the light arrive';});
+// Rømer scene state
+const rmPos=document.getElementById('rm-pos'),rmPosOut=document.getElementById('rm-pos-out'),rmRead=document.getElementById('rm-read');let pulses=[];
+const AU_MIN=8.317;// light-minutes per AU
+const earthPos=()=>{const a=+rmPos.value*TAU;return[Math.cos(a),Math.sin(a)];};const jupPos=()=>[5.2,0];
+const distAU=()=>{const e=earthPos(),j=jupPos();return Math.hypot(j[0]-e[0],j[1]-e[1]);};
+rmPos.oninput=()=>{const d=distAU();rmPosOut.textContent=d<4.6?'nearest Jupiter':d>5.8?'far side of the Sun':'in between';rmUpdate();};
+document.getElementById('rm-near').onclick=()=>{rmPos.value=0;rmPos.oninput();};document.getElementById('rm-far').onclick=()=>{rmPos.value=.5;rmPos.oninput();};
+document.getElementById('rm-fire').onclick=()=>{pulses.push({t0:performance.now(),d:distAU()});};
+function rmUpdate(){const d=distAU();rmRead.innerHTML=`<strong>Earth is ${fmt(d,1)} AU from Jupiter · ${fmtI(d*93)} million miles</strong><span class="big">light takes ${fmt(d*AU_MIN,0)} min ${Math.round(((d*AU_MIN)%1)*60)} s</span><span>Rømer saw eclipses come up to 22 minutes late on the far side compared with the near side (we now know the full swing is about 16½ minutes). He concluded light had a speed, about 140,000 miles a second by his numbers; the true value is 186,000.</span>`;}
+rmUpdate();
+// quiz
+const rmOpts=document.getElementById('rm-opts'),rmRead2=document.getElementById('rm-read2');let rmVotes=[0,0,0,0],rmRev=false;const rmA=['About 4° W','About 41° E','About 19° W','About 30° W'];
+function rmRender(){const tot=rmVotes.reduce((a,b)=>a+b,0)||1;rmOpts.innerHTML=rmA.map((a,k)=>`<button class="opt${rmRev&&k===2?' ok':''}${rmRev&&k!==2&&rmVotes[k]?' no':''}" data-k="${k}"><span class="letter">${'ABCD'[k]}</span><span class="label">${a}</span><span class="bar" style="width:${Math.round(rmVotes[k]/tot*100)}%"></span><span class="count">${rmVotes[k]||''}</span></button>`).join('');rmOpts.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(rmRev)return;rmVotes[+b.dataset.k]++;rmRender();});}
+rmRender();document.getElementById('rm-reveal').onclick=()=>{rmRev=true;rmRender();rmRead2.className='readout ok';rmRead2.innerHTML='<strong>About 19° W. Two hours behind Florence means 30° farther west.</strong><span class="big">11.25° E − 30° = 18.75° W</span><span>Start from Florence, not Greenwich: the reference clock is wherever the almanac was computed. 2 hours × 15° per hour = 30° west of 11.25° E. Galileo pitched exactly this method to Spain and the Dutch; the Dutch sent him a gold chain and no prize.</span>';};
 const viewB=document.getElementById('jup-view');viewB.onclick=()=>{const up=st.pitch<0.8;fly(st,{yaw:0,pitch:up?1.45:0,zoom:st.zoom},1600);viewB.textContent=up?'Back to the telescope':'Show from above';hint.textContent=up?'From above Jupiter’s pole · Earth is off the bottom of the screen · drag to tilt':'Telescope view · east is left, as Galileo drew it · drag to tilt';};
 document.getElementById('jup-clear').onclick=()=>{sketches=[];renderNb();};
 document.getElementById('jup-sketch').onclick=()=>{const d=jt;if(sketches.some(s=>Math.abs(s.d-d)<.001))return;sketches.push({d,xs:moons.map(m=>pos(m,d)[0])});sketches.sort((a,b)=>a.d-b.d);renderNb();};
@@ -660,8 +691,23 @@ function renderNb(){if(!sketches.length){rows.innerHTML='<p class="empty">Press 
 function geom(){const{w,h}=o;return{cx:w*.42,cy:h*.5,S:Math.min(w*.4,h*.4)/27*st.zoom};}
 function proj(p){const{cx,cy,S}=geom();const q=rot(p,st.yaw,st.pitch);return{x:cx-q[0]*S,y:cy-q[1]*S,z:q[2]};}// x mirrored: east is left in the eyepiece
 orbit(o,st,null);
+function drawRomer(t){const{ctx,w,h}=o;const sx=w*.18,sy=h*.5,U=Math.min(h*.36,(w*.74)/5.6);// 1 AU in px; Jupiter at 5.2 AU
+const g=ctx.createRadialGradient(sx,sy,0,sx,sy,U*.25);g.addColorStop(0,'#fff3c4');g.addColorStop(.5,'#ffd66b');g.addColorStop(1,'rgba(255,214,107,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(sx,sy,U*.25,0,TAU);ctx.fill();text(ctx,'Sun',sx,sy+U*.25+16,{size:11,align:'center',color:'#ffd66b'});
+ctx.strokeStyle='rgba(111,179,255,.5)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(sx,sy,U,0,TAU);ctx.stroke();text(ctx,'Earth\u2019s orbit \u00b7 1 AU',sx,sy-U-10,{size:11,align:'center',color:'#6fb3ff'});
+const e=earthPos(),ex=sx+e[0]*U,ey=sy-e[1]*U;const jx=sx+5.2*U,jy=sy;
+// Jupiter and shadow
+ctx.fillStyle='rgba(0,0,0,.55)';ctx.beginPath();ctx.moveTo(jx,jy-U*.11);ctx.lineTo(jx+U*.7,jy-U*.08);ctx.lineTo(jx+U*.7,jy+U*.08);ctx.lineTo(jx,jy+U*.11);ctx.closePath();ctx.fill();
+const jg=ctx.createRadialGradient(jx-U*.04,jy-U*.04,U*.02,jx,jy,U*.11);jg.addColorStop(0,'#f6e2bd');jg.addColorStop(1,'#b98a55');ctx.fillStyle=jg;ctx.beginPath();ctx.arc(jx,jy,U*.11,0,TAU);ctx.fill();text(ctx,'Jupiter \u00b7 5.2 AU',jx,jy+U*.11+16,{size:11,align:'center',color:'#f0b35a'});
+ctx.strokeStyle='rgba(236,230,218,.3)';ctx.beginPath();ctx.arc(jx,jy,U*.2,0,TAU);ctx.stroke();const ia=t*.0015;const iox=jx+U*.2*Math.cos(ia),ioy=jy+U*.2*Math.sin(ia)*.4;ctx.fillStyle='#f5d58a';ctx.beginPath();ctx.arc(iox,ioy,4,0,TAU);ctx.fill();tag(ctx,'Io',iox+7,ioy-6,'#f5d58a',10);
+tag(ctx,'shadow \u00b7 Io goes dark here, seen by everyone at the same instant',jx+U*.25,jy-U*.16,'#9a9382',11);
+// Earth
+ctx.fillStyle='#6fb3ff';ctx.beginPath();ctx.arc(ex,ey,6,0,TAU);ctx.fill();tag(ctx,'Earth',ex+9,ey+4,'#6fb3ff',11);
+ctx.setLineDash([4,6]);ctx.strokeStyle='rgba(236,230,218,.35)';ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(jx,jy);ctx.stroke();ctx.setLineDash([]);const dAU=distAU();tag(ctx,`${fmt(dAU,2)} AU \u00b7 light ${fmt(dAU*AU_MIN,0)} min`,(ex+jx)/2-40,(ey+jy)/2-12,'#cfc8ba',12);
+// pulses: a light front expanding from Jupiter at scaled c; 1 AU in 8.3 min; animate 1 AU per 0.5 s
+const SPEED=U/500;pulses=pulses.filter(p=>(t-p.t0)*SPEED<U*7);for(const p of pulses){const r=(t-p.t0)*SPEED;ctx.strokeStyle=`rgba(255,246,220,${Math.max(.15,1-r/(U*7))})`;ctx.lineWidth=2;ctx.beginPath();ctx.arc(jx,jy,r,0,TAU);ctx.stroke();const need=p.d*U;if(r>=need&&!p.hit){p.hit=t;}if(p.hit){const ago=(t-p.hit)/1000;if(ago<2.5){const gl=ctx.createRadialGradient(ex,ey,0,ex,ey,30);gl.addColorStop(0,'rgba(111,179,255,.9)');gl.addColorStop(1,'rgba(111,179,255,0)');ctx.fillStyle=gl;ctx.beginPath();ctx.arc(ex,ey,30,0,TAU);ctx.fill();tag(ctx,`seen on Earth ${fmt(p.d*AU_MIN,0)} min ${Math.round(((p.d*AU_MIN)%1)*60)} s after it happened`,ex+14,ey-24,'#6fb3ff',12);}}}
+text(ctx,'Top-down \u00b7 light-travel time to scale (1 AU = 8.3 min) \u00b7 sizes not to scale',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}
 scenes.push({o,draw(t){if(playing){if(last)jt=Math.min(40,jt+(t-last)/1000*(+spIn.value/4));last=t;tIn.value=jt;if(jt>=40){playing=false;playB.textContent='Play';}update();}
-const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);stepAnim(st,t);const{cx,cy,S}=geom();const d=jt;const tilt=Math.abs(Math.sin(st.pitch));
+const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);stepAnim(st,t);if(jmode==='clock'){drawRomer(t);return;}const{cx,cy,S}=geom();const d=jt;const tilt=Math.abs(Math.sin(st.pitch));
 // eyepiece ring fades in as the view goes edge-on
 ctx.strokeStyle=`rgba(40,48,72,${1-tilt})`;ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,Math.min(w,h)*.44,0,TAU);ctx.stroke();
 // orbits as 3D circles
@@ -696,6 +742,13 @@ document.getElementById('mtn-face').onclick=()=>{fly(st,{yaw:0,pitch:0,zoom:1});
 document.querySelectorAll('#moon-toggles button').forEach(b=>b.onclick=()=>{show[b.dataset.k]=!show[b.dataset.k];syncChips();});
 function syncChips(){document.querySelectorAll('#moon-toggles button').forEach(x=>x.classList.toggle('on',show[x.dataset.k]));}
 function calc(){const D=+DIn.value,R=D/2,d=D*(+dIn.value/100);return{D,R,d,h:Math.hypot(R,d)-R};}
+// the Moon's width from its distance: 0.5° at 240,000 miles, dropped on a US map
+function usMapSVG(){const W=480,H=300,lat0=39,lon0=-96;const sc=W/60;// 60 degrees of longitude across
+const X=lo=>W/2+(lo-lon0)*Math.cos(lat0*DEG)*sc,Y=la=>H/2-(la-lat0)*sc;let paths='';for(const ln of STATES_US.lines){let d='';for(let i=0;i<ln.length;i+=2){const x=X(ln[i]/STATES_US.q),y=Y(ln[i+1]/STATES_US.q);if(x<-20||x>W+20||y<-20||y>H+20){d+='|';continue;}d+=(d===''||d.endsWith('|')?'M':'L')+x.toFixed(1)+' '+y.toFixed(1);}paths+=`<path d="${d.replace(/\|/g,' ')}" fill="none" stroke="rgba(236,230,218,.45)" stroke-width="1"/>`;}
+const cxm=X(-88),cym=Y(39.5),r=1050/69*sc;// 1,050 miles in degrees of latitude
+const city=(n,la,lo)=>`<circle cx="${X(lo)}" cy="${Y(la)}" r="3" fill="#f0b35a"/><text x="${X(lo)+5}" y="${Y(la)-4}" fill="#f0b35a" font-size="10">${n}</text>`;
+return `<svg viewBox="0 0 ${W} ${H}">${paths}<circle cx="${cxm}" cy="${cym}" r="${r}" fill="rgba(217,208,189,.12)" stroke="#d9d0bd" stroke-width="2"/>${city('Denver',39.7,-105)}${city('Chicago',41.9,-87.6)}${city('Boston',42.4,-71.1)}${city('Miami',25.8,-80.2)}<text x="${cxm}" y="${cym-r-8}" fill="#d9d0bd" font-size="12" text-anchor="middle">the Moon, 2,100 miles across</text><text x="10" y="${H-8}" fill="#9a9382" font-size="10">circle of 1,050-mile radius centred on Illinois · Boston just outside</text></svg>`;}
+document.getElementById('mtn-width').onclick=function(){const stage=this.closest('.slide').querySelector('.stage');let card=stage.querySelector('.card.gloss');if(!card){card=document.createElement('div');card.className='card gloss';card.innerHTML='<button class="x" aria-label="Close">×</button><h3></h3><div class="g"></div><p></p>';card.querySelector('.x').onclick=()=>card.hidden=true;stage.appendChild(card);}card.querySelector('h3').textContent='How wide is the Moon? Distance first, width second';card.querySelector('.g').innerHTML=usMapSVG();card.querySelector('p').innerHTML='The Moon is about 240,000 miles away and covers half a degree of sky, 1/720 of a full circle. A circle of radius 240,000 miles is 2π × 240,000 = 1,508,000 miles around; one 720th of that is about 2,100 miles. Lay that on the United States and it reaches from Denver almost to Boston. Galileo’s four-mile mountain is a speck on it, which is the point: once you have one distance, the sizes follow.';card.hidden=false;};
 function update(){const{D,R,d,h}=calc();dOut.textContent=`${fmt(+dIn.value)}% of the width${Math.abs(+dIn.value-5)<.05?' · 1/20':''}`;DOut.textContent=fmtI(D)+' miles';
 read.innerHTML=`<strong>d = ${fmtI(d)} mi · R = ${fmtI(R)} mi</strong><span class="big">h ≥ ${fmt(h,1)} miles</span><span>√(${fmtI(R)}² + ${fmtI(d)}²) − ${fmtI(R)} = ${fmt(h,2)} mi ≈ ${fmtI(h*5280)} ft. ${h>5.5?'Taller than Everest.':h>4?'Galileo wrote “more than four Italian miles”, and that the Moon is rougher than the Earth.':h>1?'Already higher than the Alps as Galileo knew them.':'A hill.'}</span>`;}
 update();
@@ -750,10 +803,14 @@ const body=document.getElementById('kp-body'),read=document.getElementById('kp-r
 const modes={
 kepler:{t:'A map of the solar system with no scale bar',body:`<p class="lede">Johannes Kepler, 1571 to 1630. From Tycho’s observations he found that a planet’s year and its distance from the Sun are locked together: the square of the period equals the cube of the distance, when both are measured against the Earth’s.</p><p>That law gave him every planet’s distance as a multiple of the Earth’s. Saturn is 9.5 times farther out than we are; Venus 0.72 times. The whole plan of the solar system, exactly to scale, and not one distance in miles. Measure a single gap and all the rest follow.</p>`,read:'<strong>Tap a planet</strong><span>to check Kepler’s third law for it. Every distance is a ratio. Nobody knew the ruler.</span>'},
 horrocks:{t:'Horrocks sees Venus on the Sun, 1639',body:`<p class="lede">Jeremiah Horrocks, 1618 to 1641, a curate’s assistant at Much Hoole in Lancashire, corrected Kepler’s tables and found that Venus would cross the Sun on Sunday 24 November 1639 (4 December in today’s calendar). Kepler had predicted a near miss.</p><p>Between church services he projected the Sun through his telescope onto a card and watched a black dot move across it for half an hour before sunset; his friend William Crabtree saw it near Manchester. From Venus’s apparent size he guessed the Sun’s distance at about 59 million miles, two thirds of the truth and far better than anyone before. He died at 22, before his account was printed.</p>`,read:'<strong>Tap Venus or Earth.</strong><span>The dashed line is Horrocks’s line of sight. Venus sits between, so its distance can be had from its size.</span>'},
+starday:{t:'A star-day is four minutes shorter than a Sun-day',cam:camFor(0,0,1),body:`<p class="lede">Turn the Earth once so the same stars are back overhead: 23 h 56 min 4 s. But the Earth has moved a degree along its orbit, so the Sun is not yet back overhead. It needs one more degree of turn, 3 min 56 s.</p><p>That is why clocks and star charts need separate time scales. A navigator’s star sight uses sidereal time; the noon sight uses solar time. The day on your wall clock is the mean Sun-day, 24 hours exactly, averaged over the year.</p>`,read:'<strong>Press "Turn the Earth once".</strong><span>The green arrow keeps pointing at the same star. Watch the Sun drift off the arrow.</span>'},
 halley:{t:'Halley writes the plan he will not live to see',body:`<p class="lede">Edmond Halley, 1656 to 1742, read Horrocks, watched a transit of Mercury from St Helena in 1677, and in 1716 published the method: time Venus’s crossing from stations far apart, and <span class="term" data-term="parallax">parallax</span> gives the Sun’s distance.</p><p>He knew the next transits fell in 1761 and 1769, and that he would be dead. He addressed the paper to astronomers not yet born and asked them to go. They did: Mason and Dixon to the Cape, Cook to Tahiti, Hell to Vardø, Chappe to Baja California, over a hundred observers in all. The relay ran from Kepler’s law to Horrocks’s card to Halley’s plan to the expeditions, and finally put miles on Kepler’s map.</p>`,read:'<strong>Next slide: the expeditions.</strong><span>Venus and Earth are set to 3 June 1769. Play to watch them line up.</span>'}};
 function setMode(m){mode=m;document.querySelectorAll('#m7 button').forEach(b=>b.classList.toggle('on',b.dataset.mode===m));const d=modes[m];title.textContent=d.t;body.innerHTML=d.body;read.innerHTML=d.read;transitB.hidden=m!=='halley';sel=null;
 if(m==='kepler'){fly(st,{yaw:0.4,pitch:1.2,zoom:1});}else if(m==='horrocks'){yr=1639.933;playing=false;playB.textContent='Play';spreadIn.value=1;spreadIn.oninput();fly(st,{yaw:0.2,pitch:0.35,zoom:3.2});}else{yr=1769.427;playing=false;playB.textContent='Play';spreadIn.value=1;spreadIn.oninput();fly(st,{yaw:0.2,pitch:0.9,zoom:3.2});}
-if(m==='kepler'){spreadIn.value=.6;spreadIn.oninput();}}
+if(m==='kepler'){spreadIn.value=.6;spreadIn.oninput();}
+document.getElementById('kp-step').hidden=m!=='starday';document.getElementById('kp-mars').hidden=m!=='kepler';if(m==='starday'){playing=false;playB.textContent='Play';sdTurns=0;sdAnim=null;}marsBase=false;document.getElementById('kp-mars').classList.remove('on');}
+let sdTurns=0,sdAnim=null,marsBase=false;document.getElementById('kp-step').onclick=()=>{if(sdAnim)return;sdAnim={t0:performance.now(),from:sdTurns};};
+document.getElementById('kp-mars').onclick=function(){marsBase=!marsBase;this.classList.toggle('on',marsBase);if(marsBase){playing=false;playB.textContent='Play';read.innerHTML='<strong>Two Earths, one Mars.</strong><span class="big">the orbit itself is the baseline</span><span>Mars returns to the same point every 687 days. Earth does not: it is somewhere else on its orbit. Kepler took Tycho’s directions to Mars from pairs of dates 687 days apart, and the two sightlines crossed at Mars’s true position. Relative distances only; the AU was still unknown.</span>';}};
 document.querySelectorAll('#m7 button').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
 playB.onclick=()=>{playing=!playing;playB.textContent=playing?'Pause':'Play';last=0;};
 document.getElementById('kp-top').onclick=()=>fly(st,{yaw:st.yaw,pitch:1.5,zoom:st.zoom});document.getElementById('kp-edge').onclick=()=>fly(st,{yaw:st.yaw,pitch:0.05,zoom:st.zoom});
@@ -775,7 +832,24 @@ orbit(o,st,tap);setMode('kepler');
 const life=[{n:'Kepler',a:1571,b:1630,m:'kepler',c:'#f0b35a'},{n:'Horrocks',a:1618,b:1641,m:'horrocks',c:'#6fd48a'},{n:'Halley',a:1656,b:1742,m:'halley',c:'#6fb3ff'},{n:'Cook',a:1728,b:1779,m:'halley',c:'#dfe7ff'}];const transits=[1631,1639,1761,1769];
 o.c.addEventListener('pointerup',e=>{const r=o.c.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;const{w,h}=o;const ty=h*.86;if(y<ty-30||y>ty+50)return;life.forEach((L,i)=>{const yy=ty-i*14;if(Math.abs(y-yy)<7&&x>=tx(L.a)&&x<=tx(L.b))setMode(L.m);});});
 let tx=()=>0;
-scenes.push({o,draw(t){if(playing){if(last)yr+=(t-last)/1000*(+speedIn.value/6);last=t;}const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);stepAnim(st,t);const{cx,cy,S}=geom();
+function drawStarDay(t){const{ctx,w,h}=o;const sx=w*.42,sy=h*.5,U=Math.min(w*.3,h*.34);// exaggerated: one 'day' moves Earth 20° along the orbit so the effect is visible
+let turns=sdTurns;if(sdAnim){const k=Math.min(1,(t-sdAnim.t0)/2400),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;turns=sdAnim.from+e;if(k>=1){sdTurns=sdAnim.from+1;sdAnim=null;}}
+const orbA=-Math.PI/2+turns*20*DEG;const ex=sx+U*Math.cos(orbA),ey=sy+U*Math.sin(orbA);
+const g=ctx.createRadialGradient(sx,sy,0,sx,sy,U*.2);g.addColorStop(0,'#fff3c4');g.addColorStop(.5,'#ffd66b');g.addColorStop(1,'rgba(255,214,107,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(sx,sy,U*.2,0,TAU);ctx.fill();
+ctx.strokeStyle='rgba(111,179,255,.35)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(sx,sy,U,0,TAU);ctx.stroke();
+// distant star straight up (parallel rays)
+for(let x=w*.1;x<w*.9;x+=w*.08){ctx.strokeStyle='rgba(223,231,255,.15)';ctx.setLineDash([3,7]);ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h*.12);ctx.stroke();}ctx.setLineDash([]);text(ctx,'\u2726 a distant star \u00b7 straight up from every point on the orbit',w*.5,h*.06,{size:12,color:'#dfe7ff',align:'center'});
+// Earth: a disc with a marker that rotates 360° per turn (plus nothing else): marker direction = start direction (up) + 360°·turns → points up again after a whole turn
+const er=U*.13;ctx.fillStyle='#1b3558';ctx.beginPath();ctx.arc(ex,ey,er,0,TAU);ctx.fill();ctx.strokeStyle='#6fb3ff';ctx.lineWidth=1.5;ctx.stroke();
+const mA=-Math.PI/2+turns*TAU;const mx=ex+er*Math.cos(mA),my=ey+er*Math.sin(mA);ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(mx,my,5,0,TAU);ctx.fill();
+arrow(ctx,mx,my,mx+er*1.4*Math.cos(mA),my+er*1.4*Math.sin(mA),'#6fd48a',2.5);tag(ctx,'your meridian',mx+er*1.5*Math.cos(mA)+6,my+er*1.5*Math.sin(mA),'#6fd48a',11);
+// direction to the Sun from the marker
+const toSun=Math.atan2(sy-ey,sx-ex);ctx.setLineDash([4,5]);ctx.strokeStyle='rgba(255,214,107,.7)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(ex+er*2.4*Math.cos(toSun),ey+er*2.4*Math.sin(toSun));ctx.stroke();ctx.setLineDash([]);
+// after a whole turn, show the extra angle still needed to face the Sun
+const whole=Math.abs(turns-Math.round(turns))<.02&&Math.round(turns)>0;if(whole){let da=((toSun-mA)%TAU+TAU)%TAU;if(da>Math.PI)da-=TAU;ctx.strokeStyle='#ff7d6f';ctx.lineWidth=3;ctx.beginPath();ctx.arc(ex,ey,er*1.9,mA,mA+da,da<0);ctx.stroke();tag(ctx,`extra turn to face the Sun \u00b7 ${fmt(Math.abs(da)/DEG,0)}\u00b0 here, 1\u00b0 in reality = 3 min 56 s`,ex+er*2.1,ey-er*2.1,'#ff7d6f',12);}
+tag(ctx,`${Math.round(turns)} full turn${Math.round(turns)===1?'':'s'} of the Earth \u00b7 star back overhead \u00b7 Sun not yet`,sx-U,sy+U+26,'#cfc8ba',12);
+text(ctx,'orbit exaggerated: one day moves Earth 20\u00b0 here, 1\u00b0 in reality \u00b7 star-day 23 h 56 m 4 s, mean Sun-day 24 h',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}
+scenes.push({o,draw(t){if(playing){if(last)yr+=(t-last)/1000*(+speedIn.value/6);last=t;}const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);stepAnim(st,t);if(mode==='starday'){drawStarDay(t);return;}const{cx,cy,S}=geom();
 // orbits
 planets.forEach(p=>{ctx.strokeStyle=sel===p?'rgba(240,179,90,.9)':'rgba(236,230,218,.22)';ctx.lineWidth=sel===p?1.8:1;ctx.beginPath();for(let k=0;k<=120;k++){const a=k/120*TAU,r=rOf(p.a);const q=proj([r*Math.cos(a),0,-r*Math.sin(a)]);k?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);}ctx.stroke();});
 // the Sun
@@ -785,6 +859,7 @@ if(mode!=='kepler'){const e=proj(posOf(planets[2],yr)),v=proj(posOf(planets[1],y
 const trueP=p=>{const a=lonOf(p,yr);return[p.a*Math.cos(a),0,-p.a*Math.sin(a)];};const eP=trueP(planets[2]),vP=trueP(planets[1]);const ang=Math.acos(Math.max(-1,Math.min(1,v3.dot(v3.norm(v3.mul(eP,-1)),v3.norm(v3.sub(vP,eP))))))/DEG;tag(ctx,ang<.5?'Venus on the Sun’s face: a transit':`Venus ${fmt(ang,1)}° from the Sun as seen from Earth`,e.x+14,e.y-14,ang<.5?'#6fd48a':'#9a9382',12);}
 // planets back to front
 const items=planets.map(p=>({p,q:proj(posOf(p,yr))})).sort((a,b)=>a.q.z-b.q.z);for(const{p,q}of items){const pr=Math.max(3,Math.min(9,2+p.r*1.6));const g=ctx.createRadialGradient(q.x-pr*.3,q.y-pr*.3,pr*.1,q.x,q.y,pr);g.addColorStop(0,'#fff');g.addColorStop(1,p.c);ctx.fillStyle=g;ctx.beginPath();ctx.arc(q.x,q.y,pr,0,TAU);ctx.fill();if(sel===p){ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;ctx.beginPath();ctx.arc(q.x,q.y,pr+5,0,TAU);ctx.stroke();}tag(ctx,p.n+(mode==='kepler'?` · ${fmt(p.a,2)} AU`:''),q.x+pr+5,q.y+4,p.c,11);}
+if(mode==='kepler'&&marsBase){const e1=proj(posOf(planets[2],yr)),e2=proj(posOf(planets[2],yr+planets[3].P)),m=proj(posOf(planets[3],yr));ctx.strokeStyle='#6fb3ff';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(e1.x,e1.y);ctx.lineTo(e2.x,e2.y);ctx.stroke();tag(ctx,'baseline: Earth, 687 days apart',(e1.x+e2.x)/2+8,(e1.y+e2.y)/2,'#6fb3ff',12);[e1,e2].forEach(e=>{ctx.setLineDash([5,5]);ctx.strokeStyle='rgba(217,140,95,.9)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(e.x,e.y);ctx.lineTo(m.x,m.y);ctx.stroke();ctx.setLineDash([]);});ctx.fillStyle='#6fb3ff';ctx.beginPath();ctx.arc(e2.x,e2.y,5,0,TAU);ctx.fill();tag(ctx,'Earth, one Mars-year later',e2.x+8,e2.y+16,'#6fb3ff',11);tag(ctx,'same Mars position \u00b7 two sightlines cross here',m.x+10,m.y-14,'#d98c5f',12);}
 // the scale bar that nobody had
 if(mode==='kepler'){const e=proj(posOf(planets[2],yr));ctx.strokeStyle='rgba(240,179,90,.8)';ctx.lineWidth=2;ctx.setLineDash([6,4]);ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(e.x,e.y);ctx.stroke();ctx.setLineDash([]);tag(ctx,'1 AU = ? miles',(cx+e.x)/2+8,(cy+e.y)/2,'#f0b35a',13);}
 text(ctx,`${Math.floor(yr)} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][Math.floor((yr%1)*12)]}`,cx,h*.08,{size:16,align:'center',font:'serif',color:'#ece6da'});
@@ -847,6 +922,12 @@ g.forEach((s,i)=>{const p=projG(s.p);if(p.z<-0.02)return;ctx.fillStyle=s.c;ctx.b
 // baseline as the Sun sees it
 const a=projG(g[0].p),b=projG(g[1].p);if(a.z>-0.02&&b.z>-0.02){ctx.setLineDash([3,5]);ctx.strokeStyle='rgba(236,230,218,.5)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();ctx.setLineDash([]);}
 text(ctx,'3 June 1769 · tap to move an observer',cx,cy+R+26,{size:11,color:'#9a9382',align:'center'});
+// three stations, one June–August calendar
+{const x0=w*.04,xa=x0+100,x1=w*.5,y0=h*.86;const dx=d=>xa+(d-1)/61*(x1-xa);// day 1 = 1 June, 61 = 1 Aug
+ctx.strokeStyle='#283048';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(xa,y0+34);ctx.lineTo(x1,y0+34);ctx.stroke();[[1,'1 Jun'],[31,'1 Jul'],[61,'1 Aug']].forEach(([d,l])=>{ctx.strokeStyle='#283048';ctx.beginPath();ctx.moveTo(dx(d),y0+30);ctx.lineTo(dx(d),y0+38);ctx.stroke();text(ctx,l,dx(d),y0+52,{size:10,color:'#9a9382',align:'center',font:'mono'});});
+const row=(y,name,color,events)=>{text(ctx,name,x0,y+4,{size:11,color});events.forEach(([d,l,c])=>{ctx.fillStyle=c||color;ctx.beginPath();ctx.arc(dx(d),y,4,0,TAU);ctx.fill();text(ctx,l,dx(d)+7,y+4,{size:10,color:c||color});});};
+row(y0-20,'Cape \u00b7 1761','#f0b35a',[[6,'6 Jun \u00b7 end of transit only']]);row(y0,'Tahiti \u00b7 1769','#6fd48a',[[3,'3 Jun \u00b7 transit observed']]);row(y0+20,'Baja \u00b7 1769','#ff7d6f',[[3,'3 Jun'],[18,'18 Jun \u00b7 eclipse, while ill'],[62,'1 Aug \u00b7 Chappe dies','#ff7d6f']]);
+text(ctx,'one network, three different outcomes \u00b7 separate years on one calendar',x0,y0-40,{size:10,color:'#9a9382'});}
 // the Sun's disc
 const sx=w*.7,sy=h*.5,SR=Math.min(w*.24,h*.4),sc=SR/RS,ex=+exIn.value;
 const sg=ctx.createRadialGradient(sx,sy,SR*.2,sx,sy,SR);sg.addColorStop(0,'#fff3c4');sg.addColorStop(.85,'#ffd66b');sg.addColorStop(1,'#e8a23a');ctx.fillStyle=sg;ctx.beginPath();ctx.arc(sx,sy,SR,0,TAU);ctx.fill();
