@@ -12,8 +12,11 @@
 html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:17px/1.5 var(--serif);overflow:hidden}
 button,input{font:inherit}
 .deck{position:relative;height:100%;width:100%}
-.slide{position:absolute;inset:0;display:grid;grid-template-columns:minmax(300px,30rem) 1fr;grid-template-rows:1fr;gap:0;opacity:0;pointer-events:none;transform:translateX(40px);transition:opacity .45s ease,transform .45s ease}
-.slide.active{opacity:1;pointer-events:auto;transform:none}
+.slide{position:absolute;inset:0;display:grid;grid-template-columns:minmax(300px,30rem) 1fr;grid-template-rows:1fr;gap:0;opacity:0;pointer-events:none;transition:opacity .5s ease}
+.slide.active{opacity:1;pointer-events:auto}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.2rem 0 .8rem}
+.chips button{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:.3rem .75rem;font:500 .78rem var(--sans);cursor:pointer}
+.chips button.on{background:#2a3350;border-color:var(--sky);color:#fff}
 .text{padding:2.2rem 2rem 5rem 2.4rem;overflow:auto;border-right:1px solid var(--line);background:linear-gradient(180deg,#0e1322,#0a0e18)}
 .kicker{font:600 .72rem/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin:0 0 .9rem}
 h1{font-size:2rem;line-height:1.1;margin:0 0 .9rem;font-weight:600}
@@ -74,7 +77,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <div class="deck" id="deck">
 
 <!-- 0 · Title -->
-<section class="slide title" data-title="Title">
+<section class="slide title" data-title="Title" data-fx="fade">
   <div class="text">
     <p class="kicker">Faria · An interactive lecture</p>
     <h1>Measuring the Sky</h1>
@@ -92,18 +95,20 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 </section>
 
 <!-- 1 · Latitude and longitude -->
-<section class="slide" data-title="Latitude &amp; Longitude">
+<section class="slide" data-title="Latitude &amp; Longitude" data-fx="iris">
   <div class="text">
     <p class="kicker">1 · Where am I?</p>
     <h1>Latitude is an angle. Longitude is a time.</h1>
-    <div class="modes" id="m1"><button class="on" data-mode="lat">Latitude · Polaris</button><button data-mode="lon">Longitude · Chronometer</button></div>
+    <div class="modes" id="m1"><button class="on" data-mode="globe">The globe and the sky</button><button data-mode="lon">Longitude · Chronometer</button></div>
 
-    <div id="lat-panel">
-      <p class="lede">Polaris sits almost exactly over the North Pole. Its height above your horizon, in degrees, <em>is</em> your latitude.</p>
-      <p>Drag the observer along the Earth. The horizon tilts, the star does not move, and the angle between them is the angle you are north of the equator. Sailors measured it with a quadrant or sextant for a thousand years.</p>
-      <div class="controls"><label><span class="row">Observer latitude <output id="lat-out">43.8°</output></span><input id="lat" type="range" min="0" max="90" step="0.1" value="43.8"></label></div>
-      <div class="btns"><button data-lat="43.8">Cumberland Foreside</button><button data-lat="27.9">Tampa</button><button data-lat="0">Equator</button><button data-lat="90">North Pole</button></div>
-      <div class="readout" id="lat-read"></div>
+    <div id="globe-panel">
+      <p class="lede">Spin the Earth. Pinch or scroll to zoom. Tap anywhere on it to stand there.</p>
+      <p>The Earth's axis points at Polaris. Stand anywhere in the north and the star's height above your horizon is your latitude. Spin to the south and there is no star at the pole, only the Southern Cross pointing to an empty spot in the sky.</p>
+      <div class="chips" id="globe-toggles">
+        <button data-k="lat" class="on">Latitude lines</button><button data-k="lon" class="on">Longitude lines</button><button data-k="grid">Full grid</button><button data-k="polaris" class="on">Polaris</button><button data-k="crux">Southern Cross</button><button data-k="cities" class="on">Places</button>
+      </div>
+      <div class="btns"><button class="primary" id="fly-north">Look up at Polaris</button><button id="fly-crux">Fly to the Southern Cross</button><button id="globe-reset">Reset view</button></div>
+      <div class="readout" id="globe-read"><strong>Tap the globe to place yourself.</strong><span>Drag to spin · pinch or scroll to zoom</span></div>
     </div>
 
     <div id="lon-panel" hidden>
@@ -117,11 +122,11 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
       <div class="readout" id="lon-read"></div>
     </div>
   </div>
-  <div class="stage"><canvas id="c1"></canvas><div class="hint" id="h1">Drag the observer along the Earth</div></div>
+  <div class="stage"><canvas id="c1"></canvas><div class="hint" id="h1">Drag to spin · pinch or scroll to zoom · tap to stand there</div></div>
 </section>
 
 <!-- 2 · Eratosthenes -->
-<section class="slide" data-title="Eratosthenes">
+<section class="slide" data-title="Eratosthenes" data-fx="sunrise">
   <div class="text">
     <p class="kicker">2 · How big is the world? · c. 240 BC</p>
     <h1>A well, a stick, and the size of the Earth</h1>
@@ -139,7 +144,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 </section>
 
 <!-- 3 · Jupiter's moons -->
-<section class="slide" data-title="Jupiter's moons">
+<section class="slide" data-title="Jupiter's moons" data-fx="telescope">
   <div class="text">
     <p class="kicker">3 · January 1610 · Padua</p>
     <h1>Four little stars that would not stay still</h1>
@@ -162,20 +167,23 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 </section>
 
 <!-- 4 · Moon mountains -->
-<section class="slide" data-title="Moon mountains">
+<section class="slide" data-title="Moon mountains" data-fx="terminator">
   <div class="text">
     <p class="kicker">4 · Sidereus Nuncius · 1610</p>
     <h1>How tall is a mountain on the Moon?</h1>
     <p class="lede">Galileo saw bright points on the dark side of the Moon, well past the line between day and night. They were peaks, still catching sunlight while the ground around them was in shadow.</p>
-    <p>A peak lit from across the terminator must poke above the Sun's grazing ray. If the peak is a distance <em>d</em> into the dark side on a Moon of radius <em>R</em>, Pythagoras gives its height: <em>h = √(R² + d²) − R</em>. Galileo measured <em>d</em> as about one twentieth of the Moon's width and got more than four miles, higher than any mountain he knew on Earth.</p>
+    <p>Spin the Moon to look at the peak from above the pole and the geometry appears: a right triangle with the Moon's radius <em>R</em> as one leg, the distance <em>d</em> past the terminator as the other, and <em>R + h</em> as the hypotenuse. Tap the rim, the centre line, a radius, or the triangle itself to call out each piece.</p>
+    <div class="chips" id="moon-toggles">
+      <button data-k="circ">Circumference</button><button data-k="diam">Diameter</button><button data-k="R">Radius R</button><button data-k="Rh">R + h</button><button data-k="d">d</button><button data-k="tri">The triangle</button>
+    </div>
     <div class="controls">
       <label><span class="row">Peak's distance past the terminator <output id="mtn-d-out">1/20 of the width</output></span><input id="mtn-d" type="range" min="0.5" max="12" step="0.1" value="5"></label>
       <label><span class="row">Assumed Moon diameter <output id="mtn-D-out">2,000 miles</output></span><input id="mtn-D" type="range" min="1500" max="2500" step="10" value="2000"></label>
     </div>
-    <div class="btns"><button class="primary" id="mtn-galileo">Galileo's numbers</button><button id="mtn-modern">Modern Moon · 2,159 mi</button></div>
+    <div class="btns"><button class="primary" id="mtn-side">See the geometry</button><button id="mtn-face">Telescope view</button><button id="mtn-galileo">Galileo's numbers</button><button id="mtn-modern">Modern Moon · 2,159 mi</button></div>
     <div class="readout" id="mtn-read"></div>
   </div>
-  <div class="stage"><canvas id="c4"></canvas><div class="hint">Drag the bright peak left or right</div></div>
+  <div class="stage"><canvas id="c4"></canvas><div class="hint">Drag to spin · pinch or scroll to zoom · tap a line to name it</div></div>
 </section>
 
 </div>
@@ -191,7 +199,13 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 const slides=[...document.querySelectorAll('.slide')];let cur=0;
 const dots=document.getElementById('dots');
 slides.forEach((s,i)=>{const b=document.createElement('button');b.title=s.dataset.title;b.addEventListener('click',()=>go(i));dots.appendChild(b);});
-function go(i){cur=(i+slides.length)%slides.length;slides.forEach((s,k)=>s.classList.toggle('active',k===cur));[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===cur));document.getElementById('counter').textContent=`${cur} / ${slides.length-1} · ${slides[cur].dataset.title.replace('&amp;','&')}`;location.hash=cur?`#${cur}`:'';resizeAll();}
+const FX={fade:[{opacity:0,transform:'scale(1.06)'},{opacity:1,transform:'none'}],
+ iris:[{clipPath:'circle(0% at 50% 50%)'},{clipPath:'circle(80% at 50% 50%)'}],
+ sunrise:[{clipPath:'inset(100% 0 0 0)',filter:'brightness(2.5)'},{clipPath:'inset(0 0 0 0)',filter:'brightness(1)'}],
+ telescope:[{transform:'scale(.2)',filter:'blur(16px)',opacity:0},{transform:'none',filter:'blur(0px)',opacity:1}],
+ terminator:[{clipPath:'polygon(0 0,0 0,-40% 100%,0 100%)'},{clipPath:'polygon(0 0,140% 0,100% 100%,0 100%)'}]};
+function go(i){const prev=cur;cur=(i+slides.length)%slides.length;slides.forEach((s,k)=>s.classList.toggle('active',k===cur));
+if(prev!==cur){const s=slides[cur];s.getAnimations().forEach(a=>a.cancel());s.animate(FX[s.dataset.fx]||FX.fade,{duration:1000,easing:'cubic-bezier(.2,.7,.2,1)'});}[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===cur));document.getElementById('counter').textContent=`${cur} / ${slides.length-1} · ${slides[cur].dataset.title.replace('&amp;','&')}`;location.hash=cur?`#${cur}`:'';resizeAll();}
 document.getElementById('prev').onclick=()=>go(cur-1);document.getElementById('next').onclick=()=>go(cur+1);
 addEventListener('keydown',e=>{if(e.target.matches('input,button'))e.target.blur();if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')go(cur+1);else if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);else if(e.key.toLowerCase()==='f'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}});
 let tx=null;addEventListener('touchstart',e=>{if(!e.target.closest('canvas'))tx=e.touches[0].clientX;},{passive:true});addEventListener('touchend',e=>{if(tx==null)return;const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>70)go(cur+(dx<0?1:-1));tx=null;});
@@ -202,6 +216,7 @@ const fmtI=n=>Math.round(n).toLocaleString('en-US');
 function setup(id){const c=document.getElementById(id),ctx=c.getContext('2d');const o={c,ctx,w:0,h:0,resize(){const r=c.getBoundingClientRect(),dpr=devicePixelRatio||1;if(!r.width)return;o.w=r.width;o.h=r.height;c.width=r.width*dpr;c.height=r.height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}};return o;}
 function pointer(o,down,move,up){const pos=e=>{const r=o.c.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};};o.c.addEventListener('pointerdown',e=>{if(down(pos(e))){o.c.setPointerCapture(e.pointerId);o.c.classList.add('dragging');e.preventDefault();}});o.c.addEventListener('pointermove',e=>{if(o.c.classList.contains('dragging'))move(pos(e));});const end=e=>{o.c.classList.remove('dragging');up&&up();};o.c.addEventListener('pointerup',end);o.c.addEventListener('pointercancel',end);}
 function text(ctx,s,x,y,{size=13,color='#cfc8ba',align='left',font='sans',weight=500,base='alphabetic'}={}){ctx.font=`${weight} ${size}px ${font==='mono'?'Menlo,Consolas,monospace':font==='serif'?'Georgia,serif':'-apple-system,Segoe UI,Roboto,sans-serif'}`;ctx.fillStyle=color;ctx.textAlign=align;ctx.textBaseline=base;ctx.fillText(s,x,y);}
+function tag(ctx,s,x,y,color,size=13){ctx.font=`500 ${size}px Georgia,serif`;const tw=ctx.measureText(s).width;ctx.fillStyle='rgba(10,14,24,.82)';ctx.beginPath();ctx.roundRect?ctx.roundRect(x-6,y-size-2,tw+12,size+10,5):ctx.rect(x-6,y-size-2,tw+12,size+10);ctx.fill();ctx.fillStyle=color;ctx.textAlign='left';ctx.textBaseline='alphabetic';ctx.fillText(s,x,y);}
 function arrow(ctx,x1,y1,x2,y2,color,w=1.5){ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=w;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();const a=Math.atan2(y2-y1,x2-x1);ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-9*Math.cos(a-.4),y2-9*Math.sin(a-.4));ctx.lineTo(x2-9*Math.cos(a+.4),y2-9*Math.sin(a+.4));ctx.closePath();ctx.fill();}
 const stars=Array.from({length:260},()=>({x:Math.random(),y:Math.random(),r:Math.random()*1.3+.3,a:Math.random()}));
 function drawStars(o,t){const{ctx,w,h}=o;for(const s of stars){ctx.globalAlpha=.35+.65*Math.abs(Math.sin(t*.0007+s.a*9));ctx.fillStyle='#dfe7ff';ctx.beginPath();ctx.arc(s.x*w,s.y*h,s.r,0,TAU);ctx.fill();}ctx.globalAlpha=1;}
@@ -215,74 +230,105 @@ for(let i=1;i<=4;i++){ctx.strokeStyle='rgba(240,179,90,'+(.08+.08*i)+')';ctx.lin
 const g=ctx.createRadialGradient(cx,cy,0,cx,cy,R*.45);g.addColorStop(0,'#ffe6a8');g.addColorStop(.5,'#f0b35a');g.addColorStop(1,'rgba(240,179,90,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R*.45,0,TAU);ctx.fill();
 text(ctx,'✦',w*.5,h*.86,{size:22,color:'#f0b35a',align:'center'});}});}
 
+/* ---------- shared 3D helpers: orthographic camera, orbit + pinch controls ---------- */
+// world: y up. camera: p' = Rx(pitch) · Ry(yaw) · p ; viewer looks down -z, so z'>0 faces the viewer.
+function rot(p,yaw,pitch){const cy=Math.cos(yaw),sy=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch);const x=p[0]*cy+p[2]*sy,z=-p[0]*sy+p[2]*cy;return[x,p[1]*cp-z*sp,p[1]*sp+z*cp];}
+function unrot(q,yaw,pitch){const cp=Math.cos(pitch),sp=Math.sin(pitch),cy=Math.cos(yaw),sy=Math.sin(yaw);const y=q[1]*cp+q[2]*sp,z=-q[1]*sp+q[2]*cp;return[q[0]*cy-z*sy,y,q[0]*sy+z*cy];}
+const v3={add:(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]],sub:(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],mul:(a,k)=>[a[0]*k,a[1]*k,a[2]*k],dot:(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],cross:(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],len:a=>Math.hypot(a[0],a[1],a[2]),norm(a){const l=Math.hypot(a[0],a[1],a[2])||1;return[a[0]/l,a[1]/l,a[2]/l];}};
+const ll=(lat,lon)=>[Math.cos(lat*DEG)*Math.cos(lon*DEG),Math.sin(lat*DEG),-Math.cos(lat*DEG)*Math.sin(lon*DEG)];
+// orbit controls with one-finger rotate, two-finger pinch, wheel zoom, and tap detection
+function orbit(o,st,onTap){const pts=new Map();let moved=false,start=null,pinch0=0,zoom0=1;const pos=e=>{const r=o.c.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};};
+o.c.addEventListener('pointerdown',e=>{if(st.enabled&&!st.enabled())return;o.c.setPointerCapture(e.pointerId);pts.set(e.pointerId,pos(e));moved=false;start=pos(e);if(pts.size===2){const[a,b]=[...pts.values()];pinch0=Math.hypot(a.x-b.x,a.y-b.y);zoom0=st.zoom;}e.preventDefault();});
+o.c.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;const p=pos(e),prev=pts.get(e.pointerId);pts.set(e.pointerId,p);if(pts.size===1){const dx=p.x-prev.x,dy=p.y-prev.y;if(Math.abs(p.x-start.x)+Math.abs(p.y-start.y)>4)moved=true;if(moved){st.yaw+=dx*.008;st.pitch=Math.max(-1.55,Math.min(1.55,st.pitch+dy*.008));st.anim=null;o.c.classList.add('dragging');}}else if(pts.size===2){const[a,b]=[...pts.values()];const d=Math.hypot(a.x-b.x,a.y-b.y);st.zoom=Math.max(.5,Math.min(6,zoom0*d/pinch0));st.anim=null;moved=true;}});
+const end=e=>{pts.delete(e.pointerId);if(pts.size===0){o.c.classList.remove('dragging');if(!moved&&start&&onTap)onTap(start);start=null;}};
+o.c.addEventListener('pointerup',end);o.c.addEventListener('pointercancel',end);
+o.c.addEventListener('wheel',e=>{if(st.enabled&&!st.enabled())return;e.preventDefault();st.zoom=Math.max(.5,Math.min(6,st.zoom*(e.deltaY<0?1.1:.9)));st.anim=null;},{passive:false});}
+// smooth camera flight
+function fly(st,to,ms=1200){st.anim={from:{yaw:st.yaw,pitch:st.pitch,zoom:st.zoom},to,t0:performance.now(),ms};}
+function stepAnim(st,t){if(!st.anim)return;const a=st.anim,k=Math.min(1,(t-a.t0)/a.ms),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;for(const key of['yaw','pitch','zoom'])st[key]=a.from[key]+(a.to[key]-a.from[key])*e;if(k>=1)st.anim=null;}
+
 /* ---------- 1 · latitude & longitude ---------- */
-{const o=setup('c1');let mode='lat';
-const latIn=document.getElementById('lat'),latOut=document.getElementById('lat-out'),latRead=document.getElementById('lat-read');
-const clockIn=document.getElementById('clock'),clockOut=document.getElementById('clock-out'),driftIn=document.getElementById('drift'),driftOut=document.getElementById('drift-out'),lonRead=document.getElementById('lon-read'),hint=document.getElementById('h1');
-let shipLon=-70.2; // degrees, east positive (Portland, Maine)
-document.querySelectorAll('#m1 button').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;document.querySelectorAll('#m1 button').forEach(x=>x.classList.toggle('on',x===b));document.getElementById('lat-panel').hidden=mode!=='lat';document.getElementById('lon-panel').hidden=mode!=='lon';hint.textContent=mode==='lat'?'Drag the observer along the Earth':'Drag the ship · slide the clock until the Sun is highest over it';update();});
-document.querySelectorAll('[data-lat]').forEach(b=>b.onclick=()=>{latIn.value=b.dataset.lat;update();});
-latIn.oninput=clockIn.oninput=driftIn.oninput=update;
-document.getElementById('find-noon').onclick=()=>{clockIn.value=Math.round(((12-shipLon/15)*60%1440+1440)%1440);update();};
-document.getElementById('harrison').onclick=()=>{driftIn.value=0;update();lonRead.className='readout ok';lonRead.innerHTML='<strong>Harrison’s H4, 1761</strong><span class="big">5 s in 81 days</span><span>Portsmouth to Jamaica. About 1.25 nautical miles of error in longitude. The Board of Longitude had asked for 30 miles. Slide the drift control to see what an ordinary clock would have done.</span>';};
-function lat(){return+latIn.value;}function clock(){return+clockIn.value;}
-function update(){const phi=lat();latOut.textContent=fmt(phi)+'°';latRead.innerHTML=`<strong>Polaris stands ${fmt(phi)}° above the horizon</strong><span class="big">latitude ${fmt(phi)}° N</span><span>${phi<1?'On the equator Polaris sits on the horizon.':phi>89?'At the pole Polaris is straight overhead.':'The star is fixed. Only your horizon tilts.'}</span>`;
-const m=clock(),hh=String(Math.floor(m/60)).padStart(2,'0'),mm=String(m%60).padStart(2,'0');clockOut.textContent=`${hh}:${mm}`;driftOut.textContent=`${driftIn.value} s/day`;
+{const o=setup('c1');let mode='globe';
+const st={yaw:0.8,pitch:0.35,zoom:.8,anim:null,enabled:()=>mode==='globe'};const show={lat:true,lon:true,grid:false,polaris:true,crux:false,cities:true};let me=null;// observer {lat,lon}
+const read=document.getElementById('globe-read'),hint=document.getElementById('h1');
+const clockIn=document.getElementById('clock'),clockOut=document.getElementById('clock-out'),driftIn=document.getElementById('drift'),driftOut=document.getElementById('drift-out'),lonRead=document.getElementById('lon-read');
+let shipLon=-70.2;
+document.querySelectorAll('#m1 button').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;document.querySelectorAll('#m1 button').forEach(x=>x.classList.toggle('on',x===b));document.getElementById('globe-panel').hidden=mode!=='globe';document.getElementById('lon-panel').hidden=mode!=='lon';hint.textContent=mode==='globe'?'Drag to spin · pinch or scroll to zoom · tap to stand there':'Drag the ship · slide the clock until the Sun is highest over it';updateLon();});
+document.querySelectorAll('#globe-toggles button').forEach(b=>b.onclick=()=>{const k=b.dataset.k;show[k]=!show[k];if(k==='grid'&&show.grid){show.lat=show.lon=true;}if((k==='lat'||k==='lon')&&!show[k])show.grid=false;document.querySelectorAll('#globe-toggles button').forEach(x=>x.classList.toggle('on',show[x.dataset.k]));});
+document.getElementById('fly-north').onclick=()=>{me=me||{lat:43.8,lon:-70.2};show.polaris=true;syncChips();fly(st,{yaw:st.yaw,pitch:-0.05,zoom:0.7});readout();};
+document.getElementById('fly-crux').onclick=()=>{show.crux=true;syncChips();fly(st,{yaw:st.yaw,pitch:-1.2,zoom:1.6},1600);read.innerHTML='<strong>The Southern Cross</strong><span>Follow the long arm of the cross about four and a half times its length and you reach the south celestial pole. There is no bright star there. Navigators found south by that empty point.</span>';};
+document.getElementById('globe-reset').onclick=()=>{fly(st,{yaw:0.8,pitch:0.35,zoom:.8});};
+function syncChips(){document.querySelectorAll('#globe-toggles button').forEach(x=>x.classList.toggle('on',show[x.dataset.k]));}
+const cities=[{n:'Cumberland Foreside',lat:43.8,lon:-70.2},{n:'Tampa',lat:27.9,lon:-82.5},{n:'Greenwich',lat:51.5,lon:0},{n:'Quito',lat:-0.2,lon:-78.5},{n:'Cape Town',lat:-33.9,lon:18.4},{n:'Sydney',lat:-33.9,lon:151.2},{n:'Alexandria',lat:31.2,lon:29.9},{n:'Syene',lat:24.1,lon:32.9}];
+// Southern Cross: RA (h) and Dec (°) of Acrux, Mimosa, Gacrux, Imai. Sky is fixed to the Earth here, which is fine for showing where the pole is.
+const crux=[{n:'Acrux',ra:12.44,dec:-63.1},{n:'Mimosa',ra:12.80,dec:-59.7},{n:'Gacrux',ra:12.52,dec:-57.1},{n:'Imai',ra:12.25,dec:-58.7}];const sky=s=>v3.mul(ll(s.dec,s.ra*15),2.4);
+function geom(){const{w,h}=o;return{cx:w*.5,cy:h*.5,R:Math.min(w,h)*.33*st.zoom};}
+function proj(p){const{cx,cy,R}=geom();const q=rot(p,st.yaw,st.pitch);return{x:cx+q[0]*R,y:cy-q[1]*R,z:q[2]};}
+function tap(p){const{cx,cy,R}=geom();const X=(p.x-cx)/R,Y=-(p.y-cy)/R;const r2=X*X+Y*Y;if(r2>1)return;const q=[X,Y,Math.sqrt(1-r2)];const wpt=unrot(q,st.yaw,st.pitch);me={lat:Math.asin(wpt[1])/DEG,lon:Math.atan2(-wpt[2],wpt[0])/DEG};readout();}
+function readout(){if(!me)return;const north=me.lat>=0,a=Math.abs(me.lat);read.innerHTML=`<strong>You are at ${fmt(a)}° ${north?'N':'S'}, ${fmt(Math.abs(me.lon))}° ${me.lon<0?'W':'E'}</strong><span class="big">${north?'Polaris':'South celestial pole'} ${fmt(a)}° above the horizon</span><span>${north?(a<1?'On the equator Polaris sits on the horizon.':'Measure that angle with a quadrant and you have your latitude.'):'No star marks the southern pole. The Southern Cross points to it.'}</span>`;}
+orbit(o,st,tap);
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);if(mode==='globe'){stepAnim(st,t);drawGlobe(t);}else drawLon(t);}});
+function drawGlobe(t){const{ctx,w,h}=o;const{cx,cy,R}=geom();
+// axis to Polaris / SCP
+const N=proj([0,1.9,0]),S=proj([0,-1.9,0]),np=proj([0,1,0]),sp=proj([0,-1,0]);
+// back-side graticule first (faint), then sphere, then front graticule
+const line=(pts,color,width,front)=>{ctx.strokeStyle=color;ctx.lineWidth=width;ctx.beginPath();let pen=false;for(const p of pts){const q=proj(p);const vis=front?q.z>=0:q.z<0;if(vis){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}ctx.stroke();};
+const latLines=[],lonLines=[];const step=show.grid?10:15;
+if(show.lat)for(let la=-80;la<=80;la+=step){const pts=[];for(let lo=0;lo<=360;lo+=4)pts.push(ll(la,lo));latLines.push({pts,bold:la===0});}
+if(show.lon)for(let lo=0;lo<360;lo+=step){const pts=[];for(let la=-90;la<=90;la+=3)pts.push(ll(la,lo));lonLines.push({pts,bold:lo===0});}
+// sphere body
+const g=ctx.createRadialGradient(cx-R*.35,cy-R*.35,R*.05,cx,cy,R);g.addColorStop(0,'#2f5a8c');g.addColorStop(.7,'#15294a');g.addColorStop(1,'#0b1526');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();
+for(const l of latLines)line(l.pts,'rgba(236,230,218,.08)',1,false);for(const l of lonLines)line(l.pts,'rgba(236,230,218,.08)',1,false);
+for(const l of latLines)line(l.pts,l.bold?'rgba(240,179,90,.9)':'rgba(236,230,218,.35)',l.bold?2:1,true);
+for(const l of lonLines)line(l.pts,l.bold?'rgba(111,179,255,.9)':'rgba(236,230,218,.35)',l.bold?2:1,true);
+ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.stroke();
+if(show.lat){const e=proj(ll(0,-st.yaw/DEG+90));if(e.z>0)text(ctx,'equator',e.x,e.y-6,{size:11,color:'#f0b35a',align:'center'});}
+if(show.lon){const p=proj(ll(20,0));if(p.z>0)text(ctx,'prime meridian',p.x+6,p.y,{size:11,color:'#6fb3ff'});}
+// axis
+ctx.setLineDash([5,6]);ctx.strokeStyle='rgba(236,230,218,.5)';ctx.lineWidth=1.5;ctx.beginPath();if(np.z>=0||true){ctx.moveTo(np.x,np.y);ctx.lineTo(N.x,N.y);}ctx.moveTo(sp.x,sp.y);ctx.lineTo(S.x,S.y);ctx.stroke();ctx.setLineDash([]);
+if(show.polaris){const gl=ctx.createRadialGradient(N.x,N.y,0,N.x,N.y,22);gl.addColorStop(0,'#fff');gl.addColorStop(.3,'rgba(111,179,255,.8)');gl.addColorStop(1,'rgba(111,179,255,0)');ctx.fillStyle=gl;ctx.beginPath();ctx.arc(N.x,N.y,22,0,TAU);ctx.fill();text(ctx,'✦ Polaris',N.x+16,N.y+4,{size:13,color:'#dfe7ff'});text(ctx,'the axis points here',N.x+16,N.y+20,{size:11,color:'#9a9382'});}
+// south celestial pole: empty
+ctx.strokeStyle='rgba(236,230,218,.5)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(S.x,S.y,6,0,TAU);ctx.stroke();text(ctx,'south celestial pole · no star',S.x+12,S.y+4,{size:11,color:'#9a9382'});
+if(show.crux){const ps=crux.map(s=>({...s,p:proj(sky(s))}));ps.forEach(s=>{ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(s.p.x,s.p.y,s.n==='Acrux'?4:3,0,TAU);ctx.fill();text(ctx,s.n,s.p.x+7,s.p.y-5,{size:10,color:'#dfe7ff'});});
+const a=ps.find(s=>s.n==='Gacrux').p,b=ps.find(s=>s.n==='Acrux').p;ctx.strokeStyle='rgba(255,255,255,.6)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);const m1=ps.find(s=>s.n==='Mimosa').p,m2=ps.find(s=>s.n==='Imai').p;ctx.moveTo(m1.x,m1.y);ctx.lineTo(m2.x,m2.y);ctx.stroke();
+ctx.setLineDash([3,5]);ctx.strokeStyle='rgba(255,125,111,.8)';ctx.beginPath();ctx.moveTo(b.x,b.y);ctx.lineTo(S.x,S.y);ctx.stroke();ctx.setLineDash([]);text(ctx,'4½ cross-lengths to the pole',(b.x+S.x)/2+8,(b.y+S.y)/2,{size:11,color:'#ff7d6f'});}
+// cities
+if(show.cities)for(const c of cities){const p=proj(ll(c.lat,c.lon));if(p.z<0)continue;ctx.fillStyle='#f0b35a';ctx.beginPath();ctx.arc(p.x,p.y,3,0,TAU);ctx.fill();text(ctx,c.n,p.x+6,p.y-4,{size:10,color:'#cfc8ba'});}
+// observer with horizon and line to the pole star
+if(me){const u=ll(me.lat,me.lon);const p=proj(u);if(p.z>=-0.05){// horizon ring: tangent circle
+const e1=v3.norm(v3.cross(u,[0,1,0])),e2=v3.cross(e1,u);ctx.strokeStyle='#6fd48a';ctx.lineWidth=2;ctx.beginPath();for(let a=0;a<=TAU+.01;a+=.1){const q=proj(v3.add(u,v3.add(v3.mul(e1,.35*Math.cos(a)),v3.mul(e2,.35*Math.sin(a)))));a===0?ctx.moveTo(q.x,q.y):ctx.lineTo(q.x,q.y);}ctx.stroke();
+const toPole=proj(v3.add(u,[0,me.lat>=0?1.1:-1.1,0]));arrow(ctx,p.x,p.y,toPole.x,toPole.y,'#6fb3ff',2);
+ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(p.x,p.y,6,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();text(ctx,'you · horizon in green',p.x+10,p.y+16,{size:11,color:'#6fd48a'});}}
+text(ctx,`${show.grid?'10°':'15°'} graticule · zoom ${fmt(st.zoom,1)}×`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}
+
+/* chronometer mode (2D) */
+document.getElementById('find-noon').onclick=()=>{clockIn.value=Math.round(((12-shipLon/15)*60%1440+1440)%1440);updateLon();};
+document.getElementById('harrison').onclick=()=>{driftIn.value=0;updateLon();lonRead.className='readout ok';lonRead.innerHTML='<strong>Harrison’s H4, 1761</strong><span class="big">5 s in 81 days</span><span>Portsmouth to Jamaica. About 1.25 nautical miles of error in longitude. The Board of Longitude had asked for 30 miles. Slide the drift control to see what an ordinary clock would have done.</span>';};
+clockIn.oninput=driftIn.oninput=updateLon;
+function clock(){return+clockIn.value;}
+function updateLon(){const m=clock(),hh=String(Math.floor(m/60)).padStart(2,'0'),mm=String(m%60).padStart(2,'0');clockOut.textContent=`${hh}:${mm}`;driftOut.textContent=`${driftIn.value} s/day`;
 const local=((m/60+shipLon/15)%24+24)%24;const dNoon=Math.abs(local-12);const trueNoonGMT=12-shipLon/15;const lonEst=(12-m/60)*15;const driftErrMi=(+driftIn.value*81/3600)*15*60*Math.cos(43.7*DEG);
 if(dNoon<0.2){lonRead.className='readout ok';lonRead.innerHTML=`<strong>Local noon. Chronometer reads ${hh}:${mm} GMT.</strong><span class="big">${fmt(Math.abs(lonEst))}° ${lonEst<0?'W':'E'}</span><span>${fmt(Math.abs(12-m/60),2)} h × 15°/h. True longitude ${fmt(Math.abs(shipLon))}° ${shipLon<0?'W':'E'}.${+driftIn.value?` A clock drifting ${driftIn.value} s/day for 81 days would be ${fmt(+driftIn.value*81/60)} min off, putting the ship about ${fmtI(driftErrMi)} nautical miles from where it really is.`:''}</span>`;}
 else{lonRead.className='readout';lonRead.innerHTML=`<strong>${local<12?'Morning':'Afternoon'} at the ship · local ${String(Math.floor(local)).padStart(2,'0')}:${String(Math.floor(local%1*60)).padStart(2,'0')}</strong><span>Keep sliding until the Sun is highest. Noon over the ship comes when Greenwich reads ${String(Math.floor(((trueNoonGMT%24)+24)%24)).padStart(2,'0')}:${String(Math.round(((trueNoonGMT%1)+1)%1*60)%60).padStart(2,'0')}.</span>`;}}
-update();
-pointer(o,p=>{dragging=true;move(p);return true;},move,()=>dragging=false);let dragging=false;
-function move(p){const{w,h}=o;if(mode==='lat'){const cx=w*.42,cy=h*.5;const a=Math.atan2(cy-p.y,p.x-cx);latIn.value=Math.max(0,Math.min(90,a/DEG)).toFixed(1);}else{const cx=w*.36,cy=h*.5;const a=Math.atan2(cy-p.y,p.x-cx);// screen angle of pointer, ccw from +x
-const gAng=greenwichAngle();let lon=((a-gAng)/DEG+540)%360-180;shipLon=Math.round(lon*10)/10;}update();}
-function greenwichAngle(){// Sun is to the right (+x). Greenwich faces the sun at 12:00. Earth turns counterclockwise seen from the north, so at time t Greenwich has turned (t-12)*15° past the sun.
-return (clock()/60-12)*15*DEG;}
-scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);if(mode==='lat')drawLat(t);else drawLon(t);},});
-function drawLat(t){const{ctx,w,h}=o;const cx=w*.42,cy=h*.5,R=Math.min(w,h)*.3,phi=lat()*DEG;
-// Polaris rays (parallel, from top)
-for(let x=cx-R*1.3;x<=cx+R*1.6;x+=R*.19){ctx.strokeStyle='rgba(111,179,255,.18)';ctx.setLineDash([4,6]);ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,cy+R*1.1);ctx.stroke();}ctx.setLineDash([]);
-text(ctx,'✦ Polaris · so far away its light arrives in parallel lines',w-16,h*.09,{size:12,color:'#6fb3ff',align:'right'});
-// Earth
-const g=ctx.createRadialGradient(cx-R*.3,cy-R*.3,R*.1,cx,cy,R);g.addColorStop(0,'#2b4f7a');g.addColorStop(1,'#0f1f33');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.stroke();
-// axis & equator
-ctx.strokeStyle='rgba(236,230,218,.35)';ctx.setLineDash([6,5]);ctx.beginPath();ctx.moveTo(cx,cy-R*1.12);ctx.lineTo(cx,cy+R*1.12);ctx.stroke();ctx.beginPath();ctx.moveTo(cx-R*1.12,cy);ctx.lineTo(cx+R*1.12,cy);ctx.stroke();ctx.setLineDash([]);
-text(ctx,'N',cx,cy-R*1.16,{size:12,align:'center',base:'bottom'});text(ctx,'equator',cx+R*1.14,cy+4,{size:11,color:'#9a9382'});
-// latitude angle at center
-ctx.strokeStyle='#f0b35a';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+R*Math.cos(phi),cy-R*Math.sin(phi));ctx.stroke();ctx.beginPath();ctx.arc(cx,cy,R*.3,-phi,0);ctx.stroke();text(ctx,fmt(lat())+'°',cx+R*.36*Math.cos(phi/2),cy-R*.36*Math.sin(phi/2)+4,{size:13,color:'#f0b35a',font:'mono'});
-// observer
-const px=cx+R*Math.cos(phi),py=cy-R*Math.sin(phi);
-// horizon = tangent
-const tx=-Math.sin(phi),ty=-Math.cos(phi);const L=R*.95;ctx.strokeStyle='#6fd48a';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(px-tx*L,py-ty*L);ctx.lineTo(px+tx*L,py+ty*L);ctx.stroke();text(ctx,'horizon',px+tx*L,py+ty*L-8,{size:11,color:'#6fd48a',align:'center'});
-// up vector to Polaris
-arrow(ctx,px,py,px,py-R*.9,'#6fb3ff',2);
-// altitude angle arc between horizon (direction toward -tx,-ty i.e. north along tangent) and up
-ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;ctx.beginPath();const r2=R*.28;ctx.arc(px,py,r2,-Math.PI/2,-(Math.PI/2+phi),true);ctx.stroke();const am=Math.PI/2+phi/2;text(ctx,fmt(lat())+'°',px+(r2+16)*Math.cos(am),py-(r2+16)*Math.sin(am)+4,{size:14,color:'#f0b35a',font:'mono',align:'center'});
-// observer figure
-ctx.fillStyle='#ece6da';ctx.beginPath();ctx.arc(px,py,7,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();
-text(ctx,'you',px+12,py+5,{size:12});
-text(ctx,'The angle at the center and the angle at your feet are the same angle.',w*.5,h-56,{size:13,color:'#9a9382',align:'center'});}
+updateLon();
+// ship drag in chronometer mode (separate pointer handling: the orbit handler ignores drags when mode is lon)
+o.c.addEventListener('pointerdown',e=>{if(mode!=='lon')return;shipDrag=true;moveShip(e);});o.c.addEventListener('pointermove',e=>{if(mode==='lon'&&shipDrag)moveShip(e);});o.c.addEventListener('pointerup',()=>shipDrag=false);let shipDrag=false;
+function moveShip(e){const r=o.c.getBoundingClientRect(),p={x:e.clientX-r.left,y:e.clientY-r.top};const{w,h}=o;const cx=w*.36,cy=h*.5;const a=Math.atan2(cy-p.y,p.x-cx);const gAng=greenwichAngle();let lon=((a-gAng)/DEG+540)%360-180;shipLon=Math.round(lon*10)/10;updateLon();}
+function greenwichAngle(){return (clock()/60-12)*15*DEG;}
 function drawLon(t){const{ctx,w,h}=o;const cx=w*.36,cy=h*.5,R=Math.min(w*.26,h*.3);
-// sun rays from the right
 for(let y=cy-R*1.3;y<=cy+R*1.3;y+=R*.17){ctx.strokeStyle='rgba(255,214,107,.22)';ctx.beginPath();ctx.moveTo(w,y);ctx.lineTo(cx,y);ctx.stroke();}
 const sg=ctx.createRadialGradient(w+40,cy,0,w+40,cy,170);sg.addColorStop(0,'rgba(255,214,107,.9)');sg.addColorStop(1,'rgba(255,214,107,0)');ctx.fillStyle=sg;ctx.beginPath();ctx.arc(w+40,cy,170,0,TAU);ctx.fill();text(ctx,'Sun',w-16,cy-180,{size:12,color:'#ffd66b',align:'right'});
-// Earth top-down: lit half faces right
 ctx.fillStyle='#0f1f33';ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();ctx.fillStyle='#2b4f7a';ctx.beginPath();ctx.arc(cx,cy,R,-Math.PI/2,Math.PI/2);ctx.fill();ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.stroke();
 text(ctx,'Earth seen from above the North Pole',cx,cy+R+26,{size:12,color:'#9a9382',align:'center'});
 text(ctx,'noon side',cx+R*.55,cy-R*.9,{size:11,color:'#ffd66b'});text(ctx,'midnight side',cx-R*.55,cy-R*.9,{size:11,color:'#9a9382',align:'right'});
-// rotation arrow
 ctx.strokeStyle='rgba(236,230,218,.4)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(cx,cy,R*1.12,-0.9,-0.4,false);ctx.stroke();const ea=-0.4;arrow(ctx,cx+R*1.12*Math.cos(ea+.05),cy+R*1.12*Math.sin(ea+.05),cx+R*1.12*Math.cos(ea),cy+R*1.12*Math.sin(ea),'rgba(236,230,218,.5)');
 text(ctx,'15° per hour',cx+R*1.14*Math.cos(-.65),cy+R*1.14*Math.sin(-.65)-6,{size:11,color:'#9a9382'});
-// meridians every 15°
 const g=greenwichAngle();for(let k=0;k<24;k++){const a=g+k*15*DEG;ctx.strokeStyle=k?'rgba(236,230,218,.12)':'#ece6da';ctx.lineWidth=k?1:2;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+R*Math.cos(a),cy-R*Math.sin(a));ctx.stroke();}
 const gx=cx+R*Math.cos(g),gy=cy-R*Math.sin(g);ctx.fillStyle='#ece6da';ctx.beginPath();ctx.arc(gx,gy,4,0,TAU);ctx.fill();text(ctx,'Greenwich',cx+(R+14)*Math.cos(g),cy-(R+14)*Math.sin(g)+4,{size:12,align:Math.cos(g)<0?'right':'left'});
-// ship
 const s=g+shipLon*DEG,sx=cx+R*Math.cos(s),sy=cy-R*Math.sin(s);
-// angle arc between greenwich and ship
 ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,R*.45,-g,-s,shipLon>0);ctx.stroke();const mid=g+shipLon*DEG/2;text(ctx,fmt(Math.abs(shipLon))+'°'+(shipLon<0?' W':' E'),cx+R*.56*Math.cos(mid),cy-R*.56*Math.sin(mid)+4,{size:13,color:'#f0b35a',font:'mono',align:'center'});
 ctx.fillStyle='#f0b35a';ctx.beginPath();ctx.arc(sx,sy,9,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();text(ctx,'⛵ ship',cx+(R+16)*Math.cos(s),cy-(R+16)*Math.sin(s)+4,{size:12,color:'#f0b35a',align:Math.cos(s)<0?'right':'left'});
-// sun altitude gauge at ship
 const alt=Math.max(0,Math.cos(s));const bx=w*.74,by=h*.2,bw=18,bh=h*.42;ctx.fillStyle='#111727';ctx.fillRect(bx,by,bw,bh);ctx.fillStyle=alt>.998?'#6fd48a':'#ffd66b';ctx.fillRect(bx,by+bh*(1-alt),bw,bh*alt);ctx.strokeStyle='#283048';ctx.strokeRect(bx,by,bw,bh);text(ctx,'Sun over ship',bx+bw/2,by-10,{size:11,align:'center',color:'#9a9382'});text(ctx,alt>.998?'NOON':alt<=0?'night':fmt(Math.asin(alt)/DEG,0)+'° up',bx+bw/2,by+bh+16,{size:12,align:'center',color:alt>.998?'#6fd48a':'#cfc8ba',font:'mono'});
-// chronometer dial
 const kx=w*.86,ky=h*.76,kr=Math.min(w,h)*.08;ctx.fillStyle='#f3ead6';ctx.beginPath();ctx.arc(kx,ky,kr,0,TAU);ctx.fill();ctx.strokeStyle='#b89a5a';ctx.lineWidth=3;ctx.stroke();for(let i=0;i<12;i++){const a=i*30*DEG;ctx.strokeStyle='#4a3a1e';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(kx+kr*.85*Math.sin(a),ky-kr*.85*Math.cos(a));ctx.lineTo(kx+kr*.95*Math.sin(a),ky-kr*.95*Math.cos(a));ctx.stroke();}
 const m=clock();const ha=(m/60%12)*30*DEG,ma=(m%60)*6*DEG;ctx.strokeStyle='#2a2217';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(kx,ky);ctx.lineTo(kx+kr*.5*Math.sin(ha),ky-kr*.5*Math.cos(ha));ctx.stroke();ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(kx,ky);ctx.lineTo(kx+kr*.78*Math.sin(ma),ky-kr*.78*Math.cos(ma));ctx.stroke();text(ctx,'GMT',kx,ky+kr*.45,{size:9,color:'#6a5533',align:'center'});text(ctx,'chronometer',kx,ky+kr+16,{size:11,color:'#9a9382',align:'center'});}
 }
@@ -374,51 +420,63 @@ ctx.restore();text(ctx,'E',cx-Math.min(w,h)*.44+16,cy+5,{size:13,color:'#9a9382'
 function drawJup(ctx,cx,cy,sc){const r=Math.max(6,sc);const g=ctx.createRadialGradient(cx-r*.3,cy-r*.3,r*.2,cx,cy,r);g.addColorStop(0,'#f6e2bd');g.addColorStop(1,'#b98a55');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,r,0,TAU);ctx.fill();ctx.strokeStyle='rgba(120,80,40,.5)';ctx.lineWidth=Math.max(1,r*.12);ctx.beginPath();ctx.moveTo(cx-r*.9,cy-r*.3);ctx.lineTo(cx+r*.9,cy-r*.3);ctx.moveTo(cx-r*.95,cy+r*.25);ctx.lineTo(cx+r*.95,cy+r*.25);ctx.stroke();text(ctx,'Jupiter',cx,cy-r-10,{size:12,align:'center',color:'#f0b35a'});}
 }
 
-/* ---------- 4 · Moon mountains ---------- */
+/* ---------- 4 · Moon mountains (3D) ---------- */
 {const o=setup('c4');const dIn=document.getElementById('mtn-d'),DIn=document.getElementById('mtn-D'),read=document.getElementById('mtn-read'),dOut=document.getElementById('mtn-d-out'),DOut=document.getElementById('mtn-D-out');
-dIn.oninput=DIn.oninput=update;document.getElementById('mtn-galileo').onclick=()=>{dIn.value=5;DIn.value=2000;update();};document.getElementById('mtn-modern').onclick=()=>{dIn.value=5;DIn.value=2159;update();};
+const st={yaw:0,pitch:0,zoom:1,anim:null,enabled:()=>true};const show={circ:false,diam:false,R:false,Rh:false,d:false,tri:false};
+const SUN=[1,0,0];// sunlight travels toward -x; the lit hemisphere is x>0; the terminator is the plane x=0
+dIn.oninput=DIn.oninput=update;
+document.getElementById('mtn-galileo').onclick=()=>{dIn.value=5;DIn.value=2000;update();};document.getElementById('mtn-modern').onclick=()=>{dIn.value=5;DIn.value=2159;update();};
+document.getElementById('mtn-side').onclick=()=>{fly(st,{yaw:0,pitch:-1.5,zoom:1.15});Object.assign(show,{R:true,Rh:true,d:true,tri:true});syncChips();};
+document.getElementById('mtn-face').onclick=()=>{fly(st,{yaw:0,pitch:0,zoom:1});};
+document.querySelectorAll('#moon-toggles button').forEach(b=>b.onclick=()=>{show[b.dataset.k]=!show[b.dataset.k];syncChips();});
+function syncChips(){document.querySelectorAll('#moon-toggles button').forEach(x=>x.classList.toggle('on',show[x.dataset.k]));}
 function calc(){const D=+DIn.value,R=D/2,d=D*(+dIn.value/100);return{D,R,d,h:Math.hypot(R,d)-R};}
 function update(){const{D,R,d,h}=calc();dOut.textContent=`${fmt(+dIn.value)}% of the width${Math.abs(+dIn.value-5)<.05?' · 1/20':''}`;DOut.textContent=fmtI(D)+' miles';
 read.innerHTML=`<strong>d = ${fmtI(d)} mi · R = ${fmtI(R)} mi</strong><span class="big">h ≥ ${fmt(h,1)} miles</span><span>√(${fmtI(R)}² + ${fmtI(d)}²) − ${fmtI(R)} = ${fmt(h,2)} mi ≈ ${fmtI(h*5280)} ft. ${h>5.5?'Taller than Everest.':h>4?'Galileo wrote “more than four Italian miles”, and that the Moon is rougher than the Earth.':h>1?'Already higher than the Alps as Galileo knew them.':'A hill.'}</span>`;}
 update();
-pointer(o,p=>{move(p);return true;},move);
-function move(p){const{w,h}=o;const cx=w*.27,cy=h*.52,R=Math.min(w*.2,h*.33);const v=(cx-p.x)/(2*R)*100;dIn.value=Math.max(.5,Math.min(12,v)).toFixed(1);update();}
-scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);const{R:Rm,d:dm,h:hm}=calc();const frac=+dIn.value/100;
-// telescope moon: left panel, lit on the right (sun to the right), terminator vertical through center
-const cx=w*.27,cy=h*.52,R=Math.min(w*.2,h*.33);
-ctx.fillStyle='#1c1a16';ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();const g=ctx.createRadialGradient(cx+R*.4,cy-R*.3,R*.1,cx,cy,R);g.addColorStop(0,'#f1ead8');g.addColorStop(1,'#a89f8c');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,-Math.PI/2,Math.PI/2);ctx.fill();
-// craters
-[[.35,-.4,.08],[.6,.2,.05],[.25,.45,.06],[.75,-.1,.04],[.5,.6,.035]].forEach(([x,y,r])=>{ctx.strokeStyle='rgba(60,50,40,.35)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(cx+x*R,cy+y*R,r*R,0,TAU);ctx.stroke();});
-ctx.strokeStyle='rgba(236,230,218,.35)';ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(cx,cy-R);ctx.lineTo(cx,cy+R);ctx.stroke();ctx.setLineDash([]);text(ctx,'terminator',cx,cy+R+18,{size:11,align:'center',color:'#9a9382'});
-const px=cx-frac*2*R;// peak in dark side
-// distance marker
-ctx.strokeStyle='#f0b35a';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(cx,cy-R*.65);ctx.lineTo(px,cy-R*.65);ctx.stroke();text(ctx,'d',(cx+px)/2,cy-R*.65-8,{size:13,color:'#f0b35a',align:'center',font:'serif'});
-const gl=ctx.createRadialGradient(px,cy,0,px,cy,14);gl.addColorStop(0,'#fff6dc');gl.addColorStop(.3,'#f0b35a');gl.addColorStop(1,'rgba(240,179,90,0)');ctx.fillStyle=gl;ctx.beginPath();ctx.arc(px,cy,14,0,TAU);ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(px,cy,2.5,0,TAU);ctx.fill();
-text(ctx,'a lit peak in the dark',px-6,cy+28,{size:11,align:'right',color:'#f0b35a'});
-text(ctx,'What Galileo saw',cx,cy-R-22,{size:13,align:'center',color:'#9a9382'});text(ctx,'Sun →',cx+R+10,cy+5,{size:12,color:'#ffd66b'});
-// side view: right panel. Moon circle, sun rays from right, terminator at top point T. peak at arc distance d counterclockwise from T (into dark side, i.e. to the left), height h so that the grazing ray through T touches the peak.
-const sx=w*.72,sy=h*.6,S=Math.min(w*.2,h*.3);
-const vis=Math.min(1.1,.58*Math.sqrt(frac/.05));// visual exaggeration so the mountain is visible// visual arc angle (radians) exaggerated
-const Rv=S,ang=vis;const T={x:sx,y:sy-Rv};
-const P0={x:sx-Rv*Math.sin(ang),y:sy-Rv*Math.cos(ang)};const hv=Rv/Math.cos(ang)-Rv;const Pk={x:sx-(Rv+hv)*Math.sin(ang),y:sy-(Rv+hv)*Math.cos(ang)};
-// moon body: lit right half
-ctx.fillStyle='#1c1a16';ctx.beginPath();ctx.arc(sx,sy,Rv,0,TAU);ctx.fill();ctx.fillStyle='#8f877a';ctx.beginPath();ctx.arc(sx,sy,Rv,-Math.PI/2,Math.PI/2);ctx.fill();
-// rays
-for(let y=sy-Rv-60;y<sy+Rv;y+=28){ctx.strokeStyle='rgba(255,214,107,.15)';ctx.beginPath();ctx.moveTo(w,y);ctx.lineTo(sx+Math.sqrt(Math.max(0,Rv*Rv-(y-sy)**2)),y);ctx.stroke();}
-// grazing ray through T to the peak and beyond
-ctx.strokeStyle='#ffd66b';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(w,T.y);ctx.lineTo(Pk.x,T.y);ctx.stroke();text(ctx,'grazing sunlight',w-10,T.y-10,{size:11,color:'#ffd66b',align:'right'});
-// mountain
-ctx.fillStyle='#d9d0bd';ctx.beginPath();const bw=.16;ctx.moveTo(sx-Rv*Math.sin(ang+bw),sy-Rv*Math.cos(ang+bw));ctx.lineTo(Pk.x,Pk.y);ctx.lineTo(sx-Rv*Math.sin(ang-bw),sy-Rv*Math.cos(ang-bw));ctx.closePath();ctx.fill();
-// labels: R to peak foot, h, d arc
-ctx.strokeStyle='rgba(236,230,218,.5)';ctx.setLineDash([4,4]);ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(Pk.x,Pk.y);ctx.moveTo(sx,sy);ctx.lineTo(T.x,T.y);ctx.stroke();ctx.setLineDash([]);
-text(ctx,'R',(sx+T.x)/2+8,(sy+T.y)/2,{size:14,color:'#cfc8ba',font:'serif'});text(ctx,'R + h',(sx+Pk.x)/2-26,(sy+Pk.y)/2,{size:14,color:'#f0b35a',font:'serif'});
-ctx.strokeStyle='#f0b35a';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(T.x,T.y);ctx.lineTo(Pk.x,T.y);ctx.stroke();text(ctx,'d',(T.x+Pk.x)/2,T.y-10,{size:14,color:'#f0b35a',font:'serif',align:'center'});
-ctx.strokeStyle='#6fd48a';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(P0.x,P0.y);ctx.lineTo(Pk.x,Pk.y);ctx.stroke();text(ctx,'h',Pk.x-14,(P0.y+Pk.y)/2+4,{size:14,color:'#6fd48a',font:'serif',align:'center'});
-// right angle mark at T
-ctx.strokeStyle='rgba(236,230,218,.6)';ctx.lineWidth=1;ctx.strokeRect(T.x-10,T.y,10,10);
-text(ctx,'Side view · not to scale',sx,sy+Rv+24,{size:12,align:'center',color:'#9a9382'});
-text(ctx,`(R + h)² = R² + d²`,sx,h*.1,{size:16,align:'center',color:'#ece6da',font:'serif'});text(ctx,`h = √(${fmtI(Rm)}² + ${fmtI(dm)}²) − ${fmtI(Rm)} = ${fmt(hm,1)} mi`,sx,h*.1+22,{size:13,align:'center',color:'#f0b35a',font:'mono'});
-}});}
+function geom(){const{w,h}=o;return{cx:w*.5,cy:h*.52,R:Math.min(w,h)*.3*st.zoom};}
+function proj(p){const{cx,cy,R}=geom();const q=rot(p,st.yaw,st.pitch);return{x:cx+q[0]*R,y:cy-q[1]*R,z:q[2]};}
+// mountain geometry in world units (Moon radius = 1), exaggerated so it can be seen
+function mtn(){const frac=+dIn.value/100;const th=Math.min(1.1,.58*Math.sqrt(frac/.05));const base=[-Math.sin(th),0,Math.cos(th)];const hv=1/Math.cos(th)-1;return{th,base,peak:v3.mul(base,1+hv),hv,T:[0,0,1]};}
+const segDist=(p,a,b)=>{const dx=b.x-a.x,dy=b.y-a.y,l2=dx*dx+dy*dy||1;let t=((p.x-a.x)*dx+(p.y-a.y)*dy)/l2;t=Math.max(0,Math.min(1,t));return Math.hypot(p.x-(a.x+dx*t),p.y-(a.y+dy*t));};
+function tap(p){const{cx,cy,R}=geom();const m=mtn();const O=proj([0,0,0]),T=proj(m.T),P=proj(m.peak),A=proj([0,0,-1]);const rim=Math.abs(Math.hypot(p.x-cx,p.y-cy)-R);
+const hits=[['Rh',segDist(p,O,P)],['R',segDist(p,O,T)],['d',segDist(p,T,P)],['diam',segDist(p,A,T)],['circ',rim]].filter(([k,dd])=>dd<14).sort((a,b)=>a[1]-b[1]);
+if(hits.length){show[hits[0][0]]=!show[hits[0][0]];}
+else{// inside the triangle?
+const inTri=(p,a,b,c)=>{const s=(a.x-c.x)*(p.y-c.y)-(a.y-c.y)*(p.x-c.x),t=(b.x-a.x)*(p.y-a.y)-(b.y-a.y)*(p.x-a.x);if((s<0)!==(t<0)&&s!==0&&t!==0)return false;const d=(c.x-b.x)*(p.y-b.y)-(c.y-b.y)*(p.x-b.x);return d===0||(d<0)===(s+t<=0);};if(inTri(p,O,T,P))show.tri=!show.tri;}
+syncChips();}
+orbit(o,st,tap);
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);stepAnim(st,t);const{cx,cy,R}=geom();const{R:Rm,d:dm,h:hm,D}=calc();const m=mtn();
+// sun rays
+const L=rot(SUN,st.yaw,st.pitch);const sa=Math.atan2(-L[1],L[0]);// screen angle of the sun direction
+ctx.save();ctx.translate(cx,cy);ctx.rotate(sa);for(let y=-R*1.4;y<=R*1.4;y+=R*.12){ctx.strokeStyle='rgba(255,214,107,.13)';ctx.beginPath();ctx.moveTo(w,y);ctx.lineTo(R*1.05,y);ctx.stroke();}ctx.restore();
+text(ctx,'Sun →',cx+Math.cos(sa)*(R+40)-20,cy+Math.sin(sa)*(R+40)+4,{size:12,color:'#ffd66b'});
+// moon: lit disc, then dark region bounded by the projected terminator
+const g=ctx.createRadialGradient(cx+R*.3*Math.cos(sa),cy+R*.3*Math.sin(sa),R*.1,cx,cy,R);g.addColorStop(0,'#f1ead8');g.addColorStop(1,'#a89f8c');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();
+const lxy=Math.hypot(L[0],L[1]),lz=L[2];ctx.save();ctx.translate(cx,cy);ctx.rotate(sa);ctx.fillStyle='#17150f';ctx.beginPath();ctx.arc(0,0,R,Math.PI/2,3*Math.PI/2);// left half, from bottom through left to top
+for(let i=0;i<=40;i++){const tt=i*Math.PI/40;const x=-R*lz*Math.sin(tt),y=-R*Math.cos(tt);ctx.lineTo(x,y);}ctx.closePath();ctx.fill();ctx.restore();
+// craters on the lit side for texture
+[[.35,-.4,.08],[.6,.2,.05],[.25,.45,.06],[.75,-.1,.04],[.5,.6,.035]].forEach(([x,y,r])=>{const p=proj(v3.norm([Math.cos(y)*Math.cos(x),Math.sin(y),Math.cos(y)*Math.sin(x)]));if(p.z<0.1)return;ctx.strokeStyle='rgba(60,50,40,.3)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(p.x,p.y,r*R*Math.max(.2,p.z),0,TAU);ctx.stroke();});
+// mountain: triangle from two base points (perpendicular to view) to the peak
+const view=unrot([0,0,1],st.yaw,st.pitch);const side=v3.norm(v3.cross(m.base,view));const bw=.14;const b1=proj(v3.add(m.base,v3.mul(side,bw))),b2=proj(v3.sub(m.base,v3.mul(side,bw))),P=proj(m.peak),B=proj(m.base);
+const front=B.z>-0.15;if(front){ctx.globalAlpha=.3+.7*(1-Math.max(0,B.z));ctx.fillStyle=P.z>0?'#d9d0bd':'#6b655a';ctx.beginPath();ctx.moveTo(b1.x,b1.y);ctx.lineTo(P.x,P.y);ctx.lineTo(b2.x,b2.y);ctx.closePath();ctx.fill();ctx.globalAlpha=1;
+// lit tip: the peak is lit because it is above the grazing ray (x of peak > 0 or outside the shadow cylinder)
+const lit=m.peak[0]>0||Math.hypot(m.peak[1],m.peak[2])>=1-1e-9;if(lit){const gl=ctx.createRadialGradient(P.x,P.y,0,P.x,P.y,16);gl.addColorStop(0,'#fff6dc');gl.addColorStop(.3,'#f0b35a');gl.addColorStop(1,'rgba(240,179,90,0)');ctx.fillStyle=gl;ctx.beginPath();ctx.arc(P.x,P.y,16,0,TAU);ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(P.x,P.y,2.5,0,TAU);ctx.fill();}}
+// grazing ray: from the sun, parallel to x, through T, continuing to the peak
+const T=proj(m.T),O=proj([0,0,0]),A=proj([0,0,-1]);const far=proj([2.2,0,1]);ctx.strokeStyle='rgba(255,214,107,.9)';ctx.lineWidth=2;ctx.setLineDash([]);ctx.beginPath();ctx.moveTo(far.x,far.y);ctx.lineTo(P.x,P.y);ctx.stroke();
+if(Math.abs(st.pitch)>0.9)text(ctx,'grazing sunlight',far.x,far.y-10,{size:11,color:'#ffd66b',align:'right'});
+// geometry overlays
+const lab=(s,a,b,color,off=12)=>tag(ctx,s,(a.x+b.x)/2+off,(a.y+b.y)/2-6,color,14);
+const seg=(a,b,color,wdt=3,dash)=>{ctx.strokeStyle=color;ctx.lineWidth=wdt;ctx.setLineDash(dash||[]);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();ctx.setLineDash([]);};
+if(show.tri){ctx.fillStyle='rgba(240,179,90,.18)';ctx.beginPath();ctx.moveTo(O.x,O.y);ctx.lineTo(T.x,T.y);ctx.lineTo(P.x,P.y);ctx.closePath();ctx.fill();ctx.strokeStyle='rgba(240,179,90,.6)';ctx.lineWidth=1;ctx.stroke();ctx.strokeStyle='rgba(236,230,218,.7)';ctx.strokeRect(T.x-10,T.y,10,10);text(ctx,'(R + h)² = R² + d²',cx,h*.08,{size:16,align:'center',color:'#ece6da',font:'serif'});text(ctx,`h = √(${fmtI(Rm)}² + ${fmtI(dm)}²) − ${fmtI(Rm)} = ${fmt(hm,1)} mi`,cx,h*.08+22,{size:13,align:'center',color:'#f0b35a',font:'mono'});}
+if(show.circ){ctx.strokeStyle='#6fb3ff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.stroke();text(ctx,`circumference = π × ${fmtI(D)} = ${fmtI(Math.PI*D)} mi`,cx,cy+R+28,{size:13,align:'center',color:'#6fb3ff'});}
+if(show.diam){seg(A,T,'#dfe7ff',2,[6,5]);tag(ctx,`diameter = ${fmtI(D)} mi`,A.x+10,A.y+(A.y>T.y?-10:24),'#dfe7ff',14);}
+if(show.R){seg(O,T,'#cfc8ba',3);lab(`R = ${fmtI(Rm)} mi`,O,T,'#cfc8ba');}
+if(show.Rh){seg(O,P,'#f0b35a',3);lab(`R + h = ${fmt(Rm+hm,1)} mi`,O,P,'#f0b35a',-130);}
+if(show.d){seg(T,P,'#6fd48a',3);tag(ctx,`d = ${fmtI(dm)} mi`,(T.x+P.x)/2-40,Math.min(T.y,P.y)-14,'#6fd48a',14);}
+if(Math.abs(st.pitch)<0.3)text(ctx,'What Galileo saw · terminator runs top to bottom',cx,cy-R-24,{size:12,align:'center',color:'#9a9382'});
+ctx.fillStyle='rgba(236,230,218,.6)';ctx.beginPath();ctx.arc(O.x,O.y,2,0,TAU);ctx.fill();
+text(ctx,`zoom ${fmt(st.zoom,1)}× · heights exaggerated`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}});}
 
 /* ---------- loop ---------- */
 function frame(t){const s=scenes[cur];if(s&&s.o.w)s.draw(t);requestAnimationFrame(frame);}
