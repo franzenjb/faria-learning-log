@@ -8,7 +8,7 @@ const url = process.argv[2] || 'file://' + path.resolve('dist/deck/index.html');
 const browser = await chromium.launch({headless: true});
 const page = await browser.newPage({viewport: {width: 1400, height: 900}});
 const errors = []; page.on('pageerror', e => errors.push(e.message));
-const slide = async n => { await page.goto(url + '#' + n); await page.waitForTimeout(1100); }; // let the entrance transition finish
+const slide = async n => { await page.goto(url + '#' + n); await page.waitForTimeout(1900); }; // let the entrance transition finish
 await slide(1);
 const g = await page.locator('#c1').boundingBox();
 await page.mouse.click(g.x + g.width * .5, g.y + g.height * .45);
@@ -21,8 +21,8 @@ assert.match(await page.locator('#lon-read .big').innerText(), /−70\.\d° · W
 await slide(2);
 assert.match(await page.locator('#era-read .big').innerText(), /250,000 stadia/);
 const c = await page.locator('#c2').boundingBox();
-await page.mouse.move(c.x + c.width * .3, c.y + c.height * .25); await page.mouse.down();
-await page.mouse.move(c.x + c.width * .15, c.y + c.height * .4, {steps: 6}); await page.mouse.up();
+await page.mouse.move(c.x + c.width * .5 - c.height * .098, c.y + c.height * .18); await page.mouse.down(); // Alexandria
+await page.mouse.move(c.x + c.width * .5 - c.height * .3, c.y + c.height * .26, {steps: 6}); await page.mouse.up();
 assert.notEqual(await page.locator('#era-ang-out').innerText(), '7.2°');
 await slide(3);
 await page.click('#jup-sketch'); await page.click('#jup-play'); await page.waitForTimeout(1500); await page.click('#jup-sketch');
@@ -37,7 +37,7 @@ await page.mouse.click(m.x + m.width * .5, m.y + m.height * .52); // the centre 
 assert.notEqual(await page.locator('#moon-toggles button.on').count(), 4);
 await slide(5);
 assert.match(await page.locator('#tv-read .big').innerText(), /they differ by/);
-assert.match(await page.locator('#tv-read').innerText(), /15\d million km/);
+assert.match(await page.locator('#tv-read').innerText(), /9\d million miles/);
 await page.click('#tv-contact'); await page.click('#tv-play'); await page.waitForTimeout(800);
 const tv = await page.locator('#c5').boundingBox();
 await page.mouse.click(tv.x + tv.width * .26, tv.y + tv.height * .5); // post observer A on the globe
