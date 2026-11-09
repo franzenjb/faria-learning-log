@@ -109,16 +109,17 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
       <li data-go="Hours are slices"><strong>3.</strong> Hours are slices: the Earth as a 24-piece clock, down to the arcminute.</li>
       <li data-go="Eratosthenes"><strong>4.</strong> Eratosthenes sizes the Earth with a well and a stick.</li>
       <li data-go="Baselines"><strong>5.</strong> Baselines: your finger, a steeple, and Picard's network.</li>
-      <li data-go="Jupiter's moons"><strong>6.</strong> Galileo sees four moons circling Jupiter.</li>
-      <li data-go="Moon mountains"><strong>7.</strong> Galileo measures a mountain on the Moon from its shadow.</li>
-      <li data-go="Kepler to Halley"><strong>8.</strong> Kepler, Horrocks and Halley: a map with no scale bar.</li>
-      <li data-go="Transit of Venus"><strong>9.</strong> Venus crosses the Sun and the solar system gets a size.</li>
-      <li data-go="Cook"><strong>10.</strong> Cook: a collier, a clock, and the coast he charted.</li>
-      <li data-go="Mason &amp; Dixon"><strong>11.</strong> Mason and Dixon: a sea fight, a transit, and a line across America.</li>
-      <li data-go="Flat maps lie"><strong>12.</strong> Flat maps lie: Greenland, Africa, and the shortest way across.</li>
-      <li data-go="The storm wire"><strong>13.</strong> The storm wire: telegraph, Viñes, and Galveston.</li>
-      <li data-go="Twice the wind"><strong>14.</strong> Twice the wind is four times the force.</li>
-      <li data-go="The shelter decision"><strong>15.</strong> The shelter decision: a crisp edge, a fuzzy answer.</li>
+      <li data-go="Picard measures France"><strong>6.</strong> Picard: rods, a chain of triangles, one true degree, and a smaller France.</li>
+      <li data-go="Jupiter's moons"><strong>7.</strong> Galileo sees four moons circling Jupiter.</li>
+      <li data-go="Moon mountains"><strong>8.</strong> Galileo measures a mountain on the Moon from its shadow.</li>
+      <li data-go="Kepler to Halley"><strong>9.</strong> Kepler, Horrocks and Halley: a map with no scale bar.</li>
+      <li data-go="Transit of Venus"><strong>10.</strong> Venus crosses the Sun and the solar system gets a size.</li>
+      <li data-go="Cook"><strong>11.</strong> Cook: a collier, a clock, and the coast he charted.</li>
+      <li data-go="Mason &amp; Dixon"><strong>12.</strong> Mason and Dixon: a sea fight, a transit, and a line across America.</li>
+      <li data-go="Flat maps lie"><strong>13.</strong> Flat maps lie: Greenland, Africa, and the shortest way across.</li>
+      <li data-go="The storm wire"><strong>14.</strong> The storm wire: telegraph, Viñes, and Galveston.</li>
+      <li data-go="Twice the wind"><strong>15.</strong> Twice the wind is four times the force.</li>
+      <li data-go="The shelter decision"><strong>16.</strong> The shelter decision: a crisp edge, a fuzzy answer.</li>
     </ul>
     <p><small>→ and ← keys move between slides. F for full screen. P opens presenter notes in a second window. Dotted words open an explanation.</small></p>
   </div>
@@ -222,10 +223,23 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
   <div class="stage"><canvas id="c4b"></canvas><div class="hint" id="h4b">Drag the finger nearer or farther · drag the eyes apart</div></div>
 </section>
 
+<!-- 5 · Picard -->
+<section class="slide" data-title="Picard measures France" data-fx="rods">
+  <div class="text">
+    <p class="kicker">5 · Triangles · 1669 to 1693 · One line, a country, and a king's complaint</p>
+    <h1 id="pc-title">Lay the rods end to end</h1>
+    <div class="chips" id="pc-chapters"><button data-ch="0" class="on">1 · The baseline</button><button data-ch="1">2 · The chain</button><button data-ch="2">3 · The degree</button><button data-ch="3">4 · A ruler for the sky</button><button data-ch="4">5 · France shrinks</button></div>
+    <div id="pc-body"></div>
+    <div class="btns"><button id="pc-prev">◀ Back</button><button class="primary" id="pc-next">Next ▶</button><button id="pc-play">Play</button></div>
+    <div class="readout" id="pc-read"></div>
+  </div>
+  <div class="stage"><canvas id="c5p"></canvas><div class="hint" id="pc-hint">Press Play · the rods lay themselves</div></div>
+</section>
+
 <!-- 3 · Jupiter's moons -->
 <section class="slide" data-title="Jupiter's moons" data-fx="telescope">
   <div class="text">
-    <p class="kicker">6 · January 1610 · Padua</p>
+    <p class="kicker">7 · January 1610 · Padua</p>
     <h1 id="jup-title">Four little stars that would not stay still</h1>
     <div class="modes" id="m5j"><button class="on" data-mode="moons">The moons</button><button data-mode="clock">Jupiter as a clock</button></div>
     <div id="jup-moons-panel">
@@ -263,7 +277,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 4 · Moon mountains -->
 <section class="slide" data-title="Moon mountains" data-fx="terminator">
   <div class="text">
-    <p class="kicker">7 · Sidereus Nuncius · 1610</p>
+    <p class="kicker">8 · Sidereus Nuncius · 1610</p>
     <h1>How tall is a mountain on the Moon?</h1>
     <p class="lede">Galileo saw bright points on the dark side of the Moon, well past the <span class="term" data-term="terminator">terminator</span>, the line between day and night. They were peaks, still catching sunlight while the ground around them was in shadow.</p>
     <p>Spin the Moon to look at the peak from above the pole and the geometry appears: a right triangle with the Moon's radius <em>R</em> as one leg, the distance <em>d</em> past the terminator as the other, and <em>R + h</em> as the hypotenuse. Tap the rim, the centre line, a radius, or the triangle itself to call out each piece.</p>
@@ -283,7 +297,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 5 · Kepler, Horrocks, Halley -->
 <section class="slide" data-title="Kepler to Halley" data-fx="orbit">
   <div class="text">
-    <p class="kicker">8 · 1609 to 1742 · A relay across three lifetimes</p>
+    <p class="kicker">9 · 1609 to 1742 · A relay across three lifetimes</p>
     <h1 id="kp-title">A map of the solar system with no scale bar</h1>
     <div class="modes" id="m7"><button class="on" data-mode="kepler">Kepler</button><button data-mode="horrocks">Horrocks · 1639</button><button data-mode="halley">Halley · the plan</button><button data-mode="starday">Star day vs Sun day</button></div>
     <div id="kp-body"></div>
@@ -300,7 +314,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 5 · Transit of Venus -->
 <section class="slide" data-title="Transit of Venus" data-fx="venus">
   <div class="text">
-    <p class="kicker">9 · 1761 and 1769 · The whole world looks up</p>
+    <p class="kicker">10 · 1761 and 1769 · The whole world looks up</p>
     <h1>Venus crosses the Sun, and the solar system gets a size</h1>
     <div class="modes" id="m5"><button class="on" data-mode="measure">Measure the Sun's distance</button><button data-mode="rare">Why it almost never happens</button></div>
 
@@ -331,7 +345,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 9 · Cook -->
 <section class="slide" data-title="Cook" data-fx="wake">
   <div class="text">
-    <p class="kicker">10 · 1768 to 1775 · A collier, a clock, and a coast</p>
+    <p class="kicker">11 · 1768 to 1775 · A collier, a clock, and a coast</p>
     <h1 id="ck-title">A Whitby coal ship sails for Venus</h1>
     <div class="chips" id="ck-chapters"><button data-ch="0" class="on">1 · Endeavour</button><button data-ch="1">2 · To Tahiti</button><button data-ch="2">3 · The transit</button><button data-ch="3">4 · The east coast</button><button data-ch="4">5 · K1</button></div>
     <div id="ck-body"></div>
@@ -345,7 +359,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 6 · Mason and Dixon -->
 <section class="slide" data-title="Mason &amp; Dixon" data-fx="survey">
   <div class="text">
-    <p class="kicker">11 · 1761 to 1767 · Two men, one line</p>
+    <p class="kicker">12 · 1761 to 1767 · Two men, one line</p>
     <h1 id="md-title">Mason and Dixon</h1>
     <div class="chips" id="md-chapters"><button data-ch="0" class="on">1 · Two men</button><button data-ch="1">2 · The Seahorse</button><button data-ch="2">3 · The Cape</button><button data-ch="3">4 · To America</button><button data-ch="4">5 · The line</button><button data-ch="5">6 · The stones</button></div>
     <div id="md-body"></div>
@@ -359,7 +373,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 9 · Flat maps lie -->
 <section class="slide" data-title="Flat maps lie" data-fx="unroll">
   <div class="text">
-    <p class="kicker">12 · Frames · Every flat map is a choice</p>
+    <p class="kicker">13 · Frames · Every flat map is a choice</p>
     <h1 id="fm-title">How many Greenlands fit in Africa?</h1>
     <div class="modes" id="m9"><button class="on" data-mode="greenland">Greenland vs Africa</button><button data-mode="routes">Straight is not shortest</button></div>
     <div id="fm-greenland">
@@ -382,7 +396,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 12 · The storm wire -->
 <section class="slide" data-title="The storm wire" data-fx="morse">
   <div class="text">
-    <p class="kicker">13 · Decisions · A warning is an inference, and not yet safety</p>
+    <p class="kicker">14 · Decisions · A warning is an inference, and not yet safety</p>
     <h1 id="sw-title">Telegraph reports could outrun a storm</h1>
     <div class="chips" id="sw-chapters"><button data-ch="0" class="on">1 · The wire</button><button data-ch="1">2 · Viñes, 1875</button><button data-ch="2">3 · Galveston, 1900</button></div>
     <div id="sw-body"></div>
@@ -397,7 +411,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 13 · Twice the wind -->
 <section class="slide" data-title="Twice the wind" data-fx="gust">
   <div class="text">
-    <p class="kicker">14 · Decisions · Before comparing winds, compare definitions</p>
+    <p class="kicker">15 · Decisions · Before comparing winds, compare definitions</p>
     <h1>Twice the wind is four times the force</h1>
     <p class="lede">Drag the wind up. Force on a wall grows with the square of the speed; the power in the flow grows with the cube. Twenty percent more wind is forty-four percent more force.</p>
     <p>And the number itself depends on who measured it. The US agencies average over one minute; Japan and Australia average over ten. A gust is a separate short peak. There is no universal multiplier between them, so compare definitions before you compare storms.</p>
@@ -412,7 +426,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 14 · The shelter decision -->
 <section class="slide" data-title="The shelter decision" data-fx="edge">
   <div class="text">
-    <p class="kicker">15 · Decisions · A crisp edge can conceal a fuzzy answer</p>
+    <p class="kicker">16 · Decisions · A crisp edge can conceal a fuzzy answer</p>
     <h1>Is the shelter outside the hazard?</h1>
     <p class="lede">A fictional coast, a fictional hazard, a fictional shelter. Drag either one. The drawn edge is crisp; the real edge is a band, and so is the shelter’s position. The verdict says only what the geometry allows.</p>
     <p>Toggle the layers: wind, surge, rainfall flooding and road access answer different questions, and a wind category is not the whole map. The last card lists what a useful decision map makes visible.</p>
@@ -571,13 +585,13 @@ const arcC=`<path d="M ${cx+34} ${cy} A 34 34 0 0 ${north?0:1} ${cx+34*Math.cos(
 const r2=44;const arcPts=[];for(let k=0;k<=20;k++){const th=a*k/20;arcPts.push(`${(px+r2*(tx*Math.cos(th)+nx*Math.sin(th))).toFixed(1)},${(py+r2*(ty*Math.cos(th)+ny*Math.sin(th))).toFixed(1)}`);}
 const arcO=`<polyline points="${arcPts.join(' ')}" fill="none" stroke="#f0b35a" stroke-width="2"/>`;
 const mid=a/2;const lx=px+(r2+18)*(tx*Math.cos(mid)+nx*Math.sin(mid)),ly=py+(r2+18)*(ty*Math.cos(mid)+ny*Math.sin(mid));
-return `<svg viewBox="0 0 ${W} ${H}" style="background:#0a0e18">${rays}<text x="${cx+95}" y="${north?16:H-8}" fill="#6fb3ff" font-size="11">starlight from ${star} · parallel lines</text>
+return `<svg viewBox="0 0 ${W} ${H}" style="background:#0a0e18">${rays}<text x="${W-10}" y="${north?H-26:20}" fill="#6fb3ff" font-size="11" text-anchor="end">starlight from ${star} · parallel dashed lines</text>
 <circle cx="${cx}" cy="${cy}" r="${R}" fill="#1b3558" stroke="#3b5f8a"/><line x1="${cx}" y1="${cy-R*1.25}" x2="${cx}" y2="${cy+R*1.25}" stroke="#ece6da" stroke-opacity=".5" stroke-dasharray="5 5"/><line x1="${cx-R*1.15}" y1="${cy}" x2="${cx+R*1.15}" y2="${cy}" stroke="#f0b35a" stroke-opacity=".6" stroke-dasharray="5 5"/><text x="${cx+R*1.17}" y="${cy+4}" fill="#f0b35a" font-size="11">equator</text><text x="${cx-14}" y="${north?Math.max(12,cy-R*1.27):Math.min(H-4,cy+R*1.27+10)}" fill="#ece6da" font-size="11" text-anchor="end">${north?'N':'S'} pole</text>
 <line x1="${cx}" y1="${cy}" x2="${px}" y2="${py}" stroke="#f0b35a" stroke-width="1.5"/>${arcC}<text x="${cx+58*Math.cos(a/2)+2}" y="${Math.max(14,Math.min(H-6,cy+sgn*58*Math.sin(a/2)+5))}" fill="#f0b35a" font-size="13" font-family="Menlo,monospace">${fmt(Math.abs(lat))}°</text>
-<line x1="${hx1}" y1="${hy1}" x2="${hx2}" y2="${hy2}" stroke="#6fd48a" stroke-width="2.5"/><text x="${hx2+6}" y="${hy2+4}" fill="#6fd48a" font-size="12">horizon · the ground under your feet</text>
+<line x1="${hx1}" y1="${hy1}" x2="${hx2}" y2="${hy2}" stroke="#6fd48a" stroke-width="2.5"/><text x="${Math.min(W-150,hx2+6)}" y="${Math.max(14,Math.min(H-6,hy2+4))}" fill="#6fd48a" font-size="12">horizon · the ground</text>
 <line x1="${px}" y1="${py}" x2="${px}" y2="${py+sgn*120}" stroke="#6fb3ff" stroke-width="2.5"/><polygon points="${px},${py+sgn*126} ${px-6},${py+sgn*112} ${px+6},${py+sgn*112}" fill="#6fb3ff"/><text x="${px+8}" y="${Math.max(14,Math.min(H-6,py+sgn*110))}" fill="#6fb3ff" font-size="12">to ${star}</text>
 ${arcO}<text x="${lx}" y="${ly+4}" fill="#f0b35a" font-size="14" font-family="Menlo,monospace" text-anchor="middle">${fmt(Math.abs(lat))}°</text>
-<g stroke="#ece6da" stroke-width="2.5" stroke-linecap="round" fill="none"><line x1="${px}" y1="${py}" x2="${px+nx*22}" y2="${py-ny*22}"/><line x1="${px+nx*22}" y1="${py-ny*22}" x2="${px+nx*22-tx*9}" y2="${py-ny*22+ty*9}"/><line x1="${px+nx*22}" y1="${py-ny*22}" x2="${px+nx*22+tx*9}" y2="${py-ny*22-ty*9}"/><line x1="${px}" y1="${py}" x2="${px-tx*7+nx*0}" y2="${py+ty*7}"/><line x1="${px}" y1="${py}" x2="${px+tx*7}" y2="${py-ty*7}"/></g><circle cx="${px+nx*30}" cy="${py-ny*30}" r="6" fill="#ece6da"/><text x="${px+nx*30+10}" y="${py-ny*30+4}" fill="#ece6da" font-size="12">you, standing on the ground</text>
+<g stroke="#ece6da" stroke-width="2.5" stroke-linecap="round" fill="none"><line x1="${px}" y1="${py}" x2="${px+nx*22}" y2="${py+ny*22}"/><line x1="${px+nx*22}" y1="${py+ny*22}" x2="${px+nx*22-tx*9}" y2="${py+ny*22-ty*9}"/><line x1="${px+nx*22}" y1="${py+ny*22}" x2="${px+nx*22+tx*9}" y2="${py+ny*22+ty*9}"/><line x1="${px}" y1="${py}" x2="${px-tx*7}" y2="${py-ty*7}"/><line x1="${px}" y1="${py}" x2="${px+tx*7}" y2="${py+ty*7}"/></g><circle cx="${px+nx*30}" cy="${py+ny*30}" r="6" fill="#ece6da"/><text x="${px+nx*30+10}" y="${py+ny*30+4}" fill="#ece6da" font-size="12">you, on the ground</text>
 <text x="12" y="${H-10}" fill="#9a9382" font-size="11">Same angle twice: at the centre of the Earth, and between your horizon and the star.</text></svg>`;}
 function readout(){if(!me)return;const north=me.lat>=0,a=Math.abs(me.lat);const where=`${fmt(a)}° ${north?'N':'S'}, ${fmt(Math.abs(me.lon))}° ${me.lon<0?'W':'E'}`;read.innerHTML=`<strong>You are at ${where}</strong><span>${north?'Polaris':'The south celestial pole'} stands ${fmt(a)}° above your horizon. Details on the right.</span>`;
 showCard(`${north?'Polaris':'The south celestial pole'} ${fmt(a)}° above the horizon`,latDiagram(me.lat),`You are at ${where}. ${north?(a<1?'On the equator Polaris sits right on the horizon: latitude zero.':'Sight Polaris with a quadrant and read its height above the horizon. The starlight arrives in parallel lines, so the angle you measure between horizon and star is exactly the angle between the equator and you at the centre of the Earth. That number is your latitude.'):'There is no bright star over the southern pole, so southern navigators found the empty point with the Southern Cross and measured its height instead. The angle is still the latitude.'}`);}
@@ -745,7 +759,7 @@ for(let d=0;d<=15;d++){const a=a0+d*degA;const p1=arcPt(a,R*(d%5?.965:.94)),p2=a
 const pm=arcPt(a0+sliceA/2,R*.86);if(zoomT<1.5)tag(ctx,'one slice · 15° · 1 hour · 15 degrees × 4 minutes',pm.x-150,pm.y,'#f0b35a',14);ctx.globalAlpha=1;}
 if(zoomT>1.4){const a0=rot+focus*sliceA+7*degA;// the middle degree of the slice
 const alpha=Math.min(1,(zoomT-1.4)/.5);ctx.globalAlpha=alpha;ctx.fillStyle='rgba(111,212,138,.18)';ctx.beginPath();ctx.moveTo(ox,oy);ctx.arc(ox,oy,R,-(a0+degA),-a0);ctx.closePath();ctx.fill();
-for(let m=0;m<=60;m++){const a=a0+m*degA/60;const p1=arcPt(a,R*(m%10?.985:.97)),p2=arcPt(a,R);ctx.strokeStyle=m%10?'rgba(111,212,138,.6)':'#6fd48a';ctx.lineWidth=m%10?1:2;ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.lineTo(p2.x,p2.y);ctx.stroke();if(m%10===0&&m<60){const pm2=arcPt(a+degA/120*10,R*.955);text(ctx,`${m}′`,pm2.x,pm2.y+4,{size:11,align:'center',color:'#6fd48a',font:'mono'});}}
+for(let m=0;m<=60;m++){const a=a0+m*degA/60;const p1=arcPt(a,R*(m%10?.985:.97)),p2=arcPt(a,R);ctx.strokeStyle=m%10?'rgba(111,212,138,.6)':'#6fd48a';ctx.lineWidth=m%10?1:2;ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.lineTo(p2.x,p2.y);ctx.stroke();if(m%10===0&&m<60){const pm2=arcPt(a+degA/120*10,R*.978);text(ctx,`${m}′`,pm2.x,pm2.y+4,{size:11,align:'center',color:'#6fd48a',font:'mono'});}}
 const pc=arcPt(a0+degA/2,R*.9);tag(ctx,'one degree · 4 minutes of time · 60 minutes of arc · 4 seconds each',pc.x-200,pc.y+40,'#6fd48a',14);tag(ctx,'1′ = 1 nautical mile at the equator',pc.x-110,pc.y+66,'#cfc8ba',12);ctx.globalAlpha=1;}
 text(ctx,'Earth from above the North Pole · turning counter-clockwise · the Sun stays to the right',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}});}
 
@@ -811,6 +825,78 @@ ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;ctx.beginPath();ctx.arc(gx0,gy0-gl,34,
 text(ctx,'shadow',gx0-shv-6,gy0-8,{size:11,align:'right',color:'#cfc8ba'});text(ctx,'stick',gx0+10,gy0-gl/2,{size:11,color:'#cfc8ba'});
 text(ctx,'shadow ÷ stick = tan '+fmt(+angIn.value)+'° = '+fmt(Math.tan(th),3),ix,iy+ir*1.2-6,{size:11,align:'center',color:'#9a9382'});
 }});}
+
+/* ---------- 5 · Picard measures France ---------- */
+{const o=setup('c5p');const body=document.getElementById('pc-body'),read=document.getElementById('pc-read'),title=document.getElementById('pc-title'),hint=document.getElementById('pc-hint'),playB=document.getElementById('pc-play');
+let ch=0,T=0,playing=true,last=0;
+// the real chain, schematic positions along the Paris meridian (lat, lon); Picard 1669-70, Malvoisine to Sourdon
+const stations=[{n:'Malvoisine',p:[48.37,2.33]},{n:'Villejuif',p:[48.79,2.37],base:true},{n:'Juvisy',p:[48.69,2.38],base:true},{n:'Montlhéry',p:[48.63,2.27]},{n:'Brie-Comte-Robert',p:[48.69,2.61]},{n:'Paris Observatory',p:[48.84,2.34]},{n:'Montmartre',p:[48.89,2.34]},{n:'Dammartin',p:[49.05,2.68]},{n:'Clermont',p:[49.38,2.41]},{n:'Mareuil',p:[49.57,2.63]},{n:'Sourdon',p:[49.73,2.42]},{n:'Amiens',p:[49.89,2.30]}];
+const links=[[1,2],[1,3],[2,3],[1,4],[2,4],[3,0],[2,0],[1,5],[4,5],[5,6],[4,6],[6,7],[4,7],[7,8],[6,8],[8,9],[7,9],[9,10],[8,10],[10,11],[9,11]];
+const chapters=[
+{t:'Lay the rods end to end',hint:'Press Play · the rods lay themselves along the road',body:`<p class="lede">Jean Picard, 1669. South of Paris, on the straight paved road from Villejuif to Juvisy, his team laid wooden rods end to end: four toises each, about 25 feet, tipped with copper so they met exactly, checked each morning against an iron standard.</p><p>Eleven kilometres, 5,663 toises, measured twice. The two passes differed by less than a foot. That one number is the only distance in the whole survey that was ever measured with a ruler. Everything else is angles.</p>`,read:'<strong>5,663 toises · 6.86 miles · 11.04 km</strong><span>Measured with rods, twice, on a straight road. Picard also tried a chain on the Juvisy end; the rods won.</span>'},
+{t:'From the baseline, a chain of triangles',hint:'Press Play · each new station is fixed by two angles from stations already known',body:`<p class="lede">Stand at each end of the baseline and sight a distant steeple or windmill through a quadrant fitted, for the first time, with a telescope and crosshairs. Two angles and the known side fix the third point. Now that point is known, and its distance to the others follows by trigonometry.</p><p>Picard used a windmill at Villejuif as his first mark, then church towers: Montlhéry, Brie, Montmartre, Dammartin, Clermont. Thirteen triangles carried the chain 70 miles north to Sourdon near Amiens, and no one ever laid a rod again.</p>`,read:'<strong>13 triangles, 1 measured side</strong><span>Red is the rod-measured baseline. Every white side is computed from angles. Error accumulates, so he measured a second baseline near Sourdon as a check: it agreed to a few feet.</span>'},
+{t:'How long is one degree?',hint:'The chain gives the ground distance; the stars give the angle',body:`<p class="lede">The chain told him exactly how far Sourdon was north of Malvoisine on the ground. The stars told him how far apart they were in latitude: he measured the altitude of the same star from both ends with a 10-foot zenith sector, and the difference was 1° 22′ 55″.</p><p>Divide the ground distance by the angle: one degree of the meridian is 57,060 toises, 69.1 miles, 111.2 km. The Earth's circumference follows at once: 360 × 69.1 = 24,880 miles. Eratosthenes had been right to within a few percent; Picard was right to within a tenth of one.</p>`,read:'<strong>1° = 57,060 toises = 69.1 miles</strong><span class="big">Earth: 24,880 miles around</span><span>Modern meridional degree at this latitude: 69.1 miles. Newton used Picard’s figure in 1684 to check gravity against the Moon’s orbit; with the old rough degree his numbers had not matched.</span>'},
+{t:'A true degree is a ruler for the sky',hint:'With the size of the Earth known, every angle becomes a distance',body:`<p class="lede">Once a degree has a length, every angle measured anywhere turns into miles. A <span class="term" data-term="lunar">lunar distance</span> taken at sea gives a longitude that can be plotted. Jupiter’s moons, timed at two observatories, give the distance between them. Parallax of Mars, measured by Richer at Cayenne and Cassini at Paris in 1672 with Picard’s baseline as the scale, gave the first serious distance to the Sun.</p><p>And the same chain of triangles, continued north to Dunkirk and south to Perpignan by the Cassinis, became the frame on which France itself could be drawn correctly, town by town, for the first time.</p>`,read:'<strong>Angle × 69.1 miles per degree = distance</strong><span>Richer and Cassini, 1672: Earth–Sun 87 million miles, 7 percent low. Before Picard no one had a number within a factor of two.</span>'},
+{t:'France shrinks, and the king complains',hint:'Press Play · the old coast slides east to where the surveyors found it',body:`<p class="lede">In 1682 Picard and La Hire fixed the longitude of Brest and other Atlantic ports by timing Jupiter’s moons. The coast lay well east of where every existing map put it. Cassini’s corrected outline of France, presented at the Observatory in 1693, was smaller than the old one by roughly a fifth.</p><p>Louis XIV is said to have remarked that his astronomers had cost him more territory than all his enemies. The line is probably polished by retelling, but the map was real: Brest moved about 1.5° east, Marseille north, and the kingdom lost a strip of Atlantic it had never owned.</p>`,read:'<strong>Brest: 1.5° farther east than the old maps</strong><span>Grey is the old outline, drawn to the old longitudes. Gold is the 1693 survey. The quote is attributed; the correction is measured.</span>'}];
+function setCh(n){ch=Math.max(0,Math.min(4,n));const c=chapters[ch];title.textContent=c.t;body.innerHTML=c.body;read.innerHTML=c.read;hint.textContent=c.hint;document.querySelectorAll('#pc-chapters button').forEach(b=>b.classList.toggle('on',+b.dataset.ch===ch));T=0;playing=true;playB.textContent='Pause';last=0;}
+document.querySelectorAll('#pc-chapters button').forEach(b=>b.onclick=()=>setCh(+b.dataset.ch));document.getElementById('pc-next').onclick=()=>setCh(ch+1);document.getElementById('pc-prev').onclick=()=>setCh(ch-1);playB.onclick=()=>{playing=!playing;playB.textContent=playing?'Pause':'Play';last=0;if(playing&&T>=1)T=0;};
+setCh(0);
+const lerp=(a,b,k)=>a+(b-a)*k;
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);const dt=last?(t-last)/1000:0;last=t;if(playing){T=Math.min(1,T+dt/(ch===0?8:ch===1?10:ch===4?6:4));if(T>=1){playing=false;playB.textContent='Replay';}}
+if(ch===0)drawBase(ctx,w,h,T);else if(ch===1||ch===2)drawChain(ctx,w,h,T,ch===2);else if(ch===3)drawRuler(ctx,w,h,T);else drawFrance(ctx,w,h,T);}});
+function drawBase(ctx,w,h,T){const y=h*.56,x0=w*.08,x1=w*.92;// the road
+ctx.fillStyle='#1b2a3f';ctx.fillRect(0,y+10,w,h*.08);ctx.strokeStyle='#3b5f8a';ctx.beginPath();ctx.moveTo(0,y+10);ctx.lineTo(w,y+10);ctx.stroke();
+text(ctx,'Villejuif · windmill',x0,y-70,{size:12,color:'#ece6da'});text(ctx,'Juvisy',x1,y-70,{size:12,color:'#ece6da',align:'right'});
+// windmill
+ctx.strokeStyle='#cfc8ba';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x0+10,y+10);ctx.lineTo(x0+10,y-50);ctx.stroke();for(let k=0;k<4;k++){const a=k*Math.PI/2+T*2;ctx.beginPath();ctx.moveTo(x0+10,y-50);ctx.lineTo(x0+10+26*Math.cos(a),y-50+26*Math.sin(a));ctx.stroke();}
+// post at Juvisy
+ctx.fillStyle='#cfc8ba';ctx.fillRect(x1-14,y-30,6,40);
+// rods: 4 toises each; show a strip of 40 rods laying progressively; count scaled to 5,663 toises
+const nRods=40,rw=(x1-x0-30)/nRods;const laid=Math.floor(T*nRods);for(let i=0;i<laid;i++){const x=x0+20+i*rw;ctx.fillStyle=i%2?'#d9c89a':'#b89a5a';ctx.fillRect(x,y-4,rw-2,8);ctx.fillStyle='#e8a23a';ctx.fillRect(x+rw-4,y-5,2,10);}
+if(laid<nRods&&T>0){const x=x0+20+laid*rw;ctx.fillStyle='rgba(217,200,154,.5)';ctx.fillRect(x,y-4,rw*((T*nRods)%1),8);}
+const toises=Math.round(5663*T);tag(ctx,`${toises.toLocaleString()} toises · ${fmt(toises*1.949/1000,2)} km · ${fmt(toises*1.949/1609,2)} mi`,w*.5-120,y+60,'#f0b35a',16);
+// one rod, enlarged
+const ex=w*.5,ey=h*.26,L=w*.4;ctx.fillStyle='#b89a5a';ctx.fillRect(ex-L/2,ey-7,L,14);ctx.fillStyle='#e8a23a';ctx.fillRect(ex-L/2,ey-9,8,18);ctx.fillRect(ex+L/2-8,ey-9,8,18);text(ctx,'one rod · 4 toises · 7.8 m · 25 ft 7 in · copper-tipped ends butt exactly',ex,ey-20,{size:12,align:'center',color:'#cfc8ba'});text(ctx,'checked every morning against an iron toise kept out of the sun',ex,ey+30,{size:11,align:'center',color:'#9a9382'});
+text(ctx,'1,416 rods end to end · measured twice · the two passes agreed within a foot',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}
+function geoP(w,h){const lat0=49.05,lon0=2.45,sc=h*.55;return p=>({x:w*.52+(p[1]-lon0)*Math.cos(lat0*DEG)*sc,y:h*.5-(p[0]-lat0)*sc});}
+function drawChain(ctx,w,h,T,degree){const P=geoP(w,h);const pts=stations.map(s=>P(s.p));
+// meridian
+ctx.setLineDash([3,8]);ctx.strokeStyle='rgba(236,230,218,.2)';ctx.beginPath();ctx.moveTo(P([48.2,2.34]).x,P([48.2,2.34]).y);ctx.lineTo(P([50,2.34]).x,P([50,2.34]).y);ctx.stroke();ctx.setLineDash([]);text(ctx,'Paris meridian',P([50,2.34]).x+8,P([50,2.34]).y+4,{size:11,color:'#9a9382'});
+// baseline
+const A=pts[1],B=pts[2];ctx.strokeStyle='#ff7d6f';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(A.x,A.y);ctx.lineTo(B.x,B.y);ctx.stroke();tag(ctx,'baseline · measured with rods',A.x+12,A.y+6,'#ff7d6f',11);
+// links appear in order with T
+const shown=degree?links.length:Math.floor(T*links.length);const known=new Set([1,2]);
+links.forEach(([a,b],i)=>{if(i>=shown)return;const pa=pts[a],pb=pts[b];ctx.strokeStyle='rgba(236,230,218,.85)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(pa.x,pa.y);ctx.lineTo(pb.x,pb.y);ctx.stroke();known.add(a);known.add(b);
+if(i===shown-1&&!degree){// angle arcs at the two known ends of the newest triangle
+const sa=Math.atan2(pb.y-pa.y,pb.x-pa.x);ctx.strokeStyle='#6fd48a';ctx.lineWidth=2;ctx.beginPath();ctx.arc(pa.x,pa.y,18,sa-.5,sa+.5);ctx.stroke();ctx.beginPath();ctx.arc(pb.x,pb.y,18,sa+Math.PI-.5,sa+Math.PI+.5);ctx.stroke();}});
+if(!degree&&shown>0){const partial=T*links.length-shown;const[a,b]=links[Math.min(shown,links.length-1)];const pa=pts[a],pb=pts[b];ctx.strokeStyle='rgba(236,230,218,.5)';ctx.beginPath();ctx.moveTo(pa.x,pa.y);ctx.lineTo(lerp(pa.x,pb.x,partial),lerp(pa.y,pb.y,partial));ctx.stroke();}
+stations.forEach((s,i)=>{const q=pts[i];const on=known.has(i);ctx.fillStyle=on?(s.base?'#ff7d6f':'#f0b35a'):'#283048';ctx.beginPath();ctx.arc(q.x,q.y,on?6:4,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=1.5;ctx.stroke();if(on||degree)text(ctx,s.n,q.x+9,q.y+4,{size:11,color:on?'#ece6da':'#9a9382'});});
+if(degree){// the arc from Malvoisine to Sourdon and the star angles
+const M=pts[0],Sd=pts[10];const k=Math.min(1,T*1.3);ctx.strokeStyle='#6fd48a';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(M.x,M.y);ctx.lineTo(lerp(M.x,Sd.x,k),lerp(M.y,Sd.y,k));ctx.stroke();
+if(T>.5){const star=w*.52;for(const q of[M,Sd]){ctx.setLineDash([4,6]);ctx.strokeStyle='rgba(223,231,255,.7)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(q.x,q.y);ctx.lineTo(q.x+(star-q.x)*.15,10);ctx.stroke();ctx.setLineDash([]);}text(ctx,'✦ the same star, sighted from both ends with a 10-ft zenith sector',star,24,{size:12,color:'#dfe7ff',align:'center'});
+tag(ctx,'ground: 78,850 toises north–south, from the triangles',Sd.x+14,(M.y+Sd.y)/2-14,'#6fd48a',13);tag(ctx,'sky: 1° 22′ 55″ of latitude, from the star',Sd.x+14,(M.y+Sd.y)/2+10,'#dfe7ff',13);}
+if(T>.85)tag(ctx,'78,850 ÷ 1.382 = 57,060 toises per degree · 69.1 miles · 360 × 69.1 = 24,880 miles around',w*.5-300,h*.9,'#f0b35a',15);}
+text(ctx,degree?'Picard 1669–70 · schematic station positions along the real chain':'the chain runs north from Malvoisine to Sourdon · 13 triangles · 70 miles',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}
+function drawRuler(ctx,w,h,T){// a protractor-to-miles converter: a sweep arc with degrees and miles
+const cx=w*.5,cy=h*.78,R=Math.min(w*.42,h*.62);ctx.strokeStyle='#283048';ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,R,Math.PI,TAU);ctx.stroke();
+for(let d=0;d<=180;d+=10){const a=Math.PI+d*DEG;const big=d%30===0;ctx.strokeStyle=big?'#ece6da':'rgba(236,230,218,.4)';ctx.lineWidth=big?2:1;ctx.beginPath();ctx.moveTo(cx+(R-(big?18:9))*Math.cos(a),cy+(R-(big?18:9))*Math.sin(a));ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));ctx.stroke();if(big){text(ctx,d+'°',cx+(R+22)*Math.cos(a),cy+(R+22)*Math.sin(a)+4,{size:12,align:'center',color:'#ece6da',font:'mono'});text(ctx,fmtI(d*69.1)+' mi',cx+(R-40)*Math.cos(a),cy+(R-40)*Math.sin(a)+4,{size:11,align:'center',color:'#f0b35a',font:'mono'});}}
+const sweep=Math.PI+T*Math.PI*.6;ctx.strokeStyle='#6fd48a';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+R*.92*Math.cos(sweep),cy+R*.92*Math.sin(sweep));ctx.stroke();const deg=T*108;tag(ctx,`${fmt(deg,1)}° of arc = ${fmtI(deg*69.1)} miles`,cx-110,cy-R*.35,'#6fd48a',16);
+text(ctx,'any angle, anywhere on Earth, now has a length: 69.1 miles per degree',cx,cy+40,{size:14,align:'center',color:'#cfc8ba'});
+[['1672 · Richer at Cayenne, Cassini at Paris · Mars parallax · Sun 87 million miles','#f0b35a'],['1676 · Rømer · Jupiter’s moons late by 22 minutes · light has a speed','#dfe7ff'],['1684 · Newton · Picard’s degree makes gravity fit the Moon','#6fb3ff'],['1718 · Cassini’s meridian reaches Dunkirk and Perpignan','#cfc8ba']].forEach(([s,c],i)=>{if(T>.25+i*.18)text(ctx,s,w*.06,h*.12+i*26,{size:12,color:c});});
+text(ctx,'schematic protractor · 1 degree of meridian = 69.1 statute miles',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}
+function drawFrance(ctx,w,h,T){const lat0=46.6,lon0=2.4,sc=Math.min(w*.9,h*.9)/9.5;const P=(la,lo)=>({x:w*.5+(lo-lon0)*Math.cos(lat0*DEG)*sc,y:h*.5-(la-lat0)*sc});
+// old map distortion: west of Paris, longitudes stretched west by up to 1.5° at Brest; Mediterranean coast pushed south by ~0.5°
+const k=Math.min(1,T*1.1);const old=(la,lo)=>{const west=Math.max(0,(2.35-lo)/(2.35+4.5));const south=Math.max(0,(45-la)/3);return[la-0.5*south*(1-k),lo-1.5*west*(1-k)];};
+const draw=(fn,col,wd)=>{ctx.strokeStyle=col;ctx.lineWidth=wd;ctx.beginPath();for(const ln of COAST_FR.lines){let pen=false;for(let i=0;i<ln.length;i+=2){const la=ln[i+1]/100,lo=ln[i]/100;const[a,b]=fn(la,lo);const q=P(a,b);if(q.x<-50||q.x>w+50||q.y<-50||q.y>h+50){pen=false;continue;}pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}}ctx.stroke();};
+draw((la,lo)=>[la,lo],'rgba(240,179,90,.95)',2);// the 1693 survey
+draw(old,`rgba(236,230,218,${k<1?.55:.25})`,1.5);if(k>=1){ctx.setLineDash([3,5]);draw((la,lo)=>{const west=Math.max(0,(2.35-lo)/(2.35+4.5));const south=Math.max(0,(45-la)/3);return[la-0.5*south,lo-1.5*west];},'rgba(236,230,218,.35)',1);ctx.setLineDash([]);}
+// Paris meridian and cities
+const pm=P(51.2,2.34),pm2=P(42.3,2.34);ctx.setLineDash([3,8]);ctx.strokeStyle='rgba(236,230,218,.3)';ctx.beginPath();ctx.moveTo(pm.x,pm.y);ctx.lineTo(pm2.x,pm2.y);ctx.stroke();ctx.setLineDash([]);
+[['Paris',48.86,2.35],['Brest',48.39,-4.49],['Marseille',43.3,5.37],['Dunkirk',51.03,2.38],['Perpignan',42.7,2.9]].forEach(([n,la,lo])=>{const q=P(la,lo);ctx.fillStyle='#f0b35a';ctx.beginPath();ctx.arc(q.x,q.y,4,0,TAU);ctx.fill();text(ctx,n,q.x+7,q.y-5,{size:11,color:'#ece6da'});if(n==='Brest'&&k<1){const[a,b]=old(la,lo);const qo=P(a,b);ctx.fillStyle='rgba(236,230,218,.6)';ctx.beginPath();ctx.arc(qo.x,qo.y,4,0,TAU);ctx.fill();ctx.strokeStyle='#ff7d6f';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(qo.x,qo.y);ctx.lineTo(q.x,q.y);ctx.stroke();tag(ctx,`Brest moves ${fmt(1.5*(1-k),1)}° east`,qo.x-20,qo.y+28,'#ff7d6f',12);}});
+tag(ctx,k<1?'grey: the old outline, old longitudes':'gold: the 1693 survey · dashed grey: where the old maps had the coast',w*.06,h*.1,'#cfc8ba',13);
+if(T>.75){tag(ctx,'“His Majesty’s astronomers have taken more of France than his enemies ever did.”',w*.5-330,h*.9,'#f0b35a',15);text(ctx,'attributed to Louis XIV at the Observatory, 1693 · the sentiment is recorded, the exact words are not',w*.5,h*.9+26,{size:11,align:'center',color:'#9a9382'});}
+text(ctx,'old-map distortion is schematic (Brest ~1.5° too far west, the south coast too far south); the gold coast is real data',w*.5,h-54,{size:11,color:'#9a9382',align:'center'});}
+}
 
 /* ---------- 3 · Jupiter (3D) ---------- */
 {const o=setup('c3');const tIn=document.getElementById('jup-t'),tOut=document.getElementById('jup-t-out'),spIn=document.getElementById('jup-speed'),spOut=document.getElementById('jup-speed-out'),playB=document.getElementById('jup-play'),rows=document.getElementById('nb-rows'),hint=document.getElementById('h3');
@@ -1700,12 +1786,14 @@ case 'unroll':{// a chart unrolls from the left edge; the roll itself is drawn a
 doSwap();const x=W*e;slideEl.style.clipPath=`inset(0 ${(1-e)*100}% 0 0)`;const rw=Math.max(8,40*(1-e)+8);const gl=fx.createLinearGradient(x,0,x+rw*2,0);gl.addColorStop(0,'rgba(236,230,218,.0)');gl.addColorStop(.3,'rgba(236,230,218,.55)');gl.addColorStop(.6,'rgba(120,110,90,.6)');gl.addColorStop(1,'rgba(0,0,0,0)');fx.fillStyle=gl;fx.fillRect(x,0,rw*2,H);fx.strokeStyle='rgba(240,179,90,.7)';fx.lineWidth=2;fx.beginPath();fx.moveTo(x,0);fx.lineTo(x,H);fx.stroke();break;}
 case 'clockhand':{// a 24-hour clock hand sweeps once and the slide fills behind it
 doSwap();const cx=W/2,cy=H/2,R=Math.hypot(W,H)/2+10,a=-Math.PI/2+e*TAU;const pts=[`${cx}px ${cy}px`,`${cx}px ${cy-R}px`];for(let q=-Math.PI/2;q<=a;q+=.08)pts.push(`${cx+R*Math.cos(q)}px ${cy+R*Math.sin(q)}px`);pts.push(`${cx+R*Math.cos(a)}px ${cy+R*Math.sin(a)}px`);slideEl.style.clipPath=k<1?`polygon(${pts.join(',')})`:'';const rr=Math.min(W,H)*.42;fx.globalAlpha=1-Math.max(0,(k-.8)*5);fx.strokeStyle='rgba(236,230,218,.35)';fx.lineWidth=1;fx.beginPath();fx.arc(cx,cy,rr,0,TAU);fx.stroke();for(let i=0;i<24;i++){const q=-Math.PI/2+i*TAU/24;fx.strokeStyle='rgba(236,230,218,.6)';fx.lineWidth=i%6?1:2;fx.beginPath();fx.moveTo(cx+(rr-12)*Math.cos(q),cy+(rr-12)*Math.sin(q));fx.lineTo(cx+rr*Math.cos(q),cy+rr*Math.sin(q));fx.stroke();if(i%6===0){fx.fillStyle='#ece6da';fx.font='12px Menlo,monospace';fx.textAlign='center';fx.fillText(['0','6','12','18'][i/6]+'h',cx+(rr-28)*Math.cos(q),cy+(rr-28)*Math.sin(q)+4);}}fx.strokeStyle='#f0b35a';fx.lineWidth=3;fx.beginPath();fx.moveTo(cx,cy);fx.lineTo(cx+rr*.9*Math.cos(a),cy+rr*.9*Math.sin(a));fx.stroke();fx.globalAlpha=1;break;}
+case 'rods':{// rods lay themselves across the screen and the slide appears beneath
+doSwap();const n=16,rw=W/n,y=H*.5;const laid=e*n;slideEl.style.clipPath=`inset(0 ${(1-e)*100}% 0 0)`;for(let i=0;i<Math.ceil(laid);i++){const frac=Math.min(1,laid-i);fx.fillStyle=i%2?'#d9c89a':'#b89a5a';fx.fillRect(i*rw,y-7,(rw-3)*frac,14);fx.fillStyle='#e8a23a';fx.fillRect(i*rw+(rw-3)*frac-3,y-9,3,18);}fx.fillStyle='#f0b35a';fx.font='600 14px Menlo,monospace';fx.textAlign='left';fx.fillText(`${Math.round(e*5663).toLocaleString()} toises`,12,y-18);break;}
 case 'orbit':{// a planet runs one orbit and the slide fills the circle it traces
 doSwap();const cx=W/2,cy=H/2,R=Math.hypot(W,H)*.55*e;slideEl.style.clipPath=`circle(${R}px at 50% 50%)`;const a=-Math.PI/2+e*TAU*1.5;fx.strokeStyle='rgba(240,179,90,.35)';fx.lineWidth=1;fx.beginPath();fx.arc(cx,cy,R,0,TAU);fx.stroke();const px=cx+R*Math.cos(a),py=cy+R*Math.sin(a);const gl=fx.createRadialGradient(px,py,0,px,py,22);gl.addColorStop(0,'#fff');gl.addColorStop(.3,'rgba(240,179,90,.9)');gl.addColorStop(1,'rgba(240,179,90,0)');fx.fillStyle=gl;fx.beginPath();fx.arc(px,py,22,0,TAU);fx.fill();for(let k=1;k<12;k++){const aa=a-k*.06;fx.fillStyle=`rgba(240,179,90,${(1-k/12)*.5})`;fx.beginPath();fx.arc(cx+R*Math.cos(aa),cy+R*Math.sin(aa),4,0,TAU);fx.fill();}break;}
 default:doSwap();slideEl.style.opacity=e;}
 if(k<1)run.raf=requestAnimationFrame(frame);else{fx.clearRect(0,0,W,H);slideEl.style.clipPath='';slideEl.style.transform='';slideEl.style.filter='';slideEl.style.opacity='';fxRun=null;}};
 run.raf=requestAnimationFrame(frame);}
-const FXMAP={fade:'warp',iris:'sweep',sunrise:'rays',telescope:'warp',terminator:'eclipse',venus:'venus',survey:'chain',orbit:'orbit',compass:'compass',unroll:'unroll',clockhand:'clockhand',triangles:'triangles',wake:'wake',morse:'morse',gust:'gust',edge:'edge'};
+const FXMAP={fade:'warp',iris:'sweep',sunrise:'rays',telescope:'warp',terminator:'eclipse',venus:'venus',survey:'chain',orbit:'orbit',compass:'compass',unroll:'unroll',clockhand:'clockhand',rods:'rods',triangles:'triangles',wake:'wake',morse:'morse',gust:'gust',edge:'edge'};
 
 /* ---------- presenter mode: a second window with notes, a chapter menu and a clock; P opens it, slides stay in sync ---------- */
 const NOTES={
@@ -1714,6 +1802,7 @@ const NOTES={
 'Latitude & Longitude':['Tap the globe to stand somewhere; the angle at your feet is the angle at the centre. Polaris is 0.7° off the pole: a guide, not the pole.','Chronometer mode: slide the clock until the Sun is highest over the ship. 1 hour = 15°. West is negative and the local clock runs behind.','One nautical mile is one minute of latitude, fixed at 1,852 m in 1929. Four seconds of clock error is a mile of longitude.'],
 'Hours are slices':['24 slices, one hour each, 15°. Tap a slice.','One degree is 4 minutes of time. One arcminute is 4 seconds and one nautical mile.','Time minutes are not arcminutes: a minute of time is 15 minutes of arc.'],
 'Eratosthenes':['Sun rays arrive parallel because the Sun is 93 million miles off. The well and the stick see the same rays.','Euclid I.29: a line across parallels makes equal alternate angles. The shadow angle is the centre angle.','360 ÷ 7.2 = 50. Fifty times the distance. The unit (stadion) is the uncertainty, not the method.'],
+'Picard measures France':['Rods, 4 toises each, laid twice on a straight road: 5,663 toises. The only ruler-measured length.','Windmill, steeples: two angles fix each new point. 13 triangles to Sourdon.','Ground 78,850 toises; sky 1° 22′ 55″; one degree 57,060 toises = 69.1 mi. Newton needed it.','1693: Brest 1.5° east. Louis XIV: the astronomers cost him more land than his enemies.'],
 'Baselines':['Blink one eye then the other. Your eyes are a 2½-inch baseline. Everything after is this picture with a longer baseline.','One degree of parallax = 57 baselines. Small angles are hard, so baselines want to be long.','Picard measured one line with rods and computed the rest. One length sets the scale of a whole network; Newton used his degree.'],
 "Jupiter's moons":['Drag to tilt: edge-on is what Galileo saw, from above is what was happening. The eyepiece squashes 3D onto a line.','Clock mode: Io\'s eclipses are a public clock. Rømer: they run late when Earth is far. Light has a speed.','Florence quiz: 2 hours behind Florence = 30° west of 11.25° E = 18.75° W. Start from the reference clock, not Greenwich.'],
 'Moon mountains':['Lit peaks past the terminator must poke above the grazing ray. Pythagoras: h = √(R² + d²) − R.','Galileo: d = 1/20 of the width, 2,000-mile Moon, "more than four Italian miles". Modern diameter gives 5.4.','Width card: 0.5° at 240,000 miles = 2,100 miles across. Denver to Boston.'],
