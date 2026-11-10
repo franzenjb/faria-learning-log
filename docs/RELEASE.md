@@ -71,3 +71,11 @@ Three Jeff requests on /kimi1/. (1) The Latitude & Longitude globe now loads wit
 - Build clean (92/9/81); unit tests 6/6; tests/kimi1-browser.mjs passes in local Chrome.
 - Published source ff226f2 via git-connected Vercel. Served https://faria.jbf.com/kimi1/ matches local bytes exactly (cmp). Local 1440×900 screenshots inspected: clean globe on load, Null Island card with photo, Euclid card with diagram.
 - Remaining: Jeff's acceptance; live visual pass on his screen.
+
+## Kimi1 Latitude Slide: Walker and Labels — November 10, 2026
+
+Jeff on "Latitude = star height": labels need breathing room, the observer should walk when dragged, and be less of a stick figure. The horizon label moved from the north end of the horizon line (where it collided with the star-altitude tag) to the south end, outside the globe; the altitude tag sits further out along the angle bisector; the "you · drag me" hint shifted south of the figure and hides after the first canvas drag. The observer is now a solid little walker — thick torso, head, one arm raised to Polaris — with two-segment knees that stride as latitude changes and settle when the drag stops; the figure faces the direction of travel. public/kimi1/index.html only.
+
+- Build clean (92/9/81); tests/kimi1-browser.mjs passes in local Chrome.
+- Published source 862c361 via git-connected Vercel. Served https://faria.jbf.com/kimi1/ matches local bytes exactly (cmp). Local screenshots inspected at 8°, 60° (rest), and mid-stride at 78°.
+- Remaining: Jeff's acceptance.
