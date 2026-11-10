@@ -55,3 +55,19 @@ Jeff: "can we show the mercator conversion to the globe." The side-by-side panel
 - Local Chrome: six-frame morph sequence inspected (nested → early/late unroll → flat → mid-wrap → back); no JavaScript errors.
 - tests/kimi1-browser.mjs passes locally and against production; unit tests 6/6; build clean (92/9/81).
 - Published source 9c5b562 via git-connected Vercel. Served /kimi1/index.html matches local bytes; live morph screenshots inspected; no live JS errors.
+
+## Polaris Layout Rework — November 10, 2026
+
+Jeff rejected the left-column layout: "greatly increased the graphics, shrink the huge lat long numbers, slider and title horizontal top." On wide screens the page is now a horizontal band on top (title and lede in one baseline row; slider, endpoints and preset buttons in a single grid strip) with the two diagrams as the heroes below, sized to the viewport. Readout numbers shrink from 44/50px to 26–32px. CSS only; every element ID and behavior untouched. public/polaris/walk.css only.
+
+- Build clean (92 topics, 9 sessions, 81 tags); unit tests 6/6; tests/polaris-browser.mjs passes in local Chrome (slider, presets, right-angle toggle, keyboard, play/pause, 320/390/768px no-overflow, deck links).
+- Published source f6f9234 via git-connected Vercel. Served https://faria.jbf.com/polaris/walk.css matches local bytes exactly (cmp). Desktop 1440×900 and phone 390×844 screenshots inspected.
+- Remaining: Jeff's acceptance of the new layout.
+
+## Kimi1 Polish Trio — November 10, 2026
+
+Three Jeff requests on /kimi1/. (1) The Latitude & Longitude globe now loads with the latitude and longitude line overlays OFF; the toggles still bring them back, and place markers including Null Island stay on. (2) The null-island glossary gap from the source zip is closed: tapping the Null Island marker opens a photo card with the "Welcome to Null Island" image (already shipped as img/null-island.jpg — Jeff's re-supplied photo is the same shot) plus the buoy-and-bad-data explanation. (3) On "Latitude = star height", the word Euclid is now a tappable term opening a card with a diagram of the actual proof: both sides of the angle turned 90°, measure unchanged, no triangles. public/kimi1/index.html only.
+
+- Build clean (92/9/81); unit tests 6/6; tests/kimi1-browser.mjs passes in local Chrome.
+- Published source ff226f2 via git-connected Vercel. Served https://faria.jbf.com/kimi1/ matches local bytes exactly (cmp). Local 1440×900 screenshots inspected: clean globe on load, Null Island card with photo, Euclid card with diagram.
+- Remaining: Jeff's acceptance; live visual pass on his screen.
