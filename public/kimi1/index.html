@@ -737,7 +737,7 @@ const camFor=(lat,lon,zoom)=>({yaw:-Math.PI/2-lon*DEG,pitch:lat*DEG,zoom});
 const slerp=(a,b,t)=>{const w=Math.acos(Math.max(-1,Math.min(1,v3.dot(a,b))));if(w<1e-6)return a;const s=Math.sin(w);return v3.norm(v3.add(v3.mul(a,Math.sin((1-t)*w)/s),v3.mul(b,Math.sin(t*w)/s)));};
 
 /* ---------- 1 · Mental maps: four intuition tests, answered on the globe ---------- */
-{const o=setup('c1q');const st={yaw:camFor(15,-70,1).yaw,pitch:camFor(15,-70,1).pitch,zoom:1,anim:null,maxZoom:8,enabled:()=>true};
+{const o=setup('c1q');const st={yaw:camFor(15,-70,1).yaw,pitch:camFor(15,-70,1).pitch,zoom:1,anim:null,maxZoom:8,enabled:()=>mercK<0.02};
 const title=document.getElementById('qz-title'),lede=document.getElementById('qz-lede'),opts=document.getElementById('qz-opts'),read=document.getElementById('qz-read');
 const C={havana:[23.13,-82.38],parinas:[-4.68,-81.33],bogota:[4.71,-74.07],quito:[-0.18,-78.47],lima:[-12.05,-77.04],reno:[39.53,-119.82],la:[34.05,-118.24],rome:[41.9,12.5],atlanta:[33.75,-84.39],nyc:[40.71,-74.01],boston:[42.36,-71.06],dc:[38.9,-77.04],miami:[25.76,-80.19],greenland:[72,-40],africa:[30,5]};
 const Q=[
@@ -748,7 +748,7 @@ const Q=[
 {t:'Which of these American cities is closest to Rome’s latitude?',l:'Closest in latitude, not closest in miles. Place Rome on the globe in your head first.',a:['Atlanta','New York','Boston','Miami'],ok:2,cam:camFor(42,-40,1.1),
  read:'<strong>Boston, at 42.4° N. New York is 40.7°, Atlanta 33.7°, Miami 25.8°.</strong><span>Rome and Boston share a parallel and little else: oceans store heat and the Gulf Stream and westerlies carry it to Italy. Latitude is one input to climate, not the whole model.</span>'},
 {t:'Which is larger: Greenland or Africa?',l:'Trust your mental wall map first. Then check the globe.',a:['Greenland','Africa','About the same','Depends on the map'],ok:1,cam:camFor(20,-20,1.05),
- read:'<strong>Africa—about fourteen Greenlands.</strong><span>Africa covers about 11.7 million square miles; Greenland about 0.84 million. Watch Greenland slide down the globe at its true size and settle inside Africa — then compare the wall map: Mercator keeps compass bearings straight but greatly inflates areas near the poles, so a familiar wall map can make Greenland look comparable to Africa.</span>'}];
+ read:'<strong>Africa—about fourteen Greenlands.</strong><span>Africa covers about 11.7 million square miles; Greenland about 0.84 million. Watch Greenland slide down the globe at its true size and settle inside Africa — then compare the wall map: the globe unrolls into a Mercator map and wraps itself back. Mercator keeps compass bearings straight but greatly inflates areas near the poles, so a familiar wall map can make Greenland look comparable to Africa.</span>'}];
 let qi=0,votes=[0,0,0,0],revealed=false,revealT=0;
 /* Q4 showpiece: Greenland slides down at true size, plus a Mercator wall-map split. */
 let mercOn=false,mercK=0,mercFrom=0,mercT=0;
@@ -761,36 +761,29 @@ const gHome=ll(72,-40); // visual center of the ring, matching the home pin
 const gTarget=ll(6,18); // landing spot: the Congo basin, heart of Africa
 const rotator=(a,b)=>{const ax=v3.cross(a,b),s=v3.len(ax);if(s<1e-9)return p=>p;const u=v3.mul(ax,1/s),ang=Math.acos(Math.max(-1,Math.min(1,v3.dot(a,b)))),c=Math.cos(ang),sn=Math.sin(ang);return p=>{const d=v3.dot(u,p);return [p[0]*c+(u[1]*p[2]-u[2]*p[1])*sn+u[0]*d*(1-c),p[1]*c+(u[2]*p[0]-u[0]*p[2])*sn+u[1]*d*(1-c),p[2]*c+(u[0]*p[1]-u[1]*p[0])*sn+u[2]*d*(1-c)];};};
 // slide cycle, seconds after the reveal settles: down 2.4 · hold 3.2 · home 2.2 · rest 1.7
-function gPhase(t){if(!revealed||!GRING)return 0;if(motionReduced||matchMedia('(prefers-reduced-motion: reduce)').matches)return 1;const s=(t-revealT-1800)/1000;if(s<=0)return 0;const c=s%9.5;if(c<2.4)return smooth01(c/2.4);if(c<5.6)return 1;if(c<7.8)return 1-smooth01((c-5.6)/2.2);return 0;}
+function gPhase(t){if(!revealed||!GRING)return 0;if(mercK>0.02)return 0;if(motionReduced||matchMedia('(prefers-reduced-motion: reduce)').matches)return 1;const s=(t-revealT-1800)/1000;if(s<=0)return 0;const c=s%9.5;if(c<2.4)return smooth01(c/2.4);if(c<5.6)return 1;if(c<7.8)return 1-smooth01((c-5.6)/2.2);return 0;}
 const mercY=la=>Math.log(Math.tan(Math.PI/4+Math.max(-83,Math.min(83,la))*DEG/2));
-function drawMercator(ctx,w,h,mk,verts){if(mk<0.02)return;const pw=(w<700?w*.62:Math.min(w*.46,620))*mk,px=w-pw;ctx.save();ctx.beginPath();ctx.rect(px,0,pw,h);ctx.clip();
-ctx.fillStyle='rgba(13,18,32,.97)';ctx.fillRect(px,0,pw,h);ctx.strokeStyle='rgba(240,179,90,.5)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(px,0);ctx.lineTo(px,h);ctx.stroke();
-const pad=Math.max(12,pw*.055),mw=pw-2*pad,mh=h*.62,my0=h*.17,yT=mercY(83),yB=mercY(-83),sc=Math.min(mw/(2*Math.PI),mh/(yT-yB));
-const X=lo=>px+pw/2+lo*DEG*sc,Y=la=>my0+mh/2-(mercY(la)-(yT+yB)/2)*sc;
-ctx.strokeStyle='rgba(236,230,218,.08)';ctx.lineWidth=1;for(let lo=-180;lo<180;lo+=30){ctx.beginPath();ctx.moveTo(X(lo),Y(83));ctx.lineTo(X(lo),Y(-83));ctx.stroke();}for(let la=-60;la<=60;la+=30){ctx.beginPath();ctx.moveTo(X(-180),Y(la));ctx.lineTo(X(180),Y(la));ctx.stroke();}
-ctx.strokeStyle='rgba(236,230,218,.55)';ctx.lineWidth=1;ctx.beginPath();for(const ln of COAST.lines){let pen=false;for(let i=0;i<ln.length;i+=2){const lo=ln[i]/COAST.q,la=ln[i+1]/COAST.q;if(Math.abs(la)>84){pen=false;continue;}const x=X(lo),y=Y(la);pen?ctx.lineTo(x,y):ctx.moveTo(x,y);pen=true;}}ctx.stroke();
-if(GRING){ctx.beginPath();GRING.forEach((p,i)=>{const la=Math.asin(p[1])/DEG,lo=Math.atan2(-p[2],p[0])/DEG;i?ctx.lineTo(X(lo),Y(la)):ctx.moveTo(X(lo),Y(la));});ctx.closePath();ctx.fillStyle='rgba(240,179,90,.32)';ctx.fill();ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;ctx.stroke();}
-if(verts){ctx.beginPath();verts.forEach((p,i)=>{const la=Math.asin(Math.max(-1,Math.min(1,p[1])))/DEG,lo=Math.atan2(-p[2],p[0])/DEG;i?ctx.lineTo(X(lo),Y(la)):ctx.moveTo(X(lo),Y(la));});ctx.closePath();ctx.setLineDash([6,5]);ctx.strokeStyle='#ffd66b';ctx.lineWidth=2;ctx.stroke();ctx.setLineDash([]);}
-if(mk>.6){tag(ctx,'Greenland on the wall map',X(-42)-112,Y(74)-12,'#f0b35a',12);tag(ctx,'Africa',X(34),Y(-24),'#6fd48a',13);if(verts)tag(ctx,'same Greenland, true size',X(18)-168,Y(6)+20,'#ffd66b',11);text(ctx,'Mercator wall map',px+pad,h*.08,{size:13,color:'#f0b35a',font:'sans'});text(ctx,'Straight compass bearings, stretched poles:',px+pad,h*.08+20,{size:11,color:'#9a9382',font:'sans'});text(ctx,'Greenland only looks Africa-sized.',px+pad,h*.08+36,{size:11,color:'#9a9382',font:'sans'});}
-ctx.restore();}
 function setQ(i){qi=i;votes=[0,0,0,0];revealed=false;mercReset();const q=Q[i];title.textContent=q.t;lede.textContent=q.l+' Tap the answers the room calls out, then reveal.';document.querySelectorAll('#m1q button').forEach(b=>b.classList.toggle('on',+b.dataset.q===i));read.className='readout';read.innerHTML='<strong>Vote first.</strong><span>Each tap on an answer adds a vote. The globe stays quiet until you reveal.</span>';renderOpts();fly(st,q.cam,1400);}
 function renderOpts(){const total=votes.reduce((a,b)=>a+b,0)||1;opts.innerHTML=Q[qi].a.map((a,k)=>`<button class="opt${revealed&&k===Q[qi].ok?' ok':''}${revealed&&k!==Q[qi].ok&&votes[k]?' no':''}" data-k="${k}"><span class="letter">${'ABCD'[k]}</span><span class="label">${a}</span><span class="bar" style="width:${Math.round(votes[k]/total*100)}%"></span><span class="count">${votes[k]||''}</span></button>`).join('');
 opts.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(revealed)return;votes[+b.dataset.k]++;renderOpts();});}
 document.querySelectorAll('#m1q button').forEach(b=>b.onclick=()=>setQ(+b.dataset.q));
 document.getElementById('qz-reset').onclick=()=>{votes=[0,0,0,0];revealed=false;mercReset();renderOpts();read.className='readout';read.innerHTML='<strong>Votes cleared.</strong><span>Ask again.</span>';};
 document.getElementById('qz-reveal').onclick=()=>{revealed=true;revealT=performance.now();renderOpts();const q=Q[qi];read.className='readout ok';read.innerHTML=q.read;fly(st,q.cam,1800);if(qi===3&&GRING)mercBtn().hidden=false;};
-mercBtn().onclick=()=>{mercOn=!mercOn;mercFrom=mercK;mercT=performance.now();mercBtn().textContent=mercOn?'Back to the globe':'Compare the wall map';};
-function geom(){const{w,h}=o;return{cx:w*.5-mercK*(w<700?w*.16:w*.22),cy:h*.5,R:Math.min(w,h)*.38*st.zoom*(1-.12*mercK)};}
-function proj(p){const{cx,cy,R}=geom();const q=rot(p,st.yaw,st.pitch);return{x:cx+q[0]*R,y:cy-q[1]*R,z:q[2]};}
+mercBtn().onclick=()=>{mercOn=!mercOn;mercFrom=mercK;mercT=performance.now();mercBtn().textContent=mercOn?'Back to the globe':'Compare the wall map';document.getElementById('h1q').textContent=mercOn?'The wall map · Back to the globe restores the spin':'Drag to spin · scroll to zoom · the reveal flies the globe';if(mercOn){fly(st,{yaw:camFor(0,-20,1).yaw,pitch:0,zoom:1},1600);}else{fly(st,Q[3].cam,1600);revealT=performance.now()-1600;}};
+function geom(){const{w,h}=o;return{cx:w*.5,cy:h*.5,R:Math.min(w,h)*.38*st.zoom*(1-.58*mercK)};}
+function proj(p){const{cx,cy,R}=geom();const q=rot(p,st.yaw,st.pitch);
+if(qi===3&&mercK>0.001){const u=mercK,v=Math.max(0,1-u),vv=Math.max(.02,v);const la=Math.asin(Math.max(-1,Math.min(1,q[1]))),d=Math.atan2(q[0],q[2]);const x=R*Math.pow(Math.cos(la),v)*(v<0.02?d:Math.sin(d*vv)/vv);const y=R*(v*Math.sin(la)+u*mercY(la/DEG));return{x:cx+x,y:cy-y,z:Math.cos(d*vv)*Math.cos(la)};}
+return{x:cx+q[0]*R,y:cy-q[1]*R,z:q[2]};}
 orbit(o,st,null);setQ(0);
 const pin=(ctx,name,ll_,color,dy=4)=>{const q=proj(ll(ll_[0],ll_[1]));if(q.z<0)return null;ctx.fillStyle=color;ctx.beginPath();ctx.arc(q.x,q.y,5,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();ctx.font='500 11px Georgia,serif';const tw=ctx.measureText(name).width,x=Math.max(8,Math.min(q.x+9,o.w-tw-18));tag(ctx,name,x,q.y+dy,color,11);return q;};
 const arcLine=(ctx,pts,color,width,dash)=>{ctx.strokeStyle=color;ctx.lineWidth=width;ctx.setLineDash(dash||[]);ctx.beginPath();let pen=false;for(const p of pts){const q=proj(p);if(q.z>=0){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}ctx.stroke();ctx.setLineDash([]);};
-scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);stepAnim(st,t);mercK=mercFrom+((mercOn?1:0)-mercFrom)*smooth01((t-mercT)/700);const{cx,cy,R}=geom();
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);stepAnim(st,t);mercK=mercFrom+((mercOn?1:0)-mercFrom)*smooth01((t-mercT)/2400);const{cx,cy,R}=geom();
 const kk=revealed?Math.min(1,(t-revealT)/2200):0;if(!revealed){text(ctx,'?',w*.5,h*.5+40,{size:160,align:'center',color:'rgba(240,179,90,.35)',font:'serif'});text(ctx,'answer from memory · the globe appears on reveal',w*.5,h*.5+90,{size:14,align:'center',color:'#9a9382'});return;}
-ctx.globalAlpha=Math.min(1,kk*2.5);
+ctx.globalAlpha=Math.min(1,kk*2.5)*(1-mercK);
 const g=ctx.createRadialGradient(cx-R*.35,cy-R*.35,R*.05,cx,cy,R);g.addColorStop(0,'#2f5a8c');g.addColorStop(.7,'#15294a');g.addColorStop(1,'#0b1526');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();
+ctx.globalAlpha=Math.min(1,kk*2.5);
 ctx.strokeStyle='rgba(236,230,218,.1)';ctx.lineWidth=1;for(let la=-80;la<=80;la+=20){arcLine(ctx,Array.from({length:73},(_,k)=>ll(la,k*5)),la?'rgba(236,230,218,.1)':'rgba(240,179,90,.6)',la?1:1.5);}for(let lo=0;lo<360;lo+=15){arcLine(ctx,Array.from({length:37},(_,k)=>ll(-90+k*5,lo)),'rgba(236,230,218,.1)',1);}
-drawCoast(ctx,proj,st.zoom,{color:'rgba(236,230,218,.85)',hi:st.zoom>8});ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.stroke();
+drawCoast(ctx,proj,st.zoom,{color:'rgba(236,230,218,.85)',hi:st.zoom>8});ctx.save();ctx.globalAlpha*=1-mercK;ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.stroke();ctx.restore();
 const k=revealed?Math.min(1,(t-revealT)/2200):0;
 if(qi===0){pin(ctx,'Havana · 82.4° W',C.havana,'#f0b35a');if(revealed){// the meridian grows southward from Havana
 const lat1=23.13-(23.13+40)*k;arcLine(ctx,Array.from({length:60},(_,i)=>ll(23.13+(lat1-23.13)*i/59,-82.38)),'#ff7d6f',3);if(k>.6){pin(ctx,'Punta Pariñas · 81.3° W · westernmost mainland',C.parinas,'#6fd48a',-8);pin(ctx,'Bogotá',C.bogota,'#9a9382');pin(ctx,'Quito',C.quito,'#9a9382');pin(ctx,'Lima',C.lima,'#9a9382');}if(k>=1){const q=proj(ll(-12,-82.38));if(q.z>0)tag(ctx,'due south of Havana: open Pacific all the way',q.x-20,q.y+28,'#ff7d6f',12);}}}
@@ -806,10 +799,10 @@ if(front){ctx.closePath();ctx.fillStyle='rgba(240,179,90,.30)';ctx.fill();}
 ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;ctx.stroke();}
 if(!GRING||phase<0.06){pin(ctx,'Greenland · 0.84 million mi²',C.greenland,'#f0b35a',-10);}
 else{const gp=proj(cur);if(gp.z>0&&mercK<0.3){const lbl=phase>0.97?'true size · 1/14 of Africa':'Greenland at true size · sliding south';tag(ctx,lbl,Math.max(8,Math.min(gp.x+14,w-190)),gp.y-12,'#f0b35a',12);}}
-if(mercK<0.3)pin(ctx,'Africa · 11.7 million mi²',C.africa,'#6fd48a',16);
+pin(ctx,'Africa · 11.7 million mi²',C.africa,'#6fd48a',16);
 if(k>.35){const g=proj(ll(38,-18));if(g.z>0)tag(ctx,'AFRICA ≈ 14 × GREENLAND',g.x-110,g.y,'#f0b35a',15);}
-drawMercator(ctx,w,h,mercK,phase>0.55?verts:null);}
-ctx.globalAlpha=1;text(ctx,`zoom ${fmt(st.zoom,1)}×`,w-16-mercK*(w<700?w*.62:Math.min(w*.46,620)),h*.09,{size:11,color:'#9a9382',align:'right'});}});}
+if(mercK>0.97){text(ctx,'The globe, unrolled and stretched: Mercator keeps angles true and inflates the poles',cx,h*.94,{size:13,color:'#9a9382',align:'center'});const gp=proj(gHome);tag(ctx,'Greenland here: inflated roughly tenfold by the projection',Math.max(8,gp.x-140),gp.y-64,'#f0b35a',12);}}
+ctx.globalAlpha=1;text(ctx,`zoom ${fmt(st.zoom,1)}×`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}});}
 
 /* ---------- 1 · latitude & longitude ---------- */
 {const o=setup('c1');let mode='globe';
