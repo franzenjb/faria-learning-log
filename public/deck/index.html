@@ -141,25 +141,26 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
       <li class="act">Act I · Locate yourself</li>
       <li data-go="Mental maps"><strong>1.</strong> Three questions your mental map gets wrong.</li>
       <li data-go="Latitude &amp; Longitude"><strong>2.</strong> Latitude is an angle to Polaris. Longitude is a clock.</li>
-      <li data-go="Hours are slices"><strong>3.</strong> Hours are slices: the Earth as a 24-piece clock, down to the arcminute.</li>
-      <li data-go="Longitude is two clocks"><strong>4.</strong> Longitude is the gap between two clocks: a ship at noon, Jupiter’s eclipse on land, the chronometer.</li>
+      <li data-go="Walk north"><strong>3.</strong> Walk north: why the star’s height above your horizon is your latitude.</li>
+      <li data-go="Hours are slices"><strong>4.</strong> Hours are slices: the Earth as a 24-piece clock, down to the arcminute.</li>
+      <li data-go="Longitude is two clocks"><strong>5.</strong> Longitude is the gap between two clocks: a ship at noon, Jupiter’s eclipse on land, the chronometer.</li>
       <li class="act">Act II · Measure the Earth</li>
-      <li data-go="Eratosthenes"><strong>5.</strong> Eratosthenes sizes the Earth with a well and a stick.</li>
-      <li data-go="Baselines"><strong>6.</strong> Baselines: your finger, a steeple, and Picard's network.</li>
-      <li data-go="Picard measures France"><strong>7.</strong> From Eratosthenes’ paced arc to Picard’s measured one: rods, a castle, churches, a network, the Paris meridian, a smaller France.</li>
+      <li data-go="Eratosthenes"><strong>6.</strong> Eratosthenes sizes the Earth with a well and a stick.</li>
+      <li data-go="Baselines"><strong>7.</strong> Baselines: your finger, a steeple, and Picard's network.</li>
+      <li data-go="Picard measures France"><strong>8.</strong> From Eratosthenes’ paced arc to Picard’s measured one: rods, a castle, churches, a network, the Paris meridian, a smaller France.</li>
       <li class="act">Act III · Measure the heavens, then carry it to sea</li>
-      <li data-go="Jupiter's moons"><strong>8.</strong> Galileo sees four moons circling Jupiter.</li>
-      <li data-go="Moon mountains"><strong>9.</strong> Galileo measures a mountain on the Moon from its shadow.</li>
-      <li data-go="Kepler to Halley"><strong>10.</strong> Kepler, Horrocks and Halley: a map with no scale bar.</li>
-      <li data-go="Transit of Venus"><strong>11.</strong> Venus crosses the Sun and the solar system gets a size.</li>
-      <li data-go="Cook"><strong>12.</strong> Cook: a collier, a clock, and the coast he charted.</li>
-      <li data-go="Mason &amp; Dixon"><strong>13.</strong> Mason and Dixon: a sea fight, a transit, and a line across America.</li>
+      <li data-go="Jupiter's moons"><strong>9.</strong> Galileo sees four moons circling Jupiter.</li>
+      <li data-go="Moon mountains"><strong>10.</strong> Galileo measures a mountain on the Moon from its shadow.</li>
+      <li data-go="Kepler to Halley"><strong>11.</strong> Kepler, Horrocks and Halley: a map with no scale bar.</li>
+      <li data-go="Transit of Venus"><strong>12.</strong> Venus crosses the Sun and the solar system gets a size.</li>
+      <li data-go="Cook"><strong>13.</strong> Cook: a collier, a clock, and the coast he charted.</li>
+      <li data-go="Mason &amp; Dixon"><strong>14.</strong> Mason and Dixon: a sea fight, a transit, and a line across America.</li>
       <li class="act">Act IV · Represent the world</li>
-      <li data-go="Flat maps lie"><strong>14.</strong> Flat maps lie: Greenland, Africa, and the shortest way across.</li>
+      <li data-go="Flat maps lie"><strong>15.</strong> Flat maps lie: Greenland, Africa, and the shortest way across.</li>
       <li class="act">Act V · Make a decision</li>
-      <li data-go="The storm wire"><strong>15.</strong> The storm wire: telegraph, Viñes, and Galveston.</li>
-      <li data-go="Twice the wind"><strong>16.</strong> Twice the wind is four times the force.</li>
-      <li data-go="The shelter decision"><strong>17.</strong> The shelter decision: a crisp edge, a fuzzy answer.</li>
+      <li data-go="The storm wire"><strong>16.</strong> The storm wire: telegraph, Viñes, and Galveston.</li>
+      <li data-go="Twice the wind"><strong>17.</strong> Twice the wind is four times the force.</li>
+      <li data-go="The shelter decision"><strong>18.</strong> The shelter decision: a crisp edge, a fuzzy answer.</li>
     </ul>
     <p><small>→ and ← keys move between slides. F for full screen. P opens presenter notes in a second window. Dotted words open an explanation.</small></p>
   </div>
@@ -212,10 +213,25 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
   <div class="stage"><canvas id="c1"></canvas><div class="hint" id="h1">Drag to spin · pinch or scroll to zoom · tap to stand there</div><div class="card" id="g-card" hidden><button class="x" id="g-card-x" aria-label="Close">×</button><h3 id="g-card-t"></h3><div id="g-card-g"></div><p id="g-card-p"></p></div></div>
 </section>
 
+<!-- 2b · Walk north -->
+<section class="slide" data-title="Walk north" data-fx="sunrise">
+  <div class="text">
+    <p class="kicker">Act I · 3 · Why the star’s height is your latitude</p>
+    <h1>Walk north and watch the star climb</h1>
+    <p class="lede">Drag the person from the equator to the pole. On the left is the Earth cut in half, with you standing on it. On the right is what you see when you face north.</p>
+    <p>The two gold angles are always the same number. One is measured at the centre of the Earth, where nobody can stand. The other you can measure tonight with a stick and a protractor.</p>
+    <div class="controls"><label><span class="row">Your latitude <output id="wn-lat-out">43.8° N</output></span><input id="wn-lat" type="range" min="0" max="90" step="0.1" value="43.8"></label></div>
+    <div class="chips" id="wn-places"><button data-lat="0">Equator · 0°</button><button data-lat="27.9">Tampa · 27.9°</button><button data-lat="43.8">Cumberland Foreside · 43.8°</button><button data-lat="90">North Pole · 90°</button></div>
+    <div class="btns"><button class="primary" id="wn-walk">Walk north</button><button id="wn-why">Why they match</button></div>
+    <div class="readout" id="wn-read"></div>
+  </div>
+  <div class="stage"><canvas id="c2w"></canvas><div class="hint">Drag the person along the Earth · equator to pole</div></div>
+</section>
+
 <!-- 3 · Hours are slices -->
 <section class="slide" data-title="Hours are slices" data-fx="clockhand">
   <div class="text">
-    <p class="kicker">Act I · 3 · Degrees are time</p>
+    <p class="kicker">Act I · 4 · Degrees are time</p>
     <h1 id="hs-title">The Earth is a 24-hour clock</h1>
     <p class="lede">Look down on the North Pole. The Earth turns once in 24 hours. Each hour it turns 15°, and 24 × 15° = 360°, the whole circle.</p>
     <p>Then break one hour into minutes and seconds, the same way a clock does. The numbers are written on the picture.</p>
@@ -236,7 +252,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 3b · Longitude is two clocks -->
 <section class="slide" data-title="Longitude is two clocks" data-fx="iris">
   <div class="text">
-    <p class="kicker">Act I · 4 · Longitude is the gap between two clocks</p>
+    <p class="kicker">Act I · 5 · Longitude is the gap between two clocks</p>
     <h1 id="lg-title"></h1>
     <div class="chips" id="lg-steps"><button data-s="0" class="on">1 · A ship at noon</button><button data-s="1">2 · On land: Jupiter’s clock</button><button data-s="2">3 · At sea: the chronometer</button></div>
     <p class="lede" id="lg-lede"></p>
@@ -249,7 +265,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 2 · Eratosthenes -->
 <section class="slide" data-title="Eratosthenes" data-fx="sunrise">
   <div class="text">
-    <p class="kicker">Act II · 5 · How big is the world? · c. 240 BC</p>
+    <p class="kicker">Act II · 6 · How big is the world? · c. 240 BC</p>
     <h1>A well, a stick, and the size of the Earth</h1>
     <p class="lede">At noon on the summer solstice the Sun shone straight down a well at Syene. The same moment in Alexandria, a vertical stick, a <span class="term" data-term="gnomon">gnomon</span>, cast a shadow of about 7.2°, one fiftieth of a circle.</p>
     <p>The Sun is so far away its rays arrive parallel. If the ground were flat, both sticks would cast the same shadow. They did not, so the ground curves, and by <span class="term" data-term="euclid">Euclid’s rule for parallel lines</span> the shadow angle at Alexandria equals the angle between the two cities at the center of the Earth. Fifty times the distance between them, measured in <span class="term" data-term="stadion">stadia</span>, is the whole way around.</p>
@@ -267,7 +283,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 4 · Baselines -->
 <section class="slide" data-title="Baselines" data-fx="triangles">
   <div class="text">
-    <p class="kicker">Act II · 6 · Triangles · One measured length, everything else computed</p>
+    <p class="kicker">Act II · 7 · Triangles · One measured length, everything else computed</p>
     <h1 id="bl-title">Switch eyes. The finger jumps; the wall does not.</h1>
     <div class="modes" id="m4"><button class="on" data-mode="finger">Your finger</button><button data-mode="steeple">A steeple</button><button data-mode="picard">Picard's network · 1670</button></div>
     <div id="bl-body"></div>
@@ -281,7 +297,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 5 · Picard -->
 <section class="slide" data-title="Picard measures France" data-fx="rods">
   <div class="text">
-    <p class="kicker">Act II · 7 · Triangles · 240 BC to 1693 · From a paced arc to a measured one</p>
+    <p class="kicker">Act II · 8 · Triangles · 240 BC to 1693 · From a paced arc to a measured one</p>
     <h1 id="pc-title">Eratosthenes: a rough arc</h1>
     <div class="chips" id="pc-chapters"><button data-ch="0" class="on">1 · Eratosthenes</button><button data-ch="1">2 · The rods</button><button data-ch="2">3 · Turn the angle</button><button data-ch="3">4 · The network</button><button data-ch="4">5 · The meridian</button><button data-ch="5">6 · France shrinks</button></div>
     <div id="pc-body"></div>
@@ -294,7 +310,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 3 · Jupiter's moons -->
 <section class="slide" data-title="Jupiter's moons" data-fx="telescope">
   <div class="text">
-    <p class="kicker">Act III · 8 · January 1610 · Padua</p>
+    <p class="kicker">Act III · 9 · January 1610 · Padua</p>
     <h1 id="jup-title">Three small stars in a line beside Jupiter. What will you see tomorrow night?</h1>
     <div class="modes" id="m5j"><button class="on" data-mode="moons">The moons</button><button data-mode="clock">Jupiter as a clock</button></div>
     <div id="jup-moons-panel">
@@ -335,7 +351,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 4 · Moon mountains -->
 <section class="slide" data-title="Moon mountains" data-fx="terminator">
   <div class="text">
-    <p class="kicker">Act III · 9 · Sidereus Nuncius · 1610</p>
+    <p class="kicker">Act III · 10 · Sidereus Nuncius · 1610</p>
     <h1>How tall is a mountain on the Moon?</h1>
     <p class="lede">Galileo saw bright points on the dark side of the Moon, well past the <span class="term" data-term="terminator">terminator</span>, the line between day and night. They were peaks, still catching sunlight while the ground around them was in shadow.</p>
     <p>Left: the telescope view. Right: the same peak seen from above the pole. A right triangle: the Moon's radius <em>R</em> as one leg, the distance <em>d</em> past the terminator as the other, and <em>R + h</em> as the hypotenuse. Drag the peak on the left and watch the triangle change.</p>
@@ -355,7 +371,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 5 · Kepler, Horrocks, Halley -->
 <section class="slide" data-title="Kepler to Halley" data-fx="orbit">
   <div class="text">
-    <p class="kicker">Act III · 10 · 1609 to 1742 · A relay across three lifetimes</p>
+    <p class="kicker">Act III · 11 · 1609 to 1742 · A relay across three lifetimes</p>
     <h1 id="kp-title">A map of the solar system with no scale bar</h1>
     <div class="modes" id="m7"><button class="on" data-mode="kepler">Kepler</button><button data-mode="horrocks">Horrocks · 1639</button><button data-mode="halley">Halley · the plan</button><button data-mode="starday">Star day vs Sun day</button></div>
     <div id="kp-body"></div>
@@ -372,7 +388,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 5 · Transit of Venus -->
 <section class="slide" data-title="Transit of Venus" data-fx="venus">
   <div class="text">
-    <p class="kicker">Act III · 11 · 1761 and 1769 · The whole world looks up</p>
+    <p class="kicker">Act III · 12 · 1761 and 1769 · The whole world looks up</p>
     <h1>Venus crosses the Sun and sizes the solar system</h1>
     <div class="modes" id="m5"><button class="on" data-mode="measure">Measure the Sun's distance</button><button data-mode="rare">Why it almost never happens</button></div>
 
@@ -402,7 +418,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 9 · Cook -->
 <section class="slide" data-title="Cook" data-fx="wake">
   <div class="text">
-    <p class="kicker">Act III · 12 · 1768 to 1775 · A collier, a clock, and a coast</p>
+    <p class="kicker">Act III · 13 · 1768 to 1775 · A collier, a clock, and a coast</p>
     <h1 id="ck-title">A Whitby coal ship sails for Venus</h1>
     <div class="chips" id="ck-chapters"><button data-ch="0" class="on">1 · Endeavour</button><button data-ch="1">2 · To Tahiti</button><button data-ch="2">3 · The transit</button><button data-ch="3">4 · The east coast</button><button data-ch="4">5 · K1</button></div>
     <div id="ck-body"></div>
@@ -416,7 +432,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 6 · Mason and Dixon -->
 <section class="slide" data-title="Mason &amp; Dixon" data-fx="survey">
   <div class="text">
-    <p class="kicker">Act III · 13 · 1761 to 1767 · Two men, one line</p>
+    <p class="kicker">Act III · 14 · 1761 to 1767 · Two men, one line</p>
     <h1 id="md-title">Mason and Dixon</h1>
     <div class="chips" id="md-chapters"><button data-ch="0" class="on">1 · Two men</button><button data-ch="1">2 · The Seahorse</button><button data-ch="2">3 · The Cape</button><button data-ch="3">4 · To America</button><button data-ch="4">5 · The line</button><button data-ch="5">6 · The stones</button></div>
     <div id="md-body"></div>
@@ -430,7 +446,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 9 · Flat maps lie -->
 <section class="slide" data-title="Flat maps lie" data-fx="unroll">
   <div class="text">
-    <p class="kicker">Act IV · 14 · Frames · Every flat map is a choice</p>
+    <p class="kicker">Act IV · 15 · Frames · Every flat map is a choice</p>
     <h1 id="fm-title">How many Greenlands fit in Africa?</h1>
     <div class="modes" id="m9"><button class="on" data-mode="greenland">Greenland vs Africa</button><button data-mode="routes">Straight is not shortest</button></div>
     <div id="fm-greenland">
@@ -453,7 +469,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 12 · The storm wire -->
 <section class="slide" data-title="The storm wire" data-fx="morse">
   <div class="text">
-    <p class="kicker">Act V · 15 · Decisions · A warning is an inference, and not yet safety</p>
+    <p class="kicker">Act V · 16 · Decisions · A warning is an inference, and not yet safety</p>
     <h1 id="sw-title">Telegraph reports could outrun a storm</h1>
     <div class="chips" id="sw-chapters"><button data-ch="0" class="on">1 · The wire</button><button data-ch="1">2 · Viñes, 1875</button><button data-ch="2">3 · Galveston, 1900</button></div>
     <div id="sw-body"></div>
@@ -468,7 +484,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 13 · Twice the wind -->
 <section class="slide" data-title="Twice the wind" data-fx="gust">
   <div class="text">
-    <p class="kicker">Act V · 16 · Decisions · Before comparing winds, compare definitions</p>
+    <p class="kicker">Act V · 17 · Decisions · Before comparing winds, compare definitions</p>
     <h1 id="wd-title">The wind rises from 100 to 120 mph. How much harder does it push?</h1>
     <p class="lede" id="wd-lede">Twenty percent more wind. Tap the answers the room calls out, then reveal.</p>
     <div class="quiz" id="wd-quiz"></div>
@@ -487,7 +503,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 14 · The shelter decision -->
 <section class="slide" data-title="The shelter decision" data-fx="edge">
   <div class="text">
-    <p class="kicker">Act V · 17 · Decisions · A crisp edge can conceal a fuzzy answer</p>
+    <p class="kicker">Act V · 18 · Decisions · A crisp edge can conceal a fuzzy answer</p>
     <h1 id="sh-title">Pick a shelter</h1>
     <div class="chips" id="sh-stages"></div>
     <p class="lede" id="sh-lede"></p>
@@ -782,6 +798,58 @@ dial(w*.78,h*.78,kr,m,'Greenwich','GMT','#b89a5a');dial(w*.93,h*.78,kr,localMin,
 const diffMin=Math.round(shipLon*4);tag(ctx,`${diffMin<0?'−':'+'}${Math.floor(Math.abs(diffMin)/60)}h ${String(Math.abs(diffMin)%60).padStart(2,'0')}m = ${shipLon<0?'−':'+'}${fmt(Math.abs(shipLon))}°`,w*.78-kr*.9,h*.78+kr+48,'#cfc8ba',12);
 if(holdNoon)tag(ctx,'ship held at noon · slide GMT and the ship moves',w*.78-kr*.9,h*.78-kr-16,'#6fd48a',11);}
 }
+
+/* ---------- 2b · Walk north: why the star's height is your latitude ---------- */
+{const o=setup('c2w');const latIn=document.getElementById('wn-lat'),latOut=document.getElementById('wn-lat-out'),read=document.getElementById('wn-read'),whyB=document.getElementById('wn-why'),walkB=document.getElementById('wn-walk');
+let lat=43.8,why=false,walk=null,drag=false;const man=new Path2D('M -8 -42 L 8 -42 Q 12 -42 13 -38 L 16 -22 Q 16 -19 13 -19 Q 11 -19 10.5 -21 L 8 -32 L 8 -4 Q 8 0 5 0 L 3 0 Q 1.5 0 1.5 -2 L 1 -18 L -1 -18 L -1.5 -2 Q -1.5 0 -3 0 L -5 0 Q -8 0 -8 -4 L -8 -32 L -10.5 -21 Q -11 -19 -13 -19 Q -16 -19 -16 -22 L -13 -38 Q -12 -42 -8 -42 Z');
+function set(v){lat=Math.max(0,Math.min(90,v));latIn.value=lat;update();}
+function update(){latOut.textContent=fmt(lat)+'° N';read.innerHTML=`<strong>You stand at ${fmt(lat)}° N</strong><span class="big">Polaris is ${fmt(lat)}° above your horizon</span><span>${lat<1?'At the equator your ground points straight at the star. Polaris sits on the horizon: 0°.':lat>89?'At the pole your ground is square to the starlight. Polaris is straight overhead: 90°.':'Every degree you walk north tips your ground one more degree away from the starlight, so the star climbs one degree. The two numbers are the same angle, seen from two places.'}${why?'<br><b>Why:</b> your ground is square to your radius, and the starlight is square to the equator. Turn the radius away from the equator by some angle and the ground turns away from the starlight by exactly that angle.':''}</span>`;}
+latIn.oninput=()=>{walk=null;set(+latIn.value);};
+document.querySelectorAll('#wn-places button').forEach(b=>b.onclick=()=>{walk=null;set(+b.dataset.lat);});
+whyB.onclick=()=>{why=!why;whyB.classList.toggle('on',why);update();};
+walkB.onclick=()=>{walk={t0:performance.now()};};
+const geom=()=>{const{w,h}=o;return{cx:w*.27,cy:h*.58,R:Math.min(w*.155,h*.27)};};
+{const P=e=>{const r=o.c.getBoundingClientRect();return{x:(e.clientX-r.left)*(o.w/r.width||1),y:(e.clientY-r.top)*(o.h/r.height||1)};};
+const aim=e=>{const{x,y}=P(e);const{cx,cy}=geom();set(Math.atan2(cy-y,Math.max(1,x-cx))/DEG);};
+o.c.addEventListener('pointerdown',e=>{const{x,y}=P(e);const{cx,cy,R}=geom();const d=Math.hypot(x-cx,y-cy);if(x<cx-10||d<R*.6||d>R*1.7)return;drag=true;walk=null;o.c.setPointerCapture(e.pointerId);aim(e);});
+o.c.addEventListener('pointermove',e=>{if(drag)aim(e);});const end=()=>drag=false;o.c.addEventListener('pointerup',end);o.c.addEventListener('pointercancel',end);}
+update();
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);
+if(walk){const k=Math.min(1,(t-walk.t0)/9000);set(90*(k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2));if(k>=1)walk=null;}
+const{cx,cy,R}=geom();const a=lat*DEG;const px=cx+R*Math.cos(a),py=cy-R*Math.sin(a);const nx=Math.cos(a),ny=-Math.sin(a),tx=-Math.sin(a),ty=-Math.cos(a);
+// starlight: parallel lines from Polaris, straight down the page
+ctx.setLineDash([4,7]);ctx.strokeStyle='rgba(111,179,255,.28)';ctx.lineWidth=1;for(let x=cx-R*1.5;x<=cx+R*2.2;x+=R*.37){ctx.beginPath();ctx.moveTo(x,h*.07);ctx.lineTo(x,h*.93);ctx.stroke();}ctx.setLineDash([]);
+text(ctx,'✦ Polaris, very far away · its light arrives as parallel lines',cx+R*.35,h*.06,{size:13,color:'#6fb3ff',align:'center'});
+// Earth
+const g=ctx.createRadialGradient(cx-R*.3,cy-R*.3,R*.1,cx,cy,R);g.addColorStop(0,'#2f5a8c');g.addColorStop(1,'#132236');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.stroke();
+ctx.setLineDash([6,6]);ctx.strokeStyle='rgba(236,230,218,.45)';ctx.beginPath();ctx.moveTo(cx,cy-R*1.25);ctx.lineTo(cx,cy+R*1.1);ctx.stroke();ctx.strokeStyle='rgba(240,179,90,.6)';ctx.beginPath();ctx.moveTo(cx-R*1.1,cy);ctx.lineTo(cx+R*1.35,cy);ctx.stroke();ctx.setLineDash([]);
+text(ctx,'N pole',cx-8,cy-R-10,{size:12,color:'#ece6da',align:'right'});text(ctx,'equator',cx-R*1.13,cy+4,{size:12,color:'#f0b35a',align:'right'});
+// the walked arc and the radius
+ctx.strokeStyle='rgba(240,179,90,.5)';ctx.lineWidth=5;ctx.beginPath();ctx.arc(cx,cy,R,-a,0);ctx.stroke();
+ctx.strokeStyle='#f0b35a';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();ctx.beginPath();ctx.arc(cx,cy,R*.3,-a,0);ctx.stroke();
+{const b=Math.max(a/2,.16);text(ctx,fmt(lat)+'°',cx+R*.5*Math.cos(b),cy-R*.5*Math.sin(b)+6,{size:20,color:'#f0b35a',font:'mono',align:'center',weight:600});}
+// your ground: the horizon line, tangent to the Earth where you stand
+const L=R*1.05;ctx.strokeStyle='#6fd48a';ctx.lineWidth=3.5;ctx.beginPath();ctx.moveTo(px-tx*L,py-ty*L);ctx.lineTo(px+tx*L,py+ty*L);ctx.stroke();[['#6fd48a','your horizon · the ground you stand on'],['#6fb3ff','your line of sight to Polaris'],['#f0b35a','the same angle, twice']].forEach(([c,n],i)=>{ctx.fillStyle=c;ctx.fillRect(w*.03,h*.12+i*24,22,4);text(ctx,n,w*.03+32,h*.12+i*24+6,{size:13,color:c});});
+// the line of sight to Polaris and the angle above the horizon
+ctx.strokeStyle='#6fb3ff';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px,py-R*.95);ctx.stroke();ctx.fillStyle='#6fb3ff';ctx.beginPath();ctx.moveTo(px,py-R*.95-12);ctx.lineTo(px-7,py-R*.95+2);ctx.lineTo(px+7,py-R*.95+2);ctx.closePath();ctx.fill();text(ctx,'to Polaris',px+10,py-R*.95,{size:13,color:'#6fb3ff'});
+const a0=Math.atan2(ty,tx),a1=-Math.PI/2;ctx.strokeStyle='#f0b35a';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(px,py,R*.34,a0,a1);ctx.stroke();{const m=(a0+a1)/2,far=lat<8?R*.5:0;text(ctx,fmt(lat)+'°',px+R*.52*Math.cos(m)-far,py+R*.52*Math.sin(m)+6,{size:20,color:'#f0b35a',font:'mono',align:'center',weight:600});}
+if(why){const sq=(x,y,ux,uy,vx,vy,c)=>{const s=13;ctx.strokeStyle=c;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x+ux*s,y+uy*s);ctx.lineTo(x+ux*s+vx*s,y+uy*s+vy*s);ctx.lineTo(x+vx*s,y+vy*s);ctx.stroke();};
+sq(px,py,-nx,-ny,-tx,-ty,'#ece6da');sq(cx,cy,1,0,0,-1,'#ece6da');ctx.setLineDash([3,6]);ctx.strokeStyle='rgba(236,230,218,.6)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px+nx*R*.8,py+ny*R*.8);ctx.stroke();ctx.setLineDash([]);text(ctx,'straight up for you',px+nx*R*.82+6,py+ny*R*.82+4,{size:12,color:'#cfc8ba'});
+tag(ctx,'ground ⟂ radius',cx-R*1.45,cy+R*1.22,'#ece6da',13);tag(ctx,'starlight ⟂ equator',cx-R*1.45,cy+R*1.22+26,'#ece6da',13);tag(ctx,'so the two gold angles are equal',cx-R*1.45,cy+R*1.22+52,'#f0b35a',13);}
+// you
+ctx.save();ctx.translate(px,py);ctx.rotate(Math.atan2(ny,nx)+Math.PI/2);ctx.scale(1.25,1.25);ctx.fillStyle='#ece6da';ctx.fill(man);ctx.beginPath();ctx.arc(0,-50,6.5,0,TAU);ctx.fill();ctx.restore();
+if(!drag&&!walk&&!why)text(ctx,'drag me',px+nx*86,py+ny*86+4,{size:12,color:'#9a9382',align:'center'});
+// ---- what you see: the same angle from where you stand
+const vx0=w*.6,vx1=w*.96,vy1=h*.72,ox=(vx0+vx1)/2,Rs=Math.min((vx1-vx0)/2-10,h*.42);ctx.fillStyle='rgba(10,14,24,.6)';ctx.strokeStyle='#283048';ctx.lineWidth=1;ctx.beginPath();ctx.roundRect?ctx.roundRect(vx0-14,vy1-Rs-64,vx1-vx0+28,Rs+128,12):ctx.rect(vx0-14,vy1-Rs-64,vx1-vx0+28,Rs+128);ctx.fill();ctx.stroke();
+text(ctx,'WHAT YOU SEE · facing north',ox,vy1-Rs-38,{size:12,color:'#9a9382',align:'center'});
+ctx.strokeStyle='rgba(236,230,218,.25)';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(ox,vy1,Rs,Math.PI,TAU);ctx.stroke();
+for(let d=0;d<=90;d+=10){const q=Math.PI-d*DEG;const big=d%30===0;ctx.strokeStyle=big?'#ece6da':'rgba(236,230,218,.4)';ctx.lineWidth=big?2:1;ctx.beginPath();ctx.moveTo(ox+Rs*Math.cos(q),vy1-Rs*Math.sin(q));ctx.lineTo(ox+(Rs-(big?14:7))*Math.cos(q),vy1-(Rs-(big?14:7))*Math.sin(q));ctx.stroke();if(big)text(ctx,d===90?'90° · overhead':d+'°',ox+(Rs+18)*Math.cos(q),vy1-(Rs+18)*Math.sin(q)+4,{size:12,color:'#cfc8ba',align:'center',font:'mono'});}
+ctx.strokeStyle='#6fd48a';ctx.lineWidth=3.5;ctx.beginPath();ctx.moveTo(vx0,vy1);ctx.lineTo(vx1,vy1);ctx.stroke();text(ctx,'north horizon',vx0+4,vy1+20,{size:12,color:'#6fd48a'});
+const q=Math.PI-a,sx=ox+Rs*Math.cos(q),sy=vy1-Rs*Math.sin(q);ctx.strokeStyle='#6fb3ff';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(ox,vy1);ctx.lineTo(sx,sy);ctx.stroke();ctx.strokeStyle='#f0b35a';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(ox,vy1,Rs*.3,Math.PI,Math.PI+a);ctx.stroke();
+{const b=Math.max(a/2,.2);text(ctx,fmt(lat)+'°',ox+Rs*.48*Math.cos(Math.PI-b),vy1-Rs*.48*Math.sin(Math.PI-b)+6,{size:20,color:'#f0b35a',font:'mono',align:'center',weight:600});}
+const sgl=ctx.createRadialGradient(sx,sy,0,sx,sy,18);sgl.addColorStop(0,'rgba(190,220,255,.9)');sgl.addColorStop(1,'rgba(111,179,255,0)');ctx.fillStyle=sgl;ctx.beginPath();ctx.arc(sx,sy,18,0,TAU);ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(sx,sy,4,0,TAU);ctx.fill();text(ctx,'Polaris',sx+(a>1.2?14:-12),sy-14,{size:13,color:'#dfe7ff',align:a>1.2?'left':'right'});
+ctx.save();ctx.translate(ox,vy1);ctx.scale(1.1,1.1);ctx.fillStyle='#ece6da';ctx.fill(man);ctx.beginPath();ctx.arc(0,-50,6.5,0,TAU);ctx.fill();ctx.restore();
+text(ctx,'a cut through the Earth along your meridian · Earth and person not to scale · Polaris treated as exactly on the axis',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}});}
 
 /* ---------- 3 · Hours are slices ---------- */
 {const o=setup('c3h');const speedIn=document.getElementById('hs-speed'),speedOut=document.getElementById('hs-speed-out'),read=document.getElementById('hs-read'),title=document.getElementById('hs-title'),hint=document.getElementById('hs-hint');
@@ -2152,6 +2220,7 @@ const FXMAP={fade:'warp',iris:'sweep',sunrise:'rays',telescope:'warp',terminator
 const SOURCES={
 'Mental maps':{fact:['Havana lies at 82.4° W; the westernmost point of mainland South America, Punta Pariñas in Peru, is at 81.3° W.','Reno (119.8° W) is west of Los Angeles (118.2° W).','Rome 41.9° N, Boston 42.4° N, New York 40.7° N.'],data:['Coastlines: Natural Earth 1:110m and 1:50m, public domain.'],exag:[],fict:[]},
 'Latitude & Longitude':{fact:['Polaris sits about 0.7° from the north celestial pole; the altitude of the pole equals the observer’s latitude.','One nautical mile was defined as one minute of latitude and fixed at 1,852 m in 1929.','The 1884 International Meridian Conference in Washington adopted Greenwich as the prime meridian.','Kiribati moved the Date Line on 1 January 1995; Samoa and Tokelau skipped Friday 30 December 2011.'],data:['Star positions for the Plough and Crux are catalogue values, rounded.','Date Line vertices are approximate.'],exag:['Polaris is drawn directly on the axis.','The celestial sphere is drawn a few Earth radii away.'],fict:['Null Island is a joke with a real buoy: Station 13010 “Soul” of the PIRATA array.']},
+'Walk north':{fact:['The altitude of the celestial pole equals the observer’s latitude; navigators used this for centuries.'],data:['Polaris is about 0.7° from the true pole, so a careful navigator applies a small correction.'],exag:['The person is thousands of miles tall next to the Earth.','Polaris is drawn exactly on the axis and its light as perfectly parallel.'],fict:[]},
 'Hours are slices':{fact:['360° ÷ 24 h = 15° per hour; 1° = 4 minutes; 1′ = 4 seconds of time.','Harrison’s H4 was about 5 seconds slow after the 81-day voyage to Jamaica in 1761–62.','A minute of time is 15 minutes of arc; the two share a name and nothing else.'],data:['Equatorial circumference 24,901 miles gives 1,037.5 miles per hour of turning.'],exag:['The Earth turns one hour every three seconds at default speed.'],fict:['The ship and the land observer are placed wherever you put them.']},
 'Longitude is two clocks':{fact:['Galileo proposed Jupiter’s moons as a longitude clock in 1612; Cassini published usable eclipse tables in 1668.','From 1679 Picard and La Hire fixed French coastal longitudes by timing eclipses of Io against Cassini’s observations of the same eclipses in Paris.','Harrison’s H4 passed its sea trial to Jamaica in 1761–62.'],data:['15° of longitude per hour of local-time difference; 1° per 4 minutes.'],exag:['Unpaused, the Earth turns an hour every three seconds.','Jupiter, Io and the shadow are schematic and enormously too close.'],fict:['The observer’s position and the eclipse time are whatever you set. “Greenwich” stands for any home observatory; for Picard it was Paris.']},
 'Eratosthenes':{fact:['The method and the figures 7.2° (1/50 of a circle) and 5,000 stadia come from Cleomedes, writing centuries later.','Syene is at 24.1° N, close to but not on the Tropic; it is also about 3° east of Alexandria.'],data:['Modern meridional circumference: 40,008 km, 24,860 miles.','The 157.5 m stadion is one scholarly estimate; 185 m (Attic) is another. The result moves by 17 percent between them.'],exag:['The arc between the cities is drawn several times wider than 7.2°.','Stick and shadow are enormously oversized.'],fict:[]},
@@ -2177,6 +2246,7 @@ const NOTES={
 'Mental maps':['Vote before the reveal. Most rooms pick Peru for Havana and Los Angeles for Reno.','Follow one meridian, not your mental map. "Coastal" and "farther west" are not the same thing.','Rome and Boston share a parallel and little else: latitude is one input to climate, not a model.'],
 'Latitude & Longitude':['Tap the globe to stand somewhere; the angle at your feet is the angle at the centre. Polaris is 0.7° off the pole: a guide, not the pole.','Chronometer mode: slide the clock until the Sun is highest over the ship. 1 hour = 15°. West is negative and the local clock runs behind.','One nautical mile is one minute of latitude, fixed at 1,852 m in 1929. Four seconds of clock error is a mile of longitude.'],
 'Longitude is two clocks':['Latitude took one star. Longitude takes two clocks read at the same instant.','Step 1: the ship at noon has one clock. Greenwich is a question mark.','Step 2: Play the eclipse. Io goes dark for the whole Earth at once. Two local times, subtract, times 15.','That is how Picard and La Hire moved Brest. Steady telescope and pendulum clock: land only.','Step 3: the chronometer carries Greenwich aboard. Drag the Earth: both hands turn together and the gap never changes.'],
+'Walk north':['Start at the equator: the ground points straight at the star. Polaris on the horizon, 0°.','Press Walk north. Every degree north tips the ground one degree; the star climbs one degree.','At the pole the ground is square to the starlight: 90°, overhead.','Why they match: ground ⟂ radius, starlight ⟂ equator. Turn one pair and the other turns the same.','One angle is at the centre of the Earth. The other you can measure tonight.'],
 'Hours are slices':['24 slices, one hour each, 15°. Tap a slice.','One degree is 4 minutes of time. One arcminute is 4 seconds and one nautical mile.','Time minutes are not arcminutes: a minute of time is 15 minutes of arc.'],
 'Eratosthenes':['Sun rays arrive parallel because the Sun is 93 million miles off. The well and the stick see the same rays.','Euclid I.29: a line across parallels makes equal alternate angles. The shadow angle is the centre angle.','360 ÷ 7.2 = 50. Fifty times the distance. The unit (stadion) is the uncertainty, not the method.'],
 'Picard measures France':['Eratosthenes: 7.2° from a shadow, 5,000 stadia from pacers. Good angle, rough distance, 24–29k miles.','Picard 1669: rods, 4 toises each, laid twice on a straight road: 5,663 toises. The only ruler-measured length.','Quadrant with telescope: sight down the baseline, swing to Montlhéry castle, read. Two angles solve the triangle. Castle → Brie church → next steeple.','Thirteen triangles to Sourdon; check baseline agrees to a few feet.','Observatory is a station; bearing against Cassini’s meridian line drops every station onto north–south. 78,850 toises ÷ 1° 22′ 55″ = 69.1 mi per degree, 24,880 around.','1693: Brest 1.5° east. Louis XIV: the astronomers cost him more land than his enemies.'],
