@@ -37,3 +37,13 @@ Jeff supplied Kimi1-website.zip: the third address of the *Measuring the Sky* / 
 - Served bytes at https://faria.jbf.com/kimi1/ exactly match the zip for all five files. SHA-256: index.html 6fc051b1397b7ccc6db541082ca21814c57f747e2cce0aae86462a8a4029bcfb; coast.js f5cf28ba1bc43547bed50a940c2cead649ead7b4fddb3ab6e98ce486e0279ef3; coast2.js a3ee9e1e2da06f945eb417820a4cbb89d53fce1e096ab55fb5d3f41d8bba1d6c; img/moon-first-quarter.jpg b40d2ebb814e0808286722b1ac375cb840ddf54e7c4ae331f1490ed306283990; img/null-island.jpg 84ff504ebffbefffaf837b5af740501b41e27a69a88da4a54f6024032e4e377a.
 - All return public, max-age=0, must-revalidate. Preserved routes verified live: /, /deck/, /deck/v2/, /galileo/, /polaris/, /decks/, /search/ all HTTP 200.
 - Remaining: Jeff review; in-browser interaction pass not run (no Playwright in the deployment workspace); Excel register, project registry and Session Board updates live outside this repo and remain for Jeff.
+
+## Kimi1 Greenland Reveal — November 10, 2026
+
+Jeff asked for more on the Greenland/Africa mental-map question. After the reveal, Greenland now detaches and slides down a great-circle path at true size (rigid rotation on the sphere; Rodrigues), nests inside the Congo basin, and the cycle loops for the room. A new post-reveal "Compare the wall map" button splits a Mercator panel off the globe: Greenland inflated gold as on a wall map, with a dashed outline of the same Greenland at true size beside Africa. Reduced-motion users get the final nested state directly. Reveal copy updated to point at both visuals. /kimi1/ only; /deck/ and /deck/v2/ untouched.
+
+- New tests/kimi1-browser.mjs: Q4 voting/reveal, wall-map button visibility rules (hidden pre-reveal, on question switch, on clear), toggle labels, navigator, reduced motion, 390px phone with panel open and no horizontal overflow. Passes locally in Chrome (PLAYWRIGHT_MODULE) and again against production.
+- Build: 92 topics, 9 sessions, 81 tags. Unit tests 6/6 (galileo, polaris).
+- Published source 8db648b via git-connected Vercel. Served /kimi1/index.html matches local build bytes exactly; /kimi1/ 200; /deck/, /deck/v2/, /galileo/, /polaris/ all 200 after the deployment.
+- Live Chrome: full suite plus screenshot inspection of the nested state and the wall-map split at 1440×900; no JavaScript errors.
+- Remaining: Jeff's acceptance of the new visuals; the null-island glossary gap from the source zip remains open.
