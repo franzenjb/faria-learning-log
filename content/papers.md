@@ -50,7 +50,7 @@ Printed lessons and plates, grouped with the topic each one belongs to. The comp
 - [How Picard measured a straight line 6.9 miles long](/topics/88-picard-baseline-rods/): [lesson PDF](/downloads/Picard_Baseline_Rod_Method_Faria_2026-11-09.pdf). Three pages. The rods, the Villejuif-to-Juvisy road, and the count.
 - [Mason and Dixon, and Picard](/topics/89-mason-dixon-and-picard/): [the connection sentence (PDF)](/downloads/Mason_Dixon_Picard_Connection_Sentence_Faria_2026-11-09.pdf). One page. The wording, and why it does not say the geometry was Picard's.
 - [One ladder: sine, cosine, and tangent](/topics/77-ladder-sine-cosine-and-tangent/): [a 9 November ladder sheet (PDF)](/downloads/Sine_Cosine_Tangent_Ladder_Faria_2026-11-09.pdf). Three pages. A 10-foot ladder at 30 degrees, added to the 8 November lesson.
-- [Gaia: ESA's map of the Galaxy](/topics/94-gaia-esa-map-of-the-galaxy/): [lesson PDF](/downloads/Gaia_ESA_Mission_and_Map_of_the_Galaxy_Faria_2026-11-10.pdf). Written up the next morning and placed with this day. What the spacecraft was, how long it ran, what it mapped, and what it found.
+- [Gaia: ESA's map of the Galaxy](/topics/94-gaia-esa-map-of-the-galaxy/): [lesson PDF](/downloads/Gaia_ESA_Mission_and_Map_of_the_Galaxy_Faria_2026-11-10.pdf); [slide deck (PDF)](/downloads/Gaia_Angle_Ladder_and_Mission_Slides_Faria_2026-11-10.pdf). Written up the next morning and placed with this day. What the spacecraft was, how long it ran, what it mapped, and what it found.
 
 ## Complete binder
 
