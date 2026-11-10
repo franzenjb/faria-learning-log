@@ -38,6 +38,7 @@ h1{font-size:2rem;line-height:1.1;margin:0 0 .9rem;font-weight:600}
 .text p small{color:var(--muted)}
 .facts{margin:.8rem 0 1.2rem;padding:0;list-style:none}
 .facts li{padding:.45rem 0;border-top:1px solid var(--line);font-size:.95rem;color:#d8d1c3}
+.facts li.off{opacity:.35}
 .facts li:last-child{border-bottom:1px solid var(--line)}
 .quiz{display:grid;gap:.5rem;margin:.4rem 0 .6rem}
 .quiz .opt{position:relative;overflow:hidden;display:flex;align-items:center;gap:.7rem;text-align:left;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:.6rem;padding:.7rem .9rem;font:500 1rem var(--sans);cursor:pointer}
@@ -324,11 +325,18 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
       <label><span class="row">Speed <output id="jup-speed-out">1 day / 4 s</output></span><input id="jup-speed" type="range" min="0.5" max="6" step="0.5" value="1"></label>
     </div>
     <div class="btns"><button class="primary" id="jup-play">Play</button><button id="jup-sketch">Sketch tonight</button><button id="jup-view">Show from above</button><button id="jup-clear">Clear notebook</button></div>
-    <ul class="facts">
-      <li>Io · 1.77 days · 5.9 Jupiter radii</li>
-      <li>Europa · 3.55 days · 9.4 radii</li>
-      <li>Ganymede · 7.15 days · 15.0 radii</li>
-      <li>Callisto · 16.69 days · 26.3 radii</li>
+    <p><small>Click a moon, or its name, to show or hide it. You can isolate Io, Europa, or Ganymede, or any combination.</small></p>
+    <div class="chips" id="jup-moon-toggles" aria-label="Show or hide each moon">
+      <button type="button" class="on" data-moon="Io">Io</button>
+      <button type="button" class="on" data-moon="Europa">Europa</button>
+      <button type="button" class="on" data-moon="Ganymede">Ganymede</button>
+      <button type="button" class="on" data-moon="Callisto">Callisto</button>
+    </div>
+    <ul class="facts" id="jup-moon-facts">
+      <li data-moon="Io">Io · 1.77 days · 5.9 Jupiter radii</li>
+      <li data-moon="Europa">Europa · 3.55 days · 9.4 radii</li>
+      <li data-moon="Ganymede">Ganymede · 7.15 days · 15.0 radii</li>
+      <li data-moon="Callisto">Callisto · 16.69 days · 26.3 radii</li>
     </ul>
     </div>
     <p><small>Drag the picture to tilt it: edge-on is what Galileo saw, from above is what was really happening. Periods and distances are real; starting positions are an illustration, not an ephemeris.</small></p>
@@ -1223,7 +1231,7 @@ text(ctx,'old-map distortion is schematic (Brest ~1.5° too far west, the south 
 /* ---------- 3 · Jupiter (3D) ---------- */
 {const o=setup('c3');const tIn=document.getElementById('jup-t'),tOut=document.getElementById('jup-t-out'),spIn=document.getElementById('jup-speed'),spOut=document.getElementById('jup-speed-out'),playB=document.getElementById('jup-play'),rows=document.getElementById('nb-rows'),hint=document.getElementById('h3');
 // orbits lie in the x–z plane (Jupiter's equator). Earth is far off along +z, so pitch 0 is the telescope's edge-on view and pitch π/2 is the view from above Jupiter's pole.
-const moons=[{n:'Io',P:1.769,a:5.9,ph:4.4,c:'#f5d58a',r:.55},{n:'Europa',P:3.551,a:9.4,ph:1.2,c:'#dfe7ff',r:.5},{n:'Ganymede',P:7.155,a:15.0,ph:2.6,c:'#c9b89a',r:.8},{n:'Callisto',P:16.689,a:26.3,ph:5.3,c:'#a8a8b8',r:.75}];
+const moons=[{n:'Io',P:1.769,a:5.9,ph:4.4,c:'#f5d58a',r:.55,on:true},{n:'Europa',P:3.551,a:9.4,ph:1.2,c:'#dfe7ff',r:.5,on:true},{n:'Ganymede',P:7.155,a:15.0,ph:2.6,c:'#c9b89a',r:.8,on:true},{n:'Callisto',P:16.689,a:26.3,ph:5.3,c:'#a8a8b8',r:.75,on:true}];
 let playing=false,last=0,sketches=[],jt=0;const st={yaw:0,pitch:0,zoom:1,anim:null,maxZoom:4,enabled:()=>true};
 const date=(d,short)=>{const base=new Date(Date.UTC(1610,0,7));const x=new Date(base.getTime()+d*864e5);return x.toLocaleDateString('en-US',short?{day:'numeric',month:'short',timeZone:'UTC'}:{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'});};
 const pos=(m,d)=>[m.a*Math.sin(TAU*d/m.P+m.ph),0,m.a*Math.cos(TAU*d/m.P+m.ph)];// x east–west on the sky, z toward Earth
@@ -1233,7 +1241,7 @@ playB.onclick=()=>{playing=!playing;playB.textContent=playing?'Pause':'Play';las
 // predict first: the names and the explanation wait until the room has watched them move
 let jupRev=false;const jq=miniQuiz(document.getElementById('jup-quiz'),['The same three, in the same places','All shifted the same way as Jupiter drifts past','Rearranged, some on the other side','Gone: they were flaws in the lens'],2);
 document.getElementById('jup-reveal').onclick=()=>{if(jupRev)return;jq.reveal();playing=true;playB.textContent='Pause';last=0;setTimeout(()=>{jupRev=true;document.getElementById('jup-ask').style.display='none';document.getElementById('jup-after').style.display='';document.getElementById('jup-title').textContent='Four little stars that would not stay still';},6000);};
-let jmode='moons';const jtitle=document.getElementById('jup-title');document.querySelectorAll('#m5j button').forEach(b=>b.onclick=()=>{jmode=b.dataset.mode;document.querySelectorAll('#m5j button').forEach(x=>x.classList.toggle('on',x===b));document.getElementById('jup-moons-panel').hidden=jmode!=='moons';document.getElementById('jup-clock-panel').hidden=jmode!=='clock';document.getElementById('notebook').hidden=jmode!=='moons';jtitle.textContent=jmode==='moons'?'Four little stars that would not stay still':'A clock in the sky, and light that takes its time';hint.textContent=jmode==='moons'?'Telescope view · east is left, as Galileo drew it · drag to tilt':'Slide Earth around its orbit · fire the eclipse · watch the light arrive';});
+let jmode='moons';const jtitle=document.getElementById('jup-title');document.querySelectorAll('#m5j button').forEach(b=>b.onclick=()=>{jmode=b.dataset.mode;document.querySelectorAll('#m5j button').forEach(x=>x.classList.toggle('on',x===b));document.getElementById('jup-moons-panel').hidden=jmode!=='moons';document.getElementById('jup-clock-panel').hidden=jmode!=='clock';document.getElementById('notebook').hidden=jmode!=='moons';jtitle.textContent=jmode==='moons'?'Four little stars that would not stay still':'A clock in the sky, and light that takes its time';hint.textContent=jmode==='moons'?'Telescope view · east is left, as Galileo drew it · drag to tilt · click a moon to show or hide it':'Slide Earth around its orbit · fire the eclipse · watch the light arrive';});
 // Rømer scene state
 const rmPos=document.getElementById('rm-pos'),rmPosOut=document.getElementById('rm-pos-out'),rmRead=document.getElementById('rm-read');let pulses=[];
 const AU_MIN=8.317;// light-minutes per AU
@@ -1248,13 +1256,19 @@ rmUpdate();
 const rmOpts=document.getElementById('rm-opts'),rmRead2=document.getElementById('rm-read2');let rmVotes=[0,0,0,0],rmRev=false;const rmA=['About 4° W','About 41° E','About 19° W','About 30° W'];
 function rmRender(){const tot=rmVotes.reduce((a,b)=>a+b,0)||1;rmOpts.innerHTML=rmA.map((a,k)=>`<button class="opt${rmRev&&k===2?' ok':''}${rmRev&&k!==2&&rmVotes[k]?' no':''}" data-k="${k}"><span class="letter">${'ABCD'[k]}</span><span class="label">${a}</span><span class="bar" style="width:${Math.round(rmVotes[k]/tot*100)}%"></span><span class="count">${rmVotes[k]||''}</span></button>`).join('');rmOpts.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(rmRev)return;rmVotes[+b.dataset.k]++;rmRender();});}
 rmRender();document.getElementById('rm-reveal').onclick=()=>{rmRev=true;rmRender();rmRead2.className='readout ok';rmRead2.innerHTML='<strong>About 19° W. Two hours behind Florence means 30° farther west.</strong><span class="big">11.25° E − 30° = 18.75° W</span><span>Start from Florence, not Greenwich: the reference clock is wherever the almanac was computed. 2 hours × 15° per hour = 30° west of 11.25° E. Galileo pitched exactly this method to Spain and the Dutch; the Dutch sent him a gold chain and no prize.</span>';};
-const viewB=document.getElementById('jup-view');viewB.onclick=()=>{const up=st.pitch<0.8;fly(st,{yaw:0,pitch:up?1.45:0,zoom:st.zoom},1600);viewB.textContent=up?'Back to the telescope':'Show from above';hint.textContent=up?'From above Jupiter’s pole · Earth is off the bottom of the screen · drag to tilt':'Telescope view · east is left, as Galileo drew it · drag to tilt';};
+const viewB=document.getElementById('jup-view');viewB.onclick=()=>{const up=st.pitch<0.8;fly(st,{yaw:0,pitch:up?1.45:0,zoom:st.zoom},1600);viewB.textContent=up?'Back to the telescope':'Show from above';hint.textContent=up?'From above Jupiter’s pole · Earth is off the bottom of the screen · drag to tilt · click a moon to show or hide it':'Telescope view · east is left, as Galileo drew it · drag to tilt · click a moon to show or hide it';};
 document.getElementById('jup-clear').onclick=()=>{sketches=[];renderNb();};
 document.getElementById('jup-sketch').onclick=()=>{const d=jt;if(sketches.some(s=>Math.abs(s.d-d)<.001))return;sketches.push({d,xs:moons.map(m=>pos(m,d)[0])});sketches.sort((a,b)=>a.d-b.d);renderNb();};
-function renderNb(){if(!sketches.length){rows.innerHTML='<p class="empty">Press “Sketch tonight” to record what the telescope shows.</p>';return;}rows.innerHTML=sketches.map(s=>{const dots=s.xs.map(x=>`<text x="${(50-x*1.6).toFixed(1)}" y="11" font-size="11" text-anchor="middle" fill="#2a2217">✱</text>`).join('');return `<div class="row"><span class="d">${date(s.d,true)}</span><svg viewBox="0 0 100 14"><circle cx="50" cy="7" r="3" fill="#2a2217"/>${dots}</svg></div>`;}).join('');}
+function renderNb(){if(!sketches.length){rows.innerHTML='<p class="empty">Press “Sketch tonight” to record what the telescope shows.</p>';return;}rows.innerHTML=sketches.map(s=>{const dots=s.xs.map((x,i)=>moons[i].on?`<text x="${(50-x*1.6).toFixed(1)}" y="11" font-size="11" text-anchor="middle" fill="#2a2217">✱</text>`:'').join('');return `<div class="row"><span class="d">${date(s.d,true)}</span><svg viewBox="0 0 100 14"><circle cx="50" cy="7" r="3" fill="#2a2217"/>${dots}</svg></div>`;}).join('');}
 function geom(){const{w,h}=o;return{cx:w*.42,cy:h*.5,S:Math.min(w*.4,h*.4)/27*st.zoom};}
 function proj(p){const{cx,cy,S}=geom();const q=rot(p,st.yaw,st.pitch);return{x:cx-q[0]*S,y:cy-q[1]*S,z:q[2]};}// x mirrored: east is left in the eyepiece
-orbit(o,st,null);
+function syncMoonChips(){document.querySelectorAll('#jup-moon-toggles button').forEach(b=>{const m=moons.find(x=>x.n===b.dataset.moon);b.classList.toggle('on',!!(m&&m.on));});document.querySelectorAll('#jup-moon-facts li').forEach(li=>{const m=moons.find(x=>x.n===li.dataset.moon);li.classList.toggle('off',!(m&&m.on));});}
+function toggleMoon(m){m.on=!m.on;syncMoonChips();renderNb();}
+document.querySelectorAll('#jup-moon-toggles button').forEach(b=>b.onclick=()=>{const m=moons.find(x=>x.n===b.dataset.moon);if(m)toggleMoon(m);});
+document.querySelectorAll('#jup-moon-facts li').forEach(li=>{li.style.cursor='pointer';li.onclick=()=>{const m=moons.find(x=>x.n===li.dataset.moon);if(m)toggleMoon(m);};});
+function hitMoon(p){const d=jt;const{cx,cy,S}=geom();const R=Math.max(7,S);let best=null,bestD=1e9;for(const m of moons){if(!m.on)continue;const q=proj(pos(m,d));if(q.z<0&&Math.hypot(q.x-cx,q.y-cy)<R)continue;const hit=Math.max(16,m.r*S*.35+12);const dist=Math.hypot(q.x-p.x,q.y-p.y);if(dist<hit&&dist<bestD){best=m;bestD=dist;}}return best;}
+orbit(o,st,p=>{if(jmode!=='moons')return;const m=hitMoon(p);if(m)toggleMoon(m);});
+syncMoonChips();
 function drawRomer(t){const{ctx,w,h}=o;const sx=w*.18,sy=h*.5,U=Math.min(h*.36,(w*.74)/5.6);// 1 AU in px; Jupiter at 5.2 AU
 const g=ctx.createRadialGradient(sx,sy,0,sx,sy,U*.25);g.addColorStop(0,'#fff3c4');g.addColorStop(.5,'#ffd66b');g.addColorStop(1,'rgba(255,214,107,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(sx,sy,U*.25,0,TAU);ctx.fill();text(ctx,'Sun',sx,sy+U*.25+16,{size:11,align:'center',color:'#ffd66b'});
 ctx.strokeStyle='rgba(111,179,255,.5)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(sx,sy,U,0,TAU);ctx.stroke();text(ctx,'Earth\u2019s orbit \u00b7 1 AU',sx,sy-U-10,{size:11,align:'center',color:'#6fb3ff'});
@@ -1275,13 +1289,13 @@ const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);stepAnim(st,t);if(jmode==
 // eyepiece ring fades in as the view goes edge-on
 ctx.strokeStyle=`rgba(40,48,72,${1-tilt})`;ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,Math.min(w,h)*.44,0,TAU);ctx.stroke();
 // orbits as 3D circles
-moons.forEach(m=>{ctx.strokeStyle=`rgba(236,230,218,${.08+.2*tilt})`;ctx.lineWidth=1;ctx.beginPath();for(let k=0;k<=96;k++){const a=k/96*TAU;const q=proj([m.a*Math.sin(a),0,m.a*Math.cos(a)]);k?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);}ctx.stroke();});
+moons.filter(m=>m.on).forEach(m=>{ctx.strokeStyle=`rgba(236,230,218,${.08+.2*tilt})`;ctx.lineWidth=1;ctx.beginPath();for(let k=0;k<=96;k++){const a=k/96*TAU;const q=proj([m.a*Math.sin(a),0,m.a*Math.cos(a)]);k?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);}ctx.stroke();});
 // line of sight to Earth, visible once tilted
 if(tilt>.15){const e1=proj([0,0,0]),e2=proj([0,0,40]);ctx.setLineDash([4,6]);ctx.strokeStyle=`rgba(111,179,255,${tilt*.7})`;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(e1.x,e1.y);ctx.lineTo(e2.x,e2.y);ctx.stroke();ctx.setLineDash([]);tag(ctx,'to Earth · what the telescope sees is everything squashed onto this line',e2.x+8,e2.y,'#6fb3ff',11);
 // the squashed sky line: moons' x projected onto a strip
-const sy=cy+Math.min(w,h)*.42;ctx.strokeStyle='rgba(111,179,255,.4)';ctx.beginPath();ctx.moveTo(cx-27*S,sy);ctx.lineTo(cx+27*S,sy);ctx.stroke();ctx.globalAlpha=tilt;moons.forEach(m=>{const x=cx-pos(m,d)[0]*S;const q=proj(pos(m,d));ctx.strokeStyle='rgba(236,230,218,.12)';ctx.beginPath();ctx.moveTo(q.x,q.y);ctx.lineTo(x,sy);ctx.stroke();ctx.fillStyle=m.c;ctx.beginPath();ctx.arc(x,sy,3,0,TAU);ctx.fill();});ctx.fillStyle='#f0b35a';ctx.beginPath();ctx.arc(cx,sy,4,0,TAU);ctx.fill();text(ctx,'as seen in the eyepiece',cx,sy+18,{size:11,color:'#6fb3ff',align:'center'});ctx.globalAlpha=1;}
+const sy=cy+Math.min(w,h)*.42;ctx.strokeStyle='rgba(111,179,255,.4)';ctx.beginPath();ctx.moveTo(cx-27*S,sy);ctx.lineTo(cx+27*S,sy);ctx.stroke();ctx.globalAlpha=tilt;moons.filter(m=>m.on).forEach(m=>{const x=cx-pos(m,d)[0]*S;const q=proj(pos(m,d));ctx.strokeStyle='rgba(236,230,218,.12)';ctx.beginPath();ctx.moveTo(q.x,q.y);ctx.lineTo(x,sy);ctx.stroke();ctx.fillStyle=m.c;ctx.beginPath();ctx.arc(x,sy,3,0,TAU);ctx.fill();});ctx.fillStyle='#f0b35a';ctx.beginPath();ctx.arc(cx,sy,4,0,TAU);ctx.fill();text(ctx,'as seen in the eyepiece',cx,sy+18,{size:11,color:'#6fb3ff',align:'center'});ctx.globalAlpha=1;}
 // bodies sorted back to front
-const items=moons.map(m=>({m,p:pos(m,d)})).map(it=>({...it,q:proj(it.p)}));items.push({jup:true,q:{x:cx,y:cy,z:0}});items.sort((a,b)=>a.q.z-b.q.z);
+const items=moons.filter(m=>m.on).map(m=>({m,p:pos(m,d)})).map(it=>({...it,q:proj(it.p)}));items.push({jup:true,q:{x:cx,y:cy,z:0}});items.sort((a,b)=>a.q.z-b.q.z);
 const R=Math.max(7,S);
 for(const it of items){if(it.jup){// Jupiter: shaded sphere with bands that follow the tilt
 const g=ctx.createRadialGradient(cx-R*.3,cy-R*.3,R*.2,cx,cy,R);g.addColorStop(0,'#f6e2bd');g.addColorStop(1,'#b98a55');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();
