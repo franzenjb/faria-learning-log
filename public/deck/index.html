@@ -278,9 +278,11 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <section class="slide" data-title="Jupiter's moons" data-fx="telescope">
   <div class="text">
     <p class="kicker">Act III · 7 · January 1610 · Padua</p>
-    <h1 id="jup-title">Four little stars that would not stay still</h1>
+    <h1 id="jup-title">Three small stars in a line beside Jupiter. What will you see tomorrow night?</h1>
     <div class="modes" id="m5j"><button class="on" data-mode="moons">The moons</button><button data-mode="clock">Jupiter as a clock</button></div>
     <div id="jup-moons-panel">
+    <div id="jup-ask"><p class="lede">Padua, 7 January 1610. This is the view in Galileo’s telescope. Tap the answers the room calls out, then watch the next nights.</p><div class="quiz" id="jup-quiz"></div><div class="btns"><button class="primary" id="jup-reveal">Watch the next nights</button></div></div>
+    <div id="jup-after" style="display:none">
     <p class="lede">Galileo pointed a new telescope at Jupiter and saw three, then four, small stars in a line beside it. Night after night they changed sides. They were moons, and they circled Jupiter, not the Earth.</p>
     <p>This was the first thing anyone had seen orbiting something other than the Earth. Aristotle and Ptolemy had the whole sky turning about us. Here was a small system turning about a planet, and a planet that carried its moons along as it moved. If Jupiter could do that, so could the Earth.</p>
     <div class="controls">
@@ -294,6 +296,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
       <li>Ganymede · 7.15 days · 15.0 radii</li>
       <li>Callisto · 16.69 days · 26.3 radii</li>
     </ul>
+    </div>
     <p><small>Drag the picture to tilt it: edge-on is what Galileo saw, from above is what was really happening. Periods and distances are real; starting positions are an illustration, not an ephemeris.</small></p>
     </div>
     <div id="jup-clock-panel" hidden>
@@ -1056,6 +1059,9 @@ const pos=(m,d)=>[m.a*Math.sin(TAU*d/m.P+m.ph),0,m.a*Math.cos(TAU*d/m.P+m.ph)];/
 function update(){tOut.textContent=date(jt)+(jt%1>0.02?` +${Math.round(jt%1*24)}h`:'');spOut.textContent=`1 day / ${fmt(4/ +spIn.value,1)} s`;}
 tIn.oninput=()=>{jt=+tIn.value;update();};spIn.oninput=update;update();
 playB.onclick=()=>{playing=!playing;playB.textContent=playing?'Pause':'Play';last=0;};
+// predict first: the names and the explanation wait until the room has watched them move
+let jupRev=false;const jq=miniQuiz(document.getElementById('jup-quiz'),['The same three, in the same places','All shifted the same way as Jupiter drifts past','Rearranged, some on the other side','Gone: they were flaws in the lens'],2);
+document.getElementById('jup-reveal').onclick=()=>{if(jupRev)return;jq.reveal();playing=true;playB.textContent='Pause';last=0;setTimeout(()=>{jupRev=true;document.getElementById('jup-ask').style.display='none';document.getElementById('jup-after').style.display='';document.getElementById('jup-title').textContent='Four little stars that would not stay still';},6000);};
 let jmode='moons';const jtitle=document.getElementById('jup-title');document.querySelectorAll('#m5j button').forEach(b=>b.onclick=()=>{jmode=b.dataset.mode;document.querySelectorAll('#m5j button').forEach(x=>x.classList.toggle('on',x===b));document.getElementById('jup-moons-panel').hidden=jmode!=='moons';document.getElementById('jup-clock-panel').hidden=jmode!=='clock';document.getElementById('notebook').hidden=jmode!=='moons';jtitle.textContent=jmode==='moons'?'Four little stars that would not stay still':'A clock in the sky, and light that takes its time';hint.textContent=jmode==='moons'?'Telescope view · east is left, as Galileo drew it · drag to tilt':'Slide Earth around its orbit · fire the eclipse · watch the light arrive';});
 // Rømer scene state
 const rmPos=document.getElementById('rm-pos'),rmPosOut=document.getElementById('rm-pos-out'),rmRead=document.getElementById('rm-read');let pulses=[];
@@ -1113,7 +1119,7 @@ const gr=ctx.createRadialGradient(cx-R*.4,cy-R*.3,R*.1,cx,cy,R);gr.addColorStop(
 else{const{m,q}=it;const hidden=q.z<0&&Math.hypot(q.x-cx,q.y-cy)<R;if(hidden)continue;const mr=Math.max(3,m.r*S*.35);const g=ctx.createRadialGradient(q.x-mr*.3,q.y-mr*.3,mr*.1,q.x,q.y,mr);g.addColorStop(0,'#fff');g.addColorStop(1,m.c);ctx.fillStyle=g;ctx.beginPath();ctx.arc(q.x,q.y,mr,0,TAU);ctx.fill();
 // shadow on Jupiter when a moon sits between Jupiter and the Sun (Sun taken as along +z too, roughly behind Earth)
 if(q.z>0&&Math.hypot(q.x-cx,q.y-cy)<R-mr){ctx.fillStyle='rgba(0,0,0,.55)';ctx.beginPath();ctx.arc(q.x+mr*1.6,q.y+mr*.4,mr*.9,0,TAU);ctx.fill();}
-const i=moons.indexOf(m);tag(ctx,m.n,q.x+mr+6,q.y+(i%2?-10:18),m.c,11);}}
+const i=moons.indexOf(m);if(jupRev)tag(ctx,m.n,q.x+mr+6,q.y+(i%2?-10:18),m.c,11);}}
 text(ctx,date(d),cx,h*.08,{size:16,align:'center',font:'serif',color:'#ece6da'});
 text(ctx,tilt<.3?'E':'',cx-Math.min(w,h)*.42,cy+5,{size:13,color:'#9a9382'});text(ctx,tilt<.3?'W':'',cx+Math.min(w,h)*.42-12,cy+5,{size:13,color:'#9a9382'});
 text(ctx,`tilt ${fmt(Math.abs(st.pitch)/DEG,0)}° · zoom ${fmt(st.zoom,1)}×`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}});}
