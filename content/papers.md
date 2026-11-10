@@ -43,6 +43,14 @@ Printed lessons and plates, grouped with the topic each one belongs to. The comp
 - [Mathematics, one idea at a time](/topics/78-mathematics-one-idea-at-a-time/): [reading map (PDF)](/downloads/Master_Mathematics_Algebra_Geometry_Trigonometry_Calculus_Faria_2026-11-08.pdf). Earlier drafts of that map are not published.
 - [Cassini](/topics/79-cassini-paris-and-jupiter/), [Maurolico](/topics/80-francesco-maurolico/), [Snell](/topics/81-willebrord-snell/), [geodetic networks](/topics/82-geodetic-networks/), [the metre](/topics/83-the-metre-from-a-meridian/), and [Harrison's chronometer](/topics/84-harrison-and-the-marine-chronometer/). These lessons are the web pages. Harrison's plain-language clock sheet stays on the longitude lesson.
 
+
+## 9 November 2026
+
+- [The sextant: how old sailors found their latitude](/topics/87-sextant-and-latitude-at-sea/): [lesson PDF](/downloads/Sextant_Navigation_Old_Sailors_Faria_2026-11-09.pdf). Three pages. The instrument, the sight, Polaris and latitude, and the pointer stars.
+- [How Picard measured a straight line 6.9 miles long](/topics/88-picard-baseline-rods/): [lesson PDF](/downloads/Picard_Baseline_Rod_Method_Faria_2026-11-09.pdf). Three pages. The rods, the Villejuif-to-Juvisy road, and the count.
+- [Mason and Dixon, and Picard](/topics/89-mason-dixon-and-picard/): [the connection sentence (PDF)](/downloads/Mason_Dixon_Picard_Connection_Sentence_Faria_2026-11-09.pdf). One page. The wording, and why it does not say the geometry was Picard's.
+- [One ladder: sine, cosine, and tangent](/topics/77-ladder-sine-cosine-and-tangent/): [a 9 November ladder sheet (PDF)](/downloads/Sine_Cosine_Tangent_Ladder_Faria_2026-11-09.pdf). Three pages. A 10-foot ladder at 30 degrees, added to the 8 November lesson.
+
 ## Complete binder
 
 [Complete lessons binder (PDF)](/downloads/Franzen_Complete_Lessons_Binder.pdf). 458 pages. 72 topics and 37 papers, assembled before the later 8 November lessons. Those later pages, including Picard, Tycho, the mathematics lessons, and the historical lessons added with them, are on the site and are not in this file. The binder has not been rebuilt. The separate lesson PDFs on this page stay as they are.

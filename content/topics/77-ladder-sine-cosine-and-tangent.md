@@ -7,6 +7,8 @@ tags: [mathematics, trigonometry, galileo, moon]
 ---
 The numbers are a paper example. They are not instructions for setting a real ladder.
 
+A three-page sheet from 9 November walks the same idea with a 10-foot ladder: [Sine, cosine and tangent: just a ladder against a wall (PDF)](/downloads/Sine_Cosine_Tangent_Ladder_Faria_2026-11-09.pdf).
+
 Picture a ladder against a straight wall on level ground. The ladder, the wall, and the ground make a triangle. The same triangle is used throughout.
 
 Trigonometry connects the angles of a triangle with the lengths of its sides. This page does not need calculus.
