@@ -1,313 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<title>Gaia: tiny angles, and a map of the Galaxy</title>
-<style>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Gaia: tiny angles, and a map of the Galaxy</title><style>
 @page { size: 13.333in 7.5in; margin: 0; }
 * { box-sizing: border-box; }
-html, body {
-  margin: 0; padding: 0;
-  background: #0a0e18;
-  color: #ece6da;
-  font-family: "Source Serif Pro", "Liberation Serif", Georgia, serif;
-  -webkit-print-color-adjust: exact;
-  print-color-adjust: exact;
-}
-.slide {
-  width: 13.333in;
-  height: 7.5in;
-  padding: 0.55in 0.7in 0.62in;
-  position: relative;
-  overflow: hidden;
-  background: #0a0e18;
-  page-break-after: always;
-  break-after: page;
-  page-break-inside: avoid;
-  break-inside: avoid;
-}
-.slide:last-child { page-break-after: auto; break-after: auto; }
-.kicker {
-  font-family: "Liberation Sans", sans-serif;
-  font-size: 11pt;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #f0b35a;
-  margin: 0 0 0.22in;
-}
-h1 {
-  font-weight: 400;
-  font-size: 48pt;
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-  margin: 0 0 0.22in;
-  color: #ece6da;
-}
-h1.mid { font-size: 36pt; margin-bottom: 0.28in; }
-.lede {
-  font-size: 20pt;
-  line-height: 1.35;
-  color: #cfc8ba;
-  max-width: 10.2in;
-  margin: 0;
-}
-.foot {
-  position: absolute;
-  left: 0.7in; right: 0.7in; bottom: 0.28in;
-  display: flex;
-  justify-content: space-between;
-  font-family: "Liberation Sans", sans-serif;
-  font-size: 9pt;
-  color: #9a9382;
-  border-top: 0.5px solid #283048;
-  padding-top: 0.12in;
-}
-/* ladder */
-.ladder { width: 100%; border-collapse: collapse; margin: 0; }
-.ladder td { vertical-align: baseline; padding: 0.20in 0 0.16in; border-top: 0.5px solid #283048; }
-.ladder .deg {
-  width: 1.55in;
-  font-size: 32pt;
-  line-height: 1;
-  color: #f0b35a;
-  letter-spacing: -0.02em;
-  padding-right: 0.3in;
-}
-.ladder .pic {
-  font-size: 20pt;
-  line-height: 1.25;
-  color: #ece6da;
-}
-.ladder .note {
-  width: 3.2in;
-  font-size: 13pt;
-  line-height: 1.3;
-  color: #9a9382;
-  text-align: right;
-  font-family: "Liberation Sans", sans-serif;
-}
-.babylon {
-  margin-top: 0.22in;
-  font-size: 14pt;
-  color: #9a9382;
-  max-width: 11in;
-}
-/* scale */
-.hero-num {
-  font-size: 28pt;
-  color: #f0b35a;
-  margin: 0 0 0.15in;
-}
-.two {
-  display: flex;
-  gap: 0.7in;
-  margin-top: 0.28in;
-}
-.col { flex: 1; }
-.col h2 {
-  font-weight: 400;
-  font-size: 16pt;
-  color: #f0b35a;
-  margin: 0 0 0.1in;
-}
-.col p {
-  font-size: 16pt;
-  line-height: 1.4;
-  color: #cfc8ba;
-  margin: 0;
-}
-/* timeline */
-.times { width: 100%; border-collapse: collapse; margin-top: 0.1in; table-layout: fixed; }
-.times td {
-  width: 25%;
-  vertical-align: top;
-  border-top: 2px solid #f0b35a;
-  padding: 0.14in 0.28in 0 0;
-}
-.times td:last-child { padding-right: 0; }
-.times .year {
-  font-size: 26pt;
-  line-height: 1;
-  color: #f0b35a;
-  letter-spacing: -0.02em;
-  margin: 0 0 0.06in;
-  font-family: "Source Serif Pro", "Liberation Serif", Georgia, serif;
-}
-.times .when {
-  font-family: "Liberation Sans", sans-serif;
-  font-size: 10.5pt;
-  color: #9a9382;
-  margin: 0 0 0.1in;
-}
-.times .what {
-  font-size: 15.5pt;
-  line-height: 1.3;
-  color: #ece6da;
-  margin: 0;
-}
-.after {
-  margin-top: 0.28in;
-  font-size: 14.5pt;
-  line-height: 1.4;
-  color: #9a9382;
-  max-width: 11.4in;
-}
-/* census */
-.big {
-  font-size: 54pt;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  color: #f0b35a;
-  margin: 0 0 0.25in;
-}
-.not {
-  font-size: 22pt;
-  line-height: 1.35;
-  color: #ece6da;
-  max-width: 11in;
-  margin: 0 0 0.22in;
-}
-.why {
-  font-size: 16pt;
-  line-height: 1.4;
-  color: #9a9382;
-  max-width: 10.5in;
-  margin: 0;
-}
-/* findings */
-.finds {
-  display: flex;
-  gap: 0.4in;
-  margin-top: 0.05in;
-}
-.find {
-  flex: 1;
-  border-top: 2px solid #f0b35a;
-  padding-top: 0.16in;
-}
-.find h2 {
-  font-weight: 400;
-  font-size: 18pt;
-  color: #ece6da;
-  margin: 0 0 0.12in;
-  line-height: 1.2;
-}
-.find p {
-  font-size: 14.5pt;
-  line-height: 1.4;
-  color: #cfc8ba;
-  margin: 0;
-}
-</style>
-</head>
-<body>
-
-<div class="slide">
-  <p class="kicker">Faria · Gaia</p>
-  <h1>Tiny angles,<br>and a map of the Galaxy</h1>
-  <p class="lede">The European Space Agency built Gaia to measure how stars shift as Earth goes around the Sun. From those tiny angles came distances, and from the distances, a map.</p>
-  <div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>1 / 6</span></div>
-</div>
-
-<div class="slide">
-  <p class="kicker">The angle ladder</p>
-  <h1 class="mid">Each rung is sixty times finer</h1>
-  <table class="ladder">
-    <tr>
-      <td class="deg">1°</td>
-      <td class="pic">A pinky, held at arm’s length</td>
-      <td class="note">one degree</td>
-    </tr>
-    <tr>
-      <td class="deg">1′</td>
-      <td class="pic">A dime, seen face-on, at about 200 feet</td>
-      <td class="note">one arcminute · about 60 meters</td>
-    </tr>
-    <tr>
-      <td class="deg">1″</td>
-      <td class="pic">A dime at about 2.3 miles</td>
-      <td class="note">one arcsecond · about 4 kilometers</td>
-    </tr>
-  </table>
-  <p class="babylon">That factor of sixty is the old Babylonian way of dividing a circle, the same heritage that gives us sixty minutes in an hour.</p>
-  <div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>2 / 6</span></div>
-</div>
-
-<div class="slide">
-  <p class="kicker">What Gaia can measure</p>
-  <h1 class="mid">A dime, as seen from the Moon</h1>
-  <p class="lede">For bright stars, Gaia measures angles of a few tens of microarcseconds. A microarcsecond is one millionth of an arcsecond. That is about the width of a dime as seen from the Moon.</p>
-  <div class="two">
-    <div class="col">
-      <h2>An arcsecond already leaves the solar system</h2>
-      <p>A star whose parallax is one arcsecond sits one parsec away, about 3.26 light-years — already far beyond Neptune. Gaia works thousands of times finer than that.</p>
-    </div>
-    <div class="col">
-      <h2>Why the angles matter</h2>
-      <p>The smaller the shift, the farther the star. Measuring those shifts is how Gaia turns a sky full of lights into a map with depth.</p>
-    </div>
-  </div>
-  <div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>3 / 6</span></div>
-</div>
-
-<div class="slide">
-  <p class="kicker">The spacecraft · European Space Agency</p>
-  <h1 class="mid">Planned for five years. It watched for ten and a half.</h1>
-  <table class="times">
-    <tr>
-      <td>
-        <p class="year">2013</p>
-        <p class="when">19 December</p>
-        <p class="what">Launched. Gaia took up a post far beyond the Moon.</p>
-      </td>
-      <td>
-        <p class="year">2014–19</p>
-        <p class="when">July 2014 to June 2019</p>
-        <p class="what">The planned five-year science mission.</p>
-      </td>
-      <td>
-        <p class="year">2025</p>
-        <p class="when">15 January</p>
-        <p class="what">Science ended, about 10.5 years in, when the cold gas ran out.</p>
-      </td>
-      <td>
-        <p class="year">2026</p>
-        <p class="when">2 December, Data Release 4</p>
-        <p class="what">The first 5.5 years of data. The final catalogue is still to come.</p>
-      </td>
-    </tr>
-  </table>
-  <p class="after">The observations are so many, and the work of turning them into a catalogue so heavy, that the final release — from the whole 10.5-year mission — is not expected before the end of 2030.</p>
-  <div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>4 / 6</span></div>
-</div>
-
-<div class="slide">
-  <p class="kicker">What it mapped</p>
-  <p class="big">Nearly two billion stars.</p>
-  <p class="not">Not every star in the Milky Way.</p>
-  <p class="why">The Galaxy holds a few hundred billion stars. Many are too faint, or hidden by dust, for Gaia to see. What it did measure is still the largest precise census of the brighter stars ever made.</p>
-  <div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>5 / 6</span></div>
-</div>
-
-<div class="slide">
-  <p class="kicker">Unexpected findings</p>
-  <h1 class="mid">What no one expected</h1>
-  <div class="finds">
-    <div class="find">
-      <h2>Gaia-Enceladus</h2>
-      <p>In 2018, Gaia showed that a large part of the Milky Way’s inner halo came from another galaxy that merged with ours about 10 billion years ago. Its stars still move together the wrong way.</p>
-    </div>
-    <div class="find">
-      <h2>A snail-shell wobble</h2>
-      <p>That same year, Gaia found a spiral in the motions of nearby stars. The Galaxy’s disk is still wobbling, like a pond after a stone hits it, probably after the Sagittarius dwarf galaxy passed through.</p>
-    </div>
-    <div class="find">
-      <h2>Sleeping black holes</h2>
-      <p>Gaia BH3, announced in 2024, is a black hole about 33 times the Sun’s mass, 1,926 light-years away. It was the third such hole Gaia found, after BH1 and BH2 in 2023.</p>
-    </div>
-  </div>
-  <div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>6 / 6</span></div>
-</div>
-
-</body>
-</html>
+html, body { margin: 0; padding: 0; background: #0a0e18; color: #ece6da;
+  font-family: "Source Serif Pro", "Liberation Serif", serif; }
+.slide { width: 13.333in; height: 7.5in; position: relative; overflow: hidden; background: #0a0e18;
+  page-break-after: always; page-break-inside: avoid; break-inside: avoid; }
+.slide:last-child { page-break-after: auto; }
+.foot { position: absolute; left: 0.65in; right: 0.65in; bottom: 0.22in; display: flex; justify-content: space-between;
+  font-family: "Liberation Sans", sans-serif; font-size: 8.5pt; color: #9a9382; border-top: 0.5px solid #283048; padding-top: 0.08in; }
+.credit { position: absolute; right: 0.65in; bottom: 0.56in; font-family: "Liberation Sans", sans-serif; font-size: 8.5pt; color: #9a9382; text-align: right; max-width: 9in; }
+.credit.left { right: auto; left: 0.65in; text-align: left; }
+h1 { font-weight: 400; font-size: 34pt; line-height: 1.08; margin: 0 0 0.1in; color: #ece6da; letter-spacing: -0.01em; }
+.lede { font-size: 16.5pt; line-height: 1.32; color: #cfc8ba; margin: 0; max-width: 11.6in; }
+.kick { font-family: "Liberation Sans", sans-serif; font-size: 12pt; color: #f0b35a; margin: 0 0 0.12in; }
+/* figure slides */
+.fig .head { position: absolute; left: 0.65in; right: 0.65in; top: 0.42in; }
+.fig .pic { position: absolute; left: 0.65in; right: 0.65in; top: 1.78in; bottom: 0.78in; text-align: center; }
+.fig .pic img { max-width: 100%; max-height: 100%; }
+.fig.tall .pic { top: 1.42in; }
+/* full-bleed photo slides */
+.bleed img.bg { position: absolute; left: 0; top: 0; width: 13.333in; height: 7.5in; object-fit: cover; }
+.bleed .shade { position: absolute; left: 0; top: 0; width: 13.333in; height: 7.5in;
+  background: linear-gradient(to right, rgba(10,14,24,0.92) 0%, rgba(10,14,24,0.75) 34%, rgba(10,14,24,0) 62%); }
+.bleed .shade.bottom { background: linear-gradient(to top, rgba(10,14,24,0.96) 0%, rgba(10,14,24,0.7) 26%, rgba(10,14,24,0) 50%); }
+.bleed .txt { position: absolute; left: 0.65in; top: 0.9in; width: 5.6in; }
+.bleed .txt.low { top: auto; bottom: 0.95in; width: 11in; }
+.bleed h1.big { font-size: 46pt; }
+.bleed .foot { border-top-color: rgba(236,230,218,0.2); }
+/* split slides */
+.split .pic { position: absolute; left: 0.5in; top: 0.5in; width: 7.85in; bottom: 0.85in; display: flex; align-items: center; justify-content: center; }
+.split .pic img { max-width: 100%; max-height: 100%; }
+.split .txt { position: absolute; left: 8.55in; right: 0.6in; top: 0.75in; }
+.split .txt p { font-size: 16pt; line-height: 1.36; color: #cfc8ba; margin: 0 0 0.16in; }
+.split .txt p.note { font-family: "Liberation Sans", sans-serif; font-size: 11pt; line-height: 1.38; color: #9a9382; margin-top: 0.26in; }
+.split .sym { font-size: 64pt; line-height: 1; color: #f0b35a; margin: 0 0 0.04in; }
+.split .symname { font-size: 22pt; color: #ece6da; margin: 0 0 0.3in; }
+.split.photo .pic { left: 0; top: 0; bottom: 0; width: 8.25in; }
+.split.photo .pic img { width: 8.25in; height: 7.5in; object-fit: cover; max-width: none; max-height: none; }
+.fshade { position: absolute; left: 0; width: 8.25in; bottom: 0; height: 0.9in; background: linear-gradient(to top, rgba(10,14,24,0.9), rgba(10,14,24,0)); }
+.big3 { margin: 0 0 0.22in; }
+.big3 .n { font-size: 34pt; line-height: 1.0; color: #f0b35a; }
+.big3 .w { font-family: "Liberation Sans", sans-serif; font-size: 12pt; color: #9a9382; margin-top: 0.04in; }
+ul.bh { list-style: none; padding: 0; margin: 0; }
+ul.bh li { font-size: 15.5pt; line-height: 1.33; color: #cfc8ba; margin: 0 0 0.17in; padding-left: 0; }
+ul.bh li b { font-weight: 400; color: #f0b35a; }
+</style></head><body><section class="slide bleed"><img class="bg" src="file:///workspace/faria-site-nov9/public/img/Gaia_Spacecraft_Against_the_Milky_Way_ESA_ATG_ESO.jpg" style="object-position:center bottom"><div class="shade"></div><div class="txt"><p class="kick">Faria · the 9 November session</p><h1 class="big">Gaia</h1><h1>tiny angles, and a map of the Galaxy</h1><p class="lede" style="margin-top:0.25in">How a European Space Agency observatory measured nearly two billion stars.</p></div><div class="credit left">Gaia: ESA/ATG medialab; background image: ESO/S. Brunier. CC BY 4.0</div><div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>page 1 / 21</span></div></section><section class="slide bleed"><img class="bg" src="file:///workspace/faria/gaia-images/illustrations/Observer_in_spacecraft_viewing_the_Milky_Way.jpg" style="object-position:center"><div class="shade bottom"></div><div class="txt low"><h1>Picture the Galaxy out the window</h1><p class="lede">Gaia's job was to map it: where each star is, how far away, and how it moves.</p></div><div class="credit">A picture of the idea: looking out at the Galaxy Gaia mapped. Gaia itself carried no crew. Original teaching illustration.</div><div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>page 2 / 21</span></div></section><section class="slide split"><div class="pic"><img src="file:///workspace/faria/gaia-slides/fig/Parallax_January_July_Dark.png"></div><div class="txt"><h1>What Gaia was built to measure</h1><p>As Earth goes around the Sun, a nearby star seems to shift a little against the far stars.</p><p>That shift is the star's <span style="color:#f0b35a">parallax</span>.</p><p>Measure the shift, and you have the distance.</p></div><div class="credit left">Original teaching diagram. Not to scale.</div><div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>page 3 / 21</span></div></section><section class="slide fig"><div class="head"><h1>The smaller the shift, the farther the star</h1><p class="lede">Far stars barely move. To reach far, you must measure very small angles.</p></div><div class="pic"><img src="file:///workspace/faria/gaia-slides/fig/Parallax_Near_Far_Dark.png"></div><div class="credit">Original teaching diagram. Not to scale.</div><div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>page 4 / 21</span></div></section><section class="slide fig"><div class="head"><h1>A ladder of angles</h1><p class="lede">Each rung is sixty times finer: 1° = 60′, and 1′ = 60″. The sixty is Babylonian, like the sixty minutes in an hour.</p></div><div class="pic"><img src="file:///workspace/faria-site-nov9/public/img/Angle_Ladder_Pinky_Dime_200_Feet_Dime_2_point_3_Miles.jpg"></div><div class="credit">Teaching illustrations. Dime inset: 2002 Roosevelt dime, public domain, via Wikimedia Commons.</div><div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>page 5 / 21</span></div></section><section class="slide split photo"><div class="pic"><img src="file:///workspace/faria/gaia-images/illustrations/Pinky_raised_against_the_stars.jpg"></div><div class="fshade"></div><div class="txt"><div class="sym">1°</div><div class="symname">one degree</div><p>Hold out your arm. Your pinky covers about one degree of sky.</p><p>The full Moon is about half that.</p></div><div class="credit">Original teaching illustration.</div><div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>page 6 / 21</span></div></section><section class="slide split"><div class="pic"><img src="file:///workspace/faria/gaia-slides/fig/Dime_face_on_at_about_200_feet_path.jpg"></div><div class="txt"><div class="sym">1′</div><div class="symname">one arcminute</div><p>A dime, seen face-on, at about 200 feet (about 60 meters).</p><p>1′ = 1/60 of a degree.</p><p class="note">Face-on means looking at the face of the dime, its full 18 mm width, never its edge. The path is a picture of the distance; at 200 feet a real dime is almost too small to see.</p></div><div class="credit left">Teaching illustration with dime inset added. Dime inset: 2002 Roosevelt dime, public domain, via Wikimedia Commons.</div><div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>page 7 / 21</span></div></section><section class="slide split"><div class="pic"><img src="file:///workspace/faria/gaia-slides/fig/Dime_face_on_at_about_2_point_3_miles_road.jpg"></div><div class="txt"><div class="sym">1″</div><div class="symname">one arcsecond</div><p>A dime, seen face-on, at about 2.3 miles (about 4 kilometers).</p><p>1″ = 1/60 of an arcminute, or 1/3,600 of a degree.</p><p class="note">The same dime, face-on, sixty times farther away. The road runs about 2.3 miles to the trees on the horizon.</p></div><div class="credit left">Teaching illustration with dime inset added. Dime inset: 2002 Roosevelt dime, public domain, via Wikimedia Commons.</div><div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>page 8 / 21</span></div></section><section class="slide fig"><div class="head"><h1>One arcsecond already leaves the solar system</h1><p class="lede">A star with a parallax of 1″ is one parsec away, about 3.26 light-years. Even the nearest star shifts by less than that.</p></div><div class="pic"><img src="file:///workspace/faria/gaia-slides/fig/Parsec_One_Arcsecond_Outside_Solar_System.png"></div><div class="credit">Original teaching diagram.</div><div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>page 9 / 21</span></div></section><section class="slide fig"><div class="head"><h1>Gaia: a dime as seen from the Moon</h1><p class="lede">For bright stars, Gaia measured shifts of a few tens of microarcseconds. A microarcsecond is one millionth of an arcsecond.</p></div><div class="pic"><img src="file:///workspace/faria/gaia-slides/fig/Gaia_Dime_on_the_Moon_Angle_Scale.png"></div><div class="credit">Original teaching diagram. A dime face-on at the Moon&#x27;s distance spans about 10 μas.</div><div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>page 10 / 21</span></div></section><section class="slide split photo"><div class="pic"><img src="file:///workspace/faria/gaia-slides/fig/Gaia_Spacecraft_Crop_ESA_ATG.jpg"></div><div class="fshade"></div><div class="txt"><h1>Built for the European Space Agency</h1><p>Launched on 19 December 2013. Airbus was the prime contractor.</p><p>The wide round sunshield kept the two telescopes in shade and steady.</p></div><div class="credit">Gaia: ESA/ATG medialab; background image: ESO/S. Brunier. CC BY 4.0</div><div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>page 11 / 21</span></div></section><section class="slide fig"><div class="head"><h1>A post far beyond the Moon</h1><p class="lede">From L2, Gaia's two telescopes looked out 106.5° apart as it slowly spun, sweeping the whole sky again and again.</p></div><div class="pic"><img src="file:///workspace/faria/gaia-slides/fig/Gaia_at_L2_Two_Telescopes.png"></div><div class="credit">Original teaching diagram. Distances from Earth to scale; the Sun is not.</div><div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>page 12 / 21</span></div></section><section class="slide fig"><div class="head"><h1>Planned for five years</h1><p class="lede">Science began in July 2014 and was planned to run through the end of June 2019.</p></div><div class="pic"><img src="file:///workspace/faria/gaia-slides/fig/Gaia_Timeline_Planned_Five_Years.png"></div><div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>page 13 / 21</span></div></section><section class="slide fig"><div class="head"><h1>It watched for ten and a half</h1><p class="lede">The spacecraft and the science stayed healthy, so the mission was extended, until the cold gas that kept it spinning and pointing ran out on 15 January 2025.</p></div><div class="pic"><img src="file:///workspace/faria/gaia-slides/fig/Gaia_Timeline_Ten_and_a_Half_Years.png"></div><div class="credit">Switched off on 27 March 2025, and left in a retirement orbit around the Sun.</div><div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>page 14 / 21</span></div></section><section class="slide fig"><div class="head"><h1>From launch to the final catalogue</h1><p class="lede">Data Release 4, from the first 5.5 years, is due on 2 December 2026. The final catalogue is not expected before the end of 2030.</p></div><div class="pic"><img src="file:///workspace/faria/gaia-slides/fig/Gaia_Timeline_Launch_to_Final_Catalogue.png"></div><div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>page 15 / 21</span></div></section><section class="slide split"><div class="txt" style="left:0.65in; right:auto; width:4.6in; top:0.5in"><h1>Why it takes years</h1><div class="big3" style="margin-top:0.28in"><div class="n">3 trillion+</div><div class="w">observations</div></div><div class="big3"><div class="n">nearly 2 billion</div><div class="w">stars and other objects</div></div><div class="big3"><div class="n">about 1,500</div><div class="w">looks at each one, on average</div></div><p class="note" style="margin-top:0.12in">Every star's position, motion and distance is solved together with the spacecraft's own pointing and calibration. Volume and complexity both take years.</p></div><div class="pic" style="left:5.55in; width:7.3in; top:0.55in"><img src="file:///workspace/faria/gaia-slides/fig/Gaia_Data_Releases_Months_of_Data.png"></div><div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>page 16 / 21</span></div></section><section class="slide fig"><div class="head"><h1>Nearly two billion stars</h1><p class="lede">Gaia's own all-sky map. The bright band is the Milky Way's disk; dark lanes are dust; lower right, the two Magellanic Clouds.</p></div><div class="pic"><img src="file:///workspace/faria-site-nov9/public/img/Gaia_EDR3_All_Sky_Colour_Map_ESA_Gaia_DPAC.jpg"></div><div class="credit">ESA/Gaia/DPAC. CC BY-SA 3.0 IGO. Acknowledgement: A. Moitinho</div><div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>page 17 / 21</span></div></section><section class="slide split"><div class="pic"><img src="file:///workspace/faria/gaia-slides/fig/Gaia_Census_About_One_Percent.png"></div><div class="txt"><h1>Not every star in the Milky Way</h1><p>The Galaxy holds a few hundred billion stars. Gaia measured nearly two billion, roughly one in a hundred.</p><p>Many others are too faint, or hidden behind dust.</p><p>A huge census of the brighter stars, not a complete count.</p></div><div class="credit left">Original teaching diagram.</div><div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>page 18 / 21</span></div></section><section class="slide fig"><div class="head"><h1>Gaia-Enceladus: a galaxy inside ours</h1><p class="lede">In 2018 Gaia showed that much of the inner halo came from a galaxy that merged with ours about 10 billion years ago. Its stars still move like debris from the crash.</p></div><div class="pic"><img src="file:///workspace/faria/gaia-slides/fig/Gaia_Enceladus_Merger_Sketch.png"></div><div class="credit">Original teaching sketch, not to scale.</div><div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>page 19 / 21</span></div></section><section class="slide split"><div class="pic"><img src="file:///workspace/faria/gaia-slides/fig/Gaia_Phase_Spiral_Snail_Shell_Sketch.png"></div><div class="txt"><h1>The snail-shell wobble</h1><p>Also in 2018: sort nearby stars by height and up-and-down speed, and they curl into a spiral.</p><p>The disk is still ringing, like a pond after a stone, probably because the Sagittarius dwarf galaxy passed through it.</p></div><div class="credit left">Original teaching sketch of the pattern found in Gaia DR2 (Antoja et al. 2018, Nature).</div><div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>page 20 / 21</span></div></section><section class="slide split"><div class="pic"><img src="file:///workspace/faria/gaia-images/official/BH3_artist_eso2408a_small.jpg"></div><div class="txt"><h1>Sleeping black holes</h1><p>Gaia saw stars sway around partners that give off no light.</p><ul class="bh"><li><b>BH1 and BH2</b>: found in Data Release 3, confirmed in 2023.</li><li><b>BH3</b>, announced 16 April 2024: about 33 times the Sun's mass, about 1,926 light-years away.</li><li>The most massive star-sized black hole then known in our galaxy.</li></ul></div><div class="credit left">Artist&#x27;s impression of Gaia BH3: ESO/L. Calçada/Space Engine (spaceengine.org). CC BY 4.0</div><div class="foot"><span>faria.jbf.com · jbf@jbf.com</span><span>Gaia: tiny angles, and a map of the Galaxy · 2026-11-10</span><span>page 21 / 21</span></div></section></body></html>

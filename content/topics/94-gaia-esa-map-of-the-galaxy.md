@@ -7,11 +7,26 @@ tags: [astronomy, gaia, history-of-science]
 ---
 Gaia was a European Space Agency space observatory, launched on 19 December 2013. From a post far beyond the Moon, it measured the positions, motions, brightness, and colors of nearly two billion stars and other objects across the Milky Way and beyond.
 
+![The Gaia spacecraft against the Milky Way](../../img/Gaia_Spacecraft_Against_the_Milky_Way_ESA_ATG_ESO.jpg?v=1)
+*Artist's impression of the Gaia spacecraft against the Milky Way. ESA/ATG medialab; background image: ESO/S. Brunier, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), via [ESO](https://eso.org/public/images/eso1908d/).*
+
+![A picture of the idea: looking out at the Galaxy Gaia mapped](../../img/Observer_at_Spacecraft_Window_Viewing_the_Milky_Way_Illustration.jpg?v=1)
+*Teaching illustration made for this lesson. Gaia itself carried no crew.*
+
 That is a huge census of the brighter stars, not a complete map of every star. The Milky Way holds a few hundred billion stars; many are too faint, or hidden by dust, for Gaia to see.
+
+![Gaia's all-sky map of the Milky Way, made from its measurements of nearly two billion stars; the two Magellanic Clouds are at lower right](../../img/Gaia_EDR3_All_Sky_Colour_Map_ESA_Gaia_DPAC.jpg?v=1)
+*Gaia Early Data Release 3. ESA/Gaia/DPAC, [CC BY-SA 3.0 IGO](https://creativecommons.org/licenses/by-sa/3.0/igo/). Acknowledgement: A. Moitinho. Source: [ESA](https://sci.esa.int/web/gaia/-/the-colour-of-the-sky-from-gaia-s-early-data-release-3).*
 
 The mission was planned for five years of science. Those five years ran from July 2014 through the end of June 2019. Observations then continued until 15 January 2025, about 10.5 years in all, until the cold gas that kept the spacecraft spinning ran out. After a short engineering period, Gaia was switched off on 27 March 2025 and left in an orbit around the Sun.
 
-The data are still being reduced. [Data Release 4](https://www.cosmos.esa.int/web/gaia/data-release-4), from the first 5.5 years, is due on 2 December 2026. The final catalogue, Data Release 5, will use the whole 10.5 years and is not expected before the end of 2030.
+![Gaia from launch to the final catalogue: five years planned, about 10.5 years flown, Data Release 4 on 2 December 2026, the final catalogue not before the end of 2030](../../img/Gaia_Timeline_Launch_to_Final_Catalogue.png?v=1)
+*Timeline drawn for this site from ESA's mission dates.*
+
+The data are still being reduced. [Data Release 4](https://www.cosmos.esa.int/web/gaia/data-release-4), from the first 5.5 years, is due on 2 December 2026. The final catalogue, Data Release 5, will use the whole 10.5 years and is not expected before the end of 2030. More than three trillion observations must be turned into one consistent catalogue, and that takes years.
+
+![How much of the mission's data each Gaia release uses, from 14 months in DR1 to all 10.5 years in DR5](../../img/Gaia_Data_Releases_Months_of_Data.png?v=1)
+*Chart drawn for this site from ESA's [data-release plan](https://www.cosmos.esa.int/web/gaia/release).*
 
 The point of the measurements was distance and motion. As Earth goes around the Sun, a nearby star appears to shift slightly against more distant stars. That tiny shift is the star's parallax. How small those angles are is on [The angle ladder](../93-angle-ladder-pinky-to-gaia/).
 
