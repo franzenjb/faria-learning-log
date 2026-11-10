@@ -2,6 +2,8 @@ GIT_OWNER: none
 
 # Kimi1 Deck — 2026-11-10
 
+Update, same day: Jeff asked for more on the Greenland/Africa question. After the reveal, Greenland now detaches and slides down a great-circle path at true size (rigid sphere rotation, Rodrigues), nesting inside Africa; loops. New "Compare the wall map" button (post-reveal only) splits a Mercator panel off the globe: Greenland inflated gold, plus a dashed outline of the slid-down Greenland at true size. tests/kimi1-browser.mjs added; passes with system Chrome via PLAYWRIGHT_MODULE. /deck/ and /deck/v2/ untouched — this diverges /kimi1/ from them intentionally.
+
 Kimi Work published /kimi1/, the third address of the *Measuring the Sky* / *Where Am I?* lecture, from Jeff's Kimi1-website.zip (5 files: index.html, coast.js, coast2.js, two images). Strictly additive: /deck/, /deck/v2/, /galileo/, /polaris/ untouched. URL-only release; not listed on the Decks page or in search (Jeff declined to choose; one-line content/decks.md edit adds it later). Known content gap, present in the source zip, not introduced here: img/null-island.jpg is unreferenced and the 'nullisland' glossary key is missing, so tapping Null Island is a silent no-op. Worked from a fresh clone in the Kimi Work workspace; canonical checkout at ~/dev/faria-learning-log was clean and untouched. Open loops: Jeff review; Excel register, project registry and Session Board updates live outside this repo and remain for Jeff.
 
 # Galileo Interactive — 2026-11-08
