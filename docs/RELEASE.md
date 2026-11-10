@@ -47,3 +47,11 @@ Jeff asked for more on the Greenland/Africa mental-map question. After the revea
 - Published source 8db648b via git-connected Vercel. Served /kimi1/index.html matches local build bytes exactly; /kimi1/ 200; /deck/, /deck/v2/, /galileo/, /polaris/ all 200 after the deployment.
 - Live Chrome: full suite plus screenshot inspection of the nested state and the wall-map split at 1440×900; no JavaScript errors.
 - Remaining: Jeff's acceptance of the new visuals; the null-island glossary gap from the source zip remains open.
+
+## Kimi1 Mercator Conversion — November 10, 2026
+
+Jeff: "can we show the mercator conversion to the globe." The side-by-side panel is replaced by the transformation itself. On the Greenland/Africa question, "Compare the wall map" now unrolls the whole stage: longitude unwraps (sin d → d), latitude stretches (sin φ → ln tan — the Mercator stretch), the ocean disc and rim fade, and Greenland rides along, inflating to wall-map size with a "roughly tenfold" note. "Back to the globe" wraps it shut and restarts the slide-down. Drag and zoom lock while flat, with the hint line saying so. All labels morph with their features. 2.4 s eased morph both ways.
+
+- Local Chrome: six-frame morph sequence inspected (nested → early/late unroll → flat → mid-wrap → back); no JavaScript errors.
+- tests/kimi1-browser.mjs passes locally and against production; unit tests 6/6; build clean (92/9/81).
+- Published source 9c5b562 via git-connected Vercel. Served /kimi1/index.html matches local bytes; live morph screenshots inspected; no live JS errors.
