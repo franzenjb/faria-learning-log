@@ -79,3 +79,11 @@ Jeff on "Latitude = star height": labels need breathing room, the observer shoul
 - Build clean (92/9/81); tests/kimi1-browser.mjs passes in local Chrome.
 - Published source 862c361 via git-connected Vercel. Served https://faria.jbf.com/kimi1/ matches local bytes exactly (cmp). Local screenshots inspected at 8°, 60° (rest), and mid-stride at 78°.
 - Remaining: Jeff's acceptance.
+
+## Kimi1 Two Clocks on the Hours Slide — November 10, 2026
+
+Jeff: "why not show two clocks on the ship and greenwich time and hands move as we spin wheel and solve for time gap and degrees longitude." The Hours are slices slide now draws two 24-hour clock faces top-right whenever the ship is placed: the ship's local sun time (gold) and Greenwich (green). Both hands sweep as the Earth spins; the gap between them is constant for a fixed ship and equals the longitude. Until the chronometer (or the Jupiter/almanac mode) is on, the Greenwich face is veiled with a red "?" — unseen at sea — and the equation under the clocks reads "? h × 15° = ? °"; with a time source it solves live: "0.8 h × 15° = 13° west". public/kimi1/index.html only.
+
+- Build clean (92/9/81); tests/kimi1-browser.mjs passes in local Chrome; no page errors in veiled, chronometer, and spinning states.
+- Published source 5f879d5 via git-connected Vercel. Served https://faria.jbf.com/kimi1/ matches local bytes exactly (cmp). Screenshots inspected: ship at 12:52 vs Greenwich 13:42 with the 0.8 h = 13° west solution while spinning.
+- Remaining: Jeff's acceptance.
