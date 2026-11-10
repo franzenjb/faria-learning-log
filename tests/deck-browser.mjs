@@ -67,6 +67,8 @@ assert.match(await page.locator('#pc-read .big').innerText(), /24,880 miles/);
 await page.click('#pc-chapters button[data-ch="5"]'); await page.waitForTimeout(300);
 assert.match(await page.locator('#pc-read strong').innerText(), /Brest/);
 await slide(8);
+await page.click('#jup-quiz .opt[data-k="2"]'); await page.click('#jup-reveal'); await page.waitForTimeout(6300);
+assert.match(await page.locator('#jup-title').innerText(), /would not stay still/); await page.click('#jup-play');
 await page.click('#jup-sketch'); await page.locator('#jup-t').fill('3'); await page.locator('#jup-t').dispatchEvent('input'); await page.click('#jup-sketch');
 assert.equal(await page.locator('#nb-rows .row').count(), 2);
 await page.click('#m5j button[data-mode=clock]'); await page.click('#rm-far'); await page.click('#rm-fire');
