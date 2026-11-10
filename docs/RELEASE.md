@@ -26,3 +26,14 @@ The geometry revision is live: source 03f55ed, Vercel dpl_CGdnJcG4xRRQH1N6dXYN8p
 Added authentic manuscript drawings, a modern first-quarter Moon photograph, full-size links, source and license captions, and an explanation of the half-lit phase. Corrected the existing printed-illustration caption. Local Chrome passed image decoding, disclosure, sliders, geometry, drag, keyboard, themes and phone layouts. Desktop and 320px gallery screenshots inspected. Production evidence follows after deployment.
 
 Published source 54fd53d through Vercel EfuyA2g5a3q1S5o1dy2qtSKTqQX7. Live Chrome passed the complete interaction/layout suite and gallery image decoding. Both new served images exactly match source bytes and return max-age=0, must-revalidate. Existing /deck/ returns HTTP 200. Desktop and phone gallery inspected. Jeff review remains pending.
+
+## Kimi1 Deck — November 10, 2026
+
+Jeff supplied Kimi1-website.zip: the third address of the *Measuring the Sky* / *Where Am I?* lecture, 18 scenes across four acts, from mental-map quizzes through the shelter decision brief. Kimi Work deployed it URL-only to /kimi1/ from a fresh workspace clone; the canonical checkout was clean and untouched. Strictly additive: /deck/, /deck/v2/, /galileo/, /polaris/ and all other public assets unchanged. Not listed on the Decks page or in search; owner deferred that choice.
+
+- Build: 92 topics, 9 sessions, 81 tags. Unit tests 6/6 pass (galileo, polaris).
+- Zip audit: all asset references local except one deliberate link to /deck/v2/. Known gap present in the source zip: img/null-island.jpg is unreferenced and the 'nullisland' glossary key is missing, so tapping Null Island is a silent no-op. Not introduced or fixed here.
+- Published source 469a05e through git-connected Vercel dpl_J2H5gsEgUSQc29itS9VkAvq9jZn4.
+- Served bytes at https://faria.jbf.com/kimi1/ exactly match the zip for all five files. SHA-256: index.html 6fc051b1397b7ccc6db541082ca21814c57f747e2cce0aae86462a8a4029bcfb; coast.js f5cf28ba1bc43547bed50a940c2cead649ead7b4fddb3ab6e98ce486e0279ef3; coast2.js a3ee9e1e2da06f945eb417820a4cbb89d53fce1e096ab55fb5d3f41d8bba1d6c; img/moon-first-quarter.jpg b40d2ebb814e0808286722b1ac375cb840ddf54e7c4ae331f1490ed306283990; img/null-island.jpg 84ff504ebffbefffaf837b5af740501b41e27a69a88da4a54f6024032e4e377a.
+- All return public, max-age=0, must-revalidate. Preserved routes verified live: /, /deck/, /deck/v2/, /galileo/, /polaris/, /decks/, /search/ all HTTP 200.
+- Remaining: Jeff review; in-browser interaction pass not run (no Playwright in the deployment workspace); Excel register, project registry and Session Board updates live outside this repo and remain for Jeff.
