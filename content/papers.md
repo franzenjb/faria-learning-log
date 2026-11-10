@@ -52,6 +52,10 @@ Printed lessons and plates, grouped with the topic each one belongs to. The comp
 - [One ladder: sine, cosine, and tangent](/topics/77-ladder-sine-cosine-and-tangent/): [a 9 November ladder sheet (PDF)](/downloads/Sine_Cosine_Tangent_Ladder_Faria_2026-11-09.pdf). Three pages. A 10-foot ladder at 30 degrees, added to the 8 November lesson.
 - [Gaia: ESA's map of the Galaxy](/topics/94-gaia-esa-map-of-the-galaxy/): [lesson PDF](/downloads/Gaia_ESA_Mission_and_Map_of_the_Galaxy_Faria_2026-11-10.pdf); [slide deck (PDF)](/downloads/Gaia_Angle_Ladder_and_Mission_Slides_Faria_2026-11-10.pdf). Written up the next morning and placed with this day. What the spacecraft was, how long it ran, what it mapped, and what it found.
 
+## 10 November 2026
+
+- [Degrees, arcminutes, and arcseconds](/topics/95-degrees-arcminutes-arcseconds/): [lesson PDF](/downloads/Degrees_Arcminutes_and_Arcseconds_Faria_2026-11-10.pdf). Two pages. A full turn, the two factors of sixty, the face-on dime, the nautical mile, and the parsec.
+
 ## Complete binder
 
 [Complete lessons binder (PDF)](/downloads/Franzen_Complete_Lessons_Binder.pdf). 458 pages. 72 topics and 37 papers, assembled before the later 8 November lessons. Those later pages, including Picard, Tycho, the mathematics lessons, and the historical lessons added with them, are on the site and are not in this file. The binder has not been rebuilt. The separate lesson PDFs on this page stay as they are.
