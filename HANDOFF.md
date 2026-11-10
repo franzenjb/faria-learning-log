@@ -1,4 +1,4 @@
-GIT_OWNER: Kimi Work (Faria Work workspace) — /kimi1/ release, 2026-11-10
+GIT_OWNER: none
 
 # Kimi1 Deck — 2026-11-10
 
