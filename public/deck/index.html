@@ -45,8 +45,8 @@ h1{font-size:2rem;line-height:1.1;margin:0 0 .9rem;font-weight:600}
 .quiz .opt.ok{border-color:var(--ok);background:rgba(111,212,138,.12)}.quiz .opt.ok .letter{color:var(--ok);border-color:var(--ok)}
 .quiz .opt.no{opacity:.55}
 .quiz.done .opt.no{display:none}
-.menu li{cursor:pointer;padding-left:.4rem;transition:background .15s,color .15s}
-.menu li.act{cursor:default;color:var(--accent,#f0b35a);font:600 .72rem var(--sans);letter-spacing:.14em;text-transform:uppercase;margin-top:.7rem;padding-left:0}
+.menu li{cursor:pointer;padding:.2rem 0 .2rem .4rem;font-size:.83rem;transition:background .15s,color .15s}
+.menu li.act{cursor:default;color:var(--accent,#f0b35a);font:600 .72rem var(--sans);letter-spacing:.14em;text-transform:uppercase;margin-top:.35rem;padding-left:0;border-top:none}
 .menu li.act:hover{background:none}
 .menu li:hover{background:#161d30;color:var(--accent)}
 .controls{display:grid;gap:.9rem;margin:1rem 0}
@@ -89,9 +89,10 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 .cover-text .vlink a{font:500 .72rem var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-decoration:none}
 .cover-text .vlink a:hover{color:var(--accent)}
 @keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
-.title .text{display:flex;flex-direction:column;justify-content:center}
-.title h1{font-size:3rem}
-.title .lede{font-size:1.15rem}
+.title .text{display:flex;flex-direction:column;justify-content:safe center}
+.title .facts{margin:.4rem 0 .6rem}
+.title h1{font-size:2.3rem}
+.title .lede{font-size:1rem}
 .notebook{position:absolute;right:1rem;top:1rem;width:min(40%,260px);max-height:calc(100% - 2rem);overflow:auto;background:#f3ead6;color:#2a2217;border-radius:.3rem;padding:.6rem .7rem;font:13px/1.35 var(--serif);box-shadow:0 8px 30px rgba(0,0,0,.5);opacity:.97}
 .notebook h3{margin:0 0 .3rem;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;font-family:var(--sans);color:#6a5533}
 .notebook .row{display:grid;grid-template-columns:3.4rem 1fr;align-items:center;gap:.4rem;border-bottom:1px dotted #c9b893;padding:.2rem 0}
@@ -132,8 +133,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
   <div class="text">
     <p class="kicker">Faria · An interactive lecture</p>
     <h1>Measuring the Sky</h1>
-    <p class="lede">How looking up turned into knowing where you are, how big the world is, and how far away the Sun is.</p>
-    <p>Every slide is a working model. Drag, slide, press play. Tap a line below to jump straight to it.</p>
+    <p class="lede">How looking up turned into knowing where you are, how big the world is, and how far away the Sun is. Every slide is a working model: tap a line to jump to it.</p>
     <ul class="facts menu">
       <li class="act">Act I · Locate yourself</li>
       <li data-go="Mental maps"><strong>1.</strong> Three questions your mental map gets wrong.</li>
@@ -792,7 +792,7 @@ read.innerHTML=level===0?`<strong>24 hours = 360°</strong><span class="big">1 h
 level===1?`<strong>One hour = 15° = 60 minutes</strong><span class="big">1 minute = ¼° = 15′ of arc</span><span>A clock one minute wrong puts a ship 17 miles wrong at the equator.${sh}</span>`:
 `<strong>One minute = 15′ of arc = 60 seconds</strong><span class="big">1 second = 15″ of arc</span><span>Four seconds is one minute of arc: one nautical mile. Harrison’s H4 lost 5 seconds in 81 days.${sh}</span>`;}
 update();
-const geom=()=>{const{w,h}=o;return{cx:w*.5,cy:h*.5,R:Math.min(w,h)*.4};};
+const geom=()=>{const{w,h}=o;return{cx:w*.57,cy:h*.56,R:Math.min(w,h)*.37};};
 // pointer: drag the disc to spin it, drag the ship to move it, tap an hour to zoom in
 {let drag=null;const P=e=>{const r=o.c.getBoundingClientRect();return{x:(e.clientX-r.left)*(o.w/r.width||1),y:(e.clientY-r.top)*(o.h/r.height||1)};};
 o.c.addEventListener('pointerdown',e=>{const{x,y}=P(e);const{cx,cy,R}=geom();if(level!==0){if(level===1)goLevel(2);return;}const d=Math.hypot(x-cx,y-cy);if(d>R*1.05)return;o.c.setPointerCapture(e.pointerId);const a=Math.atan2(cy-y,x-cx);let onShip=false;if(ship!==null){const sa=rotation+ship;const sx=cx+R*.62*Math.cos(sa),sy=cy-R*.62*Math.sin(sa);onShip=Math.hypot(x-sx,y-sy)<28;}drag={a0:a,rot0:rotation,moved:false,onShip,x,y};});
@@ -801,7 +801,7 @@ const end=e=>{if(!drag)return;const{x,y}=P(e);const{cx,cy}=geom();if(!drag.moved
 o.c.addEventListener('pointerup',end);o.c.addEventListener('pointercancel',end);}
 scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);const dt=last?(t-last)/1000:0;last=t;if(!paused&&zoomT<.05&&+speedIn.value)rotation+=dt*(+speedIn.value)*(TAU/24)/3;
 if(zoomAnim){const k=Math.min(1,(t-zoomAnim.t0)/zoomAnim.ms);zoomT=zoomAnim.from+(zoomAnim.to-zoomAnim.from)*ease(k);if(k>=1)zoomAnim=null;}
-const{cx,cy}=geom();const R0=Math.min(w,h)*.4;
+const{cx,cy}=geom();const R0=Math.min(w,h)*.37;
 const hourA=TAU/24,minA=hourA/60;
 // zoom: level 1 so one hour spans the stage; level 2 so one minute does (60× further)
 const s1=R0*3.4,s2=R0*3.4*115;const R=zoomT<=1?R0+(s1-R0)*zoomT:s1+(s2-s1)*Math.pow(zoomT-1,2);
@@ -845,7 +845,7 @@ if(sec%12===0&&sec>0&&sec<60){const pm2=arcPt(a,R-100);text(ctx,`${60-sec} s`,pm
 if(isArcMin&&sec<60&&sec%4===0){const pq=arcPt(a+2*minA/60,R-66);text(ctx,`${15-sec/4}′`,pq.x,pq.y+4,{size:11,align:'center',color:'#cfc8ba',font:'mono'});}}const pc=arcPt(a0+minA/2,R-150);text(ctx,'← 60 seconds of time · 15′ of arc · 15 nautical miles →',pc.x,pc.y+4,{size:12,align:'center',color:'#6fd48a'});ctx.globalAlpha=1;}
 // the explainer: plain lines written on the stage for whatever is on screen
 {const L=zoomT<.5?[['A 24-HOUR CLOCK','#9a9382',13],['1 hour = 15°','#f0b35a',30],['24 hours × 15° = 360°','#ece6da',18],['tap an hour to break it into minutes','#9a9382',14]]:zoomT<1.5?[['ONE HOUR','#9a9382',13],['1 hour = 15° = 60 minutes','#f0b35a',30],['each tick is 1 minute of time = ¼° = 15′ of arc','#ece6da',18],['bold ticks every 4 minutes = 1° = 69 miles','#9a9382',14]]:[['ONE MINUTE','#9a9382',13],['1 minute = 15′ of arc = 60 seconds','#f0b35a',30],['each tick is 1 second of time = 15″ of arc','#6fd48a',18],['bold ticks every 4 seconds = 1′ of arc = 1 nautical mile','#9a9382',14]];
-let y=h*.12;ctx.fillStyle='rgba(10,14,24,.75)';ctx.fillRect(w*.04-14,y-30,Math.min(w*.56,620),L.length*34+22);for(const[s,c,sz]of L){text(ctx,s,w*.04,y,{size:sz,color:c,font:sz>=22?'mono':undefined});y+=sz>=22?38:30;}}
+let y=h*.12;ctx.fillStyle='rgba(10,14,24,.75)';{ctx.font='500 18px -apple-system,Segoe UI,Roboto,sans-serif';const bw=Math.max(...L.map(([s,,sz])=>s.length*sz*.6))+28;ctx.fillRect(w*.04-14,y-30,Math.min(w*.6,bw),L.length*34+22);}for(const[s,c,sz]of L){text(ctx,s,w*.04,y,{size:sz,color:c,font:sz>=22?'mono':undefined});y+=sz>=22?38:30;}}
 text(ctx,'Earth from above the North Pole · turning counter-clockwise · the Sun stays to the right',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}});}
 
 /* ---------- 2 · Eratosthenes ---------- */
@@ -872,7 +872,7 @@ function move(p){if(flat)return;const{cx,cy,R}=eraGeom();const a=Math.atan2(cx-p
 scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);const th=+angIn.value*DEG;const{cx,cy,R}=eraGeom();const sl=46*Math.sqrt(ez.zoom);
 // sun rays
 const sp=w*.055;for(let x=cx-Math.ceil(cx/sp)*sp;x<w*.98;x+=sp){if(Math.abs(x-cx)<1)continue;/* the ray down the well is drawn with the well itself */ctx.strokeStyle='rgba(255,214,107,.28)';ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,flat?h*.4:cy-R*Math.cos(Math.asin(Math.min(1,Math.abs(x-cx)/R)))+2);ctx.stroke();}
-text(ctx,'Sunlight at noon, summer solstice · parallel rays · scroll or pinch to zoom in on the sticks · drag the Earth sideways',w*.5,24,{size:12,color:'#ffd66b',align:'center'});
+text(ctx,'Sunlight at noon, summer solstice · parallel rays · scroll to zoom in on the sticks · drag the Earth sideways',w-18,48,{size:12,color:'#ffd66b',align:'right'});
 if(flat){const gy=h*.5;ctx.fillStyle='#1b2a3f';ctx.fillRect(0,gy,w,h-gy);ctx.strokeStyle='#3b5f8a';ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(w,gy);ctx.stroke();
 const stick=(x,label)=>{ctx.strokeStyle='#ece6da';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(x,gy);ctx.lineTo(x,gy-70);ctx.stroke();text(ctx,label,x,gy+22,{size:13,align:'center'});text(ctx,'no shadow',x,gy+40,{size:11,align:'center',color:'#9a9382'});};stick(w*.62,'Syene');stick(w*.3,'Alexandria');
 text(ctx,'Same Sun, same angle, same shadow everywhere. That is not what was seen.',w*.5,h*.85,{size:14,color:'#ff7d6f',align:'center'});return;}
@@ -1745,7 +1745,12 @@ chapters:[
  {t:'Fort Venus, 3 June 1769',cam:camFor(-17.5,-149.5,6),body:`<p class="lede">A clear day. Cook, Green and Solander each watched Venus cross the Sun through their own telescopes and each wrote down different times for the contacts: the <span class="term" data-term="blackdrop">black drop</span> made the instant impossible to call.</p><p>Their station was the southern anchor of Halley’s network. Hell at Vardø in the Arctic was its northern one. The two chords on the Sun, thousands of miles apart on Earth, are what slide 8 measures.</p>`,read:'<strong>Open slide 8 with the Tahiti and Vardø pair</strong><span>to see the two chords and the stopwatch difference.</span>',transit:true,hint:'Tap Point Venus · the button opens the transit slide'},
  {t:'The sealed orders: the east coast of Australia',cam:camFor(-27,150,2.6),body:`<p class="lede">After Tahiti the sealed orders sent Cook south to look for a continent. He circled New Zealand, then on 19 April 1770 sighted the south-east corner of Australia and sailed north for four months charting a coast no European had drawn.</p><p>A precise chart does not mean an empty land. Aboriginal peoples had lived along this coast for tens of thousands of years, and the chart records their fires. Surveying is not consent: Cook’s instructions required it, he did not seek it, and at Possession Island he claimed the coast anyway.</p>`,read:'<strong>Tap the four markers.</strong><span>Point Hicks, Botany Bay, Endeavour Reef, Possession Island.</span>',hint:'Pinch in on the coast · tap a marker'},
  {t:'The second voyage: a clock that worked at sea',cam:camFor(-40,60,1),body:`<p class="lede">1772 to 1775. Cook took the Resolution three times across the Antarctic Circle and proved the great southern continent did not exist where the maps put it. He also carried K1, Kendall’s copy of Harrison’s H4, and tested it against <span class="term" data-term="lunar">lunar distances</span> at every landfall.</p><p>The <span class="term" data-term="chronometer">chronometer</span> won. Cook’s charts from this voyage were the first with longitudes good to a few miles, and his endorsement did more than the Board of Longitude’s prize to put clocks on every ship.</p>`,read:'<strong>Tap Cape Town and Dusky Sound.</strong><span>Where the watch was checked and where it was trusted.</span>'}],
-onChapter(ch){document.getElementById('ck-transit').hidden=ch!==2;}});
+onChapter(ch){document.getElementById('ck-transit').hidden=ch!==2;if(ch===4){document.getElementById('ck-body').insertAdjacentHTML('beforeend',`<p><b>Try it.</b> Longitude is a clock reading. Set how badly the clock keeps time and how long since the last known port.</p><div class="controls"><label><span class="row">Clock gains or loses <output id="ck-rate-out"></output></span><input id="ck-rate" type="range" min="0" max="60" step="0.5" value="30"></label><label><span class="row">Days out of sight of land <output id="ck-days-out"></output></span><input id="ck-days" type="range" min="1" max="200" step="1" value="117"></label></div><div class="chips" id="ck-presets"><button data-r="30">Pocket watch · 30 s/day</button><button data-r="5">Good ship’s clock · 5 s/day</button><button data-r="0.5">K1, rate applied · ½ s/day</button></div><div class="readout" id="ck-k1"></div>`);k1Bind();}}});
+// the longitude experiment: clock error × days → degrees → miles, drawn as a line of doubt off Dusky Sound
+const K1={lat:-45.7,lon:166.6,rate:30,days:117,on:false};const k1Miles=()=>{const sec=K1.rate*K1.days,deg=sec/240;return{sec,deg,mi:deg*69.17*Math.cos(K1.lat*DEG)};};
+function k1Bind(){const rIn=document.getElementById('ck-rate'),dIn=document.getElementById('ck-days');const upd=(flyTo)=>{K1.rate=+rIn.value;K1.days=+dIn.value;K1.on=true;const e=k1Miles();document.getElementById('ck-rate-out').textContent=`${K1.rate} s/day`;document.getElementById('ck-days-out').textContent=`${K1.days} days`;document.getElementById('ck-k1').innerHTML=`<strong>${fmtI(e.sec)} seconds wrong after ${K1.days} days</strong><span class="big">${e.mi<10?fmt(e.mi,1):fmtI(e.mi)} miles east or west</span><span>${fmtI(e.sec)} s ÷ 240 s per degree = ${fmt(e.deg,2)}° of longitude, and a degree is 48 miles at this latitude. ${e.mi>300?'The ship could be anywhere along a line wider than New Zealand.':e.mi>40?'Enough to miss a harbour, or find a reef at night.':'Close enough to make a landfall on purpose. This is what the chronometer bought.'}</span>`;if(flyTo){const z=Math.max(1.6,Math.min(9,26/Math.max(.4,e.deg)));const c=camFor(K1.lat,K1.lon,z);fly(ck.st,{yaw:c.yaw,pitch:c.pitch,zoom:z},1200);}};rIn.oninput=dIn.oninput=()=>upd(true);document.querySelectorAll('#ck-presets button').forEach(b=>b.onclick=()=>{rIn.value=b.dataset.r;upd(true);});upd(false);}
+{const sc=scenes[scenes.length-1],base=sc.draw;sc.draw=function(t){base.call(this,t);if(ck.ch!==4||!K1.on)return;const{ctx}=sc.o;const e=k1Miles(),d=Math.min(170,e.deg);const pts=[];for(let k=-1;k<=1.0001;k+=.04)pts.push(ck.proj(ll(K1.lat,K1.lon+k*d)));ctx.lineCap='round';ctx.strokeStyle='rgba(255,125,111,.35)';ctx.lineWidth=14;ctx.beginPath();let pen=false;for(const q of pts){if(q.z<0){pen=false;continue;}pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}ctx.stroke();ctx.strokeStyle='#ff7d6f';ctx.lineWidth=2.5;ctx.stroke();
+const c0=ck.proj(ll(K1.lat,K1.lon));if(c0.z>0){ctx.fillStyle='#6fd48a';ctx.beginPath();ctx.arc(c0.x,c0.y,6,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();tag(ctx,'where the ship really is',c0.x+14,c0.y-30,'#6fd48a',14);tag(ctx,`where the clock could put it: ± ${e.mi<10?fmt(e.mi,1):fmtI(e.mi)} miles`,c0.x+14,c0.y+46,'#ff7d6f',15);}};}
 document.getElementById('ck-transit').onclick=()=>{go(slides.findIndex(x=>x.dataset.title==='Transit of Venus'));document.querySelector('#tv-pairs button[data-a=tahiti]').click();};
 }
 
