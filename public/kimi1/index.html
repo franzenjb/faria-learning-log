@@ -1060,6 +1060,16 @@ o.c.addEventListener('pointerdown',e=>{const{x,y}=P(e);const{cx,cy,R}=geom();if(
 o.c.addEventListener('pointermove',e=>{if(!drag)return;const{x,y}=P(e);const{cx,cy}=geom();if(Math.hypot(x-drag.x,y-drag.y)>5)drag.moved=true;if(!drag.moved)return;const a=Math.atan2(cy-y,x-cx);if(drag.onShip){ship=((a-rotation)%TAU+TAU)%TAU;update();}else{let d=a-drag.a0;rotation=drag.rot0+d;paused=true;pauseB.textContent='Resume';pauseB.classList.add('on');if(ship!==null)update();}});
 const end=e=>{if(!drag)return;const{x,y}=P(e);const{cx,cy}=geom();if(!drag.moved){const a=Math.atan2(cy-y,x-cx);const rel=((a-rotation)%TAU+TAU)%TAU;focus=Math.floor(rel/(TAU/24));goLevel(1);}drag=null;};
 o.c.addEventListener('pointerup',end);o.c.addEventListener('pointercancel',end);}
+function clock(x,y,r,hours,label,color){const{ctx}=o;
+ ctx.fillStyle='rgba(10,14,24,.88)';ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.fill();ctx.strokeStyle=color;ctx.lineWidth=2;ctx.stroke();
+ for(let i=0;i<24;i++){const a=i/24*TAU,inner=i%6===0?r-10:(i%2===0?r-6:r-3.5);ctx.strokeStyle=i%6===0?color:'rgba(236,230,218,.4)';ctx.lineWidth=i%6===0?2:1;ctx.beginPath();ctx.moveTo(x+inner*Math.sin(a),y-inner*Math.cos(a));ctx.lineTo(x+(r-1)*Math.sin(a),y-(r-1)*Math.cos(a));ctx.stroke();}
+ for(const[hh,tx,ty]of[[24,0,-r+18],[6,r-13,4],[12,0,r-8],[18,-r+13,4]])text(ctx,String(hh),x+tx,y+ty,{size:9,color:'#cfc8ba',align:'center',font:'mono'});
+ if(hours===null){text(ctx,'?',x,y+r*.3,{size:r*.8,color:'#ff7d6f',align:'center',weight:700});text(ctx,label,x,y+r+16,{size:10.5,color,align:'center'});}
+ else{const ha=hours/24*TAU,ma=(hours%1)*TAU;
+  ctx.strokeStyle='#ece6da';ctx.lineWidth=3;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+r*.52*Math.sin(ha),y-r*.52*Math.cos(ha));ctx.stroke();
+  ctx.strokeStyle=color;ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+r*.78*Math.sin(ma),y-r*.78*Math.cos(ma));ctx.stroke();
+  ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,y,2.5,0,TAU);ctx.fill();
+  const hh=Math.floor(hours),mm=Math.floor((hours-hh)*60);text(ctx,`${hh}:${String(mm).padStart(2,'0')}`,x,y+r+16,{size:12,color:'#ece6da',align:'center',font:'mono',weight:600});text(ctx,label,x,y+r+30,{size:10.5,color,align:'center'});}}
 scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);const dt=last?(t-last)/1000:0;last=t;if(!paused&&zoomT<.05&&+speedIn.value)rotation+=dt*(+speedIn.value)*(TAU/24)/3;
 if(zoomAnim){const k=Math.min(1,(t-zoomAnim.t0)/zoomAnim.ms);zoomT=zoomAnim.from+(zoomAnim.to-zoomAnim.from)*ease(k);if(k>=1)zoomAnim=null;}
 const{cx,cy}=geom();const R0=Math.min(w,h)*.4;
@@ -1093,7 +1103,13 @@ const jx=sp.x+46,jy=sp.y-52;ctx.fillStyle='#e8c89a';ctx.beginPath();ctx.arc(jx,j
 tag(ctx,'Io vanishes · almanac says the Greenwich time',jx+14,jy+4,'#ece6da',11);tag(ctx,'on land · telescope on a steady tripod',sp.x+20,sp.y+18,'#6fd48a',12);}
 else{// ship: hull + sail
 ctx.fillStyle='#f0b35a';ctx.beginPath();ctx.moveTo(sp.x-16,sp.y+4);ctx.lineTo(sp.x+16,sp.y+4);ctx.lineTo(sp.x+10,sp.y+12);ctx.lineTo(sp.x-10,sp.y+12);ctx.closePath();ctx.fill();ctx.strokeStyle='#ece6da';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sp.x,sp.y+4);ctx.lineTo(sp.x,sp.y-20);ctx.stroke();ctx.fillStyle='#ece6da';ctx.beginPath();ctx.moveTo(sp.x,sp.y-20);ctx.lineTo(sp.x+14,sp.y-4);ctx.lineTo(sp.x,sp.y-4);ctx.closePath();ctx.fill();
-tag(ctx,'ship · local noon',sp.x+20,sp.y+2,'#f0b35a',12);if(chrono)tag(ctx,`chronometer: Greenwich ${fmt(((12+hw)%24+24)%24,1)} h`,sp.x+20,sp.y+20,'#6fd48a',12);else tag(ctx,'Greenwich time: unknown',sp.x+20,sp.y+20,'#ff7d6f',12);}}
+tag(ctx,'ship · local noon',sp.x+20,sp.y+2,'#f0b35a',12);if(chrono)tag(ctx,`chronometer: Greenwich ${fmt(((12+hw)%24+24)%24,1)} h`,sp.x+20,sp.y+20,'#6fd48a',12);else tag(ctx,'Greenwich time: unknown',sp.x+20,sp.y+20,'#ff7d6f',12);}
+// the two clocks: ship's local sun time against Greenwich — the gap is the longitude
+{const cr=Math.min(w,h)*.078,gy=cr+34,gx=w-cr-26,sx=gx-2*cr-34;
+const gT=((12+rot/TAU*24)%24+24)%24,sT=((12+(rot+ship)/TAU*24)%24+24)%24;
+clock(sx,gy,cr,sT,'ship · local sun time','#f0b35a');
+if(chrono||land){clock(gx,gy,cr,gT,land?'Greenwich · almanac':'Greenwich · chronometer','#6fd48a');tag(ctx,`${fmt(Math.abs(hw),1)} h × 15° = ${fmt(Math.abs(hw)*15,0)}° ${hw>=0?'west':'east'}`,(sx+gx)/2-88,gy+cr+46,'#6fd48a',15);}
+else{clock(gx,gy,cr,null,'Greenwich · unseen at sea','#ff7d6f');tag(ctx,'? h × 15° = ? °',(sx+gx)/2-72,gy+cr+46,'#ff7d6f',15);}}}
 // zoom level 1: 60 minutes in the hour, degree ticks bold
 if(zoomT>.4){const a0=rot+focus*hourA;const alpha=Math.min(1,(zoomT-.4)/.4);ctx.globalAlpha=alpha;
 for(let m=0;m<=60;m++){const a=a0+m*minA;const isDeg=m%4===0;const p1=arcPt(a,R*(isDeg?.955:.975)),p2=arcPt(a,R);ctx.strokeStyle=isDeg?'#ece6da':'rgba(236,230,218,.45)';ctx.lineWidth=isDeg?2:1;ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.lineTo(p2.x,p2.y);ctx.stroke();
