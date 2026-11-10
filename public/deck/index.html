@@ -155,12 +155,13 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
       <li data-go="Transit of Venus"><strong>12.</strong> Venus crosses the Sun and the solar system gets a size.</li>
       <li data-go="Cook"><strong>13.</strong> Cook: a collier, a clock, and the coast he charted.</li>
       <li data-go="Mason &amp; Dixon"><strong>14.</strong> Mason and Dixon: a sea fight, a transit, and a line across America.</li>
+      <li data-go="Gaia"><strong>15.</strong> Gaia: the same triangle, two billion times, and a map of the Galaxy.</li>
       <li class="act">Act IV · Represent the world</li>
-      <li data-go="Flat maps lie"><strong>15.</strong> Flat maps lie: Greenland, Africa, and the shortest way across.</li>
+      <li data-go="Flat maps lie"><strong>16.</strong> Flat maps lie: Greenland, Africa, and the shortest way across.</li>
       <li class="act">Act V · Make a decision</li>
-      <li data-go="The storm wire"><strong>16.</strong> The storm wire: telegraph, Viñes, and Galveston.</li>
-      <li data-go="Twice the wind"><strong>17.</strong> Twice the wind is four times the force.</li>
-      <li data-go="The shelter decision"><strong>18.</strong> The shelter decision: a crisp edge, a fuzzy answer.</li>
+      <li data-go="The storm wire"><strong>17.</strong> The storm wire: telegraph, Viñes, and Galveston.</li>
+      <li data-go="Twice the wind"><strong>18.</strong> Twice the wind is four times the force.</li>
+      <li data-go="The shelter decision"><strong>19.</strong> The shelter decision: a crisp edge, a fuzzy answer.</li>
     </ul>
     <p><small>→ and ← keys move between slides. F for full screen. P opens presenter notes in a second window. Dotted words open an explanation.</small></p>
   </div>
@@ -443,10 +444,26 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
   <div class="stage"><canvas id="c6"></canvas><div class="hint" id="h6">Drag to spin · pinch or scroll to zoom · tap a marker</div><div class="card" id="md-card" hidden><button class="x" id="md-card-x" aria-label="Close">×</button><h3 id="md-card-t"></h3><div id="md-card-g"></div><p id="md-card-p"></p></div></div>
 </section>
 
+<!-- Gaia -->
+<section class="slide" data-title="Gaia" data-fx="orbit">
+  <div class="text">
+    <p class="kicker">Act III · 15 · 2013 to 2025 · The same triangle, two billion times</p>
+    <h1 id="ga-title"></h1>
+    <div class="chips" id="ga-ch"><button data-c="0" class="on">1 · The baseline</button><button data-c="1">2 · How small an angle</button><button data-c="2">3 · What it found</button></div>
+    <p class="lede" id="ga-lede"></p>
+    <div id="ga-p0"><div class="controls"><label><span class="row">Distance to the star <output id="ga-d-out"></output></span><input id="ga-d" type="range" min="0.6" max="4.5" step="0.01" value="1.06"></label></div>
+      <div class="chips" id="ga-stars"><button data-ly="4.24">Proxima · 4.2</button><button data-ly="11.4">61 Cygni · 11.4</button><button data-ly="1926">Gaia BH3 · 1,926</button><button data-ly="26000">Galactic centre · 26,000</button></div></div>
+    <div id="ga-p1" style="display:none"><div class="chips" id="ga-inst"><button data-i="0">Bessel · 1838</button><button data-i="1">Hipparcos · 1989</button><button data-i="2">Gaia · 2014</button></div></div>
+    <div id="ga-p2" style="display:none"><div class="chips" id="ga-find"><button data-f="0">A swallowed galaxy</button><button data-f="1">A snail-shell wobble</button><button data-f="2">A sleeping black hole</button></div></div>
+    <div class="readout" id="ga-read"></div>
+  </div>
+  <div class="stage"><canvas id="cgaia"></canvas><div class="hint">Three steps · drag the distance, pick an instrument, pick a discovery</div></div>
+</section>
+
 <!-- 9 · Flat maps lie -->
 <section class="slide" data-title="Flat maps lie" data-fx="unroll">
   <div class="text">
-    <p class="kicker">Act IV · 15 · Frames · Every flat map is a choice</p>
+    <p class="kicker">Act IV · 16 · Frames · Every flat map is a choice</p>
     <h1 id="fm-title">How many Greenlands fit in Africa?</h1>
     <div class="modes" id="m9"><button class="on" data-mode="greenland">Greenland vs Africa</button><button data-mode="routes">Straight is not shortest</button></div>
     <div id="fm-greenland">
@@ -469,7 +486,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 12 · The storm wire -->
 <section class="slide" data-title="The storm wire" data-fx="morse">
   <div class="text">
-    <p class="kicker">Act V · 16 · Decisions · A warning is an inference, and not yet safety</p>
+    <p class="kicker">Act V · 17 · Decisions · A warning is an inference, and not yet safety</p>
     <h1 id="sw-title">Telegraph reports could outrun a storm</h1>
     <div class="chips" id="sw-chapters"><button data-ch="0" class="on">1 · The wire</button><button data-ch="1">2 · Viñes, 1875</button><button data-ch="2">3 · Galveston, 1900</button></div>
     <div id="sw-body"></div>
@@ -484,7 +501,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 13 · Twice the wind -->
 <section class="slide" data-title="Twice the wind" data-fx="gust">
   <div class="text">
-    <p class="kicker">Act V · 17 · Decisions · Before comparing winds, compare definitions</p>
+    <p class="kicker">Act V · 18 · Decisions · Before comparing winds, compare definitions</p>
     <h1 id="wd-title">The wind rises from 100 to 120 mph. How much harder does it push?</h1>
     <p class="lede" id="wd-lede">Twenty percent more wind. Tap the answers the room calls out, then reveal.</p>
     <div class="quiz" id="wd-quiz"></div>
@@ -503,7 +520,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 <!-- 14 · The shelter decision -->
 <section class="slide" data-title="The shelter decision" data-fx="edge">
   <div class="text">
-    <p class="kicker">Act V · 18 · Decisions · A crisp edge can conceal a fuzzy answer</p>
+    <p class="kicker">Act V · 19 · Decisions · A crisp edge can conceal a fuzzy answer</p>
     <h1 id="sh-title">Pick a shelter</h1>
     <div class="chips" id="sh-stages"></div>
     <p class="lede" id="sh-lede"></p>
@@ -1683,6 +1700,70 @@ function morphProj(lat,lon,st,t,kind,w,h,centerLon){// t 0 = orthographic globe,
  if(t<=0)return g;if(t>=1)return f;const e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;// the back of the globe is lifted toward the viewer as it unwraps
  const gz=g.z<0?g.z*(1-e):g.z;return{x:g.x+(f.x-g.x)*e,y:g.y+(f.y-g.y)*e,z:gz+(1-gz)*e};}
 
+/* ---------- Gaia: the same triangle, two billion times ---------- */
+{const o=setup('cgaia');const $=id=>document.getElementById('ga-'+id);const title=$('title'),lede=$('lede'),read=$('read'),dIn=$('d'),dOut=$('d-out');
+let ch=0,inst=2,find=0;
+const INST=[{n:'Bessel, 1838',s:0.02,c:'#f0b35a',note:'A split-lens telescope in Königsberg. First distance to a star: 61 Cygni.'},{n:'Hipparcos, 1989–93',s:0.001,c:'#6fb3ff',note:'The first satellite built to measure star positions. About 118,000 stars.'},{n:'Gaia, 2014–25',s:0.00002,c:'#6fd48a',note:'Nearly two billion stars. At its best, the width of a human hair seen from 600 miles.'}];
+const FIND=[{n:'A swallowed galaxy',t:'<b>Gaia-Enceladus, found 2018.</b> A large part of the Milky Way’s inner halo came from another galaxy that merged with ours about 10 billion years ago. Its stars still move together the wrong way, like debris from an old collision.'},{n:'A snail-shell wobble',t:'<b>The phase spiral, found 2018.</b> Plot nearby stars by height above the disk against vertical speed and a snail shell appears. The disk is still wobbling, like a pond after a stone hits it, probably because the Sagittarius dwarf galaxy passed through.'},{n:'A sleeping black hole',t:'<b>Gaia BH3, announced 2024.</b> A star swaying around something invisible: a black hole about 33 times the Sun’s mass, about 1,926 light-years away. The most massive star-sized black hole found in our galaxy, and the third Gaia found.'}];
+const CH=[{t:'The same triangle, with the Earth’s orbit as the baseline',l:'Your two eyes made a finger jump. Two observers on Earth made Venus shift. To reach a star, use the widest baseline we have: the Earth in January and the Earth in July, 186 million miles apart. The star shifts against the far background. That shift is its parallax.'},{t:'How small an angle can you measure?',l:'Every instrument in this deck is an angle-measurer, and each one reaches as far as its smallest angle allows. Pick an instrument and watch how much of the Galaxy it can lay a ruler on.'},{t:'What Gaia found that no one expected',l:'Gaia was launched on 19 December 2013 and measured positions, motions, brightness and colours for about ten and a half years. A census that precise turned up things nobody was looking for.'}];
+const ly2p=d=>3.2616/d;// parallax in arcseconds
+const fmtAng=p=>p>=.1?fmt(p,2)+'″':p>=.0001?fmt(p*1000,p<.001?2:1)+' thousandths of an arcsecond':fmt(p*1e6,0)+' millionths of an arcsecond';
+let dExact=null;const dist=()=>dExact||Math.pow(10,+dIn.value);
+function setCh(n){ch=n;document.querySelectorAll('#ga-ch button').forEach((b,i)=>b.classList.toggle('on',i===n));title.textContent=CH[n].t;lede.textContent=CH[n].l;$('p0').style.display=n===0?'':'none';$('p1').style.display=n===1?'':'none';$('p2').style.display=n===2?'':'none';update();}
+function update(){if(ch===0){const d=dist(),p=ly2p(d);dOut.textContent=d<100?fmt(d,1)+' light-years':fmtI(d)+' light-years';const who=INST.filter(x=>p/x.s>=10).map(x=>x.n.split(',')[0]);read.className='readout'+(who.length?' ok':' bad');read.innerHTML=`<strong>A star ${d<100?fmt(d,1):fmtI(d)} light-years away shifts by</strong><span class="big">${fmtAng(p)}</span><span>${who.length?'Measurable to one part in ten by: '+who.join(', ')+'.':'Too small even for Gaia to pin down to one part in ten.'} Halve the angle and the star is twice as far. Distance in light-years is 3.26 divided by the angle in arcseconds.</span>`;}
+else if(ch===1){const I=INST[inst],reach=0.1/I.s*3.2616;document.querySelectorAll('#ga-inst button').forEach((b,i)=>b.classList.toggle('on',i===inst));read.className='readout';read.innerHTML=`<strong>${I.n} · smallest angle about ${fmtAng(I.s)}</strong><span class="big">reaches about ${fmtI(reach)} light-years</span><span>${I.note} “Reach” here means a distance good to one part in ten. ${inst===2?'That circle takes in a real fraction of the Galaxy, and Gaia still sees much farther with less precision.':'On a map of the Galaxy that circle is smaller than the dot marking the Sun.'}</span>`;}
+else{document.querySelectorAll('#ga-find button').forEach((b,i)=>b.classList.toggle('on',i===find));read.className='readout';read.innerHTML=`<strong>${FIND[find].n}</strong><span>${FIND[find].t}</span>`;}}
+dIn.oninput=()=>{dExact=null;update();};document.querySelectorAll('#ga-ch button').forEach(b=>b.onclick=()=>setCh(+b.dataset.c));document.querySelectorAll('#ga-stars button').forEach(b=>b.onclick=()=>{dIn.value=Math.log10(+b.dataset.ly);dExact=+b.dataset.ly;update();});
+document.querySelectorAll('#ga-inst button').forEach(b=>b.onclick=()=>{inst=+b.dataset.i;update();});document.querySelectorAll('#ga-find button').forEach(b=>b.onclick=()=>{find=+b.dataset.f;update();});
+// a face-on Milky Way: four spiral arms of dots, drawn once in unit coordinates (1 = 50,000 light-years)
+const rnd=(i=>()=>{i=(i*16807)%2147483647;return i/2147483647;})(7);const GAL=[];for(let arm=0;arm<4;arm++)for(let k=0;k<900;k++){const u=rnd(),r=.1+u*.88,th=arm*Math.PI/2+Math.log(r/.1)*1.9+(rnd()-.5)*.2,j=(rnd()-.5)*.045;GAL.push([(r+j)*Math.cos(th),(r+j)*Math.sin(th),.3+rnd()*.7]);}
+for(let k=0;k<500;k++){const r=Math.pow(rnd(),2)*.2,th=rnd()*TAU;GAL.push([r*Math.cos(th),r*Math.sin(th)*.8,.6+rnd()*.4]);}
+const HALO=Array.from({length:70},()=>({r:.12+rnd()*.5,th:rnd()*TAU,e:.5+rnd()*.4,ph:rnd()*TAU}));
+function galaxy(ctx,gx,gy,G,dim){const g=ctx.createRadialGradient(gx,gy,0,gx,gy,G*.3);g.addColorStop(0,`rgba(255,226,170,${dim?.25:.5})`);g.addColorStop(1,'rgba(255,226,170,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(gx,gy,G*.3,0,TAU);ctx.fill();for(const[x,y,b]of GAL){ctx.fillStyle=`rgba(205,220,255,${b*(dim?.55:.85)})`;ctx.fillRect(gx+x*G,gy+y*G,2,2);}}
+const SUNX=.52;// the Sun, 26,000 light-years from the centre
+setCh(0);
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);
+if(ch===0){const d=dist(),p=ly2p(d);const sx=w*.16,sy=h*.6,r=Math.min(w*.09,h*.17),fl=.36;const k=(Math.log10(d)-.6)/(4.5-.6);const stx=w*(.36+.34*k),sty=h*.42;const bgx=w*.9;
+const ang=t*.0009,ex=sx+r*Math.cos(ang),ey=sy+r*fl*Math.sin(ang);const J={x:sx-r,y:sy},Y={x:sx+r,y:sy};
+// background stars strip
+ctx.fillStyle='rgba(10,14,24,.5)';ctx.fillRect(bgx-10,h*.12,w*.07,h*.62);for(let i=0;i<26;i++){const yy=h*.14+((i*97)%100)/100*h*.58,xx=bgx+((i*53)%60)/60*w*.05;ctx.fillStyle='rgba(223,231,255,.7)';ctx.beginPath();ctx.arc(xx,yy,1.2+(i%3)*.5,0,TAU);ctx.fill();}text(ctx,'far background stars',bgx+w*.025,h*.1,{size:12,color:'#9a9382',align:'center'});
+// orbit
+ctx.strokeStyle='rgba(111,179,255,.5)';ctx.lineWidth=1.5;ctx.beginPath();ctx.ellipse(sx,sy,r,r*fl,0,0,TAU);ctx.stroke();const sg=ctx.createRadialGradient(sx,sy,0,sx,sy,26);sg.addColorStop(0,'#fff3b0');sg.addColorStop(1,'rgba(255,214,107,0)');ctx.fillStyle=sg;ctx.beginPath();ctx.arc(sx,sy,26,0,TAU);ctx.fill();text(ctx,'Sun',sx,sy+40,{size:12,color:'#ffd66b',align:'center'});
+ctx.strokeStyle='#ff7d6f';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(J.x,J.y);ctx.lineTo(Y.x,Y.y);ctx.stroke();tag(ctx,'baseline · 186 million miles',sx-r,sy+r*fl+62,'#ff7d6f',13);
+// two sightlines, exaggerated so they can be seen
+const spread=h*(.03+.2*(1-k));[[J,'January',-1],[Y,'July',1]].forEach(([q,n,s])=>{const by=sty+s*spread;ctx.strokeStyle='rgba(236,230,218,.55)';ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(q.x,q.y);ctx.lineTo(stx,sty);ctx.lineTo(bgx,by);ctx.stroke();ctx.fillStyle='#6fb3ff';ctx.beginPath();ctx.arc(q.x,q.y,6,0,TAU);ctx.fill();text(ctx,n,q.x,q.y-12,{size:12,color:'#6fb3ff',align:'center'});ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;ctx.beginPath();ctx.arc(bgx,by,7,0,TAU);ctx.stroke();text(ctx,'seen in '+n,bgx+12,by+4,{size:11,color:'#f0b35a'});});
+ctx.fillStyle='#6fb3ff';ctx.globalAlpha=.5;ctx.beginPath();ctx.arc(ex,ey,4,0,TAU);ctx.fill();ctx.globalAlpha=1;
+const stg=ctx.createRadialGradient(stx,sty,0,stx,sty,16);stg.addColorStop(0,'#fff');stg.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=stg;ctx.beginPath();ctx.arc(stx,sty,16,0,TAU);ctx.fill();tag(ctx,'the star · '+(d<100?fmt(d,1):fmtI(d))+' light-years',stx-70,sty-26,'#ece6da',13);
+ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;const a1=Math.atan2(J.y-sty,J.x-stx),a2=Math.atan2(Y.y-sty,Y.x-stx);ctx.beginPath();ctx.arc(stx,sty,46,a2,a1);ctx.stroke();text(ctx,'parallax',stx-72,sty+34,{size:12,color:'#f0b35a'});
+text(ctx,fmtAng(p),w*.5,h*.86,{size:26,color:'#f0b35a',align:'center',font:'mono',weight:600});text(ctx,'the real shift, far too small to draw',w*.5,h*.86+24,{size:13,color:'#cfc8ba',align:'center'});
+text(ctx,'angles enormously exaggerated · distance = 3.26 light-years ÷ parallax in arcseconds',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}
+else if(ch===1){// the angle ladder on the left, the reach on the Galaxy on the right
+const R=[['your finger at arm’s length','8°',8],['the width of the Moon','½°',.5],['the sharpest naked eye · Tycho','1′',1/60],['the Sun’s parallax · transit of Venus','8.8″',8.8/3600],['the nearest star · Proxima','0.77″',.77/3600],['Bessel, 1838','0.02″',.02/3600,0],['Hipparcos','0.001″',.001/3600,1],['Gaia','0.00002″',.00002/3600,2]];
+const lx=w*.05,ly0=h*.14,ly1=h*.84,lo=1,hi=-8.4;const Y=v=>ly0+(Math.log10(v)-lo)/(hi-lo)*(ly1-ly0);ctx.strokeStyle='#283048';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(lx,ly0);ctx.lineTo(lx,ly1);ctx.stroke();text(ctx,'THE ANGLE LADDER · each step down is ten times smaller',lx,ly0-18,{size:12,color:'#9a9382'});
+for(let e=1;e>=-8;e--){const y=ly0+(e-lo)/(hi-lo)*(ly1-ly0);ctx.strokeStyle='rgba(236,230,218,.15)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(lx-5,y);ctx.lineTo(lx+5,y);ctx.stroke();}
+R.forEach(([n,a,v,i])=>{const y=Y(v);const sel=i===inst;const c=i===undefined?'#cfc8ba':INST[i].c;ctx.fillStyle=c;ctx.beginPath();ctx.arc(lx,y,sel?8:5,0,TAU);ctx.fill();text(ctx,a,lx+18,y+5,{size:sel?17:14,color:c,font:'mono',weight:sel?700:500});text(ctx,n,lx+110,y+5,{size:sel?15:13,color:sel?'#ece6da':'#9a9382',weight:sel?600:500});});
+const gx=w*.7,gy=h*.5,G=Math.min(w*.26,h*.38);galaxy(ctx,gx,gy,G,true);const ux=gx+SUNX*G,uy=gy;
+INST.forEach((I,i)=>{const reach=0.1/I.s*3.2616/50000*G;if(i>inst)return;ctx.fillStyle=I.c;ctx.globalAlpha=i===inst?.2:.1;ctx.beginPath();ctx.arc(ux,uy,Math.max(1.5,reach),0,TAU);ctx.fill();ctx.globalAlpha=1;ctx.strokeStyle=I.c;ctx.lineWidth=i===inst?2.5:1;ctx.beginPath();ctx.arc(ux,uy,Math.max(1.5,reach),0,TAU);ctx.stroke();});
+ctx.fillStyle='#ffd66b';ctx.beginPath();ctx.arc(ux,uy,3.5,0,TAU);ctx.fill();tag(ctx,'the Sun',ux+10,uy-12,'#ffd66b',12);const I=INST[inst],rr=0.1/I.s*3.2616;tag(ctx,`${I.n.split(',')[0]} · ${fmtI(rr)} light-years`,ux-90,uy+Math.max(24,rr/50000*G+22),I.c,14);
+text(ctx,'the Milky Way from above · 100,000 light-years across · a few hundred billion stars',gx,gy-G-10,{size:12,color:'#9a9382',align:'center'});text(ctx,'centre of the Galaxy',gx,gy+G*.12,{size:11,color:'#e8d9a8',align:'center'});
+text(ctx,'schematic galaxy · reach = distance known to one part in ten at each instrument’s best precision',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}
+else{const gx=w*.36,gy=h*.44,G=Math.min(w*.22,h*.3);galaxy(ctx,gx,gy,G,find!==0&&false);const ux=gx+SUNX*G,uy=gy;ctx.fillStyle='#ffd66b';ctx.beginPath();ctx.arc(ux,uy,3.5,0,TAU);ctx.fill();text(ctx,'Sun',ux+8,uy-8,{size:11,color:'#ffd66b'});
+if(find===0){// halo stars on long plunging orbits, going the wrong way round
+for(const s of HALO){const a=s.th-t*.00025/s.r;const x=gx+s.r*G*Math.cos(a)*1.25,y=gy+s.r*G*Math.sin(a)*s.e;ctx.fillStyle='#ff7d6f';ctx.beginPath();ctx.arc(x,y,2.2,0,TAU);ctx.fill();}
+ctx.strokeStyle='rgba(111,212,138,.8)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(gx,gy,G*.8,-.5,.4);ctx.stroke();text(ctx,'the disk turns this way →',gx+G*.84,gy+G*.42,{size:12,color:'#6fd48a'});tag(ctx,'red: stars from the swallowed galaxy, still going the other way',gx-G,gy-G-8,'#ff7d6f',13);}
+if(find===1){const bx=w*.66,by=h*.2,bw=Math.min(w*.28,h*.46),bh=bw;ctx.fillStyle='rgba(10,14,24,.75)';ctx.strokeStyle='#283048';ctx.fillRect(bx,by,bw,bh);ctx.strokeRect(bx,by,bw,bh);ctx.strokeStyle='rgba(236,230,218,.2)';ctx.beginPath();ctx.moveTo(bx+bw/2,by);ctx.lineTo(bx+bw/2,by+bh);ctx.moveTo(bx,by+bh/2);ctx.lineTo(bx+bw,by+bh/2);ctx.stroke();
+for(let i=0;i<900;i++){const u=i/900,th=u*TAU*3.2+t*.0003,r=(.06+u*.4)*bw;const jx=Math.sin(i*12.9898)*8,jy=Math.cos(i*78.233)*8;ctx.fillStyle=`rgba(111,179,255,${.25+.6*u})`;ctx.fillRect(bx+bw/2+r*Math.cos(th)+jx,by+bh/2+r*Math.sin(th)*.8+jy,2,2);}
+text(ctx,'height above the disk →',bx+bw/2,by+bh+18,{size:12,color:'#9a9382',align:'center'});ctx.save();ctx.translate(bx-10,by+bh/2);ctx.rotate(-Math.PI/2);text(ctx,'vertical speed →',0,0,{size:12,color:'#9a9382',align:'center'});ctx.restore();tag(ctx,'stars near the Sun: a snail shell',bx,by-10,'#6fb3ff',13);
+for(let k=1;k<4;k++){ctx.strokeStyle=`rgba(111,179,255,${.5-k*.12})`;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(ux,uy,(8*k+(t*.01)%8),0,TAU);ctx.stroke();}}
+if(find===2){const bx=w*.72,by=h*.42,a=t*.0012;ctx.setLineDash([4,6]);ctx.strokeStyle='rgba(236,230,218,.4)';ctx.beginPath();ctx.ellipse(bx,by,90,54,-.3,0,TAU);ctx.stroke();ctx.setLineDash([]);const g=ctx.createRadialGradient(bx,by,4,bx,by,34);g.addColorStop(0,'#000');g.addColorStop(.5,'rgba(0,0,0,.9)');g.addColorStop(1,'rgba(255,125,111,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(bx,by,34,0,TAU);ctx.fill();ctx.strokeStyle='rgba(255,125,111,.7)';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(bx,by,13,0,TAU);ctx.stroke();
+const sx2=bx+90*Math.cos(a)*Math.cos(-.3)-54*Math.sin(a)*Math.sin(-.3),sy2=by+90*Math.cos(a)*Math.sin(-.3)+54*Math.sin(a)*Math.cos(-.3);const sg=ctx.createRadialGradient(sx2,sy2,0,sx2,sy2,14);sg.addColorStop(0,'#fff3b0');sg.addColorStop(1,'rgba(255,214,107,0)');ctx.fillStyle=sg;ctx.beginPath();ctx.arc(sx2,sy2,14,0,TAU);ctx.fill();
+tag(ctx,'Gaia BH3 · about 33 Suns · nothing to see',bx-130,by-84,'#ff7d6f',13);tag(ctx,'the star Gaia watched swaying',bx-100,by+96,'#ffd66b',13);ctx.strokeStyle='rgba(255,125,111,.6)';ctx.setLineDash([3,5]);ctx.beginPath();ctx.moveTo(ux,uy);ctx.lineTo(bx-40,by);ctx.stroke();ctx.setLineDash([]);text(ctx,'1,926 light-years from the Sun: next door',(ux+bx)/2-40,(uy+by)/2-10,{size:12,color:'#cfc8ba',align:'center'});}
+// census bar and the mission timeline
+const cx0=w*.06,cy0=h*.775,cw=w*.88;ctx.fillStyle='#17283f';ctx.fillRect(cx0,cy0,cw,10);ctx.fillStyle='#6fd48a';ctx.fillRect(cx0,cy0,Math.max(4,cw*.01),10);text(ctx,'Gaia’s census: nearly 2 billion stars',cx0,cy0-8,{size:12,color:'#6fd48a'});text(ctx,'the Milky Way: a few hundred billion. Under 1 in 100, the brighter ones, where dust allows',cx0+cw,cy0-8,{size:12,color:'#9a9382',align:'right'});
+const T0=2013.5,T1=2031.5,ty=h*.85,X=y=>cx0+(y-T0)/(T1-T0)*cw;ctx.strokeStyle='#283048';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx0,ty);ctx.lineTo(cx0+cw,ty);ctx.stroke();ctx.strokeStyle='#6fd48a';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(X(2014.5),ty);ctx.lineTo(X(2025.04),ty);ctx.stroke();
+[[2013.96,'launched 19 Dec 2013',-1],[2019.5,'planned 5 years end, June 2019',1],[2025.04,'observing ends 15 Jan 2025',-1],[2026.92,'Data Release 4 · 2 Dec 2026',1],[2031,'final catalogue: not before end 2030',-1]].forEach(([y,n,s])=>{ctx.fillStyle='#ece6da';ctx.beginPath();ctx.arc(X(y),ty,4,0,TAU);ctx.fill();text(ctx,n,Math.min(cx0+cw,X(y)),ty+(s<0?-10:20),{size:11,color:'#cfc8ba',align:y>2029?'right':'center'});});
+text(ctx,'schematic galaxy and orbits · facts from ESA via the Faria lesson of 10 November 2026',w*.5,h*.1,{size:11,color:'#9a9382',align:'center'});}}});}
+
 /* ---------- 9 · Flat maps lie ---------- */
 {const o=setup('c9');let mode='greenland';const st={yaw:camFor(20,-20,1).yaw,pitch:camFor(20,-20,1).pitch,zoom:1,anim:null,maxZoom:5,enabled:()=>true};st.geom=()=>{const{w,h}=o;return{cx:w*.5,cy:h*.5,R:Math.min(w,h)*.36*st.zoom};};
 const morphIn=document.getElementById('fm-morph'),morphOut=document.getElementById('fm-morph-out'),morph2In=document.getElementById('fm-morph2'),morph2Out=document.getElementById('fm-morph2-out'),read=document.getElementById('fm-read'),read2=document.getElementById('fm-read2'),opts=document.getElementById('fm-opts'),title=document.getElementById('fm-title'),hint=document.getElementById('h9');
@@ -2232,6 +2313,7 @@ const SOURCES={
 'Transit of Venus':{fact:['1761: Mason and Dixon at the Cape; 1769: Cook and Green at Tahiti, Hell at Vardø, Chappe in Baja California, where he died.','The black-drop effect spread contact timings by tens of seconds.','Hornsby’s 1771 reduction gave about 93.7 million miles; the modern astronomical unit is 92.96 million.'],data:['Transit geometry is computed from mean elements, good to minutes, not seconds.'],exag:['The parallax shift is multiplied by the slider; at ×1 it is under an arcminute on a 32-arcminute Sun.'],fict:['Observers you place by tapping.']},
 'Cook':{fact:['HMS Endeavour was a Whitby collier; Cook reached Tahiti in April 1769 and observed the transit on 3 June.','On the first voyage longitude came from lunar distances with Green; Kendall’s K1 sailed on the second voyage (1772–75), tested by the astronomer William Wales; Cook’s praise of it is reported in more than one wording, so check his journal before quoting.','Cook charted the east coast of Australia in 1770 and claimed it at Possession Island with no consent from the people living there.'],data:['Australian coast: Natural Earth 1:10m. Tracks are simplified waypoints, not the log.'],exag:[],fict:[]},
 'Mason & Dixon':{fact:['A line sighted straight through a transit is a great circle; the 39° 43′ parallel curves north of it. Mason and Dixon ran short chords, took latitude with the zenith sector, and measured offsets to the parallel. The 11-mile spacing in the exercise is approximate.','HMS Seahorse fought a French frigate off Start Point on 10 January 1761, named Le Grand in the London Gazette and L’Aigrette in some later accounts; Mason and Dixon observed the transit from the Cape instead of Bencoolen.','They surveyed the Pennsylvania–Maryland line from 1763 to 1767, stopped by their Haudenosaunee escort at Dunkard Creek in October 1767, 233 miles west of the Post Mark’d West and about 244 from the Delaware.','Crown stones from England were set every five miles.'],data:['The line is at about 39° 43′ N.'],exag:[],fict:['Photo slots are placeholders until images are added.']},
+'Gaia':{fact:['From the Faria lesson of 10 November 2026, citing ESA: launched 19 December 2013; science from July 2014; observations ended 15 January 2025; switched off 27 March 2025.','Nearly two billion stars and other objects; the Milky Way holds a few hundred billion.','Gaia-Enceladus merger and the phase spiral, both 2018; Gaia BH3, about 33 solar masses at about 1,926 light-years, announced 16 April 2024.','Data Release 4 due 2 December 2026; Data Release 5 not expected before the end of 2030.'],data:['Not from the lesson, from general references and worth a check: Proxima’s parallax 0.77″; Bessel’s 1838 measurement of 61 Cygni; Hipparcos precision about a thousandth of an arcsecond; Gaia’s best precision about 20 millionths, which ESA compares to a human hair at 1,000 km.','Distance in light-years = 3.26 ÷ parallax in arcseconds.'],exag:['Every angle on the first step is exaggerated by a factor of thousands to millions.','“Reach” uses one rule of thumb: distance good to one part in ten at each instrument’s best precision. Bessel’s 0.02″ is a round figure for his era.'],fict:['The galaxy is a schematic spiral, not Gaia data. The halo orbits, the snail shell and the black-hole orbit are drawn to show the idea, not plotted from measurements.']},
 'Flat maps lie':{fact:['Africa is about 11.7 million square miles; Greenland about 0.84 million: fourteen to one.','Mercator (1569) keeps compass bearings straight and inflates area with latitude by 1/cos² φ.','A rhumb line holds one bearing; a great circle is the shortest path on a sphere.'],data:['The equal-area map is a cylindrical equal-area projection (Gall–Peters proportions).'],exag:[],fict:[]},
 'The storm wire':{fact:['The US Army Signal Service began telegraphic weather reports in 1870; the Weather Bureau took over in 1891.','Father Benito Viñes issued hurricane warnings from Belén in Havana from 1875.','The Galveston hurricane of 8 September 1900 killed between 6,000 and 12,000 people; 8,000 is the figure most often cited. Isaac Cline’s pregnant wife Cora was among them. That the Bureau had stopped relaying Cuban warnings that summer is the account in Erik Larson’s Isaac’s Storm; check it before leaning on it.'],data:['Gulf coast: Natural Earth 1:10m.'],exag:['Telegraph pulses and storm motion are compressed in time.'],fict:['The 1870s observers A, B and C and their storm are a teaching example; the 1900 track is schematic.']},
 'Twice the wind':{fact:['Dynamic pressure grows with the square of wind speed and the power in the flow with the cube.','NHC and JTWC use 1-minute sustained winds; JMA, BoM and the WMO standard use 10-minute means.','Saffir–Simpson thresholds: 74, 96, 111, 130, 157 mph.'],data:['q = 0.00256 v² (lb/ft², v in mph) is the standard-air velocity-pressure formula used in US wind codes.'],exag:['The house is hit square-on by steady flow; real loads depend on gusts, shape, openings and debris.'],fict:['The house, the wall size and the order in which roof panels fail are illustrative. This is not a damage model.']},
@@ -2257,6 +2339,7 @@ const NOTES={
 'Transit of Venus':['Two observers, two chords, two durations. The difference and the baseline give the AU.','Black drop limited the timings to tens of seconds. 1769 result: 93 to 97 million miles. Modern 92.96.','Rare because of the 3.4° tilt: flatten it and every lineup is a transit.'],
 'Cook':['A Whitby collier: slow, strong, beachable. Banks paid his own way.','Fort Venus, 3 June 1769: three observers, three times, black drop.','East coast of Australia: a precise chart does not mean an empty land. Surveying is not consent. K1 on the second voyage settled the longitude argument.'],
 'Mason & Dixon':['The Seahorse fight cost them Sumatra; the Cape was the only southern observation of 1761.','The line is a circle, a tangent and a parallel. Zenith sector for latitude, Gunter\'s chain for distance.','22.51 chains corrected in place, not a restart. The escort stopped at the limit of its commission, 9 October 1767.'],
+'Gaia':['Same triangle as the finger and Venus. Baseline: Earth in January and July, 186 million miles.','Drag the distance: Proxima shifts 0.77 arcseconds; the Galactic centre, a ten-thousandth of one.','Step 2: the angle ladder. Bessel reaches 16 light-years, Hipparcos 326, Gaia about 16,000. Watch the circle on the Galaxy.','Nearly 2 billion stars is under 1 percent of the Milky Way. A census of the brighter stars, not every star.','Step 3: a swallowed galaxy, a wobbling disk, a 33-solar-mass black hole 1,926 light-years away.','Data Release 4 is due 2 December 2026. The final catalogue not before the end of 2030.'],
 'Flat maps lie':['Vote on Greenland. Peel the globe flat; Mercator inflates the poles; equal-area squashes the shapes. About 14.','Rhumb line: one bearing, straight on Mercator. Great circle: shortest, straight on the globe. Peel back and they swap.'],
 'The storm wire':['A storm moves at 15 mph; a message at the speed of light. The network is the instrument.','Viñes: three separate clues support one inference. That is a forecast.','Galveston: reports, warnings, shelter. Each arrow can fail. The last one did.'],
 'Twice the wind':['Ask first: 100 to 120 mph, how much harder? Take votes, then Reveal: 44 percent.','Force goes as v², power as v³. Drag to 150 and 200: watch the roof panels go and the palms lie down.','At 100 mph a 30 × 10 ft wall takes about 3.8 tons; at 200, over 15.','Same storm, different numbers: 1-minute (US) vs 10-minute (Japan, Australia). Compare definitions first.','S key or the sources button: what is real and what is illustrative.'],
