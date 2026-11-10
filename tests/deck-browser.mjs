@@ -136,12 +136,21 @@ await page.locator('#sw-t').fill('0.95'); await page.locator('#sw-t').dispatchEv
 await page.click('#sw-chapters button[data-ch="1"]'); await page.waitForTimeout(300);
 assert.match(await page.locator('#sw-title').innerText(), /Viñes/);
 await slide(16);
+await page.click('#wd-quiz .opt[data-k="0"]'); await page.click('#wd-reveal');
+assert.match(await page.locator('#wd-read .big').innerText(), /force ×1\.44/);
 await page.click('#wd-200'); assert.match(await page.locator('#wd-read .big').innerText(), /force ×4\.00 · power ×8\.00/);
 await page.click('#wd-agency button[data-a=JMA]'); assert.match(await page.locator('#wd-read').innerText(), /10-minute/);
 await slide(17);
-assert.match(await page.locator('#sh-read strong').innerText(), /outside|overlap/);
-await page.locator('#sh-eu').fill('0'); await page.locator('#sh-eu').dispatchEvent('input'); await page.locator('#sh-pu').fill('0'); await page.locator('#sh-pu').dispatchEvent('input');
-assert.match(await page.locator('#sh-read strong').innerText(), /do not touch/);
+assert.match(await page.locator('#sh-read strong').innerText(), /Tap a building/);
+{const c=await page.locator('#c14').boundingBox();
+// find building B by scanning for the pick message
+let picked=false;for(let y=.15;y<=.85&&!picked;y+=.035)for(let x=.1;x<=.9&&!picked;x+=.035){await page.mouse.click(c.x+c.width*x,c.y+c.height*y);if(/You opened/.test(await page.locator('#sh-read strong').innerText()))picked=true;}
+assert.ok(picked,'a shelter can be picked');}
+await page.click('#sh-next'); assert.match(await page.locator('#sh-read').innerText(), /Surge/);
+await page.click('#sh-next'); assert.match(await page.locator('#sh-read strong').innerText(), /cannot say/);
+await page.click('#sh-next'); await page.waitForTimeout(2000); assert.match(await page.locator('#sh-title').innerText(), /Nine hours later/);
+await page.click('#sh-next'); assert.match(await page.locator('#sh-title').innerText(), /Decide/);
+await page.click('#sources'); assert.match(await page.locator('.slide.active .card.gloss h3').innerText(), /Sources and assumptions/); assert.match(await page.locator('.slide.active .card.gloss p').innerText(), /Invented for teaching/i);
 await page.click('#sh-checks'); assert.match(await page.locator('.slide.active .card.gloss h3').innerText(), /limits visible/);
 // presenter window
 const [pres] = await Promise.all([page.context().waitForEvent('page'), page.keyboard.press('p')]);
