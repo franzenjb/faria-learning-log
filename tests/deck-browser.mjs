@@ -21,7 +21,7 @@ await page.click('#qz-reveal'); await page.waitForTimeout(400);
 assert.match(await page.locator('#qz-read strong').innerText(), /None/);
 assert.equal(await page.locator('#qz-opts .opt.ok').count(), 1);
 await page.click('#m1q button[data-q="3"]'); await page.click('#qz-reveal'); await page.waitForTimeout(300);
-assert.match(await page.locator('#qz-read strong').innerText().catch(()=>page.locator('.slide.active .readout strong').innerText()), /Ecuador/);
+assert.match(await page.locator('#qz-read strong').innerText().catch(()=>page.locator('.slide.active .readout strong').innerText()), /About 14/);
 await page.click('#m1q button[data-q="1"]'); await page.click('#qz-reveal'); await page.waitForTimeout(300);
 assert.match(await page.locator('#qz-read strong').innerText(), /Reno/);
 await slide(3);
