@@ -19,3 +19,7 @@
 The browser test accepts `CHROME_PATH` (default `/usr/bin/chromium`). It checks endpoint and intermediate angles, keyboard increments, animation/pause, geometry toggle, 320/390/768px layouts, deck links and runtime errors. Local desktop and mobile screenshots were inspected before release.
 
 Publication follows the existing Git integration on `main`. Verify `/polaris/` and its served module bytes after deployment. To undo this feature, revert its scoped commit; no data migration or service configuration is involved.
+
+## Further explanation
+
+The optional quarter-turn diagram rotates the equatorial and local-up directions together through 90 degrees. The resulting directions are polar and northward-horizon, with the original latitude separation preserved. A second mobile slider remains available while scrolling and synchronizes with the primary slider. The unified 76-slide deck can embed this self-contained model on relevant latitude slides without changing its PDF or sequence.
