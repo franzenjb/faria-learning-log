@@ -224,3 +224,7 @@ The printed lesson is [Polaris, the North Star (PDF)](/downloads/Polaris_North_S
 3. **Bark** = ship. **Taking the height** = measuring the star's altitude above the horizon (with astrolabe, quadrant, or cross-staff) to find the ship's **latitude**.
 4. Because of **precession**: Earth's axis will then point near **Vega**, not Polaris.
 5. Polaris is the **nearest classical Cepheid**. Cepheids calibrate distances to galaxies; those calibrate supernovae and Hubble's constant. An error in Polaris's distance feeds every rung above it on the cosmic distance ladder.
+
+## Walk north and watch the pole climb
+
+[Open the walking thought experiment](/polaris/). Move a person from the equator to the North Pole. A view from space and a view from their feet show the latitude angle and pole altitude changing together. The horizon is the zero for the sky measurement. Straight up is always 90 degrees above that horizon.
