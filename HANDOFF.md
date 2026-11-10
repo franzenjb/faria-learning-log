@@ -1,4 +1,8 @@
-GIT_OWNER: none
+GIT_OWNER: Kimi Work (Faria Work workspace) — /kimi1/ release, 2026-11-10
+
+# Kimi1 Deck — 2026-11-10
+
+Kimi Work published /kimi1/, the third address of the *Measuring the Sky* / *Where Am I?* lecture, from Jeff's Kimi1-website.zip (5 files: index.html, coast.js, coast2.js, two images). Strictly additive: /deck/, /deck/v2/, /galileo/, /polaris/ untouched. URL-only release; not listed on the Decks page or in search (Jeff declined to choose; one-line content/decks.md edit adds it later). Known content gap, present in the source zip, not introduced here: img/null-island.jpg is unreferenced and the 'nullisland' glossary key is missing, so tapping Null Island is a silent no-op. Worked from a fresh clone in the Kimi Work workspace; canonical checkout at ~/dev/faria-learning-log was clean and untouched. Open loops: Jeff review; Excel register, project registry and Session Board updates live outside this repo and remain for Jeff.
 
 # Galileo Interactive — 2026-11-08
 
