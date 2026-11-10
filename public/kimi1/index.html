@@ -978,11 +978,16 @@ function geom(){const compact=o.w<560,R=Math.min(o.w*(compact?.32:.29),o.h*(comp
 function observer(){const{cx,cy,R}=geom(),a=lat*DEG;return{x:cx+R*Math.cos(a),y:cy-R*Math.sin(a)};}
 function pos(e){const r=o.c.getBoundingClientRect();return{x:(e.clientX-r.left)*(o.w/r.width||1),y:(e.clientY-r.top)*(o.h/r.height||1)};}
 function latAt(p){const{cx,cy}=geom();return Math.max(0,Math.min(90,Math.atan2(cy-p.y,p.x-cx)/DEG));}
-o.c.addEventListener('pointerdown',e=>{const p=pos(e),q=observer(),{cx,cy,R}=geom();if(Math.hypot(p.x-q.x,p.y-q.y)>72&&Math.hypot(p.x-cx,p.y-cy)>R+42)return;dragging=true;o.c.setPointerCapture(e.pointerId);o.c.classList.add('dragging');setLat(latAt(p));e.preventDefault();});
+o.c.addEventListener('pointerdown',e=>{const p=pos(e),q=observer(),{cx,cy,R}=geom();if(Math.hypot(p.x-q.x,p.y-q.y)>72&&Math.hypot(p.x-cx,p.y-cy)>R+42)return;dragging=true;walkHinted=true;o.c.setPointerCapture(e.pointerId);o.c.classList.add('dragging');setLat(latAt(p));e.preventDefault();});
 o.c.addEventListener('pointermove',e=>{if(dragging)setLat(latAt(pos(e)));});
 const end=()=>{dragging=false;o.c.classList.remove('dragging');};o.c.addEventListener('pointerup',end);o.c.addEventListener('pointercancel',end);
 function rightMark(ctx,p,u,v,s,color){ctx.strokeStyle=color;ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(p.x+u[0]*s,p.y+u[1]*s);ctx.lineTo(p.x+(u[0]+v[0])*s,p.y+(u[1]+v[1])*s);ctx.lineTo(p.x+v[0]*s,p.y+v[1]*s);ctx.stroke();}
-function person(ctx,p,n){ctx.save();ctx.translate(p.x+n[0]*5,p.y+n[1]*5);ctx.rotate(Math.atan2(n[1],n[0])+Math.PI/2);ctx.strokeStyle='#ece6da';ctx.fillStyle='#ece6da';ctx.lineWidth=3;ctx.lineCap='round';ctx.beginPath();ctx.arc(0,-29,5.5,0,TAU);ctx.fill();ctx.beginPath();ctx.moveTo(0,-22);ctx.lineTo(0,-8);ctx.moveTo(0,-18);ctx.lineTo(-9,-12);ctx.moveTo(0,-18);ctx.lineTo(8,-24);ctx.moveTo(0,-8);ctx.lineTo(-7,0);ctx.moveTo(0,-8);ctx.lineTo(7,0);ctx.stroke();ctx.restore();}
+function person(ctx,p,n,phase,amp,face){ctx.save();ctx.translate(p.x+n[0]*5,p.y+n[1]*5);ctx.rotate(Math.atan2(n[1],n[0])+Math.PI/2);ctx.scale(face*.85,.85);const S='#ece6da';ctx.strokeStyle=S;ctx.fillStyle=S;ctx.lineCap='round';const k=Math.min(1,amp),s=Math.sin(phase);
+ for(const side of[1,-1]){const fx=side*s*6*k+side*2.4*(1-k),fy=-Math.max(0,side*s)*3*k,hip=[0,-13];let dx=fx-hip[0],dy=fy-hip[1];const L=Math.hypot(dx,dy)||1;dx/=L;dy/=L;let qx=-dy,qy=dx;if(qx<0){qx=-qx;qy=-qy;}const knee=[hip[0]+dx*6.5+qx*2.8,hip[1]+dy*6.5+qy*2.8];ctx.lineWidth=3.4;ctx.beginPath();ctx.moveTo(hip[0],hip[1]);ctx.lineTo(knee[0],knee[1]);ctx.lineTo(fx,fy);ctx.stroke();}
+ ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(0,-33);ctx.lineTo(0,-13.5);ctx.stroke();
+ ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(0,-29);ctx.lineTo(8,-36);ctx.stroke();ctx.beginPath();ctx.moveTo(0,-29);ctx.lineTo(-8+s*3*k,-20+Math.abs(s)*2.5*k);ctx.stroke();
+ ctx.beginPath();ctx.arc(0,-40,6,0,TAU);ctx.fill();ctx.restore();}
+let lastLat=40,walkPhase=0,walkAmp=0,walkFace=-1,walkHinted=false;
 setLat(40);
 scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);const{cx,cy,R,compact}=geom(),a=lat*DEG,p=observer(),n=[Math.cos(a),-Math.sin(a)],eq=[1,0],axis=[0,-1],tangent=[-Math.sin(a),-Math.cos(a)];
  // Parallel starlight fills the diagram; Earth hides the rays that pass behind it.
@@ -1008,10 +1013,12 @@ scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);co
  const sg=ctx.createRadialGradient(p.x,48,0,p.x,48,24);sg.addColorStop(0,'#fff');sg.addColorStop(.22,'rgba(223,231,255,.95)');sg.addColorStop(1,'rgba(111,179,255,0)');ctx.fillStyle=sg;ctx.beginPath();ctx.arc(p.x,48,24,0,TAU);ctx.fill();text(ctx,'✦',p.x,55,{size:22,color:'#fff',align:'center'});text(ctx,'Polaris',Math.min(w-52,p.x+14),52,{size:compact?10:12,color:'#dfe7ff'});
  // The altitude angle at the observer: horizon direction to Polaris.
  const ar=compact?42:54;ctx.strokeStyle='#f0b35a';ctx.lineWidth=2.3;ctx.beginPath();for(let k=0;k<=28;k++){const th=a*k/28,dx=tangent[0]*Math.cos(th)+n[0]*Math.sin(th),dy=tangent[1]*Math.cos(th)+n[1]*Math.sin(th),x=p.x+ar*dx,y=p.y+ar*dy;k?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.stroke();
- const am=Math.max(.12,a/2),ad=[tangent[0]*Math.cos(am)+n[0]*Math.sin(am),tangent[1]*Math.cos(am)+n[1]*Math.sin(am)],al=ar+(compact?22:28);tag(ctx,`star altitude ${lat}°`,Math.max(6,Math.min(w-(compact?112:132),p.x+ad[0]*al-34)),p.y+ad[1]*al+4,'#f0b35a',compact?11:13);
+ const am=Math.max(.12,a/2),ad=[tangent[0]*Math.cos(am)+n[0]*Math.sin(am),tangent[1]*Math.cos(am)+n[1]*Math.sin(am)],al=ar+(compact?30:38);tag(ctx,`star altitude ${lat}°`,Math.max(6,Math.min(w-(compact?112:132),p.x+ad[0]*al-34)),p.y+ad[1]*al+4,'#f0b35a',compact?11:13);
  rightMark(ctx,p,[-n[0],-n[1]],tangent,compact?10:13,'rgba(111,212,138,.85)');
- text(ctx,'horizon',Math.max(6,p.x+tangent[0]*hl-4),p.y+tangent[1]*hl-8,{size:compact?9:11,color:'#6fd48a'});
- ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(p.x,p.y,5,0,TAU);ctx.fill();person(ctx,p,n);tag(ctx,'you · drag me',Math.max(6,Math.min(w-(compact?100:116),p.x+n[0]*32-18)),p.y+n[1]*32+24,'#ece6da',compact?10:11);
+ text(ctx,'horizon',p.x-tangent[0]*(hl*.55+16),p.y-tangent[1]*(hl*.55+16)+4,{size:compact?9:11,color:'#6fd48a',align:'center'});
+ ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(p.x,p.y,5,0,TAU);ctx.fill();
+ const dl=lat-lastLat;lastLat=lat;if(dl){walkPhase+=dl*.45;walkAmp=Math.min(1,walkAmp+.25+Math.abs(dl)*.18);walkFace=dl>0?-1:1;}walkAmp*=.93;
+ person(ctx,p,n,walkPhase,walkAmp,walkFace);if(!walkHinted)tag(ctx,'you · drag me',Math.max(6,Math.min(w-(compact?100:116),p.x-tangent[0]*46-18)),p.y-tangent[1]*46+12,'#ece6da',compact?10:11);
 
 }});}
 
