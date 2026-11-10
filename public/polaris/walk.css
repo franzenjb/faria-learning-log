@@ -3,3 +3,22 @@
 .sticky-reading{display:none}@media(max-width:720px){.sticky-reading{display:block;position:sticky;top:0;z-index:10;background:#0b111bf5;border-bottom:1px solid var(--line);padding:12px 16px;margin:0 -16px;font-size:15px;color:var(--gold);backdrop-filter:blur(10px)}}
 
 .turn-proof{max-width:920px;margin:0 auto 30px;padding:20px 15px;border-block:1px solid var(--line)}.turn-proof p{color:var(--muted);font-size:15px}.turn-proof>label{display:flex;justify-content:space-between;font-size:13px}.turn-proof output{color:var(--gold)}.turn-proof svg{display:block;width:100%;max-height:420px}.sticky-reading input{margin:4px 0 0;height:24px}.sticky-reading label{display:block;font-size:13px}@media(max-width:720px){.turn-proof{padding-left:0;padding-right:0}.sticky-reading{padding-top:8px;padding-bottom:7px}}
+
+/* Wide screens: text and controls in a left column, both diagrams visible on load */
+@media(min-width:980px){
+main{display:grid;grid-template-columns:minmax(280px,340px) 1fr;column-gap:36px;align-items:start}
+main>*{grid-column:1/-1}
+.intro{grid-column:1;grid-row:1;padding:26px 0 16px}
+.controller{grid-column:1;grid-row:2;padding:18px 0 20px}
+.comparison{grid-column:2;grid-row:1/span 2;padding:22px 0 18px;gap:18px}
+h1{font-size:clamp(30px,3vw,42px);margin-bottom:14px}
+.lede{font-size:16px}
+.controller output{font-size:22px}
+input[type=range]{margin:12px 0 2px}
+.buttons{margin-top:14px;gap:6px}
+button{padding:8px 11px}
+.view h2{font-size:21px;margin-bottom:4px}
+.reading output{font-size:34px}
+.view svg{max-height:calc(100vh - 330px);min-height:240px}
+.view-caption{font-size:12px;line-height:1.5}
+}
