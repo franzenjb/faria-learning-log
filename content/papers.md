@@ -56,6 +56,10 @@ Printed lessons and plates, grouped with the topic each one belongs to. The comp
 
 - [Degrees, arcminutes, and arcseconds](/topics/95-degrees-arcminutes-arcseconds/): [lesson PDF](/downloads/Degrees_Arcminutes_and_Arcseconds_Faria_2026-11-10.pdf). Two pages. A full turn, the two factors of sixty, the face-on dime, the nautical mile, and the parsec.
 
+## 11 November 2026
+
+- [Jupiter's moons as a measuring stick](/topics/96-jupiters-moons-as-a-measuring-stick/): [lesson PDF](/downloads/Jupiters_Moons_as_a_Measuring_Stick_Earths_Orbit_and_the_AU_Faria_2026-11-11.pdf). Four pages. The moons as clock and ruler, Earth's near and far sides, 10′ versus 7′, why angles give AU and not miles, and Rømer's timing of the same stretch.
+
 ## Complete binder
 
 [Complete lessons binder (PDF)](/downloads/Franzen_Complete_Lessons_Binder.pdf). 458 pages. 72 topics and 37 papers, assembled before the later 8 November lessons. Those later pages, including Picard, Tycho, the mathematics lessons, and the historical lessons added with them, are on the site and are not in this file. The binder has not been rebuilt. The separate lesson PDFs on this page stay as they are.
