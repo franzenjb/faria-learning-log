@@ -119,3 +119,11 @@ Jeff redesigned the fourth quiz question: it is now "How many Greenlands fit ins
 - Build clean (92/9/81); tests/kimi1-browser.mjs passes in local Chrome; no page errors. Screenshots inspected: question screen, wall-map trap with both highlighted, Greenland landed inside Africa.
 - Published source 76bcb8b via git-connected Vercel. Served https://faria.jbf.com/kimi1/ matches local bytes exactly (cmp).
 - Remaining: Jeff's acceptance.
+
+## Kimi1 Latitude Card & 2 pm Clock — November 11, 2026
+
+Jeff's pass on the latitude card and the hours slide. The latitude card now leaves headroom at the poles (the observer's head is no longer clipped at 90° N/S), both gold angle marks carry N or S ("58° N"), the star arrow no longer clips off the card, and two small right-angle squares now mark the proof: horizon ⊥ your radial line at the observer, equator ⊥ the axis at Earth's center — with a two-line caption stating the double-perpendicular argument (rotate both arms of an angle by 90° and the angle survives). Extreme latitudes shift the "to star" and "you, on the ground" labels so nothing overlaps. The hours slide now opens with the Greenwich chronometer set to 2:00 pm and the ship 30° west at local noon, so the time gap reads 2.0 h × 15° = 30° west out of the box. Latitude tags carry N wherever latitude is shown in the walking scene and the Eratosthenes wedge. public/kimi1/index.html only.
+
+- Build clean; tests/kimi1-browser.mjs passes in local Chrome; no page errors. Screenshots inspected: latitude card at 90° S, 90° N, 45° N, 45° S, and the hours slide at its new 2 pm initial state.
+- Published source 9c0c087 via git-connected Vercel. Served https://faria.jbf.com/kimi1/ matches local bytes exactly (cmp).
+- Remaining: Jeff's acceptance.
