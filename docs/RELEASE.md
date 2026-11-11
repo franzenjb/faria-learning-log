@@ -87,3 +87,11 @@ Jeff: "why not show two clocks on the ship and greenwich time and hands move as 
 - Build clean (92/9/81); tests/kimi1-browser.mjs passes in local Chrome; no page errors in veiled, chronometer, and spinning states.
 - Published source 5f879d5 via git-connected Vercel. Served https://faria.jbf.com/kimi1/ matches local bytes exactly (cmp). Screenshots inspected: ship at 12:52 vs Greenwich 13:42 with the 0.8 h = 13° west solution while spinning.
 - Remaining: Jeff's acceptance.
+
+## Kimi1 Presenter Pass — November 11, 2026
+
+Four Jeff requests in one pass. (1) Hours are slices now opens with the ship already placed at its local noon, a chronometer aboard, and Greenwich reading exactly 1 pm, so the two clocks show 12:00 against 13:00 and the solved equation 1.0 h × 15° = 15° west; paused until Resume. (2) The Syene "well" on the Eratosthenes slide is now a well: stone collar on the surface, tapered shaft into the Earth, the noon beam running down it to a lit pool of water; the misleading stick above ground is gone. (3) Presenter keys: L hides/shows the left text panel on every slide (stage goes full-bleed), M opens the mental-map question menu from any slide and jumps straight to the chosen quiz question. Both are listed in the navigator's help line. (4) The explainer box no longer covers the wheel: it is gone whenever the text panel is visible (the readout carries the same lines) and reappears, narrowed, only in L-mode where it is the only text. public/kimi1/index.html only.
+
+- Build clean (92/9/81); tests/kimi1-browser.mjs passes in local Chrome; screenshots inspected: 1 pm clocks, well close-up, clean wheel, L-mode full stage, M menu and the Greenland-or-Africa jump landing on Mental maps with the question armed. No page errors.
+- Published source dcecc50 via git-connected Vercel. Served https://faria.jbf.com/kimi1/ matches local bytes exactly (cmp).
+- Remaining: Jeff's acceptance.
