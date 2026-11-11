@@ -201,9 +201,70 @@ body.reduce-motion *,body.reduce-motion *::before,body.reduce-motion *::after{an
   .paper-meta{grid-template-columns:1fr}
   .paper-foot{display:grid}
 }
+/* ---------- four-day course chrome: cream page, crimson accent, fixed Jeff | visuals ---------- */
+:root{--cream:#f4efe3;--cream-2:#fbf7ef;--paper-ink:#2a2418;--crimson:#9c2b3a;--jeff-muted:#6e6256;}
+html,body{background:var(--cream);color:var(--paper-ink)}
+#app{display:grid;grid-template-columns:minmax(260px,22rem) minmax(0,1fr);height:100%}
+#jeff{background:var(--cream-2);color:var(--paper-ink);overflow:auto;padding:3rem 1.25rem 1.4rem;border-right:1px solid #e4d7c3}
+#jeff .kicker{color:var(--crimson)}
+#jeff h2{font:600 1.55rem/1.15 var(--serif);margin:.15rem 0 .85rem;color:var(--paper-ink)}
+#jeff ol{margin:0;padding-left:1.15rem}
+#jeff li{margin:0 0 .8rem;font-size:1.08rem;line-height:1.45}
+#visual{position:relative;min-width:0;height:100%;background:#0a0e18;overflow:hidden}
+#visual .deck{height:100%}
+#visual .nav{position:absolute;left:0;right:0}
+#visual #deck-progress{position:absolute}
+.slide:not(.cover){grid-template-columns:minmax(220px,20rem) minmax(0,1fr)}
+.dots{display:none}
+.stage.sheet{display:grid;place-items:center;padding:1rem 1rem 4.2rem}
+.stage.sheet svg,.stage.sheet .sheet-card{width:min(100%,680px);height:auto;max-height:calc(100% - 1rem)}
+.sheet-card{background:#111727;color:#ece6da;border:1px solid #283048;border-radius:.7rem;padding:1rem 1.1rem;font-family:var(--sans);overflow:auto;max-height:100%}
+.sheet-card h3{font:600 1.15rem/1.3 var(--serif);margin:0 0 .6rem;color:#f0b35a}
+.sheet-card p{margin:.4rem 0;color:#dfd8ca}
+.sheet-card table{width:100%;border-collapse:collapse;font-size:.92rem}
+.sheet-card th,.sheet-card td{text-align:left;padding:.38rem .35rem;border-bottom:1px solid #283048}
+.ask-only{max-width:26rem;text-align:center;padding:1.5rem;color:#ece6da}
+.ask-only strong{display:block;font:600 1.7rem/1.2 var(--serif);margin-bottom:.6rem}
+.ask-only span{color:#9a9382}
+#left-open,#right-open,#left-close,#right-close{font:600 .75rem var(--sans);letter-spacing:.08em;text-transform:uppercase;background:var(--cream-2);color:var(--crimson);border:1px solid var(--crimson);border-radius:.4rem;padding:.5rem .75rem;cursor:pointer}
+#left-open,#right-open{position:fixed;z-index:28;top:.55rem}
+#left-open{left:.55rem}
+#right-open{right:.55rem}
+#left-open[aria-expanded="true"],#right-open[aria-expanded="true"]{background:var(--crimson);color:#fff}
+#left-rail,#right-rail{position:fixed;top:0;bottom:0;z-index:36;width:min(22rem,90vw);background:var(--cream-2);color:var(--paper-ink);overflow:auto;padding:3.2rem 1rem 1.4rem;box-shadow:0 0 40px rgba(42,36,24,.2)}
+#left-rail{left:0;border-right:1px solid #e4d7c3}
+#right-rail{right:0;border-left:1px solid #e4d7c3}
+#left-rail[hidden],#right-rail[hidden]{display:none}
+#left-close,#right-close{position:absolute;top:.55rem;right:.7rem}
+#left-rail h2,#right-rail h2{font:600 1.15rem/1.2 var(--serif);margin:.2rem 0 .7rem}
+#chapter-list,#slide-index,#topic-list{display:grid;gap:.15rem}
+#chapter-list{margin-bottom:1rem}
+#chapter-list button,#slide-index button,#topic-list a{display:block;width:100%;text-align:left;border:0;border-bottom:1px solid #eadfce;background:transparent;color:var(--paper-ink);padding:.45rem .2rem;cursor:pointer;text-decoration:none;font:500 .92rem/1.35 var(--serif)}
+#chapter-list button{font-weight:600}
+#chapter-list .day,#slide-index .num{display:block;font:600 .68rem var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--jeff-muted)}
+#chapter-list button.on,#slide-index button.on,#topic-list a:hover{color:var(--crimson)}
+#right-rail .empty{color:var(--jeff-muted);font-size:.95rem}
+#topic-view{position:absolute;inset:0;z-index:22;background:#0a0e18;display:flex}
+#topic-view[hidden]{display:none}
+#topic-frame{border:0;flex:1;width:100%;height:100%;background:#fff}
+#topic-return{position:fixed;top:.65rem;right:.65rem;z-index:40;background:var(--crimson);color:#fff;border:0;border-radius:.5rem;font:700 1.05rem/1 var(--sans);padding:.95rem 1.15rem;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.35)}
+@media (max-width:860px){
+  #app{display:flex;flex-direction:column;height:auto;min-height:100%}
+  #jeff{max-height:30vh;border-right:0;border-bottom:1px solid #e4d7c3}
+  #visual{min-height:100dvh;height:auto;overflow:visible}
+  #visual .nav{position:fixed}
+  .route-switch{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
 <body>
+<div id="app">
+<aside id="jeff" aria-label="Jeff, presenter script">
+  <p class="kicker" id="jeff-kicker">Script</p>
+  <h2 id="jeff-title"></h2>
+  <ol id="jeff-notes"></ol>
+</aside>
+<div id="visual">
 <div class="deck" id="deck">
 
 <!-- Cover -->
@@ -228,16 +289,16 @@ body.reduce-motion *,body.reduce-motion *::before,body.reduce-motion *::after{an
     <p class="lede">How looking up turned into knowing where you are, how big the world is, and how far away the Sun is.</p>
     <p>Every slide is a working model. Drag, slide, press play. Tap a line below to jump straight to it.</p>
     <ul class="facts menu">
-      <li class="act">Act I · Locate yourself</li>
+      <li class="act">Working models</li>
       <li data-go="Mental maps"><strong>1.</strong> Four questions your mental map gets wrong.</li>
       <li data-go="Latitude &amp; Longitude"><strong>2.</strong> Latitude is an angle to Polaris. Longitude is a clock.</li>
       <li data-go="Latitude = star height"><strong>3.</strong> Walk north and watch two angles agree: latitude and the height of Polaris.</li>
       <li data-go="Hours are slices"><strong>4.</strong> Hours are slices: the Earth as a 24-piece clock, down to the arcminute.</li>
-      <li class="act">Act II · Measure the Earth</li>
+      <li class="act">Earth and triangles</li>
       <li data-go="Eratosthenes"><strong>5.</strong> Eratosthenes sizes the Earth with a well and a stick.</li>
       <li data-go="Baselines"><strong>6.</strong> Baselines: your finger, a steeple, and Picard's network.</li>
       <li data-go="Picard measures France"><strong>7.</strong> From Eratosthenes’ paced arc to Picard’s measured one: rods, a castle, churches, a network, the Paris meridian, a smaller France.</li>
-      <li class="act">Act III · Measure the heavens, then carry it to sea</li>
+      <li class="act">Heavens, then the sea</li>
       <li data-go="Jupiter's moons"><strong>8.</strong> Galileo sees four moons circling Jupiter.</li>
       <li data-go="Moon mountains"><strong>9.</strong> Galileo measures a mountain on the Moon from its shadow.</li>
       <li data-go="Kepler to Halley"><strong>10.</strong> Kepler, Horrocks and Halley: a map with no scale bar.</li>
@@ -245,7 +306,7 @@ body.reduce-motion *,body.reduce-motion *::before,body.reduce-motion *::after{an
       <li data-go="Gaia maps the Galaxy"><strong>12.</strong> Gaia: parallax becomes a census, and motion becomes Galactic history.</li>
       <li data-go="Cook"><strong>13.</strong> Cook: a collier, a clock, and the coast he charted.</li>
       <li data-go="Mason &amp; Dixon"><strong>14.</strong> Mason and Dixon: a sea fight, a transit, and a line across America.</li>
-      <li class="act">Act IV · Make a decision</li>
+      <li class="act">The decision</li>
       <li data-go="The shelter decision"><strong>15.</strong> The shelter decision: a crisp edge, a fuzzy answer.</li>
       <li data-go="The decision brief"><strong>16.</strong> The decision brief: make the choice, the next check, and the expiry explicit.</li>
     </ul>
@@ -620,19 +681,41 @@ body.reduce-motion *,body.reduce-motion *::before,body.reduce-motion *::after{an
   <div class="dots" id="dots"></div>
   <div class="arrows"><button id="map-open" title="Deck navigator and routes (O)">map</button><button id="sources" title="Sources and assumptions (S)">sources</button><button id="presenter" title="Presenter notes (P)">notes</button><button id="prev" aria-label="Previous slide">←</button><button id="next" aria-label="Next slide">→</button></div>
 </nav>
+<div id="topic-view" hidden>
+  <button type="button" id="topic-return">Return to this slide</button>
+  <iframe id="topic-frame" title="Faria topic page"></iframe>
+</div>
+</div>
+</div>
+<button type="button" id="left-open" aria-controls="left-rail" aria-expanded="false">Chapters</button>
+<aside id="left-rail" hidden aria-label="Chapters and slides">
+  <button type="button" id="left-close">Close</button>
+  <h2>Chapters</h2>
+  <nav id="chapter-list" aria-label="Chapters"></nav>
+  <h2>Slides</h2>
+  <nav id="slide-index" aria-label="Slide index"></nav>
+</aside>
+<button type="button" id="right-open" aria-controls="right-rail" aria-expanded="false">Topics</button>
+<aside id="right-rail" hidden aria-label="Faria topic pages">
+  <button type="button" id="right-close">Close</button>
+  <h2>Faria topics</h2>
+  <p class="empty" id="topic-empty" hidden>No topic page for this slide.</p>
+  <nav id="topic-list" aria-label="Topic pages for this slide"></nav>
+</aside>
 
 <div class="deck-map" id="deck-map" hidden role="dialog" aria-modal="true" aria-labelledby="map-title">
   <aside class="map-rail">
     <span class="map-kicker">Measuring the Sky</span>
     <h2 id="map-title">Choose the journey.</h2>
-    <p>The full lecture, a shorter essential path, or a direct route to mapping and disaster decisions. Arrow keys follow the selected route; every scene remains available in the navigator.</p>
+    <p>Four days, from the thumb trick to the shelter decision. Arrow keys follow the selected route. Every scene stays in the chapter list.</p>
     <div class="route-switch" id="route-switch" aria-label="Presentation route">
-      <button data-route="full"><strong>Full story</strong><small>Every scene and historical connection</small><span class="mins">45 min</span></button>
-      <button data-route="essential"><strong>Essentials</strong><small>The core argument in ten scenes</small><span class="mins">25 min</span></button>
-      <button data-route="gis"><strong>GIS + decisions</strong><small>From mental maps to the decision brief</small><span class="mins">15 min</span></button>
+      <button data-route="full"><strong>Full course</strong><small>Four days, every scene</small><span class="mins">4 days</span></button>
+      <button data-route="essential"><strong>Essentials</strong><small>The spine, including the new GIS slides</small><span class="mins">1 day</span></button>
+      <button data-route="gis"><strong>GIS + decisions</strong><small>Projections, data, error, and the shelter</small><span class="mins">half day</span></button>
+      <button data-route="sample"><strong>CoP sample</strong><small>Thumb trick through the Scilly wreck</small><span class="mins">30 min</span></button>
     </div>
     <div class="map-settings"><button id="motion-toggle">Reduce slide motion</button><button id="map-presenter">Open presenter notes</button><button id="fx-preview">Preview signature transition</button></div>
-    <div class="map-help">← → move · O navigator · M mental-map quiz · S sources<br>L hide the text panel · P presenter · F full screen · Esc close<br>Routes and motion preference stay in this browser.</div>
+    <div class="map-help">← → move · Chapters list on the left · Topics on the right<br>O navigator · M mental-map quiz · S sources · L hide the control panel<br>P presenter · F full screen · Esc closes a panel<br>Routes and motion preference stay in this browser.</div>
   </aside>
   <main class="map-main"><button class="map-close" id="map-close" aria-label="Close navigator">×</button><div id="map-grid"></div></main>
 </div>
@@ -648,25 +731,28 @@ body.reduce-motion *,body.reduce-motion *::before,body.reduce-motion *::after{an
 
 <script src="coast.js"></script>
 <script src="coast2.js"></script>
+<script src="course.js"></script>
 <script>
 /* ---------- deck plumbing ---------- */
+if(window.KIMI_INSTALL)KIMI_INSTALL(document.getElementById('deck'));
 const slides=[...document.querySelectorAll('.slide')];let cur=0;
 const store={get(k,f){try{return localStorage.getItem(k)||f;}catch{return f;}},set(k,v){try{localStorage.setItem(k,v);}catch{}}};
 const ROUTES={
- full:{label:'Full story',minutes:45,ids:slides.map((_,i)=>i)},
- essential:{label:'Essentials',minutes:25,ids:[0,2,3,4,6,7,11,13,16,17]},
- gis:{label:'GIS + decisions',minutes:15,ids:[0,2,3,4,16,17]}
+ full:{label:'Full course',minutes:'4 days'},
+ essential:{label:'Essentials',minutes:'1 day'},
+ gis:{label:'GIS + decisions',minutes:'half day'},
+ sample:{label:'CoP sample',minutes:'30 min'}
 };
 let routeMode=ROUTES[store.get('faria-route','full')]?store.get('faria-route','full'):'full';
 let motionReduced=store.get('faria-reduced-motion','0')==='1';
 const visited=new Set();document.body.classList.toggle('reduce-motion',motionReduced);
 let transitionCount=0,previewIndex=0;const SIGNATURE_FX=['hyperdrive','stargate','supernova'];
-const routeIndices=()=>ROUTES[routeMode].ids;
+const routeIndices=()=>{if(routeMode==='full')return slides.map((_,i)=>i);const ids=slides.map((s,i)=>(s.dataset.routes||'').split(/\s+/).includes(routeMode)?i:-1).filter(i=>i>=0);return ids.length?ids:slides.map((_,i)=>i);};
 function advance(dir){const ids=routeIndices(),at=ids.indexOf(cur);if(at<0){go(dir>0?ids[0]:ids[ids.length-1]);return;}go(ids[(at+dir+ids.length)%ids.length]);}
 const dots=document.getElementById('dots');
 slides.forEach((s,i)=>{const b=document.createElement('button');b.title=s.dataset.title;b.setAttribute('aria-label',`Go to slide ${i}: ${s.dataset.title.replace('&amp;','&')}`);b.addEventListener('click',()=>go(i));dots.appendChild(b);});
 function go(i){const target=(i+slides.length)%slides.length;const prev=cur;
-const commit=()=>{cur=target;visited.add(cur);slides.forEach((s,k)=>s.classList.toggle('active',k===cur));[...dots.children].forEach((d,k)=>{d.classList.toggle('on',k===cur);d.setAttribute('aria-current',k===cur?'step':'false');});const ids=routeIndices(),pos=ids.indexOf(cur),title=slides[cur].dataset.title.replace('&amp;','&');document.getElementById('counter').textContent=routeMode==='full'?`${cur} / ${slides.length-1} · ${title}`:`${ROUTES[routeMode].label} · ${pos<0?'—':pos+1}/${ids.length} · ${title}`;const progress=pos<0?cur/(slides.length-1):pos/(ids.length-1);document.querySelector('#deck-progress span').style.width=`${Math.max(0,progress)*100}%`;location.hash=cur?`#${cur}`:'';resizeAll();syncMap();if(title==='The decision brief'&&typeof renderBrief==='function')renderBrief();if(typeof presenterSync==='function')presenterSync();};
+const commit=()=>{cur=target;visited.add(cur);slides.forEach((s,k)=>s.classList.toggle('active',k===cur));[...dots.children].forEach((d,k)=>{d.classList.toggle('on',k===cur);d.setAttribute('aria-current',k===cur?'step':'false');});const ids=routeIndices(),pos=ids.indexOf(cur),title=slides[cur].dataset.title.replace('&amp;','&');document.getElementById('counter').textContent=routeMode==='full'?`${cur+1} / ${slides.length} · ${title}`:`${ROUTES[routeMode].label} · ${pos<0?'—':pos+1}/${ids.length} · ${title}`;const progress=pos<0?cur/(slides.length-1):pos/(ids.length-1);document.querySelector('#deck-progress span').style.width=`${Math.max(0,progress)*100}%`;location.hash=cur?`#${cur}`:'';resizeAll();syncMap();if(title==='The decision brief'&&typeof renderBrief==='function')renderBrief();if(typeof presenterSync==='function')presenterSync();if(typeof syncCourse==='function')syncCourse();};
 if(prev===target||motionReduced||matchMedia('(prefers-reduced-motion: reduce)').matches||typeof playFx!=='function'){commit();return;}
 transitionCount++;const signature=transitionCount%4===0?SIGNATURE_FX[Math.floor(transitionCount/4-1)%SIGNATURE_FX.length]:null;
 const s=slides[target];const name=signature||FXMAP[s.dataset.fx]||'warp';playFx(name,s,{swap:commit,ms:signature?1850:name==='eclipse'?1700:name==='sweep'?1400:name==='chain'?1500:1200});}
@@ -675,7 +761,7 @@ document.getElementById('presenter').onclick=()=>openPresenter();
 document.getElementById('prev').onclick=()=>advance(-1);document.getElementById('next').onclick=()=>advance(1);
 document.querySelector('.cover').addEventListener('click',e=>{if(cur===0&&!e.target.closest('a,button,.nav'))advance(1);});
 const mapEl=document.getElementById('deck-map'),mapGrid=document.getElementById('map-grid');let mapBuilt=false,mapReturnFocus=null;
-function buildMap(){const names={'Opening':'Opening','Act I':'Act I · Locate yourself','Act II':'Act II · Measure the Earth','Act III':'Act III · Measure the heavens','Act IV':'Act IV · Make a decision'};const groups={};slides.forEach((s,i)=>{const k=s.querySelector('.kicker')?.textContent||'';const m=k.match(/^Act [IV]+/);const act=i<2?'Opening':m?m[0]:'Opening';(groups[act]||(groups[act]=[])).push({s,i});});mapGrid.innerHTML=Object.entries(groups).map(([act,items])=>`<section class="map-act"><h3>${names[act]||act}</h3>${items.map(({s,i})=>`<button class="map-item" data-i="${i}"><span class="num">${String(i).padStart(2,'0')}</span><span>${s.dataset.title.replace('&amp;','&')}</span><span class="state"></span></button>`).join('')}</section>`).join('');mapGrid.querySelectorAll('.map-item').forEach(b=>b.onclick=()=>{go(+b.dataset.i);closeMap();});mapBuilt=true;}
+function buildMap(){const groups={};slides.forEach((s,i)=>{const act=s.dataset.day||'Opening';(groups[act]||(groups[act]=[])).push({s,i});});mapGrid.innerHTML=Object.entries(groups).map(([act,items])=>`<section class="map-act"><h3>${act}</h3>${items.map(({s,i})=>`<button class="map-item" data-i="${i}"><span class="num">${String(i).padStart(2,'0')}</span><span>${s.dataset.title.replace('&amp;','&')}</span><span class="state"></span></button>`).join('')}</section>`).join('');mapGrid.querySelectorAll('.map-item').forEach(b=>b.onclick=()=>{go(+b.dataset.i);closeMap();});mapBuilt=true;}
 function syncMap(){if(!mapEl)return;if(!mapBuilt)buildMap();mapGrid.querySelectorAll('.map-item').forEach(b=>{const i=+b.dataset.i,onRoute=routeIndices().includes(i);b.classList.toggle('on',i===cur);b.classList.toggle('visited',visited.has(i));b.classList.toggle('off-route',!onRoute);b.querySelector('.state').textContent=i===cur?'now':visited.has(i)?'seen':onRoute?'':'off route';b.setAttribute('aria-current',i===cur?'step':'false');});document.querySelectorAll('#route-switch button').forEach(b=>{b.classList.toggle('on',b.dataset.route===routeMode);b.setAttribute('aria-pressed',b.dataset.route===routeMode?'true':'false');});document.getElementById('motion-toggle').textContent=motionReduced?'Use full slide motion':'Reduce slide motion';document.getElementById('motion-toggle').setAttribute('aria-pressed',motionReduced?'true':'false');}
 function openMap(){mapReturnFocus=document.activeElement;mapEl.hidden=false;syncMap();document.getElementById('map-close').focus();}
 function closeMap(){mapEl.hidden=true;(mapReturnFocus||document.getElementById('map-open')).focus();}
@@ -687,7 +773,7 @@ document.getElementById('map-presenter').onclick=()=>{closeMap();openPresenter()
 document.querySelectorAll('#route-switch button').forEach(b=>b.onclick=()=>{routeMode=b.dataset.route;store.set('faria-route',routeMode);go(cur);});
 document.getElementById('motion-toggle').onclick=()=>{motionReduced=!motionReduced;store.set('faria-reduced-motion',motionReduced?'1':'0');document.body.classList.toggle('reduce-motion',motionReduced);syncMap();};
 document.getElementById('fx-preview').onclick=()=>{const b=document.getElementById('fx-preview');if(motionReduced||matchMedia('(prefers-reduced-motion: reduce)').matches){b.textContent='Enable full motion to preview';setTimeout(()=>b.textContent='Preview signature transition',1600);return;}const name=SIGNATURE_FX[previewIndex++%SIGNATURE_FX.length];closeMap();playFx(name,slides[cur],{swap:()=>{},ms:1850});};
-addEventListener('keydown',e=>{if(!mapEl.hidden){if(e.key==='Escape'){e.preventDefault();closeMap();}else if(e.key==='Tab'){const f=[...mapEl.querySelectorAll('button:not([disabled])')].filter(x=>x.offsetParent!==null),first=f[0],last=f[f.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}return;}if(!qjEl.hidden){if(e.key==='Escape'||e.key.toLowerCase()==='m'){e.preventDefault();qjEl.hidden=true;}return;}if(e.target.matches('input,textarea,select'))return;if(e.key===' '&&e.target.closest('button'))return;if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();advance(1);}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();advance(-1);}else if(e.key.toLowerCase()==='f'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}else if(e.key.toLowerCase()==='p'){openPresenter();}else if(e.key.toLowerCase()==='o'){e.preventDefault();openMap();}else if(e.key.toLowerCase()==='m'){e.preventDefault();qjEl.hidden=false;}else if(e.key.toLowerCase()==='l'){e.preventDefault();document.body.classList.toggle('panels-off');resizeAll();requestAnimationFrame(resizeAll);}});
+addEventListener('keydown',e=>{if(topicOpen()&&e.key==='Escape'){e.preventDefault();closeTopic();return;}if(!document.getElementById('left-rail').hidden&&e.key==='Escape'){e.preventDefault();closeLeft();return;}if(!document.getElementById('right-rail').hidden&&e.key==='Escape'){e.preventDefault();closeRight();return;}if(!mapEl.hidden){if(e.key==='Escape'){e.preventDefault();closeMap();}else if(e.key==='Tab'){const f=[...mapEl.querySelectorAll('button:not([disabled])')].filter(x=>x.offsetParent!==null),first=f[0],last=f[f.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}return;}if(!qjEl.hidden){if(e.key==='Escape'||e.key.toLowerCase()==='m'){e.preventDefault();qjEl.hidden=true;}return;}if(e.target.matches('input,textarea,select'))return;if(e.key===' '&&e.target.closest('button'))return;if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();advance(1);}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();advance(-1);}else if(e.key.toLowerCase()==='f'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}else if(e.key.toLowerCase()==='p'){openPresenter();}else if(e.key.toLowerCase()==='o'){e.preventDefault();openMap();}else if(e.key.toLowerCase()==='m'){e.preventDefault();qjEl.hidden=false;}else if(e.key.toLowerCase()==='l'){e.preventDefault();document.body.classList.toggle('panels-off');resizeAll();requestAnimationFrame(resizeAll);}});
 let swipeStart=null;
 addEventListener('touchstart',e=>{
  const t=e.touches[0],onCover=!!e.target.closest('.cover');
@@ -766,8 +852,8 @@ const Q=[
  read:'<strong>None. Havana is at 82.4° W; the westernmost point of mainland South America, Punta Pariñas in Peru, is at 81.3° W.</strong><span>The whole continent lies east of Havana’s meridian. On a flat map your eye slides it west under the Caribbean. On the globe the line runs down the Pacific side and never touches land.</span>'},
 {t:'Reno or Los Angeles: which is farther west?',l:'Locate both in your mind. Then choose.',a:['Los Angeles','Reno','Same longitude','Depends on the map'],ok:1,cam:camFor(37,-119,3.2),
  read:'<strong>Reno, by 1.6°.</strong><span>Reno sits at 119.8° W, Los Angeles at 118.2° W. The California coast bends east as it runs south, so "coastal" and "farther west" are not the same thing. The two meridians on the globe settle it.</span>'},
-{t:'Which of these American cities is closest to Rome’s latitude?',l:'Closest in latitude, not closest in miles. Place Rome on the globe in your head first.',a:['Atlanta','New York','Boston','Miami'],ok:2,cam:camFor(42,-40,1.1),
- read:'<strong>Boston, at 42.4° N. New York is 40.7°, Atlanta 33.7°, Miami 25.8°.</strong><span>Rome and Boston share a parallel and little else: oceans store heat and the Gulf Stream and westerlies carry it to Italy. Latitude is one input to climate, not the whole model.</span>'},
+{t:'Which of these American cities is closest to Rome’s latitude?',l:'Closest in latitude, not closest in miles. Place Rome on the globe in your head first.',a:['Atlanta','New York','Boston','Washington, D.C.'],ok:2,cam:camFor(42,-40,1.1),
+ read:'<strong>Boston, at 42.4° N. New York is 40.7°, Washington about 38.9°, Atlanta 33.7°.</strong><span>Rome and Boston are near the same latitude and not the same climate. Oceans store heat. Winds, currents, and land move it. Latitude is one input, not a climate model.</span>'},
 {t:'How many Greenlands fit inside Africa?',l:'Trust your mental wall map. Then watch it lie.',a:['1','3','7','14'],ok:3,cam:camFor(20,-20,1.05),
  read:'<strong>Fourteen. Africa covers about 11.7 million mi²; Greenland about 0.84 million.</strong><span>First the wall map, where Greenland looks like a rival. Then the globe: Greenland slides south at its true size and settles inside Africa. Mercator keeps angles true and inflates the poles — that is the whole trick.</span>'}];
 let qi=0,votes=[0,0,0,0],revealed=false,revealT=0;
@@ -816,7 +902,7 @@ const k=revealed?Math.min(1,(t-revealT)/2200):0;
 if(qi===0){pin(ctx,'Havana · 82.4° W',C.havana,'#f0b35a');if(revealed){// the meridian grows southward from Havana
 const lat1=23.13-(23.13+40)*k;arcLine(ctx,Array.from({length:60},(_,i)=>ll(23.13+(lat1-23.13)*i/59,-82.38)),'#ff7d6f',3);if(k>.6){pin(ctx,'Punta Pariñas · 81.3° W · westernmost mainland',C.parinas,'#6fd48a',-8);pin(ctx,'Bogotá',C.bogota,'#9a9382');pin(ctx,'Quito',C.quito,'#9a9382');pin(ctx,'Lima',C.lima,'#9a9382');}if(k>=1){const q=proj(ll(-12,-82.38));if(q.z>0)tag(ctx,'due south of Havana: open Pacific all the way',q.x-20,q.y+28,'#ff7d6f',12);}}}
 else if(qi===1){pin(ctx,'Reno · 119.8° W',C.reno,'#6fb3ff');pin(ctx,'Los Angeles · 118.2° W',C.la,'#f0b35a');if(revealed){arcLine(ctx,Array.from({length:40},(_,i)=>ll(20+30*i/39*k,-119.82)),'#6fb3ff',2.5,[6,5]);arcLine(ctx,Array.from({length:40},(_,i)=>ll(20+30*i/39*k,-118.24)),'#f0b35a',2.5,[6,5]);if(k>=1){const q=proj(ll(27,-119));if(q.z>0)tag(ctx,'Reno’s meridian is 1.6° farther west',q.x-60,q.y,'#6fb3ff',12);}}}
-else if(qi===2){pin(ctx,'Rome · 41.9° N',C.rome,'#f0b35a');pin(ctx,'Boston · 42.4° N',C.boston,'#6fd48a',-8);pin(ctx,'New York · 40.7° N',C.nyc,'#9a9382',14);pin(ctx,'Miami · 25.8° N',C.miami,'#9a9382',14);pin(ctx,'Atlanta · 33.7° N',C.atlanta,'#9a9382');if(revealed){// Rome's parallel runs west round the world; Boston's runs east. Both go all the way round.
+else if(qi===2){pin(ctx,'Rome · 41.9° N',C.rome,'#f0b35a');pin(ctx,'Boston · 42.4° N',C.boston,'#6fd48a',-8);pin(ctx,'New York · 40.7° N',C.nyc,'#9a9382',14);pin(ctx,'Washington · 38.9° N',C.dc,'#9a9382',14);pin(ctx,'Atlanta · 33.7° N',C.atlanta,'#9a9382');if(revealed){// Rome's parallel runs west round the world; Boston's runs east. Both go all the way round.
 arcLine(ctx,Array.from({length:181},(_,i)=>ll(41.9,12.5-360*i/180*k)),'#f0b35a',3);arcLine(ctx,Array.from({length:181},(_,i)=>ll(42.36,-71.06+360*i/180*k)),'#6fd48a',2.5,[8,6]);[33.75,38.9,40.71].forEach(la=>arcLine(ctx,Array.from({length:181},(_,i)=>ll(la,-80+360*i/180*k)),'rgba(236,230,218,.18)',1));if(k>=1){const q=proj(ll(41.9,-40));if(q.z>0)tag(ctx,'Rome’s parallel runs straight into Boston',q.x-160,q.y-16,'#f0b35a',13);const q2=proj(ll(33.75,-40));if(q2.z>0)tag(ctx,'Atlanta’s · south of Gibraltar',q2.x-100,q2.y+18,'#cfc8ba',12);}}}
 else{if(mercK>0.5){const mf=(mercK-0.5)*2;ctx.beginPath();AFRICA.forEach((p,i)=>{const q=proj(p);i?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);});ctx.closePath();ctx.fillStyle=`rgba(111,212,138,${.14*mf})`;ctx.fill();ctx.strokeStyle=`rgba(111,212,138,${.85*mf})`;ctx.lineWidth=2;ctx.stroke();}
 const phase=gPhase(t),cur=!GRING||phase===0?gHome:phase===1?gTarget:slerp(gHome,gTarget,phase);
@@ -2151,10 +2237,27 @@ main{padding:1.5rem 2rem;overflow:auto}.k{font:600 .72rem -apple-system,sans-ser
 </style></head><body><aside><div class="k">Slides</div><ol id="list">${items}</ol></aside><main><div class="k" id="k"></div><div class="next" id="route"></div><h1 id="t"></h1><ol class="notes" id="n"></ol><div class="next">Next: <b id="nx"></b></div><div class="row"><span>elapsed</span><span class="clock" id="c">00:00</span><button id="reset" style="border:1px solid #283048;background:#111727;color:#ece6da;border-radius:.4rem;padding:.3rem .7rem;cursor:pointer">reset</button></div></main><div class="keys">← → change slides here too · this window follows the deck</div>
 <script>const op=window.opener;document.getElementById('list').onclick=e=>{const li=e.target.closest('li');if(li&&op)op.postMessage({go:+li.dataset.i},'*');};addEventListener('keydown',e=>{if(e.key==='ArrowRight'&&op)op.postMessage({go:'next'},'*');if(e.key==='ArrowLeft'&&op)op.postMessage({go:'prev'},'*');});document.getElementById('reset').onclick=()=>op&&op.postMessage({reset:1},'*');
 addEventListener('message',e=>{const d=e.data||{};if(d.title!==undefined){document.getElementById('k').textContent='Slide '+d.i+' of '+d.total;document.getElementById('t').textContent=d.title;document.getElementById('n').innerHTML=(d.notes||[]).map(x=>'<li>'+x+'</li>').join('');document.getElementById('nx').textContent=d.next||'—';document.getElementById('route').textContent=d.route||'';document.querySelectorAll('#list li').forEach(li=>li.classList.toggle('on',+li.dataset.i===d.i));}if(d.clock!==undefined)document.getElementById('c').textContent=d.clock;});<\/script></body></html>`;}
-function presenterSync(){if(!presWin||presWin.closed)return;const s=slides[cur];const title=s.dataset.title.replace('&amp;','&'),ids=routeIndices(),at=ids.indexOf(cur),nextIndex=at<0?ids[0]:ids[(at+1)%ids.length];const nx=slides[nextIndex].dataset.title.replace('&amp;','&');presWin.postMessage({i:cur,total:slides.length-1,title,notes:NOTES[title]||[],next:nx,route:`${ROUTES[routeMode].label} · ${ids.length} scenes · ${ROUTES[routeMode].minutes} min target`},'*');}
+function presenterSync(){if(!presWin||presWin.closed)return;const s=slides[cur];const title=s.dataset.title.replace('&amp;','&'),ids=routeIndices(),at=ids.indexOf(cur),nextIndex=at<0?ids[0]:ids[(at+1)%ids.length];const nx=slides[nextIndex].dataset.title.replace('&amp;','&');presWin.postMessage({i:cur,total:slides.length-1,title,notes:notesFor(slides[cur]),next:nx,route:`${ROUTES[routeMode].label} · ${ids.length} scenes · ${ROUTES[routeMode].minutes}`},'*');}
 function openPresenter(){if(presWin&&!presWin.closed){presWin.focus();return;}presWin=window.open('','faria-presenter','width=1100,height=720');if(!presWin)return;presWin.document.open();presWin.document.write(presenterHTML());presWin.document.close();presT0=presT0||performance.now();setTimeout(presenterSync,300);}
 addEventListener('message',e=>{const d=e.data||{};if(d.go==='next')advance(1);else if(d.go==='prev')advance(-1);else if(typeof d.go==='number')go(d.go);if(d.reset)presT0=performance.now();});
 setInterval(()=>{if(presWin&&!presWin.closed&&presT0){const s=Math.floor((performance.now()-presT0)/1000);presWin.postMessage({clock:`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`},'*');}},1000);
+
+/* ---------- course chrome: Jeff's script, chapter rail, topic rail ---------- */
+function notesFor(s){const title=s.dataset.title.replace(/&amp;/g,'&');if(window.KIMI_NOTES&&KIMI_NOTES[title]&&KIMI_NOTES[title].length)return KIMI_NOTES[title];return NOTES[title]||[];}
+function topicOpen(){return !document.getElementById('topic-view').hidden;}
+function closeTopic(){const v=document.getElementById('topic-view');v.hidden=true;document.getElementById('topic-frame').src='about:blank';}
+function closeLeft(){document.getElementById('left-rail').hidden=true;document.getElementById('left-open').setAttribute('aria-expanded','false');}
+function closeRight(){document.getElementById('right-rail').hidden=true;document.getElementById('right-open').setAttribute('aria-expanded','false');}
+function openLeft(){document.getElementById('left-rail').hidden=false;document.getElementById('left-open').setAttribute('aria-expanded','true');syncCourse();}
+function openRight(){document.getElementById('right-rail').hidden=false;document.getElementById('right-open').setAttribute('aria-expanded','true');syncCourse();}
+let railsBuilt=false;
+function buildRails(){const chapters=[];slides.forEach((s,i)=>{const chapter=s.dataset.chapter||'Course';const day=s.dataset.day||'';if(!chapters.length||chapters[chapters.length-1].chapter!==chapter)chapters.push({chapter,day,i});});document.getElementById('chapter-list').innerHTML=chapters.map(c=>`<button type="button" data-i="${c.i}" data-chapter="${c.chapter.replace(/"/g,'')}"><span class="day">${c.day}</span>${c.chapter}</button>`).join('');document.getElementById('slide-index').innerHTML=slides.map((s,i)=>`<button type="button" data-i="${i}"><span class="num">${String(i).padStart(2,'0')}</span>${s.dataset.title.replace(/&amp;/g,'&')}</button>`).join('');document.querySelectorAll('#chapter-list button,#slide-index button').forEach(b=>b.onclick=()=>go(+b.dataset.i));railsBuilt=true;}
+function syncCourse(){if(!railsBuilt)buildRails();const s=slides[cur];const title=s.dataset.title.replace(/&amp;/g,'&');const h=s.querySelector('h1');const heading=(h&&!h.id&&h.textContent.trim())||title;document.getElementById('jeff-kicker').textContent=[s.dataset.day,s.dataset.chapter].filter(Boolean).join(' · ')||'Script';document.getElementById('jeff-title').textContent=heading;document.getElementById('jeff-notes').innerHTML=notesFor(s).map(x=>`<li>${x.replace(/</g,'')}</li>`).join('')||'<li>Press the arrow. The picture is the lesson.</li>';document.querySelectorAll('#chapter-list button').forEach(b=>b.classList.toggle('on',b.dataset.chapter===(s.dataset.chapter||'')));document.querySelectorAll('#slide-index button').forEach(b=>{const on=+b.dataset.i===cur;b.classList.toggle('on',on);if(on&&!document.getElementById('left-rail').hidden)b.scrollIntoView({block:'nearest'});});const topics=(window.KIMI_TOPICS&&KIMI_TOPICS[title])||[];const list=document.getElementById('topic-list');document.getElementById('topic-empty').hidden=topics.length>0;list.innerHTML=topics.map(t=>`<a class="topic-link" href="../topics/${t[0]}/">${t[1]}</a>`).join('');list.querySelectorAll('a').forEach(a=>a.onclick=e=>{e.preventDefault();closeRight();document.getElementById('topic-frame').src=a.href;document.getElementById('topic-view').hidden=false;document.getElementById('topic-return').focus();});}
+document.getElementById('left-open').onclick=()=>{if(document.getElementById('left-rail').hidden)openLeft();else closeLeft();};
+document.getElementById('left-close').onclick=closeLeft;
+document.getElementById('right-open').onclick=()=>{if(document.getElementById('right-rail').hidden)openRight();else closeRight();};
+document.getElementById('right-close').onclick=closeRight;
+document.getElementById('topic-return').onclick=closeTopic;
 
 /* ---------- loop ---------- */
 function frame(t){const el=slides[cur];const s=scenes.find(sc=>el.contains(sc.o.c));if(s&&s.o.w)s.draw(t);const stg=el.querySelector('.stage');if(stg){const open=[...stg.querySelectorAll('.card')].some(c=>c.offsetParent!==null&&getComputedStyle(c).display!=='none');stg.classList.toggle('has-card',open);}requestAnimationFrame(frame);}
