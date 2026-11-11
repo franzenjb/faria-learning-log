@@ -95,3 +95,11 @@ Four Jeff requests in one pass. (1) Hours are slices now opens with the ship alr
 - Build clean (92/9/81); tests/kimi1-browser.mjs passes in local Chrome; screenshots inspected: 1 pm clocks, well close-up, clean wheel, L-mode full stage, M menu and the Greenland-or-Africa jump landing on Mental maps with the question armed. No page errors.
 - Published source dcecc50 via git-connected Vercel. Served https://faria.jbf.com/kimi1/ matches local bytes exactly (cmp).
 - Remaining: Jeff's acceptance.
+
+## Kimi1 Gaia Parallax Geometry Fix — November 11, 2026
+
+Jeff caught wrong geometry on the Gaia parallax chapter: A and B sat on the Sun–star line, where the baseline adds almost no parallax. They now sit six months apart above and below the Sun, so the 2 AU baseline (drawn as a dashed segment through the Sun) stands perpendicular to the sightline and the two colored sightlines form a visibly skinny triangle to the star — the geometry that actually maximizes the shift. Labels repositioned accordingly. public/kimi1/index.html only.
+
+- Build clean (92/9/81); tests/kimi1-browser.mjs passes in local Chrome; no page errors.
+- Published source a8335ac via git-connected Vercel. Served https://faria.jbf.com/kimi1/ matches local bytes exactly (cmp). Screenshot inspected at 10 pc.
+- Remaining: Jeff's acceptance.
