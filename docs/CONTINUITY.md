@@ -3,11 +3,13 @@ project: faria-learning-log
 url: https://faria.jbf.com
 repo: https://github.com/franzenjb/faria-learning-log
 vercel_project: faria-learning-log
-verified: 2026-11-09
+verified: 2026-11-11
 ---
 # Faria Owner's Manual
 
 ## Purpose And Daily Use
+Update 2026-11-11: /claude1/ (four-day GIS course deck) re-verified live after PR #56. Its check is `tests/claude1-browser.mjs` (serve dist/, set PLAYWRIGHT_MODULE, pass a base URL); state and open items live in docs/CLAUDE1_HANDOFF.md.
+
 Faria is Jeff's illustrated learning log, originally built by Abbé Faria. Codex added the Galileo Moon mountain interactive on November 8, 2026. Open https://faria.jbf.com/galileo/ and move the three sliders or drag the peak. The example button restores a four-modern-mile mountain just reaching sunlight. Miles and feet describe size; degrees describe Sun elevation. This is a teaching model, not a lunar terrain survey. The original Italian-mile claim is explicitly distinguished.
 
 ## How It Works
@@ -49,7 +51,7 @@ Last source verification: November 8, 2026. Geometry tests passed, including ind
 {
   "project": "faria-learning-log",
   "live_url": "https://faria.jbf.com",
-  "verified": "2026-11-09",
+  "verified": "2026-11-11",
   "vercel_project": "faria-learning-log"
 }
 ```
