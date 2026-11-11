@@ -10,3 +10,5 @@ These are live models you can run in a browser, not the downloadable PDFs on [Pa
 - [Galileo's Moon Mountains](/galileo/). Move a mountain, change its height, and raise or lower the Sun to see how a bright peak reveals its height. The lesson page is [Galileo's Moon Mountains](/topics/86-galileo-moon-mountains/).
 
 The GIS master presentation, *Measurement, Mapping, and Disaster Decisions*, is a PowerPoint in the Franzen Lessons folder on Jeff's Mac, not a page on this site.
+
+- [Red Cross GIS course](/kimi1/). The Kimi copy of the interactive lecture, retitled as a four-day course: measure, time, maps, and the decision. It keeps its own address. An update here is not meant to overwrite [Measuring the Sky](/deck/) or [Deck v2](/deck/v2/).
