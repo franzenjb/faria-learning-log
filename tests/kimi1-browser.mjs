@@ -15,7 +15,7 @@ assert.match(await page.locator('.cover h1').innerText(), /Where Am I/);
 assert.match(await page.locator('.vlink a').getAttribute('href'), /\/deck\/v2\//);
 
 // Q4: Greenland vs Africa — voting, reveal, slide-down, wall-map split
-await slide(2);
+await slide(3);
 assert.match(await page.locator('#qz-title').innerText(), /Havana/);
 assert.equal(await page.locator('#qz-merc').isHidden(), true);
 await page.locator('#m1q button', {hasText: 'Greenland or Africa'}).click();
@@ -56,7 +56,7 @@ await page.locator('#deck-map').waitFor({state: 'hidden'});
 
 // reduced motion: reveal works, no errors
 await page.emulateMedia({reducedMotion: 'reduce'});
-await slide(2);
+await slide(3);
 await page.locator('#m1q button', {hasText: 'Greenland or Africa'}).click();
 await page.click('#qz-reveal');
 await page.waitForTimeout(500);
@@ -65,7 +65,7 @@ assert.match(await page.locator('#qz-read').innerText(), /Fourteen/);
 // phone layout: no horizontal overflow
 await page.emulateMedia({reducedMotion: 'no-preference'});
 await page.setViewportSize({width: 390, height: 844});
-await slide(2);
+await slide(3);
 assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
 await page.locator('#m1q button', {hasText: 'Greenland or Africa'}).click();
 await page.click('#qz-reveal');
