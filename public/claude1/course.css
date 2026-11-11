@@ -2,7 +2,7 @@
 :root{--bg:#fffdf6;--panel:#f6f1e6;--ink:#161514;--muted:#6b6763;--line:#d9d4c8;--accent:#b01f24;--sun:#b01f24;--sky:#3f4f66;--ok:#2e6b3e;--bad:#b01f24;
   --serif:"Source Serif 4","Source Serif Pro","Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;--sans:var(--serif);--mono:var(--serif)}
 html,body{background:var(--bg);color:var(--ink)}
-#shell{display:grid;grid-template-columns:auto minmax(15rem,22rem) minmax(0,1fr) auto;height:100%;width:100%}
+#shell{display:grid;grid-template-columns:auto minmax(15rem,22rem) minmax(0,1fr) auto;grid-template-rows:minmax(0,1fr);height:100%;width:100%;overflow:hidden}
 #visual{position:relative;min-width:0;overflow:hidden;border-left:1px solid var(--line);border-right:1px solid var(--line)}
 #visual .deck{position:absolute;inset:0}
 #visual .nav{position:absolute;background:linear-gradient(0deg,rgba(255,253,246,.96),rgba(255,253,246,0));padding:.5rem .9rem}
@@ -25,6 +25,7 @@ h1{font-weight:500;font-size:1.75rem;line-height:1.12;letter-spacing:-.005em}
 .readout .big{color:var(--accent)}
 .controls label{text-transform:none;letter-spacing:0;font-size:.9rem;color:var(--muted)}
 .controls label output{color:var(--ink);font-weight:600}
+.modes,.btns,.chips{flex-wrap:wrap}
 .btns button,.modes button,.chips button{background:#fff;color:var(--ink);border-color:#bdb8ad;font-size:.86rem}
 .btns button.primary,.modes button.on{background:var(--accent);border-color:var(--accent);color:#fff}
 .chips button.on{background:var(--ink);border-color:var(--ink);color:#fff}
@@ -76,7 +77,7 @@ svg.fig .pick{cursor:pointer}
 #ls-list li.sl:hover{background:#ece6d8}#ls-list li.sl.on{background:var(--ink);color:#fff}#ls-list li.sl.on span{color:#cfc9bd}
 
 /* Jeff's side: the teleprompter */
-#jeff{--jfs:1;display:flex;flex-direction:column;min-width:0;background:#fff;padding:.9rem 1.2rem .8rem 1.3rem}
+#jeff{--jfs:1;min-height:0;display:flex;flex-direction:column;min-width:0;background:#fff;padding:.9rem 1.2rem .8rem 1.3rem}
 #jeff header{display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:.5rem}
 #jeff .who{color:var(--accent);font-weight:600}#jeff .sz{margin-left:auto;display:flex;gap:.25rem}
 #jeff button{all:unset;cursor:pointer;border:1px solid var(--line);border-radius:.3rem;padding:.1rem .45rem;font-size:.8rem;color:var(--ink)}
@@ -105,5 +106,6 @@ svg.fig .pick{cursor:pointer}
   #jeff{border-bottom:1px solid var(--line);max-height:38vh}
   #visual{height:auto;overflow:visible;border:0}#visual .deck{position:relative}
   .cindex{position:relative}.ci-days{grid-template-columns:1fr 1fr}.ci-days:before{display:none}
+  .slide{grid-template-columns:1fr}.text{border-right:0}
   .stage svg.fig,.stage canvas.fig{position:relative;height:60vh}
 }
