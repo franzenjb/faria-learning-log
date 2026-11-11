@@ -24,10 +24,9 @@ button.primary{background:var(--gold);color:#101923;border-color:var(--gold)}
 button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
 .toggle{display:block;margin-top:16px;font-size:12px;color:var(--muted);cursor:pointer}
 .toggle input{accent-color:var(--gold);margin-right:8px;vertical-align:-2px}
-.comparison{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:20px 0}
-.view{min-width:0}
+.comparison{padding:20px 0}
+#scene{width:100%;height:auto;display:block;overflow:visible}
 h2{font:11px system-ui;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin:0 0 4px}
-.view svg{width:100%;height:auto;display:block;overflow:visible}
 .turn-proof{max-width:760px;margin:10px auto 30px;padding:16px 0;border-block:1px solid var(--line)}
 summary{cursor:pointer;color:var(--gold);font-size:13px}
 .turn-proof p{color:var(--muted);font-size:14px}
@@ -44,8 +43,6 @@ nav{gap:12px;font-size:10px}
 h1 br{display:block}
 .lede{font-size:16px}
 .equation{font-size:40px}
-.comparison{grid-template-columns:1fr;gap:24px}
-.view svg{max-height:430px}
 .sticky-reading{display:block;position:sticky;top:0;z-index:10;background:#0b111bf5;border-bottom:1px solid var(--line);padding:8px 16px 7px;margin:0 -16px;color:var(--gold);backdrop-filter:blur(10px)}
 .sticky-reading label{display:block;font-size:13px}
 .sticky-reading input{margin:4px 0 0;height:24px}
@@ -53,14 +50,14 @@ footer{display:block}footer span{display:block;margin-top:10px}
 }
 /* Wide screens: controls in a left column, diagrams fill the rest */
 @media(min-width:980px){
-main{display:grid;grid-template-columns:300px 1fr;column-gap:40px;align-items:start}
+main{display:grid;grid-template-columns:300px 1fr;grid-template-rows:auto 1fr;column-gap:40px;align-items:start}
 main>*{grid-column:1/-1}
 .intro{grid-column:1;grid-row:1;padding:32px 0 10px}
 .controller{grid-column:1;grid-row:2}
 .comparison{grid-column:2;grid-row:1/span 2;padding:32px 0 12px}
 h1{font-size:40px}
 .lede{font-size:16px}
-.view svg{max-height:calc(100vh - 200px);min-height:260px}
+#scene{max-height:calc(100vh - 120px)}
 }
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 @media(max-width:720px){.controller>input[type=range],.controller>.endpoints{display:none}.sticky-reading{margin-top:4px}}
