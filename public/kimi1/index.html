@@ -14,6 +14,15 @@ button,input{font:inherit}
 .deck{position:relative;height:100%;width:100%}
 #fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:6}
 .slide{position:absolute;inset:0;display:grid;grid-template-columns:minmax(300px,30rem) 1fr;grid-template-rows:1fr;gap:0;opacity:0;pointer-events:none;transform-origin:50% 50%}
+body.panels-off .slide{grid-template-columns:1fr}
+body.panels-off .slide>.text{display:none}
+.quiz-jump{position:fixed;inset:0;z-index:32;background:rgba(5,8,15,.82);display:grid;place-items:center;font-family:var(--sans)}
+.quiz-jump[hidden]{display:none}
+.quiz-jump .qj-card{background:#10182b;border:1px solid var(--line);border-radius:1rem;padding:1.4rem 1.6rem;width:min(92vw,24rem);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.quiz-jump h2{font:1.15rem var(--serif);margin:0 0 .2rem}
+.quiz-jump p{color:var(--muted);font-size:.85rem;margin:.2rem 0 .9rem}
+.quiz-jump .btns{flex-direction:column}
+.quiz-jump .btns button{text-align:left}
 .slide.active{opacity:1;pointer-events:auto}
 .card{position:absolute;right:1.2rem;bottom:3.6rem;width:min(calc(100% - 2.4rem),700px);max-height:calc(100% - 5rem);overflow:auto;background:rgba(17,23,39,.97);border:1px solid var(--line);border-radius:.8rem;padding:1.2rem 1.4rem 1.3rem;font-family:var(--sans);box-shadow:0 14px 50px rgba(0,0,0,.6)}
 .card h3{margin:0 2rem .6rem 0;font:600 1.5rem/1.2 var(--serif)}
@@ -623,9 +632,18 @@ body.reduce-motion *,body.reduce-motion *::before,body.reduce-motion *::after{an
       <button data-route="gis"><strong>GIS + decisions</strong><small>From mental maps to the decision brief</small><span class="mins">15 min</span></button>
     </div>
     <div class="map-settings"><button id="motion-toggle">Reduce slide motion</button><button id="map-presenter">Open presenter notes</button><button id="fx-preview">Preview signature transition</button></div>
-    <div class="map-help">← → move · O navigator · S sources<br>P presenter · F full screen · Esc close<br>Routes and motion preference stay in this browser.</div>
+    <div class="map-help">← → move · O navigator · M mental-map quiz · S sources<br>L hide the text panel · P presenter · F full screen · Esc close<br>Routes and motion preference stay in this browser.</div>
   </aside>
   <main class="map-main"><button class="map-close" id="map-close" aria-label="Close navigator">×</button><div id="map-grid"></div></main>
+</div>
+
+<div class="quiz-jump" id="quiz-jump" hidden role="dialog" aria-modal="true" aria-labelledby="qj-title">
+  <div class="qj-card">
+    <h2 id="qj-title">Mental maps · the four questions</h2>
+    <p>Jump back to the quiz and put a question on the globe.</p>
+    <div class="btns" id="qj-btns"></div>
+    <div class="btns"><button id="qj-close">Close · Esc</button></div>
+  </div>
 </div>
 
 <script src="coast.js"></script>
@@ -662,11 +680,14 @@ function syncMap(){if(!mapEl)return;if(!mapBuilt)buildMap();mapGrid.querySelecto
 function openMap(){mapReturnFocus=document.activeElement;mapEl.hidden=false;syncMap();document.getElementById('map-close').focus();}
 function closeMap(){mapEl.hidden=true;(mapReturnFocus||document.getElementById('map-open')).focus();}
 document.getElementById('map-open').onclick=openMap;document.getElementById('map-close').onclick=closeMap;
+const qjEl=document.getElementById('quiz-jump');
+document.querySelectorAll('#m1q button').forEach(b=>{const c=document.createElement('button');c.textContent=b.textContent;c.onclick=()=>{qjEl.hidden=true;go(slides.findIndex(s=>s.dataset.title==='Mental maps'));b.click();};document.getElementById('qj-btns').appendChild(c);});
+document.getElementById('qj-close').onclick=()=>{qjEl.hidden=true;};
 document.getElementById('map-presenter').onclick=()=>{closeMap();openPresenter();};
 document.querySelectorAll('#route-switch button').forEach(b=>b.onclick=()=>{routeMode=b.dataset.route;store.set('faria-route',routeMode);go(cur);});
 document.getElementById('motion-toggle').onclick=()=>{motionReduced=!motionReduced;store.set('faria-reduced-motion',motionReduced?'1':'0');document.body.classList.toggle('reduce-motion',motionReduced);syncMap();};
 document.getElementById('fx-preview').onclick=()=>{const b=document.getElementById('fx-preview');if(motionReduced||matchMedia('(prefers-reduced-motion: reduce)').matches){b.textContent='Enable full motion to preview';setTimeout(()=>b.textContent='Preview signature transition',1600);return;}const name=SIGNATURE_FX[previewIndex++%SIGNATURE_FX.length];closeMap();playFx(name,slides[cur],{swap:()=>{},ms:1850});};
-addEventListener('keydown',e=>{if(!mapEl.hidden){if(e.key==='Escape'){e.preventDefault();closeMap();}else if(e.key==='Tab'){const f=[...mapEl.querySelectorAll('button:not([disabled])')].filter(x=>x.offsetParent!==null),first=f[0],last=f[f.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}return;}if(e.target.matches('input,textarea,select'))return;if(e.key===' '&&e.target.closest('button'))return;if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();advance(1);}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();advance(-1);}else if(e.key.toLowerCase()==='f'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}else if(e.key.toLowerCase()==='p'){openPresenter();}else if(e.key.toLowerCase()==='o'){e.preventDefault();openMap();}});
+addEventListener('keydown',e=>{if(!mapEl.hidden){if(e.key==='Escape'){e.preventDefault();closeMap();}else if(e.key==='Tab'){const f=[...mapEl.querySelectorAll('button:not([disabled])')].filter(x=>x.offsetParent!==null),first=f[0],last=f[f.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}return;}if(!qjEl.hidden){if(e.key==='Escape'||e.key.toLowerCase()==='m'){e.preventDefault();qjEl.hidden=true;}return;}if(e.target.matches('input,textarea,select'))return;if(e.key===' '&&e.target.closest('button'))return;if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();advance(1);}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();advance(-1);}else if(e.key.toLowerCase()==='f'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}else if(e.key.toLowerCase()==='p'){openPresenter();}else if(e.key.toLowerCase()==='o'){e.preventDefault();openMap();}else if(e.key.toLowerCase()==='m'){e.preventDefault();qjEl.hidden=false;}else if(e.key.toLowerCase()==='l'){e.preventDefault();document.body.classList.toggle('panels-off');resizeAll();requestAnimationFrame(resizeAll);}});
 let swipeStart=null;
 addEventListener('touchstart',e=>{
  const t=e.touches[0],onCover=!!e.target.closest('.cover');
@@ -1026,10 +1047,11 @@ scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);co
 {const o=setup('c3h');const speedIn=document.getElementById('hs-speed'),speedOut=document.getElementById('hs-speed-out'),read=document.getElementById('hs-read'),title=document.getElementById('hs-title'),hint=document.getElementById('hs-hint');
 const pauseB=document.getElementById('hs-pause'),shipB=document.getElementById('hs-ship'),chronoB=document.getElementById('hs-chrono'),landB=document.getElementById('hs-land');
 let level=0,// 0 clock, 1 one hour, 2 one minute
-rotation=0,// radians the Earth has turned (Greenwich tick), counter-clockwise from the Sun (+x)
+rotation=TAU/24,// start: Greenwich reads 1 pm, one hour of turning past noon
 focus=0,// which hour slice (0..23) is being zoomed
-paused=false,ship=null,// ship: angle (radians, in Earth frame, ccw from Greenwich) or null
-chrono=false,land=false,last=0,zoomAnim=null,zoomT=0;// zoomT: 0 clock .. 1 hour .. 2 minute
+paused=true,ship=((-TAU/24)%TAU+TAU)%TAU,// a ship at its own local noon, chronometer aboard: 15° west
+chrono=true,land=false,last=0,zoomAnim=null,zoomT=0;// zoomT: 0 clock .. 1 hour .. 2 minute
+pauseB.textContent='Resume';pauseB.classList.add('on');shipB.classList.add('on');chronoB.classList.add('on');
 speedIn.oninput=()=>{speedOut.textContent=+speedIn.value?`1 hour / ${fmt(3/ +speedIn.value,1)} s`:'stopped';};
 const ease=k=>k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
 function goLevel(n){level=n;zoomAnim={from:zoomT,to:n,t0:performance.now(),ms:1600};update();}
@@ -1121,8 +1143,8 @@ for(let sec=0;sec<=60;sec++){const a=a0+sec*minA/60;const isArcMin=sec%4===0;con
 if(sec%12===0&&sec>0&&sec<60){const pm2=arcPt(a,R-100);text(ctx,`${60-sec} s`,pm2.x,pm2.y+4,{size:12,align:'center',color:'#6fd48a',font:'mono'});}
 if(isArcMin&&sec<60&&sec%4===0){const pq=arcPt(a+2*minA/60,R-66);text(ctx,`${15-sec/4}′`,pq.x,pq.y+4,{size:11,align:'center',color:'#cfc8ba',font:'mono'});}}const pc=arcPt(a0+minA/2,R-150);text(ctx,'← 60 seconds of time · 15′ of arc · 15 nautical miles →',pc.x,pc.y+4,{size:12,align:'center',color:'#6fd48a'});ctx.globalAlpha=1;}
 // the explainer: plain lines written on the stage for whatever is on screen
-{const L=zoomT<.5?[['A 24-HOUR CLOCK','#9a9382',13],['1 hour = 15°','#f0b35a',30],['24 hours × 15° = 360°','#ece6da',18],['tap an hour to break it into minutes','#9a9382',14]]:zoomT<1.5?[['ONE HOUR','#9a9382',13],['1 hour = 15° = 60 minutes','#f0b35a',30],['each tick is 1 minute of time = ¼° = 15′ of arc','#ece6da',18],['bold ticks every 4 minutes = 1° = 69 miles','#9a9382',14]]:[['ONE MINUTE','#9a9382',13],['1 minute = 15′ of arc = 60 seconds','#f0b35a',30],['each tick is 1 second of time = 15″ of arc','#6fd48a',18],['bold ticks every 4 seconds = 1′ of arc = 1 nautical mile','#9a9382',14]];
-let y=h*.12;ctx.fillStyle='rgba(10,14,24,.75)';ctx.fillRect(w*.04-14,y-30,Math.min(w*.56,620),L.length*34+22);for(const[s,c,sz]of L){text(ctx,s,w*.04,y,{size:sz,color:c,font:sz>=22?'mono':undefined});y+=sz>=22?38:30;}}
+if(document.body.classList.contains('panels-off')){const L=zoomT<.5?[['A 24-HOUR CLOCK','#9a9382',13],['1 hour = 15°','#f0b35a',30],['24 hours × 15° = 360°','#ece6da',18],['tap an hour to break it into minutes','#9a9382',14]]:zoomT<1.5?[['ONE HOUR','#9a9382',13],['1 hour = 15° = 60 minutes','#f0b35a',30],['each tick is 1 minute of time = ¼° = 15′ of arc','#ece6da',18],['bold ticks every 4 minutes = 1° = 69 miles','#9a9382',14]]:[['ONE MINUTE','#9a9382',13],['1 minute = 15′ of arc = 60 seconds','#f0b35a',30],['each tick is 1 second of time = 15″ of arc','#6fd48a',18],['bold ticks every 4 seconds = 1′ of arc = 1 nautical mile','#9a9382',14]];
+let y=h*.12;ctx.fillStyle='rgba(10,14,24,.75)';ctx.fillRect(w*.04-14,y-30,Math.min(w*.56,340),L.length*34+22);for(const[s,c,sz]of L){text(ctx,s,w*.04,y,{size:sz,color:c,font:sz>=22?'mono':undefined});y+=sz>=22?38:30;}}
 text(ctx,'Earth from above the North Pole · turning counter-clockwise · the Sun stays to the right',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}});}
 
 /* ---------- 2 · Eratosthenes ---------- */
@@ -1164,8 +1186,15 @@ ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,R*.22,-M
 text(ctx,'center of the Earth',cx,cy-10,{size:11,align:'center',color:'#9a9382'});
 // arc between cities
 ctx.strokeStyle='#f0b35a';ctx.lineWidth=4;ctx.beginPath();ctx.arc(cx,cy,R,-Math.PI/2-th,-Math.PI/2);ctx.stroke();text(ctx,fmtI(+distIn.value)+' stadia',cx-R*1.06*Math.sin(th/2),cy-R*1.06*Math.cos(th/2)-10,{size:12,color:'#f0b35a',align:'center'});
-// Syene well
-ctx.strokeStyle='#ece6da';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(sx,sy-sl);ctx.stroke();ctx.strokeStyle='rgba(255,214,107,.9)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sx,sy-sl-40);ctx.lineTo(sx,sy+26);ctx.stroke();ctx.fillStyle='#0a0e18';ctx.fillRect(sx-7,sy,14,26);ctx.strokeStyle='#ece6da';ctx.lineWidth=1;ctx.strokeRect(sx-7,sy,14,26);text(ctx,'Syene · the Sun lights the bottom of the well',sx+14,sy-sl-6,{size:12});text(ctx,'no shadow',sx+14,sy-sl+12,{size:11,color:'#6fd48a'});
+// Syene well: a stone collar on the surface, a shaft into the ground, the noon beam reaching the water at the bottom
+const wd=Math.max(26,sl*.62),rw=Math.max(15,sl*.44);
+ctx.fillStyle='#0a0e18';ctx.beginPath();ctx.moveTo(sx-rw*.72,sy+2);ctx.lineTo(sx+rw*.72,sy+2);ctx.lineTo(sx+rw*.5,sy+wd);ctx.lineTo(sx-rw*.5,sy+wd);ctx.closePath();ctx.fill();
+ctx.strokeStyle='#6b5f47';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sx-rw*.72,sy+2);ctx.lineTo(sx-rw*.5,sy+wd);ctx.moveTo(sx+rw*.72,sy+2);ctx.lineTo(sx+rw*.5,sy+wd);ctx.stroke();
+ctx.fillStyle='rgba(255,214,107,.95)';ctx.beginPath();ctx.ellipse(sx,sy+wd,rw*.5,3.4,0,0,TAU);ctx.fill();
+ctx.strokeStyle='rgba(255,214,107,.9)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sx,sy-sl-40);ctx.lineTo(sx,sy+wd);ctx.stroke();
+ctx.fillStyle='#8a7a5c';ctx.beginPath();ctx.ellipse(sx,sy,rw,rw*.34,0,0,TAU);ctx.ellipse(sx,sy,rw*.62,rw*.19,0,0,TAU);ctx.fill('evenodd');
+ctx.strokeStyle='#cfc8ba';ctx.lineWidth=1;ctx.beginPath();ctx.ellipse(sx,sy,rw,rw*.34,0,0,TAU);ctx.stroke();ctx.beginPath();ctx.ellipse(sx,sy,rw*.62,rw*.19,0,0,TAU);ctx.stroke();
+text(ctx,'Syene · the Sun lights the bottom of the well',sx+rw+8,sy-14,{size:12});text(ctx,'no shadow · the beam reaches the water',sx+rw+8,sy+3,{size:11,color:'#6fd48a'});
 // Alexandria gnomon (radial) with shadow
 const ux=-Math.sin(th),uy=-Math.cos(th);const gx=ax+ux*sl,gy=ay+uy*sl;ctx.strokeStyle='#ece6da';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(ax,ay);ctx.lineTo(gx,gy);ctx.stroke();
 // shadow: along tangent, length = sl*tan(th), direction away from sun (sun is +y up => shadow goes toward -x... compute: tangent direction pointing away from Syene = (-cos th, sin th) in screen)
