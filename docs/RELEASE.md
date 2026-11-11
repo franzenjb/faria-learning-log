@@ -103,3 +103,11 @@ Jeff caught wrong geometry on the Gaia parallax chapter: A and B sat on the Sun�
 - Build clean (92/9/81); tests/kimi1-browser.mjs passes in local Chrome; no page errors.
 - Published source a8335ac via git-connected Vercel. Served https://faria.jbf.com/kimi1/ matches local bytes exactly (cmp). Screenshot inspected at 10 pc.
 - Remaining: Jeff's acceptance.
+
+## Kimi1 Rome Reveal Clarity Pass — November 11, 2026
+
+Jeff flagged the Rome answer as too much fine print and wanted it shown on a flat map. The two long explainer tags are now terse ("Rome's parallel runs straight into Boston", "Atlanta's · south of Gibraltar"; the pins carry the numbers). The wall-map compare button, previously Greenland-only, now appears on the Rome reveal too: the globe morphs to Mercator and Rome's gold parallel and Boston's green dashed parallel become one horizontal line with both cities sitting on it — the answer at a glance. The Greenland inflation tag stays Greenland-question-only. public/kimi1/index.html only.
+
+- Build clean (92/9/81); tests/kimi1-browser.mjs passes in local Chrome; no page errors. Screenshots inspected: Rome reveal on the globe and on the wall map.
+- Published source b7cfa8a via git-connected Vercel. Served https://faria.jbf.com/kimi1/ matches local bytes exactly (cmp).
+- Remaining: Jeff's acceptance.
