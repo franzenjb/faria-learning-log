@@ -52,7 +52,7 @@ NEW_SLIDES['Thumb to the Moon'] = {
 NEW_SLIDES['The quadrant'] = {
   h1: 'A quarter circle and a string',
   ctl: `<div class="controls">${CS.slider('qd-a', 'Tilt up to the star', 0, 90, 0.5, 34)}${CS.slider('qd-r', 'Radius of the instrument', 0.2, 2, 0.02, 0.3)}</div>
-  <div class="chips" id="qd-p"><button data-r="0.3">Hand quadrant</button><button data-r="1.94">Tycho's steel quadrant</button></div>
+  <div class="chips" id="qd-p"><button data-r="0.3">Hand quadrant</button><button data-r="1.94">Tycho's wall quadrant</button></div>
   <div class="readout" id="qd-r2"></div>`,
   fig: `<line class="hair" x1="60" y1="210" x2="940" y2="210" stroke-dasharray="5 6"/><text x="930" y="200" text-anchor="end" class="sm mu">level</text>
   <line id="qd-sight" class="red" stroke-dasharray="2 5" x1="0" y1="0" x2="0" y2="0"/>
@@ -81,9 +81,9 @@ NEW_SLIDES['The quadrant'] = {
       const t = CS.$(el, '#qd-angt'); t.setAttribute('x', ax + 112 * Math.cos(a / 2)); t.setAttribute('y', ay - 112 * Math.sin(a / 2) + 6); t.textContent = `${CS.fx(+A.value, 1)}°`;
       const rd = CS.$(el, '#qd-read'); rd.setAttribute('x', ax); rd.setAttribute('y', ay + R + 82); rd.textContent = `the string reads ${CS.fx(+A.value, 1)}°`;
       CS.$(el, '#qd-a-o').textContent = `${CS.fx(+A.value, 1)}°`;
-      const r = +Rr.value, mm = r * 1000 * D2R / 60; CS.$(el, '#qd-r-o').textContent = `${CS.fx(r, 2)} m`;
-      CS.$(el, '#qd-mm').setAttribute('x2', Math.max(1.2, mm * 3.78 * 4)); CS.$(el, '#qd-mmt').textContent = `${CS.fx(mm, 2)} mm  (shown 4 times life size)`;
-      CS.$(el, '#qd-r2').innerHTML = `<strong>Bigger arc, finer reading</strong><span>At ${CS.fx(r, 2)} m, one arcminute is ${CS.fx(mm, 2)} mm of scale. ${r > 1.5 ? 'Tycho could split that by eye. No telescope.' : 'Too small to read. That is why Tycho built big.'}</span>`;
+      const r = +Rr.value, mm = r * 1000 * D2R / 60; const ft = r * 3.2808, inch = `about 1/${Math.round(25.4 / mm)} inch`; CS.$(el, '#qd-r-o').textContent = `${CS.fx(ft, 1)} ft`;
+      CS.$(el, '#qd-mm').setAttribute('x2', Math.max(1.2, mm * 3.78 * 4)); CS.$(el, '#qd-mmt').textContent = `${inch}  (shown 4 times life size)`;
+      CS.$(el, '#qd-r2').innerHTML = `<strong>Bigger arc, finer reading</strong><span>At ${CS.fx(ft, 1)} feet, one arcminute is ${inch} of scale. ${r > 1.5 ? 'Tycho could split that by eye. No telescope.' : 'Too small to read. That is why Tycho built big.'}</span>`;
     };
     A.oninput = Rr.oninput = draw; el.querySelectorAll('#qd-p button').forEach(b => b.onclick = () => { Rr.value = b.dataset.r; draw(); }); draw();
   }
