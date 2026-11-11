@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 198" width="900" height="198" role="img">
+  <title>The same stretch, timed</title>
+  <desc>Light needs about 16 minutes 40 seconds to cross the 2 AU width of Earth's orbit; the traditional figure was about 22 minutes.</desc>
+  <rect width="900" height="198" fill="#fbf8f2"/>
+  <style>text{font-family:"Liberation Serif",Georgia,serif;fill:#22201c}.m{fill:#6b645a}.a{fill:#7a4b1e}</style>
+  <text x="24" y="34" font-size="15" class="a">Light crossing the width of Earth's orbit (about 2 AU, 299 million km)</text>
+  <text x="218" y="85" font-size="15" text-anchor="end">modern value</text>
+  <rect x="230" y="71" width="399.2" height="18" fill="#7a4b1e"/>
+  <text x="639.2" y="85" font-size="15">16 min 40 s</text>
+  <text x="218" y="135" font-size="15" text-anchor="end">traditional figure</text>
+  <rect x="230" y="121" width="528.0" height="18" fill="#a9a196"/>
+  <text x="768.0" y="135" font-size="15">about 22 min</text>
+  <line x1="230" y1="60" x2="230" y2="150" stroke="#22201c" stroke-width="1"/>
+  <text x="24" y="182" font-size="13.5" class="m">Bars to scale in seconds (998 s and 1,320 s). Same near-to-far stretch as the ruler, measured in time instead of angle.</text>
+</svg>

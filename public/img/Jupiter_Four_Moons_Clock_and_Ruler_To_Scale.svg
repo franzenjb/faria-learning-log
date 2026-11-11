@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 245" width="900" height="245" role="img">
+  <title>Jupiter's four moons as a clock and a ruler</title>
+  <desc>Io, Europa, Ganymede and Callisto at their true distances from Jupiter. Io is the clock (42.5 hours). Jupiter to Callisto, about 1.88 million km, is the ruler.</desc>
+  <rect width="900" height="245" fill="#fbf8f2"/>
+  <style>text{font-family:"Liberation Serif",Georgia,serif;fill:#22201c}.m{fill:#6b645a}.a{fill:#7a4b1e}</style>
+  <line x1="90" y1="125" x2="850" y2="125" stroke="#c8c0b4" stroke-width="1.2"/>
+  <circle cx="90" cy="125" r="27.3" fill="#8a8174"/>
+  <text x="90" y="177" font-size="15" text-anchor="middle">Jupiter</text>
+  <circle cx="251.2" cy="125" r="5" fill="#7a4b1e"/>
+  <text x="251.2" y="111" font-size="15" text-anchor="middle" class="a">Io</text>
+  <circle cx="346.6" cy="125" r="5" fill="#22201c"/>
+  <text x="346.6" y="111" font-size="15" text-anchor="middle" class="">Europa</text>
+  <circle cx="499.3" cy="125" r="5" fill="#22201c"/>
+  <text x="499.3" y="111" font-size="15" text-anchor="middle" class="">Ganymede</text>
+  <circle cx="809.9" cy="125" r="5" fill="#7a4b1e"/>
+  <text x="809.9" y="111" font-size="15" text-anchor="middle" class="a">Callisto</text>
+  <text x="251.2" y="48" font-size="15" text-anchor="middle" class="a">Clock: Io circles in about 42.5 hours;</text>
+  <text x="251.2" y="67" font-size="15" text-anchor="middle" class="a">its eclipses in Jupiter's shadow can be timed</text>
+  <line x1="251.2" y1="75" x2="251.2" y2="93" stroke="#7a4b1e" stroke-width="1"/>
+  <path d="M90 149 V155 H809.9 V149" fill="none" stroke="#7a4b1e" stroke-width="1.4"/>
+  <text x="489.9" y="177" font-size="15" text-anchor="middle" class="a">Ruler: Jupiter to Callisto, about 1.88 million km, a fixed length</text>
+  <text x="24" y="228" font-size="13.5" class="m">Distances from Jupiter are to scale, and so is Jupiter. The moon dots are enlarged so they can be seen.</text>
+</svg>

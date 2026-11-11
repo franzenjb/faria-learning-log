@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 370" width="900" height="370" role="img">
+  <title>The same ruler looks larger near and smaller far</title>
+  <desc>Callisto's greatest elongation from Jupiter is about 10 arcminutes when Earth is about 4.2 AU away and about 7 arcminutes when Earth is about 6.2 AU away.</desc>
+  <rect width="900" height="370" fill="#fbf8f2"/>
+  <style>text{font-family:"Liberation Serif",Georgia,serif;fill:#22201c}.m{fill:#6b645a}.a{fill:#7a4b1e}</style>
+  <text x="24" y="53" font-size="15" class="a">Earth near, about 4.2 AU away</text>
+  <line x1="130" y1="95" x2="748.0" y2="95" stroke="#c8c0b4" stroke-width="1"/>
+  <circle cx="130" cy="95" r="23.5" fill="#8a8174"/>
+  <text x="96.5" y="100" font-size="14" text-anchor="end">Jupiter</text>
+  <circle cx="748.0" cy="95" r="5" fill="#7a4b1e"/>
+  <text x="760.0" y="100" font-size="14">Callisto</text>
+  <path d="M130 123 V129 H748.0 V123" fill="none" stroke="#22201c" stroke-width="1.1"/>
+  <text x="439.0" y="149" font-size="15" text-anchor="middle">about 10′  (10.3′)</text>
+  <text x="24" y="193" font-size="15" class="a">Earth far, about 6.2 AU away</text>
+  <line x1="130" y1="235" x2="548.8" y2="235" stroke="#c8c0b4" stroke-width="1"/>
+  <circle cx="130" cy="235" r="15.9" fill="#8a8174"/>
+  <text x="104.1" y="240" font-size="14" text-anchor="end">Jupiter</text>
+  <circle cx="548.8" cy="235" r="5" fill="#7a4b1e"/>
+  <text x="560.8" y="240" font-size="14">Callisto</text>
+  <path d="M130 263 V269 H548.8 V263" fill="none" stroke="#22201c" stroke-width="1.1"/>
+  <text x="339.4" y="289" font-size="15" text-anchor="middle">about 7′  (7.0′)</text>
+  <text x="24" y="335" font-size="13.5" class="m">The same 1.88-million-km stick at its greatest elongation, drawn at one angular scale. Jupiter's disc is to the same scale.</text>
+  <text x="24" y="353" font-size="13.5" class="m">Rounded, idealized numbers: Jupiter at its average 5.2 AU, Earth at 1 AU.</text>
+</svg>

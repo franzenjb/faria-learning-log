@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 470" width="900" height="470" role="img">
+  <title>Earth near and far from Jupiter, with the glare zone</title>
+  <desc>Plan view. Earth on a slight ellipse around an off-centre Sun. Near side about 4.2 AU from Jupiter, far side about 6.2 AU, difference about the 2 AU width of Earth's orbit. The far side is in the Sun's glare.</desc>
+  <rect width="900" height="470" fill="#fbf8f2"/>
+  <style>text{font-family:"Liberation Serif",Georgia,serif;fill:#22201c}.m{fill:#6b645a}.a{fill:#7a4b1e}</style>
+  <path d="M684.8 423.2 A462.8 462.8 0 0 0 684.8 46.8" fill="none" stroke="#c8c0b4" stroke-width="1.2"/>
+  <text x="678.8" y="50.8" font-size="13.5" class="m" text-anchor="end">Jupiter's orbit</text>
+  <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#6b645a"/></marker></defs>
+  <path d="M737.7 202.7 A476.8 476.8 0 0 0 724.1 122.0" fill="none" stroke="#6b645a" stroke-width="1.2" marker-end="url(#ar)"/>
+  <text x="735.1" y="127.0" font-size="13.5" class="m">Jupiter moves too,</text>
+  <text x="735.1" y="144.0" font-size="13.5" class="m">about 30° a year</text>
+  <ellipse cx="254" cy="235" rx="92" ry="86" fill="none" stroke="#22201c" stroke-width="1.2"/>
+  <path d="M170.6 271.3 A92 86 0 0 1 170.6 198.7" fill="none" stroke="#e9d9c6" stroke-width="11" stroke-linecap="round"/>
+  <ellipse cx="254" cy="235" rx="92" ry="86" fill="none" stroke="#22201c" stroke-width="1.2"/>
+  <text x="20" y="44" font-size="14" class="a">Glare zone (shaded): Jupiter is</text>
+  <text x="20" y="62" font-size="14" class="a">behind the Sun and cannot be</text>
+  <text x="20" y="80" font-size="14" class="a">watched for some weeks</text>
+  <line x1="100" y1="88" x2="164.6" y2="195.7" stroke="#7a4b1e" stroke-width="0.9"/>
+  <circle cx="183.5" cy="290.3" r="4" fill="#fbf8f2" stroke="#22201c" stroke-width="1.2"/>
+  <circle cx="183.5" cy="179.7" r="4" fill="#fbf8f2" stroke="#22201c" stroke-width="1.2"/>
+  <text x="20" y="330" font-size="14">Open circles: real "far" views,</text>
+  <text x="20" y="348" font-size="14">morning or evening sky,</text>
+  <text x="20" y="366" font-size="14">a little short of 6.2 AU</text>
+  <line x1="120" y1="316" x2="180.5" y2="294.3" stroke="#22201c" stroke-width="0.8"/>
+  <line x1="162" y1="235" x2="724.8" y2="235" stroke="#c8c0b4" stroke-width="1" stroke-dasharray="4 4"/>
+  <circle cx="262" cy="235" r="10" fill="#d9a441"/>
+  <text x="262" y="265" font-size="14" text-anchor="middle">Sun</text>
+  <circle cx="162.0" cy="235.0" r="6" fill="#7a4b1e"/>
+  <circle cx="346.0" cy="235.0" r="6" fill="#7a4b1e"/>
+  <text x="354.0" y="207" font-size="14" class="a">Earth, near side</text>
+  <text x="354.0" y="223" font-size="13.5" class="m">(opposition)</text>
+  <text x="146.0" y="233" font-size="14" class="a" text-anchor="end">Earth, far side</text>
+  <text x="146.0" y="250" font-size="13.5" class="m" text-anchor="end">(conjunction)</text>
+  <circle cx="724.8" cy="235" r="12" fill="#8a8174"/>
+  <text x="744.8" y="233" font-size="15">Jupiter</text>
+  <text x="744.8" y="251" font-size="13.5" class="m">5.2 AU from the Sun</text>
+  <path d="M162 131 V125 H346 V131" fill="none" stroke="#7a4b1e" stroke-width="1.3"/>
+  <text x="254.0" y="115" font-size="14" text-anchor="middle" class="a">width of Earth's orbit, about 2 AU</text>
+  <path d="M346 294 V300 H724.8 V294" fill="none" stroke="#22201c" stroke-width="1.1"/>
+  <text x="535.4" y="320" font-size="15" text-anchor="middle">near: about 4.2 AU  (5.2 − 1)</text>
+  <path d="M162 389 V395 H724.8 V389" fill="none" stroke="#22201c" stroke-width="1.1"/>
+  <text x="503.4" y="415" font-size="15" text-anchor="middle">far: about 6.2 AU  (5.2 + 1)</text>
+  <text x="20" y="452" font-size="13.5" class="m">Plan view from above. Sun–Jupiter distance to scale. Earth's orbit is a slight ellipse with the Sun off-centre, drawn a little exaggerated.</text>
+</svg>
