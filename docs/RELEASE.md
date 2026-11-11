@@ -135,3 +135,11 @@ Jeff's complete course brief (Kimi_GIS_Course_Complete_Brief_2026-11-11) reorgan
 - Build clean (93/10/81); tests/kimi1-browser.mjs passes in local Chrome; no page errors. Screenshots inspected for all nine new scenes plus bingo. Two bugs found and fixed in testing: an ellipse() negative radius on southern-latitude rings, and a mid-transition canvas resize (transition CSS scale shrunk getBoundingClientRect) solved with a lazy self-healing resize in the new scene helper.
 - Published source 5386b80 via git-connected Vercel. Served https://faria.jbf.com/kimi1/ matches local bytes exactly (cmp).
 - Remaining: Jeff's acceptance; Day 3 scenes and Rømer slide not yet built; right sidebar of topic links from the brief not yet built; PDF-to-native-slide conversions not yet started.
+
+## Kimi1 Two-Clock Readout Precision — November 11, 2026
+
+Jeff asked whether the two clocks' minute hands should always agree; they should not, because the ship keeps local sun time, which varies continuously with longitude. The Hours slide readout now shows the full precision instead of rounding to tenths of an hour: "1 h 31 min × 15° = 22°45′ ≈ 23° east", with the terse "2 h × 15° = 30° west" when the gap is a whole hour. The arc tag between Greenwich and the ship matches the same format. public/kimi1/index.html only.
+
+- Build clean (93/10/81); tests/kimi1-browser.mjs passes in local Chrome; no page errors. Screenshot inspected: whole-hour and initial 2 pm / 30° west states.
+- Published source 7d1435e via git-connected Vercel. Served https://faria.jbf.com/kimi1/ matches local bytes exactly (cmp).
+- Remaining: Jeff's acceptance.
