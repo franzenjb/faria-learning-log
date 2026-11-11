@@ -768,18 +768,20 @@ const Q=[
  read:'<strong>Reno, by 1.6°.</strong><span>Reno sits at 119.8° W, Los Angeles at 118.2° W. The California coast bends east as it runs south, so "coastal" and "farther west" are not the same thing. The two meridians on the globe settle it.</span>'},
 {t:'Which of these American cities is closest to Rome’s latitude?',l:'Closest in latitude, not closest in miles. Place Rome on the globe in your head first.',a:['Atlanta','New York','Boston','Miami'],ok:2,cam:camFor(42,-40,1.1),
  read:'<strong>Boston, at 42.4° N. New York is 40.7°, Atlanta 33.7°, Miami 25.8°.</strong><span>Rome and Boston share a parallel and little else: oceans store heat and the Gulf Stream and westerlies carry it to Italy. Latitude is one input to climate, not the whole model.</span>'},
-{t:'Which is larger: Greenland or Africa?',l:'Trust your mental wall map first. Then check the globe.',a:['Greenland','Africa','About the same','Depends on the map'],ok:1,cam:camFor(20,-20,1.05),
- read:'<strong>Africa—about fourteen Greenlands.</strong><span>Africa covers about 11.7 million square miles; Greenland about 0.84 million. Watch Greenland slide down the globe at its true size and settle inside Africa — then compare the wall map: the globe unrolls into a Mercator map and wraps itself back. Mercator keeps compass bearings straight but greatly inflates areas near the poles, so a familiar wall map can make Greenland look comparable to Africa.</span>'}];
+{t:'How many Greenlands fit inside Africa?',l:'Trust your mental wall map. Then watch it lie.',a:['1','3','7','14'],ok:3,cam:camFor(20,-20,1.05),
+ read:'<strong>Fourteen. Africa covers about 11.7 million mi²; Greenland about 0.84 million.</strong><span>First the wall map, where Greenland looks like a rival. Then the globe: Greenland slides south at its true size and settles inside Africa. Mercator keeps angles true and inflates the poles — that is the whole trick.</span>'}];
 let qi=0,votes=[0,0,0,0],revealed=false,revealT=0;
 /* Q4 showpiece: Greenland slides down at true size, plus a Mercator wall-map split. */
-let mercOn=false,mercK=0,mercFrom=0,mercT=0;
+let mercOn=false,mercK=0,mercFrom=0,mercT=0,q4timer=0;
 const mercBtn=()=>document.getElementById('qz-merc');
 const smooth01=x=>{x=Math.max(0,Math.min(1,x));return x*x*x*(x*(x*6-15)+10);};
-const mercReset=()=>{mercOn=false;mercFrom=mercK;mercT=performance.now();const mb=mercBtn();mb.hidden=true;mb.textContent='Compare the wall map';};
+const mercReset=()=>{clearTimeout(q4timer);mercOn=false;mercFrom=mercK;mercT=performance.now();const mb=mercBtn();mb.hidden=true;mb.textContent='Compare the wall map';};
 // Greenland is the one closed 110m ring in the far-north Atlantic (lon −73…−12, lat 60…84)
 const GRING=(()=>{try{const ln=COAST.lines.find(l=>{if(l.length<200||l[0]!==l[l.length-2]||l[1]!==l[l.length-1])return false;let a=1e9,b=-1e9,d=-1e9;for(let i=0;i<l.length;i+=2){a=Math.min(a,l[i]);b=Math.max(b,l[i]);d=Math.max(d,l[i+1]);}return a<-700&&b>-150&&d>830;});const pts=[];for(let i=0;i<ln.length;i+=2)pts.push(ll(ln[i+1]/COAST.q,ln[i]/COAST.q));return pts;}catch(e){return null;}})();
 const gHome=ll(72,-40); // visual center of the ring, matching the home pin
 const gTarget=ll(6,18); // landing spot: the Congo basin, heart of Africa
+// no closed Africa ring exists at 110m (Afro-Eurasia is one open polyline), so the flat-map highlight uses a coarse mask traced just outside the coast
+const AFRICA=[[-17.5,21],[-17,32],[-10,35.5],[-5.9,36],[3,37],[11,37.5],[20,33],[30,31.8],[32.5,31.3],[34.5,27],[36,22],[38,18],[43,11.8],[51.5,12],[48,5],[41,-1.5],[40.5,-10],[40,-17],[35,-24],[32.8,-28.5],[26,-34],[18,-32.5],[12,-18],[12,-8],[9,-1],[8.5,4],[4,5.5],[-8,5],[-13,8],[-17.5,14.8]].map(([lo,la])=>ll(la,lo));
 const rotator=(a,b)=>{const ax=v3.cross(a,b),s=v3.len(ax);if(s<1e-9)return p=>p;const u=v3.mul(ax,1/s),ang=Math.acos(Math.max(-1,Math.min(1,v3.dot(a,b)))),c=Math.cos(ang),sn=Math.sin(ang);return p=>{const d=v3.dot(u,p);return [p[0]*c+(u[1]*p[2]-u[2]*p[1])*sn+u[0]*d*(1-c),p[1]*c+(u[2]*p[0]-u[0]*p[2])*sn+u[1]*d*(1-c),p[2]*c+(u[0]*p[1]-u[1]*p[0])*sn+u[2]*d*(1-c)];};};
 // slide cycle, seconds after the reveal settles: down 2.4 · hold 3.2 · home 2.2 · rest 1.7
 function gPhase(t){if(!revealed||!GRING)return 0;if(mercK>0.02)return 0;if(motionReduced||matchMedia('(prefers-reduced-motion: reduce)').matches)return 1;const s=(t-revealT-1800)/1000;if(s<=0)return 0;const c=s%9.5;if(c<2.4)return smooth01(c/2.4);if(c<5.6)return 1;if(c<7.8)return 1-smooth01((c-5.6)/2.2);return 0;}
@@ -789,8 +791,13 @@ function renderOpts(){const total=votes.reduce((a,b)=>a+b,0)||1;opts.innerHTML=Q
 opts.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(revealed)return;votes[+b.dataset.k]++;renderOpts();});}
 document.querySelectorAll('#m1q button').forEach(b=>b.onclick=()=>setQ(+b.dataset.q));
 document.getElementById('qz-reset').onclick=()=>{votes=[0,0,0,0];revealed=false;mercReset();renderOpts();read.className='readout';read.innerHTML='<strong>Votes cleared.</strong><span>Ask again.</span>';};
-document.getElementById('qz-reveal').onclick=()=>{revealed=true;revealT=performance.now();renderOpts();const q=Q[qi];read.className='readout ok';read.innerHTML=q.read;fly(st,q.cam,1800);if((qi===3&&GRING)||qi===2)mercBtn().hidden=false;};
-mercBtn().onclick=()=>{mercOn=!mercOn;mercFrom=mercK;mercT=performance.now();mercBtn().textContent=mercOn?'Back to the globe':'Compare the wall map';document.getElementById('h1q').textContent=mercOn?'The wall map · Back to the globe restores the spin':'Drag to spin · scroll to zoom · the reveal flies the globe';if(mercOn){fly(st,{yaw:camFor(0,-20,1).yaw,pitch:0,zoom:1},1600);}else{fly(st,Q[qi].cam,1600);revealT=performance.now()-1600;}};
+document.getElementById('qz-reveal').onclick=()=>{revealed=true;revealT=performance.now();renderOpts();const q=Q[qi];read.className='readout ok';read.innerHTML=q.read;
+if(qi===3&&GRING){// the trap first: flat wall map, both highlighted; then the globe answers
+mercOn=true;mercFrom=mercK;mercT=performance.now();mercBtn().textContent='Back to the globe';document.getElementById('h1q').textContent='The wall map first · the globe answers next';fly(st,{yaw:camFor(0,-20,1).yaw,pitch:0,zoom:1},1600);
+clearTimeout(q4timer);q4timer=setTimeout(()=>{mercOn=false;mercFrom=mercK;mercT=performance.now();mercBtn().textContent='Compare the wall map';document.getElementById('h1q').textContent='Drag to spin · scroll to zoom · the reveal flies the globe';fly(st,Q[3].cam,1600);revealT=performance.now();},5800);}
+else fly(st,q.cam,1800);
+if((qi===3&&GRING)||qi===2)mercBtn().hidden=false;};
+mercBtn().onclick=()=>{clearTimeout(q4timer);mercOn=!mercOn;mercFrom=mercK;mercT=performance.now();mercBtn().textContent=mercOn?'Back to the globe':'Compare the wall map';document.getElementById('h1q').textContent=mercOn?'The wall map · Back to the globe restores the spin':'Drag to spin · scroll to zoom · the reveal flies the globe';if(mercOn){fly(st,{yaw:camFor(0,-20,1).yaw,pitch:0,zoom:1},1600);}else{fly(st,Q[qi].cam,1600);revealT=performance.now()-1600;}};
 function geom(){const{w,h}=o;return{cx:w*.5,cy:h*.5,R:Math.min(w,h)*.38*st.zoom*(1-.58*mercK)};}
 function proj(p){const{cx,cy,R}=geom();const q=rot(p,st.yaw,st.pitch);
 if((qi===3||qi===2)&&mercK>0.001){const u=mercK,v=Math.max(0,1-u),vv=Math.max(.02,v);const la=Math.asin(Math.max(-1,Math.min(1,q[1]))),d=Math.atan2(q[0],q[2]);const x=R*Math.pow(Math.cos(la),v)*(v<0.02?d:Math.sin(d*vv)/vv);const y=R*(v*Math.sin(la)+u*mercY(la/DEG));return{x:cx+x,y:cy-y,z:Math.cos(d*vv)*Math.cos(la)};}
@@ -811,7 +818,8 @@ const lat1=23.13-(23.13+40)*k;arcLine(ctx,Array.from({length:60},(_,i)=>ll(23.13
 else if(qi===1){pin(ctx,'Reno · 119.8° W',C.reno,'#6fb3ff');pin(ctx,'Los Angeles · 118.2° W',C.la,'#f0b35a');if(revealed){arcLine(ctx,Array.from({length:40},(_,i)=>ll(20+30*i/39*k,-119.82)),'#6fb3ff',2.5,[6,5]);arcLine(ctx,Array.from({length:40},(_,i)=>ll(20+30*i/39*k,-118.24)),'#f0b35a',2.5,[6,5]);if(k>=1){const q=proj(ll(27,-119));if(q.z>0)tag(ctx,'Reno’s meridian is 1.6° farther west',q.x-60,q.y,'#6fb3ff',12);}}}
 else if(qi===2){pin(ctx,'Rome · 41.9° N',C.rome,'#f0b35a');pin(ctx,'Boston · 42.4° N',C.boston,'#6fd48a',-8);pin(ctx,'New York · 40.7° N',C.nyc,'#9a9382',14);pin(ctx,'Miami · 25.8° N',C.miami,'#9a9382',14);pin(ctx,'Atlanta · 33.7° N',C.atlanta,'#9a9382');if(revealed){// Rome's parallel runs west round the world; Boston's runs east. Both go all the way round.
 arcLine(ctx,Array.from({length:181},(_,i)=>ll(41.9,12.5-360*i/180*k)),'#f0b35a',3);arcLine(ctx,Array.from({length:181},(_,i)=>ll(42.36,-71.06+360*i/180*k)),'#6fd48a',2.5,[8,6]);[33.75,38.9,40.71].forEach(la=>arcLine(ctx,Array.from({length:181},(_,i)=>ll(la,-80+360*i/180*k)),'rgba(236,230,218,.18)',1));if(k>=1){const q=proj(ll(41.9,-40));if(q.z>0)tag(ctx,'Rome’s parallel runs straight into Boston',q.x-160,q.y-16,'#f0b35a',13);const q2=proj(ll(33.75,-40));if(q2.z>0)tag(ctx,'Atlanta’s · south of Gibraltar',q2.x-100,q2.y+18,'#cfc8ba',12);}}}
-else{const phase=gPhase(t),cur=!GRING||phase===0?gHome:phase===1?gTarget:slerp(gHome,gTarget,phase);
+else{if(mercK>0.5){const mf=(mercK-0.5)*2;ctx.beginPath();AFRICA.forEach((p,i)=>{const q=proj(p);i?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);});ctx.closePath();ctx.fillStyle=`rgba(111,212,138,${.14*mf})`;ctx.fill();ctx.strokeStyle=`rgba(111,212,138,${.85*mf})`;ctx.lineWidth=2;ctx.stroke();}
+const phase=gPhase(t),cur=!GRING||phase===0?gHome:phase===1?gTarget:slerp(gHome,gTarget,phase);
 if(k>.75&&GRING){arcLine(ctx,Array.from({length:40},(_,i)=>slerp(gHome,gTarget,i/39)),'rgba(236,230,218,.45)',1.5,[4,5]);}
 let verts=null;
 if(GRING){const rot=rotator(gHome,cur);verts=GRING.map(rot);const front=verts.every(p=>proj(p).z>=-0.02);
@@ -821,7 +829,7 @@ ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;ctx.stroke();}
 if(!GRING||phase<0.06){pin(ctx,'Greenland · 0.84 million mi²',C.greenland,'#f0b35a',-10);}
 else{const gp=proj(cur);if(gp.z>0&&mercK<0.3){const lbl=phase>0.97?'true size · 1/14 of Africa':'Greenland at true size · sliding south';tag(ctx,lbl,Math.max(8,Math.min(gp.x+14,w-190)),gp.y-12,'#f0b35a',12);}}
 pin(ctx,'Africa · 11.7 million mi²',C.africa,'#6fd48a',16);
-if(k>.35){const g=proj(ll(38,-18));if(g.z>0)tag(ctx,'AFRICA ≈ 14 × GREENLAND',g.x-110,g.y,'#f0b35a',15);}
+if(k>.35&&mercK<0.5){const g=proj(ll(38,-18));if(g.z>0)tag(ctx,'AFRICA ≈ 14 × GREENLAND',g.x-110,g.y,'#f0b35a',15);}
 if(mercK>0.97){text(ctx,'The globe, unrolled and stretched: Mercator keeps angles true and inflates the poles',cx,h*.94,{size:13,color:'#9a9382',align:'center'});if(qi===3){const gp=proj(gHome);tag(ctx,'Greenland here: inflated roughly tenfold by the projection',Math.max(8,gp.x-140),gp.y-64,'#f0b35a',12);}}}
 ctx.globalAlpha=1;text(ctx,`zoom ${fmt(st.zoom,1)}×`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}});}
 
@@ -2113,7 +2121,7 @@ document.getElementById('sources').onclick=openSources;addEventListener('keydown
 const NOTES={
 'Cover':['Where am I? Six stories: mental maps, Earth and sky, triangles, clocks, frames, decisions.','Press → for the menu.'],
 'Title':['Every slide is a live model. Invite the room to call out what to drag.','The order follows the six sessions of the course: mental maps, Earth and sky, triangles, clocks, frames, decisions.'],
-'Mental maps':['Vote before the reveal. Most rooms pick Peru for Havana and Los Angeles for Reno.','Follow one meridian, not your mental map. "Coastal" and "farther west" are not the same thing.','Rome and Boston share a parallel and little else: latitude is one input to climate, not a model.','Fourth vote: Greenland or Africa. Africa is about fourteen Greenlands. The point is not that maps are useless; it is that a projection chooses what to preserve and what to distort.'],
+'Mental maps':['Vote before the reveal. Most rooms pick Peru for Havana and Los Angeles for Reno.','Follow one meridian, not your mental map. "Coastal" and "farther west" are not the same thing.','Rome and Boston share a parallel and little else: latitude is one input to climate, not a model.','Fourth vote: how many Greenlands fit in Africa. The reveal shows the wall map first — the trap — then wraps back to the globe and slides Greenland south at true size. Fourteen. The point is not that maps are useless; it is that a projection chooses what to preserve and what to distort.'],
 'Latitude & Longitude':['Tap the globe to stand somewhere; the angle at your feet is the angle at the centre. Polaris is 0.7° off the pole: a guide, not the pole.','Chronometer mode: slide the clock until the Sun is highest over the ship. 1 hour = 15°. West is negative and the local clock runs behind.','One nautical mile is one minute of latitude, fixed at 1,852 m in 1929. Four seconds of clock error is a mile of longitude.'],
 'Latitude = star height':['Start at 0°: the observer’s northward horizon and the Polaris sightline coincide. Drag slowly to 40° and ask the room to watch both numbers. Finish at 90°: the star is at the zenith.','The proof is Euclidean, not Pythagorean. Horizon ⊥ radial line; equatorial plane ⊥ axis; star sightline ∥ axis. Rotating both arms of an angle through 90° preserves its measure.','The exact statement concerns the north celestial pole. Polaris is about 0.7° away, so real celestial navigation applies a correction rather than reading latitude as an unadjusted star altitude.'],
 'Hours are slices':['24 slices, one hour each, 15°. Tap a slice.','One degree is 4 minutes of time. One arcminute is 4 seconds and one nautical mile.','Time minutes are not arcminutes: a minute of time is 15 minutes of arc.'],

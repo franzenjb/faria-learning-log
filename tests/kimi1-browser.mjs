@@ -20,14 +20,17 @@ assert.match(await page.locator('#qz-title').innerText(), /Havana/);
 assert.equal(await page.locator('#qz-merc').isHidden(), true);
 await page.locator('#m1q button', {hasText: 'Greenland or Africa'}).click();
 await page.waitForTimeout(300);
-assert.match(await page.locator('#qz-title').innerText(), /Greenland or Africa/);
+assert.match(await page.locator('#qz-title').innerText(), /How many Greenlands/);
 await page.locator('#qz-opts .opt').nth(1).click();
 assert.equal(await page.locator('#qz-merc').isHidden(), true, 'wall map stays hidden until reveal');
 await page.click('#qz-reveal');
 await page.waitForTimeout(300);
 assert.equal(await page.locator('#qz-merc').isHidden(), false);
-assert.match(await page.locator('#qz-read').innerText(), /fourteen Greenlands/);
-await page.waitForTimeout(4500); // slide-down runs (1.8 s delay + 2.4 s slide)
+assert.match(await page.locator('#qz-read').innerText(), /Fourteen. Africa covers/);
+// auto choreography: reveal opens on the wall map, then wraps back to the globe by itself
+assert.match(await page.locator('#qz-merc').innerText(), /Back to the globe/);
+await page.waitForTimeout(6800); // flat hold (5.8 s) + morph back
+assert.match(await page.locator('#qz-merc').innerText(), /Compare the wall map/);
 await page.click('#qz-merc');
 await page.waitForTimeout(900);
 assert.match(await page.locator('#qz-merc').innerText(), /Back to the globe/);
@@ -57,7 +60,7 @@ await slide(2);
 await page.locator('#m1q button', {hasText: 'Greenland or Africa'}).click();
 await page.click('#qz-reveal');
 await page.waitForTimeout(500);
-assert.match(await page.locator('#qz-read').innerText(), /fourteen/);
+assert.match(await page.locator('#qz-read').innerText(), /Fourteen/);
 
 // phone layout: no horizontal overflow
 await page.emulateMedia({reducedMotion: 'no-preference'});
