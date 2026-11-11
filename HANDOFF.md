@@ -1,5 +1,9 @@
 GIT_OWNER: none
 
+# Claude1 Course Deck — 2026-11-11
+
+Claude (local Opus) polished /claude1/, the four-day GIS course deck, in PR #56 (merge 3229148): long scripts no longer push the layout off screen, canvas labels stay in frame, phone stacks, visible km replaced with miles, thumb-trick/quadrant/vector-raster scripts checked against Jeff's PDFs. New tests/claude1-browser.mjs passes locally and against https://faria.jbf.com/claude1/. /deck/, /deck/v2/, /kimi1/ untouched. Current state and open items: docs/CLAUDE1_HANDOFF.md (H3 date, Day 2 to 4 scripts, cover kicker, Jeff review).
+
 # Kimi1 Deck — 2026-11-10
 
 Update, same day: Jeff asked for more on the Greenland/Africa question. After the reveal, Greenland now detaches and slides down a great-circle path at true size (rigid sphere rotation, Rodrigues), nesting inside Africa; loops. New "Compare the wall map" button (post-reveal only) splits a Mercator panel off the globe: Greenland inflated gold, plus a dashed outline of the slid-down Greenland at true size. tests/kimi1-browser.mjs added; passes with system Chrome via PLAYWRIGHT_MODULE. /deck/ and /deck/v2/ untouched — this diverges /kimi1/ from them intentionally.
