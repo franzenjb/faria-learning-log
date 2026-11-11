@@ -1,7 +1,7 @@
 import {geometry} from './model.js';
 const $=id=>document.getElementById(id);
 const gold='#edc17e',blue='#86c5ec',muted='#a7b4c5',ink='#eeeae0';
-const num=n=>Math.abs(n-Math.round(n))<1e-8?String(Math.round(n)):n.toFixed(1);
+const num=n=>String(Math.round(n));
 const text=(s,x,y,size=15,color=muted,anchor='start')=>`<text x="${x}" y="${y}" fill="${color}" font-size="${size}" text-anchor="${anchor}" font-family="system-ui,sans-serif">${s}</text>`;
 const line=(x,y,x2,y2,color=muted,w=2,extra='')=>`<line x1="${x}" y1="${y}" x2="${x2}" y2="${y2}" stroke="${color}" stroke-width="${w}" ${extra}/>`;
 const circle=(x,y,r,color)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${color}"/>`;
@@ -16,19 +16,19 @@ s+=line(cx,cy,p.x,p.y,gold,2.5)+arc(cx,cy,66,0,-a,0)+text(`${num(m.centralAngle)
 s+=circle(cx,cy,4,muted);
 s+=line(eye.x-n.x*60,eye.y-n.y*60,eye.x+n.x*132,eye.y+n.y*132,blue,2.5)+text('Horizon',eye.x+n.x*140+12,eye.y+n.y*140+6,16,blue);
 s+=line(eye.x,eye.y,eye.x,45,gold,2,'stroke-dasharray="5 5" marker-end="url(#gold-arrow)"')+text('✦',eye.x,31,27,gold,'middle');
-s+=arc(eye.x,eye.y,48,-Math.PI/2-a,-Math.PI/2,1,gold,3);
+s+=arc(eye.x,eye.y,48,-Math.PI/2-a,-Math.PI/2,1,gold,3);if(m.latitude>=4)s+=text(`${num(m.altitude)}°`,eye.x+72*Math.cos(-Math.PI/2-a/2),eye.y+72*Math.sin(-Math.PI/2-a/2)+7,21,gold,'middle');
 // Feet, body and head follow local up, not the page.
 s+=line(p.x+n.x*10,p.y+n.y*10,p.x+u.x*14,p.y+u.y*14,ink,3)+line(p.x-n.x*10,p.y-n.y*10,p.x+u.x*14,p.y+u.y*14,ink,3)+line(p.x+u.x*14,p.y+u.y*14,p.x+u.x*28,p.y+u.y*28,ink,3)+circle(eye.x,eye.y,7,ink);
 if(details){s+=line(eye.x,eye.y,eye.x+u.x*76,eye.y+u.y*76,blue,1.5,'stroke-dasharray="4 5"')+text('Straight up',eye.x+u.x*83+7,eye.y+u.y*83,12,blue);const q=13;s+=`<path d="M${eye.x+n.x*q} ${eye.y+n.y*q} l${u.x*q} ${u.y*q} l${-n.x*q} ${-n.y*q}" fill="none" stroke="${blue}" stroke-width="1.5"/>`;s+=text('Horizon ⟂ local up',55,515,13,blue)+text('Polar axis ⟂ equator',350,515,13,blue);}
 $('earth-drawing').innerHTML=s;}
-function sky(m,details){const ox=145,oy=365,r=275,a=m.altitude*Math.PI/180,sx=ox+r*Math.cos(a),sy=oy-r*Math.sin(a);let s=`<rect x="35" y="35" width="580" height="330" rx="10" fill="url(#sky-gradient)"/><path d="M35 365H615V440H35Z" fill="#15232d"/>`;
-s+=line(55,oy,600,oy,blue,2.5)+text('Horizon',585,oy+29,17,blue,'end');
+function sky(m,details){const ox=505,oy=365,r=275,a=m.altitude*Math.PI/180,sx=ox-r*Math.cos(a),sy=oy-r*Math.sin(a);let s=`<rect x="35" y="35" width="580" height="330" rx="10" fill="url(#sky-gradient)"/><path d="M35 365H615V440H35Z" fill="#15232d"/>`;
+s+=line(55,oy,600,oy,blue,2.5)+text('Horizon',65,oy+29,17,blue,'start');
 s+=line(ox,oy,ox,55,'#536b83',1.5,'stroke-dasharray="4 6"')+text('Overhead',ox,40,16,muted,'middle');
 s+=line(ox,oy,sx,sy,gold,2.5)+text('✦',sx,sy+8,28,gold,'middle');
-const labelX=m.altitude<25?sx-8:sx+18,labelY=m.altitude<25?sy-24:sy+6;s+=text('Polaris',labelX,labelY,18,gold,m.altitude<25?'end':'start');
-s+=arc(ox,oy,65,0,-a,0)+text(`${num(m.altitude)}°`,ox+95*Math.cos(a/2),oy-95*Math.sin(a/2)-9,24,gold,'middle');
+const labelX=m.altitude<25?sx+8:sx-18,labelY=m.altitude<25?sy-24:sy+6;s+=text('Polaris',labelX,labelY,18,gold,m.altitude<25?'start':'end');
+s+=arc(ox,oy,65,Math.PI,Math.PI+a,1)+text(`${num(m.altitude)}°`,ox-95*Math.cos(a/2),oy-95*Math.sin(a/2)-9,24,gold,'middle');
 s+=circle(ox,oy,6,ink)+line(ox,oy+9,ox,oy+43,ink,4)+line(ox,oy+43,ox-12,oy+62,ink,4)+line(ox,oy+43,ox+12,oy+62,ink,4)+line(ox-16,oy+24,ox+16,oy+24,ink,4);
-if(details){s+=`<path d="M${ox+17} ${oy}v-17h-17" fill="none" stroke="${blue}" stroke-width="1.5"/>`;s+=text(`${num(m.zenithDistance)}° from straight up`,310,105,15,blue);}
+if(details){s+=`<path d="M${ox-17} ${oy}v-17h17" fill="none" stroke="${blue}" stroke-width="1.5"/>`;s+=text(`${num(m.zenithDistance)}° from straight up`,ox-20,105,15,blue,'end');}
 $('sky-drawing').innerHTML=s;}
 function turnProof(m){const turn=+$('reference-turn').value,t=turn*Math.PI/180,a=m.latitude*Math.PI/180,cx=325,cy=270,R=155;
 const ray=(angle,label,color)=>{const x=cx+R*Math.cos(angle),y=cy-R*Math.sin(angle);return line(cx,cy,x,y,color,3)+text(label,x+(Math.cos(angle)<-.1?-12:12),y-12,15,color,Math.cos(angle)<-.1?'end':'start');};
