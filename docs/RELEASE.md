@@ -111,3 +111,11 @@ Jeff flagged the Rome answer as too much fine print and wanted it shown on a fla
 - Build clean (92/9/81); tests/kimi1-browser.mjs passes in local Chrome; no page errors. Screenshots inspected: Rome reveal on the globe and on the wall map.
 - Published source b7cfa8a via git-connected Vercel. Served https://faria.jbf.com/kimi1/ matches local bytes exactly (cmp).
 - Remaining: Jeff's acceptance.
+
+## Kimi1 Greenland Question Rework — November 11, 2026
+
+Jeff redesigned the fourth quiz question: it is now "How many Greenlands fit inside Africa?" with numeric choices 1 / 3 / 7 / 14. The reveal is choreographed: it first morphs the globe into the Mercator wall map with Greenland (gold) and Africa (green) both highlighted — the trap, where they look comparable — holds, then wraps back to the globe by itself, where Greenland slides south at true size and settles inside Africa under the "AFRICA ≈ 14 × GREENLAND" tag. Africa's flat-map highlight is a coarse mask traced just outside the coast because no closed Africa ring exists in the 110m data (Afro-Eurasia is one open polyline). The answer tag stays hidden during the wall-map phase; the wall-map toggle remains available afterward. Browser test updated for the new question, readout, and auto-choreography. public/kimi1/index.html + tests/kimi1-browser.mjs.
+
+- Build clean (92/9/81); tests/kimi1-browser.mjs passes in local Chrome; no page errors. Screenshots inspected: question screen, wall-map trap with both highlighted, Greenland landed inside Africa.
+- Published source 76bcb8b via git-connected Vercel. Served https://faria.jbf.com/kimi1/ matches local bytes exactly (cmp).
+- Remaining: Jeff's acceptance.
