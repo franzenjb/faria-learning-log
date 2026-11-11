@@ -1273,7 +1273,7 @@ if(ship!==null&&zoomT<.6){const sa=rot+ship;const sp=arcPt(sa,R*.62);const hw=ho
 // arc from Greenwich to the ship: the unknown
 ctx.strokeStyle=chrono||land?'#6fd48a':'#ff7d6f';ctx.lineWidth=4;ctx.beginPath();ctx.arc(ox,oy,R*.5,-gA,-sa,hw>0);ctx.stroke();
 const ma=(gA+sa)/2+(hw>0?0:0);const mp=arcPt(hw>0?gA-Math.abs(hw)*hourA/2:gA+Math.abs(hw)*hourA/2,R*.5);
-if(chrono||land)tag(ctx,`${fmt(Math.abs(hw),1)} h = ${fmt(Math.abs(hw)*15,0)}° ${hw>=0?'west':'east'}`,mp.x-50,mp.y,'#6fd48a',15);else tag(ctx,'? hours = ? degrees',mp.x-60,mp.y,'#ff7d6f',15);
+if(chrono||land){const ah2=Math.abs(hw);let hh2=Math.floor(ah2),mm2=Math.round((ah2-hh2)*60);if(mm2===60){hh2++;mm2=0;}tag(ctx,`${hh2} h${mm2?` ${mm2} min`:''} = ${fmt(ah2*15,ah2*15%1?1:0)}° ${hw>=0?'west':'east'}`,mp.x-50,mp.y,'#6fd48a',15);}else tag(ctx,'? hours = ? degrees',mp.x-60,mp.y,'#ff7d6f',15);
 if(land){// a hill with a telescope and Jupiter above it
 ctx.fillStyle='#4a6b3a';ctx.beginPath();ctx.arc(sp.x,sp.y+10,16,Math.PI,0);ctx.fill();ctx.strokeStyle='#ece6da';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(sp.x,sp.y-4);ctx.lineTo(sp.x+16,sp.y-22);ctx.stroke();
 const jx=sp.x+46,jy=sp.y-52;ctx.fillStyle='#e8c89a';ctx.beginPath();ctx.arc(jx,jy,9,0,TAU);ctx.fill();ctx.strokeStyle='#b88a5a';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(jx-9,jy-2);ctx.lineTo(jx+9,jy-2);ctx.moveTo(jx-9,jy+3);ctx.lineTo(jx+9,jy+3);ctx.stroke();[-22,-14,13,20].forEach((d,i)=>{ctx.fillStyle=i===1?'#ff7d6f':'#ece6da';ctx.beginPath();ctx.arc(jx+d,jy,i===1?2.5:1.8,0,TAU);ctx.fill();});
@@ -1285,7 +1285,7 @@ tag(ctx,'ship · local noon',sp.x+20,sp.y+2,'#f0b35a',12);if(chrono)tag(ctx,`chr
 {const cr=Math.min(w,h)*.078,gy=cr+34,gx=w-cr-26,sx=gx-2*cr-34;
 const gT=((12+rot/TAU*24)%24+24)%24,sT=((12+(rot+ship)/TAU*24)%24+24)%24;
 clock(sx,gy,cr,sT,'ship · local sun time','#f0b35a');
-if(chrono||land){clock(gx,gy,cr,gT,land?'Greenwich · almanac':'Greenwich · chronometer','#6fd48a');tag(ctx,`${fmt(Math.abs(hw),1)} h × 15° = ${fmt(Math.abs(hw)*15,0)}° ${hw>=0?'west':'east'}`,(sx+gx)/2-88,gy+cr+46,'#6fd48a',15);}
+if(chrono||land){clock(gx,gy,cr,gT,land?'Greenwich · almanac':'Greenwich · chronometer','#6fd48a');let ah=Math.abs(hw),th=Math.floor(ah),tm=Math.round((ah-th)*60);if(tm===60){th++;tm=0;}let dg=ah*15,dd=Math.floor(dg),dm=Math.round((dg-dd)*60);if(dm===60){dd++;dm=0;}const exact=tm===0&&dm===0;tag(ctx,exact?`${th} h × 15° = ${dd}° ${hw>=0?'west':'east'}`:`${th} h ${tm} min × 15° = ${dd}°${dm?dm+'′':''} ≈ ${Math.round(dg)}° ${hw>=0?'west':'east'}`,(sx+gx)/2-(exact?88:132),gy+cr+46,'#6fd48a',15);}
 else{clock(gx,gy,cr,null,'Greenwich · unseen at sea','#ff7d6f');tag(ctx,'? h × 15° = ? °',(sx+gx)/2-72,gy+cr+46,'#ff7d6f',15);}}}
 // zoom level 1: 60 minutes in the hour, degree ticks bold
 if(zoomT>.4){const a0=rot+focus*hourA;const alpha=Math.min(1,(zoomT-.4)/.4);ctx.globalAlpha=alpha;
