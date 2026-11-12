@@ -149,10 +149,26 @@ const S=[
   T('Where am I?',960,430,150,INK,'center',P(u,.5,.6),false,500);T('And how sure am I?',960,570,96,RED,'center',P(u,.58,.68),true);
   ['Day 1 · Measure and triangulate','Day 2 · Time and precision','Day 3 · From Earth to maps','Day 4 · Error and the modern toolkit'].forEach((s,i)=>T(s,960,700+i*54,38,INK,'center',P(u,.7+i*.04,.78+i*.04)));T('faria.jbf.com/claude1',960,960,34,MUTE,'center',P(u,.88,.95),true);}}
 ];
+const SMALL = new Set('a an the and but or nor for so yet of on in to at by as up via per vs from with into onto over'.split(' '));
+function titleCase(str) {
+  const words = String(str).split(/(\s+)/); let first = true;
+  return words.map((w, i) => {
+    if (/^\s+$/.test(w) || !w) return w;
+    const prev = words.slice(0, i).join('').trim(), lastWord = !words.slice(i + 1).some(x => /\S/.test(x));
+    const afterBreak = first || /[:.?!·–—]$/.test(prev); first = false;
+    return w.split('-').map(part => {
+      const core = part.replace(/^[^A-Za-zÀ-ÿ]+/, ''); if (!core) return part;
+      if (/[A-Z].*[A-Z]|\d/.test(core) || /^[a-z]+[A-Z]/.test(core)) return part; // H4, UTM, 1/50
+      const low = core.toLowerCase(), pre = part.slice(0, part.length - core.length);
+      if (!afterBreak && !lastWord && SMALL.has(low.replace(/[^a-z]/g, ''))) return pre + low;
+      return pre + core.charAt(0).toUpperCase() + core.slice(1);
+    }).join('-');
+  }).join('');
+}
 let acc=0;S.forEach(s=>{s.t0=acc;acc+=s.d;});const TOTAL=acc;
 function render(time){const tt=cl(time,0,TOTAL-.001);let i=S.findIndex(s=>tt<s.t0+s.d);if(i<0)i=S.length-1;const s=S[i],t=tt-s.t0,u=t/s.d;
   x.setTransform(1,0,0,1,0,0);x.globalAlpha=1;x.fillStyle=PAPER;x.fillRect(0,0,W,H);x.save();s.f(u,t);x.restore();x.globalAlpha=1;x.setLineDash([]);x.lineDashOffset=0;
-  T(s.k,120,96,32,RED,'left',P(u,0,.06));if(s.h)T(s.h,120,172,66,INK,'left',P(u,.01,.08),false,500);
+  T(titleCase(s.k),120,96,32,RED,'left',P(u,0,.06));if(s.h)T(titleCase(s.h),120,172,66,INK,'left',P(u,.01,.08),false,500);
   const n=s.c.length,ci=Math.min(n-1,Math.floor(u*n)),cu=u*n-ci,ca=Math.min(P(cu,0,.12),1-P(cu,.9,1));if(i<S.length-1||ci<n-1||true){x.fillStyle='rgba(255,253,246,.86)';x.fillRect(0,972,W,70);T(s.c[ci],960,1020,40,INK,'center',ca);}
   x.fillStyle=HAIR;x.fillRect(0,H-8,W,8);x.fillStyle=RED;x.fillRect(0,H-8,W*tt/TOTAL,8);
   const f=Math.min(P(t,0,.5),1-P(t,s.d-.5,s.d));if(f<1){x.globalAlpha=1-f;x.fillStyle=PAPER;x.fillRect(0,0,W,H-8);x.globalAlpha=1;}}

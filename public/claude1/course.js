@@ -116,6 +116,23 @@ const COURSE = [
     script: ['The last slide of the course is a decision.', 'A storm is coming to Houston. You have three buildings that could be shelters.', 'Work through it in order. Where is the hazard? That is a raster, with a fuzzy edge. Where are the people? That is the census, by block. How far is each shelter? That is a buffer. Who is inside the danger? That is an overlay.', 'And at every step, how sure are we? That is day four\'s first slide.', 'Everything in these four days was one question: where am I, and how sure am I? You now have the tools to answer it for somebody else.'] }
 ];
 
+// Titles are always Title Case (Jeff's standing rule). Applied to every headline, day, chapter and index label.
+const SMALL = new Set('a an the and but or nor for so yet of on in to at by as up via per vs from with into onto over'.split(' '));
+function titleCase(str) {
+  const words = String(str).split(/(\s+)/); let first = true;
+  return words.map((w, i) => {
+    if (/^\s+$/.test(w) || !w) return w;
+    const prev = words.slice(0, i).join('').trim(), lastWord = !words.slice(i + 1).some(x => /\S/.test(x));
+    const afterBreak = first || /[:.?!·–—]$/.test(prev); first = false;
+    return w.split('-').map(part => {
+      const core = part.replace(/^[^A-Za-zÀ-ÿ]+/, ''); if (!core) return part;
+      if (/[A-Z].*[A-Z]|\d/.test(core) || /^[a-z]+[A-Z]/.test(core)) return part; // H4, UTM, 1/50
+      const low = core.toLowerCase(), pre = part.slice(0, part.length - core.length);
+      if (!afterBreak && !lastWord && SMALL.has(low.replace(/[^a-z]/g, ''))) return pre + low;
+      return pre + core.charAt(0).toUpperCase() + core.slice(1);
+    }).join('-');
+  }).join('');
+}
 (function () {
   const deck = document.getElementById('deck');
   const find = t => [...deck.querySelectorAll('.slide')].find(s => s.dataset.title === t || s.getAttribute('data-title') === t.replace(/&amp;/g, '&'));
@@ -144,6 +161,10 @@ const COURSE = [
     if (c.h1 && s.querySelector('h1')) s.querySelector('h1').textContent = c.h1;
   });
   const attic = document.createElement('div'); attic.hidden = true; document.body.appendChild(attic); deck.querySelectorAll('.slide').forEach(s => { if (!used.includes(s)) { s.classList.remove('slide'); attic.appendChild(s); } });
+  DAYS.forEach(d => { if (d) d.name = titleCase(d.name); });
+  COURSE.forEach(c => { c.label = titleCase(c.label); if (c.ch) c.ch = titleCase(c.ch); });
+  idx.querySelectorAll('.ci-day strong, .ci-day li').forEach(h => { h.textContent = titleCase(h.textContent); });
+  deck.querySelectorAll('.slide h1, .slide .kicker').forEach(h => { h.textContent = titleCase(h.textContent); });
   const live = COURSE.filter(c => c.el);
 
   /* ---- cover ---- */
