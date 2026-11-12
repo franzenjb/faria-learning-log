@@ -225,3 +225,8 @@ svg.fig .xs{font-size:20px}svg.fig .sm{font-size:24px}svg.fig .md{font-size:28px
 .controls label .row output{white-space:nowrap}
 
 .md-steps{margin:.6rem 0 0 1.1rem;padding:0;font-size:1rem;line-height:1.4}.md-steps li{margin:.35rem 0}
+
+/* Galileo's moons: the eclipse timetable stays visible */
+.slide:not(.native) .text ul#jup-moon-facts{display:block;margin-top:.8rem}
+#jup-moon-facts li{font:500 1.1rem var(--sans)}#jup-moon-facts li.hd{color:var(--accent);font-weight:600;border:0}
+#jup-moon-facts li.off{opacity:.4}
