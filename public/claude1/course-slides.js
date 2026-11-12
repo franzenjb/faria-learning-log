@@ -316,7 +316,7 @@ NEW_SLIDES['Three ways'] = {
   h1: 'Noon Is Easy. Home Time Is the Problem.',
   ctl: `<div class="btns"><button class="primary" id="tw-next">Next point</button><button id="tw-again">Start over</button></div><ol class="facts on" id="tw-list"></ol>`,
   fig: `<defs><radialGradient id="tw-e" cx=".4" cy=".35"><stop offset="0" stop-color="#2f5a8c"/><stop offset="1" stop-color="#0b1526"/></radialGradient></defs>
-  <g id="tw-sun" opacity="0"><circle cx="70" cy="230" r="46" fill="#ffd66b" opacity=".85"/><text x="70" y="168" text-anchor="middle" class="sm" fill="#ffd66b">Sun</text><path id="tw-rays" d="M120 230 H140 M120 205 L138 196 M120 255 L138 264" stroke="#ffd66b" stroke-width="3"/></g>
+  <g id="tw-sun" opacity="0"><circle cx="34" cy="230" r="20" fill="#ffd66b" opacity=".85"/><text x="34" y="196" text-anchor="middle" class="sm" fill="#ffd66b">Sun</text><path id="tw-rays" d="M60 230 H80 M58 217 L76 210 M58 243 L76 250" stroke="#ffd66b" stroke-width="3"/><text x="34" y="280" text-anchor="middle" class="xs mu">far off</text></g>
   <circle cx="300" cy="230" r="150" fill="url(#tw-e)" stroke="#3b5f8a" stroke-width="2"/><g id="tw-ticks"></g><circle cx="300" cy="230" r="5" fill="#ece6da"/>
   <g id="tw-you" opacity="0"><line x1="300" y1="230" x2="150" y2="230" stroke="#6fb3ff" stroke-width="5"/><circle cx="150" cy="230" r="9" fill="#6fb3ff"/><text x="160" y="214" class="sm" fill="#6fb3ff">you: noon</text></g>
   <g id="tw-home" opacity="0"><line id="tw-hl" x1="300" y1="230" x2="300" y2="230" stroke="#f0b35a" stroke-width="5"/><circle id="tw-hd" r="9" fill="#f0b35a"/><text id="tw-ht" class="sm" fill="#f0b35a"></text></g>
@@ -347,7 +347,7 @@ NEW_SLIDES['Three ways'] = {
       const hx = 300 + 140 * Math.cos(ang), hy = 230 + 140 * Math.sin(ang);
       const hl = CS.$(el, '#tw-hl'); hl.setAttribute('x2', hx); hl.setAttribute('y2', hy); const hd = CS.$(el, '#tw-hd'); hd.setAttribute('cx', hx); hd.setAttribute('cy', hy);
       const ht = CS.$(el, '#tw-ht'); ht.setAttribute('x', hx + 16); ht.setAttribute('y', hy + 34); ht.setAttribute('text-anchor', 'start'); ht.textContent = step >= 3 ? 'home: 2 pm' : 'home: ?';
-      CS.$(el, '#tw-gap').setAttribute('d', `M ${300 - 165} 230 A 165 165 0 0 1 ${300 + 165 * Math.cos(Math.PI - 30 * Math.PI / 180)} ${230 - 165 * Math.sin(30 * Math.PI / 180)}`);
+      { const ga = Math.PI - 30 * Math.PI / 180 * kk; CS.$(el, '#tw-gap').setAttribute('d', `M ${300 - 100} 230 A 100 100 0 0 0 ${300 + 100 * Math.cos(ga)} ${230 + 100 * Math.sin(ga)}`); }
       CS.$(el, '#tw-rays').setAttribute('opacity', .5 + .5 * Math.abs(Math.sin(t / 400)));
     });
     show();
