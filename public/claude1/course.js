@@ -276,6 +276,7 @@ function titleCase(str) {
   // detours: leave the story for a side trip (e.g. Galileo) and come straight back
   // "Want to Know More?" button: opens the lesson PDFs for this slide
   const more = document.createElement('button'); more.id = 'more-btn'; more.hidden = true; more.innerHTML = '\u{1F4C4} Want to Know More?'; visual.appendChild(more);
+  const phone = matchMedia('(max-width:860px)'); const placeMore = () => { if (phone.matches && nav) { nav.insertBefore(more, nav.lastElementChild); more.classList.add('in-nav'); } else { visual.appendChild(more); more.classList.remove('in-nav'); } }; placeMore(); phone.addEventListener('change', placeMore);
   const mp = document.createElement('div'); mp.id = 'more-panel'; mp.hidden = true; visual.appendChild(mp);
   const pdfsFor = c => (SLIDE_PDFS[c.t] || []).map(k => PDFS[k]).filter(Boolean);
   more.onclick = () => { const c = live.find(c => c.el.classList.contains('active')); const ps = c ? pdfsFor(c) : []; mp.innerHTML = `<header><h3>Want to Know More?</h3><button class="x" aria-label="Close">×</button></header><p>The full lesson behind this slide, as a PDF.</p>` + ps.map(([f, n, sz]) => `<div class="pdf"><span>${n}${sz ? ` <small>${sz}</small>` : ''}</span><a href="${PDF_DIR}${f}" target="_blank" rel="noopener">Open</a><a href="${PDF_DIR}${f}" download>Download</a></div>`).join(''); mp.hidden = false; mp.querySelector('.x').onclick = () => { mp.hidden = true; }; };
