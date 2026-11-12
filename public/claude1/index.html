@@ -336,10 +336,11 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
       <button type="button" class="on" data-moon="Callisto">Callisto</button>
     </div>
     <ul class="facts" id="jup-moon-facts">
-      <li data-moon="Io">Io · 1.77 days · 5.9 Jupiter radii</li>
-      <li data-moon="Europa">Europa · 3.55 days · 9.4 radii</li>
-      <li data-moon="Ganymede">Ganymede · 7.15 days · 15.0 radii</li>
-      <li data-moon="Callisto">Callisto · 16.69 days · 26.3 radii</li>
+      <li class="hd">Time Between Eclipses</li>
+      <li data-moon="Io"><b>Io</b> · every 1 day 18 hours</li>
+      <li data-moon="Europa"><b>Europa</b> · every 3 days 13 hours</li>
+      <li data-moon="Ganymede"><b>Ganymede</b> · every 7 days 4 hours</li>
+      <li data-moon="Callisto"><b>Callisto</b> · every 16 days 17 hours</li>
     </ul>
     </div>
     <p><small>Drag the picture to tilt it: edge-on is what Galileo saw, from above is what was really happening. Periods and distances are real; starting positions are an illustration, not an ephemeris.</small></p>
@@ -1424,7 +1425,7 @@ const gr=ctx.createRadialGradient(cx-R*.4,cy-R*.3,R*.1,cx,cy,R);gr.addColorStop(
 else{const{m,q}=it;const hidden=q.z<0&&Math.hypot(q.x-cx,q.y-cy)<R;if(hidden)continue;const mr=Math.max(3,m.r*S*.35);const g=ctx.createRadialGradient(q.x-mr*.3,q.y-mr*.3,mr*.1,q.x,q.y,mr);g.addColorStop(0,'#ffffff');g.addColorStop(1,m.c);ctx.fillStyle=g;ctx.beginPath();ctx.arc(q.x,q.y,mr,0,TAU);ctx.fill();
 // shadow on Jupiter when a moon sits between Jupiter and the Sun (Sun taken as along +z too, roughly behind Earth)
 if(q.z>0&&Math.hypot(q.x-cx,q.y-cy)<R-mr){ctx.fillStyle='rgba(0,0,0,.55)';ctx.beginPath();ctx.arc(q.x+mr*1.6,q.y+mr*.4,mr*.9,0,TAU);ctx.fill();}
-const i=moons.indexOf(m);if(jupRev)tag(ctx,m.n,q.x-m.n.length*4,q.y+mr+30+(i%2?26:0),m.c,11);}}
+const i=moons.indexOf(m);if(jupRev){const yy=q.y+mr+30+i*30;ctx.strokeStyle='rgba(236,230,218,.25)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(q.x,q.y+mr+4);ctx.lineTo(q.x,yy-14);ctx.stroke();tag(ctx,m.n,q.x-m.n.length*4,yy,m.c,11);}}}
 text(ctx,date(d),cx,h*.08,{size:16,align:'center',font:'serif',color:'#ece6da'});
 text(ctx,tilt<.3?'E':'',cx-Math.min(w,h)*.42,cy+5,{size:13,color:'#9a9382'});text(ctx,tilt<.3?'W':'',cx+Math.min(w,h)*.42-12,cy+5,{size:13,color:'#9a9382'});
 text(ctx,`tilt ${fmt(Math.abs(st.pitch)/DEG,0)}° · zoom ${fmt(st.zoom,1)}×`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}});}
