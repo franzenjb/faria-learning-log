@@ -9,7 +9,7 @@ const CS = {
   // run fn(t, dt) every frame while the slide is the active one
   tick(el, fn) { let last = 0; const loop = t => { if (el.classList.contains('active')) { fn(t, last ? Math.min(60, t - last) : 16); last = t; } else last = 0; requestAnimationFrame(loop); }; requestAnimationFrame(loop); },
   rng(seed) { let s = seed; return () => { s = (s * 1664525 + 1013904223) % 4294967296; return s / 4294967296; }; },
-  canvas(el) { const c = el.querySelector('canvas.fig'), ctx = c.getContext('2d'); const o = { c, ctx, w: 0, h: 0, fit() { const r = c.getBoundingClientRect(), d = devicePixelRatio || 1; if (!r.width) return false; if (o.w !== r.width || o.h !== r.height) { o.w = r.width; o.h = r.height; c.width = r.width * d; c.height = r.height * d; } ctx.setTransform(d, 0, 0, d, 0, 0); ctx.clearRect(0, 0, o.w, o.h); return true; } }; return o; },
+  canvas(el) { const c = el.querySelector('canvas.fig'), ctx = c.getContext('2d'); const o = { c, ctx, w: 0, h: 0, fit() { const r = c.getBoundingClientRect(), d = devicePixelRatio || 1; if (!r.width) return false; if (o.w !== r.width || o.h !== r.height || Math.abs(c.width - r.width * d) > 1) { o.w = r.width; o.h = r.height; c.width = r.width * d; c.height = r.height * d; } ctx.setTransform(d, 0, 0, d, 0, 0); ctx.clearRect(0, 0, o.w, o.h); return true; } }; return o; },
   INK: '#ece6da', RED: '#f0b35a', MUTE: '#9a9382', HAIR: '#2e3854', LAND: '#1f2a46', PAPER: '#0a0e18'
 };
 const D2R = Math.PI / 180;
