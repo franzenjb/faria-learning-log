@@ -174,3 +174,17 @@ svg.fig .xs{font-size:20px}svg.fig .sm{font-size:24px}svg.fig .md{font-size:28px
 
 #detour-back{position:absolute;right:1rem;top:1rem;z-index:20;border:0;cursor:pointer;background:var(--accent);color:#1a1206;font:600 1.15rem var(--sans);padding:.75rem 1.3rem;border-radius:.5rem;box-shadow:0 6px 24px rgba(0,0,0,.45)}
 .btns button.detour{border-color:var(--sky);color:var(--sky)}
+
+#more-btn{position:absolute;right:1rem;bottom:4rem;z-index:19;cursor:pointer;background:rgba(10,18,40,.82);color:var(--accent);border:2px solid var(--accent);font:600 1.1rem var(--sans);padding:.6rem 1.1rem;border-radius:.5rem;box-shadow:0 6px 24px rgba(0,0,0,.45)}
+#more-btn:hover{background:var(--accent);color:#1a1206}
+#more-btn[hidden],#more-panel[hidden]{display:none}
+#more-panel{position:absolute;right:1rem;bottom:7.6rem;z-index:21;width:min(34rem,calc(100% - 2rem));max-height:70%;overflow:auto;background:#0b1530;border:2px solid var(--accent);border-radius:.7rem;padding:1rem 1.2rem;box-shadow:0 12px 40px rgba(0,0,0,.6);color:#e8ecf6;font-family:var(--sans)}
+#more-panel header{display:flex;justify-content:space-between;align-items:center}
+#more-panel h3{margin:0;color:var(--accent);font-size:1.5rem}
+#more-panel .x{background:none;border:0;color:#e8ecf6;font-size:2rem;cursor:pointer;line-height:1}
+#more-panel p{margin:.3rem 0 .8rem;font-size:1.05rem;opacity:.8}
+#more-panel .pdf{display:flex;align-items:center;gap:.6rem;padding:.6rem 0;border-top:1px solid rgba(255,255,255,.12);font-size:1.15rem}
+#more-panel .pdf span{flex:1}
+#more-panel .pdf small{opacity:.6;font-size:.85rem}
+#more-panel .pdf a{color:#1a1206;background:var(--accent);text-decoration:none;font-weight:600;padding:.35rem .8rem;border-radius:.4rem;font-size:1rem}
+#more-panel .pdf a+a{background:transparent;color:var(--accent);border:1px solid var(--accent)}

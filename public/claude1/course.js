@@ -8,6 +8,58 @@ const DAYS = [
   { name: 'From Earth to maps', sub: 'Projections, vector and raster, data sources, coordinate systems.' },
   { name: 'Error and the modern toolkit', sub: 'Error propagation, buffers and overlays, then storms and shelters.' }
 ];
+// "Want to Know More?" lesson PDFs in /downloads/, keyed by slide t
+const PDF_DIR = '/downloads/';
+const PDFS = {
+  binder: ['Franzen_Complete_Lessons_Binder.pdf', 'The Complete Lessons Binder', '37 MB'],
+  deg: ['Degrees_Arcminutes_and_Arcseconds_Faria_2026-11-10.pdf', 'Degrees, Arcminutes and Arcseconds'],
+  polaris: ['Polaris_North_Star_Explained_with_Shakespeare_Sonnet_116_Faria_Lesson_2026-11-06.pdf', 'Polaris, the North Star'],
+  sidereal: ['Sidereal_Day_and_Latitude_Sailing_Faria_Lesson_2026-11-06.pdf', 'Sidereal Day and Latitude Sailing'],
+  sextant: ['Sextant_Navigation_Old_Sailors_Faria_2026-11-09.pdf', 'Sextant Navigation'],
+  bowditch: ['Nathaniel_Bowditch_Self_Taught_Navigator_Faria_Lesson_2026-11-06.pdf', 'Nathaniel Bowditch, Self-Taught Navigator'],
+  timeLon: ['Time_to_Longitude_Converting_Hours_Minutes_Seconds_to_Degrees_Faria_2026-11-07.pdf', 'Time to Longitude'],
+  chrono: ['Chronometer_Longitude_in_Plain_Language_Faria_2026-11-07.pdf', 'The Chronometer in Plain Language'],
+  galileo: ['Galileo_Jupiters_Moons_Medicean_Stars_Marius_and_Kepler_Faria_Lesson_2026-11-07.pdf', 'Galileo and Jupiter’s Moons'],
+  jupStick: ['Jupiters_Moons_as_a_Measuring_Stick_Earths_Orbit_and_the_AU_Faria_2026-11-11.pdf', 'Jupiter’s Moons as a Measuring Stick'],
+  romer: ['Romer_Io_Eclipses_Finite_Light_and_Huygens_Speed_Faria_Lesson_2026-11-07.pdf', 'Rømer, Io and the Speed of Light'],
+  trigGal: ['Trigonometry_Sine_Cosine_Tangent_Ladder_and_Galileos_Moon_Faria_2026-11-08.pdf', 'The Trig Ladder and Galileo’s Moon'],
+  sct: ['Sine_Cosine_Tangent_Ladder_Faria_2026-11-09.pdf', 'Sine, Cosine and Tangent Ladder'],
+  thumb: ['Thumb_to_Moon_Calculating_the_Moons_Diameter_Faria_Lesson_2026-11-07.pdf', 'Thumb to Moon: The Moon’s Diameter'],
+  moonUS: ['Moon_Diameter_Four_Cities_US_Map_Faria_2026-11-07.pdf', 'The Moon’s Diameter on a US Map'],
+  gaiaLad: ['Gaia_Angle_Ladder_and_Mission_Slides_Faria_2026-11-10.pdf', 'The Angle Ladder, Pinky to Gaia', '4 MB'],
+  gaia: ['Gaia_ESA_Mission_and_Map_of_the_Galaxy_Faria_2026-11-10.pdf', 'Gaia: ESA’s Map of the Galaxy'],
+  hipp: ['Hipparchus_Lunar_Parallax_Eclipse_Reports_and_Uncertainty_Faria_Lesson_2026-11-07.pdf', 'Hipparchus and Lunar Parallax'],
+  harvard: ['Harvard_Computers_Women_Who_Measured_the_Stars_Faria_Lesson_2026-11-06.pdf', 'The Harvard Computers'],
+  kepM: ['Kepler_Mars_Triangle_Method_Illustrated_Faria_Lesson_2026-11-07.pdf', 'Kepler’s Mars Triangle'],
+  kepS: ['Kepler_Mars_Triangulation_True_Scale_and_Exaggeration_Faria_Lesson_2026-11-07.pdf', 'Kepler’s Mars Triangle to Scale'],
+  v1761: ['Venus_Transits_1761_1769_Parallax_and_Expedition_Risks_Faria_Lesson_2026-11-07.pdf', 'The Venus Transits of 1761 and 1769'],
+  vTri: ['Venus_Transit_Parallax_Triangle_Faria_2026-11-07.pdf', 'The Venus Parallax Triangle'],
+  vCeph: ['Venus_Transit_to_Cepheid_Distances_Faria_Lesson_2026-11-06.pdf', 'From Venus to the Cepheids'],
+  picRod: ['Picard_Baseline_Rod_Method_Faria_2026-11-09.pdf', 'Picard’s Baseline Rods'],
+  picMap: ['Picard_1669_triangulation_map.pdf', 'Picard’s 1669 Triangulation Map', '12 MB'],
+  mdPic: ['Mason_Dixon_Picard_Connection_Sentence_Faria_2026-11-09.pdf', 'Mason, Dixon and Picard'],
+  mdGeo: ['Mason_Dixon_Survey_Geometry_Corrections_and_Indigenous_Limits_Faria_Lesson_2026-11-07.pdf', 'The Mason–Dixon Survey'],
+  mason: ['Charles_Mason_Astronomer_Transit_Observer_and_Surveyor_Faria_Lesson_2026-11-07.pdf', 'Charles Mason, Astronomer'],
+  dixon: ['Jeremiah_Dixon_Surveyor_Observer_and_Partner_Faria_Lesson_2026-11-07.pdf', 'Jeremiah Dixon, Surveyor'],
+  cook: ['Captain_James_Cook_Precision_Encounter_and_Empire_Faria_Lesson_2026-11-07.pdf', 'Captain James Cook'],
+  banks: ['Joseph_Banks_Botanist_Collections_and_Empire_Faria_Lesson_2026-11-07.pdf', 'Joseph Banks, Botanist'],
+  ships: ['Ships_of_Exploration_Endeavour_Bounty_Seahorse_and_Blighs_Launch_Faria_Lesson_2026-11-07.pdf', 'Ships of Exploration'],
+  windC: ['Wind_Force_Velocity_Squared_Curve_Faria_2026-11-08.pdf', 'Wind Force: Speed Squared'],
+  windL: ['Wind_Speed_Linear_and_Force_Quadratic_Faria_2026-11-08.pdf', 'Wind Speed vs. Wind Force'],
+  growth: ['Growth_Rates_Compared.pdf', 'Growth Rates Compared'],
+};
+const SLIDE_PDFS = {
+  'Cover': ['binder'], 'Course index': ['binder'],
+  'Baselines': ['sct', 'thumb'], 'Thumb to the Moon': ['thumb', 'moonUS', 'gaiaLad'], 'The quadrant': ['sextant', 'deg'],
+  'Latitude &amp; Longitude': ['deg', 'polaris'], 'Walk north': ['polaris', 'sidereal', 'sextant'], 'Two ships, one latitude': ['timeLon', 'sidereal'],
+  'Scilly, 1707': ['chrono'], 'The Longitude Act, 1714': ['chrono'], 'Hours are slices': ['timeLon', 'deg'], 'Longitude bingo': ['timeLon'],
+  'Three ways': ['chrono', 'timeLon', 'galileo'], 'The lunar distance': ['bowditch', 'sextant'], 'Galileo’s clock': ['galileo', 'jupStick'],
+  'Pendulum at sea': ['chrono'], 'A clock that could travel': ['chrono', 'cook'],
+  'Kepler to Halley': ['kepM', 'kepS'], 'Transit of Venus': ['v1761', 'vTri', 'vCeph'],
+  'Jupiter\'s moons': ['galileo'], 'Moon mountains': ['trigGal', 'moonUS'], 'Jupiter as a measuring stick': ['jupStick'], 'Light needs time': ['romer', 'jupStick'],
+  'Picard measures France': ['picRod', 'picMap'], 'Picard and the meter': ['picRod', 'mdPic'], 'Cook': ['cook', 'banks', 'ships'],
+  'Mason &amp; Dixon': ['mdGeo', 'mason', 'dixon', 'mdPic'], 'Gaia': ['gaia', 'gaiaLad', 'hipp', 'harvard'], 'Twice the wind': ['windC', 'windL', 'growth'],
+};
 const TOPICS = {
   '69-thumb-to-moon-calculating-the-moons-diameter': 'Thumb to Moon', '77-ladder-sine-cosine-and-tangent': 'The ladder: sine, cosine, tangent', '93-angle-ladder-pinky-to-gaia': 'The angle ladder', '95-degrees-arcminutes-arcseconds': 'Degrees, arcminutes, arcseconds',
   '74-tycho-brahe-uraniborg-and-stjerneborg': 'Tycho Brahe', '87-sextant-and-latitude-at-sea': 'The sextant', '18-eratosthenes-measures-the-earth': 'Eratosthenes', '19-shadow-stick-and-plumb-lines': 'Shadow stick and plumb lines', '20-why-sun-rays-are-parallel': 'Why the Sun\'s rays are parallel',
@@ -222,6 +274,14 @@ function titleCase(str) {
   // headlines that scenes rewrite on the fly (chapters, quiz questions) are kept in Title Case too
   setInterval(() => { document.querySelectorAll('.slide.active h1, .slide.active .kicker').forEach(h => { const t = titleCase(h.textContent); if (t !== h.textContent) h.textContent = t; }); }, 400);
   // detours: leave the story for a side trip (e.g. Galileo) and come straight back
+  // "Want to Know More?" button: opens the lesson PDFs for this slide
+  const more = document.createElement('button'); more.id = 'more-btn'; more.hidden = true; more.innerHTML = '\u{1F4C4} Want to Know More?'; visual.appendChild(more);
+  const mp = document.createElement('div'); mp.id = 'more-panel'; mp.hidden = true; visual.appendChild(mp);
+  const pdfsFor = c => (SLIDE_PDFS[c.t] || []).map(k => PDFS[k]).filter(Boolean);
+  more.onclick = () => { const c = live.find(c => c.el.classList.contains('active')); const ps = c ? pdfsFor(c) : []; mp.innerHTML = `<header><h3>Want to Know More?</h3><button class="x" aria-label="Close">×</button></header><p>The full lesson behind this slide, as a PDF.</p>` + ps.map(([f, n, sz]) => `<div class="pdf"><span>${n}${sz ? ` <small>${sz}</small>` : ''}</span><a href="${PDF_DIR}${f}" target="_blank" rel="noopener">Open</a><a href="${PDF_DIR}${f}" download>Download</a></div>`).join(''); mp.hidden = false; mp.querySelector('.x').onclick = () => { mp.hidden = true; }; };
+  const syncMore = () => { const c = live.find(c => c.el.classList.contains('active')); more.hidden = !(c && pdfsFor(c).length); mp.hidden = true; };
+  new MutationObserver(syncMore).observe(deck, { attributes: true, attributeFilter: ['class'], subtree: true });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && !mp.hidden) mp.hidden = true; });
   const back = document.createElement('button'); back.id = 'detour-back'; back.hidden = true; visual.appendChild(back); let detourFrom = null;
   document.addEventListener('click', e => { const b = e.target.closest('.detour'); if (!b) return; const from = live.findIndex(c => c.el.classList.contains('active')), to = live.findIndex(c => c.t === b.dataset.detour); if (to < 0) return; detourFrom = from; back.textContent = '\u2190 Back to ' + (b.dataset.label || live[from].label); back.hidden = false; jump(to); });
   back.onclick = () => { if (detourFrom !== null) jump(detourFrom); detourFrom = null; back.hidden = true; };
