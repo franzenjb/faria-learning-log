@@ -143,3 +143,11 @@ Jeff asked whether the two clocks' minute hands should always agree; they should
 - Build clean (93/10/81); tests/kimi1-browser.mjs passes in local Chrome; no page errors. Screenshot inspected: whole-hour and initial 2 pm / 30° west states.
 - Published source 7d1435e via git-connected Vercel. Served https://faria.jbf.com/kimi1/ matches local bytes exactly (cmp).
 - Remaining: Jeff's acceptance.
+
+## Kimi1 Cover Sentence Case — November 12, 2026
+
+Jeff's standing rule: no Title Case in titles. The cover read "Where Am I?"; it now reads "Where am I?". A sweep of every h1, h2, slide title, and canvas label found no other Title Case — proper nouns (The Longitude Act, Transit of Venus, the Galaxy) stay capitalized. The cover's presenter note was also updated from the old six-stories line to the four days. Browser test assertion updated to the new casing. public/kimi1/index.html + tests/kimi1-browser.mjs.
+
+- Build clean; tests/kimi1-browser.mjs passes in local Chrome; cover screenshot inspected.
+- Published source dcbb732 via git-connected Vercel. Served https://faria.jbf.com/kimi1/ matches local bytes exactly (cmp).
+- Remaining: Jeff's acceptance.
