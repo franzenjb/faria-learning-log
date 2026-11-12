@@ -247,8 +247,8 @@ NEW_SLIDES['Longitude bingo'] = {
       CS.$(el, '#bg-card').innerHTML = s;
     };
     CS.$(el, '#bg-call').onclick = () => { const i = Math.floor(rnd() * 5), j = Math.floor(rnd() * 5); if (sea) { hit = null; guess = [0, 1, 2, 3, 4].map(k => [k, j]); CS.$(el, '#bg-r').innerHTML = `<strong>Robert: "Somewhere on ${rows[j]}."</strong><span>The star gives him the row. Any of five squares could be yours. Nobody can shout bingo.</span>`; } else { hit = [i, j]; guess = []; CS.$(el, '#bg-r').innerHTML = `<strong>Robert: "${cols[i]}, ${rows[j].replace('°', ' degrees')}!"</strong><span>One square. Everyone in the room finds it at once.</span>`; } draw(); };
-    CS.$(el, '#bg-sea').onclick = e => { sea = !sea; hit = null; guess = []; e.target.textContent = sea ? 'Bring it back to the hall' : 'Take the card to sea'; CS.$(el, '#bg-r').innerHTML = sea ? `<strong>The ocean has no printed squares</strong><span>Until you can measure time, the column letters are blank.</span>` : `<strong>A bingo card works because the squares are labelled</strong><span>And because somebody can call them.</span>`; draw(); };
-    CS.$(el, '#bg-r').innerHTML = `<strong>A bingo card works because the squares are labelled</strong><span>And because somebody can call them.</span>`; draw();
+    CS.$(el, '#bg-sea').onclick = e => { sea = !sea; hit = null; guess = []; e.target.textContent = sea ? 'Bring it back to the hall' : 'Take the card to sea'; CS.$(el, '#bg-r').innerHTML = sea ? `<strong>The ocean has no printed squares</strong><span>Until you can measure time, the column letters are blank.</span>` : `<strong>A bingo card works because the squares are labeled</strong><span>And because somebody can call them.</span>`; draw(); };
+    CS.$(el, '#bg-r').innerHTML = `<strong>A bingo card works because the squares are labeled</strong><span>And because somebody can call them.</span>`; draw();
   }
 };
 
