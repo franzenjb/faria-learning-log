@@ -61,7 +61,7 @@ NEW_SLIDES['The quadrant'] = {
   <path id="qd-ang" class="red" fill="none" d=""/><text id="qd-angt" class="md rd"></text>
   <line id="qd-plumb" class="k" x1="0" y1="0" x2="0" y2="0" stroke-width="1.4"/><circle id="qd-bob" r="9" class="fk"/>
   <text id="qd-read" class="md" text-anchor="middle"></text>
-  <g transform="translate(640,470)"><text x="0" y="-16" class="sm mu">One arcminute on the scale, life size</text><line class="hair" x1="0" y1="0" x2="300" y2="0"/><line id="qd-mm" class="red" x1="0" y1="0" x2="10" y2="0" stroke-width="6"/><text id="qd-mmt" x="0" y="30" class="md"></text></g>`,
+  <g transform="translate(560,600)"><text x="0" y="-18" class="sm mu">One arcminute on the scale (bar 4× life size)</text><line class="hair" x1="0" y1="0" x2="300" y2="0"/><line id="qd-mm" class="red" x1="0" y1="0" x2="10" y2="0" stroke-width="6"/><text id="qd-mmt" x="0" y="32" class="md"></text></g>`,
   init(el) {
     const A = CS.$(el, '#qd-a'), Rr = CS.$(el, '#qd-r'), ax = 400, ay = 210, R = 300;
     const draw = () => {
@@ -82,10 +82,14 @@ NEW_SLIDES['The quadrant'] = {
       const rd = CS.$(el, '#qd-read'); rd.setAttribute('x', ax); rd.setAttribute('y', ay + R + 82); rd.textContent = `the string reads ${CS.fx(+A.value, 1)}°`;
       CS.$(el, '#qd-a-o').textContent = `${CS.fx(+A.value, 1)}°`;
       const r = +Rr.value, mm = r * 1000 * D2R / 60; const ft = r * 3.2808, inch = `about 1/${Math.round(25.4 / mm)} inch`; CS.$(el, '#qd-r-o').textContent = `${CS.fx(ft, 1)} ft`;
-      CS.$(el, '#qd-mm').setAttribute('x2', Math.max(1.2, mm * 3.78 * 4)); CS.$(el, '#qd-mmt').textContent = `${inch}  (shown 4 times life size)`;
+      CS.$(el, '#qd-mm').setAttribute('x2', Math.max(1.2, mm * 3.78 * 4)); CS.$(el, '#qd-mmt').textContent = inch;
       CS.$(el, '#qd-r2').innerHTML = `<strong>Bigger arc, finer reading</strong><span>At ${CS.fx(ft, 1)} feet, one arcminute is ${inch} of scale. ${r > 1.5 ? 'Tycho could split that by eye. No telescope.' : 'Too small to read. That is why Tycho built big.'}</span>`;
     };
-    A.oninput = Rr.oninput = draw; el.querySelectorAll('#qd-p button').forEach(b => b.onclick = () => { Rr.value = b.dataset.r; draw(); }); draw();
+    const PH = { '0.3': ['img/Hand_Quadrant_10th_Century_Met.jpg', 'A Hand Quadrant, 10th Century', 'Brass, small enough to hold. Sight the star through the two vanes on the left edge; a plumb line from the corner hangs across the scale. The Metropolitan Museum of Art.'],
+      '1.94': ['img/Tycho_Mural_Quadrant_1598.jpg', 'Tycho’s Wall Quadrant, Uraniborg, 1580s', 'A brass arc about 6 feet 4 inches in radius, fixed to a wall that runs north–south. The observer at right sights through a slit in the wall; an assistant reads the clock; another writes it down. Engraving from Tycho’s book, 1598.'] };
+    const stage = el.querySelector('.stage') || el; const ph = document.createElement('figure'); ph.className = 'qd-photo'; ph.hidden = true; ph.innerHTML = '<button class="x" aria-label="Close">×</button><img alt=""><figcaption><b></b><span></span></figcaption>'; stage.appendChild(ph); ph.querySelector('.x').onclick = () => { ph.hidden = true; };
+    const show = r => { const d = PH[r]; if (!d) { ph.hidden = true; return; } ph.querySelector('img').src = d[0]; ph.querySelector('img').alt = d[1]; ph.querySelector('b').textContent = d[1]; ph.querySelector('span').textContent = d[2]; ph.classList.toggle('tall', r === '1.94'); ph.hidden = false; };
+    A.oninput = draw; Rr.oninput = () => { ph.hidden = true; draw(); }; el.querySelectorAll('#qd-p button').forEach(b => b.onclick = () => { Rr.value = b.dataset.r; draw(); show(b.dataset.r); }); draw();
   }
 };
 

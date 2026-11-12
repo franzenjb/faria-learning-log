@@ -203,3 +203,12 @@ svg.fig .xs{font-size:20px}svg.fig .sm{font-size:24px}svg.fig .md{font-size:28px
 
 /* hidden cards must stay hidden even when a card style sets display:flex */
 .card[hidden]{display:none!important}
+
+/* quadrant slide: historical photo of the instrument */
+.qd-photo{position:absolute;right:1rem;top:1rem;z-index:6;margin:0;width:min(26%,22rem);background:rgba(11,21,48,.96);border:2px solid var(--accent);border-radius:.7rem;padding:.7rem;box-shadow:0 12px 40px rgba(0,0,0,.6)}
+.qd-photo[hidden]{display:none}
+.qd-photo.tall{width:min(26%,20rem)}
+.qd-photo img{width:100%;max-height:52vh;object-fit:contain;display:block;border-radius:.3rem}
+.qd-photo figcaption{margin-top:.5rem;font:400 1rem/1.35 var(--sans);color:#e8ecf6}
+.qd-photo figcaption b{display:block;color:var(--accent);font-size:1.15rem;margin-bottom:.2rem}
+.qd-photo .x{position:absolute;right:.3rem;top:.1rem;background:rgba(11,21,48,.8);border:0;color:#e8ecf6;font-size:1.8rem;line-height:1;cursor:pointer;border-radius:.3rem}
