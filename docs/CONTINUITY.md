@@ -61,3 +61,9 @@ Jeff rejected the first release's missing geometry. The revised default view inc
 
 ## Observation Images
 The lesson now serves Galileo’s 1609 manuscript studies and Astrobond’s 2019 first-quarter photograph locally, with full-size links and visible credits. Keep the photograph unchanged and retain its CC BY-SA 4.0 attribution. Source URLs and rights are in `docs/GALILEO_IMAGE_SOURCES.md`. The older image filename says ink wash, but its corrected caption identifies printed 1610 illustrations. Browser checks also decode every gallery image and check mobile layouts.
+
+## Codex Classroom Edition
+
+The [Codex classroom](https://faria.jbf.com/codex1/) lives in `public/codex1/`. Its source checkout is `/Users/jefffranzen/dev/gis-presentation-codex`; this release copies the static files from source commit `d920d40` and adjusts the continuity comment to identify this hosting repo. The Faria build copies the directory into `dist/codex1/`. Changes follow the existing Faria PR and Vercel production workflow. Verify the cover, quiz map reveals, and transition to the thumb experiment at the live path.
+
+The cover credits NASA Earth Observatory, quiz maps credit Natural Earth, and the historical illustrations are from Jeff Franzen’s November 11 course master. The notes shortcut is a presentation control. Slide text is part of the public static site.

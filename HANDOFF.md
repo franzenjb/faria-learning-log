@@ -1,5 +1,9 @@
 GIT_OWNER: none
 
+# Codex1 Course Deck — 2026-11-12
+
+Codex prepared the separately addressed [Codex classroom](https://faria.jbf.com/codex1/) from local source commit `d920d40` in `/Users/jefffranzen/dev/gis-presentation-codex`. Publish changes to this edition under `public/codex1/`. The cover leads to four map-based quiz reveals and then the thumb experiment. M opens the menu and = opens presenter notes. The public route is supplied directly for Jeff’s review.
+
 # Claude1 Course Deck — 2026-11-11
 
 Claude (local Opus) polished /claude1/, the four-day GIS course deck, in PR #56 (merge 3229148): long scripts no longer push the layout off screen, canvas labels stay in frame, phone stacks, visible km replaced with miles, thumb-trick/quadrant/vector-raster scripts checked against Jeff's PDFs. New tests/claude1-browser.mjs passes locally and against https://faria.jbf.com/claude1/. /deck/, /deck/v2/, /kimi1/ untouched. Current state and open items: docs/CLAUDE1_HANDOFF.md (H3 date, Day 2 to 4 scripts, cover kicker, Jeff review).
