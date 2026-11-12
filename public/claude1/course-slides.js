@@ -202,21 +202,29 @@ NEW_SLIDES['Scilly, 1707'] = {
 
 /* ---------- Chapter slide 4: the Longitude Act ---------- */
 NEW_SLIDES['The Longitude Act, 1714'] = {
-  h1: 'Parliament puts a price on the answer',
-  ctl: `<div class="controls">${CS.slider('la-e', 'Your clock gains each day', 0, 12, 0.1, 6)}</div><div class="readout" id="la-r"></div>`,
-  fig: `<text x="500" y="70" text-anchor="middle" class="md mu">A six-week voyage to the West Indies. How far off is your landfall?</text>
-  <g id="la-bands"></g><line class="k" x1="80" y1="330" x2="920" y2="330"/><circle cx="500" cy="330" r="10" class="land"/><text x="500" y="368" text-anchor="middle" class="sm">the island</text>
-  <g id="la-ship"><path d="M-20 0 L20 0 L13 11 L-13 11 Z" fill="#ece6da"/><line x1="0" y1="0" x2="0" y2="-28" stroke="#ece6da" stroke-width="2"/><path d="M2 -26 L18 -6 L2 -6 Z" fill="#0a0e18" stroke="#ece6da" stroke-width="1.3"/></g>
-  <text id="la-miss" class="lg rd" text-anchor="middle" y="250"></text>`,
+  h1: 'The Longitude Act, 1714',
+  ctl: `<div class="controls">${CS.slider('la-e', 'How far off is your longitude?', 0, 1.5, 0.05, 0.4)}</div><div class="readout" id="la-r"></div>`,
+  fig: `<text x="500" y="62" text-anchor="middle" class="xl">The Longitude Act, 1714</text>
+  <text x="500" y="98" text-anchor="middle" class="md mu">Find your longitude at sea, any method, and win up to £20,000.</text>
+  <g id="la-rings"></g>
+  <line id="la-gap" x1="340" y1="370" x2="340" y2="370" stroke="#ff7d6f" stroke-width="3" stroke-dasharray="7 6"/>
+  <circle cx="340" cy="370" r="9" fill="#ece6da"/><text x="340" y="402" text-anchor="middle" class="sm">the island</text>
+  <g id="la-ship"><path d="M-20 0 L20 0 L13 11 L-13 11 Z" fill="#ece6da"/><line x1="0" y1="0" x2="0" y2="-30" stroke="#ece6da" stroke-width="2.5"/><path d="M2 -28 L18 -6 L2 -6 Z" fill="#ece6da"/></g>
+  <text id="la-miss" class="lg rd" text-anchor="middle" y="150" style="display:none"></text>
+  <g id="la-key" transform="translate(680,220)"></g>
+  <text x="500" y="596" text-anchor="middle" class="sm mu">1° of longitude = 4 minutes of time.</text><text x="500" y="624" text-anchor="middle" class="sm mu">The top prize meant knowing the time to 2 minutes after weeks at sea.</text>`,
   init(el) {
-    const B = [[1, '£10,000', 'within 1°'], [2 / 3, '£15,000', 'within ⅔°'], [0.5, '£20,000', 'within ½°']], px = 380; // px per degree
-    CS.$(el, '#la-bands').innerHTML = B.map((b, i) => `<rect x="${500 - b[0] * px}" y="${395 + i * 62}" width="${2 * b[0] * px}" height="46" fill="${i === 2 ? '#f0b35a' : i === 1 ? '#7a5a30' : '#3a2f22'}"/><text x="500" y="${425 + i * 62}" text-anchor="middle" class="md" fill="${i === 2 ? '#0a0e18' : '#ece6da'}">${b[1]} · ${b[2]}</text>`).join('') + `<line class="hair" x1="500" y1="100" x2="500" y2="580" stroke-dasharray="3 5"/>`;
+    const B = [[1, '£10,000', '1°', 60, '#3a2f22'], [2 / 3, '£15,000', '⅔°', 40, '#7a5a30'], [0.5, '£20,000', '½°', 30, '#f0b35a']], px = 200, cx = 340, cy = 370;
+    CS.$(el, '#la-rings').innerHTML = B.map(b => `<circle cx="${cx}" cy="${cy}" r="${b[0] * px}" fill="${b[4]}" fill-opacity=".55" stroke="${b[4]}" stroke-width="2"/>`).join('');
     const S = CS.$(el, '#la-e'); const draw = () => {
-      const s = +S.value, tot = s * 42, deg = tot / 240, mi = deg * 69.17, x = Math.min(900, 500 + deg * px);
-      CS.$(el, '#la-ship').setAttribute('transform', `translate(${x},318)`); const m = CS.$(el, '#la-miss'); m.setAttribute('x', Math.min(820, Math.max(200, x))); m.textContent = `${CS.int(mi)} miles off`;
-      CS.$(el, '#la-e-o').textContent = `${CS.fx(s, 1)} seconds`;
-      const prize = deg <= .5 ? '£20,000' : deg <= 2 / 3 ? '£15,000' : deg <= 1 ? '£10,000' : null;
-      CS.$(el, '#la-r').innerHTML = `<strong>${prize ? prize + ' prize' : 'No prize'}</strong><span>${CS.fx(s, 1)} s a day for 42 days is ${CS.int(tot)} seconds. Four seconds of time is one arcminute, so the ship is ${CS.fx(deg, 2)}° out.</span>`;
+      const d = +S.value, mi = Math.round(d * 60), x = cx + d * px;
+      CS.$(el, '#la-ship').setAttribute('transform', `translate(${Math.min(980, x)},${cy})`);
+      const g = CS.$(el, '#la-gap'); g.setAttribute('x2', Math.min(980, x));
+      const m = CS.$(el, '#la-miss'); m.setAttribute('x', Math.min(900, Math.max(120, (cx + x) / 2))); m.textContent = d < .02 ? '' : `${mi} miles off`;
+      const won = B.filter(b => d <= b[0] + 1e-9).pop();
+      CS.$(el, '#la-key').innerHTML = B.slice().reverse().map((b, i) => { const on = won && won === b; const y = i * 96, fc = b[4] === '#f0b35a' && on ? '#1a1206' : '#ece6da'; return `<rect x="0" y="${y}" width="300" height="82" rx="8" fill="${b[4]}" fill-opacity="${on ? .95 : .35}" stroke="${on ? '#ece6da' : 'none'}" stroke-width="2"/><text x="18" y="${y + 38}" class="lg" fill="${fc}">${b[1]}</text><text x="18" y="${y + 68}" class="sm" fill="${fc}">within ${b[2]} · about ${b[3]} miles</text>`; }).join('');
+      CS.$(el, '#la-e-o').textContent = `${CS.fx(d, 2)}° · ${mi} miles`;
+      CS.$(el, '#la-r').innerHTML = `<strong>${won ? won[1] + ' prize' : 'No prize'}</strong>`;
     }; S.oninput = draw; draw();
   }
 };
