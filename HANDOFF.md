@@ -1,8 +1,6 @@
 GIT_OWNER: none
 
-# Codex1 Course Deck — 2026-11-12
-
-Codex prepared the separately addressed [Codex classroom](https://faria.jbf.com/codex1/) from local source commit `d920d40` in `/Users/jefffranzen/dev/gis-presentation-codex`. Publish changes to this edition under `public/codex1/`. The cover leads to four map-based quiz reveals and then the thumb experiment. M opens the menu and = opens presenter notes. The public route is supplied directly for Jeff’s review.
+On November 12, Jeff retired the Codex classroom. For the Faria course decks, Codex is limited to suggestions on the Kimi and Claude editions.
 
 # Claude1 Course Deck — 2026-11-11
 
