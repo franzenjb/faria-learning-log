@@ -200,3 +200,6 @@ svg.fig .xs{font-size:20px}svg.fig .sm{font-size:24px}svg.fig .md{font-size:28px
   #more-panel{bottom:4.4rem!important}
   #more-panel{position:fixed;left:.8rem;right:.8rem;width:auto;bottom:7.4rem;max-height:70vh}
 }
+
+/* hidden cards must stay hidden even when a card style sets display:flex */
+.card[hidden]{display:none!important}
