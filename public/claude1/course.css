@@ -109,3 +109,17 @@ svg.fig .pick{cursor:pointer}
   .slide{grid-template-columns:1fr}.text{border-right:0}
   .stage svg.fig,.stage canvas.fig{position:relative;height:60vh}
 }
+
+/* speaker notes hidden by default; the ☰-row button toggles them */
+#jeff{display:none}#shell.notes-on #jeff{display:flex}
+#shell{grid-template-columns:auto minmax(15rem,22rem) minmax(0,1fr) auto}
+#shell:not(.notes-on){grid-template-columns:auto minmax(0,1fr) auto}
+#notes-tog{all:unset;cursor:pointer;width:2.6rem;height:2.6rem;display:grid;place-items:center;font-size:1rem;color:var(--muted);position:absolute;top:2.6rem;left:0}
+#notes-tog:hover,#shell.notes-on #notes-tog{color:var(--accent)}
+#shell.ls-open #notes-tog{display:none}
+/* one combined column: a narrow control strip beside a big picture */
+.slide{grid-template-columns:minmax(190px,16rem) 1fr}
+.text{padding:1.2rem 1rem 4rem 1.1rem}
+.text h1{font-size:1.4rem}
+.readout span:not(.big){display:none}
+.readout .big{font-size:1.25rem}
