@@ -197,7 +197,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
       <div class="chips" id="globe-toggles">
         <button data-k="lat" class="on">Latitude</button><button data-k="lon" class="on">Longitude</button><button data-k="grid" class="on">Grid</button><button id="bingo-open">Bingo Card</button><button data-k="polaris" class="on">Polaris</button><button data-k="crux">Southern Cross</button><button data-k="idl">Date Line</button><button data-k="cities" class="on">Places</button>
       </div>
-      <div id="bingo-panel" hidden><p class="bingo-h">Call a row</p><div class="chips" id="bingo-rows"></div><p class="bingo-h">Call a column</p><div class="chips" id="bingo-cols"></div><div class="btns"><button id="bingo-pin">Pin 23° N, 82° W</button><button id="bingo-clear">Clear calls</button><button class="primary" id="bingo-close">Close card</button></div></div>
+      <div id="bingo-panel" hidden><p class="bingo-h">Call a Row (Latitude)</p><div class="chips" id="bingo-rows"></div><p class="bingo-h">Call a Column (Longitude)</p><div class="chips" id="bingo-cols"></div><div class="btns"><button id="bingo-pin">Pin 23° N, 82° W</button><button id="bingo-clear">Clear calls</button><button class="primary" id="bingo-close">Close card</button></div></div>
       <div class="btns"><button class="primary" id="fly-north">Look up at Polaris</button><button id="fly-crux">Fly to the Southern Cross</button><button id="fly-idl">Fly to the Date Line</button><button id="fly-nm">One nautical mile</button><button id="globe-reset">Reset view</button></div>
       <p><a href="/polaris/" style="display:inline-block;padding:.65rem .9rem;border:1px solid var(--accent);border-radius:.4rem;color:var(--accent);font:500 .85rem var(--sans);text-decoration:none">Walk north: why both angles match ↗</a></p>
       <div class="readout" id="globe-read"><strong>Tap the globe to place yourself.</strong><span>Drag to spin · pinch or scroll to zoom</span></div>
@@ -754,7 +754,7 @@ const T=bingo.rows[0][1],L=bingo.cols[0][0];
 bingo.cols.forEach((cb,j)=>{quad(T,T+9,cb[0],cb[1],'rgba(178,34,34,.82)','rgba(255,250,235,.9)');const q=proj(ll(T+4.5,(cb[0]+cb[1])/2));if(q.z>0){ctx.font='800 '+fsz(ctx,22)+'px Georgia,serif';ctx.fillStyle='#fffaf0';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('BINGO'[j],q.x,q.y);ctx.textBaseline='alphabetic';}});
 bingo.rows.forEach((rb,i)=>bingo.cols.forEach((cb,j)=>{const row=i===bingo.r,col=j===bingo.c;quad(rb[0],rb[1],cb[0],cb[1],row?'rgba(240,179,90,.42)':col?'rgba(111,179,255,.45)':'rgba(255,250,235,.16)','rgba(255,250,235,.85)');
 const q=proj(ll((rb[0]+rb[1])/2,(cb[0]+cb[1])/2));if(q.z<=0)return;
-if(i===2&&j===2&&!(row&&col)){ctx.font='700 '+fsz(ctx,11)+'px Georgia,serif';ctx.fillStyle='rgba(255,250,235,.9)';ctx.textAlign='center';ctx.fillText('FREE',q.x,q.y+4);}
+
 if(row&&col){const e=proj(ll((rb[0]+rb[1])/2,cb[1])),rr=Math.max(10,Math.abs(e.x-q.x)*.85);ctx.fillStyle='rgba(220,40,60,.62)';ctx.beginPath();ctx.arc(q.x,q.y,rr,0,TAU);ctx.fill();ctx.strokeStyle='rgba(255,120,130,.9)';ctx.lineWidth=2;ctx.stroke();}}));
 bingo.rows.forEach((rb,i)=>{const q=proj(ll((rb[0]+rb[1])/2,L-1.5));if(q.z>0)tag(ctx,document.querySelectorAll('#bingo-rows button')[i].textContent,q.x-150,q.y+5,i===bingo.r?'#f0b35a':'#ece6da',12);});
 
