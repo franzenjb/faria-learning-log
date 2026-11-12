@@ -158,3 +158,6 @@ svg.fig .xs{font-size:20px}svg.fig .sm{font-size:24px}svg.fig .md{font-size:28px
 .ci-n{font-size:clamp(2.6rem,4vw,3.8rem);line-height:1;font-weight:500}
 .ci-day strong{font-size:clamp(1.6rem,2.2vw,2.2rem)}
 .ci-n small{font-size:.45em;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-right:.2em;vertical-align:middle}
+
+#bingo-panel{border:1px solid var(--line);border-radius:.6rem;padding:.6rem .7rem;margin:.4rem 0 .8rem;background:rgba(17,23,39,.7)}
+.bingo-h{margin:.2rem 0 .3rem!important;font-size:.95rem;color:var(--muted)!important;display:block!important}
