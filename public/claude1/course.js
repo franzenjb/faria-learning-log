@@ -288,7 +288,8 @@ function titleCase(str) {
   back.onclick = () => { if (detourFrom !== null) jump(detourFrom); detourFrom = null; back.hidden = true; };
   new MutationObserver(sync).observe(deck, { attributes: true, attributeFilter: ['class'], subtree: true });
   addEventListener('load', () => { for (const def of Object.values(NEW_SLIDES)) { try { def.init(def._el); } catch (e) { console.error('course slide failed', def.h1, e); } } sync(); relayout(); });
-  // occasional fun: the hyperdrive jump plays only when moving forward into a new day
-  window.FX_PICK = (prev, target) => { if (target <= prev) return null; const i = live.findIndex(c => c.el === document.querySelectorAll('.slide')[target]); if (i < 1) return null; return live[i].day >= 1 && live[i].day !== live[i - 1].day ? 'hyperdrive' : null; };
+  // occasional fun: the warp (stars rush outward, slide racks into focus) plays only
+  // from the cover into the course index, and when moving forward into a new day
+  window.FX_PICK = (prev, target) => { if (target <= prev) return null; const i = live.findIndex(c => c.el === document.querySelectorAll('.slide')[target]); if (i < 1) return null; return live[i].day !== live[i - 1].day || live[i - 1].t === 'Cover' ? 'warp' : null; };
   window.COURSE_LIVE = live;
 })();
