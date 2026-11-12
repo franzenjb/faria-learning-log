@@ -1118,37 +1118,33 @@ setCh(0);
 const lerp=(a,b,k)=>a+(b-a)*k;
 scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);const dt=last?(t-last)/1000:0;last=t;if(playing){T=Math.min(1,T+dt/([8,8,14,16,10,6][ch]));if(T>=1){playing=false;playB.textContent='Replay';}}
 if(ch===0)drawErato(ctx,w,h,T);else if(ch===1)drawBase(ctx,w,h,T);else if(ch===2)drawTurn(ctx,w,h,T);else if(ch===3)drawChain(ctx,w,h,T,false);else if(ch===4)drawMeridian(ctx,w,h,T);else drawFrance(ctx,w,h,T);}});
-function drawErato(ctx,w,h,T){// Syene at the top under a vertical Sun; Alexandria to the left with its stick and 7.2° shadow
-const R=Math.min(w*.2,h*.3),cx=w*.3,cy=h*.2+R*1.05;const E=4;// wedge drawn 4x wider so it can be seen
-ctx.fillStyle='#f4eedb';ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();ctx.strokeStyle='#6b6763';ctx.lineWidth=2;ctx.stroke();
-const aS=-Math.PI/2,aA=aS-7.2*DEG*E,S={x:cx,y:cy-R},A={x:cx+R*Math.cos(aA),y:cy+R*Math.sin(aA)};
-// sunlight: parallel, straight down, wider than the Earth
-const k1=Math.min(1,T*2),top=h*.04,n=13,span=R*1.35;for(let i=0;i<n;i++){const x=cx-span+2*span*i/(n-1),dx=x-cx,hit=Math.abs(dx)<R?cy-Math.sqrt(R*R-dx*dx):cy;const y1=lerp(top,hit,k1);ctx.strokeStyle='rgba(178,31,36,.5)';ctx.lineWidth=1.4;ctx.setLineDash([7,6]);ctx.beginPath();ctx.moveTo(x,top);ctx.lineTo(x,y1);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='rgba(178,31,36,.6)';ctx.beginPath();ctx.moveTo(x,y1+1);ctx.lineTo(x-4,y1-7);ctx.lineTo(x+4,y1-7);ctx.closePath();ctx.fill();}
-text(ctx,'Sunlight arrives in parallel lines',cx+span+10,top+14,{size:13,color:'#b21f24'});
-// the well at Syene: stone ring, dark shaft, sunlight reaching the water
-const ww=26,wh=40;ctx.fillStyle='#2c2923';ctx.fillRect(S.x-ww/2+4,S.y-6,ww-8,wh);ctx.fillStyle='#b21f24';ctx.fillRect(S.x-3,S.y-6,6,wh-6);ctx.fillStyle='#e9c46a';ctx.fillRect(S.x-ww/2+4,S.y+wh-12,ww-8,6);
-ctx.fillStyle='#d8d2c4';ctx.strokeStyle='#2c2923';ctx.lineWidth=1.5;for(const sx of[-1,1]){ctx.fillRect(S.x+sx*ww/2-(sx>0?6:0),S.y-14,6,wh+8);ctx.strokeRect(S.x+sx*ww/2-(sx>0?6:0),S.y-14,6,wh+8);}
-ctx.beginPath();ctx.ellipse(S.x,S.y-14,ww/2+1,5,0,0,TAU);ctx.fillStyle='#d8d2c4';ctx.fill();ctx.stroke();
-text(ctx,'Syene · the well',S.x+ww/2+12,S.y-14,{size:14,color:'#2c2923'});text(ctx,'Sun straight overhead · no shadow',S.x+ww/2+12,S.y+4,{size:12,color:'#6b6763'});
-// the stick at Alexandria, standing straight up from its own ground
-const ux=Math.cos(aA),uy=Math.sin(aA),gl=R*.42,G={x:A.x+ux*gl,y:A.y+uy*gl};ctx.strokeStyle='#2c2923';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(A.x,A.y);ctx.lineTo(G.x,G.y);ctx.stroke();
-if(k1>=1){const tx=-uy,ty=ux,sgn=tx<0?1:-1,s=(G.x-A.x)/(tx*sgn===0?1e-6:tx*sgn),Sh={x:A.x+tx*sgn*s,y:A.y+ty*sgn*s};
-ctx.strokeStyle='#2c2923';ctx.lineWidth=7;ctx.globalAlpha=.55;ctx.beginPath();ctx.moveTo(A.x,A.y);ctx.lineTo(Sh.x,Sh.y);ctx.stroke();ctx.globalAlpha=1;
-ctx.strokeStyle='#b21f24';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(G.x,G.y-34);ctx.lineTo(Sh.x,Sh.y);ctx.stroke();
-const a0=Math.atan2(A.y-G.y,A.x-G.x),a1=Math.PI/2;ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(G.x,G.y,22,Math.min(a0,a1),Math.max(a0,a1));ctx.stroke();
-text(ctx,'7.2°',G.x+8,G.y+36,{size:15,color:'#b21f24',weight:600});text(ctx,'Alexandria · stick and shadow',Sh.x-12,Sh.y+22,{size:14,color:'#2c2923',align:'right'});}
-// the same 7.2° at the centre of the Earth
-if(T>.45){const k=Math.min(1,(T-.45)*3);ctx.strokeStyle='#557d60';ctx.lineWidth=2;ctx.setLineDash([5,6]);ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(S.x,S.y);ctx.moveTo(cx,cy);ctx.lineTo(lerp(cx,A.x,k),lerp(cy,A.y,k));ctx.stroke();ctx.setLineDash([]);ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(cx,cy,R*.28,aA,aS);ctx.stroke();text(ctx,'the same 7.2°',cx-R*.2,cy-R*.36,{size:13,color:'#557d60',align:'right'});text(ctx,'centre of the Earth',cx,cy+18,{size:12,color:'#6b6763',align:'center'});}
+function drawErato(ctx,w,h,T){// close-up of the top of the Earth: the well at Syene under a vertical Sun, the stick at Alexandria to its left
+const E=3,R=w*.9,cx=w*.47,cy=h*.3+R,aS=-Math.PI/2,aA=aS-7.2*DEG*E,S={x:cx,y:cy-R},A={x:cx+R*Math.cos(aA),y:cy+R*Math.sin(aA)};
+ctx.fillStyle='#f4eedb';ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();ctx.strokeStyle='#6b6763';ctx.lineWidth=2.5;ctx.stroke();
+// sunlight: parallel, straight down, across the whole view
+const k1=Math.min(1,T*2),top=h*.03,n=17;for(let i=0;i<n;i++){const x=w*(i+.5)/n,dx=x-cx,hit=cy-Math.sqrt(Math.max(0,R*R-dx*dx)),y1=lerp(top,hit,k1);ctx.strokeStyle='rgba(178,31,36,.45)';ctx.lineWidth=1.5;ctx.setLineDash([9,7]);ctx.beginPath();ctx.moveTo(x,top);ctx.lineTo(x,y1);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='rgba(178,31,36,.55)';ctx.beginPath();ctx.moveTo(x,y1);ctx.lineTo(x-5,y1-9);ctx.lineTo(x+5,y1-9);ctx.closePath();ctx.fill();}
+// lines to the centre of the Earth, far below
+if(T>.45){const k=Math.min(1,(T-.45)*3),L=h;ctx.strokeStyle='#557d60';ctx.lineWidth=2;ctx.setLineDash([6,7]);for(const P of[S,A]){const ux=(cx-P.x)/R,uy=(cy-P.y)/R;ctx.beginPath();ctx.moveTo(P.x,P.y);ctx.lineTo(P.x+ux*L*k,P.y+uy*L*k);ctx.stroke();}ctx.setLineDash([]);}
 // the walk between them
-const k2=Math.min(1,T*1.6);ctx.strokeStyle='#a91e22';ctx.lineWidth=5;ctx.beginPath();ctx.arc(cx,cy,R+1,aS,aS+(aA-aS)*k2,true);ctx.stroke();
-const pm=(aS+aA)/2;tag(ctx,`${fmtI(500*k2)} miles · walked and counted`,cx+(R+64)*Math.cos(pm)-40,cy+(R+64)*Math.sin(pm),'#a91e22',14);
-// right panel
-const px=w*.6,py=h*.3;text(ctx,'7.2° is 1/50 of a circle',px,py,{size:16,color:'#2c2923'});
-if(T>.6)text(ctx,'500 miles × 50 = 25,000 miles around',px,py+36,{size:17,color:'#b21f24',weight:600});
-if(T>.75){text(ctx,'True distance around: 24,860 miles',px,py+70,{size:14,color:'#2c2923'});
-const bx=px,by=py+110,bw=w*.3;ctx.fillStyle='rgba(169,30,34,.16)';ctx.fillRect(bx,by,bw,20);const X=v=>bx+bw*(v-24000)/5000;ctx.fillStyle='#2c2923';ctx.fillRect(X(24860)-1,by-6,2,32);ctx.fillStyle='#a91e22';ctx.fillRect(X(25000)-1,by-6,3,32);text(ctx,'24,000',bx,by+40,{size:11,color:'#817e78'});text(ctx,'29,000 mi',bx+bw,by+40,{size:11,color:'#817e78',align:'right'});text(ctx,'his range, if the walk was off',bx+bw/2,by-12,{size:11,color:'#817e78',align:'center'});
-text(ctx,'The angle was good.',px,by+76,{size:14,color:'#4a4742'});text(ctx,'The walked distance was the rough part.',px,by+98,{size:14,color:'#4a4742'});}
-text(ctx,'Alexandria, about 240 BC · the 7.2° wedge is drawn 4 times wider so you can see it',w*.5,h-54,{size:12,color:'#817e78',align:'center'});}
+const k2=Math.min(1,T*1.6);ctx.strokeStyle='#a91e22';ctx.lineWidth=7;ctx.beginPath();ctx.arc(cx,cy,R,aS,aS+(aA-aS)*k2,true);ctx.stroke();
+const pm=(aS+aA)/2;text(ctx,`${fmtI(500*k2)} miles, walked and counted`,cx+(R+26)*Math.cos(pm),cy+(R+26)*Math.sin(pm),{size:20,color:'#a91e22',align:'center',weight:600});
+// the well
+const ww=50,wh=80;ctx.fillStyle='#2c2923';ctx.fillRect(S.x-ww/2+8,S.y-4,ww-16,wh);ctx.fillStyle='rgba(178,31,36,.85)';ctx.fillRect(S.x-3,S.y-4,6,wh-10);ctx.fillStyle='#e9c46a';ctx.fillRect(S.x-ww/2+8,S.y+wh-14,ww-16,10);
+ctx.fillStyle='#d8d2c4';ctx.strokeStyle='#2c2923';ctx.lineWidth=2;for(const sx of[-1,1]){const x0=sx<0?S.x-ww/2:S.x+ww/2-10;ctx.fillRect(x0,S.y-22,10,wh+20);ctx.strokeRect(x0,S.y-22,10,wh+20);}
+ctx.beginPath();ctx.ellipse(S.x,S.y-22,ww/2+1,8,0,0,TAU);ctx.fill();ctx.stroke();
+text(ctx,'Syene: the well',S.x+ww/2+16,S.y-20,{size:22,color:'#2c2923',weight:600});text(ctx,'Sun straight overhead. No shadow.',S.x+ww/2+16,S.y+6,{size:16,color:'#6b6763'});
+// the stick and its shadow at Alexandria
+const ux=Math.cos(aA),uy=Math.sin(aA),gl=h*.2,G={x:A.x+ux*gl,y:A.y+uy*gl};
+if(k1>=1){const tx=uy,ty=-ux,s=(G.x-A.x)/tx,Sh={x:A.x+tx*s,y:A.y+ty*s};ctx.strokeStyle='#2c2923';ctx.globalAlpha=.5;ctx.lineWidth=10;ctx.beginPath();ctx.moveTo(A.x,A.y);ctx.lineTo(Sh.x,Sh.y);ctx.stroke();ctx.globalAlpha=1;
+ctx.strokeStyle='#b21f24';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(G.x,G.y);ctx.lineTo(Sh.x,Sh.y);ctx.stroke();
+const a0=Math.atan2(A.y-G.y,A.x-G.x),a1=Math.atan2(Sh.y-G.y,Sh.x-G.x);ctx.lineWidth=3;ctx.beginPath();ctx.arc(G.x,G.y,46,Math.min(a0,a1),Math.max(a0,a1));ctx.stroke();
+text(ctx,'7.2°',G.x+6,G.y+76,{size:26,color:'#b21f24',weight:700});text(ctx,'shadow',Sh.x-6,Sh.y+28,{size:16,color:'#6b6763',align:'right'});}
+ctx.strokeStyle='#2c2923';ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(A.x,A.y);ctx.lineTo(G.x,G.y);ctx.stroke();
+text(ctx,'Alexandria: a stick',G.x+14,G.y-8,{size:22,color:'#2c2923',weight:600});
+// the sum, written on the Earth
+const py=h*.66;if(T>.55){text(ctx,'7.2° is 1/50 of a circle, so',w*.5,py,{size:24,color:'#2c2923',align:'center'});text(ctx,'500 miles × 50 = 25,000 miles around',w*.5,py+50,{size:38,color:'#b21f24',align:'center',weight:700});}
+if(T>.75)text(ctx,'True figure: 24,860 miles. The angle was good. The walk was the rough part.',w*.5,py+96,{size:18,color:'#4a4742',align:'center'});
+if(T>.45)text(ctx,'both green lines meet at the centre of the Earth, at the same 7.2°',w*.5,h-60,{size:15,color:'#557d60',align:'center'});}
 function drawTurn(ctx,w,h,T){// plan view: baseline Villejuif–Juvisy, the quadrant swings to Montlhéry castle, then on to Brie church, then the next steeple
 const V={x:w*.2,y:h*.42},J={x:w*.46,y:h*.58},M={x:w*.42,y:h*.2},B={x:w*.72,y:h*.3},D={x:w*.9,y:h*.6};
 const marks=[[V,'Villejuif · windmill',0],[J,'Juvisy · post',0],[M,'Montlhéry · castle tower',1],[B,'Brie-Comte-Robert · church',2],[D,'next steeple',3]];

@@ -151,7 +151,7 @@ const COURSE = [
 
   /* ---- shell: index | Jeff's script | visuals | topics ---- */
   const nav = document.querySelector('nav.nav'), shell = document.createElement('div'); shell.id = 'shell';
-  shell.innerHTML = `<aside id="lside"><button id="ls-tog" title="Slide index (I)" aria-label="Slide index">☰</button><div id="ls-panel"><h2>Where Am I?</h2><ol id="ls-list"></ol></div></aside>
+  shell.innerHTML = `<aside id="lside"><button id="ls-tog" title="Slide index (I)" aria-label="Slide index">☰</button><button id="notes-tog" title="Speaker notes (N)" aria-label="Speaker notes">✎</button><div id="ls-panel"><h2>Where Am I?</h2><ol id="ls-list"></ol></div></aside>
   <section id="jeff"><header><span class="who">Jeff · script</span><span id="jf-pos"></span><span class="sz"><button id="jf-minus" title="Smaller type">A−</button><button id="jf-plus" title="Larger type">A+</button></span></header><h2 id="jf-title"></h2><div id="jf-script"></div><footer><span>Next: <b id="jf-next"></b></span><span class="clk"><span id="jf-clock">00:00</span><button id="jf-reset" title="Restart the segment clock">reset</button></span></footer></section>
   <main id="visual"></main>
   <aside id="rside"><button id="rs-tog" title="Topic pages (T)" aria-label="Topic pages">❯</button><div id="rs-panel"><h2>Faria topics</h2><div id="rs-list"></div></div></aside>`;
@@ -169,6 +169,8 @@ const COURSE = [
   const store = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } };
   const setL = on => { shell.classList.toggle('ls-open', on); store('c1-ls', on ? '1' : '0'); setTimeout(relayout, 260); };
   const setR = on => { shell.classList.toggle('rs-shut', !on); shell.querySelector('#rs-tog').textContent = on ? '❯' : '❮'; store('c1-rs', on ? '1' : '0'); setTimeout(relayout, 260); };
+  const setN = on => { shell.classList.toggle('notes-on', on); store('c1-notes', on ? '1' : '0'); setTimeout(relayout, 60); };
+  shell.querySelector('#notes-tog').onclick = () => setN(!shell.classList.contains('notes-on')); if (store('c1-notes') === '1') shell.classList.add('notes-on');
   shell.querySelector('#ls-tog').onclick = () => setL(!shell.classList.contains('ls-open'));
   shell.querySelector('#rs-tog').onclick = () => setR(shell.classList.contains('rs-shut'));
   if (store('c1-ls') === '1') shell.classList.add('ls-open'); if (store('c1-rs') === '0') { shell.classList.add('rs-shut'); shell.querySelector('#rs-tog').textContent = '❮'; }
@@ -183,7 +185,7 @@ const COURSE = [
   const openTopic = slug => { tv.querySelector('iframe').src = `/topics/${slug}/`; tv.hidden = false; tv.querySelector('#tv-back').focus(); };
   const closeTopic = () => { tv.hidden = true; tv.querySelector('iframe').src = 'about:blank'; };
   tv.querySelector('#tv-back').onclick = closeTopic;
-  addEventListener('keydown', e => { if (!tv.hidden) { e.stopImmediatePropagation(); if (e.key === 'Escape' || e.key === 'Backspace') closeTopic(); return; } if (e.target.matches && e.target.matches('input,textarea')) return; const k = e.key.toLowerCase(); if (k === 'i') setL(!shell.classList.contains('ls-open')); if (k === 't') setR(shell.classList.contains('rs-shut')); }, true);
+  addEventListener('keydown', e => { if (!tv.hidden) { e.stopImmediatePropagation(); if (e.key === 'Escape' || e.key === 'Backspace') closeTopic(); return; } if (e.target.matches && e.target.matches('input,textarea')) return; const k = e.key.toLowerCase(); if (k === 'i') setL(!shell.classList.contains('ls-open')); if (k === 'n') setN(!shell.classList.contains('notes-on')); if (k === 't') setR(shell.classList.contains('rs-shut')); }, true);
 
   // keep the three panes in step with the slide on screen
   const fallbackScript = c => { const ps = [...c.el.querySelectorAll('.text p:not(.kicker):not(.onscreen)')].map(p => p.textContent.trim()).filter(Boolean); let notes = []; try { notes = NOTES[c.el.dataset.title] || []; } catch (e) { } return ps.concat(notes); };
