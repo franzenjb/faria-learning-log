@@ -271,9 +271,11 @@ function titleCase(str) {
   const syncMore = () => { const c = live.find(c => c.el.classList.contains('active')); more.hidden = !(c && pdfsFor(c).length); mp.hidden = true; };
   new MutationObserver(syncMore).observe(deck, { attributes: true, attributeFilter: ['class'], subtree: true });
   addEventListener('keydown', e => { if (e.key === 'Escape' && !mp.hidden) mp.hidden = true; });
-  const back = document.createElement('button'); back.id = 'detour-back'; back.hidden = true; visual.appendChild(back); let detourFrom = null;
-  document.addEventListener('click', e => { const b = e.target.closest('.detour'); if (!b) return; const from = live.findIndex(c => c.el.classList.contains('active')), to = live.findIndex(c => c.t === b.dataset.detour); if (to < 0) return; detourFrom = from; back.textContent = '\u2190 Back to ' + (b.dataset.label || live[from].label); back.hidden = false; jump(to); });
-  back.onclick = () => { if (detourFrom !== null) jump(detourFrom); detourFrom = null; back.hidden = true; };
+  const back = document.createElement('button'); back.id = 'detour-back'; back.hidden = true; visual.appendChild(back); let detourFrom = null, detourTo = null;
+  document.addEventListener('click', e => { const b = e.target.closest('.detour'); if (!b) return; const from = live.findIndex(c => c.el.classList.contains('active')), to = live.findIndex(c => c.t === b.dataset.detour); if (to < 0) return; detourFrom = from; detourTo = to; back.textContent = '\u2190 Back to ' + (b.dataset.label || live[from].label); back.hidden = false; jump(to); });
+  back.onclick = () => { if (detourFrom !== null) jump(detourFrom); detourFrom = null; detourTo = null; back.hidden = true; };
+  // leaving the side trip any other way (arrows, index) drops the Back button; the next slide after the detour target still counts as the side trip
+  new MutationObserver(() => { if (detourTo === null) return; const i = live.findIndex(c => c.el.classList.contains('active')); if (i !== detourTo && i !== detourTo + 1) { detourFrom = null; detourTo = null; back.hidden = true; } }).observe(deck, { attributes: true, attributeFilter: ['class'], subtree: true });
   new MutationObserver(sync).observe(deck, { attributes: true, attributeFilter: ['class'], subtree: true });
   addEventListener('load', () => { for (const def of Object.values(NEW_SLIDES)) { try { def.init(def._el); } catch (e) { console.error('course slide failed', def.h1, e); } } sync(); relayout(); });
   // occasional fun: the warp (stars rush outward, slide racks into focus) plays only
