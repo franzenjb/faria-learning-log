@@ -141,7 +141,7 @@ function titleCase(str) {
   /* ---- course index slide ---- */
   const firstOf = d => COURSE.find(c => c.day === d);
   const idx = document.createElement('section'); idx.className = 'slide native wide'; idx.dataset.title = 'Course index'; idx.dataset.fx = 'fade';
-  idx.innerHTML = `<div class="stage"><div class="cindex"><p class="kicker">American Red Cross · Disaster GIS</p><h1>Four Days, One Question: Where Am I?</h1><div class="ci-days">${[1, 2, 3, 4].map(d => `<button class="ci-day" data-first="${firstOf(d).t}"><span class="ci-n">Day ${d}</span><span class="ci-dot"></span><strong>${titleCase(DAYS[d].name)}</strong></button>`).join('')}</div></div></div>`;
+  idx.innerHTML = `<div class="stage"><div class="cindex"><p class="kicker">American Red Cross · Disaster GIS</p><h1>Four Days, One Question: Where Am I?</h1><div class="ci-days">${[1, 2, 3, 4].map(d => `<button class="ci-day" data-first="${firstOf(d).t}"><span class="ci-n"><small>Day</small> ${d}</span><span class="ci-dot"></span><strong>${titleCase(DAYS[d].name)}</strong></button>`).join('')}</div></div></div>`;
   deck.appendChild(idx);
 
   /* ---- build the new native slides ---- */
