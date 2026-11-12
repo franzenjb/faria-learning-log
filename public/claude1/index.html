@@ -679,9 +679,10 @@ ctx.strokeStyle='#6fb3ff';ctx.beginPath();ctx.moveTo(x+w*.06,yr+3);ctx.lineTo(x+
 text(ctx,'Boston wins by 0.7°',x,bot+30,{size:14,color:'#6fd48a',align:'center',weight:700});}
 ctx.restore();}
 function drawPeel(ctx,w,h,t){const el=t-peel.t0,tt=Math.max(0,Math.min(1,(el-2200)/3600)),e=tt*tt*(3-2*tt),k=Math.min((w-60)/360,(h-170)/180),cx=w/2,cy=h/2-10,G=6,gw=60;
-const pr=(lon,lat)=>{const g=Math.min(G-1,Math.max(0,Math.floor((lon+180)/gw))),l0=-180+(g+.5)*gw,c=Math.cos(lat*DEG);return[cx+(l0+(lon-l0)*(c+e*(1-c)))*k,cy-lat*k,g];};
+const PB=[-180,-120,-78,-6,60,120,180];// gore edges: all of Greenland (73° W to 11° W) sits in one gore
+const pr=(lon,lat)=>{let g=0;while(g<G-1&&lon>=PB[g+1])g++;const l0=(PB[g]+PB[g+1])/2,c=Math.cos(lat*DEG);return[cx+(l0+(lon-l0)*(c+e*(1-c)))*k,cy-lat*k,g];};
 ctx.save();ctx.globalAlpha=Math.min(1,el/600);
-for(let g=0;g<G;g++){ctx.beginPath();for(let la=-90;la<=90;la+=3){const q=pr(-180+g*gw+.001,la);la===-90?ctx.moveTo(q[0],q[1]):ctx.lineTo(q[0],q[1]);}for(let la=90;la>=-90;la-=3){const q=pr(-180+(g+1)*gw-.001,la);ctx.lineTo(q[0],q[1]);}ctx.closePath();ctx.fillStyle='#15294a';ctx.fill();ctx.strokeStyle='rgba(236,230,218,.25)';ctx.lineWidth=1;ctx.stroke();const a=pr(-180+g*gw+.001,0),b=pr(-180+(g+1)*gw-.001,0);ctx.strokeStyle='#f0b35a';ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();}
+for(let g=0;g<G;g++){ctx.beginPath();for(let la=-90;la<=90;la+=3){const q=pr(PB[g]+.001,la);la===-90?ctx.moveTo(q[0],q[1]):ctx.lineTo(q[0],q[1]);}for(let la=90;la>=-90;la-=3){const q=pr(PB[g+1]-.001,la);ctx.lineTo(q[0],q[1]);}ctx.closePath();ctx.fillStyle='#15294a';ctx.fill();ctx.strokeStyle='rgba(236,230,218,.25)';ctx.lineWidth=1;ctx.stroke();const a=pr(PB[g]+.001,0),b=pr(PB[g+1]-.001,0);ctx.strokeStyle='#f0b35a';ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();}
 ctx.strokeStyle='rgba(236,230,218,.85)';ctx.lineWidth=1.2;ctx.beginPath();for(const ln of COAST.lines){let pg=-1;for(let i=0;i<ln.length;i+=2){const q=pr(ln[i]/COAST.q,ln[i+1]/COAST.q);(q[2]===pg||(e>.995&&pg>=0&&Math.abs(q[2]-pg)<2))?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]);pg=q[2];}}ctx.stroke();
 ctx.fillStyle='rgba(111,212,138,.5)';ctx.strokeStyle='#6fd48a';ctx.lineWidth=2;for(const ln of QGL){ctx.beginPath();for(let i=0;i<ln.length;i+=2){const q=pr(ln[i]/COAST.q,ln[i+1]/COAST.q);i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]);}ctx.closePath();ctx.fill();ctx.stroke();}
 const af=pr(20,5);tag(ctx,'Africa',af[0]-20,af[1],'#f0b35a',13);
