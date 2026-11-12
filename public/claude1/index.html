@@ -955,26 +955,26 @@ if(walk){const k=Math.min(1,(t-walk.t0)/9000);set(90*(k<.5?2*k*k:1-Math.pow(-2*k
 const{cx,cy,R}=geom();const a=lat*DEG;const px=cx+R*Math.cos(a),py=cy-R*Math.sin(a);const nx=Math.cos(a),ny=-Math.sin(a),tx=-Math.sin(a),ty=-Math.cos(a);
 // starlight: parallel lines from Polaris, straight down the page
 ctx.setLineDash([4,7]);ctx.strokeStyle='rgba(111,179,255,.28)';ctx.lineWidth=1;for(let x=cx-R*1.5;x<=cx+R*2.2;x+=R*.37){ctx.beginPath();ctx.moveTo(x,h*.07);ctx.lineTo(x,h*.93);ctx.stroke();}ctx.setLineDash([]);
-text(ctx,'✦ Polaris, very far away · its light arrives as parallel lines',cx+R*.35,h*.06,{size:13,color:'#6fb3ff',align:'center'});
+text(ctx,'Polaris’s Height = Your Latitude',w*.5,h*.075,{size:28,color:'#f0b35a',align:'center',weight:600,font:'serif'});
 // Earth
 const g=ctx.createRadialGradient(cx-R*.3,cy-R*.3,R*.1,cx,cy,R);g.addColorStop(0,'#2f5a8c');g.addColorStop(1,'#132236');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();ctx.strokeStyle='#3b5f8a';ctx.lineWidth=1.5;ctx.stroke();
 ctx.setLineDash([6,6]);ctx.strokeStyle='rgba(236,230,218,.45)';ctx.beginPath();ctx.moveTo(cx,cy-R*1.25);ctx.lineTo(cx,cy+R*1.1);ctx.stroke();ctx.strokeStyle='rgba(240,179,90,.6)';ctx.beginPath();ctx.moveTo(cx-R*1.1,cy);ctx.lineTo(cx+R*1.35,cy);ctx.stroke();ctx.setLineDash([]);
-text(ctx,'North Pole',cx-8,cy-R-10,{size:12,color:'#ece6da',align:'right'});text(ctx,'equator',cx-R*1.13,cy+4,{size:12,color:'#f0b35a',align:'right'});
+if(lat<75)text(ctx,'North Pole',cx-8,cy-R-10,{size:12,color:'#ece6da',align:'right'});text(ctx,'equator',cx-R*1.13,cy+4,{size:12,color:'#f0b35a',align:'right'});
 // the walked arc and the radius
 ctx.strokeStyle='rgba(240,179,90,.5)';ctx.lineWidth=5;ctx.beginPath();ctx.arc(cx,cy,R,-a,0);ctx.stroke();
 ctx.strokeStyle='#f0b35a';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();ctx.beginPath();ctx.arc(cx,cy,R*.3,-a,0);ctx.stroke();
 {const b=Math.max(a/2,.16);text(ctx,fmt(lat)+'° N',cx+R*.5*Math.cos(b),cy-R*.5*Math.sin(b)+6,{size:20,color:'#f0b35a',font:'mono',align:'center',weight:600});}
 // your ground: the horizon line, tangent to the Earth where you stand
-const L=R*1.05;ctx.strokeStyle='#6fd48a';ctx.lineWidth=3.5;ctx.beginPath();ctx.moveTo(px-tx*L,py-ty*L);ctx.lineTo(px+tx*L,py+ty*L);ctx.stroke();[['#6fd48a','your horizon · the ground you stand on'],['#6fb3ff','your line of sight to Polaris'],['#f0b35a','the same angle, twice']].forEach(([c,n],i)=>{ctx.fillStyle=c;ctx.fillRect(w*.03,h*.12+i*24,22,4);text(ctx,n,w*.03+32,h*.12+i*24+6,{size:13,color:c});});
+const L=R*1.05;ctx.strokeStyle='#6fd48a';ctx.lineWidth=3.5;ctx.beginPath();ctx.moveTo(px-tx*L,py-ty*L);ctx.lineTo(px+tx*L,py+ty*L);ctx.stroke();text(ctx,'your horizon',px+tx*L-8,py+ty*L+(lat>60?-10:-6),{size:14,color:'#6fd48a',align:'right'});
 // the line of sight to Polaris and the angle above the horizon
 ctx.strokeStyle='#6fb3ff';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px,py-R*.95);ctx.stroke();ctx.fillStyle='#6fb3ff';ctx.beginPath();ctx.moveTo(px,py-R*.95-12);ctx.lineTo(px-7,py-R*.95+2);ctx.lineTo(px+7,py-R*.95+2);ctx.closePath();ctx.fill();text(ctx,'to Polaris',px+10,py-R*.95,{size:13,color:'#6fb3ff'});
-const a0=Math.atan2(ty,tx),a1=-Math.PI/2;ctx.strokeStyle='#f0b35a';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(px,py,R*.34,a0,a1);ctx.stroke();{const m=(a0+a1)/2,far=lat<8?R*.5:0;text(ctx,fmt(lat)+'° N',px+R*.52*Math.cos(m)-far,py+R*.52*Math.sin(m)+6,{size:20,color:'#f0b35a',font:'mono',align:'center',weight:600});}
+const a0=Math.atan2(ty,tx),a1=-Math.PI/2;ctx.strokeStyle='#f0b35a';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(px,py,R*.34,a0,a1);ctx.stroke();{const m=(a0+a1)/2,far=lat<8?R*.5:0,rr=lat>70?R*.62:R*.52;text(ctx,fmt(lat)+'° N',px+rr*Math.cos(m)-far-(lat>70?R*.12:0),py+rr*Math.sin(m)+6,{size:20,color:'#f0b35a',font:'mono',align:'center',weight:600});}
 if(why){const sq=(x,y,ux,uy,vx,vy,c)=>{const s=13;ctx.strokeStyle=c;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x+ux*s,y+uy*s);ctx.lineTo(x+ux*s+vx*s,y+uy*s+vy*s);ctx.lineTo(x+vx*s,y+vy*s);ctx.stroke();};
 sq(px,py,-nx,-ny,-tx,-ty,'#ece6da');sq(cx,cy,1,0,0,-1,'#ece6da');ctx.setLineDash([3,6]);ctx.strokeStyle='rgba(236,230,218,.6)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px+nx*R*.8,py+ny*R*.8);ctx.stroke();ctx.setLineDash([]);text(ctx,'straight up',px+nx*R*.82+6,py+ny*R*.82+4,{size:12,color:'#cfc8ba'});
 }
 // you
 ctx.save();ctx.translate(px,py);ctx.rotate(Math.atan2(ny,nx)+Math.PI/2);ctx.scale(1.25,1.25);ctx.fillStyle='#ece6da';ctx.fill(man);ctx.beginPath();ctx.arc(0,-50,6.5,0,TAU);ctx.fill();ctx.restore();
-if(!drag&&!walk&&!why)text(ctx,'drag me',px+nx*86,py+ny*86+4,{size:12,color:'#9a9382',align:'center'});
+
 // ---- what you see: the same angle from where you stand
 const vx0=w*.6,vx1=w*.96,vy1=h*.72,ox=(vx0+vx1)/2,Rs=Math.min((vx1-vx0)/2-10,h*.42);ctx.fillStyle='rgba(10,14,24,.6)';ctx.strokeStyle='#283048';ctx.lineWidth=1;ctx.beginPath();ctx.roundRect?ctx.roundRect(vx0-14,vy1-Rs-64,vx1-vx0+28,Rs+128,12):ctx.rect(vx0-14,vy1-Rs-64,vx1-vx0+28,Rs+128);ctx.fill();ctx.stroke();
 text(ctx,'What You See · Facing North',ox,vy1-Rs-38,{size:12,color:'#9a9382',align:'center'});
