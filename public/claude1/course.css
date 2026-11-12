@@ -161,3 +161,9 @@ svg.fig .xs{font-size:20px}svg.fig .sm{font-size:24px}svg.fig .md{font-size:28px
 
 #bingo-panel{border:1px solid var(--line);border-radius:.6rem;padding:.6rem .7rem;margin:.4rem 0 .8rem;background:rgba(17,23,39,.7)}
 .bingo-h{margin:.2rem 0 .3rem!important;font-size:.95rem;color:var(--muted)!important;display:block!important}
+
+/* pop-up cards fill the picture so a room can read them */
+.card.gloss{left:1rem;right:1rem;top:1rem;bottom:1rem;width:auto;max-height:none;display:flex;flex-direction:column;padding:1.4rem 2rem}
+.card.gloss h3{font-size:2.2rem}
+.card.gloss svg,.card.gloss img{flex:1;min-height:0;width:100%;height:100%;object-fit:contain}
+.card.gloss p{font-size:1.5rem;line-height:1.4}

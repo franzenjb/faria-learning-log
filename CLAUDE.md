@@ -2,6 +2,7 @@
 
 - **Titles are always Title Case.** Headlines, slide titles, day and chapter names, index labels, kickers, page and film titles. Subtitles and body text stay in sentence case. In `/claude1/`, `titleCase()` in `public/claude1/course.js` applies this automatically; new copy should still be written in Title Case.
 - Look: the dark night-sky style of `/deck/` (navy, starfield, glowing globe, gold accent). Jeff rejected the cream version. Type must be readable from the back of a classroom: no canvas label under about 17px.
+- American spelling: center, meter, color, gray, labeled. Jeff is in the US.
 - Miles, not km. Short, plain copy.
 - Never overwrite another tool's copy: `/deck/`, `/deck/v2/`, `/kimi1/`. Claude's copy is `public/claude1/`.
 - After build and test pass: commit, push, open a PR and merge it without asking.

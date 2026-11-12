@@ -37,20 +37,20 @@ function jupiterScene(mode) {
 NEW_SLIDES['Jupiter as a measuring stick'] = jupiterScene('ruler');
 NEW_SLIDES['Light needs time'] = jupiterScene('clock');
 
-/* ---------- The metre from a meridian (Day 2) ---------- */
-NEW_SLIDES['Picard and the metre'] = {
-  h1: 'From Picard\'s degree to the metre',
+/* ---------- The meter from a meridian (Day 2) ---------- */
+NEW_SLIDES['Picard and the meter'] = {
+  h1: 'From Picard\'s degree to the meter',
   ctl: `<div class="controls">${CS.slider('mt-l', 'Walk the meridian north', 0, 90, 0.5, 48.85)}</div><div class="chips" id="mt-p"><button data-v="0">Equator</button><button data-v="41.38">Barcelona</button><button data-v="48.85">Paris</button><button data-v="51.03">Dunkirk</button><button data-v="90">Pole</button></div><div class="readout" id="mt-r"></div>`,
   fig: `<path d="M180 560 L180 100 A460 460 0 0 1 640 560 Z" fill="#141b2e" stroke="#ece6da" stroke-width="2"/><g id="mt-t"></g>
   <path id="mt-arc" fill="none" stroke="#f0b35a" stroke-width="7" d=""/><path id="mt-fr" fill="none" stroke="#ece6da" stroke-width="13" d="" opacity=".85"/>
   <circle id="mt-dot" r="10" class="fr" stroke="#0a0e18" stroke-width="2"/><line id="mt-rad" class="hair" x1="180" y1="560" x2="0" y2="0"/>
-  <text x="170" y="92" text-anchor="end" class="sm">North Pole</text><text x="648" y="586" class="sm">Equator</text><text x="196" y="548" class="xs mu">centre of the Earth</text>
-  <g transform="translate(690,150)"><text class="md">Pole to equator</text><text y="34" class="xl rd">10,000,000 m</text><text y="64" class="sm mu">That is how the metre</text><text y="86" class="sm mu">was defined, 26 March 1791.</text><text y="146" class="md">Picard's degree, 1670</text><text y="178" class="lg">57,060 toises</text><text y="206" class="sm mu">About 69.1 miles. The first</text><text y="228" class="sm mu">degree anyone could trust.</text><text y="290" class="md">Dunkirk to Barcelona</text><text y="318" class="sm mu">Delambre and Méchain</text><text y="340" class="sm mu">re-measured it, 1792 to 1799.</text></g>`,
+  <text x="170" y="92" text-anchor="end" class="sm">North Pole</text><text x="648" y="586" class="sm">Equator</text><text x="196" y="548" class="xs mu">center of the Earth</text>
+  <g transform="translate(690,150)"><text class="md">Pole to equator</text><text y="34" class="xl rd">10,000,000 m</text><text y="64" class="sm mu">That is how the meter</text><text y="86" class="sm mu">was defined, 26 March 1791.</text><text y="146" class="md">Picard's degree, 1670</text><text y="178" class="lg">57,060 toises</text><text y="206" class="sm mu">About 69.1 miles. The first</text><text y="228" class="sm mu">degree anyone could trust.</text><text y="290" class="md">Dunkirk to Barcelona</text><text y="318" class="sm mu">Delambre and Méchain</text><text y="340" class="sm mu">re-measured it, 1792 to 1799.</text></g>`,
   init(el) {
     const S = CS.$(el, '#mt-l'), P = d => [180 + 460 * Math.cos(d * D2R), 560 - 460 * Math.sin(d * D2R)]; let tk = '';
     for (let d = 0; d <= 90; d += 10) { const a = P(d), b = [180 + 478 * Math.cos(d * D2R), 560 - 478 * Math.sin(d * D2R)]; tk += `<line class="k" x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/><text class="xs mu" x="${180 + 500 * Math.cos(d * D2R)}" y="${560 - 500 * Math.sin(d * D2R) + 4}" text-anchor="middle">${d}°</text>`; } CS.$(el, '#mt-t').innerHTML = tk;
     const a1 = P(41.38), a2 = P(51.03); CS.$(el, '#mt-fr').setAttribute('d', `M${a1[0]} ${a1[1]} A460 460 0 0 0 ${a2[0]} ${a2[1]}`);
-    const draw = () => { const d = +S.value, p = P(d), e = P(0); CS.$(el, '#mt-arc').setAttribute('d', d < .05 ? '' : `M${e[0]} ${e[1]} A460 460 0 0 0 ${p[0]} ${p[1]}`); const dot = CS.$(el, '#mt-dot'); dot.setAttribute('cx', p[0]); dot.setAttribute('cy', p[1]); const r = CS.$(el, '#mt-rad'); r.setAttribute('x2', p[0]); r.setAttribute('y2', p[1]); const km = d / 90 * 10000; CS.$(el, '#mt-l-o').textContent = `${CS.fx(d, 2)}° N`; CS.$(el, '#mt-r').innerHTML = `<strong>${CS.int(km * 1000)} metres from the equator</strong><span>${CS.int(km * .621371)} miles. Every degree of latitude is the same 69 miles, so one measured piece of the arc gives the whole.</span>`; };
+    const draw = () => { const d = +S.value, p = P(d), e = P(0); CS.$(el, '#mt-arc').setAttribute('d', d < .05 ? '' : `M${e[0]} ${e[1]} A460 460 0 0 0 ${p[0]} ${p[1]}`); const dot = CS.$(el, '#mt-dot'); dot.setAttribute('cx', p[0]); dot.setAttribute('cy', p[1]); const r = CS.$(el, '#mt-rad'); r.setAttribute('x2', p[0]); r.setAttribute('y2', p[1]); const km = d / 90 * 10000; CS.$(el, '#mt-l-o').textContent = `${CS.fx(d, 2)}° N`; CS.$(el, '#mt-r').innerHTML = `<strong>${CS.int(km * 1000)} meters from the equator</strong><span>${CS.int(km * .621371)} miles. Every degree of latitude is the same 69 miles, so one measured piece of the arc gives the whole.</span>`; };
     S.oninput = draw; el.querySelectorAll('#mt-p button').forEach(b => b.onclick = () => { S.value = b.dataset.v; draw(); }); draw();
   }
 };
@@ -86,7 +86,7 @@ NEW_SLIDES['Coordinate reference systems'] = {
   ctl: `<div class="chips" id="cr-p"><button data-k="geo" class="on">Latitude, longitude</button><button data-k="utm">UTM</button><button data-k="spc">State Plane</button></div><div class="btns"><button id="cr-mix">Read it in the wrong system</button></div><div class="readout" id="cr-r"></div>`,
   init(el) {
     const o = CS.canvas(el); let k = 'geo', mix = false; const LAT = 27.9506, LON = -82.4572, box = [-83.25, 27.3, -81.9, 28.35];
-    // transverse Mercator on GRS80, good to a metre or so at this scale
+    // transverse Mercator on GRS80, good to a meter or so at this scale
     const tm = (lat, lon, lon0, k0, fe, fn, lat0 = 0) => { const a = 6378137, f = 1 / 298.257222101, e2 = f * (2 - f), ep2 = e2 / (1 - e2), ph = lat * D2R, M = p => a * ((1 - e2 / 4 - 3 * e2 * e2 / 64 - 5 * e2 ** 3 / 256) * p - (3 * e2 / 8 + 3 * e2 * e2 / 32 + 45 * e2 ** 3 / 1024) * Math.sin(2 * p) + (15 * e2 * e2 / 256 + 45 * e2 ** 3 / 1024) * Math.sin(4 * p) - (35 * e2 ** 3 / 3072) * Math.sin(6 * p)); const N = a / Math.sqrt(1 - e2 * Math.sin(ph) ** 2), T = Math.tan(ph) ** 2, C = ep2 * Math.cos(ph) ** 2, A = (lon - lon0) * D2R * Math.cos(ph); return [fe + k0 * N * (A + (1 - T + C) * A ** 3 / 6 + (5 - 18 * T + T * T + 72 * C - 58 * ep2) * A ** 5 / 120), fn + k0 * (M(ph) - M(lat0 * D2R) + N * Math.tan(ph) * (A * A / 2 + (5 - T + 9 * C + 4 * C * C) * A ** 4 / 24 + (61 - 58 * T + T * T + 600 * C - 330 * ep2) * A ** 6 / 720))]; };
     const utm = (la, lo) => tm(la, lo, -81, .9996, 500000, 0), spc = (la, lo) => tm(la, lo, -82, 1 - 1 / 17000, 200000, 0, 24 + 1 / 3).map(v => v / 0.3048006096);
     const draw = () => {
@@ -101,7 +101,7 @@ NEW_SLIDES['Coordinate reference systems'] = {
       const p = P(LON, LAT); ctx.fillStyle = CS.RED; ctx.beginPath(); ctx.arc(p[0], p[1], 8, 0, 7); ctx.fill(); ctx.fillStyle = CS.INK; ctx.font = '500 16px Georgia,serif'; ctx.fillText('The shelter, Tampa', p[0] + 14, p[1] + 5);
       if (mix) { const q = P(LON + .31, LAT - .22); ctx.strokeStyle = CS.RED; ctx.setLineDash([5, 5]); ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.lineTo(q[0], q[1]); ctx.stroke(); ctx.setLineDash([]); ctx.beginPath(); ctx.arc(q[0], q[1], 8, 0, 7); ctx.stroke(); ctx.fillStyle = CS.RED; ctx.fillText('where the map put it', q[0] + 14, q[1] + 5); }
       ctx.restore(); ctx.strokeStyle = CS.INK; ctx.lineWidth = 1; ctx.strokeRect(a[0], a[1], b[0] - a[0], b[1] - a[1]);
-      const u = utm(LAT, LON), s = spc(LAT, LON); const R = { geo: [`${LAT.toFixed(4)}° N, ${Math.abs(LON).toFixed(4)}° W`, 'Degrees on the globe. Angles, not distances: a degree of longitude here is 61 miles, not 69.'], utm: [`${CS.int(u[0])} m E, ${CS.int(u[1])} m N`, 'UTM zone 17 North. Metres on a flat sheet, six degrees wide. Good for measuring.'], spc: [`${CS.int(s[0])} ft E, ${CS.int(s[1])} ft N`, 'Florida West State Plane. Feet, tuned to one strip of one state. What the county surveyor uses.'] };
+      const u = utm(LAT, LON), s = spc(LAT, LON); const R = { geo: [`${LAT.toFixed(4)}° N, ${Math.abs(LON).toFixed(4)}° W`, 'Degrees on the globe. Angles, not distances: a degree of longitude here is 61 miles, not 69.'], utm: [`${CS.int(u[0])} m E, ${CS.int(u[1])} m N`, 'UTM zone 17 North. Meters on a flat sheet, six degrees wide. Good for measuring.'], spc: [`${CS.int(s[0])} ft E, ${CS.int(s[1])} ft N`, 'Florida West State Plane. Feet, tuned to one strip of one state. What the county surveyor uses.'] };
       CS.$(el, '#cr-r').innerHTML = mix ? `<strong>Right numbers, wrong system</strong><span>Same shelter, same digits, read on another grid or datum. A datum slip alone can move a point 100 feet or more. A wrong zone moves it miles. Always ask: which system?</span>` : `<strong>${R[k][0]}</strong><span>${R[k][1]}</span>`;
     };
     el.querySelectorAll('#cr-p button').forEach(b => b.onclick = () => { k = b.dataset.k; mix = false; el.querySelectorAll('#cr-p button').forEach(x => x.classList.toggle('on', x === b)); draw(); });
@@ -176,7 +176,7 @@ NEW_SLIDES['Overlays'] = {
         const a = (p / 920) * .5, r = `x="${cx[i]}" y="${cy[j]}" width="${cx[i + 1] - cx[i]}" height="${cy[j + 1] - cy[j]}"`;
         s += `<rect ${r} fill="#0a0e18" stroke="#ece6da" stroke-width="1.2"/>` + (k === 'both' ? `<rect ${r} fill="rgba(240,179,90,${a})" stroke="#ece6da" stroke-width="1.2"/>` : '');
         const v = k === 'and' ? p * share : k === 'not' ? p * (1 - share) : p; lab += `<text x="${(cx[i] + cx[i + 1]) / 2}" y="${cy[j] + 34}" text-anchor="middle" class="md">${CS.int(v)}</text>`; }
-      // the overlay result: block colour clipped to, or masked by, the flood shape
+      // the overlay result: block color clipped to, or masked by, the flood shape
       const tint = (j, i) => `<rect x="${cx[i]}" y="${cy[j]}" width="${cx[i + 1] - cx[i]}" height="${cy[j + 1] - cy[j]}" fill="rgba(240,179,90,${(pop[j][i] / 920) * .75})"/>`; let res = ''; for (let j = 0; j < 3; j++) for (let i = 0; i < 4; i++) res += tint(j, i);
       CS.$(el, '#ov-cp').setAttribute('d', ''); CS.$(el, '#ov-blocks').innerHTML = s + (k === 'not' ? `<g mask="url(#ov-mask)">${res}</g>` : '') + (k === 'and' ? `<mask id="ov-keep2"><rect width="1000" height="640" fill="#000"/><path d="${d}" stroke="#111727" stroke-width="${2 * w}" fill="none" stroke-linejoin="round" stroke-linecap="round"/></mask><g mask="url(#ov-keep2)">${res}</g>` : '');
       CS.$(el, '#ov-flood').style.display = k === 'both' ? '' : 'none'; CS.$(el, '#ov-lab').innerHTML = lab + `<text x="52" y="572" class="xs mu">Census blocks, with people counted in each</text>`;
