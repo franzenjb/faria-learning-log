@@ -272,7 +272,9 @@ function titleCase(str) {
     shell.querySelectorAll('#rs-list button').forEach(b => b.onclick = () => openTopic(b.dataset.slug));
   };
   // headlines that scenes rewrite on the fly (chapters, quiz questions) are kept in Title Case too
-  setInterval(() => { document.querySelectorAll('.slide.active h1, .slide.active .kicker').forEach(h => { const t = titleCase(h.textContent); if (t !== h.textContent) h.textContent = t; }); }, 400);
+  setInterval(() => { document.querySelectorAll('.slide.active h1, .slide.active .kicker').forEach(h => { const t = titleCase(h.textContent); if (t !== h.textContent) h.textContent = t; });
+    // button labels name things, so they are Title Case too (quiz answers excepted); only plain-text buttons are touched
+    document.querySelectorAll('.slide.active button:not(.opt):not(.x), #detour-back').forEach(b => { if (b.children.length) return; const t = titleCase(b.textContent); if (t !== b.textContent) b.textContent = t; }); }, 400);
   // detours: leave the story for a side trip (e.g. Galileo) and come straight back
   // "Want to Know More?" button: opens the lesson PDFs for this slide
   const more = document.createElement('button'); more.id = 'more-btn'; more.hidden = true; more.innerHTML = '\u{1F4C4} Want to Know More?'; visual.appendChild(more);
