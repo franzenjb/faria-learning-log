@@ -159,3 +159,12 @@ Jeff reported that the slightest two-finger trackpad move on his M4 Max zoomed t
 - Wheel/pinch zoom now uses exponential damping (delta clamped to ±50, factor exp(−d·0.002)) instead of the old ×1.1/0.9 per event; the Eratosthenes wheel got the same treatment. Build clean, browser tests pass.
 - Every orbit globe now carries a small + / − / ⌂ cluster (bottom-left, fades in on hover): hold to drift smoothly, tap for an animated 1.35× step, ⌂ flies back to the initial view in 900 ms. Screenshots verify/zoom-ctl.png, zoom-in.png, zoom-home.png inspected.
 - Published commit e7361ce; production byte-verified (curl https://faria.jbf.com/kimi1/ → cmp → BYTE-MATCH-OK). Remaining: Jeff's acceptance.
+
+## 2026-11-12 — The fix-it-all burst: six slides rebuilt
+
+Jeff sent a rapid-fire list of slide complaints; six parallel fixes landed together.
+
+- Baselines (#4) was blank — the canvas had no scene. Built the full thumb-trick slide: three modes (your finger, a steeple, Picard's 1670 network), draggable eyes/finger/steeple, live parallax math, tappable triangulation chain. Eratosthenes (#5): the "stick enlarged" card moved to the bottom-right corner with a show/hide toggle so the well and rays stay clear; copy halved; stadia teaching now leads with miles and feet (489 miles, stadion = 517 ft, answer ≈ 24,466 miles vs 24,860). Every left panel also gained a visible ‹ / › edge tab that does what the L key does.
+- "A flat map is a deal" (#6) rewritten as the projection-morph slide Jeff asked for: the real-coastline globe unwraps, animated, into Mercator, Gall–Peters, Goode homolosine (the "points top and bottom" one, genuinely interrupted) and Winkel tripel, each with a one-line keeps/gives-up caption. Polaris slide (#7) split into two side-by-side views (space view with the center angle, ground view with the altitude angle), the figure's head no longer clips, and all latitude readouts carry N. No landmarks (#8) is now a real globe: the 42° N parallel as a ring, two ships, sightlines to Polaris, and a "Widen the gap" button. Scilly (#9) redrawn as a night storm with named ships (Association, Eagle, Romney, Firebrand), facts from the Wikipedia article in the presenter notes, and the pronunciation — "say silly" — in the lede.
+- Build clean, full browser suite passes, all six slides screenshot-verified (verify/fix-*.png), no page errors.
+- Published commit 61208a0; production byte-verified (cmp → BYTE-MATCH-OK). Remaining: Jeff's acceptance.
