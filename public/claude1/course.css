@@ -188,3 +188,15 @@ svg.fig .xs{font-size:20px}svg.fig .sm{font-size:24px}svg.fig .md{font-size:28px
 #more-panel .pdf small{opacity:.6;font-size:.85rem}
 #more-panel .pdf a{color:#1a1206;background:var(--accent);text-decoration:none;font-weight:600;padding:.35rem .8rem;border-radius:.4rem;font-size:1rem}
 #more-panel .pdf a+a{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+
+/* phones: the cover is a stage only, so give it the full screen */
+@media (max-width:860px){
+  .slide.cover.active{grid-template-rows:1fr;height:100svh;min-height:32rem;padding-bottom:0}
+  .slide.cover .stage{position:relative;height:100%}
+  .cover-text h1{font-size:3.2rem}
+  .slide:not(.cover){grid-template-columns:1fr!important;grid-template-rows:auto 62vh!important}
+  .slide:not(.cover) .stage{min-height:62vh}
+  #more-btn.in-nav{position:static;font-size:.9rem;padding:.4rem .7rem;box-shadow:none;white-space:nowrap}
+  #more-panel{bottom:4.4rem!important}
+  #more-panel{position:fixed;left:.8rem;right:.8rem;width:auto;bottom:7.4rem;max-height:70vh}
+}
