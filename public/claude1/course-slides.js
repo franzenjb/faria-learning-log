@@ -120,14 +120,27 @@ NEW_SLIDES['Two ships, one latitude'] = {
   h1: 'Longitude has no landmarks', canvas: true,
   ctl: `<div class="controls">${CS.slider('ts-d', 'Move the second ship east', 0, 40, 0.5, 15)}</div><div class="btns"><button class="primary" id="ts-spin">Pause the Earth</button></div><div class="readout" id="ts-r"></div>`,
   init(el) {
-    const o = CS.canvas(el), S = CS.$(el, '#ts-d'); let spin = true, lon0 = -40, last = 0, LAT = 50, A = -35;
+    const o = CS.canvas(el), S = CS.$(el, '#ts-d'); let spin = true, lon0 = -40, last = 0, LAT = 50, A = -35, zoom = 1, zoomT = 1;
+    o.c.addEventListener('wheel', e => { e.preventDefault(); zoomT = Math.max(1, Math.min(9, zoomT * (e.deltaY < 0 ? 1.15 : 1 / 1.15))); }, { passive: false });
+    o.c.addEventListener('dblclick', () => { zoomT = 1; });
+    // drag left or right to turn the Earth by hand; the spin carries on when you let go
+    let dragX = null, curR = 300; o.c.style.cursor = 'grab'; o.c.style.touchAction = 'none';
+    o.c.addEventListener('pointerdown', e => { dragX = e.clientX; o.c.setPointerCapture(e.pointerId); o.c.style.cursor = 'grabbing'; });
+    o.c.addEventListener('pointermove', e => { if (dragX === null) return; const r = o.c.getBoundingClientRect(), dx = (e.clientX - dragX) * (o.w / r.width); dragX = e.clientX; lon0 -= dx / curR / D2R; });
+    const up = () => { dragX = null; o.c.style.cursor = 'grab'; }; o.c.addEventListener('pointerup', up); o.c.addEventListener('pointercancel', up);
     CS.$(el, '#ts-spin').onclick = e => { spin = !spin; e.target.textContent = spin ? 'Pause the Earth' : 'Spin the Earth'; };
     const draw = now => {
       if (!el.classList.contains('active')) { last = 0; requestAnimationFrame(draw); return; }
-      const dt = last ? now - last : 16; last = now; if (spin) lon0 += dt * 0.006;
+      const dt = last ? now - last : 16; last = now; if (spin && dragX === null) lon0 += dt * 0.006;
       if (!o.fit()) { requestAnimationFrame(draw); return; }
-      const { ctx, w, h } = o, R = Math.min(w * .3, h * .34), cx = w * .5, cy = h * .6, tilt = 28 * D2R, ct = Math.cos(tilt), st = Math.sin(tilt);
-      const P = (lat, lon) => { const l = (lon - lon0) * D2R, cp = Math.cos(lat * D2R), sp = Math.sin(lat * D2R); return { x: cx + R * cp * Math.sin(l), y: cy - R * (ct * sp - st * cp * Math.cos(l)), z: st * sp + ct * cp * Math.cos(l) }; };
+      zoom += (zoomT - zoom) * Math.min(1, dt / 180);
+      const { ctx, w, h } = o, tilt = 28 * D2R, ct = Math.cos(tilt), st = Math.sin(tilt), R0 = Math.min(w * .3, h * .34), R = R0 * zoom; curR = R;
+      const unit = (lat, lon) => { const l = (lon - lon0) * D2R, cp = Math.cos(lat * D2R), sp = Math.sin(lat * D2R); return [cp * Math.sin(l), -(ct * sp - st * cp * Math.cos(l)), st * sp + ct * cp * Math.cos(l)]; };
+      // scrolling in closes on the midpoint between the two ships and keeps it in the middle of the screen
+      const mu = unit(LAT, A + (+S.value) / 2), k = Math.min(1, (zoom - 1) / 1.2), bx = w * .5, by = h * .6;
+      const cx = bx + (w * .5 - (bx + mu[0] * R)) * k, cy = by + (h * .5 - (by + mu[1] * R)) * k;
+      const P = (lat, lon) => { const u = unit(lat, lon); return { x: cx + R * u[0], y: cy + R * u[1], z: u[2] }; };
+      ctx.save(); ctx.beginPath(); ctx.rect(0, 0, w, h); ctx.clip();
       const path = (pts, col, wd, dash) => { ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.setLineDash(dash || []); ctx.beginPath(); let pen = false; for (const [la, lo] of pts) { const q = P(la, lo); if (q.z > 0) { pen ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); pen = true; } else pen = false; } ctx.stroke(); ctx.setLineDash([]); };
       const g = ctx.createRadialGradient(cx - R * .3, cy - R * .4, R * .05, cx, cy, R); g.addColorStop(0, '#2f5a8c'); g.addColorStop(.7, '#15294a'); g.addColorStop(1, '#0b1526'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.fill();
       for (let la = -60; la <= 80; la += 20) path(Array.from({ length: 91 }, (_, k) => [la, k * 4]), 'rgba(236,230,218,.12)', 1);
@@ -145,13 +158,15 @@ NEW_SLIDES['Two ships, one latitude'] = {
       // the two ships, the meridian through each, and the gap between them
       const d = +S.value, B = A + d, mi = d * 69.17 * Math.cos(LAT * D2R);
       path(Array.from({ length: 41 }, (_, k) => [LAT, A + d * k / 40]), '#ff7d6f', 6);
-      [[A, 'Ship 1'], [B, 'Ship 2']].forEach(([lo, n], i) => { path(Array.from({ length: 37 }, (_, k) => [-90 + k * 5, lo]), 'rgba(255,125,111,.55)', 1.5, [5, 5]); const q = P(LAT, lo); if (q.z <= 0) return; ctx.fillStyle = '#ece6da'; ctx.beginPath(); ctx.moveTo(q.x - 14, q.y); ctx.lineTo(q.x + 14, q.y); ctx.lineTo(q.x + 9, q.y + 8); ctx.lineTo(q.x - 9, q.y + 8); ctx.closePath(); ctx.fill(); ctx.fillRect(q.x - 1, q.y - 22, 2, 22); ctx.beginPath(); ctx.moveTo(q.x + 1, q.y - 21); ctx.lineTo(q.x + 13, q.y - 5); ctx.lineTo(q.x + 1, q.y - 5); ctx.fill();
+      [[A, 'Ship 1'], [B, 'Ship 2']].forEach(([lo, n], i) => { path(Array.from({ length: 37 }, (_, k) => [-90 + k * 5, lo]), 'rgba(255,125,111,.55)', 1.5, [5, 5]); const q = P(LAT, lo); if (q.z <= 0) return; const sc = Math.min(2.6, Math.sqrt(zoom)); ctx.save(); ctx.translate(q.x, q.y); ctx.scale(sc, sc); ctx.fillStyle = '#ece6da'; ctx.beginPath(); ctx.moveTo(-14, 0); ctx.lineTo(14, 0); ctx.lineTo(9, 8); ctx.lineTo(-9, 8); ctx.closePath(); ctx.fill(); ctx.fillRect(-1, -22, 2, 22); ctx.beginPath(); ctx.moveTo(1, -21); ctx.lineTo(13, -5); ctx.lineTo(1, -5); ctx.fill(); ctx.restore();
         ctx.strokeStyle = 'rgba(111,179,255,.55)'; ctx.lineWidth = 1.2; ctx.setLineDash([3, 5]); ctx.beginPath(); ctx.moveTo(q.x, q.y - 22); ctx.lineTo(px, py); ctx.stroke(); ctx.setLineDash([]);
         lab(`${n}: Pole Star 50° up`, q.x + (i ? 18 : -18), q.y + 28, fs * .9, '#ece6da', i ? 'left' : 'right', 500); });
       const m = P(LAT, A + d / 2); if (m.z > 0 && d > .4) lab(`${Math.round(mi)} miles apart`, m.x, m.y - 30, fs * 1.15, '#ff7d6f', 'center', 700);
       lab('Both read the same star at the same height. Nothing in the sky says how far east or west.', w / 2, h - 30, fs * .95, '#cfc8ba', 'center', 500);
       CS.$(el, '#ts-d-o').textContent = `${CS.fx(d, 1)}° of longitude`;
       CS.$(el, '#ts-r').innerHTML = `<strong>Same star. Same height. ${CS.int(mi)} miles apart.</strong>`;
+      ctx.restore();
+      if (zoom < 1.3) lab('Drag to turn the Earth · scroll to zoom in on the ships · double-click to zoom out', w / 2, 34, fs * .8, '#9a9382', 'center', 500);
       requestAnimationFrame(draw);
     };
     S.oninput = () => {}; requestAnimationFrame(draw);
@@ -187,21 +202,29 @@ NEW_SLIDES['Scilly, 1707'] = {
 
 /* ---------- Chapter slide 4: the Longitude Act ---------- */
 NEW_SLIDES['The Longitude Act, 1714'] = {
-  h1: 'Parliament puts a price on the answer',
-  ctl: `<div class="controls">${CS.slider('la-e', 'Your clock gains each day', 0, 12, 0.1, 6)}</div><div class="readout" id="la-r"></div>`,
-  fig: `<text x="500" y="70" text-anchor="middle" class="md mu">A six-week voyage to the West Indies. How far off is your landfall?</text>
-  <g id="la-bands"></g><line class="k" x1="80" y1="330" x2="920" y2="330"/><circle cx="500" cy="330" r="10" class="land"/><text x="500" y="368" text-anchor="middle" class="sm">the island</text>
-  <g id="la-ship"><path d="M-20 0 L20 0 L13 11 L-13 11 Z" fill="#ece6da"/><line x1="0" y1="0" x2="0" y2="-28" stroke="#ece6da" stroke-width="2"/><path d="M2 -26 L18 -6 L2 -6 Z" fill="#0a0e18" stroke="#ece6da" stroke-width="1.3"/></g>
-  <text id="la-miss" class="lg rd" text-anchor="middle" y="250"></text>`,
+  h1: 'The Longitude Act, 1714',
+  ctl: `<div class="controls">${CS.slider('la-e', 'How far off is your longitude?', 0, 1.5, 0.05, 0.4)}</div><div class="readout" id="la-r"></div>`,
+  fig: `<text x="500" y="62" text-anchor="middle" class="xl">The Longitude Act, 1714</text>
+  <text x="500" y="98" text-anchor="middle" class="md mu">Find your longitude at sea, any method, and win up to £20,000.</text>
+  <g id="la-rings"></g>
+  <line id="la-gap" x1="340" y1="370" x2="340" y2="370" stroke="#ff7d6f" stroke-width="3" stroke-dasharray="7 6"/>
+  <circle cx="340" cy="370" r="9" fill="#ece6da"/><text x="340" y="402" text-anchor="middle" class="sm">the island</text>
+  <g id="la-ship"><path d="M-20 0 L20 0 L13 11 L-13 11 Z" fill="#ece6da"/><line x1="0" y1="0" x2="0" y2="-30" stroke="#ece6da" stroke-width="2.5"/><path d="M2 -28 L18 -6 L2 -6 Z" fill="#ece6da"/></g>
+  <text id="la-miss" class="lg rd" text-anchor="middle" y="150" style="display:none"></text>
+  <g id="la-key" transform="translate(680,220)"></g>
+  <text x="500" y="596" text-anchor="middle" class="sm mu">1° of longitude = 4 minutes of time.</text><text x="500" y="624" text-anchor="middle" class="sm mu">The top prize meant knowing the time to 2 minutes after weeks at sea.</text>`,
   init(el) {
-    const B = [[1, '£10,000', 'within 1°'], [2 / 3, '£15,000', 'within ⅔°'], [0.5, '£20,000', 'within ½°']], px = 380; // px per degree
-    CS.$(el, '#la-bands').innerHTML = B.map((b, i) => `<rect x="${500 - b[0] * px}" y="${395 + i * 62}" width="${2 * b[0] * px}" height="46" fill="${i === 2 ? '#f0b35a' : i === 1 ? '#7a5a30' : '#3a2f22'}"/><text x="500" y="${425 + i * 62}" text-anchor="middle" class="md" fill="${i === 2 ? '#0a0e18' : '#ece6da'}">${b[1]} · ${b[2]}</text>`).join('') + `<line class="hair" x1="500" y1="100" x2="500" y2="580" stroke-dasharray="3 5"/>`;
+    const B = [[1, '£10,000', '1°', 60, '#3a2f22'], [2 / 3, '£15,000', '⅔°', 40, '#7a5a30'], [0.5, '£20,000', '½°', 30, '#f0b35a']], px = 200, cx = 340, cy = 370;
+    CS.$(el, '#la-rings').innerHTML = B.map(b => `<circle cx="${cx}" cy="${cy}" r="${b[0] * px}" fill="${b[4]}" fill-opacity=".55" stroke="${b[4]}" stroke-width="2"/>`).join('');
     const S = CS.$(el, '#la-e'); const draw = () => {
-      const s = +S.value, tot = s * 42, deg = tot / 240, mi = deg * 69.17, x = Math.min(900, 500 + deg * px);
-      CS.$(el, '#la-ship').setAttribute('transform', `translate(${x},318)`); const m = CS.$(el, '#la-miss'); m.setAttribute('x', Math.min(820, Math.max(200, x))); m.textContent = `${CS.int(mi)} miles off`;
-      CS.$(el, '#la-e-o').textContent = `${CS.fx(s, 1)} seconds`;
-      const prize = deg <= .5 ? '£20,000' : deg <= 2 / 3 ? '£15,000' : deg <= 1 ? '£10,000' : null;
-      CS.$(el, '#la-r').innerHTML = `<strong>${prize ? prize + ' prize' : 'No prize'}</strong><span>${CS.fx(s, 1)} s a day for 42 days is ${CS.int(tot)} seconds. Four seconds of time is one arcminute, so the ship is ${CS.fx(deg, 2)}° out.</span>`;
+      const d = +S.value, mi = Math.round(d * 60), x = cx + d * px;
+      CS.$(el, '#la-ship').setAttribute('transform', `translate(${Math.min(980, x)},${cy})`);
+      const g = CS.$(el, '#la-gap'); g.setAttribute('x2', Math.min(980, x));
+      const m = CS.$(el, '#la-miss'); m.setAttribute('x', Math.min(900, Math.max(120, (cx + x) / 2))); m.textContent = d < .02 ? '' : `${mi} miles off`;
+      const won = B.filter(b => d <= b[0] + 1e-9).pop();
+      CS.$(el, '#la-key').innerHTML = B.slice().reverse().map((b, i) => { const on = won && won === b; const y = i * 96, fc = b[4] === '#f0b35a' && on ? '#1a1206' : '#ece6da'; return `<rect x="0" y="${y}" width="300" height="82" rx="8" fill="${b[4]}" fill-opacity="${on ? .95 : .35}" stroke="${on ? '#ece6da' : 'none'}" stroke-width="2"/><text x="18" y="${y + 38}" class="lg" fill="${fc}">${b[1]}</text><text x="18" y="${y + 68}" class="sm" fill="${fc}">within ${b[2]} · about ${b[3]} miles</text>`; }).join('');
+      CS.$(el, '#la-e-o').textContent = `${CS.fx(d, 2)}° · ${mi} miles`;
+      CS.$(el, '#la-r').innerHTML = `<strong>${won ? won[1] + ' prize' : 'No prize'}</strong>`;
     }; S.oninput = draw; draw();
   }
 };
