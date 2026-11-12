@@ -566,7 +566,7 @@ slides.forEach((s,i)=>{const b=document.createElement('button');b.title=s.datase
 function go(i){const target=(i+slides.length)%slides.length;const prev=cur;
 const commit=()=>{cur=target;slides.forEach((s,k)=>s.classList.toggle('active',k===cur));[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===cur));{const tt=slides[cur].dataset.title.replace('&amp;','&');document.getElementById('counter').textContent=`${cur} / ${slides.length-1} · ${typeof titleCase==='function'?titleCase(tt):tt}`;}location.hash=cur?`#${cur}`:'';resizeAll();if(typeof presenterSync==='function')presenterSync();};
 if(prev===target||typeof playFx!=='function'){commit();return;}
-const s=slides[target];const name=FXMAP[s.dataset.fx]||'warp';playFx(name,s,{swap:commit,ms:name==='eclipse'?1700:name==='sweep'?1400:name==='chain'?1500:1200});}
+const s=slides[target];const name=typeof FX_PICK==='function'?FX_PICK(prev,target):null;if(!name){commit();return;}playFx(name,s,{swap:commit,ms:name==='hyperdrive'?1700:1200});}
 document.querySelectorAll('.menu li[data-go]').forEach(li=>li.onclick=()=>{const want=li.dataset.go.replace('&amp;','&');const i=slides.findIndex(x=>x.dataset.title.replace('&amp;','&')===want);if(i>=0)go(i);});
 document.getElementById('presenter').onclick=()=>openPresenter();
 document.getElementById('prev').onclick=()=>go(cur-1);document.getElementById('next').onclick=()=>go(cur+1);
@@ -2378,11 +2378,19 @@ const fxC=document.createElement('canvas');fxC.id='fx';document.body.appendChild
 function fxSize(){const d=devicePixelRatio||1;fxC.width=innerWidth*d;fxC.height=innerHeight*d;fx.setTransform(d,0,0,d,0,0);}fxSize();addEventListener('resize',fxSize);
 let fxRun=null;
 const fxReset=el=>{if(!el)return;el.style.clipPath='';el.style.transform='';el.style.filter='';el.style.opacity='';el.style.webkitMaskImage='';el.style.maskImage='';};
-function playFx(name,slideEl,{swap,ms=1300}={}){if(swap)swap();return;if(fxRun){cancelAnimationFrame(fxRun.raf);fxReset(fxRun.el);if(fxRun.finish)fxRun.finish();fx.clearRect(0,0,innerWidth,innerHeight);}const W=innerWidth,H=innerHeight,t0=performance.now();let swapped=false;const run={el:slideEl};fxRun=run;
+const fract=x=>x-Math.floor(x),fxRand=(i,s=0)=>fract(Math.sin(i*127.1+s*311.7)*43758.5453);
+const hyperStars=Array.from({length:260},(_,i)=>({a:fxRand(i,1)*TAU,offset:fxRand(i,2),speed:.7+fxRand(i,3)*1.1,size:.45+fxRand(i,4)*1.65,tint:fxRand(i,5)}));
+function playFx(name,slideEl,{swap,ms=1300}={}){if(!name||matchMedia('(prefers-reduced-motion: reduce)').matches){if(swap)swap();return;}if(fxRun){cancelAnimationFrame(fxRun.raf);fxReset(fxRun.el);if(fxRun.finish)fxRun.finish();fx.clearRect(0,0,innerWidth,innerHeight);}const W=innerWidth,H=innerHeight,t0=performance.now();let swapped=false;const run={el:slideEl};fxRun=run;
 const ease=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;
 const doSwap=()=>{if(!swapped){swapped=true;swap&&swap();}};run.finish=doSwap;
 const frame=t=>{const k=Math.max(0,Math.min(1,(t-t0)/ms)),e=ease(k);fx.clearRect(0,0,W,H);
 switch(name){
+case 'hyperdrive':{
+// a perspective starfield accelerates into long radial streaks; the next scene arrives inside the tunnel
+const cx=W/2,cy=H/2,maxR=Math.hypot(W,H)*.74,fade=Math.max(0,Math.min(1,(1-k)/.18));if(k>=.38)doSwap();slideEl.style.opacity=k<.38?0:Math.min(1,(k-.38)*3.4);slideEl.style.transform=`scale(${.94+.06*e})`;
+fx.save();fx.globalCompositeOperation='lighter';const core=fx.createRadialGradient(cx,cy,0,cx,cy,maxR*.38);core.addColorStop(0,`rgba(223,231,255,${.22*fade})`);core.addColorStop(.18,`rgba(111,179,255,${.14*fade})`);core.addColorStop(1,'rgba(10,14,24,0)');fx.fillStyle=core;fx.fillRect(0,0,W,H);
+for(const st of hyperStars){const p=fract(st.offset+k*(1.1+st.speed*2.2)),r=(.018+Math.pow(p,2.15)*maxR)*(.45+k*.75),tail=(5+250*k*k)*(.2+p*.9),ca=Math.cos(st.a),sa=Math.sin(st.a),x=cx+ca*r,y=cy+sa*r,ix=cx+ca*Math.max(0,r-tail),iy=cy+sa*Math.max(0,r-tail),alpha=Math.sin(p*Math.PI)*(.22+.78*k)*fade;fx.strokeStyle=st.tint>.88?`rgba(240,179,90,${alpha})`:st.tint>.42?`rgba(223,231,255,${alpha})`:`rgba(111,179,255,${alpha})`;fx.lineWidth=st.size*(.45+p*1.7);fx.beginPath();fx.moveTo(ix,iy);fx.lineTo(x,y);fx.stroke();}
+for(let j=0;j<7;j++){const p=fract(j/7+k*.85),r=Math.pow(p,2)*maxR*.8;fx.strokeStyle=`rgba(111,179,255,${(1-p)*.13*fade})`;fx.lineWidth=1;fx.beginPath();fx.arc(cx,cy,r,0,TAU);fx.stroke();}fx.restore();break;}
 case 'warp':{// starfield rushes outward while the slide racks into focus
 doSwap();const cx=W/2,cy=H/2;fx.lineCap='round';for(const s of stars){const dx=s.x*W-cx,dy=s.y*H-cy,r=Math.hypot(dx,dy)||1;const len=(1-Math.abs(2*k-1))*140*(r/Math.max(W,H))*2.2;fx.strokeStyle=`rgba(223,231,255,${(1-k)*.9})`;fx.lineWidth=s.r;fx.beginPath();fx.moveTo(cx+dx*(1+e*.5),cy+dy*(1+e*.5));fx.lineTo(cx+dx*(1+e*.5)+dx/r*len,cy+dy*(1+e*.5)+dy/r*len);fx.stroke();}
 slideEl.style.transform=`scale(${.3+.7*e})`;slideEl.style.filter=`blur(${(1-e)*14}px)`;slideEl.style.opacity=e;break;}
