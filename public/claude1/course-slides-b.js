@@ -190,3 +190,68 @@ NEW_SLIDES['Overlays'] = {
     S.oninput = draw; el.querySelectorAll('#ov-p button').forEach(b => b.onclick = () => { k = b.dataset.k; el.querySelectorAll('#ov-p button').forEach(x => x.classList.toggle('on', x === b)); draw(); }); draw();
   }
 };
+
+/* ---------- Gaia: a dime on the Moon, the real sky map, then fly out to the galaxy ---------- */
+NEW_SLIDES['Gaia galaxy'] = {
+  h1: 'Gaia Measured 1.8 Billion Stars', canvas: true,
+  ctl: `<div class="chips" id="gx-steps"><button data-s="0" class="on">1 · A Dime on the Moon</button><button data-s="1">2 · The Map It Made</button><button data-s="2">3 · Fly Out to the Galaxy</button></div>
+  <div class="btns" id="gx-btns"></div><div class="readout" id="gx-r"></div>`,
+  init(el) {
+    const o = CS.canvas(el); let step = 0, t0 = performance.now(), find = -1, zoomGo = false, zT = 0;
+    const moon = new Image(); moon.src = 'img/moon-first-quarter.jpg'; const sky = new Image(); sky.src = '/img/Gaia_EDR3_All_Sky_Colour_Map_ESA_Gaia_DPAC.jpg';
+    const rnd = (i, s) => { const x = Math.sin(i * 127.1 + s * 311.7) * 43758.5453; return x - Math.floor(x); };
+    // galaxy: log-spiral arms in light-years, Sun 26,000 ly from the center
+    const STARS = []; for (let i = 0; i < 5200; i++) { const arm = i % 4, r = 5000 + Math.pow(rnd(i, 1), .9) * 45000, th = arm * Math.PI / 2 + 2.6 * Math.log(r / 5000) + (rnd(i, 2) - .5) * (.35 + 3000 / r), sp = 1200 + r * .06; STARS.push([r * Math.cos(th) + (rnd(i, 3) - .5) * sp, r * Math.sin(th) + (rnd(i, 4) - .5) * sp, rnd(i, 5)]); }
+    for (let i = 0; i < 1800; i++) { const r = 4000 + rnd(i, 11) * 46000, th = rnd(i, 12) * 6.283; STARS.push([r * Math.cos(th), r * Math.sin(th), .3]); }
+    for (let i = 0; i < 1400; i++) { const r = Math.pow(rnd(i, 6), 1.6) * 9000, th = rnd(i, 7) * 6.283; STARS.push([r * Math.cos(th) * 1.5, r * Math.sin(th) * .6, .95]); }
+    const HALO = []; for (let i = 0; i < 260; i++) { const r = 20000 + rnd(i, 8) * 55000, th = rnd(i, 9) * 6.283; HALO.push([r * Math.cos(th), r * Math.sin(th) * .9]); }
+    const SUN = [-26000 * Math.cos(.35), 26000 * Math.sin(.35)];
+    const FINDS = [
+      ['A Swallowed Galaxy', 'About 10 billion years ago a smaller galaxy crashed into ours. Gaia found its stars still streaming through our halo, all moving the same odd way. Astronomers named it Gaia-Enceladus.', '#f0b35a'],
+      ['A Snail-Shell Wobble', 'Plot the speed of nearby stars against their height above the disk and they curl into a snail shell. Something shook our part of the galaxy: probably a small galaxy passing through, and it is still ringing.', '#6fb3ff'],
+      ['A Sleeping Black Hole', 'Gaia BH3, 1,926 light-years away, 33 times the Sun’s mass. Nobody can see it. Gaia saw a star wobbling around nothing.', '#ff7d6f']];
+    const btns = CS.$(el, '#gx-btns'), r = CS.$(el, '#gx-r');
+    const setStep = s => { step = s; t0 = performance.now(); find = -1; zoomGo = false; zT = 0;
+      el.querySelectorAll('#gx-steps button').forEach(b => b.classList.toggle('on', +b.dataset.s === s));
+      btns.innerHTML = s === 0 ? '<button class="primary" id="gx-zoom">Zoom Down to the Dime</button><button id="gx-reset">Start Over</button>' : s === 2 ? FINDS.map((f, i) => `<button data-f="${i}">${f[0]}</button>`).join('') : '';
+      r.innerHTML = s === 0 ? '<strong>How small an angle can Gaia measure?</strong>' : s === 1 ? '<strong>1.8 billion stars</strong><span class="big">position, distance, motion</span>' : '<strong>Pick a discovery.</strong>';
+      if (s === 0) { CS.$(el, '#gx-zoom').onclick = () => { zoomGo = true; zT = performance.now(); }; CS.$(el, '#gx-reset').onclick = () => setStep(0); }
+      if (s === 2) btns.querySelectorAll('button').forEach(b => b.onclick = () => { find = +b.dataset.f; btns.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); r.innerHTML = `<strong>${FINDS[find][0]}</strong><p class="why">${FINDS[find][1]}</p>`; });
+    };
+    el.querySelectorAll('#gx-steps button').forEach(b => b.onclick = () => setStep(+b.dataset.s)); setStep(0);
+    const T = (ctx, s, x, y, o2) => { ctx.font = `${o2.w || 500} ${o2.z}px ${o2.f || 'Georgia, serif'}`; ctx.textAlign = o2.a || 'center'; ctx.fillStyle = o2.c || '#ece6da'; ctx.fillText(s, x, y); };
+    CS.tick(el, t => {
+      if (!o.fit()) return; const { ctx, w, h } = o, k = Math.min(1, (t - t0) / 2600), e = k * k * (3 - 2 * k);
+      ctx.fillStyle = '#05070d'; ctx.fillRect(0, 0, w, h);
+      if (step === 0) {
+        // zoom from the whole Moon (2,159 mi) to a dime (0.7 in): about 200 million times
+        const q = zoomGo ? Math.min(1, (t - zT) / 6000) : 0, qe = q * q * (3 - 2 * q), Z = Math.pow(1.94e8, qe), cx = w * .5, cy = h * .5, R0 = Math.min(w, h) * .36, R = R0 * Z;
+        const fov = 2159 * 2 * (h * .5) / (R0 * 2) / Z; // miles across the screen height
+        if (Z < 60 && moon.complete && moon.naturalWidth) { const sc = R / 390, ox = cx + 140 * sc; ctx.save(); ctx.globalAlpha = Math.max(0, 1 - Math.log10(Z) / 1.8); ctx.beginPath(); ctx.arc(ox, cy, R, 0, 6.283); ctx.clip(); ctx.drawImage(moon, ox - 332 * sc, cy - 444 * sc, 900 * sc, 900 * sc); ctx.restore(); }
+        if (Z > 8) { // the ground: gray dust with craters at whatever scale is on screen
+          ctx.globalAlpha = Math.min(1, (Math.log10(Z) - .9) / .8); ctx.fillStyle = '#8a867e'; ctx.fillRect(0, 0, w, h);
+          const lv = Math.log10(Z); for (let L = Math.floor(lv) - 1; L <= Math.floor(lv) + 1; L++) { const sz = Math.pow(10, lv - L) * 60; if (sz < 8 || sz > w * 3) continue; for (let i = 0; i < 26; i++) { const x = rnd(i, L + 20) * w, y = rnd(i, L + 40) * h, rr = sz * (.3 + rnd(i, L + 60)); ctx.fillStyle = 'rgba(60,57,52,.18)'; ctx.beginPath(); ctx.arc(x, y, rr, 0, 6.283); ctx.fill(); ctx.strokeStyle = 'rgba(200,196,188,.25)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(x - rr * .1, y - rr * .1, rr, 3.6, 5.6); ctx.stroke(); } }
+          ctx.globalAlpha = 1; }
+        if (qe > .97) { const dr = Math.min(w, h) * .12 * Math.min(1, (qe - .97) / .03); const g = ctx.createRadialGradient(cx - dr * .3, cy - dr * .3, dr * .1, cx, cy, dr); g.addColorStop(0, '#f4f4f4'); g.addColorStop(1, '#8e9196'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, dr, 0, 6.283); ctx.fill(); ctx.strokeStyle = '#5c5f63'; ctx.lineWidth = 3; ctx.stroke(); T(ctx, '10¢', cx, cy + 10, { z: Math.max(14, dr * .35), c: '#6b6e73', w: 600 }); T(ctx, 'a dime, 0.7 inch', cx, cy + dr + 40, { z: 24, c: '#ffffff', w: 600 }); }
+        const fovS = fov >= 1 ? `${Math.round(fov).toLocaleString()} miles` : fov * 5280 >= 1 ? `${Math.round(fov * 5280).toLocaleString()} feet` : `${(fov * 63360).toFixed(1)} inches`;
+        ctx.fillStyle = 'rgba(5,7,13,.78)'; ctx.fillRect(0, h - 78, w, 78);
+        T(ctx, qe > .97 ? 'Gaia can see an angle this small: a dime on the Moon, from Earth.' : zoomGo ? `Screen shows ${fovS} of the Moon` : 'The Moon, 239,000 miles away', w / 2, h - 34, { z: 26, c: qe > .97 ? '#f0b35a' : '#ece6da' });
+        if (qe > .97) r.innerHTML = '<strong>A dime on the Moon</strong><span class="big">10 millionths of an arcsecond</span><p class="why">That angle, measured again and again, gave Gaia the distance to 1.8 billion stars.</p>';
+      } else if (step === 1) {
+        if (sky.complete && sky.naturalWidth) { const s = Math.min(w / sky.naturalWidth, (h - 120) / sky.naturalHeight), iw = sky.naturalWidth * s, ih = sky.naturalHeight * s; ctx.globalAlpha = e; ctx.drawImage(sky, (w - iw) / 2, 30, iw, ih); ctx.globalAlpha = 1;
+          T(ctx, 'The whole sky, from Gaia’s 1.8 billion stars', w / 2, 30 + ih + 44, { z: 26, c: '#f0b35a' }); T(ctx, 'Not a photograph: every dot of light is a star Gaia measured. ESA/Gaia/DPAC', w / 2, 30 + ih + 76, { z: 15, c: '#9a9382' }); }
+      } else {
+        // fly out: start close to the Sun, end with the whole galaxy
+        const S = Math.min(w, h) / 120000, z = 40 * Math.pow(1 / 40, e), sc = S * z, fx = SUN[0] * (1 - e), fy = SUN[1] * (1 - e), X = x => w / 2 + (x - fx) * sc, Y = y => h / 2 + (y - fy) * sc;
+        if (find === 0) for (const p of HALO) { ctx.fillStyle = 'rgba(240,179,90,.55)'; ctx.beginPath(); ctx.arc(X(p[0]), Y(p[1]), 2.4, 0, 6.283); ctx.fill(); }
+        const cg = ctx.createRadialGradient(X(0), Y(0), 0, X(0), Y(0), 14000 * sc); cg.addColorStop(0, 'rgba(255,226,170,.55)'); cg.addColorStop(1, 'rgba(255,226,170,0)'); ctx.fillStyle = cg; ctx.beginPath(); ctx.arc(X(0), Y(0), 14000 * sc, 0, 6.283); ctx.fill();
+        for (const p of STARS) { const x = X(p[0]), y = Y(p[1]); if (x < -5 || x > w + 5 || y < -5 || y > h + 5) continue; ctx.fillStyle = p[2] > .85 ? 'rgba(255,230,190,.8)' : 'rgba(170,195,255,.55)'; ctx.fillRect(x, y, 1.6, 1.6); }
+        const sx = X(SUN[0]), sy = Y(SUN[1]); ctx.fillStyle = '#ffd66b'; ctx.beginPath(); ctx.arc(sx, sy, 6, 0, 6.283); ctx.fill(); T(ctx, 'the Sun · us', sx + 12, sy + 6, { z: 18, a: 'left', c: '#ffd66b' });
+        if (e > .9) { T(ctx, 'the Milky Way · 100,000 light-years across', w / 2, h - 30, { z: 20, c: '#9a9382' }); T(ctx, 'center', X(0), Y(0) + 6, { z: 15, c: '#cfc8ba' }); }
+        if (find === 1) { ctx.strokeStyle = '#6fb3ff'; ctx.lineWidth = 3; ctx.beginPath(); for (let a = 0; a < 18; a += .1) { const rr = 4 + a * 3.2; const px = sx + rr * Math.cos(a), py = sy + rr * Math.sin(a); a ? ctx.lineTo(px, py) : ctx.moveTo(px, py); } ctx.stroke(); T(ctx, 'the snail shell: our neighborhood, still wobbling', sx + 70, sy - 64, { z: 18, a: 'left', c: '#6fb3ff' }); }
+        if (find === 2) { const bx = sx + 22, by = sy - 26; ctx.strokeStyle = 'rgba(255,125,111,.6)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(bx, by); ctx.stroke(); ctx.fillStyle = '#000'; ctx.strokeStyle = '#ff7d6f'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(bx, by, 9, 0, 6.283); ctx.fill(); ctx.stroke(); T(ctx, 'Gaia BH3 · 1,926 light-years from us', bx - 30, by - 26, { z: 18, a: 'right', c: '#ff7d6f' }); }
+        if (find === 0) T(ctx, 'the swallowed galaxy’s stars, all through the halo', w / 2, 40, { z: 20, c: '#f0b35a' });
+      }
+    });
+  }
+};
