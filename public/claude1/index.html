@@ -2524,7 +2524,7 @@ addEventListener('message',e=>{const d=e.data||{};if(d.go==='next')go(cur+1);els
 setInterval(()=>{if(presWin&&!presWin.closed&&presT0){const s=Math.floor((performance.now()-presT0)/1000);presWin.postMessage({clock:`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`},'*');}},1000);
 
 /* ---------- loop ---------- */
-function frame(t){const el=slides[cur];const s=scenes.find(sc=>el.contains(sc.o.c));if(s&&s.o.w)s.draw(t);const stg=el.querySelector('.stage');if(stg){const open=[...stg.querySelectorAll('.card')].some(c=>c.offsetParent!==null&&getComputedStyle(c).display!=='none');stg.classList.toggle('has-card',open);}requestAnimationFrame(frame);}
+function frame(t){const el=slides[cur];const s=scenes.find(sc=>el.contains(sc.o.c));if(s){const c=s.o.c,dpr=devicePixelRatio||1;if(c.clientWidth&&(Math.abs(c.clientWidth-s.o.w)>.5||Math.abs(c.clientHeight-s.o.h)>.5||Math.abs(c.width-c.clientWidth*dpr)>1))s.o.resize();}if(s&&s.o.w)s.draw(t);const stg=el.querySelector('.stage');if(stg){const open=[...stg.querySelectorAll('.card')].some(c=>c.offsetParent!==null&&getComputedStyle(c).display!=='none');stg.classList.toggle('has-card',open);}requestAnimationFrame(frame);}
 addEventListener('hashchange',()=>{const n=parseInt(location.hash.slice(1))||0;if(n!==cur)go(n);});
 go(parseInt(location.hash.slice(1))||0);requestAnimationFrame(frame);
 </script>
