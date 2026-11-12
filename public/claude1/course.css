@@ -212,3 +212,7 @@ svg.fig .xs{font-size:20px}svg.fig .sm{font-size:24px}svg.fig .md{font-size:28px
 .qd-photo figcaption{margin-top:.5rem;font:400 1rem/1.35 var(--sans);color:#e8ecf6}
 .qd-photo figcaption b{display:block;color:var(--accent);font-size:1.15rem;margin-bottom:.2rem}
 .qd-photo .x{position:absolute;right:.3rem;top:.1rem;background:rgba(11,21,48,.8);border:0;color:#e8ecf6;font-size:1.8rem;line-height:1;cursor:pointer;border-radius:.3rem}
+
+/* Walk North: plain-language "why" lines in the readout */
+.readout p.why{display:block!important;margin:.5rem 0 0;font:400 1.15rem/1.4 var(--sans);color:var(--ink)}
+.readout p.why-k{color:var(--accent);font-weight:600}
