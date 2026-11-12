@@ -171,3 +171,6 @@ svg.fig .xs{font-size:20px}svg.fig .sm{font-size:24px}svg.fig .md{font-size:28px
 #idl-legend{list-style:none;margin:.3rem 0 .9rem;padding:.7rem .8rem;border:1px solid #ff7d6f55;border-radius:.6rem;background:rgba(17,23,39,.7)}
 #idl-legend li{color:#ffd0c8;font-size:1.15rem;font-family:var(--sans);line-height:1.35;margin:.25rem 0}
 #idl-legend b{display:inline-grid;place-items:center;width:1.5em;height:1.5em;border-radius:50%;background:#ff7d6f;color:#0a0e18;margin-right:.4em;font-size:.85em}
+
+#detour-back{position:absolute;right:1rem;top:1rem;z-index:20;border:0;cursor:pointer;background:var(--accent);color:#1a1206;font:600 1.15rem var(--sans);padding:.75rem 1.3rem;border-radius:.5rem;box-shadow:0 6px 24px rgba(0,0,0,.45)}
+.btns button.detour{border-color:var(--sky);color:var(--sky)}
