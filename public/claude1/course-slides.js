@@ -117,26 +117,44 @@ NEW_SLIDES['A sphere will not lie flat'] = {
 
 /* ---------- Chapter slide 2: two ships, one latitude ---------- */
 NEW_SLIDES['Two ships, one latitude'] = {
-  h1: 'Longitude has no landmarks',
-  ctl: `<div class="controls">${CS.slider('ts-d', 'Move the second ship east', 0, 20, 0.1, 6)}</div><div class="readout" id="ts-r"></div>`,
-  fig: `<rect x="40" y="250" width="920" height="330" fill="#141b2e"/>
-  <g id="ts-mer"></g><line class="red" x1="40" y1="420" x2="960" y2="420" stroke-width="1.6"/><text x="52" y="410" class="sm rd">50° north, both ships</text>
-  <g id="ts-a" transform="translate(220,420)"></g><g id="ts-b"></g>
-  <g id="ts-sa" transform="translate(220,60)"></g><g id="ts-sb"></g>
-  <text id="ts-gap" class="md" text-anchor="middle" y="500"></text><path id="ts-br" class="k" fill="none" d=""/>`,
+  h1: 'Longitude has no landmarks', canvas: true,
+  ctl: `<div class="controls">${CS.slider('ts-d', 'Move the second ship east', 0, 40, 0.5, 15)}</div><div class="btns"><button class="primary" id="ts-spin">Pause the Earth</button></div><div class="readout" id="ts-r"></div>`,
   init(el) {
-    const ship = `<path d="M-26 0 L26 0 L18 13 L-18 13 Z" fill="#ece6da"/><line x1="0" y1="0" x2="0" y2="-34" stroke="#ece6da" stroke-width="2"/><path d="M2 -32 L22 -8 L2 -8 Z" fill="#0a0e18" stroke="#ece6da" stroke-width="1.4"/>`;
-    const sky = `<path d="M-80 120 A80 80 0 0 1 80 120" fill="none" stroke="#2e3854"/><line x1="-90" y1="120" x2="90" y2="120" stroke="#ece6da"/><line x1="0" y1="120" x2="${80 * Math.cos(50 * D2R)}" y2="${120 - 80 * Math.sin(50 * D2R)}" stroke="#f0b35a" stroke-dasharray="3 4"/><circle cx="${80 * Math.cos(50 * D2R)}" cy="${120 - 80 * Math.sin(50 * D2R)}" r="5" fill="#f0b35a"/><text x="0" y="146" text-anchor="middle" class="sm">Pole Star 50° up</text>`;
-    CS.$(el, '#ts-a').innerHTML = ship; CS.$(el, '#ts-sa').innerHTML = sky; CS.$(el, '#ts-sb').innerHTML = sky; CS.$(el, '#ts-b').innerHTML = ship;
-    let m = ''; for (let i = 0; i <= 23; i++) m += `<line class="hair" x1="${40 + i * 40}" y1="250" x2="${40 + i * 40}" y2="580" stroke-dasharray="2 5"/>`; CS.$(el, '#ts-mer').innerHTML = m + `<text x="948" y="572" text-anchor="end" class="xs mu">no lines are painted on the sea</text>`;
-    const S = CS.$(el, '#ts-d'); const draw = () => {
-      const d = +S.value, x = 220 + d * 33, mi = d * 69.17 * Math.cos(50 * D2R);
-      CS.$(el, '#ts-b').setAttribute('transform', `translate(${x},420)`); CS.$(el, '#ts-sb').setAttribute('transform', `translate(${Math.max(430, x)},60)`);
-      const g = CS.$(el, '#ts-gap'); g.setAttribute('x', (220 + x) / 2); g.textContent = d < .3 ? '' : `${CS.int(mi)} miles apart`;
-      CS.$(el, '#ts-br').setAttribute('d', d < .3 ? '' : `M220 462 v10 H${x} v-10`);
+    const o = CS.canvas(el), S = CS.$(el, '#ts-d'); let spin = true, lon0 = -40, last = 0, LAT = 50, A = -35;
+    CS.$(el, '#ts-spin').onclick = e => { spin = !spin; e.target.textContent = spin ? 'Pause the Earth' : 'Spin the Earth'; };
+    const draw = now => {
+      if (!el.classList.contains('active')) { last = 0; requestAnimationFrame(draw); return; }
+      const dt = last ? now - last : 16; last = now; if (spin) lon0 += dt * 0.006;
+      if (!o.fit()) { requestAnimationFrame(draw); return; }
+      const { ctx, w, h } = o, R = Math.min(w * .3, h * .34), cx = w * .5, cy = h * .6, tilt = 28 * D2R, ct = Math.cos(tilt), st = Math.sin(tilt);
+      const P = (lat, lon) => { const l = (lon - lon0) * D2R, cp = Math.cos(lat * D2R), sp = Math.sin(lat * D2R); return { x: cx + R * cp * Math.sin(l), y: cy - R * (ct * sp - st * cp * Math.cos(l)), z: st * sp + ct * cp * Math.cos(l) }; };
+      const path = (pts, col, wd, dash) => { ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.setLineDash(dash || []); ctx.beginPath(); let pen = false; for (const [la, lo] of pts) { const q = P(la, lo); if (q.z > 0) { pen ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); pen = true; } else pen = false; } ctx.stroke(); ctx.setLineDash([]); };
+      const g = ctx.createRadialGradient(cx - R * .3, cy - R * .4, R * .05, cx, cy, R); g.addColorStop(0, '#2f5a8c'); g.addColorStop(.7, '#15294a'); g.addColorStop(1, '#0b1526'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.fill();
+      for (let la = -60; la <= 80; la += 20) path(Array.from({ length: 91 }, (_, k) => [la, k * 4]), 'rgba(236,230,218,.12)', 1);
+      for (let lo = 0; lo < 360; lo += 15) path(Array.from({ length: 37 }, (_, k) => [-90 + k * 5, lo]), 'rgba(236,230,218,.12)', 1);
+      ctx.strokeStyle = 'rgba(236,230,218,.75)'; ctx.lineWidth = 1.2; ctx.beginPath(); for (const ln of COAST.lines) { let pen = false; for (let i = 0; i < ln.length; i += 2) { const q = P(ln[i + 1] / COAST.q, ln[i] / COAST.q); if (q.z > 0) { pen ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); pen = true; } else pen = false; } } ctx.stroke();
+      ctx.strokeStyle = '#3b5f8a'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.stroke();
+      // the latitude line both ships sail on
+      path(Array.from({ length: 181 }, (_, k) => [LAT, k * 2]), '#f0b35a', 3);
+      // axis and Polaris, fixed above the pole while the Earth turns under it
+      const np = P(90, 0); ctx.strokeStyle = 'rgba(111,179,255,.6)'; ctx.setLineDash([6, 6]); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(np.x, np.y); ctx.lineTo(np.x, np.y - R * .55); ctx.stroke(); ctx.setLineDash([]);
+      const px = np.x, py = np.y - R * .62, gl = ctx.createRadialGradient(px, py, 0, px, py, 22); gl.addColorStop(0, 'rgba(200,225,255,.95)'); gl.addColorStop(1, 'rgba(111,179,255,0)'); ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(px, py, 22, 0, 7); ctx.fill(); ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(px, py, 4, 0, 7); ctx.fill();
+      const lab = (t, x, y, sz, col, al = 'left', wt = 600) => { ctx.font = `${wt} ${sz}px -apple-system,Segoe UI,Roboto,sans-serif`; ctx.textAlign = al; ctx.fillStyle = col; ctx.fillText(t, x, y); };
+      const fs = Math.max(15, h * .024);
+      lab('Polaris stays put. The Earth turns under it.', px + 18, py + 6, fs, '#6fb3ff');
+      // the two ships, the meridian through each, and the gap between them
+      const d = +S.value, B = A + d, mi = d * 69.17 * Math.cos(LAT * D2R);
+      path(Array.from({ length: 41 }, (_, k) => [LAT, A + d * k / 40]), '#ff7d6f', 6);
+      [[A, 'Ship 1'], [B, 'Ship 2']].forEach(([lo, n], i) => { path(Array.from({ length: 37 }, (_, k) => [-90 + k * 5, lo]), 'rgba(255,125,111,.55)', 1.5, [5, 5]); const q = P(LAT, lo); if (q.z <= 0) return; ctx.fillStyle = '#ece6da'; ctx.beginPath(); ctx.moveTo(q.x - 14, q.y); ctx.lineTo(q.x + 14, q.y); ctx.lineTo(q.x + 9, q.y + 8); ctx.lineTo(q.x - 9, q.y + 8); ctx.closePath(); ctx.fill(); ctx.fillRect(q.x - 1, q.y - 22, 2, 22); ctx.beginPath(); ctx.moveTo(q.x + 1, q.y - 21); ctx.lineTo(q.x + 13, q.y - 5); ctx.lineTo(q.x + 1, q.y - 5); ctx.fill();
+        ctx.strokeStyle = 'rgba(111,179,255,.55)'; ctx.lineWidth = 1.2; ctx.setLineDash([3, 5]); ctx.beginPath(); ctx.moveTo(q.x, q.y - 22); ctx.lineTo(px, py); ctx.stroke(); ctx.setLineDash([]);
+        lab(`${n}: Pole Star 50° up`, q.x + (i ? 18 : -18), q.y + 28, fs * .9, '#ece6da', i ? 'left' : 'right', 500); });
+      const m = P(LAT, A + d / 2); if (m.z > 0 && d > .4) lab(`${Math.round(mi)} miles apart`, m.x, m.y - 30, fs * 1.15, '#ff7d6f', 'center', 700);
+      lab('Both read the same star at the same height. Nothing in the sky says how far east or west.', w / 2, h - 30, fs * .95, '#cfc8ba', 'center', 500);
       CS.$(el, '#ts-d-o').textContent = `${CS.fx(d, 1)}° of longitude`;
-      CS.$(el, '#ts-r').innerHTML = `<strong>Same star. Same height. ${CS.int(mi)} miles apart.</strong><span>The sky tells both captains the same thing. Nothing up there marks east from west.</span>`;
-    }; S.oninput = draw; draw();
+      CS.$(el, '#ts-r').innerHTML = `<strong>Same star. Same height. ${CS.int(mi)} miles apart.</strong>`;
+      requestAnimationFrame(draw);
+    };
+    S.oninput = () => {}; requestAnimationFrame(draw);
   }
 };
 
