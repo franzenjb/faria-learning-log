@@ -293,12 +293,55 @@ NEW_SLIDES['Longitude bingo'] = {
   }
 };
 
+/* ---------- The turning point: noon is easy, home time is the problem, three ways to carry it ---------- */
+NEW_SLIDES['Three ways'] = {
+  h1: 'Noon Is Easy. Home Time Is the Problem.',
+  ctl: `<div class="btns"><button class="primary" id="tw-next">Next point</button><button id="tw-again">Start over</button></div><ol class="facts on" id="tw-list"></ol>`,
+  fig: `<defs><radialGradient id="tw-e" cx=".4" cy=".35"><stop offset="0" stop-color="#2f5a8c"/><stop offset="1" stop-color="#0b1526"/></radialGradient></defs>
+  <g id="tw-sun" opacity="0"><circle cx="70" cy="230" r="46" fill="#ffd66b" opacity=".85"/><text x="70" y="168" text-anchor="middle" class="sm" fill="#ffd66b">Sun</text><path id="tw-rays" d="M120 230 H140 M120 205 L138 196 M120 255 L138 264" stroke="#ffd66b" stroke-width="3"/></g>
+  <circle cx="300" cy="230" r="150" fill="url(#tw-e)" stroke="#3b5f8a" stroke-width="2"/><g id="tw-ticks"></g><circle cx="300" cy="230" r="5" fill="#ece6da"/>
+  <g id="tw-you" opacity="0"><line x1="300" y1="230" x2="150" y2="230" stroke="#6fb3ff" stroke-width="5"/><circle cx="150" cy="230" r="9" fill="#6fb3ff"/><text x="160" y="214" class="sm" fill="#6fb3ff">you: noon</text></g>
+  <g id="tw-home" opacity="0"><line id="tw-hl" x1="300" y1="230" x2="300" y2="230" stroke="#f0b35a" stroke-width="5"/><circle id="tw-hd" r="9" fill="#f0b35a"/><text id="tw-ht" class="sm" fill="#f0b35a"></text></g>
+  <path id="tw-gap" fill="none" stroke="#ff7d6f" stroke-width="6" d="" opacity="0"/><text id="tw-gapt" x="300" y="420" text-anchor="middle" class="lg rd" opacity="0">2 hours apart = 30° of longitude</text>
+  <text id="tw-say" x="540" y="120" class="md"></text><text id="tw-say2" x="540" y="152" class="sm mu"></text>
+  <g id="tw-cards"></g>`,
+  init(el) {
+    const W = [['1', 'The Moon', 'an hour of math, easy to get wrong', '#ff7d6f', '✗', 'The lunar distance'], ['2', 'Jupiter’s Moon Io', 'fine on land, useless at sea', '#ff7d6f', '✗', 'Galileo’s clock'], ['3', 'The Chronometer', 'carries home time across the ocean', '#6fd48a', '✓', 'A clock that could travel']];
+    const say = ['Every place has its own noon.', 'Your noon is easy: the Sun is highest.', 'What time is it back home right now?', 'The gap is your longitude.', 'Three ways to carry home time out to sea:', '', '', ''];
+    const sub = ['', 'Anywhere, any day.', 'Nobody on the ship can see it.', 'Each hour is 15 degrees.', '', '', '', ''];
+    const pts = ['Each place has its own noon', 'Your noon: easy', 'Home time: the hard part', 'The gap is your longitude', 'Way 1: the Moon', 'Way 2: Jupiter’s moon Io', 'Way 3: the chronometer'];
+    let step = 0, t0 = 0;
+    let tk = ''; for (let i = 0; i < 24; i++) { const a = i * 15 * Math.PI / 180; tk += `<line x1="${300 + 140 * Math.cos(a)}" y1="${230 + 140 * Math.sin(a)}" x2="${300 + 150 * Math.cos(a)}" y2="${230 + 150 * Math.sin(a)}" stroke="#cfc8ba" stroke-width="${i % 6 ? 1.5 : 3}"/>`; } CS.$(el, '#tw-ticks').innerHTML = tk;
+    const show = () => {
+      CS.$(el, '#tw-sun').setAttribute('opacity', step >= 0 ? 1 : 0); CS.$(el, '#tw-you').setAttribute('opacity', step >= 1 ? 1 : 0);
+      CS.$(el, '#tw-home').setAttribute('opacity', step >= 2 ? 1 : 0); CS.$(el, '#tw-gap').setAttribute('opacity', step >= 3 ? 1 : 0); CS.$(el, '#tw-gapt').setAttribute('opacity', step >= 3 ? 1 : 0);
+      CS.$(el, '#tw-say').textContent = step < 4 ? say[step] : 'Three ways to carry home time to sea'; CS.$(el, '#tw-say2').textContent = step < 4 ? sub[step] : '';
+      CS.$(el, '#tw-list').innerHTML = pts.map((p, i) => `<li class="${i <= step ? '' : 'off'}">${p}</li>`).join('');
+      CS.$(el, '#tw-cards').innerHTML = step < 4 ? '' : W.slice(0, step - 3).map((w, i) => `<g class="pick" data-go="${w[5]}" transform="translate(540,${180 + i * 140})"><rect width="440" height="118" rx="12" fill="#111727" stroke="${w[3]}" stroke-width="3"/><text x="24" y="52" class="xl" fill="${w[3]}">${w[0]}</text><text x="70" y="50" class="lg">${w[1]}</text><text x="70" y="84" class="sm mu">${w[2]}</text><text x="414" y="62" text-anchor="end" class="xl" fill="${w[3]}">${w[4]}</text></g>`).join('');
+      el.querySelectorAll('#tw-cards .pick').forEach(g => g.onclick = () => { const i = COURSE_LIVE.findIndex(c => c.t === g.dataset.go); if (i >= 0) go(i); });
+      CS.$(el, '#tw-next').textContent = step >= 6 ? 'Done' : 'Next point';
+    };
+    CS.$(el, '#tw-next').onclick = () => { if (step < 6) { step++; t0 = performance.now(); show(); } };
+    CS.$(el, '#tw-again').onclick = () => { step = 0; t0 = performance.now(); show(); };
+    CS.tick(el, t => {
+      // home hand swings round to 2 hours (30°) ahead of you; the gap arc grows
+      const k = step >= 2 ? Math.min(1, (t - t0) / 1200) : 0, kk = step > 2 ? 1 : k, ang = Math.PI + (-30 * Math.PI / 180) * kk;
+      const hx = 300 + 140 * Math.cos(ang), hy = 230 + 140 * Math.sin(ang);
+      const hl = CS.$(el, '#tw-hl'); hl.setAttribute('x2', hx); hl.setAttribute('y2', hy); const hd = CS.$(el, '#tw-hd'); hd.setAttribute('cx', hx); hd.setAttribute('cy', hy);
+      const ht = CS.$(el, '#tw-ht'); ht.setAttribute('x', hx + 16); ht.setAttribute('y', hy + 34); ht.setAttribute('text-anchor', 'start'); ht.textContent = step >= 3 ? 'home: 2 pm' : 'home: ?';
+      CS.$(el, '#tw-gap').setAttribute('d', `M ${300 - 165} 230 A 165 165 0 0 1 ${300 + 165 * Math.cos(Math.PI - 30 * Math.PI / 180)} ${230 - 165 * Math.sin(30 * Math.PI / 180)}`);
+      CS.$(el, '#tw-rays').setAttribute('opacity', .5 + .5 * Math.abs(Math.sin(t / 400)));
+    });
+    show();
+  }
+};
+
 /* ---------- Chapter slide 7: Galileo's clock in the sky, kept simple ---------- */
 NEW_SLIDES['Galileo’s clock'] = {
   h1: 'Galileo Offered a Clock in the Sky',
   ctl: `<div class="btns"><button class="primary" id="gc-play">Watch Io vanish</button></div>
   <div class="controls">${CS.slider('gc-w', 'How far west of Paris are you?', 0, 6, 0.25, 2)}</div>
-  <div class="btns"><button id="gc-ship">Now try it from a ship</button></div><div class="readout" id="gc-r"></div>`,
+  <div class="btns"><button id="gc-ship">Now try it from a ship</button><button class="detour" data-detour="Jupiter's moons" data-label="Way 2: Jupiter’s Moon Io">Detour: Who Was Galileo?</button></div><div class="readout" id="gc-r"></div>`,
   fig: `<text x="500" y="52" text-anchor="middle" class="lg">Jupiter’s moon Io slips into Jupiter’s shadow</text>
   <text x="500" y="82" text-anchor="middle" class="sm mu">Everyone on Earth who is looking sees it vanish at the same instant.</text>
   <g id="gc-sky"><rect x="250" y="108" width="500" height="150" rx="12" fill="#070a12" stroke="#283048"/>
