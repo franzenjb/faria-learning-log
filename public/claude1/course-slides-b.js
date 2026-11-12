@@ -45,7 +45,11 @@ NEW_SLIDES['Picard and the meter'] = {
   <path id="mt-arc" fill="none" stroke="#f0b35a" stroke-width="7" d=""/><path id="mt-fr" fill="none" stroke="#ece6da" stroke-width="13" d="" opacity=".85"/>
   <circle id="mt-dot" r="10" class="fr" stroke="#0a0e18" stroke-width="2"/><line id="mt-rad" class="hair" x1="180" y1="560" x2="0" y2="0"/>
   <text x="170" y="92" text-anchor="end" class="sm">North Pole</text><text x="648" y="586" class="sm">Equator</text><text x="196" y="548" class="xs mu">center of the Earth</text>
-  <g transform="translate(690,150)"><text class="md">Pole to equator</text><text y="34" class="xl rd">10,000,000 m</text><text y="64" class="sm mu">That is how the meter</text><text y="86" class="sm mu">was defined, 26 March 1791.</text><text y="146" class="md">Picard's degree, 1670</text><text y="178" class="lg">57,060 toises</text><text y="206" class="sm mu">About 69.1 miles. The first</text><text y="228" class="sm mu">degree anyone could trust.</text><text y="290" class="md">Dunkirk to Barcelona</text><text y="318" class="sm mu">Delambre and Méchain</text><text y="340" class="sm mu">re-measured it, 1792 to 1799.</text></g>`,
+  <g transform="translate(690,40)"><text class="md">How Picard Got 1°</text>
+  <text y="40" class="sm"><tspan fill="#ff7d6f">1. Ground:</tspan> triangles</text><text y="64" class="sm mu">78,850 toises · 95 miles</text>
+  <text y="104" class="sm"><tspan fill="#6fb3ff">2. Sky:</tspan> one star, each end</text><text y="128" class="sm mu">heights differ 1.382°</text>
+  <text y="168" class="sm"><tspan fill="#f0b35a">3. Divide:</tspan> 78,850 ÷ 1.382</text><text y="206" class="lg rd">= 57,060 toises</text><text y="232" class="sm mu">per degree · 69.1 miles</text>
+  <text y="292" class="md">Then the Meter, 1791</text><text y="322" class="sm mu">Pole to equator: 90°.</text><text y="346" class="sm mu">Call it 10,000,000 m.</text></g>`,
   init(el) {
     const S = CS.$(el, '#mt-l'), P = d => [180 + 460 * Math.cos(d * D2R), 560 - 460 * Math.sin(d * D2R)]; let tk = '';
     for (let d = 0; d <= 90; d += 10) { const a = P(d), b = [180 + 478 * Math.cos(d * D2R), 560 - 478 * Math.sin(d * D2R)]; tk += `<line class="k" x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/><text class="xs mu" x="${180 + 500 * Math.cos(d * D2R)}" y="${560 - 500 * Math.sin(d * D2R) + 4}" text-anchor="middle">${d}°</text>`; } CS.$(el, '#mt-t').innerHTML = tk;
