@@ -194,7 +194,7 @@ function titleCase(str) {
   shell.querySelector('#notes-tog').onclick = () => setN(!shell.classList.contains('notes-on')); if (store('c1-notes') === '1') shell.classList.add('notes-on');
   shell.querySelector('#ls-tog').onclick = () => setL(!shell.classList.contains('ls-open'));
   shell.querySelector('#rs-tog').onclick = () => setR(shell.classList.contains('rs-shut'));
-  if (store('c1-ls') === '1') shell.classList.add('ls-open'); if (store('c1-rs') === '0') { shell.classList.add('rs-shut'); shell.querySelector('#rs-tog').textContent = '❮'; }
+  if (store('c1-ls') === '1') shell.classList.add('ls-open'); if (store('c1-rs') !== '1') { shell.classList.add('rs-shut'); shell.querySelector('#rs-tog').textContent = '❮'; }
 
   // teleprompter type size and segment clock
   let fs = +(store('c1-fs') || 1); const jeff = shell.querySelector('#jeff'); const setFs = v => { fs = Math.max(.7, Math.min(1.8, v)); jeff.style.setProperty('--jfs', fs); store('c1-fs', fs); }; setFs(fs);

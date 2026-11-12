@@ -6,11 +6,11 @@ function jupiterScene(mode) {
   return {
     h1: mode === 'clock' ? 'Rømer: light needs time' : 'Jupiter\'s moons as a measuring stick',
     ctl: `<div class="controls">${CS.slider(id + '-a', 'Move the Earth round its orbit', 0, 180, 1, 0)}</div><div class="chips" id="${id}-p"><button data-v="0">Earth nearest</button><button data-v="180">Earth farthest</button></div><div class="readout" id="${id}-r"></div>`,
-    fig: `<circle cx="250" cy="330" r="62" fill="none" stroke="#c9c4b8"/><circle cx="250" cy="330" r="16" class="fr"/><text x="250" y="366" text-anchor="middle" class="xs mu">Sun</text>
-    <circle cx="572" cy="330" r="20" fill="#ece8df" stroke="#161514" stroke-width="1.6"/><text x="572" y="296" text-anchor="middle" class="sm">Jupiter</text>
-    <circle cx="572" cy="330" r="34" fill="none" stroke="#c9c4b8" stroke-dasharray="2 4"/><circle id="${id}-io" cx="606" cy="330" r="4" class="fk"/>
+    fig: `<circle cx="250" cy="330" r="62" fill="none" stroke="#2e3854"/><circle cx="250" cy="330" r="16" class="fr"/><text x="250" y="366" text-anchor="middle" class="xs mu">Sun</text>
+    <circle cx="572" cy="330" r="20" fill="#1c2540" stroke="#ece6da" stroke-width="1.6"/><text x="572" y="296" text-anchor="middle" class="sm">Jupiter</text>
+    <circle cx="572" cy="330" r="34" fill="none" stroke="#2e3854" stroke-dasharray="2 4"/><circle id="${id}-io" cx="606" cy="330" r="4" class="fk"/>
     <line id="${id}-ray" class="red" x1="0" y1="0" x2="0" y2="0" stroke-width="1.6"/><circle id="${id}-e" r="9" class="fk"/><text id="${id}-el" class="sm"></text><text id="${id}-dl" class="md rd" text-anchor="middle"></text>
-    <g transform="translate(790,150)"><rect x="-150" y="-110" width="300" height="${mode === 'clock' ? 250 : 220}" rx="8" fill="#fff" stroke="#c9c4b8"/><g id="${id}-in"></g></g>
+    <g transform="translate(790,150)"><rect x="-150" y="-110" width="300" height="${mode === 'clock' ? 250 : 220}" rx="8" fill="#111727" stroke="#2e3854"/><g id="${id}-in"></g></g>
     <text x="500" y="590" text-anchor="middle" class="sm mu">Orbits to scale with each other. Sun, planets and moons drawn far too big.</text>`,
     init(el) {
       const S = CS.$(el, `#${id}-a`), AU = 62; const draw = () => {
@@ -21,11 +21,11 @@ function jupiterScene(mode) {
         CS.$(el, `#${id}-a-o`).textContent = `${S.value}°`;
         if (mode === 'clock') {
           const late = (d - 4.2) * 499.005, m = Math.floor(late / 60), s = Math.round(late % 60);
-          CS.$(el, `#${id}-in`).innerHTML = `<text y="-76" text-anchor="middle" class="sm mu">Io goes into the shadow</text><text y="-28" text-anchor="middle" class="xl rd">${m} min ${String(s).padStart(2, '0')} s</text><text y="4" text-anchor="middle" class="md">late</text><rect x="-120" y="34" width="240" height="10" fill="#f3efe6"/><rect x="-120" y="34" width="${240 * late / 1000}" height="10" fill="#b01f24"/><text y="76" text-anchor="middle" class="xs mu">Rømer's figure, 1676: 22 minutes across the orbit</text><text y="98" text-anchor="middle" class="xs mu">Modern figure: 16 minutes 40 seconds</text>`;
+          CS.$(el, `#${id}-in`).innerHTML = `<text y="-76" text-anchor="middle" class="sm mu">Io goes into the shadow</text><text y="-28" text-anchor="middle" class="xl rd">${m} min ${String(s).padStart(2, '0')} s</text><text y="4" text-anchor="middle" class="md">late</text><rect x="-120" y="34" width="240" height="10" fill="#141b2e"/><rect x="-120" y="34" width="${240 * late / 1000}" height="10" fill="#f0b35a"/><text y="76" text-anchor="middle" class="xs mu">Rømer's figure, 1676: 22 minutes across the orbit</text><text y="98" text-anchor="middle" class="xs mu">Modern figure: 16 minutes 40 seconds</text>`;
           CS.$(el, `#${id}-r`).innerHTML = `<strong>${late < 5 ? 'On time' : `${m} min ${s} s behind the table`}</strong><span>Io keeps perfect time at about 42.5 hours a lap. The news of each eclipse has ${CS.fx(d - 4.2, 2)} AU farther to travel.</span>`;
         } else {
           const am = 1.883e6 / (d * 149.6e6) / D2R * 60, px = am * 11;
-          CS.$(el, `#${id}-in`).innerHTML = `<text y="-76" text-anchor="middle" class="sm mu">Through the telescope</text><line x1="${-px}" y1="0" x2="${px}" y2="0" stroke="#c9c4b8"/><circle r="${px * .037 + 3}" fill="#ece8df" stroke="#161514"/><circle cx="${px}" r="4" class="fk"/><circle cx="${-px}" r="4" fill="none" stroke="#161514"/><path d="M0 26 H${px}" stroke="#b01f24" stroke-width="2"/><text x="${px / 2}" y="50" text-anchor="middle" class="md rd">${CS.fx(am, 1)}′</text><text y="88" text-anchor="middle" class="xs mu">Jupiter to Callisto: a ruler 1.17 million miles long</text>`;
+          CS.$(el, `#${id}-in`).innerHTML = `<text y="-76" text-anchor="middle" class="sm mu">Through the telescope</text><line x1="${-px}" y1="0" x2="${px}" y2="0" stroke="#2e3854"/><circle r="${px * .037 + 3}" fill="#1c2540" stroke="#ece6da"/><circle cx="${px}" r="4" class="fk"/><circle cx="${-px}" r="4" fill="none" stroke="#ece6da"/><path d="M0 26 H${px}" stroke="#f0b35a" stroke-width="2"/><text x="${px / 2}" y="50" text-anchor="middle" class="md rd">${CS.fx(am, 1)}′</text><text y="88" text-anchor="middle" class="xs mu">Jupiter to Callisto: a ruler 1.17 million miles long</text>`;
           CS.$(el, `#${id}-r`).innerHTML = `<strong>Callisto swings ${CS.fx(am, 1)} arcminutes out</strong><span>Same ruler, ${CS.fx(d, 1)} AU away. Angle is length divided by distance. Ten arcminutes near, seven far: the Earth's own orbit, read off Jupiter.</span>`;
         }
       };
@@ -41,9 +41,9 @@ NEW_SLIDES['Light needs time'] = jupiterScene('clock');
 NEW_SLIDES['Picard and the metre'] = {
   h1: 'From Picard\'s degree to the metre',
   ctl: `<div class="controls">${CS.slider('mt-l', 'Walk the meridian north', 0, 90, 0.5, 48.85)}</div><div class="chips" id="mt-p"><button data-v="0">Equator</button><button data-v="41.38">Barcelona</button><button data-v="48.85">Paris</button><button data-v="51.03">Dunkirk</button><button data-v="90">Pole</button></div><div class="readout" id="mt-r"></div>`,
-  fig: `<path d="M180 560 L180 100 A460 460 0 0 1 640 560 Z" fill="#f3efe6" stroke="#161514" stroke-width="2"/><g id="mt-t"></g>
-  <path id="mt-arc" fill="none" stroke="#b01f24" stroke-width="7" d=""/><path id="mt-fr" fill="none" stroke="#161514" stroke-width="13" d="" opacity=".85"/>
-  <circle id="mt-dot" r="10" class="fr" stroke="#fffdf6" stroke-width="2"/><line id="mt-rad" class="hair" x1="180" y1="560" x2="0" y2="0"/>
+  fig: `<path d="M180 560 L180 100 A460 460 0 0 1 640 560 Z" fill="#141b2e" stroke="#ece6da" stroke-width="2"/><g id="mt-t"></g>
+  <path id="mt-arc" fill="none" stroke="#f0b35a" stroke-width="7" d=""/><path id="mt-fr" fill="none" stroke="#ece6da" stroke-width="13" d="" opacity=".85"/>
+  <circle id="mt-dot" r="10" class="fr" stroke="#0a0e18" stroke-width="2"/><line id="mt-rad" class="hair" x1="180" y1="560" x2="0" y2="0"/>
   <text x="170" y="92" text-anchor="end" class="sm">North Pole</text><text x="648" y="586" class="sm">Equator</text><text x="196" y="548" class="xs mu">centre of the Earth</text>
   <g transform="translate(690,150)"><text class="md">Pole to equator</text><text y="34" class="xl rd">10,000,000 m</text><text y="64" class="sm mu">That is how the metre</text><text y="86" class="sm mu">was defined, 26 March 1791.</text><text y="146" class="md">Picard's degree, 1670</text><text y="178" class="lg">57,060 toises</text><text y="206" class="sm mu">About 69.1 miles. The first</text><text y="228" class="sm mu">degree anyone could trust.</text><text y="290" class="md">Dunkirk to Barcelona</text><text y="318" class="sm mu">Delambre and Méchain</text><text y="340" class="sm mu">re-measured it, 1792 to 1799.</text></g>`,
   init(el) {
@@ -59,7 +59,7 @@ NEW_SLIDES['Picard and the metre'] = {
 NEW_SLIDES['Where the data comes from'] = {
   h1: 'Satellites, surveys and the census',
   ctl: `<div class="chips" id="ds-p"><button data-k="sat" class="on">Satellite</button><button data-k="sur">Survey</button><button data-k="cen">Census</button></div><ul class="facts on" id="ds-f"></ul><div class="readout" id="ds-r"></div>`,
-  fig: `<rect x="120" y="40" width="760" height="520" fill="#fff" stroke="#c9c4b8"/><g id="ds-g"></g><text id="ds-cap" x="500" y="600" text-anchor="middle" class="md"></text>`,
+  fig: `<rect x="120" y="40" width="760" height="520" fill="#111727" stroke="#2e3854"/><g id="ds-g"></g><text id="ds-cap" x="500" y="600" text-anchor="middle" class="md"></text>`,
   init(el) {
     const rnd = CS.rng(7), W = 760, H = 520, X = 120, Y = 40; const river = x => 300 + 70 * Math.sin(x / 130) + (x - 380) * .12;
     const D = {
@@ -70,9 +70,9 @@ NEW_SLIDES['Where the data comes from'] = {
     const houses = []; for (let i = 0; i < 90; i++) { const x = rnd() * W, y = rnd() * H; if (Math.abs(y - river(x)) > 34) houses.push([x, y]); }
     const show = k => {
       let s = '';
-      if (k === 'sat') { const c = 38; for (let y = 0; y < H; y += c) for (let x = 0; x < W; x += c) { const dr = Math.abs(y + c / 2 - river(x + c / 2)), n = houses.filter(h => h[0] >= x && h[0] < x + c && h[1] >= y && h[1] < y + c).length, g = dr < 26 ? 150 : Math.max(196, 244 - n * 22) - Math.round(rnd() * 10); s += `<rect x="${X + x}" y="${Y + y}" width="${Math.min(c, W - x)}" height="${Math.min(c, H - y)}" fill="rgb(${g},${g - 2},${g - 6})" stroke="#fff" stroke-width=".6"/>`; } }
-      if (k === 'sur') { let d = ''; for (let x = 0; x <= W; x += 20) d += `${x ? 'L' : 'M'}${X + x} ${Y + river(x)}`; s += `<path d="${d}" fill="none" stroke="#161514" stroke-width="2"/><path d="M${X + 60} ${Y + 470} L${X + 330} ${Y + 120} L${X + 690} ${Y + 420} Z" fill="none" stroke="#b01f24" stroke-width="1.4"/>` + [[60, 470], [330, 120], [690, 420]].map(p => `<path d="M${X + p[0]} ${Y + p[1] - 10} l9 16 h-18 z" fill="#b01f24"/>`).join('') + houses.map(h => `<rect x="${X + h[0] - 4}" y="${Y + h[1] - 4}" width="8" height="8" fill="#161514"/>`).join('') + `<text x="${X + 344}" y="${Y + 112}" class="xs rd">control point</text>`; }
-      if (k === 'cen') { const cx = [0, 250, 520, W], cy = [0, 260, H]; for (let j = 0; j < 2; j++) for (let i = 0; i < 3; i++) { const n = houses.filter(h => h[0] >= cx[i] && h[0] < cx[i + 1] && h[1] >= cy[j] && h[1] < cy[j + 1]).length * 3, a = Math.min(.8, n / 80); s += `<rect x="${X + cx[i]}" y="${Y + cy[j]}" width="${cx[i + 1] - cx[i]}" height="${cy[j + 1] - cy[j]}" fill="rgba(176,31,36,${a * .55})" stroke="#161514" stroke-width="1.4"/><text x="${X + (cx[i] + cx[i + 1]) / 2}" y="${Y + (cy[j] + cy[j + 1]) / 2 + 12}" text-anchor="middle" class="xl">${n}</text><text x="${X + (cx[i] + cx[i + 1]) / 2}" y="${Y + (cy[j] + cy[j + 1]) / 2 + 38}" text-anchor="middle" class="xs mu">people</text>`; } }
+      if (k === 'sat') { const c = 38; for (let y = 0; y < H; y += c) for (let x = 0; x < W; x += c) { const dr = Math.abs(y + c / 2 - river(x + c / 2)), n = houses.filter(h => h[0] >= x && h[0] < x + c && h[1] >= y && h[1] < y + c).length, g = dr < 26 ? 150 : Math.max(196, 244 - n * 22) - Math.round(rnd() * 10); s += `<rect x="${X + x}" y="${Y + y}" width="${Math.min(c, W - x)}" height="${Math.min(c, H - y)}" fill="rgb(${275 - g},${285 - g},${310 - g})" stroke="#111727" stroke-width=".6"/>`; } }
+      if (k === 'sur') { let d = ''; for (let x = 0; x <= W; x += 20) d += `${x ? 'L' : 'M'}${X + x} ${Y + river(x)}`; s += `<path d="${d}" fill="none" stroke="#ece6da" stroke-width="2"/><path d="M${X + 60} ${Y + 470} L${X + 330} ${Y + 120} L${X + 690} ${Y + 420} Z" fill="none" stroke="#f0b35a" stroke-width="1.4"/>` + [[60, 470], [330, 120], [690, 420]].map(p => `<path d="M${X + p[0]} ${Y + p[1] - 10} l9 16 h-18 z" fill="#f0b35a"/>`).join('') + houses.map(h => `<rect x="${X + h[0] - 4}" y="${Y + h[1] - 4}" width="8" height="8" fill="#ece6da"/>`).join('') + `<text x="${X + 344}" y="${Y + 112}" class="xs rd">control point</text>`; }
+      if (k === 'cen') { const cx = [0, 250, 520, W], cy = [0, 260, H]; for (let j = 0; j < 2; j++) for (let i = 0; i < 3; i++) { const n = houses.filter(h => h[0] >= cx[i] && h[0] < cx[i + 1] && h[1] >= cy[j] && h[1] < cy[j + 1]).length * 3, a = Math.min(.8, n / 80); s += `<rect x="${X + cx[i]}" y="${Y + cy[j]}" width="${cx[i + 1] - cx[i]}" height="${cy[j + 1] - cy[j]}" fill="rgba(240,179,90,${a * .55})" stroke="#ece6da" stroke-width="1.4"/><text x="${X + (cx[i] + cx[i + 1]) / 2}" y="${Y + (cy[j] + cy[j + 1]) / 2 + 12}" text-anchor="middle" class="xl">${n}</text><text x="${X + (cx[i] + cx[i + 1]) / 2}" y="${Y + (cy[j] + cy[j + 1]) / 2 + 38}" text-anchor="middle" class="xs mu">people</text>`; } }
       CS.$(el, '#ds-g').innerHTML = s; CS.$(el, '#ds-cap').textContent = D[k].cap; CS.$(el, '#ds-f').innerHTML = D[k].f.map(x => `<li>${x}</li>`).join(''); CS.$(el, '#ds-r').innerHTML = `<strong>${D[k].r[0]}</strong><span>${D[k].r[1]}</span>`;
       el.querySelectorAll('#ds-p button').forEach(b => b.classList.toggle('on', b.dataset.k === k));
     };
@@ -91,9 +91,9 @@ NEW_SLIDES['Coordinate reference systems'] = {
     const utm = (la, lo) => tm(la, lo, -81, .9996, 500000, 0), spc = (la, lo) => tm(la, lo, -82, 1 - 1 / 17000, 200000, 0, 24 + 1 / 3).map(v => v / 0.3048006096);
     const draw = () => {
       if (!o.fit()) return; const { ctx, w, h } = o, sc = Math.min((w - 40) / ((box[2] - box[0]) * Math.cos(27.8 * D2R)), (h - 90) / (box[3] - box[1])), cx = w / 2, cy = h / 2 + 8, P = (lo, la) => [cx + (lo - (box[0] + box[2]) / 2) * Math.cos(27.8 * D2R) * sc, cy - (la - (box[1] + box[3]) / 2) * sc];
-      const a = P(box[0], box[3]), b = P(box[2], box[1]); ctx.save(); ctx.beginPath(); ctx.rect(a[0], a[1], b[0] - a[0], b[1] - a[1]); ctx.fillStyle = '#fff'; ctx.fill(); ctx.clip();
+      const a = P(box[0], box[3]), b = P(box[2], box[1]); ctx.save(); ctx.beginPath(); ctx.rect(a[0], a[1], b[0] - a[0], b[1] - a[1]); ctx.fillStyle = '#111727'; ctx.fill(); ctx.clip();
       // grid in the chosen system, traced by sampling
-      ctx.strokeStyle = CS.HAIR; ctx.lineWidth = 1; ctx.font = '12px Georgia,serif'; ctx.fillStyle = CS.MUTE;
+      ctx.strokeStyle = CS.HAIR; ctx.lineWidth = 1; ctx.font = '18px Georgia,serif'; ctx.fillStyle = CS.MUTE;
       const f = k === 'utm' ? utm : k === 'spc' ? spc : (la, lo) => [lo, la], step = k === 'utm' ? 20000 : k === 'spc' ? 100000 : .25;
       for (const ax of [0, 1]) { const lo0 = f(box[1], box[0])[ax], hi0 = f(box[3], box[2])[ax]; for (let v = Math.ceil(Math.min(lo0, hi0) / step - 1) * step; v <= Math.max(lo0, hi0) + step; v += step) { ctx.beginPath(); let pen = false, lp = null; for (let u = 0; u <= 1; u += .02) { // walk the other axis, solve by scanning
             let best = null, bd = 1e12; for (let q = 0; q <= 1; q += .01) { const lo = ax ? box[0] + u * (box[2] - box[0]) : box[0] + q * (box[2] - box[0]), la = ax ? box[1] + q * (box[3] - box[1]) : box[1] + u * (box[3] - box[1]), d = Math.abs(f(la, lo)[ax] - v); if (d < bd) { bd = d; best = [lo, la]; } } if (bd < step * .03) { const p = P(best[0], best[1]); pen ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]); pen = true; lp = p; } } ctx.stroke(); if (lp) ctx.fillText(k === 'geo' ? `${Math.abs(v).toFixed(2)}°` : CS.int(v), ax ? a[0] + 6 : lp[0] + 4, ax ? lp[1] - 4 : a[1] + 14); } }
@@ -119,14 +119,14 @@ NEW_SLIDES['Error propagation'] = {
       if (!o.fit()) return; const { ctx, w, h } = o, sh = +H.value * D2R, ss = +S.value / 100, days = +Dd.value, rnd = CS.rng(42), g = () => { let u = 0; for (let i = 0; i < 6; i++) u += rnd(); return (u - 3) / .7071; };
       const run = 100 * 1.15078, x0 = 50, y0 = h / 2, px = (w - 140) / (30 * run); // 100 nautical miles a day, in statute miles
       ctx.strokeStyle = CS.HAIR; ctx.setLineDash([4, 6]); ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(w - 30, y0); ctx.stroke(); ctx.setLineDash([]);
-      const ends = []; ctx.strokeStyle = 'rgba(22,21,20,.16)'; ctx.lineWidth = 1;
+      const ends = []; ctx.strokeStyle = 'rgba(236,230,218,.16)'; ctx.lineWidth = 1;
       for (let n = 0; n < 160; n++) { let x = 0, y = 0; const bias = g() * sh * .5, sb = g() * ss * .5; ctx.beginPath(); ctx.moveTo(x0, y0); for (let d = 0; d < days; d++) { const a = bias + g() * sh, v = run * (1 + sb + g() * ss); x += v * Math.cos(a); y += v * Math.sin(a); ctx.lineTo(x0 + x * px, y0 + y * px); } ctx.stroke(); ends.push([x, y]); }
       const mx = ends.reduce((s, e) => s + e[0], 0) / ends.length, my = ends.reduce((s, e) => s + e[1], 0) / ends.length, rs = ends.map(e => Math.hypot(e[0] - mx, e[1] - my)).sort((a, b) => a - b), r95 = rs[Math.floor(rs.length * .95)];
       ctx.fillStyle = CS.RED; ends.forEach(e => { ctx.beginPath(); ctx.arc(x0 + e[0] * px, y0 + e[1] * px, 2.4, 0, 7); ctx.fill(); });
       ctx.strokeStyle = CS.RED; ctx.lineWidth = 1.8; ctx.beginPath(); ctx.arc(x0 + mx * px, y0 + my * px, Math.max(3, r95 * px), 0, 7); ctx.stroke();
-      ctx.fillStyle = CS.INK; ctx.beginPath(); ctx.arc(x0, y0, 6, 0, 7); ctx.fill(); ctx.font = `500 ${Math.max(15, h * .03)}px Georgia,serif`; ctx.textAlign = 'left'; ctx.fillText('last sure position', x0 - 6, y0 + 30);
+      ctx.fillStyle = CS.INK; ctx.beginPath(); ctx.arc(x0, y0, 6, 0, 7); ctx.fill(); ctx.font = `500 ${Math.max(21, h * .04)}px Georgia,serif`; ctx.textAlign = 'left'; ctx.fillText('last sure position', x0 - 6, y0 + 30);
       ctx.fillStyle = CS.RED; ctx.textAlign = 'center'; ctx.fillText(`somewhere in here: ${CS.int(r95)} miles either way`, Math.min(w - 220, Math.max(240, x0 + mx * px)), Math.max(30, y0 + my * px - r95 * px - 16));
-      ctx.fillStyle = CS.MUTE; ctx.font = '13px Georgia,serif'; ctx.fillText('160 voyages, each steered and logged as carefully as the last', w / 2, h - 16);
+      ctx.fillStyle = CS.MUTE; ctx.font = '19px Georgia,serif'; ctx.fillText('160 voyages, each steered and logged as carefully as the last', w / 2, h - 16);
       CS.$(el, '#ep-h-o').textContent = `±${CS.fx(+H.value, 1)}°`; CS.$(el, '#ep-s-o').textContent = `±${CS.fx(+S.value, 1)}%`; CS.$(el, '#ep-d-o').textContent = `${days} days`;
       CS.$(el, '#ep-r').innerHTML = `<strong>After ${days} days: ${CS.int(r95)} miles of doubt</strong><span>Nobody made a mistake. Each day's small error rode on top of the last. This is the fleet off Scilly, and it is every chain of measurements you will ever inherit.</span>`;
     };
@@ -142,8 +142,8 @@ const inPoly = (p, poly) => { let c = false; for (let i = 0, j = poly.length - 1
 NEW_SLIDES['Buffers'] = {
   h1: 'Buffers: everything within a distance',
   ctl: `<div class="chips" id="bf-p"><button data-k="pt" class="on">Round a point</button><button data-k="ln">Along a line</button><button data-k="pg">Round an area</button></div><div class="controls">${CS.slider('bf-d', 'Distance', 0.1, 2, 0.05, 0.75)}</div><div class="readout" id="bf-r"></div>`,
-  fig: `<rect x="40" y="40" width="920" height="540" fill="#fff" stroke="#c9c4b8"/><g id="bf-buf"></g><path id="bf-riv" fill="none" stroke="#161514" stroke-width="2.5" d=""/><path id="bf-zone" fill="#e6e2dc" stroke="#161514" stroke-width="1.5" d=""/><g id="bf-h"></g>
-  <g transform="translate(${TOWN.shelter[0]},${TOWN.shelter[1]})"><rect x="-11" y="-11" width="22" height="22" fill="#fffdf6" stroke="#b01f24" stroke-width="2"/><path d="M-6 0 H6 M0 -6 V6" stroke="#b01f24" stroke-width="3.4"/></g>
+  fig: `<rect x="40" y="40" width="920" height="540" fill="#111727" stroke="#2e3854"/><g id="bf-buf"></g><path id="bf-riv" fill="none" stroke="#ece6da" stroke-width="2.5" d=""/><path id="bf-zone" fill="#1f2a46" stroke="#ece6da" stroke-width="1.5" d=""/><g id="bf-h"></g>
+  <g transform="translate(${TOWN.shelter[0]},${TOWN.shelter[1]})"><rect x="-11" y="-11" width="22" height="22" fill="#0a0e18" stroke="#f0b35a" stroke-width="2"/><path d="M-6 0 H6 M0 -6 V6" stroke="#f0b35a" stroke-width="3.4"/></g>
   <text x="${TOWN.shelter[0] + 18}" y="${TOWN.shelter[1] - 14}" class="sm">shelter</text><text x="372" y="182" text-anchor="middle" class="sm mu">chemical plant</text><text x="170" y="408" class="sm mu">river</text>
   <line class="k" x1="70" y1="556" x2="170" y2="556" stroke-width="2"/><text x="120" y="548" text-anchor="middle" class="xs">1 mile</text>`,
   init(el) {
@@ -151,9 +151,9 @@ NEW_SLIDES['Buffers'] = {
     CS.$(el, '#bf-riv').setAttribute('d', path(T.river)); CS.$(el, '#bf-zone').setAttribute('d', path(T.zone, 1));
     const names = { pt: ['of the shelter', 'Who can walk to the shelter?'], ln: ['of the river', 'Who floods first?'], pg: ['of the plant', 'Who do we warn?'] };
     const draw = () => {
-      const d = +S.value * T.mile, sty = `fill="rgba(176,31,36,.16)" stroke="rgba(176,31,36,.16)" stroke-linejoin="round" stroke-linecap="round"`;
-      CS.$(el, '#bf-buf').innerHTML = k === 'pt' ? `<circle cx="${T.shelter[0]}" cy="${T.shelter[1]}" r="${d}" fill="rgba(176,31,36,.16)" stroke="#b01f24" stroke-dasharray="5 5"/>` : k === 'ln' ? `<path d="${path(T.river)}" fill="none" stroke="rgba(176,31,36,.16)" stroke-width="${2 * d}" stroke-linejoin="round" stroke-linecap="round"/>` : `<path d="${path(T.zone, 1)}" ${sty} stroke-width="${2 * d}"/>`;
-      let n = 0; CS.$(el, '#bf-h').innerHTML = T.houses.map(h => { let dist; if (k === 'pt') dist = Math.hypot(h[0] - T.shelter[0], h[1] - T.shelter[1]); else if (k === 'ln') dist = Math.min(...T.river.slice(1).map((b, i) => segD(h, T.river[i], b))); else dist = inPoly(h, T.zone) ? 0 : Math.min(...T.zone.map((b, i) => segD(h, T.zone[(i + T.zone.length - 1) % T.zone.length], b))); const on = dist <= d; if (on) n++; return `<rect x="${h[0] - 4}" y="${h[1] - 4}" width="8" height="8" fill="${on ? '#b01f24' : '#9b9791'}"/>`; }).join('');
+      const d = +S.value * T.mile, sty = `fill="rgba(240,179,90,.16)" stroke="rgba(240,179,90,.16)" stroke-linejoin="round" stroke-linecap="round"`;
+      CS.$(el, '#bf-buf').innerHTML = k === 'pt' ? `<circle cx="${T.shelter[0]}" cy="${T.shelter[1]}" r="${d}" fill="rgba(240,179,90,.16)" stroke="#f0b35a" stroke-dasharray="5 5"/>` : k === 'ln' ? `<path d="${path(T.river)}" fill="none" stroke="rgba(240,179,90,.16)" stroke-width="${2 * d}" stroke-linejoin="round" stroke-linecap="round"/>` : `<path d="${path(T.zone, 1)}" ${sty} stroke-width="${2 * d}"/>`;
+      let n = 0; CS.$(el, '#bf-h').innerHTML = T.houses.map(h => { let dist; if (k === 'pt') dist = Math.hypot(h[0] - T.shelter[0], h[1] - T.shelter[1]); else if (k === 'ln') dist = Math.min(...T.river.slice(1).map((b, i) => segD(h, T.river[i], b))); else dist = inPoly(h, T.zone) ? 0 : Math.min(...T.zone.map((b, i) => segD(h, T.zone[(i + T.zone.length - 1) % T.zone.length], b))); const on = dist <= d; if (on) n++; return `<rect x="${h[0] - 4}" y="${h[1] - 4}" width="8" height="8" fill="${on ? '#f0b35a' : '#5d6680'}"/>`; }).join('');
       CS.$(el, '#bf-d-o').textContent = `${CS.fx(+S.value, 2)} miles`;
       CS.$(el, '#bf-r').innerHTML = `<strong>${n} of ${T.houses.length} homes within ${CS.fx(+S.value, 2)} miles ${names[k][0]}</strong><span>${names[k][1]} A buffer turns "near" into a shape you can count inside.</span>`;
     };
@@ -164,8 +164,8 @@ NEW_SLIDES['Buffers'] = {
 NEW_SLIDES['Overlays'] = {
   h1: 'Overlays: two maps, one answer',
   ctl: `<div class="chips" id="ov-p"><button data-k="both" class="on">Both layers</button><button data-k="and">Inside the flood</button><button data-k="not">Outside the flood</button></div><div class="controls">${CS.slider('ov-w', 'How high the river rises', 0.2, 2, 0.05, 0.8)}</div><div class="readout" id="ov-r"></div>`,
-  fig: `<defs><clipPath id="ov-clip"><path id="ov-cp" d=""/></clipPath><mask id="ov-mask"><rect x="0" y="0" width="1000" height="640" fill="#fff"/><path id="ov-mp" d="" stroke="#000" fill="none" stroke-linejoin="round" stroke-linecap="round"/></mask></defs>
-  <rect x="40" y="40" width="920" height="540" fill="#fff" stroke="#c9c4b8"/><g id="ov-blocks"></g><path id="ov-flood" fill="none" stroke="rgba(22,21,20,.22)" stroke-linejoin="round" stroke-linecap="round" d=""/><path id="ov-riv" fill="none" stroke="#161514" stroke-width="2" d=""/><g id="ov-lab"></g>`,
+  fig: `<defs><clipPath id="ov-clip"><path id="ov-cp" d=""/></clipPath><mask id="ov-mask"><rect x="0" y="0" width="1000" height="640" fill="#111727"/><path id="ov-mp" d="" stroke="#000" fill="none" stroke-linejoin="round" stroke-linecap="round"/></mask></defs>
+  <rect x="40" y="40" width="920" height="540" fill="#111727" stroke="#2e3854"/><g id="ov-blocks"></g><path id="ov-flood" fill="none" stroke="rgba(236,230,218,.22)" stroke-linejoin="round" stroke-linecap="round" d=""/><path id="ov-riv" fill="none" stroke="#ece6da" stroke-width="2" d=""/><g id="ov-lab"></g>`,
   init(el) {
     const S = CS.$(el, '#ov-w'), T = TOWN; let k = 'both'; const cx = [40, 270, 500, 730, 960], cy = [40, 220, 400, 580], pop = [[420, 610, 380, 240], [530, 880, 760, 310], [350, 640, 920, 450]], d = T.river.map((p, i) => `${i ? 'L' : 'M'}${p[0]} ${p[1]}`).join('');
     ['#ov-flood', '#ov-riv', '#ov-mp'].forEach(q => CS.$(el, q).setAttribute('d', d));
@@ -174,11 +174,11 @@ NEW_SLIDES['Overlays'] = {
       let s = '', lab = '', hit = 0, all = 0;
       for (let j = 0; j < 3; j++) for (let i = 0; i < 4; i++) { let inn = 0, n = 0; for (let y = cy[j] + 9; y < cy[j + 1]; y += 18) for (let x = cx[i] + 9; x < cx[i + 1]; x += 18) { n++; if (Math.min(...T.river.slice(1).map((b, q) => segD([x, y], T.river[q], b))) <= w) inn++; } const share = inn / n, p = pop[j][i]; hit += p * share; all += p;
         const a = (p / 920) * .5, r = `x="${cx[i]}" y="${cy[j]}" width="${cx[i + 1] - cx[i]}" height="${cy[j + 1] - cy[j]}"`;
-        s += `<rect ${r} fill="#fffdf6" stroke="#161514" stroke-width="1.2"/>` + (k === 'both' ? `<rect ${r} fill="rgba(176,31,36,${a})" stroke="#161514" stroke-width="1.2"/>` : '');
+        s += `<rect ${r} fill="#0a0e18" stroke="#ece6da" stroke-width="1.2"/>` + (k === 'both' ? `<rect ${r} fill="rgba(240,179,90,${a})" stroke="#ece6da" stroke-width="1.2"/>` : '');
         const v = k === 'and' ? p * share : k === 'not' ? p * (1 - share) : p; lab += `<text x="${(cx[i] + cx[i + 1]) / 2}" y="${cy[j] + 34}" text-anchor="middle" class="md">${CS.int(v)}</text>`; }
       // the overlay result: block colour clipped to, or masked by, the flood shape
-      const tint = (j, i) => `<rect x="${cx[i]}" y="${cy[j]}" width="${cx[i + 1] - cx[i]}" height="${cy[j + 1] - cy[j]}" fill="rgba(176,31,36,${(pop[j][i] / 920) * .75})"/>`; let res = ''; for (let j = 0; j < 3; j++) for (let i = 0; i < 4; i++) res += tint(j, i);
-      CS.$(el, '#ov-cp').setAttribute('d', ''); CS.$(el, '#ov-blocks').innerHTML = s + (k === 'not' ? `<g mask="url(#ov-mask)">${res}</g>` : '') + (k === 'and' ? `<mask id="ov-keep2"><rect width="1000" height="640" fill="#000"/><path d="${d}" stroke="#fff" stroke-width="${2 * w}" fill="none" stroke-linejoin="round" stroke-linecap="round"/></mask><g mask="url(#ov-keep2)">${res}</g>` : '');
+      const tint = (j, i) => `<rect x="${cx[i]}" y="${cy[j]}" width="${cx[i + 1] - cx[i]}" height="${cy[j + 1] - cy[j]}" fill="rgba(240,179,90,${(pop[j][i] / 920) * .75})"/>`; let res = ''; for (let j = 0; j < 3; j++) for (let i = 0; i < 4; i++) res += tint(j, i);
+      CS.$(el, '#ov-cp').setAttribute('d', ''); CS.$(el, '#ov-blocks').innerHTML = s + (k === 'not' ? `<g mask="url(#ov-mask)">${res}</g>` : '') + (k === 'and' ? `<mask id="ov-keep2"><rect width="1000" height="640" fill="#000"/><path d="${d}" stroke="#111727" stroke-width="${2 * w}" fill="none" stroke-linejoin="round" stroke-linecap="round"/></mask><g mask="url(#ov-keep2)">${res}</g>` : '');
       CS.$(el, '#ov-flood').style.display = k === 'both' ? '' : 'none'; CS.$(el, '#ov-lab').innerHTML = lab + `<text x="52" y="572" class="xs mu">Census blocks, with people counted in each</text>`;
       CS.$(el, '#ov-w-o').textContent = `${CS.fx(+S.value, 2)} miles each side`;
       CS.$(el, '#ov-r').innerHTML = k === 'both' ? `<strong>Layer 1: who lives where. Layer 2: where the water goes.</strong><span>Neither map answers the question alone.</span>` : k === 'and' ? `<strong>About ${CS.int(hit / 10) * 10} people in the water</strong><span>Blocks cut by the flood line. Each block's count is split by the share of its area that is wet. That split is an assumption: it treats people as spread evenly.</span>` : `<strong>About ${CS.int((all - hit) / 10) * 10} people stay dry</strong><span>The same two layers, the opposite question. Of ${CS.int(all)} people in all.</span>`;
