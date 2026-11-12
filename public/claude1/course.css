@@ -216,3 +216,6 @@ svg.fig .xs{font-size:20px}svg.fig .sm{font-size:24px}svg.fig .md{font-size:28px
 /* Walk North: plain-language "why" lines in the readout */
 .readout p.why{display:block!important;margin:.5rem 0 0;font:400 1.15rem/1.4 var(--sans);color:var(--ink)}
 .readout p.why-k{color:var(--accent);font-weight:600}
+
+/* labels on pictures are not text to select: a drag across the stage must not paint selection boxes */
+.stage svg,.stage svg text,.stage canvas{-webkit-user-select:none;user-select:none}

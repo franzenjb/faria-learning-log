@@ -241,7 +241,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
     <p class="lede">Look down on the North Pole. The Earth turns once in 24 hours. Each hour it turns 15°, and 24 × 15° = 360°, the whole circle.</p>
     <p>Then break one hour into minutes and seconds, the same way a clock does. The numbers are written on the picture.</p>
     <div class="controls"><label><span class="row">Turning speed <output id="hs-speed-out">1 hour / 3 s</output></span><input id="hs-speed" type="range" min="0" max="4" step="0.25" value="1"></label></div>
-    <div class="btns"><button id="hs-pause">Pause</button><button class="primary" id="hs-slice">Zoom into one hour</button><button id="hs-degree">Zoom into one minute</button><button id="hs-out">Back out</button></div>
+    <div class="btns"><button id="hs-pause">Pause</button><button class="primary" id="hs-shipnoon">Place a Ship at Noon</button><button id="hs-slice">Zoom into one hour</button><button id="hs-degree">Zoom into one minute</button><button id="hs-out">Back out</button></div>
     <div class="readout" id="hs-read"></div>
     <div class="table-wrap" style="margin-top:1rem"><table style="width:100%;border-collapse:collapse;font:.95rem var(--sans)"><thead><tr style="color:var(--muted);text-align:left"><th style="padding:.3rem 0">Time</th><th>Earth turns</th><th>At the equator</th></tr></thead><tbody style="color:#3b3831">
 <tr><td style="padding:.35rem 0"><b>24 hours</b></td><td>360°</td><td>24,900 mi</td></tr>
@@ -998,6 +998,8 @@ chrono=false,land=false,last=0,zoomAnim=null,zoomT=0;// zoomT: 0 clock .. 1 hour
 speedIn.oninput=()=>{speedOut.textContent=+speedIn.value?`1 hour / ${fmt(3/ +speedIn.value,1)} s`:'stopped';};
 const ease=k=>k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
 function goLevel(n){level=n;zoomAnim={from:zoomT,to:n,t0:performance.now(),ms:1600};update();}
+let pinned=false;const shipNB=document.getElementById('hs-shipnoon');shipNB.onclick=()=>{pinned=!pinned;if(pinned){ship=-rotation;chrono=true;land=false;if(level)goLevel(0);}else{ship=null;chrono=false;}shipNB.textContent=pinned?'Remove the Ship':'Place a Ship at Noon';shipNB.classList.toggle('on',pinned);update();};
+const clock12=hh=>{let m=Math.round((((hh%24)+24)%24)*60)%1440;const H=Math.floor(m/60),M=m%60;if(H===12&&M===0)return '12:00 noon';if(H===0&&M===0)return '12:00 midnight';return `${(H%12)||12}:${String(M).padStart(2,'0')} ${H<12?'AM':'PM'}`;};
 document.getElementById('hs-slice').onclick=()=>goLevel(1);document.getElementById('hs-degree').onclick=()=>goLevel(2);document.getElementById('hs-out').onclick=()=>goLevel(0);
 pauseB.onclick=()=>{paused=!paused;pauseB.textContent=paused?'Resume':'Pause';pauseB.classList.toggle('on',paused);};
 const hoursWest=()=>{if(ship===null)return 0;// Greenwich is at angle `rotation` past noon; the ship is `ship` radians ccw of Greenwich
@@ -1021,7 +1023,7 @@ o.c.addEventListener('pointerdown',e=>{const{x,y}=P(e);const{cx,cy,R}=geom();if(
 o.c.addEventListener('pointermove',e=>{if(!drag)return;const{x,y}=P(e);const{cx,cy}=geom();if(Math.hypot(x-drag.x,y-drag.y)>5)drag.moved=true;if(!drag.moved)return;const a=Math.atan2(cy-y,x-cx);if(drag.onShip){ship=((a-rotation)%TAU+TAU)%TAU;update();}else{let d=a-drag.a0;rotation=drag.rot0+d;paused=true;pauseB.textContent='Resume';pauseB.classList.add('on');if(ship!==null)update();}});
 const end=e=>{if(!drag)return;const{x,y}=P(e);const{cx,cy}=geom();if(!drag.moved){const a=Math.atan2(cy-y,x-cx);const rel=((a-rotation)%TAU+TAU)%TAU;focus=Math.floor(rel/(TAU/24));goLevel(1);}drag=null;};
 o.c.addEventListener('pointerup',end);o.c.addEventListener('pointercancel',end);}
-scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);const dt=last?(t-last)/1000:0;last=t;if(!paused&&zoomT<.05&&+speedIn.value)rotation+=dt*(+speedIn.value)*(TAU/24)/3;
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);const dt=last?(t-last)/1000:0;last=t;if(!paused&&zoomT<.05&&+speedIn.value)rotation+=dt*(+speedIn.value)*(TAU/24)/3;if(pinned)ship=-rotation;
 if(zoomAnim){const k=Math.min(1,(t-zoomAnim.t0)/zoomAnim.ms);zoomT=zoomAnim.from+(zoomAnim.to-zoomAnim.from)*ease(k);if(k>=1)zoomAnim=null;}
 const{cx,cy}=geom();const R0=Math.min(w,h)*.37;
 const hourA=TAU/24,minA=hourA/60;
@@ -1045,7 +1047,7 @@ ctx.fillStyle='#ece6da';ctx.beginPath();ctx.arc(ox,oy,4,0,TAU);ctx.fill();text(c
 // ship (or land observer) and the longitude question
 if(ship!==null&&zoomT<.6){const sa=rot+ship;const sp=arcPt(sa,R*.62);const hw=hoursWest();
 // arc from Greenwich to the ship: the unknown
-ctx.strokeStyle=chrono||land?'#6fd48a':'#ff7d6f';ctx.lineWidth=4;ctx.beginPath();ctx.arc(ox,oy,R*.5,-gA,-sa,hw>0);ctx.stroke();
+ctx.strokeStyle=chrono||land?'#6fd48a':'#ff7d6f';ctx.lineWidth=4;ctx.beginPath();ctx.arc(ox,oy,R*.5,-gA,-sa,hw<0);ctx.stroke();
 const ma=(gA+sa)/2+(hw>0?0:0);const mp=arcPt(hw>0?gA-Math.abs(hw)*hourA/2:gA+Math.abs(hw)*hourA/2,R*.5);
 if(chrono||land)tag(ctx,`${fmt(Math.abs(hw),1)} h = ${fmt(Math.abs(hw)*15,0)}° ${hw>=0?'west':'east'}`,mp.x-50,mp.y,'#6fd48a',15);else tag(ctx,'? hours = ? degrees',mp.x-60,mp.y,'#ff7d6f',15);
 if(land){// a hill with a telescope and Jupiter above it
@@ -1054,7 +1056,7 @@ const jx=sp.x+46,jy=sp.y-52;ctx.fillStyle='#e8c89a';ctx.beginPath();ctx.arc(jx,j
 tag(ctx,'Io vanishes · almanac says the Greenwich time',jx+14,jy+4,'#ece6da',11);tag(ctx,'on land · telescope on a steady tripod',sp.x+20,sp.y+18,'#6fd48a',12);}
 else{// ship: hull + sail
 ctx.fillStyle='#f0b35a';ctx.beginPath();ctx.moveTo(sp.x-16,sp.y+4);ctx.lineTo(sp.x+16,sp.y+4);ctx.lineTo(sp.x+10,sp.y+12);ctx.lineTo(sp.x-10,sp.y+12);ctx.closePath();ctx.fill();ctx.strokeStyle='#ece6da';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sp.x,sp.y+4);ctx.lineTo(sp.x,sp.y-20);ctx.stroke();ctx.fillStyle='#ece6da';ctx.beginPath();ctx.moveTo(sp.x,sp.y-20);ctx.lineTo(sp.x+14,sp.y-4);ctx.lineTo(sp.x,sp.y-4);ctx.closePath();ctx.fill();
-tag(ctx,'ship · local noon',sp.x+20,sp.y+2,'#f0b35a',12);if(chrono)tag(ctx,`chronometer: Greenwich ${fmt(((12+hw)%24+24)%24,1)} h`,sp.x+20,sp.y+20,'#6fd48a',12);else tag(ctx,'Greenwich time: unknown',sp.x+20,sp.y+20,'#ff7d6f',12);}}
+if(pinned)tag(ctx,'ship · 12:00 noon',sp.x-60,sp.y+34,'#f0b35a',14);else{tag(ctx,'ship · local noon',sp.x+20,sp.y+2,'#f0b35a',12);if(chrono)tag(ctx,`chronometer: Greenwich ${fmt(((12+hw)%24+24)%24,1)} h`,sp.x+20,sp.y+20,'#6fd48a',12);else tag(ctx,'Greenwich time: unknown',sp.x+20,sp.y+20,'#ff7d6f',12);}}}
 // zoom level 1: 60 minutes in the hour, degree ticks bold
 if(zoomT>.4){const a0=rot+focus*hourA;const alpha=Math.min(1,(zoomT-.4)/.4);ctx.globalAlpha=alpha;
 for(let m=0;m<=60;m++){const a=a0+m*minA;const isDeg=m%4===0;const p1=arcPt(a,R*(isDeg?.955:.975)),p2=arcPt(a,R);ctx.strokeStyle=isDeg?'#ece6da':'rgba(236,230,218,.45)';ctx.lineWidth=isDeg?2:1;ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.lineTo(p2.x,p2.y);ctx.stroke();
@@ -1066,8 +1068,9 @@ for(let sec=0;sec<=60;sec++){const a=a0+sec*minA/60;const isArcMin=sec%4===0;con
 if(sec%12===0&&sec>0&&sec<60){const pm2=arcPt(a,R-100);text(ctx,`${60-sec} s`,pm2.x,pm2.y+4,{size:12,align:'center',color:'#6fd48a',font:'mono'});}
 if(isArcMin&&sec<60&&sec%4===0){const pq=arcPt(a+2*minA/60,R-66);text(ctx,`${15-sec/4}′`,pq.x,pq.y+4,{size:11,align:'center',color:'#cfc8ba',font:'mono'});}}const pc=arcPt(a0+minA/2,R-150);text(ctx,'← 60 seconds of time · 15′ of arc · 15 nautical miles →',pc.x,pc.y+4,{size:12,align:'center',color:'#6fd48a'});ctx.globalAlpha=1;}
 // the explainer: plain lines written on the stage for whatever is on screen
-{const L=zoomT<.5?[['A 24-HOUR CLOCK','#9a9382',13],['1 hour = 15°','#f0b35a',30],['24 hours × 15° = 360°','#ece6da',18],['tap an hour to break it into minutes','#9a9382',14]]:zoomT<1.5?[['ONE HOUR','#9a9382',13],['1 hour = 15° = 60 minutes','#f0b35a',30],['each tick is 1 minute of time = ¼° = 15′ of arc','#ece6da',18],['bold ticks every 4 minutes = 1° = 69 miles','#9a9382',14]]:[['ONE MINUTE','#9a9382',13],['1 minute = 15′ of arc = 60 seconds','#f0b35a',30],['each tick is 1 second of time = 15″ of arc','#6fd48a',18],['bold ticks every 4 seconds = 1′ of arc = 1 nautical mile','#9a9382',14]];
-let y=h*.12;ctx.fillStyle='rgba(10,14,24,.75)';{ctx.font='500 18px -apple-system,Segoe UI,Roboto,sans-serif';const bw=Math.max(...L.map(([s,,sz])=>s.length*sz*.6))+28;ctx.fillRect(w*.04-14,y-30,Math.min(w*.6,bw),L.length*34+22);}for(const[s,c,sz]of L){text(ctx,s,w*.04,y,{size:sz,color:c,font:sz>=22?'mono':undefined});y+=sz>=22?38:30;}}
+{const gh=((rotation%TAU)+TAU)%TAU/TAU*24,west=gh<=12,dh=west?gh:24-gh,dH=Math.floor(dh+1e-6),dM=Math.round((dh-dH)*60)%60;
+const L=pinned&&zoomT<.5?[['The Ship Sits on the Noon Line','#9a9382',14],[`Ship      ${clock12(12)}`,'#f0b35a',26],[`Greenwich ${clock12(12+gh)}`,'#ece6da',26],[dh<.01?'Same time: at Greenwich':`${dH} h ${String(dM).padStart(2,'0')} min ${west?'behind':'ahead'}`,'#6fd48a',18],[dh<.01?'':`= ${fmt(dh*15,1)}° ${west?'west':'east'}`,'#6fd48a',18]]:zoomT<.5?[['A 24-Hour Clock','#9a9382',14],['1 hour = 15°','#f0b35a',30],['24 hours × 15° = 360°','#ece6da',18],['tap an hour to break it into minutes','#9a9382',14]]:zoomT<1.5?[['One Hour','#9a9382',14],['1 hour = 15° = 60 minutes','#f0b35a',30],['each tick is 1 minute of time = ¼° = 15′ of arc','#ece6da',18],['bold ticks every 4 minutes = 1° = 69 miles','#9a9382',14]]:[['One Minute','#9a9382',14],['1 minute = 15′ of arc = 60 seconds','#f0b35a',30],['each tick is 1 second of time = 15″ of arc','#6fd48a',18],['bold ticks every 4 seconds = 1′ of arc = 1 nautical mile','#9a9382',14]];
+let y=h*.12;ctx.fillStyle='rgba(10,14,24,.75)';{ctx.font='500 18px -apple-system,Segoe UI,Roboto,sans-serif';const bw=Math.max(...L.map(([s,,sz])=>s.length*sz*.6))+28;ctx.fillRect(w*.04-14,y-34,Math.min(w*.6,bw),L.reduce((a,[,,sz])=>a+(sz>=22?52:38),0)+20);}for(const[s,c,sz]of L){text(ctx,s,w*.04,y,{size:sz,color:c,font:sz>=22?'mono':undefined});y+=sz>=22?52:38;}}
 text(ctx,'Earth from above the North Pole · turning counter-clockwise · the Sun stays to the right',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}});}
 
 /* ---------- 3b · Longitude is two clocks ---------- */
