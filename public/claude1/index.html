@@ -178,7 +178,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
     <div class="modes" id="m1q"><button class="on" data-q="0">Havana</button><button data-q="1">Reno or LA</button><button data-q="2">Rome</button><button data-q="3">Greenland to Africa</button></div>
     <p class="lede" id="qz-lede">Follow one meridian, not your mental map. Tap the answers the room calls out, then reveal.</p>
     <div class="quiz" id="qz-opts"></div>
-    <div class="btns"><button class="primary" id="qz-reveal">Reveal on the globe</button><button id="qz-reset">Clear votes</button></div>
+    <div class="btns"><button class="primary" id="qz-reveal">Reveal on the globe</button><button id="qz-reset">Clear votes</button><button id="qz-gulf" hidden>Why is Europe warmer?</button></div>
     <div class="readout" id="qz-read"><strong>Vote first.</strong><span>Each tap on an answer adds a vote. The globe stays quiet until you reveal.</span></div>
   </div>
   <div class="stage"><canvas id="c1q"></canvas><div class="hint" id="h1q">Drag to spin · scroll to zoom · the reveal flies the globe</div></div>
@@ -638,17 +638,18 @@ const Q=[
  read:'<strong>None. Havana is at 82.4° W; the westernmost point of mainland South America, Punta Pariñas in Peru, is at 81.3° W.</strong><span>The whole continent lies east of Havana’s meridian. The line runs down the Pacific side and never touches land. A Mercator map shows the same miss; the error is in the mental picture, not the map.</span>'},
 {t:'Reno or Los Angeles: which is farther west?',l:'Locate both in your mind. Then choose.',a:['Los Angeles','Reno','Same longitude','Depends on the map'],ok:1,cam:camFor(37,-119,3.2),
  read:'<strong>Reno, by 1.6°.</strong><span>Reno sits at 119.8° W, Los Angeles at 118.2° W. The California coast bends east as it runs south, so "coastal" and "farther west" are not the same thing. The two meridians on the globe settle it.</span>'},
-{t:'Which of these American cities is closest to Rome’s latitude?',l:'Closest in latitude, not closest in miles. Place Rome on the globe in your head first.',a:['Atlanta','New York','Boston','Miami'],ok:2,cam:camFor(42,-40,1.1),
+{t:'Which of these American cities is closest to Rome’s latitude?',l:'Closest in latitude, not closest in miles. Place Rome on the globe in your head first.',a:['Atlanta','New York','Boston','Miami'],ok:2,cam:camFor(38,-24,1.5),
  read:'<strong>Boston, at 42.4° N. New York is 40.7°, Atlanta 33.7°, Miami 25.8°.</strong><span>Rome and Boston share a parallel and little else: oceans store heat and the Gulf Stream and westerlies carry it to Italy. Latitude is one input to climate, not the whole model.</span>'},
 {t:'How many Greenlands fit in Africa?',l:'On the usual wall map they look about the same size. Vote first, then look at the globe.',a:['About the same size','About 3','About 7','About 14'],ok:3,cam:camFor(32,8,1.15),
  read:'<strong>About 14. Africa is 11.7 million square miles; Greenland is 0.84 million.</strong><span>The wall map is Mercator, which stretches everything toward the poles to keep compass bearings straight. Greenland sits at 60–84° N and looks nearly as big as Africa. On the globe, it is a small patch of the Sahara.</span>'}];
-let qi=0,votes=[0,0,0,0],revealed=false,revealT=0;
-function setQ(i){qi=i;votes=[0,0,0,0];revealed=false;const q=Q[i];title.textContent=q.t;lede.textContent=q.l+' Tap the answers the room calls out, then reveal.';document.querySelectorAll('#m1q button').forEach(b=>b.classList.toggle('on',+b.dataset.q===i));read.className='readout';read.innerHTML='<strong>Vote first.</strong><span>Each tap on an answer adds a vote. The globe stays quiet until you reveal.</span>';renderOpts();fly(st,i===0?camFor(15,-75,1):i===1?camFor(37,-112,1.6):i===3?camFor(20,-20,1):camFor(40,-45,1),1400);}
+const gulf={on:false,t0:0};let qi=0,votes=[0,0,0,0],revealed=false,revealT=0;
+function setQ(i){qi=i;gulf.on=false;const gb=document.getElementById('qz-gulf');if(gb){gb.hidden=true;gb.classList.remove('on');}votes=[0,0,0,0];revealed=false;const q=Q[i];title.textContent=q.t;lede.textContent=q.l+' Tap the answers the room calls out, then reveal.';document.querySelectorAll('#m1q button').forEach(b=>b.classList.toggle('on',+b.dataset.q===i));read.className='readout';read.innerHTML='<strong>Vote first.</strong><span>Each tap on an answer adds a vote. The globe stays quiet until you reveal.</span>';renderOpts();fly(st,i===0?camFor(15,-75,1):i===1?camFor(37,-112,1.6):i===3?camFor(20,-20,1):camFor(40,-45,1),1400);}
 function renderOpts(){const total=votes.reduce((a,b)=>a+b,0)||1;opts.innerHTML=Q[qi].a.map((a,k)=>`<button class="opt${revealed&&k===Q[qi].ok?' ok':''}${revealed&&k!==Q[qi].ok&&votes[k]?' no':''}" data-k="${k}"><span class="letter">${'ABCD'[k]}</span><span class="label">${a}</span><span class="bar" style="width:${Math.round(votes[k]/total*100)}%"></span><span class="count">${votes[k]||''}</span></button>`).join('');
 opts.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(revealed)return;votes[+b.dataset.k]++;renderOpts();});}
 document.querySelectorAll('#m1q button').forEach(b=>b.onclick=()=>setQ(+b.dataset.q));
 document.getElementById('qz-reset').onclick=()=>{votes=[0,0,0,0];revealed=false;renderOpts();read.className='readout';read.innerHTML='<strong>Votes cleared.</strong><span>Ask again.</span>';};
-let verdictTimer=0;document.getElementById('qz-reveal').onclick=()=>{revealed=true;revealT=performance.now();const q=Q[qi],mine=qi;read.className='readout';read.innerHTML='<strong>Watch the globe.</strong>';fly(st,q.cam,1800);clearTimeout(verdictTimer);verdictTimer=setTimeout(()=>{if(qi!==mine||!revealed)return;renderOpts();read.className='readout ok';read.innerHTML=q.read;},qi===0?5200:qi===3?6200:qi===2?5000:3200);};
+const gulfB=document.getElementById('qz-gulf');gulfB.onclick=()=>{gulf.on=!gulf.on;gulf.t0=performance.now();gulfB.classList.toggle('on',gulf.on);if(gulf.on)fly(st,camFor(42,-32,1.25),1400);};
+let verdictTimer=0;document.getElementById('qz-reveal').onclick=()=>{gulf.on=false;gulfB.hidden=true;gulfB.classList.remove('on');revealed=true;revealT=performance.now();const q=Q[qi],mine=qi;read.className='readout';read.innerHTML='<strong>Watch the globe.</strong>';fly(st,q.cam,1800);clearTimeout(verdictTimer);verdictTimer=setTimeout(()=>{if(qi!==mine||!revealed)return;if(qi===2)gulfB.hidden=false;renderOpts();read.className='readout ok';read.innerHTML=q.read;},qi===0?5200:qi===3?6200:qi===2?5600:3200);};
 function geom(){const{w,h}=o;return{cx:w*.5,cy:h*.5,R:Math.min(w,h)*.38*st.zoom};}
 function proj(p){const{cx,cy,R}=geom();const q=rot(p,st.yaw,st.pitch);return{x:cx+q[0]*R,y:cy-q[1]*R,z:q[2]};}
 orbit(o,st,null);setQ(0);
@@ -675,6 +676,15 @@ if(won){const yb=Y(42.4),yr=Y(41.9),yn=Y(40.7);ctx.strokeStyle='#6fd48a';ctx.lin
 ctx.strokeStyle='#6fb3ff';ctx.beginPath();ctx.moveTo(x+w*.06,yr+3);ctx.lineTo(x+w*.07,yr+3);ctx.lineTo(x+w*.07,yn);ctx.lineTo(x+w*.06,yn);ctx.stroke();text(ctx,'1.2°',x+w*.078,(yr+yn)/2+5,{size:12,color:'#6fb3ff',weight:600});
 text(ctx,'Boston wins by 0.7°',x,bot+30,{size:14,color:'#6fd48a',align:'center',weight:700});}
 ctx.restore();}
+function drawGulf(ctx,t){const k=Math.min(1,(t-gulf.t0)/3200);
+const GS=[[24.5,-81],[27,-79.8],[30,-80],[33,-78],[35.5,-75],[38,-70],[40.5,-62],[42.5,-50],[45,-40],[48,-30],[51,-20],[54,-12],[58,-6],[62,2],[66,8]];
+const pts=[];for(let i=0;i<GS.length-1;i++)for(let m=0;m<8;m++){const u=m/8;pts.push(ll(GS[i][0]+(GS[i+1][0]-GS[i][0])*u,GS[i][1]+(GS[i+1][1]-GS[i][1])*u));}const n=Math.max(2,Math.floor(pts.length*k));
+arcLine(ctx,pts.slice(0,n),'rgba(255,125,111,.35)',14);ctx.lineDashOffset=-t/40;arcLine(ctx,pts.slice(0,n),'#ff7d6f',4,[16,10]);ctx.lineDashOffset=0;
+if(k>.3){const q=proj(ll(36,-60));if(q.z>0)tag(ctx,'Gulf Stream: warm water from the tropics',q.x-120,q.y+30,'#ff7d6f',14);}
+const kw=Math.max(0,Math.min(1,(t-gulf.t0-1600)/1600));if(kw>0){ctx.globalAlpha=kw;for(const la of[47,52]){ctx.lineDashOffset=-t/25;arcLine(ctx,Array.from({length:60},(_,m)=>ll(la,-55+m)),'rgba(236,230,218,.9)',2.5,[20,14]);ctx.lineDashOffset=0;const a=proj(ll(la,5)),b=proj(ll(la,3));if(a.z>0){const dx=a.x-b.x,dy=a.y-b.y,d=Math.hypot(dx,dy)||1;ctx.fillStyle='#ece6da';ctx.beginPath();ctx.moveTo(a.x+dx/d*10,a.y+dy/d*10);ctx.lineTo(a.x-dy/d*7,a.y+dx/d*7);ctx.lineTo(a.x+dy/d*7,a.y-dx/d*7);ctx.closePath();ctx.fill();}}
+const q=proj(ll(61,-48));if(q.z>0)tag(ctx,'Westerlies: the wind blows west to east',q.x-110,q.y,'#ece6da',14);ctx.globalAlpha=1;}
+if(k>=1&&t-gulf.t0>3400){const b=proj(ll(46.5,-74)),r=proj(ll(38,14));if(b.z>0)tag(ctx,'Boston, January: about 29°F',b.x-150,b.y-26,'#6fb3ff',14);if(r.z>0)tag(ctx,'Rome, January: about 46°F',r.x-60,r.y+40,'#f0b35a',14);
+const c=proj(ll(18,-38));if(c.z>0){tag(ctx,'Europe breathes air that has crossed a warm ocean.',c.x-220,c.y,'#ece6da',14);tag(ctx,'Boston breathes air that has crossed a frozen continent.',c.x-220,c.y+30,'#ece6da',14);}}}
 const pin=(ctx,name,ll_,color,dy=4)=>{const q=proj(ll(ll_[0],ll_[1]));if(q.z<0)return null;ctx.fillStyle=color;ctx.beginPath();ctx.arc(q.x,q.y,5,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();tag(ctx,name,q.x+9,q.y+dy,color,11);return q;};
 const arcLine=(ctx,pts,color,width,dash)=>{ctx.strokeStyle=color;ctx.lineWidth=width;ctx.setLineDash(dash||[]);ctx.beginPath();let pen=false;for(const p of pts){const q=proj(p);if(q.z>=0){pen?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);pen=true;}else pen=false;}ctx.stroke();ctx.setLineDash([]);};
 scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);stepAnim(st,t);const{cx,cy,R}=geom();
@@ -693,8 +703,13 @@ const gq=proj(ll(c[0]+9,c[1]-14));if(gq.z>0)tag(ctx,ks<1?'Greenland, true size':
 const aq=proj(ll(-12,24));if(aq.z>0)tag(ctx,'Africa · 11.7 million sq mi',aq.x-60,aq.y,'#f0b35a',13);
 if(ks>=1){const q=proj(ll(-28,-25));if(q.z>0)tag(ctx,'About 14 Greenlands fit in Africa',q.x-80,q.y,'#f0b35a',15);}
 if(el<1600)drawMerc(ctx,w,h,1-el/1600);}
-else{pin(ctx,'Rome · 41.9° N',C.rome,'#f0b35a');pin(ctx,'Boston · 42.4° N',C.boston,'#6fd48a',-8);pin(ctx,'New York · 40.7° N',C.nyc,'#9a9382',14);pin(ctx,'Miami · 25.8° N',C.miami,'#9a9382',14);pin(ctx,'Atlanta · 33.7° N',C.atlanta,'#9a9382');if(revealed){// Rome's parallel runs west round the world; Boston's runs east. Both go all the way round.
-arcLine(ctx,Array.from({length:181},(_,i)=>ll(41.9,12.5-360*i/180*k)),'#f0b35a',3);arcLine(ctx,Array.from({length:181},(_,i)=>ll(42.36,-71.06+360*i/180*k)),'#6fd48a',2.5,[8,6]);[33.75,38.9,40.71].forEach(la=>arcLine(ctx,Array.from({length:181},(_,i)=>ll(la,-80+360*i/180*k)),'rgba(236,230,218,.18)',1));}if(revealed)drawLatRuler(ctx,w,h,t-revealT);}
+else{// Rome: each American city and the city across the Atlantic on the same latitude, Boston and Rome first
+const PAIRS=[['Boston',42.36,-71.06,'Rome',41.9,12.5,'#6fd48a'],['New York',40.71,-74.0,'Madrid',40.42,-3.70,'#cfc8ba'],['Atlanta',33.75,-84.39,'Rabat',34.02,-6.84,'#cfc8ba'],['Miami',25.76,-80.19,'Luxor',25.69,32.64,'#cfc8ba']];
+const el=t-revealT;PAIRS.forEach((pr,i)=>{const k=Math.max(0,Math.min(1,(el-700-i*1000)/900));if(k<=0||(gulf.on&&i>0))return;const [a,la,lo,b,lb,lob,col]=pr,first=i===0;
+arcLine(ctx,Array.from({length:80},(_,m)=>{const u=m/79*k;return ll(la+(lb-la)*u,lo+(lob-lo)*u);}),first?'#6fd48a':'rgba(207,200,186,.7)',first?3.5:2,first?null:[7,6]);
+{const q=proj(ll(la,lo));if(q.z>0){ctx.fillStyle=col;ctx.beginPath();ctx.arc(q.x,q.y,5,0,TAU);ctx.fill();tag(ctx,`${a} · ${la.toFixed(1)}° N`,q.x-210,q.y+[-26,4,34,8][i],col,12);}}if(k>=1)pin(ctx,`${b} · ${lb.toFixed(1)}° N`,[lb,lob],first?'#f0b35a':'#cfc8ba',first?-10:14);});
+if(el>5200&&!gulf.on){const q=proj(ll(58,-30));if(q.z>0)tag(ctx,'Same latitude. So why is Boston so much colder than Rome?',q.x-260,q.y,'#f0b35a',15);}
+if(gulf.on)drawGulf(ctx,t);}
 ctx.globalAlpha=1;text(ctx,`zoom ${fmt(st.zoom,1)}×`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}});}
 
 /* ---------- 1 · latitude & longitude ---------- */
