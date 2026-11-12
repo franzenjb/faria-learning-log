@@ -11,7 +11,7 @@ const errors = []; page.on('pageerror', e => errors.push(String(e)));
 const slide = async n => { await page.goto(url + '#' + n); await page.locator('#counter').waitFor({state: 'attached'}); await page.waitForTimeout(700); };
 
 await slide(0);
-assert.match(await page.locator('.cover h1').innerText(), /Where Am I/);
+assert.match(await page.locator('.cover h1').innerText(), /Where am I/);
 assert.match(await page.locator('.vlink a').getAttribute('href'), /\/deck\/v2\//);
 
 // Q4: Greenland vs Africa — voting, reveal, slide-down, wall-map split
