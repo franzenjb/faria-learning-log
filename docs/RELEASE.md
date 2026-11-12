@@ -179,3 +179,11 @@ Codex's quiz review plus Jeff's follow-ups, all on the kimi1 deck.
 - Latitude & Longitude: grid toggle is now exactly lat ∧ lon, and a new "Bingo card" button opens a translucent graticule overlay on the globe — call a latitude band and a longitude band, both highlight and the cell shades; a pin control (preset 23° N, 82° W) teaches point vs cell. Closing restores prior grid state; the camera never moves.
 - Build clean; browser suite updated for the new wording/beat and passes; screenshots verify/q-*.png, b2-*.png inspected.
 - Published commit e70bba1; production byte-verified (index BYTE-MATCH-OK; plate asset HTTP 200). Remaining: Jeff's acceptance.
+
+## 2026-11-12 — The ship's clock rides the ship
+
+Jeff: "This would be so much more effective if the left clock followed the ship."
+
+- On "The Earth is a 24-hour clock" (Hours are slices), the gold ship's clock now sits just outside the rim next to the ship and follows it as you drag, clamped on-canvas and pushed clear of the fixed Greenwich clock when the ship passes Greenwich. The redundant "chronometer: Greenwich …" tag at the ship is gone (the Greenwich clock shows it), and the ship's label is just "ship" since its local sun time changes as you drag.
+- Build clean, browser suite passes, drag verified in screenshots verify/clock-follow-1/2.png.
+- Published commit 4dd0419; production byte-verified (cmp → BYTE-MATCH-OK). Remaining: Jeff's acceptance.
