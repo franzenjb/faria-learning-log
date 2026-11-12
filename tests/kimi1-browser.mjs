@@ -20,11 +20,11 @@ assert.match(await page.locator('#qz-title').innerText(), /Havana/);
 assert.equal(await page.locator('#qz-merc').isHidden(), true);
 await page.locator('#m1q button', {hasText: 'Greenland or Africa'}).click();
 await page.waitForTimeout(300);
-assert.match(await page.locator('#qz-title').innerText(), /How many Greenlands/);
+assert.match(await page.locator('#qz-title').innerText(), /How many times as large as Greenland/);
 await page.locator('#qz-opts .opt').nth(1).click();
 assert.equal(await page.locator('#qz-merc').isHidden(), true, 'wall map stays hidden until reveal');
 await page.click('#qz-reveal');
-await page.waitForTimeout(300);
+await page.waitForTimeout(2000); // the beat: answer text lands ~1.6 s after reveal
 assert.equal(await page.locator('#qz-merc').isHidden(), false);
 assert.match(await page.locator('#qz-read').innerText(), /Fourteen. Africa covers/);
 // auto choreography: reveal opens on the wall map, then wraps back to the globe by itself
@@ -59,7 +59,7 @@ await page.emulateMedia({reducedMotion: 'reduce'});
 await slide(3);
 await page.locator('#m1q button', {hasText: 'Greenland or Africa'}).click();
 await page.click('#qz-reveal');
-await page.waitForTimeout(500);
+await page.waitForTimeout(2000); // beat before the answer lands
 assert.match(await page.locator('#qz-read').innerText(), /Fourteen/);
 
 // phone layout: no horizontal overflow
