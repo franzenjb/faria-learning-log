@@ -141,3 +141,10 @@ svg.fig .xs{font-size:20px}svg.fig .sm{font-size:24px}svg.fig .md{font-size:28px
 #tv-back{color:#1a1206}
 .cover-text h1{color:var(--ink);text-shadow:0 4px 40px rgba(0,0,0,.8)}
 #shell.rs-shut #rside{width:2.6rem}
+
+/* course index: four big day names, nothing else */
+.cindex h1{font-size:clamp(2.6rem,4.6vw,4.4rem);margin:.4rem 0 3.2rem}
+.cindex .kicker{font-size:1.3rem}
+.ci-days:before{top:3.6rem}
+.ci-n{font-size:2rem}.ci-dot{width:1.1rem;height:1.1rem;margin:.7rem 0 1.2rem}
+.ci-day strong{font-size:clamp(1.8rem,2.6vw,2.6rem);line-height:1.15}
