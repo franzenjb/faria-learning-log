@@ -59,6 +59,8 @@ Printed lessons and plates, grouped with the topic each one belongs to. The comp
 ## 11 November 2026
 
 - [Jupiter's moons as a measuring stick](/topics/96-jupiters-moons-as-a-measuring-stick/): [lesson PDF](/downloads/Jupiters_Moons_as_a_Measuring_Stick_Earths_Orbit_and_the_AU_Faria_2026-11-11.pdf). Four pages. The moons as clock and ruler, Earth's near and far sides, 10′ versus 7′, why angles give AU and not miles, and Rømer's timing of the same stretch.
+- [Eastward ground speed and the cosine of latitude](/topics/97-eastward-ground-speed-and-the-cosine-of-latitude/): [unit-circle cosine diagram (PDF)](/downloads/Unit_Circle_Cosine_Latitude_and_Eastward_Ground_Speed_Faria_2026-11-12.pdf). One page. Two unit circles at 20° and 60°, and the speed table from 1,040 mph at the equator to 0 at the pole. Drawn the next morning and placed with this day.
+- [Planetary orbital periods](/topics/98-planetary-orbital-periods/): [Kepler's three laws (PDF)](/downloads/Keplers_Three_Laws_Shape_Speed_and_Time_Faria_2026-11-12.pdf). Three pages, written for an eighth grader. The ellipse, equal areas in equal times, and T² = a³ with the planet table. Written the next morning and placed with this day.
 
 ## Complete binder
 
