@@ -58,7 +58,7 @@ const SLIDE_PDFS = {
   'Kepler to Halley': ['kepM', 'kepS'], 'Transit of Venus': ['v1761', 'vTri', 'vCeph'],
   'Jupiter\'s moons': ['galileo'], 'Moon mountains': ['trigGal', 'moonUS'],
   'Picard measures France': ['picRod', 'picMap'], 'Picard and the meter': ['picRod', 'mdPic'], 'Cook': ['cook', 'banks', 'ships'],
-  'Mason &amp; Dixon': ['mdGeo', 'mason', 'dixon', 'mdPic'], 'Gaia galaxy': ['gaia', 'gaiaLad', 'hipp', 'harvard'], 'Twice the wind': ['windC', 'windL', 'growth'],
+  'Mason &amp; Dixon': ['mdGeo', 'mason', 'dixon', 'mdPic'], 'Gaia galaxy': ['gaia', 'gaiaLad', 'hipp', 'harvard'],
 };
 const TOPICS = {
   '69-thumb-to-moon-calculating-the-moons-diameter': 'Thumb to Moon', '77-ladder-sine-cosine-and-tangent': 'The ladder: sine, cosine, tangent', '93-angle-ladder-pinky-to-gaia': 'The angle ladder', '95-degrees-arcminutes-arcseconds': 'Degrees, arcminutes, arcseconds',
@@ -148,8 +148,6 @@ const COURSE = [
   /* ---------------- Day 4 ---------------- */
   { day: 4, ch: 'Applications', t: 'The storm wire', label: 'The storm wire', topics: ['07-telegraph-storm-warnings', '08-benito-vines', '09-galveston-1900', '10-havana-key-west-cable'],
     script: ['Now put it all to work. Three stories from the Gulf.', 'A storm moves at ten or fifteen miles an hour. A telegraph message moves at the speed of the wire. For the first time, a warning can outrun the weather.', 'In Havana, Father Benito Viñes learns to read a hurricane from pressure, wind and cloud, and wires his forecasts ahead.', 'Galveston, 1900. The data existed. The warning did not get through in a form people acted on. Between six and twelve thousand people died.', 'A measurement only helps if it reaches the person who has to decide.'] },
-  { day: 4, ch: 'Applications', t: 'Twice the wind', label: 'Twice the wind', topics: ['71-hurricane-wind-force-square-not-exponential', '37-typhoon-scales-vs-saffir-simpson', '75-six-ways-numbers-grow'],
-    script: ['A question first. If the wind doubles, how much harder does it push on a wall?', 'Vote, then slide the wind speed.', 'The force goes up as the square. Twice the wind, four times the push.', 'That is why one category on the scale is not one step of damage. And it is why the number on the map matters so much.'] },
   { day: 4, ch: 'Applications', t: 'The shelter decision', label: 'The shelter decision', topics: ['27-hurricane-typhoon-cyclone', '37-typhoon-scales-vs-saffir-simpson'],
     script: ['The last slide of the course is a decision.', 'A storm is coming to Houston. You have three buildings that could be shelters.', 'Work through it in order. Where is the hazard? That is a raster, with a fuzzy edge. Where are the people? That is the census, by block. How far is each shelter? That is a buffer. Who is inside the danger? That is an overlay.', 'And at every step, how sure are we? That is day four\'s first slide.', 'Everything in these four days was one question: where am I, and how sure am I? You now have the tools to answer it for somebody else.'] }
 ];
