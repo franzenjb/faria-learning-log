@@ -178,7 +178,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
     <div class="modes" id="m1q"><button class="on" data-q="0">Havana</button><button data-q="1">Reno or LA</button><button data-q="2">Rome</button><button data-q="3">Greenland to Africa</button></div>
     <p class="lede" id="qz-lede">Follow one meridian, not your mental map. Tap the answers the room calls out, then reveal.</p>
     <div class="quiz" id="qz-opts"></div>
-    <div class="btns"><button class="primary" id="qz-reveal">Reveal on the globe</button><button id="qz-reset">Clear votes</button><button id="qz-gulf" hidden>Why is Europe warmer?</button><button id="qz-peel" hidden>Why does the wall map lie?</button></div>
+    <div class="btns"><button class="primary" id="qz-reveal">Reveal on the globe</button><button id="qz-reset">Clear votes</button><button id="qz-gulf" hidden>Why is Europe warmer?</button><button id="qz-deg" hidden>Does 1° of Longitude Always Cover the Same Distance?</button><button id="qz-peel" hidden>Why does the wall map lie?</button></div>
     <div class="readout" id="qz-read"><strong>Vote first.</strong><span>Each tap on an answer adds a vote. The globe stays quiet until you reveal.</span></div>
   </div>
   <div class="stage"><canvas id="c1q"></canvas><div class="hint" id="h1q">Drag to spin · scroll to zoom · the reveal flies the globe</div></div>
@@ -643,15 +643,20 @@ const Q=[
  read:'<strong>Boston, at 42.4° N. New York is 40.7°, Atlanta 33.7°, Miami 25.8°.</strong><span>Rome and Boston share a parallel and little else: oceans store heat and the Gulf Stream and westerlies carry it to Italy. Latitude is one input to climate, not the whole model.</span>'},
 {t:'How many Greenlands fit in Africa?',l:'On the usual wall map they look about the same size. Vote first, then look at the globe.',a:['About the same size','About 3','About 7','About 14'],ok:3,cam:camFor(32,8,1.15),
  read:'<strong>About 14. Africa is 11.7 million square miles; Greenland is 0.84 million.</strong><span>The wall map is Mercator, which stretches everything toward the poles to keep compass bearings straight. Greenland sits at 60–84° N and looks nearly as big as Africa. On the globe, it is a small patch of the Sahara.</span>'}];
-const gulf={on:false,t0:0},peel={on:false,t0:0};let qi=0,votes=[0,0,0,0],revealed=false,revealT=0;
-function setQ(i){qi=i;gulf.on=false;peel.on=false;{const pb=document.getElementById('qz-peel');if(pb){pb.hidden=true;pb.classList.remove('on');pb.textContent='Why does the wall map lie?';}}const gb=document.getElementById('qz-gulf');if(gb){gb.hidden=true;gb.classList.remove('on');}votes=[0,0,0,0];revealed=false;const q=Q[i];title.textContent=q.t;lede.textContent=q.l+' Tap the answers the room calls out, then reveal.';document.querySelectorAll('#m1q button').forEach(b=>b.classList.toggle('on',+b.dataset.q===i));read.className='readout';read.innerHTML='<strong>Vote first.</strong><span>Each tap on an answer adds a vote. The globe stays quiet until you reveal.</span>';renderOpts();fly(st,i===0?camFor(15,-75,1):i===1?camFor(37,-112,1.6):i===3?camFor(20,-20,1):camFor(40,-45,1),1400);}
+const gulf={on:false,t0:0},peel={on:false,t0:0},dg={on:false,step:0,t0:0};let qi=0,votes=[0,0,0,0],revealed=false,revealT=0;
+function setQ(i){qi=i;gulf.on=false;peel.on=false;dg.on=false;dg.step=0;{const db=document.getElementById('qz-deg');if(db){db.hidden=true;db.classList.remove('on');db.textContent='Does 1° of Longitude Always Cover the Same Distance?';}}{const pb=document.getElementById('qz-peel');if(pb){pb.hidden=true;pb.classList.remove('on');pb.textContent='Why does the wall map lie?';}}const gb=document.getElementById('qz-gulf');if(gb){gb.hidden=true;gb.classList.remove('on');}votes=[0,0,0,0];revealed=false;const q=Q[i];title.textContent=q.t;lede.textContent=q.l+' Tap the answers the room calls out, then reveal.';document.querySelectorAll('#m1q button').forEach(b=>b.classList.toggle('on',+b.dataset.q===i));read.className='readout';read.innerHTML='<strong>Vote first.</strong><span>Each tap on an answer adds a vote. The globe stays quiet until you reveal.</span>';renderOpts();fly(st,i===0?camFor(15,-75,1):i===1?camFor(37,-112,1.6):i===3?camFor(20,-20,1):camFor(40,-45,1),1400);}
 function renderOpts(){const total=votes.reduce((a,b)=>a+b,0)||1;opts.innerHTML=Q[qi].a.map((a,k)=>`<button class="opt${revealed&&k===Q[qi].ok?' ok':''}${revealed&&k!==Q[qi].ok&&votes[k]?' no':''}" data-k="${k}"><span class="letter">${'ABCD'[k]}</span><span class="label">${a}</span><span class="bar" style="width:${Math.round(votes[k]/total*100)}%"></span><span class="count">${votes[k]||''}</span></button>`).join('');
 opts.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(revealed)return;votes[+b.dataset.k]++;renderOpts();});}
 document.querySelectorAll('#m1q button').forEach(b=>b.onclick=()=>setQ(+b.dataset.q));
 document.getElementById('qz-reset').onclick=()=>{votes=[0,0,0,0];revealed=false;renderOpts();read.className='readout';read.innerHTML='<strong>Votes cleared.</strong><span>Ask again.</span>';};
 const peelB=document.getElementById('qz-peel');peelB.onclick=()=>{peel.on=!peel.on;peel.t0=performance.now();peelB.classList.toggle('on',peel.on);peelB.textContent=peel.on?'Back to the globe':'Why does the wall map lie?';};
-const gulfB=document.getElementById('qz-gulf');gulfB.onclick=()=>{gulf.on=!gulf.on;gulf.t0=performance.now();gulfB.classList.toggle('on',gulf.on);if(gulf.on)fly(st,camFor(42,-32,1.25),1400);};
-let verdictTimer=0;document.getElementById('qz-reveal').onclick=()=>{gulf.on=false;gulfB.hidden=true;gulfB.classList.remove('on');peel.on=false;peelB.hidden=true;peelB.classList.remove('on');peelB.textContent='Why does the wall map lie?';revealed=true;revealT=performance.now();const q=Q[qi],mine=qi;read.className='readout';read.innerHTML='<strong>Watch the globe.</strong>';fly(st,q.cam,1800);clearTimeout(verdictTimer);verdictTimer=setTimeout(()=>{if(qi!==mine||!revealed)return;if(qi===2)gulfB.hidden=false;if(qi===3)peelB.hidden=false;renderOpts();read.className='readout ok';read.innerHTML=q.read;},qi===0?5200:qi===3?6200:qi===2?5600:3200);};
+const degB=document.getElementById('qz-deg');const DEG_Q='Does 1° of Longitude Always Cover the Same Distance?';
+degB.onclick=()=>{dg.step=(dg.step+1)%3;dg.on=dg.step>0;if(dg.step===1)dg.t0=performance.now();gulf.on=false;gulfB.classList.remove('on');degB.classList.toggle('on',dg.on);
+if(dg.step===1){degB.textContent='Reveal 60° N';fly(st,camFor(38,-29.5,1.3),1400);read.className='readout';read.innerHTML='<strong>Predict.</strong><span>Two meridians, one degree apart. At the equator the gap is about 69 miles. Follow them north to 60° N. Same, wider, or narrower?</span>';}
+else if(dg.step===2){degB.textContent='Back to the Globe';read.className='readout ok';read.innerHTML='<strong>About 35 miles: half.</strong><span>Every meridian meets at the pole, so a degree of longitude shrinks: 69 miles at the equator, 35 at 60° N, zero at the pole. A degree of latitude stays about 69 miles everywhere. Like Bingo squares: same degrees, different miles.</span>';}
+else{degB.textContent=DEG_Q;fly(st,Q[qi].cam,1200);renderOpts();read.className='readout ok';read.innerHTML=Q[qi].read;}};
+const gulfB=document.getElementById('qz-gulf');gulfB.onclick=()=>{if(dg.on){dg.on=false;dg.step=0;degB.classList.remove('on');degB.textContent=DEG_Q;}gulf.on=!gulf.on;gulf.t0=performance.now();gulfB.classList.toggle('on',gulf.on);if(gulf.on)fly(st,camFor(42,-32,1.25),1400);};
+let verdictTimer=0;document.getElementById('qz-reveal').onclick=()=>{gulf.on=false;gulfB.hidden=true;gulfB.classList.remove('on');dg.on=false;dg.step=0;degB.hidden=true;degB.classList.remove('on');degB.textContent=DEG_Q;peel.on=false;peelB.hidden=true;peelB.classList.remove('on');peelB.textContent='Why does the wall map lie?';revealed=true;revealT=performance.now();const q=Q[qi],mine=qi;read.className='readout';read.innerHTML='<strong>Watch the globe.</strong>';fly(st,q.cam,1800);clearTimeout(verdictTimer);verdictTimer=setTimeout(()=>{if(qi!==mine||!revealed)return;if(qi===2){gulfB.hidden=false;degB.hidden=false;}if(qi===3)peelB.hidden=false;renderOpts();read.className='readout ok';read.innerHTML=q.read;},qi===0?5200:qi===3?6200:qi===2?5600:3200);};
 function geom(){const{w,h}=o;return{cx:w*.5,cy:h*.5,R:Math.min(w,h)*.38*st.zoom};}
 function proj(p){const{cx,cy,R}=geom();const q=rot(p,st.yaw,st.pitch);return{x:cx+q[0]*R,y:cy-q[1]*R,z:q[2]};}
 orbit(o,st,null);setQ(0);
@@ -689,6 +694,22 @@ const af=pr(20,5);tag(ctx,'Africa',af[0]-20,af[1],'#f0b35a',13);
 text(ctx,e<.05?'Peel the globe: true widths, but the map tears':e<.95?'Close the gaps: stretch the strips sideways…':'No gaps now. Greenland is stretched about 3 times too wide.',cx,cy+90*k+50,{size:18,color:e<.95?'#ece6da':'#6fd48a',align:'center',weight:600});
 if(e>=.95)text(ctx,'The wall map also stretches it north to south. Together: Greenland drawn about the size of Africa.',cx,cy+90*k+82,{size:14,color:'#cfc8ba',align:'center'});
 ctx.restore();}
+function drawDeg(ctx,t){const L0=-30,L1=-29,k=Math.min(1,(t-dg.t0)/2400),top=Math.max(1,90*k),{w,h}=ctx.canvas.getBoundingClientRect?{w:ctx.canvas.clientWidth,h:ctx.canvas.clientHeight}:{w:800,h:600};
+for(let L=-80;L<=20;L+=10)if(L!==L0)arcLine(ctx,Array.from({length:60},(_,m)=>ll(top*m/59,L)),'rgba(240,179,90,.35)',1.5);
+for(const L of[L0,L1])arcLine(ctx,Array.from({length:60},(_,m)=>ll(top*m/59,L)),'#f0b35a',3);
+arcLine(ctx,Array.from({length:12},(_,m)=>ll(0,L0+m/11)),'#6fd48a',8);
+const e=proj(ll(0,L1));if(e.z>0)tag(ctx,'1° at the equator',e.x-200,e.y+30,'#6fd48a',17);
+if(top>=60){const c=dg.step===2?'#6fd48a':'#ff7d6f';arcLine(ctx,Array.from({length:12},(_,m)=>ll(60,L0+m/11)),c,8);const n=proj(ll(60,L1));if(n.z>0)tag(ctx,'1° at 60° N',n.x+16,n.y+6,c,17);}
+if(top>=85){const p=proj(ll(88,L1));if(p.z>0)tag(ctx,'every meridian meets at the pole',p.x+16,p.y+4,'#f0b35a',16);}
+// side-by-side comparison
+const bx=w*.58,by=h*.66,bw=w*.36,bh=h*.26,full=bw-48;ctx.fillStyle='rgba(11,21,48,.92)';ctx.strokeStyle='#f0b35a';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect?ctx.roundRect(bx,by,bw,bh,12):ctx.rect(bx,by,bw,bh);ctx.fill();ctx.stroke();
+text(ctx,'Width of 1° of Longitude',bx+24,by+bh*.2,{size:18,color:'#f0b35a',weight:600});
+text(ctx,'Equator',bx+24,by+bh*.42,{size:15,color:'#ece6da'});ctx.fillStyle='#6fd48a';ctx.fillRect(bx+24,by+bh*.47,full,12);text(ctx,'69 miles',bx+24+full,by+bh*.42,{size:15,color:'#6fd48a',align:'right'});
+text(ctx,'60° N',bx+24,by+bh*.72,{size:15,color:'#ece6da'});
+if(dg.step===2){ctx.fillStyle='#6fd48a';ctx.fillRect(bx+24,by+bh*.77,full/2,12);text(ctx,'35 miles: half',bx+24+full,by+bh*.72,{size:15,color:'#6fd48a',align:'right'});}
+else{text(ctx,'?',bx+24+full/2,by+bh*.86,{size:26,color:'#ff7d6f',align:'center',weight:600});}
+if(dg.step===1)text(ctx,'Predict: at 60° N, same, wider, or narrower?',w*.46,h*.075,{size:21,color:'#f0b35a',align:'center',weight:600});
+else text(ctx,'Same degrees, different miles.',w*.46,h*.075,{size:21,color:'#6fd48a',align:'center',weight:600});}
 function drawGulf(ctx,t){const k=Math.min(1,(t-gulf.t0)/3200);
 const GS=[[24.5,-81],[27,-79.8],[30,-80],[33,-78],[35.5,-75],[38,-70],[40.5,-62],[42.5,-50],[45,-40],[48,-30],[51,-20],[54,-12],[58,-6],[62,2],[66,8]];
 const pts=[];for(let i=0;i<GS.length-1;i++)for(let m=0;m<8;m++){const u=m/8;pts.push(ll(GS[i][0]+(GS[i+1][0]-GS[i][0])*u,GS[i][1]+(GS[i+1][1]-GS[i][1])*u));}const n=Math.max(2,Math.floor(pts.length*k));
@@ -718,11 +739,11 @@ if(ks>=1){const q=proj(ll(-28,-25));if(q.z>0)tag(ctx,'About 14 Greenlands fit in
 if(el<1600)drawMerc(ctx,w,h,1-el/1600);}
 else{// Rome: each American city and the city across the Atlantic on the same latitude, Boston and Rome first
 const PAIRS=[['Boston',42.36,-71.06,'Rome',41.9,12.5,'#6fd48a'],['New York',40.71,-74.0,'Madrid',40.42,-3.70,'#cfc8ba'],['Atlanta',33.75,-84.39,'Rabat',34.02,-6.84,'#cfc8ba'],['Miami',25.76,-80.19,'Luxor',25.69,32.64,'#cfc8ba']];
-const el=t-revealT;PAIRS.forEach((pr,i)=>{const k=Math.max(0,Math.min(1,(el-700-i*1000)/900));if(k<=0||(gulf.on&&i>0))return;const [a,la,lo,b,lb,lob,col]=pr,first=i===0;
+if(dg.on){drawDeg(ctx,t);}else{const el=t-revealT;PAIRS.forEach((pr,i)=>{const k=Math.max(0,Math.min(1,(el-700-i*1000)/900));if(k<=0||(gulf.on&&i>0))return;const [a,la,lo,b,lb,lob,col]=pr,first=i===0;
 arcLine(ctx,Array.from({length:80},(_,m)=>{const u=m/79*k;return ll(la+(lb-la)*u,lo+(lob-lo)*u);}),first?'#6fd48a':'rgba(207,200,186,.7)',first?3.5:2,first?null:[7,6]);
 {const q=proj(ll(la,lo));if(q.z>0){ctx.fillStyle=col;ctx.beginPath();ctx.arc(q.x,q.y,5,0,TAU);ctx.fill();tag(ctx,`${a} · ${la.toFixed(1)}° N`,q.x-210,q.y+[-26,4,34,8][i],col,12);}}if(k>=1)pin(ctx,`${b} · ${lb.toFixed(1)}° N`,[lb,lob],first?'#f0b35a':'#cfc8ba',first?-10:14);});
 if(el>5200&&!gulf.on){const q=proj(ll(58,-30));if(q.z>0)tag(ctx,'Same latitude. So why is Boston so much colder than Rome?',q.x-260,q.y,'#f0b35a',15);}
-if(gulf.on)drawGulf(ctx,t);}
+if(gulf.on)drawGulf(ctx,t);}}
 ctx.globalAlpha=1;text(ctx,`zoom ${fmt(st.zoom,1)}×`,w-16,h*.09,{size:11,color:'#9a9382',align:'right'});}});}
 
 /* ---------- 1 · latitude & longitude ---------- */
