@@ -10,7 +10,7 @@ function jupiterScene(mode) {
     <circle cx="572" cy="330" r="20" fill="#1c2540" stroke="#ece6da" stroke-width="1.6"/><text x="572" y="296" text-anchor="middle" class="sm">Jupiter</text>
     <circle cx="572" cy="330" r="34" fill="none" stroke="#2e3854" stroke-dasharray="2 4"/><circle id="${id}-io" cx="606" cy="330" r="4" class="fk"/>
     <line id="${id}-ray" class="red" x1="0" y1="0" x2="0" y2="0" stroke-width="1.6"/><circle id="${id}-e" r="9" class="fk"/><text id="${id}-el" class="sm"></text><text id="${id}-dl" class="md rd" text-anchor="middle"></text>
-    <g transform="translate(790,150)"><rect x="-150" y="-110" width="300" height="${mode === 'clock' ? 250 : 220}" rx="8" fill="#111727" stroke="#2e3854"/><g id="${id}-in"></g></g>
+    <g transform="translate(800,140)"><rect x="-180" y="-110" width="370" height="${mode === 'clock' ? 250 : 220}" rx="8" fill="#111727" stroke="#2e3854"/><g id="${id}-in"></g></g>
     <text x="500" y="590" text-anchor="middle" class="sm mu">Orbits to scale with each other. Sun, planets and moons drawn far too big.</text>`,
     init(el) {
       const S = CS.$(el, `#${id}-a`), AU = 62; const draw = () => {
@@ -21,11 +21,11 @@ function jupiterScene(mode) {
         CS.$(el, `#${id}-a-o`).textContent = `${S.value}°`;
         if (mode === 'clock') {
           const late = (d - 4.2) * 499.005, m = Math.floor(late / 60), s = Math.round(late % 60);
-          CS.$(el, `#${id}-in`).innerHTML = `<text y="-76" text-anchor="middle" class="sm mu">Io goes into the shadow</text><text y="-28" text-anchor="middle" class="xl rd">${m} min ${String(s).padStart(2, '0')} s</text><text y="4" text-anchor="middle" class="md">late</text><rect x="-120" y="34" width="240" height="10" fill="#141b2e"/><rect x="-120" y="34" width="${240 * late / 1000}" height="10" fill="#f0b35a"/><text y="76" text-anchor="middle" class="xs mu">Rømer's figure, 1676: 22 minutes across the orbit</text><text y="98" text-anchor="middle" class="xs mu">Modern figure: 16 minutes 40 seconds</text>`;
+          CS.$(el, `#${id}-in`).innerHTML = `<text y="-76" text-anchor="middle" class="sm mu">Io goes into the shadow</text><text y="-28" text-anchor="middle" class="xl rd">${m} min ${String(s).padStart(2, '0')} s</text><text y="4" text-anchor="middle" class="md">late</text><rect x="-120" y="34" width="240" height="10" fill="#141b2e"/><rect x="-120" y="34" width="${240 * late / 1000}" height="10" fill="#f0b35a"/><text y="76" text-anchor="middle" class="xs mu">Rømer, 1676: 22 min across the orbit</text><text y="98" text-anchor="middle" class="xs mu">Today: 16 min 40 s</text>`;
           CS.$(el, `#${id}-r`).innerHTML = `<strong>${late < 5 ? 'On time' : `${m} min ${s} s behind the table`}</strong><span>Io keeps perfect time at about 42.5 hours a lap. The news of each eclipse has ${CS.fx(d - 4.2, 2)} AU farther to travel.</span>`;
         } else {
           const am = 1.883e6 / (d * 149.6e6) / D2R * 60, px = am * 11;
-          CS.$(el, `#${id}-in`).innerHTML = `<text y="-76" text-anchor="middle" class="sm mu">Through the telescope</text><line x1="${-px}" y1="0" x2="${px}" y2="0" stroke="#2e3854"/><circle r="${px * .037 + 3}" fill="#1c2540" stroke="#ece6da"/><circle cx="${px}" r="4" class="fk"/><circle cx="${-px}" r="4" fill="none" stroke="#ece6da"/><path d="M0 26 H${px}" stroke="#f0b35a" stroke-width="2"/><text x="${px / 2}" y="50" text-anchor="middle" class="md rd">${CS.fx(am, 1)}′</text><text y="88" text-anchor="middle" class="xs mu">Jupiter to Callisto: a ruler 1.17 million miles long</text>`;
+          CS.$(el, `#${id}-in`).innerHTML = `<text y="-76" text-anchor="middle" class="sm mu">Through the telescope</text><line x1="${-px}" y1="0" x2="${px}" y2="0" stroke="#2e3854"/><circle r="${px * .037 + 3}" fill="#1c2540" stroke="#ece6da"/><circle cx="${px}" r="4" class="fk"/><circle cx="${-px}" r="4" fill="none" stroke="#ece6da"/><path d="M0 26 H${px}" stroke="#f0b35a" stroke-width="2"/><text x="${px / 2}" y="50" text-anchor="middle" class="md rd">${CS.fx(am, 1)}′</text><text y="88" text-anchor="middle" class="xs mu">Jupiter to Callisto: 1.17 million miles</text>`;
           CS.$(el, `#${id}-r`).innerHTML = `<strong>Callisto swings ${CS.fx(am, 1)} arcminutes out</strong><span>Same ruler, ${CS.fx(d, 1)} AU away. Angle is length divided by distance. Ten arcminutes near, seven far: the Earth's own orbit, read off Jupiter.</span>`;
         }
       };
@@ -45,7 +45,11 @@ NEW_SLIDES['Picard and the meter'] = {
   <path id="mt-arc" fill="none" stroke="#f0b35a" stroke-width="7" d=""/><path id="mt-fr" fill="none" stroke="#ece6da" stroke-width="13" d="" opacity=".85"/>
   <circle id="mt-dot" r="10" class="fr" stroke="#0a0e18" stroke-width="2"/><line id="mt-rad" class="hair" x1="180" y1="560" x2="0" y2="0"/>
   <text x="170" y="92" text-anchor="end" class="sm">North Pole</text><text x="648" y="586" class="sm">Equator</text><text x="196" y="548" class="xs mu">center of the Earth</text>
-  <g transform="translate(690,150)"><text class="md">Pole to equator</text><text y="34" class="xl rd">10,000,000 m</text><text y="64" class="sm mu">That is how the meter</text><text y="86" class="sm mu">was defined, 26 March 1791.</text><text y="146" class="md">Picard's degree, 1670</text><text y="178" class="lg">57,060 toises</text><text y="206" class="sm mu">About 69.1 miles. The first</text><text y="228" class="sm mu">degree anyone could trust.</text><text y="290" class="md">Dunkirk to Barcelona</text><text y="318" class="sm mu">Delambre and Méchain</text><text y="340" class="sm mu">re-measured it, 1792 to 1799.</text></g>`,
+  <g transform="translate(690,40)"><text class="md">How Picard Got 1°</text>
+  <text y="40" class="sm"><tspan fill="#ff7d6f">1. Ground:</tspan> triangles</text><text y="64" class="sm mu">78,850 toises · 95 miles</text>
+  <text y="104" class="sm"><tspan fill="#6fb3ff">2. Sky:</tspan> one star, each end</text><text y="128" class="sm mu">heights differ 1.382°</text>
+  <text y="168" class="sm"><tspan fill="#f0b35a">3. Divide:</tspan> 78,850 ÷ 1.382</text><text y="206" class="lg rd">= 57,060 toises</text><text y="232" class="sm mu">per degree · 69.1 miles</text>
+  <text y="292" class="md">Then the Meter, 1791</text><text y="322" class="sm mu">Pole to equator: 90°.</text><text y="346" class="sm mu">Call it 10,000,000 m.</text></g>`,
   init(el) {
     const S = CS.$(el, '#mt-l'), P = d => [180 + 460 * Math.cos(d * D2R), 560 - 460 * Math.sin(d * D2R)]; let tk = '';
     for (let d = 0; d <= 90; d += 10) { const a = P(d), b = [180 + 478 * Math.cos(d * D2R), 560 - 478 * Math.sin(d * D2R)]; tk += `<line class="k" x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/><text class="xs mu" x="${180 + 500 * Math.cos(d * D2R)}" y="${560 - 500 * Math.sin(d * D2R) + 4}" text-anchor="middle">${d}°</text>`; } CS.$(el, '#mt-t').innerHTML = tk;
