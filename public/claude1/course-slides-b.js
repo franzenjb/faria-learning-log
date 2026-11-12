@@ -10,7 +10,7 @@ function jupiterScene(mode) {
     <circle cx="572" cy="330" r="20" fill="#1c2540" stroke="#ece6da" stroke-width="1.6"/><text x="572" y="296" text-anchor="middle" class="sm">Jupiter</text>
     <circle cx="572" cy="330" r="34" fill="none" stroke="#2e3854" stroke-dasharray="2 4"/><circle id="${id}-io" cx="606" cy="330" r="4" class="fk"/>
     <line id="${id}-ray" class="red" x1="0" y1="0" x2="0" y2="0" stroke-width="1.6"/><circle id="${id}-e" r="9" class="fk"/><text id="${id}-el" class="sm"></text><text id="${id}-dl" class="md rd" text-anchor="middle"></text>
-    <g transform="translate(790,150)"><rect x="-150" y="-110" width="300" height="${mode === 'clock' ? 250 : 220}" rx="8" fill="#111727" stroke="#2e3854"/><g id="${id}-in"></g></g>
+    <g transform="translate(800,140)"><rect x="-180" y="-110" width="370" height="${mode === 'clock' ? 250 : 220}" rx="8" fill="#111727" stroke="#2e3854"/><g id="${id}-in"></g></g>
     <text x="500" y="590" text-anchor="middle" class="sm mu">Orbits to scale with each other. Sun, planets and moons drawn far too big.</text>`,
     init(el) {
       const S = CS.$(el, `#${id}-a`), AU = 62; const draw = () => {
@@ -21,11 +21,11 @@ function jupiterScene(mode) {
         CS.$(el, `#${id}-a-o`).textContent = `${S.value}°`;
         if (mode === 'clock') {
           const late = (d - 4.2) * 499.005, m = Math.floor(late / 60), s = Math.round(late % 60);
-          CS.$(el, `#${id}-in`).innerHTML = `<text y="-76" text-anchor="middle" class="sm mu">Io goes into the shadow</text><text y="-28" text-anchor="middle" class="xl rd">${m} min ${String(s).padStart(2, '0')} s</text><text y="4" text-anchor="middle" class="md">late</text><rect x="-120" y="34" width="240" height="10" fill="#141b2e"/><rect x="-120" y="34" width="${240 * late / 1000}" height="10" fill="#f0b35a"/><text y="76" text-anchor="middle" class="xs mu">Rømer's figure, 1676: 22 minutes across the orbit</text><text y="98" text-anchor="middle" class="xs mu">Modern figure: 16 minutes 40 seconds</text>`;
+          CS.$(el, `#${id}-in`).innerHTML = `<text y="-76" text-anchor="middle" class="sm mu">Io goes into the shadow</text><text y="-28" text-anchor="middle" class="xl rd">${m} min ${String(s).padStart(2, '0')} s</text><text y="4" text-anchor="middle" class="md">late</text><rect x="-120" y="34" width="240" height="10" fill="#141b2e"/><rect x="-120" y="34" width="${240 * late / 1000}" height="10" fill="#f0b35a"/><text y="76" text-anchor="middle" class="xs mu">Rømer, 1676: 22 min across the orbit</text><text y="98" text-anchor="middle" class="xs mu">Today: 16 min 40 s</text>`;
           CS.$(el, `#${id}-r`).innerHTML = `<strong>${late < 5 ? 'On time' : `${m} min ${s} s behind the table`}</strong><span>Io keeps perfect time at about 42.5 hours a lap. The news of each eclipse has ${CS.fx(d - 4.2, 2)} AU farther to travel.</span>`;
         } else {
           const am = 1.883e6 / (d * 149.6e6) / D2R * 60, px = am * 11;
-          CS.$(el, `#${id}-in`).innerHTML = `<text y="-76" text-anchor="middle" class="sm mu">Through the telescope</text><line x1="${-px}" y1="0" x2="${px}" y2="0" stroke="#2e3854"/><circle r="${px * .037 + 3}" fill="#1c2540" stroke="#ece6da"/><circle cx="${px}" r="4" class="fk"/><circle cx="${-px}" r="4" fill="none" stroke="#ece6da"/><path d="M0 26 H${px}" stroke="#f0b35a" stroke-width="2"/><text x="${px / 2}" y="50" text-anchor="middle" class="md rd">${CS.fx(am, 1)}′</text><text y="88" text-anchor="middle" class="xs mu">Jupiter to Callisto: a ruler 1.17 million miles long</text>`;
+          CS.$(el, `#${id}-in`).innerHTML = `<text y="-76" text-anchor="middle" class="sm mu">Through the telescope</text><line x1="${-px}" y1="0" x2="${px}" y2="0" stroke="#2e3854"/><circle r="${px * .037 + 3}" fill="#1c2540" stroke="#ece6da"/><circle cx="${px}" r="4" class="fk"/><circle cx="${-px}" r="4" fill="none" stroke="#ece6da"/><path d="M0 26 H${px}" stroke="#f0b35a" stroke-width="2"/><text x="${px / 2}" y="50" text-anchor="middle" class="md rd">${CS.fx(am, 1)}′</text><text y="88" text-anchor="middle" class="xs mu">Jupiter to Callisto: 1.17 million miles</text>`;
           CS.$(el, `#${id}-r`).innerHTML = `<strong>Callisto swings ${CS.fx(am, 1)} arcminutes out</strong><span>Same ruler, ${CS.fx(d, 1)} AU away. Angle is length divided by distance. Ten arcminutes near, seven far: the Earth's own orbit, read off Jupiter.</span>`;
         }
       };

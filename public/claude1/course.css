@@ -219,3 +219,7 @@ svg.fig .xs{font-size:20px}svg.fig .sm{font-size:24px}svg.fig .md{font-size:28px
 
 /* labels on pictures are not text to select: a drag across the stage must not paint selection boxes */
 .stage svg,.stage svg text,.stage canvas{-webkit-user-select:none;user-select:none}
+
+/* Jupiter slide: the date readout must not wrap (it made the controls jump) */
+#jup-t-out{white-space:nowrap;font-size:.95rem}
+.controls label .row output{white-space:nowrap}
