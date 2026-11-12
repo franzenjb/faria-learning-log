@@ -278,10 +278,10 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
       <label><span class="row">Distance Syene to Alexandria <output id="era-dist-out">500 miles</output></span><input id="era-dist" type="range" min="300" max="700" step="5" value="500"></label>
       <input id="era-stad" type="hidden" value="1"><output id="era-stad-out" hidden></output>
     </div>
-    <div class="btns"><button class="primary" id="era-reset">Eratosthenes' numbers</button><button id="era-mult">Do the multiplication</button><button id="era-euclid">Why the angles are equal</button></div>
+    <div class="btns"><button class="primary" id="era-reset">Eratosthenes' numbers</button><button id="era-mult">Do the multiplication</button><button id="era-euclid">Why the angles are equal</button><button id="era-fifty">Go around 50 times</button></div>
     <div class="readout" id="era-read"></div>
   </div>
-  <div class="stage"><canvas id="c2"></canvas><div class="hint">Drag Alexandria along the surface</div></div>
+  <div class="stage"><canvas id="c2"></canvas><canvas id="c2f" style="pointer-events:none;opacity:0;transition:opacity .5s"></canvas><div class="hint">Drag Alexandria along the surface</div></div>
 </section>
 
 <!-- 4 · Baselines -->
@@ -739,19 +739,25 @@ const band=(a,b,ns)=>`${Math.abs(a)}–${Math.abs(b)}° ${ns}`;
 const latName=(lo,hi)=>hi<=0?band(hi,lo,'S'):lo>=0?band(lo,hi,'N'):`${-lo}° S–${hi}° N`;
 const lonName=(lo,hi)=>hi<=0?band(hi,lo,'W'):lo>=0?band(lo,hi,'E'):`${-lo}° W–${hi}° E`;
 function buildBingo(){const v=unrot([0,0,1],st.yaw,st.pitch),cl=Math.asin(Math.max(-1,Math.min(1,v[1])))/DEG,cn=Math.atan2(-v[2],v[0])/DEG;
-const top=Math.max(0,Math.min(75,Math.round(cl/15)*15+45)),left=Math.round(cn/15)*15-45;bingo.rows=[0,1,2,3,4].map(i=>[top-15*(i+1),top-15*i]);bingo.cols=[0,1,2,3,4].map(i=>[left+15*i,left+15*(i+1)]);bingo.r=bingo.c=null;
+const top=Math.max(15,Math.min(60,Math.round(cl/15)*15+30)),left=Math.round(cn/15)*15-45;bingo.rows=[0,1,2,3,4].map(i=>[top-15*(i+1),top-15*i]);bingo.cols=[0,1,2,3,4].map(i=>[left+15*i,left+15*(i+1)]);bingo.r=bingo.c=null;
 document.getElementById('bingo-rows').innerHTML=bingo.rows.map((b,i)=>`<button data-i="${i}">${latName(b[0],b[1])}</button>`).join('');
-document.getElementById('bingo-cols').innerHTML=bingo.cols.map((b,i)=>`<button data-i="${i}">${'BINGO'[i]} · ${lonName(((b[0]+540)%360)-180,((b[1]+540)%360)-180||180)}</button>`).join('');
+document.getElementById('bingo-cols').innerHTML=bingo.cols.map((b,i)=>`<button data-i="${i}">${'BINGO'[i]} · ${(()=>{const w=v=>((v+540)%360)-180;let lo=w(b[0]),hi=w(b[1]);if(hi<=lo)hi+=360;if(hi>180){hi-=360;}return hi===-180?lonName(lo,180):lonName(lo,hi);})()}</button>`).join('');
 document.querySelectorAll('#bingo-rows button').forEach(x=>x.onclick=()=>{bingo.r=+x.dataset.i;syncBingo();});document.querySelectorAll('#bingo-cols button').forEach(x=>x.onclick=()=>{bingo.c=+x.dataset.i;syncBingo();});syncBingo();}
 function syncBingo(){document.querySelectorAll('#bingo-rows button').forEach(x=>x.classList.toggle('on',+x.dataset.i===bingo.r));document.querySelectorAll('#bingo-cols button').forEach(x=>x.classList.toggle('on',+x.dataset.i===bingo.c));document.getElementById('bingo-open').classList.toggle('on',bingo.on);document.getElementById('bingo-pin').classList.toggle('on',bingo.pin);}
-document.getElementById('bingo-open').onclick=()=>{if(bingo.on){document.getElementById('bingo-close').onclick();return;}bingo.saved={lat:show.lat,lon:show.lon,cities:show.cities};show.cities=false;syncChips();bingo.on=true;bingo.pin=false;bpanel.hidden=false;buildBingo();};
+document.getElementById('bingo-open').onclick=()=>{if(bingo.on){document.getElementById('bingo-close').onclick();return;}bingo.saved={lat:show.lat,lon:show.lon,cities:show.cities};show.cities=false;show.lat=show.lon=false;syncChips();bingo.on=true;bingo.pin=false;bpanel.hidden=false;buildBingo();};
 document.getElementById('bingo-close').onclick=()=>{bingo.on=false;bpanel.hidden=true;if(bingo.saved){show.lat=bingo.saved.lat;show.lon=bingo.saved.lon;show.cities=bingo.saved.cities;show.grid=show.lat&&show.lon;}syncChips();syncBingo();};
 document.getElementById('bingo-clear').onclick=()=>{bingo.r=bingo.c=null;bingo.pin=false;syncBingo();};
 document.getElementById('bingo-pin').onclick=()=>{bingo.pin=!bingo.pin;syncBingo();};
 function drawBingo(ctx,proj){if(!bingo.on)return;const quad=(la0,la1,lo0,lo1,fill,stroke)=>{ctx.beginPath();let first=true;const pts=[];for(let i=0;i<=12;i++)pts.push([la0,lo0+(lo1-lo0)*i/12]);for(let i=0;i<=12;i++)pts.push([la0+(la1-la0)*i/12,lo1]);for(let i=0;i<=12;i++)pts.push([la1,lo1-(lo1-lo0)*i/12]);for(let i=0;i<=12;i++)pts.push([la1-(la1-la0)*i/12,lo0]);let vis=0;for(const[a,b]of pts){const q=proj(ll(a,b));if(q.z>0)vis++;first?ctx.moveTo(q.x,q.y):ctx.lineTo(q.x,q.y);first=false;}if(vis<pts.length*.6)return;ctx.closePath();if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=1.5;ctx.stroke();}};
-bingo.rows.forEach((rb,i)=>bingo.cols.forEach((cb,j)=>{const both=i===bingo.r&&j===bingo.c,row=i===bingo.r,col=j===bingo.c;quad(rb[0],rb[1],cb[0],cb[1],both?'rgba(255,125,111,.55)':row&&col?null:row?'rgba(240,179,90,.22)':col?'rgba(111,179,255,.22)':'rgba(236,230,218,.06)','rgba(236,230,218,.55)');}));
-const L=bingo.cols[0][0],T=bingo.rows[0][1];bingo.rows.forEach((rb,i)=>{const q=proj(ll((rb[0]+rb[1])/2,L-1.5));if(q.z>0)tag(ctx,document.querySelectorAll('#bingo-rows button')[i].textContent,q.x-150,q.y+5,i===bingo.r?'#f0b35a':'#ece6da',12);});
-bingo.cols.forEach((cb,j)=>{const q=proj(ll(T+3,(cb[0]+cb[1])/2));if(q.z>0)tag(ctx,'BINGO'[j],q.x-8,q.y-6,j===bingo.c?'#6fb3ff':'#ece6da',16);});
+const T=bingo.rows[0][1],L=bingo.cols[0][0];
+// header strip: B I N G O on red, like the top of a real card
+bingo.cols.forEach((cb,j)=>{quad(T,T+9,cb[0],cb[1],'rgba(178,34,34,.82)','rgba(255,250,235,.9)');const q=proj(ll(T+4.5,(cb[0]+cb[1])/2));if(q.z>0){ctx.font='800 '+fsz(ctx,22)+'px Georgia,serif';ctx.fillStyle='#fffaf0';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('BINGO'[j],q.x,q.y);ctx.textBaseline='alphabetic';}});
+bingo.rows.forEach((rb,i)=>bingo.cols.forEach((cb,j)=>{const row=i===bingo.r,col=j===bingo.c;quad(rb[0],rb[1],cb[0],cb[1],row?'rgba(240,179,90,.42)':col?'rgba(111,179,255,.45)':'rgba(255,250,235,.16)','rgba(255,250,235,.85)');
+const q=proj(ll((rb[0]+rb[1])/2,(cb[0]+cb[1])/2));if(q.z<=0)return;
+if(i===2&&j===2&&!(row&&col)){ctx.font='700 '+fsz(ctx,11)+'px Georgia,serif';ctx.fillStyle='rgba(255,250,235,.9)';ctx.textAlign='center';ctx.fillText('FREE',q.x,q.y+4);}
+if(row&&col){const e=proj(ll((rb[0]+rb[1])/2,cb[1])),rr=Math.max(10,Math.abs(e.x-q.x)*.85);ctx.fillStyle='rgba(220,40,60,.62)';ctx.beginPath();ctx.arc(q.x,q.y,rr,0,TAU);ctx.fill();ctx.strokeStyle='rgba(255,120,130,.9)';ctx.lineWidth=2;ctx.stroke();}}));
+bingo.rows.forEach((rb,i)=>{const q=proj(ll((rb[0]+rb[1])/2,L-1.5));if(q.z>0)tag(ctx,document.querySelectorAll('#bingo-rows button')[i].textContent,q.x-150,q.y+5,i===bingo.r?'#f0b35a':'#ece6da',12);});
+
 if(bingo.pin){const q=proj(ll(23.13,-82.38));if(q.z>0){ctx.fillStyle='#ff7d6f';ctx.beginPath();ctx.arc(q.x,q.y-14,9,0,TAU);ctx.fill();ctx.beginPath();ctx.moveTo(q.x-6,q.y-9);ctx.lineTo(q.x,q.y);ctx.lineTo(q.x+6,q.y-9);ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(q.x,q.y-14,3.5,0,TAU);ctx.fill();tag(ctx,'23° N, 82° W · Havana',q.x+14,q.y-10,'#ff7d6f',13);}}}
 const gcard=document.getElementById('g-card');document.getElementById('g-card-x').onclick=()=>gcard.hidden=true;
 function showCard(t,g,p,left){gcard.style.right=left?'auto':'';gcard.style.left=left?'1rem':'';document.getElementById('g-card-t').textContent=t;document.getElementById('g-card-g').innerHTML=g;document.getElementById('g-card-p').innerHTML=p;gcard.hidden=false;}
@@ -1111,6 +1117,19 @@ if(stamped){const k=Math.min(1,(t-stampT)/1400);ctx.strokeStyle=`rgba(255,125,11
 text(ctx,'Earth from above the North Pole · the outer ring is local time and never turns · the Earth and both hands turn under it together',w*.5,h-54,{size:12,color:'#9a9382',align:'center'});}});}
 
 
+/* ---------- 2 · Eratosthenes: fifty slices ---------- */
+{const cv=document.getElementById('c2f'),btn=document.getElementById('era-fifty');let on=false,t0=0,raf=0;
+function draw(now){const r=cv.getBoundingClientRect(),d=devicePixelRatio||1;if(cv.width!==Math.round(r.width*d)){cv.width=r.width*d;cv.height=r.height*d;}const ctx=cv.getContext('2d');ctx.setTransform(d,0,0,d,0,0);const w=r.width,h=r.height;ctx.clearRect(0,0,w,h);
+ctx.fillStyle='rgba(10,14,24,.94)';ctx.fillRect(0,0,w,h);const cx=w*.42,cy=h*.52,R=Math.min(w*.36,h*.4),el=(now-t0)/1000,a=7.2*Math.PI/180;
+const n=el<1.8?1:Math.min(50,1+Math.floor((el-1.8)/0.11));
+for(let i=0;i<n;i++){const a0=-Math.PI/2-a*(i+1),a1=-Math.PI/2-a*i;ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,R,a0,a1);ctx.closePath();ctx.fillStyle=i===0?'#f0b35a':i%2?'#2f5a8c':'#7a5a30';ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=1;ctx.stroke();}
+ctx.strokeStyle='#cfc8ba';ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.stroke();ctx.fillStyle='#ece6da';ctx.beginPath();ctx.arc(cx,cy,5,0,Math.PI*2);ctx.fill();
+const lab=(txt,x,y,size,col,al='left',wt=600)=>{ctx.font=`${wt} ${size}px -apple-system,Segoe UI,Roboto,sans-serif`;ctx.fillStyle=col;ctx.textAlign=al;ctx.fillText(txt,x,y);};
+const tx=cx+(R+18)*Math.cos(-Math.PI/2-a/2);lab('7.2°',tx-6,cy-R-14,22,'#f0b35a','right');lab('Syene',cx+8,cy-R-14,16,'#cfc8ba');
+const px=w*.8;lab(`${n}`,px,h*.36,Math.max(64,h*.13),n===50?'#6fd48a':'#f0b35a','center',700);lab(n===1?'one slice of 7.2°':'slices of 7.2°',px,h*.36+40,20,'#cfc8ba','center',500);
+if(n===50&&el>1.8+50*.11+.4){lab('50 × 7.2° = 360°',px,h*.6,30,'#6fd48a','center');lab('50 × 500 miles',px,h*.6+52,26,'#ece6da','center',500);lab('= 25,000 miles around',px,h*.6+90,26,'#ece6da','center',500);}
+if(on)raf=requestAnimationFrame(draw);}
+btn.onclick=()=>{on=!on;btn.classList.toggle('on',on);btn.textContent=on?'Back to the well':'Go around 50 times';cv.style.opacity=on?1:0;cancelAnimationFrame(raf);if(on){t0=performance.now();raf=requestAnimationFrame(draw);}};}
 /* ---------- 2 · Eratosthenes ---------- */
 {const o=setup('c2');const angIn=document.getElementById('era-ang'),distIn=document.getElementById('era-dist'),stadIn=document.getElementById('era-stad'),read=document.getElementById('era-read');let flat=false;const ez={zoom:1,pan:0};
 // scroll or pinch to zoom in on the sticks
