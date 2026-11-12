@@ -17,20 +17,20 @@ const D2R = Math.PI / 180;
 /* ---------- Thumb to the Moon ---------- */
 NEW_SLIDES['Thumb to the Moon'] = {
   h1: 'The same triangle reaches the Moon',
-  ctl: `<div class="controls">${CS.slider('tm-d', 'Slide the target out', 0, 100, 0.5, 0)}</div>
-  <div class="chips" id="tm-p"><button data-v="0">Your thumb</button><button data-v="38">A barn, one mile off</button><button data-v="100">The Moon</button></div>
+  ctl: `<div class="controls">${CS.slider('tm-d', 'Slide the target out', 0, 100, 0.1, 0)}</div>
+  <div class="chips" id="tm-p"><button data-v="0">Your thumb</button><button data-v="38.8">A barn, one mile off</button><button data-v="100">The Moon</button></div>
   <div class="readout" id="tm-r"></div>`,
   fig: `<line class="hair" x1="70" y1="320" x2="960" y2="320" stroke-dasharray="4 6"/>
   <path id="tm-rays" class="red" d=""/><circle cx="70" cy="320" r="9" class="fk"/><text x="70" y="352" text-anchor="middle" class="sm mu">your eye</text>
-  <g id="tm-near"><line class="k" x1="250" y1="296" x2="250" y2="344" stroke-width="5"/><text x="250" y="380" text-anchor="middle" class="sm">thumbnail gap</text><text x="250" y="402" text-anchor="middle" class="sm mu">1 wide, 110 away</text></g>
-  <g id="tm-far"><circle id="tm-disc" cx="600" cy="320" r="40" fill="#1c2540" stroke="#ece6da" stroke-width="1.6"/><line id="tm-bar" class="red" x1="600" y1="280" x2="600" y2="360" stroke-width="3"/><text id="tm-l1" x="600" y="200" text-anchor="middle" class="md"></text><text id="tm-l2" x="600" y="226" text-anchor="middle" class="sm mu">1 wide, 110 away</text></g>
-  <text x="500" y="560" text-anchor="middle" class="md">Same shape. Only the size changes.</text>
-  <text x="500" y="590" text-anchor="middle" class="sm mu">Drawn about 30 times wider than life so you can see the angle.</text>`,
+  <g id="tm-near"><line class="k" x1="250" y1="296" x2="250" y2="344" stroke-width="5"/><text x="250" y="380" text-anchor="middle" class="sm">your thumb: 1 inch wide</text><text x="250" y="402" text-anchor="middle" class="sm mu">25 inches from your eye</text></g>
+  <g id="tm-far"><circle id="tm-disc" cx="600" cy="320" r="40" fill="#1c2540" stroke="#ece6da" stroke-width="1.6"/><line id="tm-bar" class="red" x1="600" y1="280" x2="600" y2="360" stroke-width="3"/><text id="tm-l1" x="600" y="200" text-anchor="middle" class="md"></text><text id="tm-l2" x="600" y="226" text-anchor="middle" class="sm mu">1 wide, 25 away</text></g>
+  <text id="tm-m1" x="500" y="560" text-anchor="middle" class="md"></text>
+  <text id="tm-m2" x="500" y="592" text-anchor="middle" class="sm mu"></text>`,
   init(el) {
     const s = CS.$(el, '#tm-d'), out = CS.$(el, '#tm-d-o');
-    const inch = 43, moon = 238900 * 63360; // arm's length to the Moon, in inches
+    const inch = 25, moon = 238900 * 63360; // arm's length to the Moon, in inches
     const draw = () => {
-      const u = +s.value / 100, d = inch * Math.pow(moon / inch, u), wdt = d / 110;
+      const u = +s.value / 100, d0 = inch * Math.pow(moon / inch, u), d = Math.abs(d0 / 63360 - 1) < 0.03 ? 63360 : d0, atMoon = u > 0.985, R = atMoon ? 100 : 25, wdt = d / R;
       const x = 250 + u * 650, half = (x - 70) * 110 / 830;
       CS.$(el, '#tm-rays').setAttribute('d', `M70 320 L960 ${320 - 890 * 110 / 830} M70 320 L960 ${320 + 890 * 110 / 830}`);
       CS.$(el, '#tm-disc').setAttribute('cx', x); CS.$(el, '#tm-disc').setAttribute('r', half);
@@ -39,10 +39,10 @@ NEW_SLIDES['Thumb to the Moon'] = {
       const ft = d / 12, mi = d / 63360;
       const dist = mi >= 1 ? `${CS.int(mi)} mile${mi >= 1.5 ? 's' : ''}` : ft >= 30 ? `${CS.int(ft)} feet` : `${CS.int(d)} inches`;
       const wft = wdt / 12, wmi = wdt / 63360;
-      const wide = wmi >= 1 ? `${CS.int(wmi)} miles` : wft >= 3 ? `${CS.int(wft)} feet` : `${CS.fx(wdt, 1)} inch`;
-      const l1 = CS.$(el, '#tm-l1'), l2 = CS.$(el, '#tm-l2'); l1.setAttribute('x', x); l2.setAttribute('x', x); l1.setAttribute('y', 320 - half - 34); l2.setAttribute('y', 320 - half - 10);
-      l1.textContent = `${wide} across`; out.textContent = dist;
-      CS.$(el, '#tm-r').innerHTML = u > 0.985 ? `<strong>The Moon is about 2,170 miles across</strong><span>238,900 miles away, divided by 110. NASA's measured figure is 2,159 miles. A thumb got within 1 percent.</span>` : `<strong>${dist} away, so ${wide} across</strong><span>Whatever just fills the gap is 110 times farther away than it is wide.</span>`;
+      const wide = atMoon ? 'about 2,400 miles' : wmi >= 1 ? `${CS.int(wmi)} miles` : wft >= 3 ? `${CS.int(wft)} feet` : `${CS.fx(wdt, 1)} inch`;
+      const l1 = CS.$(el, '#tm-l1'), l2 = CS.$(el, '#tm-l2'); const lx = Math.min(x, 760); l1.setAttribute('x', lx); l2.setAttribute('x', lx); l1.setAttribute('y', 320 - half - 34); l2.setAttribute('y', 320 - half - 10);
+      l1.textContent = `${wide} across`; l2.textContent = atMoon ? 'fills ¼ of your thumb: 1 wide, 100 away' : '1 wide, 25 away'; out.textContent = dist; CS.$(el, '#tm-m1').textContent = atMoon ? '¼ inch at 25 inches = 1 to 100' : '1 inch at 25 inches = 1 to 25'; CS.$(el, '#tm-m2').textContent = atMoon ? '238,900 miles ÷ 100 = about 2,400 miles across. Real: 2,159.' : `Distance ÷ 25 = width. ${dist} ÷ 25 = ${wide}.`;
+      CS.$(el, '#tm-r').innerHTML = u > 0.985 ? `<strong>The Moon covers about ¼ of your thumb</strong><span>¼ inch at 25 inches is 1 to 100. So the Moon is 100 times farther away than it is wide: 238,900 ÷ 100 = about 2,400 miles. The real figure is 2,159. A thumb gets within about 10 percent.</span>` : `<strong>${dist} away, so ${wide} across</strong><span>Thumb 1 inch wide, held 25 inches out. Anything your thumb just covers is 25 times farther away than it is wide.</span>`;
     };
     s.oninput = draw; el.querySelectorAll('#tm-p button').forEach(b => b.onclick = () => { s.value = b.dataset.v; draw(); }); draw();
   }
