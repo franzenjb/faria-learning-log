@@ -207,26 +207,40 @@ NEW_SLIDES['Scilly, 1707'] = {
 /* ---------- Chapter slide 4: the Longitude Act ---------- */
 NEW_SLIDES['The Longitude Act, 1714'] = {
   h1: 'The Longitude Act, 1714',
-  ctl: `<div class="controls">${CS.slider('la-e', 'How far off is your longitude?', 0, 1.5, 0.05, 0.4)}</div><div class="readout" id="la-r"></div>`,
-  fig: `<text x="500" y="62" text-anchor="middle" class="xl">The Longitude Act, 1714</text>
-  <text x="500" y="98" text-anchor="middle" class="md mu">Find your longitude at sea, any method, and win up to £20,000.</text>
-  <g id="la-rings"></g>
-  <line id="la-gap" x1="340" y1="370" x2="340" y2="370" stroke="#ff7d6f" stroke-width="3" stroke-dasharray="7 6"/>
-  <circle cx="340" cy="370" r="9" fill="#ece6da"/><text x="340" y="402" text-anchor="middle" class="sm">the island</text>
-  <g id="la-ship"><path d="M-20 0 L20 0 L13 11 L-13 11 Z" fill="#ece6da"/><line x1="0" y1="0" x2="0" y2="-30" stroke="#ece6da" stroke-width="2.5"/><path d="M2 -28 L18 -6 L2 -6 Z" fill="#ece6da"/></g>
-  <text id="la-miss" class="lg rd" text-anchor="middle" y="150" style="display:none"></text>
-  <g id="la-key" transform="translate(680,220)"></g>
-  <text x="500" y="596" text-anchor="middle" class="sm mu">1° of longitude = 4 minutes of time.</text><text x="500" y="624" text-anchor="middle" class="sm mu">The top prize meant knowing the time to 2 minutes after weeks at sea.</text>`,
+  ctl: `<div class="controls">${CS.slider('la-e', 'How far off is your longitude?', 0, 2, 0.05, 0.4)}</div><div class="readout" id="la-r"></div>`,
+  fig: `<text x="500" y="52" text-anchor="middle" class="xl">£20,000 to Find Longitude at Sea</text>
+  <text x="500" y="88" text-anchor="middle" class="md mu">Parliament’s test: sail from Britain to the West Indies, then say where you are.</text>
+  <defs><clipPath id="la-ci"><rect x="30" y="130" width="300" height="170"/></clipPath><clipPath id="la-cm"><rect x="360" y="130" width="620" height="430"/></clipPath></defs>
+  <rect x="30" y="130" width="300" height="170" fill="#0e1830" stroke="#283048"/><g clip-path="url(#la-ci)"><path id="la-ic" fill="none" stroke="#7f8ba6" stroke-width="1"/><path id="la-route" fill="none" stroke="#f0b35a" stroke-width="2.5" stroke-dasharray="6 5"/><rect id="la-box" fill="none" stroke="#ece6da" stroke-width="1.5"/></g>
+  <text x="34" y="122" class="sm mu">The voyage · about 6 weeks</text>
+  <rect x="360" y="130" width="620" height="430" fill="#0e1830" stroke="#283048"/>
+  <g clip-path="url(#la-cm)"><g id="la-bands"></g><path id="la-mc" fill="none" stroke="#9aa6c0" stroke-width="2"/><path id="la-jam" fill="#24365a" stroke="#c9d2e6" stroke-width="2"/><line id="la-lat" stroke="#6fd48a" stroke-width="2" stroke-dasharray="8 6"/><text id="la-latt" class="sm" fill="#6fd48a" style="paint-order:stroke;stroke:#0e1830;stroke-width:5px"></text><g id="la-ship"><path d="M-20 0 L20 0 L13 11 L-13 11 Z" fill="#ece6da"/><line x1="0" y1="0" x2="0" y2="-30" stroke="#ece6da" stroke-width="2.5"/><path d="M2 -28 L18 -6 L2 -6 Z" fill="#ece6da"/></g><circle id="la-pr" r="8" fill="#ff7d6f"/></g>
+  <text id="la-prl" class="sm rd" style="paint-order:stroke;stroke:#0e1830;stroke-width:6px"></text><text id="la-shl" class="sm" text-anchor="middle" style="paint-order:stroke;stroke:#0e1830;stroke-width:6px"></text>
+  <g id="la-key" transform="translate(30,330)"></g>
+  <text x="670" y="592" text-anchor="middle" class="sm mu">Longitude error is east or west: the prize bands are strips, not circles.</text>`,
   init(el) {
-    const B = [[1, '£10,000', '1°', 60, '#3a2f22'], [2 / 3, '£15,000', '⅔°', 40, '#7a5a30'], [0.5, '£20,000', '½°', 30, '#f0b35a']], px = 200, cx = 340, cy = 370;
-    CS.$(el, '#la-rings').innerHTML = B.map(b => `<circle cx="${cx}" cy="${cy}" r="${b[0] * px}" fill="${b[4]}" fill-opacity=".55" stroke="${b[4]}" stroke-width="2"/>`).join('');
+    const PR = [17.94, -76.84], B = [[1, '£10,000', '1°', 60, '#5a4526'], [2 / 3, '£15,000', '⅔°', 40, '#8a6630'], [0.5, '£20,000', '½°', 30, '#f0b35a']];
+    const K = 124, X = lo => 670 + (lo - PR[1]) * K, Y = la => 380 - (la - PR[0]) * K, xi = lo => 30 + (lo + 85) * 300 / 90, yi = la => 130 + (60 - la) * 170 / 55;
+    const path = (f, g, box, skipJam) => { let d = ''; for (const ln of COAST.lines) { let pen = false; for (let i = 0; i < ln.length; i += 2) { const lo = ln[i] / COAST.q, la = ln[i + 1] / COAST.q; if (lo < box[0] || lo > box[1] || la < box[2] || la > box[3] || (skipJam && lo > -78.6 && lo < -76 && la > 17.5 && la < 18.7)) { pen = false; continue; } d += (pen ? 'L' : 'M') + f(lo).toFixed(1) + ' ' + g(la).toFixed(1); pen = true; } } return d; };
+    CS.$(el, '#la-ic').setAttribute('d', path(xi, yi, [-92, 12, 0, 65]));
+    CS.$(el, '#la-mc').setAttribute('d', path(X, Y, [-82, -72, 14, 22], true));
+    const JAM = [[-78.37, 18.27], [-78.2, 18.45], [-77.92, 18.5], [-77.65, 18.5], [-77.35, 18.47], [-77.1, 18.42], [-76.9, 18.38], [-76.7, 18.27], [-76.45, 18.19], [-76.3, 18.05], [-76.19, 17.92], [-76.42, 17.87], [-76.68, 17.93], [-76.84, 17.94], [-76.95, 17.85], [-77.19, 17.73], [-77.4, 17.84], [-77.56, 17.86], [-77.85, 18.03], [-78.13, 18.2], [-78.37, 18.27]];
+    CS.$(el, '#la-jam').setAttribute('d', 'M' + JAM.map(q => `${X(q[0]).toFixed(1)} ${Y(q[1]).toFixed(1)}`).join(' L') + ' Z');
+    const ll = CS.$(el, '#la-lat'); ll.setAttribute('x1', 360); ll.setAttribute('x2', 980); ll.setAttribute('y1', Y(PR[0])); ll.setAttribute('y2', Y(PR[0]));
+    const lt = CS.$(el, '#la-latt'); lt.setAttribute('x', 372); lt.setAttribute('y', 545); lt.style.fill = '#6fd48a'; lt.textContent = 'green line: your latitude, 17.9° N. Easy, from the stars.';
+    const ply = [50.37, -4.14], c1 = [42, -35], c2 = [22, -60];
+    CS.$(el, '#la-route').setAttribute('d', `M${xi(ply[1])} ${yi(ply[0])} Q${xi(c1[1])} ${yi(c1[0])} ${xi(c2[1])} ${yi(c2[0])} T${xi(PR[1])} ${yi(PR[0])}`);
+    const bx = CS.$(el, '#la-box'); bx.setAttribute('x', xi(PR[1] - 2.5)); bx.setAttribute('y', yi(PR[0] + 2)); bx.setAttribute('width', xi(PR[1] + 2.5) - xi(PR[1] - 2.5)); bx.setAttribute('height', yi(PR[0] - 1.5) - yi(PR[0] + 2));
+    const pr = CS.$(el, '#la-pr'); pr.setAttribute('cx', X(PR[1])); pr.setAttribute('cy', Y(PR[0]));
+    const BC = ['#3d5a80', '#7a6a3a', '#f0b35a'];
+    CS.$(el, '#la-bands').innerHTML = B.map((b, i) => `<rect x="${X(PR[1] - b[0])}" y="130" width="${2 * b[0] * K}" height="430" fill="${BC[i]}" fill-opacity="${[.22, .28, .32][i]}"/>`).join('') + B.slice().reverse().map((b, k) => { const y = 152 + k * 30, c = ['#f0b35a', '#c9a35e', '#8fb0d8'][k]; return `<line x1="${X(PR[1] - b[0])}" y1="${y}" x2="${X(PR[1] + b[0])}" y2="${y}" stroke="${c}" stroke-width="3"/><line x1="${X(PR[1] - b[0])}" y1="${y - 7}" x2="${X(PR[1] - b[0])}" y2="${y + 7}" stroke="${c}" stroke-width="3"/><line x1="${X(PR[1] + b[0])}" y1="${y - 7}" x2="${X(PR[1] + b[0])}" y2="${y + 7}" stroke="${c}" stroke-width="3"/><text x="${X(PR[1] + b[0]) + 10}" y="${y + 6}" class="sm" fill="${c}" style="paint-order:stroke;stroke:#0e1830;stroke-width:5px">${b[1]} · ±${b[2]}</text>`; }).join('');
+    const prl = CS.$(el, '#la-prl'); prl.setAttribute('x', X(PR[1]) - 10); prl.setAttribute('y', Y(PR[0]) + 34); prl.setAttribute('text-anchor', 'middle'); prl.textContent = 'Port Royal, Jamaica: where you are';
     const S = CS.$(el, '#la-e'); const draw = () => {
-      const d = +S.value, mi = Math.round(d * 60), x = cx + d * px;
-      CS.$(el, '#la-ship').setAttribute('transform', `translate(${Math.min(980, x)},${cy})`);
-      const g = CS.$(el, '#la-gap'); g.setAttribute('x2', Math.min(980, x));
-      const m = CS.$(el, '#la-miss'); m.setAttribute('x', Math.min(900, Math.max(120, (cx + x) / 2))); m.textContent = d < .02 ? '' : `${mi} miles off`;
+      const d = +S.value, mi = Math.round(d * 60), x = X(PR[1] + d), y = Y(PR[0]) - 4;
+      CS.$(el, '#la-ship').setAttribute('transform', `translate(${x},${y})`);
+      const sl = CS.$(el, '#la-shl'); sl.setAttribute('x', Math.min(900, x)); sl.setAttribute('y', y - 46); sl.textContent = d < .02 ? 'where you think you are: spot on' : `where you think you are: ${mi} miles east`;
       const won = B.filter(b => d <= b[0] + 1e-9).pop();
-      CS.$(el, '#la-key').innerHTML = B.slice().reverse().map((b, i) => { const on = won && won === b; const y = i * 96, fc = b[4] === '#f0b35a' && on ? '#1a1206' : '#ece6da'; return `<rect x="0" y="${y}" width="300" height="82" rx="8" fill="${b[4]}" fill-opacity="${on ? .95 : .35}" stroke="${on ? '#ece6da' : 'none'}" stroke-width="2"/><text x="18" y="${y + 38}" class="lg" fill="${fc}">${b[1]}</text><text x="18" y="${y + 68}" class="sm" fill="${fc}">within ${b[2]} · about ${b[3]} miles</text>`; }).join('');
+      CS.$(el, '#la-key').innerHTML = `<text x="0" y="-8" class="sm mu">The prizes</text>` + B.slice().reverse().map((b, i) => { const on = won === b, y0 = i * 72, fc = on && b[4] === '#f0b35a' ? '#1a1206' : '#ece6da'; return `<rect x="0" y="${y0}" width="300" height="62" rx="8" fill="${b[4]}" fill-opacity="${on ? .95 : .3}" stroke="${on ? '#ece6da' : 'none'}" stroke-width="2"/><text x="14" y="${y0 + 28}" class="md" fill="${fc}">${b[1]}</text><text x="14" y="${y0 + 52}" class="sm" fill="${fc}">within ${b[2]} · about ${b[3]} miles</text>`; }).join('') ;
       CS.$(el, '#la-e-o').textContent = `${CS.fx(d, 2)}° · ${mi} miles`;
       CS.$(el, '#la-r').innerHTML = `<strong>${won ? won[1] + ' prize' : 'No prize'}</strong>`;
     }; S.oninput = draw; draw();
