@@ -123,13 +123,18 @@ NEW_SLIDES['Two ships, one latitude'] = {
     const o = CS.canvas(el), S = CS.$(el, '#ts-d'); let spin = true, lon0 = -40, last = 0, LAT = 50, A = -35, zoom = 1, zoomT = 1;
     o.c.addEventListener('wheel', e => { e.preventDefault(); zoomT = Math.max(1, Math.min(9, zoomT * (e.deltaY < 0 ? 1.15 : 1 / 1.15))); }, { passive: false });
     o.c.addEventListener('dblclick', () => { zoomT = 1; });
+    // drag left or right to turn the Earth by hand; the spin carries on when you let go
+    let dragX = null, curR = 300; o.c.style.cursor = 'grab'; o.c.style.touchAction = 'none';
+    o.c.addEventListener('pointerdown', e => { dragX = e.clientX; o.c.setPointerCapture(e.pointerId); o.c.style.cursor = 'grabbing'; });
+    o.c.addEventListener('pointermove', e => { if (dragX === null) return; const r = o.c.getBoundingClientRect(), dx = (e.clientX - dragX) * (o.w / r.width); dragX = e.clientX; lon0 -= dx / curR / D2R; });
+    const up = () => { dragX = null; o.c.style.cursor = 'grab'; }; o.c.addEventListener('pointerup', up); o.c.addEventListener('pointercancel', up);
     CS.$(el, '#ts-spin').onclick = e => { spin = !spin; e.target.textContent = spin ? 'Pause the Earth' : 'Spin the Earth'; };
     const draw = now => {
       if (!el.classList.contains('active')) { last = 0; requestAnimationFrame(draw); return; }
-      const dt = last ? now - last : 16; last = now; if (spin) lon0 += dt * 0.006;
+      const dt = last ? now - last : 16; last = now; if (spin && dragX === null) lon0 += dt * 0.006;
       if (!o.fit()) { requestAnimationFrame(draw); return; }
       zoom += (zoomT - zoom) * Math.min(1, dt / 180);
-      const { ctx, w, h } = o, tilt = 28 * D2R, ct = Math.cos(tilt), st = Math.sin(tilt), R0 = Math.min(w * .3, h * .34), R = R0 * zoom;
+      const { ctx, w, h } = o, tilt = 28 * D2R, ct = Math.cos(tilt), st = Math.sin(tilt), R0 = Math.min(w * .3, h * .34), R = R0 * zoom; curR = R;
       const unit = (lat, lon) => { const l = (lon - lon0) * D2R, cp = Math.cos(lat * D2R), sp = Math.sin(lat * D2R); return [cp * Math.sin(l), -(ct * sp - st * cp * Math.cos(l)), st * sp + ct * cp * Math.cos(l)]; };
       // scrolling in closes on the midpoint between the two ships and keeps it in the middle of the screen
       const mu = unit(LAT, A + (+S.value) / 2), k = Math.min(1, (zoom - 1) / 1.2), bx = w * .5, by = h * .6;
@@ -161,7 +166,7 @@ NEW_SLIDES['Two ships, one latitude'] = {
       CS.$(el, '#ts-d-o').textContent = `${CS.fx(d, 1)}° of longitude`;
       CS.$(el, '#ts-r').innerHTML = `<strong>Same star. Same height. ${CS.int(mi)} miles apart.</strong>`;
       ctx.restore();
-      if (zoom < 1.3) lab('Scroll to zoom in on the ships · double-click to zoom out', w / 2, 34, fs * .8, '#9a9382', 'center', 500);
+      if (zoom < 1.3) lab('Drag to turn the Earth · scroll to zoom in on the ships · double-click to zoom out', w / 2, 34, fs * .8, '#9a9382', 'center', 500);
       requestAnimationFrame(draw);
     };
     S.oninput = () => {}; requestAnimationFrame(draw);
