@@ -293,6 +293,40 @@ NEW_SLIDES['Longitude bingo'] = {
   }
 };
 
+/* ---------- Chapter slide 7: Galileo's clock in the sky, kept simple ---------- */
+NEW_SLIDES['Galileo’s clock'] = {
+  h1: 'Galileo Offered a Clock in the Sky',
+  ctl: `<div class="btns"><button class="primary" id="gc-play">Watch Io vanish</button></div>
+  <div class="controls">${CS.slider('gc-w', 'How far west of Paris are you?', 0, 6, 0.25, 2)}</div>
+  <div class="btns"><button id="gc-ship">Now try it from a ship</button></div><div class="readout" id="gc-r"></div>`,
+  fig: `<text x="500" y="52" text-anchor="middle" class="lg">Jupiter’s moon Io slips into Jupiter’s shadow</text>
+  <text x="500" y="82" text-anchor="middle" class="sm mu">Everyone on Earth who is looking sees it vanish at the same instant.</text>
+  <g id="gc-sky"><rect x="250" y="108" width="500" height="150" rx="12" fill="#070a12" stroke="#283048"/>
+  <path d="M500 183 L760 150 L760 216 Z" fill="#000" opacity=".9"/>
+  <circle cx="500" cy="183" r="34" fill="#c9a36b"/><path d="M468 172 H532 M466 186 H534 M470 199 H530" stroke="#8a6a3d" stroke-width="4"/>
+  <ellipse cx="500" cy="183" rx="150" ry="26" fill="none" stroke="rgba(236,230,218,.25)" stroke-dasharray="4 6"/>
+  <circle id="gc-io" cx="350" cy="183" r="8" fill="#ffd66b"/><text x="500" y="244" text-anchor="middle" class="xs mu">Jupiter · its shadow points away from the Sun</text></g>
+  <g id="gc-c1" transform="translate(280,420)"></g><g id="gc-c2" transform="translate(720,420)"></g>
+  <text x="280" y="596" text-anchor="middle" class="md">Paris</text><text x="280" y="624" text-anchor="middle" class="xs mu">time printed in the table</text>
+  <text x="720" y="596" text-anchor="middle" class="md">You</text><text x="720" y="624" text-anchor="middle" class="xs mu">your local time, from your own noon</text>
+  <text id="gc-ans" x="500" y="300" text-anchor="middle" class="xl rd"></text>`,
+  init(el) {
+    const W = CS.$(el, '#gc-w'); let t0 = 0, run = false, shown = false, ship = false;
+    const clock = (g, hr, col) => { const a = (hr % 12) / 12 * 2 * Math.PI, m = (hr % 1) * 2 * Math.PI; let s = `<circle r="86" fill="#111727" stroke="${col}" stroke-width="4"/>`; for (let i = 0; i < 12; i++) { const b = i / 12 * 2 * Math.PI; s += `<line x1="${78 * Math.sin(b)}" y1="${-78 * Math.cos(b)}" x2="${88 * Math.sin(b)}" y2="${-88 * Math.cos(b)}" stroke="#cfc8ba" stroke-width="3"/>`; } s += `<line x2="${48 * Math.sin(a)}" y2="${-48 * Math.cos(a)}" stroke="#ece6da" stroke-width="7" stroke-linecap="round"/><line x2="${72 * Math.sin(m)}" y2="${-72 * Math.cos(m)}" stroke="#ece6da" stroke-width="4" stroke-linecap="round"/><circle r="6" fill="${col}"/>`; const h = Math.floor(hr), mm = Math.round((hr - h) * 60); s += `<text y="134" text-anchor="middle" class="lg" fill="${col}">${((h + 11) % 12) + 1}:${String(mm).padStart(2, '0')} pm</text>`; CS.$(el, g).innerHTML = s; };
+    const draw = () => { const w = +W.value, paris = 21, you = paris - w; clock('#gc-c1', paris, '#f0b35a'); clock('#gc-c2', you, '#6fb3ff');
+      CS.$(el, '#gc-W-o'); CS.$(el, '#gc-w-o').textContent = `${CS.fx(w, 2).replace(/\.00$/, '')} hours`;
+      CS.$(el, '#gc-ans').textContent = shown ? `${CS.fx(w, 2).replace(/\.00$/, '')} h × 15° = ${CS.int(w * 15)}° west` : '';
+      CS.$(el, '#gc-r').innerHTML = ship ? `<strong>On a rolling deck you cannot hold a long telescope on a dot that small.</strong>` : shown ? `<strong>${CS.int(w * 15)}° west of Paris</strong>` : `<strong>Two clocks. Compare them at the instant Io vanishes.</strong>`; };
+    CS.$(el, '#gc-play').onclick = () => { t0 = performance.now(); run = true; shown = false; draw(); };
+    CS.$(el, '#gc-ship').onclick = e => { ship = !ship; e.target.textContent = ship ? 'Back on land' : 'Now try it from a ship'; draw(); };
+    W.oninput = draw;
+    CS.tick(el, t => { const io = CS.$(el, '#gc-io'), sky = CS.$(el, '#gc-sky');
+      if (run) { const u = Math.min(1, (t - t0) / 2600), x = 350 + 300 * u; io.setAttribute('cx', x); io.setAttribute('cy', 183 - 18 * Math.sin(u * Math.PI)); io.style.opacity = x > 540 ? Math.max(0, 1 - (x - 540) / 30) : 1; if (u >= 1 && !shown) { shown = true; run = false; draw(); } }
+      sky.setAttribute('transform', ship ? `rotate(${4 * Math.sin(t / 380) + 2 * Math.sin(t / 150)} 500 183) translate(${7 * Math.sin(t / 260)},${6 * Math.cos(t / 310)})` : ''); });
+    draw();
+  }
+};
+
 /* ---------- Chapter slide 9: pendulum at sea ---------- */
 NEW_SLIDES['Pendulum at sea'] = {
   h1: 'The best clocks could not go to sea',
