@@ -151,3 +151,11 @@ Jeff's standing rule: no Title Case in titles. The cover read "Where Am I?"; it 
 - Build clean; tests/kimi1-browser.mjs passes in local Chrome; cover screenshot inspected.
 - Published source dcbb732 via git-connected Vercel. Served https://faria.jbf.com/kimi1/ matches local bytes exactly (cmp).
 - Remaining: Jeff's acceptance.
+
+## 2026-11-12 — Gentle trackpad zoom + zoom controls
+
+Jeff reported that the slightest two-finger trackpad move on his M4 Max zoomed the globe dramatically, and asked for three subtle buttons: zoom in slowly, zoom out slowly, and home.
+
+- Wheel/pinch zoom now uses exponential damping (delta clamped to ±50, factor exp(−d·0.002)) instead of the old ×1.1/0.9 per event; the Eratosthenes wheel got the same treatment. Build clean, browser tests pass.
+- Every orbit globe now carries a small + / − / ⌂ cluster (bottom-left, fades in on hover): hold to drift smoothly, tap for an animated 1.35× step, ⌂ flies back to the initial view in 900 ms. Screenshots verify/zoom-ctl.png, zoom-in.png, zoom-home.png inspected.
+- Published commit e7361ce; production byte-verified (curl https://faria.jbf.com/kimi1/ → cmp → BYTE-MATCH-OK). Remaining: Jeff's acceptance.
