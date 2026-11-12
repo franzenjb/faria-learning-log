@@ -120,14 +120,22 @@ NEW_SLIDES['Two ships, one latitude'] = {
   h1: 'Longitude has no landmarks', canvas: true,
   ctl: `<div class="controls">${CS.slider('ts-d', 'Move the second ship east', 0, 40, 0.5, 15)}</div><div class="btns"><button class="primary" id="ts-spin">Pause the Earth</button></div><div class="readout" id="ts-r"></div>`,
   init(el) {
-    const o = CS.canvas(el), S = CS.$(el, '#ts-d'); let spin = true, lon0 = -40, last = 0, LAT = 50, A = -35;
+    const o = CS.canvas(el), S = CS.$(el, '#ts-d'); let spin = true, lon0 = -40, last = 0, LAT = 50, A = -35, zoom = 1, zoomT = 1;
+    o.c.addEventListener('wheel', e => { e.preventDefault(); zoomT = Math.max(1, Math.min(9, zoomT * (e.deltaY < 0 ? 1.15 : 1 / 1.15))); }, { passive: false });
+    o.c.addEventListener('dblclick', () => { zoomT = 1; });
     CS.$(el, '#ts-spin').onclick = e => { spin = !spin; e.target.textContent = spin ? 'Pause the Earth' : 'Spin the Earth'; };
     const draw = now => {
       if (!el.classList.contains('active')) { last = 0; requestAnimationFrame(draw); return; }
       const dt = last ? now - last : 16; last = now; if (spin) lon0 += dt * 0.006;
       if (!o.fit()) { requestAnimationFrame(draw); return; }
-      const { ctx, w, h } = o, R = Math.min(w * .3, h * .34), cx = w * .5, cy = h * .6, tilt = 28 * D2R, ct = Math.cos(tilt), st = Math.sin(tilt);
-      const P = (lat, lon) => { const l = (lon - lon0) * D2R, cp = Math.cos(lat * D2R), sp = Math.sin(lat * D2R); return { x: cx + R * cp * Math.sin(l), y: cy - R * (ct * sp - st * cp * Math.cos(l)), z: st * sp + ct * cp * Math.cos(l) }; };
+      zoom += (zoomT - zoom) * Math.min(1, dt / 180);
+      const { ctx, w, h } = o, tilt = 28 * D2R, ct = Math.cos(tilt), st = Math.sin(tilt), R0 = Math.min(w * .3, h * .34), R = R0 * zoom;
+      const unit = (lat, lon) => { const l = (lon - lon0) * D2R, cp = Math.cos(lat * D2R), sp = Math.sin(lat * D2R); return [cp * Math.sin(l), -(ct * sp - st * cp * Math.cos(l)), st * sp + ct * cp * Math.cos(l)]; };
+      // scrolling in closes on the midpoint between the two ships and keeps it in the middle of the screen
+      const mu = unit(LAT, A + (+S.value) / 2), k = Math.min(1, (zoom - 1) / 1.2), bx = w * .5, by = h * .6;
+      const cx = bx + (w * .5 - (bx + mu[0] * R)) * k, cy = by + (h * .5 - (by + mu[1] * R)) * k;
+      const P = (lat, lon) => { const u = unit(lat, lon); return { x: cx + R * u[0], y: cy + R * u[1], z: u[2] }; };
+      ctx.save(); ctx.beginPath(); ctx.rect(0, 0, w, h); ctx.clip();
       const path = (pts, col, wd, dash) => { ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.setLineDash(dash || []); ctx.beginPath(); let pen = false; for (const [la, lo] of pts) { const q = P(la, lo); if (q.z > 0) { pen ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); pen = true; } else pen = false; } ctx.stroke(); ctx.setLineDash([]); };
       const g = ctx.createRadialGradient(cx - R * .3, cy - R * .4, R * .05, cx, cy, R); g.addColorStop(0, '#2f5a8c'); g.addColorStop(.7, '#15294a'); g.addColorStop(1, '#0b1526'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.fill();
       for (let la = -60; la <= 80; la += 20) path(Array.from({ length: 91 }, (_, k) => [la, k * 4]), 'rgba(236,230,218,.12)', 1);
@@ -145,13 +153,15 @@ NEW_SLIDES['Two ships, one latitude'] = {
       // the two ships, the meridian through each, and the gap between them
       const d = +S.value, B = A + d, mi = d * 69.17 * Math.cos(LAT * D2R);
       path(Array.from({ length: 41 }, (_, k) => [LAT, A + d * k / 40]), '#ff7d6f', 6);
-      [[A, 'Ship 1'], [B, 'Ship 2']].forEach(([lo, n], i) => { path(Array.from({ length: 37 }, (_, k) => [-90 + k * 5, lo]), 'rgba(255,125,111,.55)', 1.5, [5, 5]); const q = P(LAT, lo); if (q.z <= 0) return; ctx.fillStyle = '#ece6da'; ctx.beginPath(); ctx.moveTo(q.x - 14, q.y); ctx.lineTo(q.x + 14, q.y); ctx.lineTo(q.x + 9, q.y + 8); ctx.lineTo(q.x - 9, q.y + 8); ctx.closePath(); ctx.fill(); ctx.fillRect(q.x - 1, q.y - 22, 2, 22); ctx.beginPath(); ctx.moveTo(q.x + 1, q.y - 21); ctx.lineTo(q.x + 13, q.y - 5); ctx.lineTo(q.x + 1, q.y - 5); ctx.fill();
+      [[A, 'Ship 1'], [B, 'Ship 2']].forEach(([lo, n], i) => { path(Array.from({ length: 37 }, (_, k) => [-90 + k * 5, lo]), 'rgba(255,125,111,.55)', 1.5, [5, 5]); const q = P(LAT, lo); if (q.z <= 0) return; const sc = Math.min(2.6, Math.sqrt(zoom)); ctx.save(); ctx.translate(q.x, q.y); ctx.scale(sc, sc); ctx.fillStyle = '#ece6da'; ctx.beginPath(); ctx.moveTo(-14, 0); ctx.lineTo(14, 0); ctx.lineTo(9, 8); ctx.lineTo(-9, 8); ctx.closePath(); ctx.fill(); ctx.fillRect(-1, -22, 2, 22); ctx.beginPath(); ctx.moveTo(1, -21); ctx.lineTo(13, -5); ctx.lineTo(1, -5); ctx.fill(); ctx.restore();
         ctx.strokeStyle = 'rgba(111,179,255,.55)'; ctx.lineWidth = 1.2; ctx.setLineDash([3, 5]); ctx.beginPath(); ctx.moveTo(q.x, q.y - 22); ctx.lineTo(px, py); ctx.stroke(); ctx.setLineDash([]);
         lab(`${n}: Pole Star 50° up`, q.x + (i ? 18 : -18), q.y + 28, fs * .9, '#ece6da', i ? 'left' : 'right', 500); });
       const m = P(LAT, A + d / 2); if (m.z > 0 && d > .4) lab(`${Math.round(mi)} miles apart`, m.x, m.y - 30, fs * 1.15, '#ff7d6f', 'center', 700);
       lab('Both read the same star at the same height. Nothing in the sky says how far east or west.', w / 2, h - 30, fs * .95, '#cfc8ba', 'center', 500);
       CS.$(el, '#ts-d-o').textContent = `${CS.fx(d, 1)}° of longitude`;
       CS.$(el, '#ts-r').innerHTML = `<strong>Same star. Same height. ${CS.int(mi)} miles apart.</strong>`;
+      ctx.restore();
+      if (zoom < 1.3) lab('Scroll to zoom in on the ships · double-click to zoom out', w / 2, 34, fs * .8, '#9a9382', 'center', 500);
       requestAnimationFrame(draw);
     };
     S.oninput = () => {}; requestAnimationFrame(draw);
