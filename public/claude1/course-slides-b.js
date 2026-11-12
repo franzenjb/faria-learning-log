@@ -219,7 +219,7 @@ NEW_SLIDES['Gaia galaxy'] = {
       if (s === 2) btns.querySelectorAll('button').forEach(b => b.onclick = () => { find = +b.dataset.f; btns.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); r.innerHTML = `<strong>${FINDS[find][0]}</strong><p class="why">${FINDS[find][1]}</p>`; });
     };
     el.querySelectorAll('#gx-steps button').forEach(b => b.onclick = () => setStep(+b.dataset.s)); setStep(0);
-    const T = (ctx, s, x, y, o2) => { ctx.font = `${o2.w || 500} ${o2.z}px ${o2.f || 'Georgia, serif'}`; ctx.textAlign = o2.a || 'center'; ctx.fillStyle = o2.c || '#ece6da'; ctx.fillText(s, x, y); };
+    const T = (ctx, s, x, y, o2) => { if (o2.bg) { ctx.font = `${o2.w || 500} ${o2.z}px ${o2.f || 'Georgia, serif'}`; const tw = ctx.measureText(s).width, a = o2.a || 'center', x0 = a === 'left' ? x : a === 'right' ? x - tw : x - tw / 2; ctx.fillStyle = 'rgba(5,7,13,.88)'; ctx.fillRect(x0 - 10, y - o2.z * .95, tw + 20, o2.z * 1.35); } ctx.font = `${o2.w || 500} ${o2.z}px ${o2.f || 'Georgia, serif'}`; ctx.textAlign = o2.a || 'center'; ctx.fillStyle = o2.c || '#ece6da'; ctx.fillText(s, x, y); };
     CS.tick(el, t => {
       if (!o.fit()) return; const { ctx, w, h } = o, k = Math.min(1, (t - t0) / 2600), e = k * k * (3 - 2 * k);
       ctx.fillStyle = '#05070d'; ctx.fillRect(0, 0, w, h);
@@ -246,11 +246,11 @@ NEW_SLIDES['Gaia galaxy'] = {
         if (find === 0) for (const p of HALO) { ctx.fillStyle = 'rgba(240,179,90,.55)'; ctx.beginPath(); ctx.arc(X(p[0]), Y(p[1]), 2.4, 0, 6.283); ctx.fill(); }
         const cg = ctx.createRadialGradient(X(0), Y(0), 0, X(0), Y(0), 14000 * sc); cg.addColorStop(0, 'rgba(255,226,170,.55)'); cg.addColorStop(1, 'rgba(255,226,170,0)'); ctx.fillStyle = cg; ctx.beginPath(); ctx.arc(X(0), Y(0), 14000 * sc, 0, 6.283); ctx.fill();
         for (const p of STARS) { const x = X(p[0]), y = Y(p[1]); if (x < -5 || x > w + 5 || y < -5 || y > h + 5) continue; ctx.fillStyle = p[2] > .85 ? 'rgba(255,230,190,.8)' : 'rgba(170,195,255,.55)'; ctx.fillRect(x, y, 1.6, 1.6); }
-        const sx = X(SUN[0]), sy = Y(SUN[1]); ctx.fillStyle = '#ffd66b'; ctx.beginPath(); ctx.arc(sx, sy, 6, 0, 6.283); ctx.fill(); T(ctx, 'the Sun · us', sx + 12, sy + 6, { z: 18, a: 'left', c: '#ffd66b' });
-        if (e > .9) { T(ctx, 'the Milky Way · 100,000 light-years across', w / 2, h - 30, { z: 20, c: '#9a9382' }); T(ctx, 'center', X(0), Y(0) + 6, { z: 15, c: '#cfc8ba' }); }
-        if (find === 1) { ctx.strokeStyle = '#6fb3ff'; ctx.lineWidth = 3; ctx.beginPath(); for (let a = 0; a < 18; a += .1) { const rr = 4 + a * 3.2; const px = sx + rr * Math.cos(a), py = sy + rr * Math.sin(a); a ? ctx.lineTo(px, py) : ctx.moveTo(px, py); } ctx.stroke(); T(ctx, 'the snail shell: our neighborhood, still wobbling', sx + 70, sy - 64, { z: 18, a: 'left', c: '#6fb3ff' }); }
-        if (find === 2) { const bx = sx + 22, by = sy - 26; ctx.strokeStyle = 'rgba(255,125,111,.6)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(bx, by); ctx.stroke(); ctx.fillStyle = '#000'; ctx.strokeStyle = '#ff7d6f'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(bx, by, 9, 0, 6.283); ctx.fill(); ctx.stroke(); T(ctx, 'Gaia BH3 · 1,926 light-years from us', bx - 30, by - 26, { z: 18, a: 'right', c: '#ff7d6f' }); }
-        if (find === 0) T(ctx, 'the swallowed galaxy’s stars, all through the halo', w / 2, 40, { z: 20, c: '#f0b35a' });
+        const sx = X(SUN[0]), sy = Y(SUN[1]); ctx.fillStyle = '#ffd66b'; ctx.beginPath(); ctx.arc(sx, sy, 6, 0, 6.283); ctx.fill(); if (find === 1) T(ctx, 'the Sun · us', sx, sy + 78, { z: 18, c: '#ffd66b', bg: 1 }); else T(ctx, 'the Sun · us', sx - 14, sy + 6, { z: 18, a: 'right', c: '#ffd66b', bg: 1 });
+        if (e > .9) { T(ctx, 'the Milky Way · 100,000 light-years across', w / 2, h - 30, { z: 20, c: '#cfc8ba', bg: 1 }); if (find < 0) T(ctx, 'center', X(0), Y(0) + 6, { z: 15, c: '#cfc8ba', bg: 1 }); }
+        if (find === 1) { ctx.strokeStyle = '#6fb3ff'; ctx.lineWidth = 3; ctx.beginPath(); for (let a = 0; a < 18; a += .1) { const rr = 4 + a * 3.2; const px = sx + rr * Math.cos(a), py = sy + rr * Math.sin(a); a ? ctx.lineTo(px, py) : ctx.moveTo(px, py); } ctx.stroke(); T(ctx, 'the snail shell: our neighborhood, still wobbling', sx - 14, sy + 118, { z: 18, a: 'right', c: '#6fb3ff', bg: 1 }); }
+        if (find === 2) { const bx = sx + 22, by = sy - 26; ctx.strokeStyle = 'rgba(255,125,111,.6)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(bx, by); ctx.stroke(); ctx.fillStyle = '#000'; ctx.strokeStyle = '#ff7d6f'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(bx, by, 9, 0, 6.283); ctx.fill(); ctx.stroke(); T(ctx, 'Gaia BH3 · 1,926 light-years from us', bx - 30, by - 26, { z: 18, a: 'right', c: '#ff7d6f', bg: 1 }); }
+        if (find === 0) T(ctx, 'the swallowed galaxy’s stars, all through the halo', w / 2, 40, { z: 20, c: '#f0b35a', bg: 1 });
       }
     });
   }
