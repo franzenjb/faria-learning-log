@@ -361,15 +361,14 @@ NEW_SLIDES['Galileo’s clock'] = {
   <div class="controls">${CS.slider('gc-w', 'How far west of Paris are you?', 0, 6, 0.25, 2)}</div>
   <div class="btns"><button id="gc-ship">Now try it from a ship</button><button class="detour" data-detour="Jupiter's moons" data-label="Way 2: Jupiter’s Moon Io">Detour: Who Was Galileo?</button></div><div class="readout" id="gc-r"></div>`,
   fig: `<text x="500" y="52" text-anchor="middle" class="lg">Jupiter’s moon Io slips into Jupiter’s shadow</text>
-  <text x="500" y="82" text-anchor="middle" class="sm mu">Everyone on Earth who is looking sees it vanish at the same instant.</text>
   <g id="gc-sky"><rect x="250" y="108" width="500" height="150" rx="12" fill="#070a12" stroke="#283048"/>
-  <path d="M500 183 L760 150 L760 216 Z" fill="#000" opacity=".9"/>
+  <path d="M500 183 L748 154 L748 212 Z" fill="#000" opacity=".9"/>
   <circle cx="500" cy="183" r="34" fill="#c9a36b"/><path d="M468 172 H532 M466 186 H534 M470 199 H530" stroke="#8a6a3d" stroke-width="4"/>
   <ellipse cx="500" cy="183" rx="150" ry="26" fill="none" stroke="rgba(236,230,218,.25)" stroke-dasharray="4 6"/>
-  <circle id="gc-io" cx="350" cy="183" r="8" fill="#ffd66b"/><text x="500" y="244" text-anchor="middle" class="xs mu">Jupiter · its shadow points away from the Sun</text></g>
+  <circle id="gc-io" cx="350" cy="183" r="8" fill="#ffd66b"/></g>
   <g id="gc-c1" transform="translate(280,420)"></g><g id="gc-c2" transform="translate(720,420)"></g>
-  <text x="280" y="596" text-anchor="middle" class="md">Paris</text><text x="280" y="624" text-anchor="middle" class="xs mu">time printed in the table</text>
-  <text x="720" y="596" text-anchor="middle" class="md">You</text><text x="720" y="624" text-anchor="middle" class="xs mu">your local time, from your own noon</text>
+  <text x="280" y="596" text-anchor="middle" class="md">Paris</text>
+  <text x="720" y="596" text-anchor="middle" class="md">You</text>
   <text id="gc-ans" x="500" y="300" text-anchor="middle" class="xl rd"></text>`,
   init(el) {
     const W = CS.$(el, '#gc-w'); let t0 = 0, run = false, shown = false, ship = false;
