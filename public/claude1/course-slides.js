@@ -484,13 +484,35 @@ NEW_SLIDES['Pendulum at sea'] = {
 /* ---------- Chapter slide 10: a clock that could travel ---------- */
 NEW_SLIDES['A clock that could travel'] = {
   h1: 'The problem is now a clock that can travel',
-  ctl: `<div class="chips" id="hr-p"><button data-k="0">H1</button><button data-k="1">H2</button><button data-k="2">H3</button><button data-k="3">H4</button></div><div class="readout" id="hr-r"></div><p class="onscreen">John Harrison, a carpenter from Yorkshire, takes the job. The later Harrison slides pick it up.</p>`,
-  fig: `<line class="k" x1="90" y1="430" x2="910" y2="430"/><g id="hr-g"></g>`,
+  ctl: `<div class="chips" id="hs2-steps">${['The Experts', 'The Carpenter', 'H1', 'H2', 'H3', 'H4', 'The Prize'].map((s, i) => `<button data-s="${i}">${i + 1} · ${s}</button>`).join('')}</div>
+  <div class="btns"><button id="hs2-back">Back</button><button class="primary" id="hs2-next">Next Step</button></div>`,
+  fig: `<g id="hs2"></g>`,
   init(el) {
-    const H = [['H1', 1735, 110, 'About 75 pounds. Two linked balances swing against each other, so the ship\'s roll cancels out.'], ['H2', 1739, 100, 'Heavier and stiffer. Harrison found a flaw and never sent it to sea.'], ['H3', 1757, 88, 'Nineteen years of work. It gave the world the bimetal strip and the caged roller bearing.'], ['H4', 1759, 30, 'A watch, 5 inches across. On the 1761 voyage to Jamaica it lost about 5 seconds in 81 days.']]; let k = 3;
-    const X = y => 130 + (y - 1730) * 24;
-    const draw = () => { CS.$(el, '#hr-g').innerHTML = H.map((h, i) => `<g class="pick" data-k="${i}"><circle cx="${X(h[1])}" cy="${430 - h[2] - 26}" r="${h[2]}" fill="${i === k ? '#111727' : '#141b2e'}" stroke="${i === k ? '#f0b35a' : '#ece6da'}" stroke-width="${i === k ? 3 : 1.6}"/><line x1="${X(h[1])}" y1="${430 - h[2] - 26}" x2="${X(h[1])}" y2="${430 - h[2] * 1.7 - 26}" stroke="#ece6da" stroke-width="2"/><line x1="${X(h[1])}" y1="${430 - h[2] - 26}" x2="${X(h[1]) + h[2] * .45}" y2="${430 - h[2] - 26}" stroke="#ece6da" stroke-width="2"/><line class="k" x1="${X(h[1])}" y1="422" x2="${X(h[1])}" y2="438"/><text x="${X(h[1])}" y="466" text-anchor="middle" class="md ${i === k ? 'rd' : ''}">${h[0]}</text><text x="${X(h[1])}" y="490" text-anchor="middle" class="sm mu">${h[1]}</text></g>`).join('') + `<text x="500" y="560" text-anchor="middle" class="md">Four machines in 24 years. The last one fits in two hands.</text>`; el.querySelectorAll('#hr-g .pick').forEach(g => g.onclick = () => { k = +g.dataset.k; draw(); }); el.querySelectorAll('#hr-p button').forEach((b, i) => b.classList.toggle('on', i === k)); CS.$(el, '#hr-r').innerHTML = `<strong>${H[k][0]}, ${H[k][1]}</strong><span>${H[k][3]}</span>`; };
-    el.querySelectorAll('#hr-p button').forEach(b => b.onclick = () => { k = +b.dataset.k; draw(); }); draw();
+    let step = 0;
+    const ST = [
+      ['The Experts Said: Trust the Moon', null, ['1714. Parliament asks Isaac Newton:', 'could a clock find longitude at sea?', 'Newton: a ship rolls, heats and cools.', '“Such a watch hath not yet been made.”', 'The astronomers backed the Moon.']],
+      ['A Carpenter Says: I Can Build It', null, ['John Harrison, Yorkshire, born 1693.', 'A carpenter, never schooled in science.', 'His first clocks were made of wood', 'and hardly ever needed oil.', 'In 1730 he walks to London with a plan.']],
+      ['H1, 1735', 1, ['About 75 pounds of brass.', 'Two balances swing against each other,', 'so the ship’s rolling cancels out.', 'Sea trial to Lisbon, 1736: it worked.', 'Harrison was not satisfied.']],
+      ['H2, 1739', 2, ['Bigger and stiffer.', 'He found a flaw before it ever sailed,', 'so he started again.']],
+      ['H3, 1759', 3, ['Nineteen years of work.', 'Two inventions still in use today:', 'the bimetal strip and', 'the caged ball bearing.', 'Still too big. Still not good enough.']],
+      ['H4, 1759: It Fits in Two Hands', 4, ['A surprise: a big pocket watch.', 'About 5 inches across, 3 pounds.', '1761: to Jamaica, 81 days at sea.', 'It lost just 5 seconds:', 'about 1¼ miles of longitude.']],
+      ['Did He Win the Prize?', 0, ['The Board kept moving the finish line.', 'King George III took Harrison’s side.', '1773: at 80, Harrison is finally paid.', 'Captain Cook sailed with a copy of H4', 'and called it “our trusty friend the Watch.”']]];
+    const SZ = { 1: [960, 720], 2: [960, 1444], 3: [960, 1444], 4: [960, 640] };
+    const photo = (k, x, y, w, h) => `<image href="img/harrison-h${k}.jpg" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="xMidYMid meet"/>`;
+    const draw = () => {
+      const [t, img, L] = ST[step]; let s = `<text x="500" y="62" text-anchor="middle" class="lg">${t}</text>`;
+      const tx = img ? 70 : 500, anc = img ? 'start' : 'middle', y0 = img ? 170 : 190;
+      L.forEach((l, i) => { s += `<text x="${tx}" y="${y0 + i * 52}" text-anchor="${anc}" class="md" style="fill:${i === L.length - 1 && step !== 6 ? '#f0b35a' : '#ece6da'}">${l}</text>`; });
+      if (img) s += `<rect x="540" y="100" width="420" height="500" rx="12" fill="#070a12" stroke="#283048"/>` + photo(img, 550, 110, 400, 480);
+      if (step === 6) [1, 2, 3, 4].forEach((k, i) => { s += photo(k, 90 + i * 210, 420, 190, 150) + `<text x="${185 + i * 210}" y="598" text-anchor="middle" class="sm" style="fill:#f0b35a">H${k}</text>`; });
+      if (step === 0) s += `<text x="500" y="500" text-anchor="middle" class="md mu">But a carpenter thought otherwise…</text>`;
+      if (img || step === 6) s += `<text x="${step === 6 ? 500 : 750}" y="634" text-anchor="middle" class="xs mu">Royal Observatory · photos: Tatters, Wikimedia</text>`;
+      CS.$(el, '#hs2').innerHTML = s;
+      el.querySelectorAll('#hs2-steps button').forEach(b => b.classList.toggle('on', +b.dataset.s === step));
+      CS.$(el, '#hs2-next').textContent = step === 6 ? 'Start Over' : 'Next Step'; };
+    el.querySelectorAll('#hs2-steps button').forEach(b => b.onclick = () => { step = +b.dataset.s; draw(); });
+    CS.$(el, '#hs2-next').onclick = () => { step = step === 6 ? 0 : step + 1; draw(); }; CS.$(el, '#hs2-back').onclick = () => { step = Math.max(0, step - 1); draw(); };
+    draw();
   }
 };
 

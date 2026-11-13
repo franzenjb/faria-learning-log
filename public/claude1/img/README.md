@@ -5,3 +5,5 @@ Photographs for the Mason and Dixon slide (/deck/ slide 6). Nothing here is requ
 
 - Hand_Quadrant_10th_Century_Met.jpg: Horary quadrant, 10th century, The Metropolitan Museum of Art, object 449085 (sf36-20-54a). Open Access, public domain.
 - Tycho_Mural_Quadrant_1598.jpg: Tycho Brahe's mural quadrant, hand-colored engraving from Astronomiae Instauratae Mechanica (1598). Public domain, via Wikimedia Commons (File:Tycho-Brahe-Mural-Quadrant.jpg).
+
+- harrison-h1.jpg … harrison-h4.jpg: Harrison's H1 (1730–35), H2 (1737–39), H3 and H4 (1759) at the Royal Observatory, Greenwich. Photos by Tatters ❀ on Flickr, Creative Commons, via Wikimedia Commons ("Clock that changed the world (H1…H4)"). Confirm the exact CC version on Commons before printing.
