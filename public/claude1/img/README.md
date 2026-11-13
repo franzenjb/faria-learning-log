@@ -7,3 +7,6 @@ Photographs for the Mason and Dixon slide (/deck/ slide 6). Nothing here is requ
 - Tycho_Mural_Quadrant_1598.jpg: Tycho Brahe's mural quadrant, hand-colored engraving from Astronomiae Instauratae Mechanica (1598). Public domain, via Wikimedia Commons (File:Tycho-Brahe-Mural-Quadrant.jpg).
 
 - harrison-h1.jpg … harrison-h4.jpg: Harrison's H1 (1730–35), H2 (1737–39), H3 and H4 (1759) at the Royal Observatory, Greenwich. Photos by Tatters ❀ on Flickr, Creative Commons, via Wikimedia Commons ("Clock that changed the world (H1…H4)"). Confirm the exact CC version on Commons before printing.
+
+- Egyptian_Shadow_Clock_Met.jpg: Shadow clock, Egypt, 305–30 BCE, The Metropolitan Museum of Art, object 576278. Open Access, public domain.
+- Tycho_Sextant_1598.jpg, Tycho_Great_Quadrant_1598.jpg: plates from Tycho Brahe, Astronomiae Instauratae Mechanica (1598), Bibliothèque nationale de France (btv1b2600056p), via Wikimedia Commons. Public domain.

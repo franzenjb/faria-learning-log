@@ -268,7 +268,7 @@ function titleCase(str) {
   const mp = document.createElement('div'); mp.id = 'more-panel'; mp.hidden = true; visual.appendChild(mp);
   const pdfsFor = c => (SLIDE_PDFS[c.t] || []).map(k => PDFS[k]).filter(Boolean);
   more.onclick = () => { const c = live.find(c => c.el.classList.contains('active')); const ps = c ? pdfsFor(c) : []; mp.innerHTML = `<header><h3>Want to Know More?</h3><button class="x" aria-label="Close">×</button></header><p>The full lesson behind this slide, as a PDF.</p>` + ps.map(([f, n, sz]) => `<div class="pdf"><span>${n}${sz ? ` <small>${sz}</small>` : ''}</span><a href="${PDF_DIR}${f}" target="_blank" rel="noopener">Open</a><a href="${PDF_DIR}${f}" download>Download</a></div>`).join(''); mp.hidden = false; mp.querySelector('.x').onclick = () => { mp.hidden = true; }; };
-  const syncMore = () => { const c = live.find(c => c.el.classList.contains('active')); more.hidden = !(c && pdfsFor(c).length); mp.hidden = true; };
+  const syncMore = () => { document.body.classList.remove('gal-open'); document.querySelectorAll('.qd-gal').forEach(g => { g.hidden = true; }); const c = live.find(c => c.el.classList.contains('active')); more.hidden = !(c && pdfsFor(c).length); mp.hidden = true; };
   new MutationObserver(syncMore).observe(deck, { attributes: true, attributeFilter: ['class'], subtree: true });
   addEventListener('keydown', e => { if (e.key === 'Escape' && !mp.hidden) mp.hidden = true; });
   const back = document.createElement('button'); back.id = 'detour-back'; back.hidden = true; visual.appendChild(back); let detourFrom = null, detourTo = null;
