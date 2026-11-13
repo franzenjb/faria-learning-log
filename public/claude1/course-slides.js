@@ -357,33 +357,97 @@ NEW_SLIDES['Three ways'] = {
 /* ---------- Chapter slide 7: Galileo's clock in the sky, kept simple ---------- */
 NEW_SLIDES['Galileo’s clock'] = {
   h1: 'Galileo Offered a Clock in the Sky',
-  ctl: `<div class="btns"><button class="primary" id="gc-play">Watch Io vanish</button></div>
-  <div class="controls">${CS.slider('gc-w', 'How far west of Paris are you?', 0, 6, 0.25, 2)}</div>
-  <div class="btns"><button id="gc-ship">Now try it from a ship</button><button class="detour" data-detour="Jupiter's moons" data-label="Way 2: Jupiter’s Moon Io">Detour: Who Was Galileo?</button></div><div class="readout" id="gc-r"></div>`,
-  fig: `<text x="500" y="52" text-anchor="middle" class="lg">Jupiter’s moon Io slips into Jupiter’s shadow</text>
-  <g id="gc-sky"><rect x="250" y="108" width="500" height="150" rx="12" fill="#070a12" stroke="#283048"/>
-  <path d="M500 183 L748 154 L748 212 Z" fill="#000" opacity=".9"/>
-  <circle cx="500" cy="183" r="34" fill="#c9a36b"/><path d="M468 172 H532 M466 186 H534 M470 199 H530" stroke="#8a6a3d" stroke-width="4"/>
-  <ellipse cx="500" cy="183" rx="150" ry="26" fill="none" stroke="rgba(236,230,218,.25)" stroke-dasharray="4 6"/>
-  <circle id="gc-io" cx="350" cy="183" r="8" fill="#ffd66b"/></g>
-  <g id="gc-c1" transform="translate(280,420)"></g><g id="gc-c2" transform="translate(720,420)"></g>
-  <text x="280" y="596" text-anchor="middle" class="md">Paris</text>
-  <text x="720" y="596" text-anchor="middle" class="md">You</text>
-  <text id="gc-ans" x="500" y="300" text-anchor="middle" class="xl rd"></text>`,
+  ctl: `<div class="chips" id="gs-steps">${['Two Clocks', 'Galileo', 'Io’s Eclipses', 'Set by Noon', 'Eureka', 'The Table'].map((s, i) => `<button data-s="${i}">${i + 1} · ${s}</button>`).join('')}</div>
+  <div class="btns"><button id="gs-back">Back</button><button class="primary" id="gs-next">Next Step</button></div>
+  <div class="readout" id="gc-r"></div>
+  <div class="btns"><button id="gc-ship">Now Try It from a Ship</button><button class="detour" data-detour="Jupiter's moons" data-label="Way 2: Jupiter’s Moon Io">Detour: Who Was Galileo?</button></div>`,
+  fig: `<g id="gs-all">
+  <text id="gs-h" x="500" y="54" text-anchor="middle" class="lg"></text>
+  <text id="gs-s" x="500" y="92" text-anchor="middle" class="sm mu"></text>
+  <g id="gs-globe" class="gs-scene"></g>
+  <g id="gs-gal" class="gs-scene">
+    <rect x="540" y="130" width="330" height="290" rx="6" fill="#0b1226" stroke="#6b5a40" stroke-width="10"/>
+    <line x1="705" y1="130" x2="705" y2="420" stroke="#6b5a40" stroke-width="6"/><line x1="540" y1="275" x2="870" y2="275" stroke="#6b5a40" stroke-width="6"/>
+    <g fill="#ece6da"><circle cx="590" cy="170" r="2"/><circle cx="650" cy="230" r="1.5"/><circle cx="830" cy="190" r="2"/><circle cx="760" cy="330" r="1.5"/><circle cx="600" cy="370" r="2"/><circle cx="820" cy="390" r="1.5"/></g>
+    <circle cx="790" cy="215" r="9" fill="#d9b98a"/><g fill="#ffe9b0"><circle cx="760" cy="215" r="2.5"/><circle cx="772" cy="215" r="2"/><circle cx="808" cy="215" r="2"/><circle cx="822" cy="215" r="2.5"/></g>
+    <rect x="80" y="440" width="840" height="12" fill="#3a2f22"/>
+    <path d="M250 560 Q260 380 330 350 L420 350 Q480 380 490 560 Z" fill="#5a3a24"/>
+    <line x1="400" y1="300" x2="690" y2="225" stroke="#b8925a" stroke-width="16" stroke-linecap="round"/><line x1="660" y1="232" x2="700" y2="222" stroke="#8a6a3d" stroke-width="20" stroke-linecap="round"/>
+    <circle cx="370" cy="290" r="48" fill="#e7c9a0"/><path d="M325 300 Q330 370 370 380 Q410 370 415 300 Q395 330 370 330 Q345 330 325 300 Z" fill="#9a9382"/>
+    <path d="M326 270 Q370 220 414 270 Q400 240 370 238 Q340 240 326 270 Z" fill="#6b5a40"/>
+    <circle cx="390" cy="282" r="4" fill="#1a1206"/><path id="gs-mouth" d="M356 316 L384 316" stroke="#1a1206" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <text x="370" y="600" text-anchor="middle" class="md">Galileo Galilei, Padua</text>
+    <g id="gs-idea" opacity="0"><text x="470" y="215" class="xl" style="fill:#f0b35a">!</text><path d="M440 230 L455 215 M450 245 L470 240" stroke="#f0b35a" stroke-width="4" stroke-linecap="round"/></g>
+  </g>
+  <g id="gs-io" class="gs-scene">
+    <circle cx="110" cy="330" r="34" fill="#ffd66b"/><text x="110" y="395" text-anchor="middle" class="sm" style="fill:#ffd66b">Sun</text>
+    <path d="M500 270 L940 300 L940 360 L500 390 Z" fill="#000" opacity=".85"/><text x="900" y="410" text-anchor="end" class="sm mu">Jupiter’s shadow</text>
+    <ellipse cx="500" cy="330" rx="300" ry="60" fill="none" stroke="rgba(236,230,218,.3)" stroke-dasharray="6 7"/>
+    <g id="gs-io-back"></g>
+    <circle cx="500" cy="330" r="62" fill="#c9a36b"/><path d="M444 310 H556 M440 330 H560 M446 350 H554" stroke="#8a6a3d" stroke-width="7"/>
+    <g id="gs-io-front"></g>
+    <text id="gs-io-t" x="500" y="500" text-anchor="middle" class="lg rd"></text>
+    <text id="gs-io-c" x="500" y="545" text-anchor="middle" class="md"></text>
+  </g></g>`,
   init(el) {
-    const W = CS.$(el, '#gc-w'); let t0 = 0, run = false, shown = false, ship = false;
-    const clock = (g, hr, col) => { const a = (hr % 12) / 12 * 2 * Math.PI, m = (hr % 1) * 2 * Math.PI; let s = `<circle r="86" fill="#111727" stroke="${col}" stroke-width="4"/>`; for (let i = 0; i < 12; i++) { const b = i / 12 * 2 * Math.PI; s += `<line x1="${78 * Math.sin(b)}" y1="${-78 * Math.cos(b)}" x2="${88 * Math.sin(b)}" y2="${-88 * Math.cos(b)}" stroke="#cfc8ba" stroke-width="3"/>`; } s += `<line x2="${48 * Math.sin(a)}" y2="${-48 * Math.cos(a)}" stroke="#ece6da" stroke-width="7" stroke-linecap="round"/><line x2="${72 * Math.sin(m)}" y2="${-72 * Math.cos(m)}" stroke="#ece6da" stroke-width="4" stroke-linecap="round"/><circle r="6" fill="${col}"/>`; const h = Math.floor(hr), mm = Math.round((hr - h) * 60); s += `<text y="134" text-anchor="middle" class="lg" fill="${col}">${((h + 11) % 12) + 1}:${String(mm).padStart(2, '0')} pm</text>`; CS.$(el, g).innerHTML = s; };
-    const draw = () => { const w = +W.value, paris = 21, you = paris - w; clock('#gc-c1', paris, '#f0b35a'); clock('#gc-c2', you, '#6fb3ff');
-      CS.$(el, '#gc-W-o'); CS.$(el, '#gc-w-o').textContent = `${CS.fx(w, 2).replace(/\.00$/, '')} hours`;
-      CS.$(el, '#gc-ans').textContent = shown ? `${CS.fx(w, 2).replace(/\.00$/, '')} h × 15° = ${CS.int(w * 15)}° west` : '';
-      CS.$(el, '#gc-r').innerHTML = ship ? `<strong>On a rolling deck you cannot hold a long telescope on a dot that small.</strong>` : shown ? `<strong>${CS.int(w * 15)}° west of Paris</strong>` : `<strong>Two clocks. Compare them at the instant Io vanishes.</strong>`; };
-    CS.$(el, '#gc-play').onclick = () => { t0 = performance.now(); run = true; shown = false; draw(); };
-    CS.$(el, '#gc-ship').onclick = e => { ship = !ship; e.target.textContent = ship ? 'Back on land' : 'Now try it from a ship'; draw(); };
-    W.oninput = draw;
-    CS.tick(el, t => { const io = CS.$(el, '#gc-io'), sky = CS.$(el, '#gc-sky');
-      if (run) { const u = Math.min(1, (t - t0) / 2600), x = 350 + 300 * u; io.setAttribute('cx', x); io.setAttribute('cy', 183 - 18 * Math.sin(u * Math.PI)); io.style.opacity = x > 540 ? Math.max(0, 1 - (x - 540) / 30) : 1; if (u >= 1 && !shown) { shown = true; run = false; draw(); } }
-      sky.setAttribute('transform', ship ? `rotate(${4 * Math.sin(t / 380) + 2 * Math.sin(t / 150)} 500 183) translate(${7 * Math.sin(t / 260)},${6 * Math.cos(t / 310)})` : ''); });
-    draw();
+    let step = 0, t0 = performance.now(), ship = false, pick = 2, last5 = -1;
+    const $ = s => CS.$(el, s), CX = 300, CY = 380, R = 210;
+    const H = [['Two Places, Two Clocks', 'You sailed west from Paris. Your clock says 7:00 PM. What time is it in Paris?'],
+      ['Galileo Has an Idea', '1610. He points his new telescope at Jupiter… and smiles.'],
+      ['Jupiter’s Moon Io Goes Dark Every 42 Hours', 'Each trip around Jupiter, Io slips into its shadow. Right on time, every time.'],
+      ['Each Clock Is Set by Its Own Noon', 'When the Sun is highest it is 12:00. Paris sets its clock first. You set yours 2 hours later.'],
+      ['Eureka! Everyone Sees Io Vanish at Once', 'Paris writes down 9:00 PM. You write down 7:00 PM. Same moment, two clocks.'],
+      ['Galileo’s Table Tells You Where You Are', 'Tonight Io vanishes at 9:00 PM Paris time. Tap what YOUR clock said.']];
+    const RD = ['<strong>The mystery: you cannot see the clock back home.</strong>', '<strong>Galileo sees a clock in the sky.</strong>', '<strong>Io: one eclipse every 42½ hours.</strong>', '<strong>Both clocks are right. You still cannot see Paris’s.</strong>', '<strong>One event, seen everywhere at once.</strong>', '<strong>Your clock time tells you your place.</strong>'];
+    const ROWS = [[9, 'Paris', 0], [8, '15° west', 1], [7, '30° west', 2], [6, '45° west', 3], [3, '90° west', 6]];
+    const t12 = h => { h = ((h % 24) + 24) % 24; let H_ = Math.floor(h), M = Math.floor((h - H_) * 60); return `${(H_ % 12) || 12}:${String(M).padStart(2, '0')} ${H_ < 12 ? 'AM' : 'PM'}`; };
+    const P = (a, r) => [CX + r * Math.cos(a * D2R), CY - r * Math.sin(a * D2R)];
+    const card = (x, y, col, name, time, note) => `<g transform="translate(${x},${y})"><rect width="300" height="118" rx="12" fill="#111727" stroke="${col}" stroke-width="3"/><text x="18" y="32" class="sm" style="fill:${col}">${name}</text><text x="18" y="80" class="xl" style="fill:${time === '?' ? '#ff7d6f' : '#ece6da'}" font-family="Menlo,monospace">${time}</text>${note ? `<text x="18" y="106" class="xs mu">${note}</text>` : ''}</g>`;
+    const globe = (rot, youOff, o) => {
+      let s = `<circle cx="${CX}" cy="${CY}" r="${R}" fill="#1b3354" stroke="#3b5f8a" stroke-width="2"/><path d="M${CX} ${CY - R} A${R} ${R} 0 0 0 ${CX} ${CY + R} Z" fill="#0a1424" opacity=".75"/>`;
+      for (let i = 0; i < 24; i++) { const p = P(i * 15, R); s += `<line x1="${CX}" y1="${CY}" x2="${p[0]}" y2="${p[1]}" stroke="rgba(236,230,218,.15)"/>`; }
+      s += `<circle cx="${CX}" cy="${CY}" r="5" fill="#ece6da"/><text x="${CX}" y="${CY + 26}" text-anchor="middle" class="xs mu">North Pole</text>`;
+      s += `<circle cx="${CX + R + 70}" cy="${CY}" r="24" fill="#ffd66b"/><text x="${CX + R + 70}" y="${CY + 50}" text-anchor="middle" class="xs" style="fill:#ffd66b">Sun</text><line x1="${CX + R + 4}" y1="${CY}" x2="${CX + R + 40}" y2="${CY}" stroke="#ffd66b" stroke-width="2" stroke-dasharray="4 4"/>`;
+      s += `<text x="${CX + R - 8}" y="${CY - 10}" text-anchor="end" class="xs" style="fill:#ffd66b">noon</text><text x="${CX - R + 8}" y="${CY - 10}" class="xs mu">midnight</text>`;
+      if (o.arc) { const a0 = rot, a1 = rot - youOff * 15, r2 = R * .62; const p0 = P(a0, r2), p1 = P(a1, r2); s += `<path d="M${p0[0]} ${p0[1]} A${r2} ${r2} 0 0 1 ${p1[0]} ${p1[1]}" fill="none" stroke="#6fd48a" stroke-width="5"/>`; const pm = P((a0 + a1) / 2, r2 + 60); if (youOff) s += `<text x="${pm[0]}" y="${pm[1]}" text-anchor="middle" class="sm" style="fill:#6fd48a;paint-order:stroke;stroke:#0a1424;stroke-width:6px">${youOff} h = ${youOff * 15}°</text>`; }
+      [[rot, 'Paris', '#f0b35a'], [rot - youOff * 15, 'You', '#6fb3ff']].forEach(([a, n, c], i) => { if (i === 1 && !youOff && o.arc) return; const p = P(a, R * .9), q = P(a, R * 1.12); s += `<line x1="${CX}" y1="${CY}" x2="${P(a, R)[0]}" y2="${P(a, R)[1]}" stroke="${c}" stroke-width="2.5" opacity=".7"/><circle cx="${p[0]}" cy="${p[1]}" r="10" fill="${c}" stroke="#0a0e18" stroke-width="2"/><text x="${q[0]}" y="${q[1] + 6}" text-anchor="middle" class="md" style="fill:${c}">${n}</text>`; });
+      return s; };
+    const setStep = s => { step = Math.max(0, Math.min(5, s)); t0 = performance.now(); last5 = -1;
+      $('#gs-h').textContent = H[step][0]; $('#gs-s').textContent = H[step][1]; $('#gc-r').innerHTML = RD[step];
+      el.querySelectorAll('#gs-steps button').forEach(b => b.classList.toggle('on', +b.dataset.s === step));
+      $('#gs-globe').style.opacity = [0, 3, 4, 5].includes(step) ? 1 : 0; $('#gs-gal').style.opacity = step === 1 ? 1 : 0; $('#gs-io').style.opacity = step === 2 ? 1 : 0;
+      $('#gs-next').textContent = step === 5 ? 'Start Over' : 'Next Step'; };
+    el.querySelectorAll('#gs-steps button').forEach(b => b.onclick = () => setStep(+b.dataset.s));
+    $('#gs-next').onclick = () => setStep(step === 5 ? 0 : step + 1); $('#gs-back').onclick = () => setStep(step - 1);
+    $('#gc-ship').onclick = e => { ship = !ship; e.target.textContent = ship ? 'Back on Land' : 'Now Try It from a Ship'; $('#gc-r').innerHTML = ship ? '<strong>On a rolling deck nobody can hold a telescope on a dot that small. Fine on land, useless at sea.</strong>' : RD[step]; };
+    $('#gs-globe').addEventListener('pointerdown', e => { const r = e.target.closest('[data-row]'); if (r && step === 5) pick = +r.dataset.row; });
+    CS.tick(el, t => {
+      const k = (t - t0) / 1000;
+      if (step === 0) $('#gs-globe').innerHTML = globe(135, 2, {}) + card(650, 190, '#6fb3ff', 'Your clock, on the ship', '7:00 PM', 'you can read this one') + card(650, 350, '#f0b35a', 'The clock back in Paris', '?', 'left behind: you cannot see it');
+      if (step === 1) { const sm = k > 1.6; $('#gs-mouth').setAttribute('d', sm ? 'M352 312 Q370 334 388 312' : 'M356 316 L384 316'); $('#gs-idea').setAttribute('opacity', sm ? 1 : 0); }
+      if (step === 2) { const th = (k / 7) * 2 * Math.PI, x = 500 + 300 * Math.cos(th), y = 330 + 60 * Math.sin(th), dark = Math.cos(th) > .93, front = Math.sin(th) > 0;
+        const io = `<circle cx="${x}" cy="${y}" r="13" fill="${dark ? '#2a2a2a' : '#ffe9b0'}" stroke="${dark ? '#555' : 'none'}"/><text x="${x}" y="${y - 22}" text-anchor="middle" class="sm" style="fill:${dark ? '#9a9382' : '#ffe9b0'}">${dark ? 'Io · gone dark!' : 'Io'}</text>`;
+        $('#gs-io-front').innerHTML = front ? io : ''; $('#gs-io-back').innerHTML = front ? '' : io;
+        const hrs = (((th / (2 * Math.PI)) % 1 + 1) % 1) * 42.5, n = Math.floor(k / 7);
+        $('#gs-io-t').textContent = 'Every 42 hours: 1 day 18 hours'; $('#gs-io-c').textContent = `${Math.round(hrs)} hours since Io last went dark · eclipses so far: ${n}`; }
+      if (step === 3) { const rot = Math.min(135, -20 + k * 16), pa = rot, ya = rot - 30, done = rot >= 135;
+        const pSet = pa >= 0, ySet = ya >= 0;
+        $('#gs-globe').innerHTML = globe(rot, 2, {}) + card(650, 190, '#f0b35a', 'Paris clock', pSet ? t12(12 + pa / 15) : '—', pSet ? '✓ set at Paris’s noon' : 'waits for the Sun') + card(650, 350, '#6fb3ff', 'Your clock', ySet ? t12(12 + ya / 15) : '—', ySet ? '✓ set at your noon' : 'waits for the Sun') + (done ? `<text x="800" y="512" text-anchor="middle" class="sm rd">On the ship you still can’t see Paris’s clock.</text>` : ''); }
+      if (step === 4) { const gone = k > 1.5, f = gone ? Math.max(0, 1 - (k - 1.5)) : 0;
+        let s = globe(135, 2, {}); const pp = P(135, R * .9), yp = P(105, R * .9), jx = 820, jy = 165;
+        s += `<circle cx="${jx}" cy="${jy}" r="26" fill="#c9a36b"/><path d="M798 158 H842 M796 168 H844" stroke="#8a6a3d" stroke-width="4"/><circle cx="${jx + 46}" cy="${jy}" r="8" fill="${gone ? '#2a2a2a' : '#ffe9b0'}"/><text x="${jx}" y="${jy - 40}" text-anchor="middle" class="sm">${gone ? 'Io vanishes!' : 'Jupiter and Io'}</text>`;
+        if (gone) s += `<line x1="${jx}" y1="${jy}" x2="${pp[0]}" y2="${pp[1]}" stroke="#f0b35a" stroke-width="3" stroke-dasharray="8 6" opacity=".8"/><line x1="${jx}" y1="${jy}" x2="${yp[0]}" y2="${yp[1]}" stroke="#6fb3ff" stroke-width="3" stroke-dasharray="8 6" opacity=".8"/><circle cx="${jx + 46}" cy="${jy}" r="${10 + 40 * (1 - f)}" fill="none" stroke="#ffe9b0" opacity="${f}"/>`;
+        s += card(650, 250, '#f0b35a', 'Paris writes down', gone ? '9:00 PM' : '…', gone ? 'Io vanished' : '') + card(650, 400, '#6fb3ff', 'You write down', gone ? '7:00 PM' : '…', gone ? 'Io vanished' : '');
+        if (k > 3) s += `<text x="800" y="565" text-anchor="middle" class="md" style="fill:#6fd48a">2 hours apart = 30° west</text>`;
+        $('#gs-globe').innerHTML = s; }
+      if (step === 5 && last5 !== pick) { last5 = pick; const off = ROWS[pick][2]; let s = globe(135, off, { arc: true });
+        s += `<g transform="translate(620,140)"><rect width="350" height="420" rx="12" fill="#efe4c8"/><text x="175" y="40" text-anchor="middle" class="md" style="fill:#3a2f22">Galileo’s Table</text><text x="175" y="68" text-anchor="middle" class="xs" style="fill:#5a4a32">Io vanishes tonight at 9:00 PM Paris time</text>
+          <text x="30" y="108" class="xs" style="fill:#5a4a32">Your clock says</text><text x="320" y="108" text-anchor="end" class="xs" style="fill:#5a4a32">You are</text>`;
+        ROWS.forEach((r, i) => { const y = 128 + i * 56, on = i === pick; s += `<g data-row="${i}" style="cursor:pointer"><rect x="16" y="${y}" width="318" height="46" rx="8" fill="${on ? '#6fb3ff' : '#e2d4b2'}"/><text x="30" y="${y + 31}" class="md" style="fill:#1a1206" font-family="Menlo,monospace">${r[0]}:00 PM</text><text x="320" y="${y + 31}" text-anchor="end" class="md" style="fill:#1a1206">${r[1]}</text></g>`; });
+        s += `</g>`; $('#gs-globe').innerHTML = s; }
+      $('#gs-all').setAttribute('transform', ship ? `rotate(${3 * Math.sin(t / 380) + 1.5 * Math.sin(t / 150)} 500 320) translate(${6 * Math.sin(t / 260)},${5 * Math.cos(t / 310)})` : '');
+    });
+    setStep(0);
   }
 };
 
