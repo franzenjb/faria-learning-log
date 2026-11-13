@@ -52,7 +52,7 @@ NEW_SLIDES['Thumb to the Moon'] = {
 NEW_SLIDES['The quadrant'] = {
   h1: 'A quarter circle and a string',
   ctl: `<div class="controls">${CS.slider('qd-a', 'Tilt up to the star', 0, 90, 0.5, 34)}${CS.slider('qd-r', 'Radius of the instrument', 0.2, 2, 0.02, 0.3)}</div>
-  <div class="chips" id="qd-p"><button data-r="0.3">Hand quadrant</button><button data-r="1.94">Tycho's wall quadrant</button></div>
+  <div class="chips" id="qd-p"><button data-r="0.3">Hand quadrant</button><button data-r="1.94">Tycho's wall quadrant</button></div><div class="btns"><button class="primary" id="qd-gal-b">Instruments Through Time</button></div>
   <div class="readout" id="qd-r2"></div>`,
   fig: `<line class="hair" x1="60" y1="210" x2="940" y2="210" stroke-dasharray="5 6"/><text x="930" y="200" text-anchor="end" class="sm mu">level</text>
   <line id="qd-sight" class="red" stroke-dasharray="2 5" x1="0" y1="0" x2="0" y2="0"/>
@@ -89,6 +89,15 @@ NEW_SLIDES['The quadrant'] = {
       '1.94': ['img/Tycho_Mural_Quadrant_1598.jpg', 'Tycho’s Wall Quadrant, Uraniborg, 1580s', 'A brass arc about 6 feet 4 inches in radius, fixed to a wall that runs north–south. The observer at right sights through a slit in the wall; an assistant reads the clock; another writes it down. Engraving from Tycho’s book, 1598.'] };
     const stage = el.querySelector('.stage') || el; const ph = document.createElement('figure'); ph.className = 'qd-photo'; ph.hidden = true; ph.innerHTML = '<button class="x" aria-label="Close">×</button><img alt=""><figcaption><b></b><span></span></figcaption>'; stage.appendChild(ph); ph.querySelector('.x').onclick = () => { ph.hidden = true; };
     const show = r => { const d = PH[r]; if (!d) { ph.hidden = true; return; } ph.querySelector('img').src = d[0]; ph.querySelector('img').alt = d[1]; ph.querySelector('b').textContent = d[1]; ph.querySelector('span').textContent = d[2]; ph.classList.toggle('tall', r === '1.94'); ph.hidden = false; };
+    const GAL = [['img/Egyptian_Shadow_Clock_Met.jpg', 'Egypt, about 300 BC', 'A shadow clock in marble. The Sun’s shadow falls across marked lines to tell the hour.', 'The Met'],
+      ['img/Hand_Quadrant_10th_Century_Met.jpg', 'A Hand Quadrant, 900s', 'Sight a star along the edge; a plumb line reads its height.', 'The Met'],
+      ['img/Tycho_Sextant_1598.jpg', 'Tycho’s Sextant, 1580s', 'A sixth of a circle, big enough to split a degree into minutes. No telescope yet.', 'Tycho Brahe, 1598 · BnF'],
+      ['img/Tycho_Great_Quadrant_1598.jpg', 'Tycho’s Great Steel Quadrant', 'A quarter circle almost 6 feet across, turned to face any star.', 'Tycho Brahe, 1598 · BnF'],
+      ['img/Tycho_Mural_Quadrant_1598.jpg', 'Tycho’s Wall Quadrant', 'Fixed to a north–south wall at Uraniborg, about 6 feet 4 inches in radius.', 'Tycho Brahe, 1598']];
+    const gal = document.createElement('div'); gal.className = 'qd-gal'; gal.hidden = true; stage.appendChild(gal);
+    const showGal = k => { const g = GAL[k]; gal.innerHTML = `<button class="x" aria-label="Close">×</button><h3>Instruments Through Time</h3><div class="qg-main"><img src="${g[0]}" alt="${g[1]}"><div class="qg-cap"><b>${g[1]}</b><span>${g[2]}</span><small>${g[3]}</small></div></div><div class="qg-row">${GAL.map((x, i) => `<button class="${i === k ? 'on' : ''}" data-k="${i}"><img src="${x[0]}" alt=""><span>${x[1]}</span></button>`).join('')}</div>`;
+      gal.querySelector('.x').onclick = () => { gal.hidden = true; document.body.classList.remove('gal-open'); }; document.body.classList.add('gal-open'); gal.querySelectorAll('.qg-row button').forEach(b => b.onclick = () => showGal(+b.dataset.k)); gal.hidden = false; ph.hidden = true; };
+    CS.$(el, '#qd-gal-b').onclick = () => showGal(0);
     A.oninput = draw; Rr.oninput = () => { ph.hidden = true; draw(); }; el.querySelectorAll('#qd-p button').forEach(b => b.onclick = () => { Rr.value = b.dataset.r; draw(); show(b.dataset.r); }); draw();
   }
 };

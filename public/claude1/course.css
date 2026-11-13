@@ -233,3 +233,15 @@ svg.fig .xs{font-size:20px}svg.fig .sm{font-size:24px}svg.fig .md{font-size:28px
 
 /* Galileo's clock story: scenes fade between steps */
 .gs-scene{transition:opacity .6s ease}
+
+/* quadrant slide: instruments-through-time gallery */
+.qd-gal{position:absolute;inset:1rem;z-index:7;background:#080c18;border:2px solid var(--accent);border-radius:.8rem;padding:1rem 1.2rem;display:flex;flex-direction:column;gap:.8rem;font-family:var(--sans);color:#e8ecf6}
+.qd-gal[hidden]{display:none}
+.qd-gal h3{margin:0;color:var(--accent);font:600 1.6rem var(--serif)}
+.qd-gal .x{position:absolute;right:.6rem;top:.3rem;background:none;border:0;color:#e8ecf6;font-size:2.2rem;cursor:pointer}
+.qg-main{flex:1;min-height:0;display:flex;gap:1.4rem;align-items:center}
+.qg-main img{height:100%;max-width:62%;object-fit:contain;border-radius:.4rem;background:#fff1}
+.qg-cap{display:flex;flex-direction:column;gap:.6rem}.qg-cap b{font:600 1.6rem var(--serif);color:#ece6da}.qg-cap span{font-size:1.25rem;line-height:1.4}.qg-cap small{opacity:.6}
+.qg-row{display:flex;gap:.6rem}.qg-row button{flex:1;background:#111727;border:2px solid #283048;border-radius:.5rem;padding:.3rem;cursor:pointer;color:#cfc8ba;display:flex;flex-direction:column;align-items:center;gap:.2rem;font:500 .85rem var(--sans)}
+.qg-row button.on{border-color:var(--accent);color:var(--accent)}.qg-row img{height:70px;object-fit:contain}
+body.gal-open #more-btn{display:none}
