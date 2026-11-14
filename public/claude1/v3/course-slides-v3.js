@@ -331,14 +331,12 @@ NEW_SLIDES['Scilly, 1707'] = {
     const SCREENS = [
       `<div style="${L}">22 October 1707.<br>Fog and gales. No sun for days.<br>Admiral Shovell’s fleet sails for home.<br>Twenty-one ships.</div>`,
       `<div style="${L}"><span style="color:#f0b35a">Latitude</span>, north or south: they can read it from the sky.<br><span style="color:#f0b35a">Longitude</span>, east or west: only a guess.<br>The officers compare their guesses.<br>All agree: safe in the Channel.</div>`,
-      `<div style="font-size:clamp(64px,8.5vw,140px);line-height:1.05">They were wrong.</div>`,
-      `<div style="font-size:clamp(24px,2.4vw,38px)">Four ships on the rocks of Scilly.</div>
-       <div style="margin-top:.3em;font-size:clamp(22px,2vw,32px);color:#cfc8ba">Up to</div>
-       <div style="font-size:clamp(120px,17vw,260px);line-height:.95;color:#f0b35a">2,000</div>
-       <div style="font-size:clamp(36px,3.8vw,62px)">men drowned.</div>`,
-      `<div style="font-size:clamp(34px,4vw,64px);line-height:1.4">They knew their <span style="color:#f0b35a">latitude</span>.<br>They could not find their <span style="color:#f0b35a">longitude</span>.</div>`
+      `<style>.sc-in{opacity:0;animation:scIn 1s ease forwards}@keyframes scIn{to{opacity:1}}</style>
+       <div class="sc-in" style="font-size:clamp(56px,6.8vw,112px);line-height:1.05">They were wrong.</div>
+       <div class="sc-in" style="animation-delay:1.1s;margin-top:.15em;font-size:clamp(64px,8vw,132px);line-height:1.05;color:#f0b35a">2,000 died.</div>
+       <div class="sc-in" style="animation-delay:2.2s;margin-top:.45em;font-size:clamp(30px,3.4vw,56px);line-height:1.3">They knew their <span style="color:#f0b35a">latitude</span>, not their <span style="color:#f0b35a">longitude</span>.</div>`
     ];
-    const LOOK = [[1, 1], [1.015, .95], [1.03, .9], [1.045, .85], [1.06, .8], [1.07, .85]];
+    const LOOK = [[1, 1], [1.015, .95], [1.03, .9], [1.05, .82]];
     const stage = el.querySelector('.stage');
     stage.innerHTML = `<div class="sc-wrap" style="position:absolute;inset:0;overflow:hidden;background:#05070d;cursor:pointer">
       <img src="v3/img/scilly.jpg" alt="Engraving of Admiral Shovell's fleet wrecked on the rocks of Scilly, 1707" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(1) contrast(1.1);transform-origin:60% 60%">
@@ -386,12 +384,12 @@ addEventListener('load', () => setTimeout(() => {
   const active = () => document.querySelector('#deck .slide.active');
   const controls = el => { const t = el && el.querySelector('.text'); if (!t) return []; return [...t.querySelectorAll('button')].filter(b => b.style.display !== 'none' && !b.closest('[hidden]') && !b.hidden && b.textContent.trim()); };
   const slider = el => { const t = el && el.querySelector('.text'); return t ? [...t.querySelectorAll('input[type=range]')].find(x => x.offsetParent !== null || document.body.classList.contains('v3-panel') || true) : null; };
-  const label = b => b.textContent.replace(/\s+/g, ' ').trim().replace(/^\d+ · /, '').slice(0, 26);
+  const label = b => { const L = b.querySelector('.label'), ltr = b.querySelector('.letter'); const t = L ? (ltr ? ltr.textContent + ' ' : '') + L.textContent : b.textContent; return t.replace(/\s+/g, ' ').trim().replace(/^\d+ · /, '').slice(0, 26); };
   const draw = () => { const el = active(); const cs = controls(el).slice(0, KEYS.length), sl = slider(el);
     legend.innerHTML = cs.map((b, i) => `<span><b>${KEYS[i].toUpperCase()}</b>${label(b)}</span>`).join('') + (sl ? `<span><b>↑↓</b>${(sl.closest('label') && sl.closest('label').querySelector('.row') ? sl.closest('label').querySelector('.row').childNodes[0].textContent.trim() : 'Slider')}</span>` : ''); };
   addEventListener('keydown', e => { if (e.target.matches('input[type=text],textarea') || e.metaKey || e.ctrlKey || e.altKey) return; const k = e.key.toLowerCase(), el = active(); if (!el) return;
     if (k === 'c') { document.body.classList.toggle('v3-panel'); dispatchEvent(new Event('resize')); return; }
-    if (k === 'k') { document.body.classList.toggle('v3-keys-off'); return; }
+    if (k === 'k') { document.body.classList.toggle('v3-keys-on'); return; }
     if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { const sl = slider(el); if (sl) { e.preventDefault(); const st = Math.max(+sl.step || 1, (+sl.max - +sl.min) / 40); sl.value = +sl.value + (e.key === 'ArrowUp' ? st : -st); sl.dispatchEvent(new Event('input', { bubbles: true })); sl.dispatchEvent(new Event('change', { bubbles: true })); } return; }
     const i = KEYS.indexOf(k); if (i < 0) return; const b = controls(el)[i]; if (b) { e.preventDefault(); e.stopImmediatePropagation(); b.click(); setTimeout(draw, 60); } }, true);
   new MutationObserver(draw).observe(document.getElementById('deck'), { subtree: true, attributes: true, attributeFilter: ['class'] }); draw();
