@@ -198,8 +198,21 @@ function globe(cx, cy, R, lon0, lat0, o = {}) {
       if (pts.length) poly(pts, 1, la === 0 ? RED : HAIR, la === 0 ? 2 : 1);
     }
   }
+  if (o.stipple) {
+    x.fillStyle = INK;
+    for (let i = 0; i < 640; i++) {
+      const ang = (i * 2.399963) % TAU;
+      const rad = R * Math.sqrt((i * 0.754877) % 1);
+      const z = Math.sqrt(Math.max(0, 1 - (rad / R) * (rad / R)));
+      if (z > 0.52) continue;
+      const a = (0.52 - z) / 0.52;
+      x.globalAlpha = a * 0.85;
+      x.fillRect(cx + rad * Math.cos(ang), cy + rad * Math.sin(ang), 2, 2);
+    }
+    x.globalAlpha = 1;
+  }
   x.strokeStyle = INK;
-  x.lineWidth = 1.6;
+  x.lineWidth = o.fine ? 1.15 : 1.6;
   x.beginPath();
   for (const ln of COAST.lines) {
     let pen = 0;
@@ -212,6 +225,16 @@ function globe(cx, cy, R, lon0, lat0, o = {}) {
   x.stroke();
   x.restore();
   return pr;
+}
+function parallel(pr, lat, lonA, lonB, p, col, w = 2.5) {
+  const pts = [], n = 56;
+  for (let i = 0; i <= n; i++) {
+    const lo = lerp(lonA, lonB, i / n);
+    const q = pr(lo, lat);
+    if (q.z > 0.02) pts.push([q.x, q.y]);
+    else if (pts.length) { poly(pts, p, col, w); pts.length = 0; }
+  }
+  if (pts.length) poly(pts, p, col, w);
 }
 function meridian(pr, lon, latA, latB, p, col, w = 2.5) {
   const pts = [];
@@ -267,13 +290,37 @@ function add(s) { SLIDES.push(s); }
 
 add({
   title: 'Where Am I?',
-  endMin: 1.5,
+  endMin: 0.25,
+  notes: [
+    'Title card. It draws once, about a second and a half, then holds. Say your name with the byline.',
+    'GIS Day 2026. Jeff Franzen, Disaster GIS, American Red Cross. Do not say six stories.',
+    'About 15 seconds, then the Havana vote. By 0:15.'
+  ],
+  caps: [''],
+  capY: 980,
+  draw() {
+    const u = reduce ? 1 : ez(cl((performance.now() - animFrom) / 1500));
+    T('Where Am I?', 160, 470, 108, INK, 'left', 1, false, 500);
+    T('GIS Day 2026', 164, 550, 48, INK, 'left', Math.min(1, u * 1.4));
+    T('Jeff Franzen  ·  Disaster GIS  ·  American Red Cross', 164, 620, 32, MUTE, 'left', Math.min(1, u * 1.2));
+    const cx = 1360, cy = 540, R = 210;
+    C(cx, cy, R, '#ffffff', INK, 2.5);
+    L(cx - R, cy, cx + R, cy, HAIR, 1.5, null, Math.min(1, u * 1.5));
+    const yTop = cy - R, yBot = cy + R;
+    L(cx, yTop, cx, lerp(yTop, yBot, u), RED, 2.5);
+    if (u > 0.7) star(cx, yTop - 6, 14 + 7 * Math.sin(cl((u - 0.7) / 0.3) * Math.PI), RED, 1);
+  }
+});
+
+add({
+  title: 'Where Am I?',
+  endMin: 1.75,
   pause: '30 seconds',
   ask: 'Fly due south from Havana. Which South American country do you cross first?',
   notes: [
     'This first frame is only the question. Pause 30 seconds and take the vote. Most rooms say Peru. Do not mention a map.',
     'One click reveals the globe. D is correct. Havana is 82.4° west. Punta Pariñas is 81.3° west. The meridian runs down the open Pacific. All of South America lies east.',
-    'By 1:30. Say GIS Day, and your name: Jeff Franzen, Disaster GIS, American Red Cross.'
+    'By 1:45. The name was on the title card. Rome is next.'
   ],
   caps: [
     '',
@@ -308,13 +355,162 @@ add({
   }
 });
 
+function lettered(opts, correct, x0, y0, gap, reveal) {
+  opts.forEach((name, i) => {
+    const y = y0 + i * gap;
+    const on = reveal && i === correct;
+    T('ABCD'[i], x0, y, 40, on ? RED : INK, 'left', 1, false, 500);
+    T(name, x0 + 64, y, 40, on ? RED : INK);
+  });
+}
+function askLines(s, y, size = 42) {
+  wrap(s, size, 1500).forEach((ln, i) => T(ln, 960, y + i * (size + 14), size, INK, 'center', 1, false, 500));
+}
+
+add({
+  title: "Rome's Parallel",
+  endMin: 2.75,
+  pause: '25 seconds',
+  ask: "Which of these American cities is closest to Rome's latitude?",
+  notes: [
+    'Question only. Pause about 25 seconds. The vote is usually New York or Atlanta. Do not show a map yet.',
+    'Then click. C, Boston. Rome is 41.9° north. Boston is 42.4°. New York is 40.7°, Atlanta 33.7°, Miami 25.8°. Same parallel, very different climate. The Gulf Stream warms Italy.',
+    'Keep it to about a minute. By 2:45. Reno is next.'
+  ],
+  caps: ['', 'Boston. Same parallel, very different climate: the Gulf Stream warms Italy.'],
+  capY: 990,
+  draw() {
+    askLines("Which of these American cities is closest to Rome's latitude?", 220, 40);
+    const reveal = STEP >= 1;
+    lettered(['Atlanta', 'New York', 'Boston', 'Miami'], 2, reveal ? 120 : 700, reveal ? 400 : 430, 66, reveal);
+    if (!reveal) return;
+    const g = vis(1);
+    x.save(); x.globalAlpha = g;
+    const pr = globe(1100, 540, 280, -28, 38);
+    x.restore();
+    parallel(pr, 42, -90, 40, g, RED, 3);
+    [[-71.06, 42.36, 'Boston  42.4° N', true], [12.5, 41.9, 'Rome  41.9° N', true], [-74.01, 40.71, 'New York  40.7°', false], [-84.39, 33.75, 'Atlanta  33.7°', false], [-80.19, 25.76, 'Miami  25.8°', false]].forEach(([lo, la, name, hot], i) => {
+      const p = pr(lo, la);
+      if (p.z > 0) C(p.x, p.y, 6, hot ? RED : INK);
+      T(name, 1480, 400 + i * 42, 28, hot ? RED : INK, 'left', g);
+    });
+  }
+});
+
+add({
+  title: 'Reno or Los Angeles',
+  endMin: 3.75,
+  pause: '25 seconds',
+  ask: 'Reno or Los Angeles: which is farther west?',
+  notes: [
+    'Pause about 25 seconds. Many people say Los Angeles because it is on the coast.',
+    'Then click. B. Reno is 119.8° west. Los Angeles is 118.2° west. Reno is farther west by 1.6°. The California coast bends east as it runs south.',
+    'By 3:45. Then the grid: how you would name the place for a stranger.'
+  ],
+  caps: ['', 'Reno, by 1.6°. The California coast bends east as it runs south.'],
+  capY: 980,
+  draw() {
+    askLines('Reno or Los Angeles: which is farther west?', 230, 42);
+    const reveal = STEP >= 1;
+    lettered(['Los Angeles', 'Reno', 'Same longitude', 'Depends on the map'], 1, reveal ? 140 : 640, reveal ? 400 : 420, 68, reveal);
+    if (!reveal) return;
+    const g = vis(1);
+    x.save(); x.globalAlpha = g;
+    const pr = globe(1180, 620, 340, -119, 36);
+    x.restore();
+    meridian(pr, -118.24, 50, 20, g, INK, 2.5);
+    meridian(pr, -119.82, 52, 28, g, RED, 3.5);
+    const reno = pr(-119.82, 39.53), la = pr(-118.24, 34.05);
+    if (reno.z > 0) C(reno.x, reno.y, 6, RED);
+    if (la.z > 0) C(la.x, la.y, 5, INK);
+    T('Reno  119.8° W', 1560, 520, 32, RED, 'left', g);
+    T('Los Angeles  118.2° W', 1560, 568, 28, INK, 'left', g);
+  }
+});
+
+add({
+  title: 'Call a Square',
+  endMin: 5.25,
+  state: { lat: false, lon: false, bingo: false },
+  fade: { lat: 0, lon: 0, bingo: 0, t: 0 },
+  notes: [
+    'The warm-ups were places the room already knows. This is how you would tell a stranger. The globe is bare. Buttons at the top can show latitude, longitude, or the bingo card on their own. The clicks still tell the story in order.',
+    'Latitude first. The lines run with the equator and never meet.',
+    'Longitude next. These lines meet at the poles.',
+    'One sentence: parallels stay apart, meridians come together. The row is the one the sky can give you. The column is the one it cannot. That contrast comes back later. Do not teach the method here.',
+    'Bingo. Letters across, numbers down, one red square: G-4. About a minute and a half on this slide. By 5:15. A thousand paces is next.'
+  ],
+  caps: [
+    'How would you tell a stranger exactly where to meet you?',
+    'Latitude lines run with the equator. They never meet.',
+    'Longitude lines meet at the poles.',
+    'Parallels stay apart. Meridians come together.',
+    'One square, one address. G-4.'
+  ],
+  capY: 1000,
+  draw() {
+    const now = performance.now();
+    const dt = Math.min(0.05, this.fade.t ? (now - this.fade.t) / 1000 : 0.016);
+    this.fade.t = now;
+    const k = reduce ? 1 : 1 - Math.exp(-dt * 11);
+    for (const key of ['lat', 'lon', 'bingo']) {
+      const target = this.state[key] ? 1 : 0;
+      this.fade[key] += (target - this.fade[key]) * k;
+      if (Math.abs(this.fade[key] - target) < 0.012) this.fade[key] = target;
+    }
+    const latA = this.fade.lat, lonA = this.fade.lon, bingoA = this.fade.bingo;
+    const call = STEP >= 3 ? 1 : 0;
+    const cx = 700, cy = 545, R = 300;
+    const pr = globe(cx, cy, R, -25, 18, { stipple: true, fine: true });
+    const pole = pr(0, 90);
+    if (lonA > 0.04 && pole.z > 0) {
+      C(pole.x, pole.y, 5, INK);
+      T('North Pole', pole.x, cy - R - 12, 28, INK, 'center', lonA);
+    }
+    for (const lat of [-60, -30, 0, 30, 60]) {
+      const hot = call && lat === 30;
+      parallel(pr, lat, -180, 180, latA, hot ? RED : (lat === 0 ? INK : HAIR), hot ? 3 : lat === 0 ? 1.8 : 1.2);
+    }
+    for (let lon = -180; lon < 180; lon += 30) {
+      const hot = call && lon === -30;
+      meridian(pr, lon, -80, 80, lonA, hot ? RED : HAIR, hot ? 3 : 1.2);
+    }
+    if (call && latA > 0.4) T('never meet', cx - R - 18, cy - 70, 32, RED, 'right', latA);
+    if (call && lonA > 0.4) T('meet', cx - R - 18, cy - R + 78, 32, RED, 'right', lonA);
+    if (bingoA > 0.01) {
+      const letters = ['B', 'I', 'N', 'G', 'O'];
+      const x0 = 1240, y0 = 250, cell = 86;
+      letters.forEach((ch, i) => T(ch, x0 + i * cell + cell / 2, y0, 32, INK, 'center', bingoA, false, 500));
+      for (let r = 1; r <= 5; r++) {
+        const py = y0 + 18 + (r - 1) * cell;
+        T(String(r), x0 - 24, py + 56, 28, MUTE, 'right', bingoA);
+        for (let c = 0; c < 5; c++) {
+          const px = x0 + c * cell;
+          const red = letters[c] === 'G' && r === 4;
+          x.save();
+          x.globalAlpha = cl(bingoA);
+          if (red) {
+            x.fillStyle = 'rgba(176,31,36,.16)';
+            x.fillRect(px + 4, py + 4, cell - 8, cell - 8);
+          }
+          x.strokeStyle = red ? RED : HAIR;
+          x.lineWidth = red ? 3 : 1.5;
+          x.strokeRect(px, py, cell, cell);
+          x.restore();
+          if (red) T('G-4', px + cell / 2, py + 54, 32, RED, 'center', bingoA, false, 500);
+        }
+      }
+    }
+  }
+});
+
 add({
   title: 'A Thousand Paces',
-  endMin: 2.5,
+  endMin: 6.25,
   notes: [
     'A Roman mile is a thousand paces, and a pace is two steps, left foot back to left foot.',
     'Greek bematists, pronounced BEE-muh-tists, were paid to walk in even steps. Eratosthenes used their count.',
-    'One minute here. The stick is next. By 2:30.'
+    'One minute here. The circle of the day is next. By 6:15.'
   ],
   caps: [
     'A pace is two steps, left foot back to left foot.',
@@ -445,218 +641,8 @@ const CAM_PAIR = { cx: 1180, cy: 3664, R: 3024, well: 1.42, stick: 520, show: 1,
 const CAM_ZOOM = { cx: 760, cy: 548, R: 348, well: 0.2, stick: 36, show: 1, far: 1 };
 
 add({
-  title: 'A Stick and a Shadow',
-  endMin: 4.25,
-  notes: [
-    'About 240 BC. Say air-uh-TOSS-thuh-neez once. Syene is Aswan. This frame is the well: noon on the summer solstice, the Sun straight overhead. The red ray goes down the center and meets the water at a right angle.',
-    'Alexandria is to the north. The same noon, a stick there casts a shadow. The shadow falls north, away from the Sun and away from Syene. The ray is the one through the tip of the stick. The angle is 7.2°.',
-    'Pull back. The Syene ray and the Alexandria stick both run to the center of the Earth. The wedge there is the same 7.2°. By 4:15. The next slide does the arithmetic.'
-  ],
-  caps: [
-    'At Syene, noon on the summer solstice, the Sun shines straight down a well.',
-    'At Alexandria the shadow points north, away from Syene. The angle is 7.2°.',
-    'Both lines meet at the center. The wedge is 7.2°.'
-  ],
-  capY: 1000,
-  draw() {
-    const cam = STEP === 0 ? CAM_HERO : STEP === 1 ? mixCam(CAM_HERO, CAM_PAIR, U) : mixCam(CAM_PAIR, CAM_ZOOM, U);
-    const sun = { x: -Math.sin(TH_S), y: Math.cos(TH_S) };
-    const syene = earthAt(cam, TH_S);
-    const alex = earthAt(cam, TH_A);
-    const out = outwardOf(TH_A);
-    const tip = { x: alex.x + out.x * cam.stick, y: alex.y + out.y * cam.stick };
-    const north = northOf(TH_A);
-    const hit = rayOnTangent(tip, sun, alex, north);
-    const up = { x: -sun.x, y: -sun.y };
-    const angle = Math.acos(cl(out.x * up.x + out.y * up.y, -1, 1)) / D;
-    this.geom = {
-      ax: alex.x, ay: alex.y, sx: syene.x, sy: syene.y,
-      shx: hit.x, shy: hit.y, tx: tip.x, ty: tip.y,
-      angle, north: hit.u > 0 && hit.x < alex.x, well: cam.well > 0.45, far: cam.far
-    };
-    drawGroundArc(cam, 1 - cam.far);
-    if (cam.far > 0.02) {
-      x.save();
-      x.globalAlpha = cl(cam.far);
-      C(cam.cx, cam.cy, cam.R, '#ffffff', INK, 3);
-      x.beginPath();
-      x.moveTo(cam.cx, cam.cy);
-      x.arc(cam.cx, cam.cy, cam.R, TH_A - Math.PI / 2, TH_S - Math.PI / 2, false);
-      x.closePath();
-      x.fillStyle = 'rgba(176,31,36,.16)';
-      x.fill();
-      L(syene.x, syene.y, cam.cx, cam.cy, RED, 4, null, 1);
-      L(alex.x, alex.y, cam.cx, cam.cy, INK, 3.5, null, 1);
-      arc(cam.cx, cam.cy, 118, TH_A - Math.PI / 2, TH_S - Math.PI / 2, RED, 4, false, 1);
-      C(cam.cx, cam.cy, 7, INK);
-      L(alex.x, Math.max(130, alex.y - 80), alex.x, alex.y + 48, HAIR, 2, [7, 8], 1);
-      x.restore();
-      T('7.2°', cam.cx + cam.R + 48, cam.cy + 8, 84, RED, 'left', cam.far, false, 500);
-      T('center', cam.cx + 22, cam.cy + 36, 28, MUTE, 'left', cam.far);
-      T('Alexandria', alex.x - 28, alex.y - 20, 32, INK, 'right', cam.far);
-      T('Syene', syene.x + 36, syene.y - 8, 32, INK, 'left', cam.far);
-    }
-    const skyA = cam.show * (1 - cam.far);
-    if (skyA > 0.02) {
-      x.save();
-      x.globalAlpha = cl(skyA);
-      L(tip.x, 130, tip.x, tip.y, HAIR, 1.5, [8, 9], 1);
-      const mid = (syene.x + tip.x) / 2;
-      L(mid, 150, mid, 340, HAIR, 1.5, [8, 9], 1);
-      L(syene.x, 348, syene.x, syene.y - cam.well * 28, HAIR, 1.5, [8, 9], 1);
-      x.restore();
-    }
-    drawSyeneWell(syene.x, syene.y, TH_S, cam.well, 1 - cam.far * 0.85);
-    T('Syene', syene.x + cam.well * 118, syene.y - cam.well * 42, 32, INK, 'left', 1 - cam.far);
-    const labelA = 1 - cam.far;
-    const lx = lerp(960, 1540, cam.show), ly = lerp(188, 250, cam.show);
-    T('Noon, Summer Solstice:', lx, ly, 36, INK, 'center', labelA, false, 500);
-    T('Sun Directly Overhead', lx, ly + 46, 36, INK, 'center', labelA, false, 500);
-    if (cam.show > 0.02 && cam.far < 0.92) {
-      const a = cam.show * (1 - cam.far);
-      L(alex.x, alex.y, tip.x, tip.y, INK, 8, null, a);
-      L(tip.x - sun.x * 240, tip.y - sun.y * 240, tip.x, tip.y, HAIR, 2, [8, 8], a);
-      L(tip.x, tip.y, hit.x, hit.y, RED, 3.5, null, a);
-      L(alex.x, alex.y, hit.x, hit.y, RED, 12, null, a);
-      const bx = hit.x - north.x * 22, by = hit.y - north.y * 22;
-      const px = -north.y, py = north.x;
-      L(hit.x, hit.y, bx + px * 12, by + py * 12, RED, 3.5, null, a);
-      L(hit.x, hit.y, bx - px * 12, by - py * 12, RED, 3.5, null, a);
-      const aUp = Math.atan2(up.y, up.x), aOut = Math.atan2(out.y, out.x);
-      let sweep = aOut - aUp;
-      while (sweep > Math.PI) sweep -= TAU;
-      while (sweep < -Math.PI) sweep += TAU;
-      arc(tip.x, tip.y, 72, aUp, aUp + sweep, RED, 3.5, sweep < 0, a);
-      T('7.2°', tip.x + 78, tip.y + 92, 48, RED, 'left', a, false, 500);
-      T('north', hit.x - 30, hit.y - 26, 28, RED, 'right', a);
-      T('Alexandria', alex.x + 24, alex.y + 54, 32, INK, 'left', a);
-    }
-  }
-});
-
-add({
-  title: 'The Whole Earth',
-  endMin: 5.75,
-  notes: [
-    '7.2 goes into 360 fifty times. 360 divided by 7.2 is 50. The walk from Alexandria to Syene is one slice of the Earth.',
-    'Count the slices if you like. The red one is that walk. The other forty-nine are the rest of the way around.',
-    'The bematists put the walk at about 5,000 stadia. Fifty times 5,000 is 250,000 stadia. He later wrote 252,000. Say 250,000.',
-    'A stadion was not one fixed length, so the miles are uncertain, roughly 24,000 to 29,000, near 25,000. Today the equator is 24,901 miles, 40,075 kilometers. He was close. By 5:45.'
-  ],
-  caps: [
-    '360 degrees divided by 7.2 degrees is 50.',
-    'Fifty slices. The red slice is Alexandria to Syene.',
-    '5,000 stadia times 50 is 250,000 stadia.',
-    'About 25,000 miles. His stadion’s length is uncertain. Today it is 24,901 miles.'
-  ],
-  capY: 990,
-  draw() {
-    const cx = 520, cy = 545, R = 248;
-    const start = -Math.PI / 2 - SUN_ANG;
-    const grow = STEP > 1 ? 1 : STEP === 1 ? U : 0;
-    C(cx, cy, R, '#ffffff', INK, 2.5);
-    x.beginPath();
-    x.moveTo(cx, cy);
-    x.arc(cx, cy, R - 1, start, start + SUN_ANG, false);
-    x.closePath();
-    x.fillStyle = 'rgba(176,31,36,.18)';
-    x.fill();
-    for (let i = 0; i <= 50; i++) {
-      const hot = i === 0 || i === 1;
-      const show = hot ? 1 : cl(grow * 49 - (i - 2));
-      if (show <= 0) continue;
-      const a = start + i * SUN_ANG;
-      L(cx, cy, cx + R * Math.cos(a), cy + R * Math.sin(a), hot ? RED : HAIR, hot ? 3.5 : 1.15, null, show);
-    }
-    const edge = a => ({ x: cx + R * Math.cos(a), y: cy + R * Math.sin(a) });
-    const left = edge(start), right = edge(start + SUN_ANG);
-    L(left.x, left.y, 300, 236, HAIR, 1.5);
-    L(right.x, right.y, 760, 236, HAIR, 1.5);
-    T('Alexandria', 288, 230, 32, INK, 'right', 1);
-    T('Syene', 772, 230, 32, INK, 'left', 1);
-    const col = 1040;
-    T('360°  ÷  7.2°', col, 300, 48, INK, 'left', 1, false, 500);
-    T('=  50', col, 420, 120, RED, 'left', 1, false, 500);
-    const stadia = vis(2);
-    T('5,000 stadia  ×  50', col, 560, 36, INK, 'left', stadia);
-    T('=  250,000 stadia', col, 628, 48, RED, 'left', stadia, false, 500);
-    const miles = vis(3);
-    T('≈  25,000 miles', col, 740, 52, RED, 'left', miles, false, 500);
-    T('Today:  24,901 miles', col, 800, 32, INK, 'left', miles);
-    T('40,075 km', col, 846, 32, MUTE, 'left', miles);
-    T('His stadion’s length is uncertain.', col, 898, 28, MUTE, 'left', miles, true);
-  }
-});
-
-add({
-  title: 'Twelve Knuckles',
-  endMin: 7.25,
-  notes: [
-    'Thumb counts three segments on each of four fingers: twelve. Five fingers on the other hand count the twelves: sixty.',
-    'Show the counting if you like, and keep it short. The point is the number, not a history of Babylon.',
-    'Sixty divides evenly by 2, 3, 4, 5, 6, 10, 12, 15, 20, and 30. By 7:15.'
-  ],
-  caps: [
-    'The thumb counts the segments on the other four fingers.',
-    'Three segments on a finger, four fingers: twelve.',
-    'Five fingers on the other hand count the twelves. That is sixty.',
-    'Sixty divides by 2, 3, 4, 5, 6, 10, 12, 15, 20, and 30.'
-  ],
-  capY: 980,
-  draw() {
-    drawHand(700, 470, vis(1) * 12);
-    const five = vis(2);
-    T('× 5', 1180, 500, 64, INK, 'left', five, false, 500);
-    const total = STEP >= 2 ? '60' : '12';
-    const showN = Math.max(vis(1), vis(2));
-    T(total, 1180, 600, 120, RED, 'left', showN, false, 500);
-    const div = vis(3);
-    const nums = ['2', '3', '4', '5', '6', '10', '12', '15', '20', '30'];
-    nums.forEach((n, i) => T(n, 360 + i * 130, 900, 36, INK, 'center', div));
-  }
-});
-
-function drawHand(ox, oy, lit) {
-  x.save();
-  x.translate(ox, oy);
-  x.strokeStyle = INK;
-  x.lineWidth = 3;
-  x.beginPath();
-  x.roundRect(-150, 30, 300, 250, 70);
-  x.stroke();
-  const fingers = [
-    { x: 86, h: 250 },
-    { x: 18, h: 290 },
-    { x: -50, h: 270 },
-    { x: -118, h: 230 }
-  ];
-  let n = 0;
-  for (const f of fingers) {
-    const top = -f.h + 10, h = f.h - 20, w = 58;
-    x.beginPath();
-    x.roundRect(f.x - w / 2, top, w, h + 30, 24);
-    x.stroke();
-    for (let s = 0; s < 3; s++) {
-      const y0 = top + s * (h / 3);
-      const on = n < lit ? 1 : 0;
-      if (on) {
-        x.fillStyle = LAND;
-        x.fillRect(f.x - w / 2 + 4, y0 + 4, w - 8, h / 3 - 8);
-      }
-      L(f.x - w / 2, y0 + h / 3, f.x + w / 2, y0 + h / 3, INK, 2, null, on || (n === 0 ? vis(0) : 0));
-      n++;
-    }
-  }
-  x.beginPath();
-  x.roundRect(150, 40, 46, 130, 22);
-  x.stroke();
-  T('thumb', 200, 250, 28, MUTE, 'left', vis(0));
-  x.restore();
-}
-
-add({
   title: 'One Circle, One Day',
-  endMin: 9.25,
+  endMin: 7.75,
   pause: '30 seconds',
   ask: 'Thirty degrees is how many hours?',
   state: { west: 0, held: false },
@@ -664,7 +650,7 @@ add({
   notes: [
     'The circle is 360 degrees and the day is 24 hours. One full turn. Fifteen degrees is one hour. Spin the disk if you want.',
     'Pause 30 seconds. Ask how many hours thirty degrees is. The answer is two. People say the two phrases interchangeably.',
-    'One minute of latitude is one nautical mile. At the equator, four seconds of time is one nautical mile. By 9:15. The next slide says why the Sun’s day is the longer one.'
+    'One minute of latitude is one nautical mile. At the equator, four seconds of time is one nautical mile. By 7:45. The next slide says why the Sun’s day is the longer one.'
   ],
   caps: [
     'The circle is 360 degrees, and the day is 24 hours.',
@@ -718,11 +704,11 @@ function trimNum(n) {
 
 add({
   title: 'One Degree More',
-  endMin: 10,
+  endMin: 8.5,
   notes: [
     'Forty-five seconds, three clicks. Sidereal, sy-DEER-ee-ul, means by the stars. One turn against the stars is 23 hours 56 minutes. The precise length is 23 hours 56 minutes 4 seconds. Say 23 hours 56 minutes.',
     'The Earth also travels about one degree of its orbit in a day, 360 divided by 365, not a quarter turn. The drawing exaggerates that step. It is marked not to scale.',
-    'One degree of spin is four minutes, because a day has 1,440 minutes and the circle has 360 degrees. The solar day is 24 hours. By 10:00.'
+    'One degree of spin is four minutes, because a day has 1,440 minutes and the circle has 360 degrees. The solar day is 24 hours. By 8:30.'
   ],
   caps: [
     'One full turn against the stars is 23 hours 56 minutes.',
@@ -810,81 +796,223 @@ add({
 });
 
 add({
-  title: 'Call a Square',
-  endMin: 11.75,
-  state: { row: null, col: null, picked: false },
-  zones: [],
+  title: 'Twelve Knuckles',
+  endMin: 9.75,
   notes: [
-    'A place is a row and a column. Call the latitude, then the longitude. Click a heading to choose a different square.',
-    'The row is the one the sky will give you. The column is the one it will not. Save that contrast for the next minute.',
-    'A minute and 45 seconds on this slide. By 11:45.'
+    'Thumb counts three segments on each of four fingers: twelve. Five fingers on the other hand count the twelves: sixty.',
+    'Show the counting if you like, and keep it short. The point is the number, not a history of Babylon.',
+    'Sixty divides evenly by 2, 3, 4, 5, 6, 10, 12, 15, 20, and 30. By 9:45.'
   ],
   caps: [
-    'To name a place, call a row and call a column.',
-    'Call the row. A latitude is a whole line of places.',
-    'Call the column. One square, and a pin.'
+    'The thumb counts the segments on the other four fingers.',
+    'Three segments on a finger, four fingers: twelve.',
+    'Five fingers on the other hand count the twelves. That is sixty.',
+    'Sixty divides by 2, 3, 4, 5, 6, 10, 12, 15, 20, and 30.'
   ],
   capY: 980,
-  lats: [60, 45, 30, 15, 0],
-  lons: [60, 45, 30, 15, 0],
-  grab(p) {
-    for (const z of this.zones) {
-      if (p.x >= z.x && p.x <= z.x + z.w && p.y >= z.y && p.y <= z.y + z.h) {
-        this.state.picked = true;
-        if (z.kind === 'row') this.state.row = z.i;
-        if (z.kind === 'col') this.state.col = z.i;
-        if (z.kind === 'cell') { this.state.row = z.r; this.state.col = z.c; }
-        return true;
-      }
-    }
-  },
   draw() {
-    if (!this.state.picked) {
-      if (STEP >= 1) this.state.row = 2;
-      if (STEP >= 2) this.state.col = 3;
-      if (STEP < 1) this.state.row = null;
-      if (STEP < 2) this.state.col = null;
-    }
-    const lats = this.lats, lons = this.lons;
-    const x0 = 620, y0 = 250, cw = 148, ch = 112;
-    this.zones = [];
-    lons.forEach((lon, i) => {
-      const px = x0 + i * cw;
-      this.zones.push({ kind: 'col', i, x: px, y: y0 - 70, w: cw, h: 60 });
-      T(`${lon}° W`, px + cw / 2, y0 - 24, 32, this.state.col === i ? RED : MUTE, 'center', vis(0));
-    });
-    lats.forEach((lat, j) => {
-      this.zones.push({ kind: 'row', i: j, x: x0 - 160, y: y0 + j * ch, w: 150, h: ch });
-      T(`${lat}° N`, x0 - 24, y0 + j * ch + ch / 2 + 10, 32, this.state.row === j ? RED : MUTE, 'right', vis(0));
-      for (let i = 0; i < lons.length; i++) {
-        const px = x0 + i * cw, py = y0 + j * ch;
-        this.zones.push({ kind: 'cell', r: j, c: i, x: px, y: py, w: cw, h: ch });
-        const onRow = this.state.row === j && vis(1) > 0;
-        const on = onRow && this.state.col === i && (STEP >= 2);
-        x.strokeStyle = on ? RED : HAIR;
-        x.lineWidth = on ? 3 : 1.5;
-        x.strokeRect(px, py, cw, ch);
-        if (onRow && this.state.col !== i) {
-          x.fillStyle = LAND;
-          x.globalAlpha = vis(1);
-          x.fillRect(px + 2, py + 2, cw - 4, ch - 4);
-          x.globalAlpha = 1;
-        }
-        if (on) pin(px + cw / 2, py + ch / 2 + 20, vis(2) || (this.state.picked ? 1 : 0));
+    drawHand(700, 470, vis(1) * 12);
+    const five = vis(2);
+    T('× 5', 1180, 500, 64, INK, 'left', five, false, 500);
+    const total = STEP >= 2 ? '60' : '12';
+    const showN = Math.max(vis(1), vis(2));
+    T(total, 1180, 600, 120, RED, 'left', showN, false, 500);
+    const div = vis(3);
+    const nums = ['2', '3', '4', '5', '6', '10', '12', '15', '20', '30'];
+    nums.forEach((n, i) => T(n, 360 + i * 130, 900, 36, INK, 'center', div));
+  }
+});
+
+function drawHand(ox, oy, lit) {
+  x.save();
+  x.translate(ox, oy);
+  x.strokeStyle = INK;
+  x.lineWidth = 3;
+  x.beginPath();
+  x.roundRect(-150, 30, 300, 250, 70);
+  x.stroke();
+  const fingers = [
+    { x: 86, h: 250 },
+    { x: 18, h: 290 },
+    { x: -50, h: 270 },
+    { x: -118, h: 230 }
+  ];
+  let n = 0;
+  for (const f of fingers) {
+    const top = -f.h + 10, h = f.h - 20, w = 58;
+    x.beginPath();
+    x.roundRect(f.x - w / 2, top, w, h + 30, 24);
+    x.stroke();
+    for (let s = 0; s < 3; s++) {
+      const y0 = top + s * (h / 3);
+      const on = n < lit ? 1 : 0;
+      if (on) {
+        x.fillStyle = LAND;
+        x.fillRect(f.x - w / 2 + 4, y0 + 4, w - 8, h / 3 - 8);
       }
-    });
+      L(f.x - w / 2, y0 + h / 3, f.x + w / 2, y0 + h / 3, INK, 2, null, on || (n === 0 ? vis(0) : 0));
+      n++;
+    }
+  }
+  x.beginPath();
+  x.roundRect(150, 40, 46, 130, 22);
+  x.stroke();
+  T('thumb', 200, 250, 28, MUTE, 'left', vis(0));
+  x.restore();
+}
+
+add({
+  title: 'A Stick and a Shadow',
+  endMin: 11.5,
+  notes: [
+    'About 240 BC. Say air-uh-TOSS-thuh-neez once. Syene is Aswan. This frame is the well: noon on the summer solstice, the Sun straight overhead. The red ray goes down the center and meets the water at a right angle.',
+    'Alexandria is to the north. The same noon, a stick there casts a shadow. The shadow falls north, away from the Sun and away from Syene. The ray is the one through the tip of the stick. The angle is 7.2°.',
+    'Pull back. The Syene ray and the Alexandria stick both run to the center of the Earth. The wedge there is the same 7.2°. By 11:30. The next slide does the arithmetic.'
+  ],
+  caps: [
+    'At Syene, noon on the summer solstice, the Sun shines straight down a well.',
+    'At Alexandria the shadow points north, away from Syene. The angle is 7.2°.',
+    'Both lines meet at the center. The wedge is 7.2°.'
+  ],
+  capY: 1000,
+  draw() {
+    const cam = STEP === 0 ? CAM_HERO : STEP === 1 ? mixCam(CAM_HERO, CAM_PAIR, U) : mixCam(CAM_PAIR, CAM_ZOOM, U);
+    const sun = { x: -Math.sin(TH_S), y: Math.cos(TH_S) };
+    const syene = earthAt(cam, TH_S);
+    const alex = earthAt(cam, TH_A);
+    const out = outwardOf(TH_A);
+    const tip = { x: alex.x + out.x * cam.stick, y: alex.y + out.y * cam.stick };
+    const north = northOf(TH_A);
+    const hit = rayOnTangent(tip, sun, alex, north);
+    const up = { x: -sun.x, y: -sun.y };
+    const angle = Math.acos(cl(out.x * up.x + out.y * up.y, -1, 1)) / D;
+    this.geom = {
+      ax: alex.x, ay: alex.y, sx: syene.x, sy: syene.y,
+      shx: hit.x, shy: hit.y, tx: tip.x, ty: tip.y,
+      angle, north: hit.u > 0 && hit.x < alex.x, well: cam.well > 0.45, far: cam.far
+    };
+    drawGroundArc(cam, 1 - cam.far);
+    if (cam.far > 0.02) {
+      x.save();
+      x.globalAlpha = cl(cam.far);
+      C(cam.cx, cam.cy, cam.R, '#ffffff', INK, 3);
+      x.beginPath();
+      x.moveTo(cam.cx, cam.cy);
+      x.arc(cam.cx, cam.cy, cam.R, TH_A - Math.PI / 2, TH_S - Math.PI / 2, false);
+      x.closePath();
+      x.fillStyle = 'rgba(176,31,36,.16)';
+      x.fill();
+      L(syene.x, syene.y, cam.cx, cam.cy, RED, 4, null, 1);
+      L(alex.x, alex.y, cam.cx, cam.cy, INK, 3.5, null, 1);
+      arc(cam.cx, cam.cy, 118, TH_A - Math.PI / 2, TH_S - Math.PI / 2, RED, 4, false, 1);
+      C(cam.cx, cam.cy, 7, INK);
+      L(alex.x, Math.max(130, alex.y - 80), alex.x, alex.y + 48, HAIR, 2, [7, 8], 1);
+      x.restore();
+      T('7.2°', cam.cx + cam.R + 48, cam.cy + 8, 84, RED, 'left', cam.far, false, 500);
+      T('center', cam.cx + 22, cam.cy + 36, 28, MUTE, 'left', cam.far);
+      T('Alexandria', alex.x - 28, alex.y - 20, 32, INK, 'right', cam.far);
+      T('Syene', syene.x + 36, syene.y - 8, 32, INK, 'left', cam.far);
+    }
+    const skyA = cam.show * (1 - cam.far);
+    if (skyA > 0.02) {
+      x.save();
+      x.globalAlpha = cl(skyA);
+      L(tip.x, 130, tip.x, tip.y, HAIR, 1.5, [8, 9], 1);
+      const mid = (syene.x + tip.x) / 2;
+      L(mid, 150, mid, 340, HAIR, 1.5, [8, 9], 1);
+      L(syene.x, 348, syene.x, syene.y - cam.well * 28, HAIR, 1.5, [8, 9], 1);
+      x.restore();
+    }
+    drawSyeneWell(syene.x, syene.y, TH_S, cam.well, 1 - cam.far * 0.85);
+    T('Syene', syene.x + cam.well * 118, syene.y - cam.well * 42, 32, INK, 'left', 1 - cam.far);
+    const labelA = 1 - cam.far;
+    const lx = lerp(960, 1540, cam.show), ly = lerp(188, 250, cam.show);
+    T('Noon, Summer Solstice:', lx, ly, 36, INK, 'center', labelA, false, 500);
+    T('Sun Directly Overhead', lx, ly + 46, 36, INK, 'center', labelA, false, 500);
+    if (cam.show > 0.02 && cam.far < 0.92) {
+      const a = cam.show * (1 - cam.far);
+      L(alex.x, alex.y, tip.x, tip.y, INK, 8, null, a);
+      L(tip.x - sun.x * 240, tip.y - sun.y * 240, tip.x, tip.y, HAIR, 2, [8, 8], a);
+      L(tip.x, tip.y, hit.x, hit.y, RED, 3.5, null, a);
+      L(alex.x, alex.y, hit.x, hit.y, RED, 12, null, a);
+      const bx = hit.x - north.x * 22, by = hit.y - north.y * 22;
+      const px = -north.y, py = north.x;
+      L(hit.x, hit.y, bx + px * 12, by + py * 12, RED, 3.5, null, a);
+      L(hit.x, hit.y, bx - px * 12, by - py * 12, RED, 3.5, null, a);
+      const aUp = Math.atan2(up.y, up.x), aOut = Math.atan2(out.y, out.x);
+      let sweep = aOut - aUp;
+      while (sweep > Math.PI) sweep -= TAU;
+      while (sweep < -Math.PI) sweep += TAU;
+      arc(tip.x, tip.y, 72, aUp, aUp + sweep, RED, 3.5, sweep < 0, a);
+      T('7.2°', tip.x + 78, tip.y + 92, 48, RED, 'left', a, false, 500);
+      T('north', hit.x - 30, hit.y - 26, 28, RED, 'right', a);
+      T('Alexandria', alex.x + 24, alex.y + 54, 32, INK, 'left', a);
+    }
   }
 });
 
 add({
+  title: 'The Whole Earth',
+  endMin: 13,
+  notes: [
+    '7.2 goes into 360 fifty times. 360 divided by 7.2 is 50. The walk from Alexandria to Syene is one slice of the Earth.',
+    'Count the slices if you like. The red one is that walk. The other forty-nine are the rest of the way around.',
+    'The bematists put the walk at about 5,000 stadia. Fifty times 5,000 is 250,000 stadia. He later wrote 252,000. Say 250,000.',
+    'A stadion was not one fixed length, so the miles are uncertain, roughly 24,000 to 29,000, near 25,000. Today the equator is 24,901 miles, 40,075 kilometers. He was close. By 13:00.'
+  ],
+  caps: [
+    '360 degrees divided by 7.2 degrees is 50.',
+    'Fifty slices. The red slice is Alexandria to Syene.',
+    '5,000 stadia times 50 is 250,000 stadia.',
+    'About 25,000 miles. His stadion’s length is uncertain. Today it is 24,901 miles.'
+  ],
+  capY: 990,
+  draw() {
+    const cx = 520, cy = 545, R = 248;
+    const start = -Math.PI / 2 - SUN_ANG;
+    const grow = STEP > 1 ? 1 : STEP === 1 ? U : 0;
+    C(cx, cy, R, '#ffffff', INK, 2.5);
+    x.beginPath();
+    x.moveTo(cx, cy);
+    x.arc(cx, cy, R - 1, start, start + SUN_ANG, false);
+    x.closePath();
+    x.fillStyle = 'rgba(176,31,36,.18)';
+    x.fill();
+    for (let i = 0; i <= 50; i++) {
+      const hot = i === 0 || i === 1;
+      const show = hot ? 1 : cl(grow * 49 - (i - 2));
+      if (show <= 0) continue;
+      const a = start + i * SUN_ANG;
+      L(cx, cy, cx + R * Math.cos(a), cy + R * Math.sin(a), hot ? RED : HAIR, hot ? 3.5 : 1.15, null, show);
+    }
+    const edge = a => ({ x: cx + R * Math.cos(a), y: cy + R * Math.sin(a) });
+    const left = edge(start), right = edge(start + SUN_ANG);
+    L(left.x, left.y, 300, 236, HAIR, 1.5);
+    L(right.x, right.y, 760, 236, HAIR, 1.5);
+    T('Alexandria', 288, 230, 32, INK, 'right', 1);
+    T('Syene', 772, 230, 32, INK, 'left', 1);
+    const col = 1040;
+    T('360°  ÷  7.2°', col, 300, 48, INK, 'left', 1, false, 500);
+    T('=  50', col, 420, 120, RED, 'left', 1, false, 500);
+    const stadia = vis(2);
+    T('5,000 stadia  ×  50', col, 560, 36, INK, 'left', stadia);
+    T('=  250,000 stadia', col, 628, 48, RED, 'left', stadia, false, 500);
+    const miles = vis(3);
+    T('≈  25,000 miles', col, 740, 52, RED, 'left', miles, false, 500);
+    T('Today:  24,901 miles', col, 800, 32, INK, 'left', miles);
+    T('40,075 km', col, 846, 32, MUTE, 'left', miles);
+    T('His stadion’s length is uncertain.', col, 898, 28, MUTE, 'left', miles, true);
+  }
+});
+add({
   title: 'The Easy Number',
-  endMin: 12.75,
+  endMin: 14,
   state: { sep: 3, held: false },
   dragOnly: true,
   notes: [
     'Both ships read the star at the same height, so they share a latitude. Drag them apart. The star does not change.',
     'At 50° north, one degree of longitude is about 39 nautical miles. Nothing in the sky says who is east.',
-    'Keep this to one minute. By 12:45.'
+    'Keep this to one minute. By 14:00. The row and the column from the bingo card: the sky gives you the row.'
   ],
   caps: [
     'The same star, at the same height. The same latitude.',
@@ -935,7 +1063,7 @@ function skyBowl(sx, sy, a) {
 
 add({
   title: 'Fists and the Pole Star',
-  endMin: 14.75,
+  endMin: 15.5,
   pause: '30 seconds',
   ask: 'Hold one fist at arm’s length.',
   state: { lat: 10, held: false },
@@ -943,7 +1071,7 @@ add({
   notes: [
     'Pause 30 seconds. One fist at arm’s length is about 10 degrees. Four fists is about 40. Let the room do it.',
     'Then drag the figure north. The height of the pole star and the latitude are the same number.',
-    'Polaris is close to the pole today. The next slide is how far off it used to be. By 14:45.'
+    'Polaris is close to the pole today. The next slide is how far off it used to be. By 15:30.'
   ],
   caps: [
     'One fist at arm’s length is about 10 degrees.',
@@ -1002,11 +1130,11 @@ function drawWalker(lat, fists, a) {
 
 add({
   title: 'Not Always the Pole Star',
-  endMin: 16.25,
+  endMin: 17,
   notes: [
     'The axis wobbles once in about 26,000 years. Around 100 BC, Polaris was about 12° from the true pole. Hipparchus described an empty patch of sky.',
     'In 1492 the gap was about 3.5°, more than 200 nautical miles if you trust the raw height. Today it is about 0.63°. It comes closest around 2100, near 0.45°, then drifts. Vega is the rough north star in about 12,000 years, still several degrees off.',
-    'By 16:15.'
+    'By 17:00.'
   ],
   caps: [
     'The pole wanders. One wobble takes about 26,000 years.',
@@ -1047,11 +1175,11 @@ add({
 
 add({
   title: 'A Rolling Deck',
-  endMin: 17.75,
+  endMin: 18.5,
   notes: [
     'On land the plumb hangs still and you can wait. At sea the deck, the plumb, and the horizon all move.',
     'A long instrument needs a foundation and time. A ship has neither. Latitude was still possible. Longitude was not.',
-    'By 17:45.'
+    'By 18:30.'
   ],
   caps: [
     'On land, a plumb line hangs still.',
@@ -1093,13 +1221,13 @@ add({
 
 add({
   title: 'Two Clocks',
-  endMin: 19.25,
+  endMin: 20,
   state: { west: 30, held: false },
   dragOnly: true,
   notes: [
     'Local noon is the Sun at its highest, not noon on a civil clock. The other clock is the time at home, carried or computed.',
     'Spin the ship. The gap, in hours, times 15 is the longitude. Two hours behind Greenwich is 30 degrees west. Ahead of Greenwich is east.',
-    'By 19:15.'
+    'By 20:00.'
   ],
   caps: [
     'Local noon is the Sun at its highest. That clock is in the sky.',
@@ -1131,11 +1259,11 @@ add({
 
 add({
   title: 'The Moon as a Clock',
-  endMin: 20.75,
+  endMin: 21.25,
   notes: [
     'Against the stars, the Moon moves about its own width, half a degree, in an hour. Measure the angle to a known star and an almanac turns it into home time.',
     'That is a lunar distance. Parallax, refraction, and a heaving deck all sit on the same sight. It can be done, and it is easy to get wrong.',
-    'By 20:45.'
+    'By 21:15.'
   ],
   caps: [
     'The Moon moves about its own width against the stars in an hour.',
@@ -1164,11 +1292,11 @@ add({
 
 add({
   title: 'Easier on Land',
-  endMin: 21.75,
+  endMin: 22.25,
   notes: [
     'Recap only. On land the ground holds the instrument and you can wait for the sky. On water you get a rolling deck and no second try.',
     'Do not add a method here. The next slide is the one that works on land and fails at sea.',
-    'By 21:45.'
+    'By 22:15.'
   ],
   caps: [
     'On land you can set the instrument down, and wait.',
@@ -1406,10 +1534,26 @@ function go(i, st) {
   STEP = step;
   animFrom = performance.now();
   if (s.state) s.state.held = false;
+  if (s.title === 'Call a Square') {
+    s.state.lat = step >= 1;
+    s.state.lon = step >= 2;
+    s.state.bingo = step >= 4;
+  }
   const url = `#${idx + 1}${step ? '.' + (step + 1) : ''}`;
   history.replaceState(null, '', url);
   renderNotes();
   if (menuOpen) syncMenu();
+  syncLayers();
+}
+function syncLayers() {
+  const s = SLIDES[idx];
+  const layers = document.getElementById('layers');
+  const on = s && s.title === 'Call a Square';
+  layers.hidden = !on;
+  if (!on) return;
+  document.getElementById('tog-lat').classList.toggle('on', !!s.state.lat);
+  document.getElementById('tog-lon').classList.toggle('on', !!s.state.lon);
+  document.getElementById('tog-bingo').classList.toggle('on', !!s.state.bingo);
 }
 function next() {
   const s = SLIDES[idx];
@@ -1438,6 +1582,20 @@ function stopNav(e) { e.stopPropagation(); }
 });
 document.getElementById('nav-prev').addEventListener('click', e => { e.preventDefault(); prev(); });
 document.getElementById('nav-next').addEventListener('click', e => { e.preventDefault(); next(); });
+function bindLayer(id, key) {
+  const el = document.getElementById(id);
+  const stop = e => { e.stopPropagation(); e.preventDefault(); };
+  el.addEventListener('pointerdown', stop);
+  el.addEventListener('click', e => {
+    stop(e);
+    const s = SLIDES[idx];
+    if (!s.state || s.title !== 'Call a Square') return;
+    s.state[key] = !s.state[key];
+  });
+}
+bindLayer('tog-lat', 'lat');
+bindLayer('tog-lon', 'lon');
+bindLayer('tog-bingo', 'bingo');
 function syncMenu() {
   menuList.querySelectorAll('button.item:not(.home)').forEach((b, i) => b.classList.toggle('on', i === idx));
 }
@@ -1532,6 +1690,7 @@ function frame(now) {
   x.save();
   s.draw();
   x.restore();
+  syncLayers();
   x.globalAlpha = 1;
   x.setLineDash([]);
   T(s.title, 88, 86, 48, INK, 'left', 1, false, 500);
