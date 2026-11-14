@@ -68,8 +68,10 @@ const TALK = /[?&]talk=30\b/.test(location.search);
 const V3_TUNE = {
   'Cover': { talk: { coverSub: 'A 30-Minute Talk' } },
   'Mental maps': { h1: 'Mental Maps', talk: { hide: ['#m1q [data-q="1"]', '#m1q [data-q="3"]'] } },
-  'Latitude &amp; Longitude': { kicker: '325 BC · Pytheas of Marseille', hide: ['#bingo-open', '#globe-reset'], clickOnLoad: ['#globe-toggles [data-k="lat"].on', '#globe-toggles [data-k="lon"].on', '#globe-toggles [data-k="grid"].on'], hero: '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.', on: { '#fly-nm': '1 Arcminute of <b>Latitude</b> = 1 Nautical Mile', '#fly-north': '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.' } },
-  'Walk north': { hideText: ['Why They Match', 'North Pole'], hero: 'One Star, One Angle. <b>Latitude</b> Needs No Clock.' },
+  'Latitude &amp; Longitude': { kicker: '325 BC · Pytheas of Marseille', // just the grid and the bingo card here: Polaris and the Southern Cross wait for Walk North; the Date Line and Null Island come later
+    keep: ['[data-k="lat"]', '[data-k="lon"]', '[data-k="grid"]', '#bingo-open', '#bingo-rows button', '#bingo-cols button', '#bingo-pin', '#bingo-clear', '#bingo-close'], hide: ['a[href="/polaris/"]'],
+    clickOnLoad: ['#globe-toggles [data-k="lat"].on', '#globe-toggles [data-k="lon"].on', '#globe-toggles [data-k="grid"].on', '#globe-toggles [data-k="polaris"].on', '#globe-toggles [data-k="cities"].on'], hero: '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.', on: { '#fly-nm': '1 Arcminute of <b>Latitude</b> = 1 Nautical Mile', '#fly-north': '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.' } },
+  'Walk north': { hideText: ['Why They Match', 'North Pole'], hero: 'One Star, One Angle. <b>Latitude</b> Needs No Clock.', on: { '#wn-south': 'No Star at the South Pole. <b>The Southern Cross</b> Points to It.' } },
   'Eratosthenes': { kicker: '240 BC · Eratosthenes of Alexandria', hide: ['.readout'], hero: 'One Shadow, One Angle: The Size of the Earth.' },
   'Hours are slices': { hide: ['.table-wrap', '#hs-read'], hero: '<b>1 Hour = 15°</b> of Longitude', on: { '#hs-slice': '1 Hour = 15° = 60 Minutes', '#hs-degree': '<b>4 Seconds = 1 Nautical Mile</b>', '#hs-out': '<b>1 Hour = 15°</b> of Longitude' } },
   'Two ships, one latitude': { h1: 'Two Ships, One Latitude', hero: 'Same Star. Different Time. <b>Longitude Needs a Clock.</b>' },
@@ -90,7 +92,7 @@ addEventListener('load', () => setTimeout(() => {
     if (cfg.h1) { const h = text && text.querySelector('h1'); if (h) { h.style.display = 'none'; const n = document.createElement('h1'); n.textContent = cfg.h1; h.after(n); } }
     (cfg.hide || []).forEach(sel => el.querySelectorAll(sel).forEach(x => { x.style.display = 'none'; }));
     if (cfg.keep && text) text.querySelectorAll('button').forEach(b => { if (!cfg.keep.some(sel => b.matches(sel))) b.style.display = 'none'; });
-    if (cfg.hideText && text) text.querySelectorAll('button').forEach(b => { if (cfg.hideText.some(w => b.textContent.includes(w))) b.style.display = 'none'; });
+    if (cfg.hideText && text) text.querySelectorAll('button').forEach(b => { if (cfg.hideText.some(w => b.textContent.toLowerCase().includes(w.toLowerCase()))) b.style.display = 'none'; });
     if (cfg.coverSub) { const sub = el.querySelector('.sub'); if (sub) sub.textContent = cfg.coverSub; }
     (cfg.clickOnLoad || []).forEach(sel => { const b = el.querySelector(sel); if (b) b.click(); });
     if (cfg.hero) v3Hero(el, cfg.hero);
@@ -383,7 +385,7 @@ addEventListener('load', () => setTimeout(() => {
   const legend = document.createElement('div'); legend.id = 'v3-keys'; (document.getElementById('visual') || document.body).appendChild(legend);
   const active = () => document.querySelector('#deck .slide.active');
   const controls = el => { const t = el && el.querySelector('.text'); if (!t) return []; return [...t.querySelectorAll('button')].filter(b => b.style.display !== 'none' && !b.closest('[hidden]') && !b.hidden && b.textContent.trim()); };
-  const slider = el => { const t = el && el.querySelector('.text'); return t ? [...t.querySelectorAll('input[type=range]')].find(x => x.offsetParent !== null || document.body.classList.contains('v3-panel') || true) : null; };
+  const slider = el => { const t = el && el.querySelector('.text'); return t ? [...t.querySelectorAll('input[type=range]')].find(x => !x.closest('[hidden]') && x.style.display !== 'none') : null; };
   const label = b => { const L = b.querySelector('.label'), ltr = b.querySelector('.letter'); const t = L ? (ltr ? ltr.textContent + ' ' : '') + L.textContent : b.textContent; return t.replace(/\s+/g, ' ').trim().replace(/^\d+ · /, '').slice(0, 26); };
   const draw = () => { const el = active(); const cs = controls(el).slice(0, KEYS.length), sl = slider(el);
     legend.innerHTML = cs.map((b, i) => `<span data-i="${i}"><b>${KEYS[i].toUpperCase()}</b>${label(b)}</span>`).join('') + (sl ? `<span><b>↑↓</b>${(sl.closest('label') && sl.closest('label').querySelector('.row') ? sl.closest('label').querySelector('.row').childNodes[0].textContent.trim() : 'Slider')}</span>` : ''); };
