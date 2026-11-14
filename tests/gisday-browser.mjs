@@ -32,16 +32,26 @@ const meta = await page.evaluate(() => ({
   caps: __deck.slides.map(s => s.caps),
   pauses: __deck.slides.map(s => s.pause || null)
 }));
-assert.equal(meta.n, 22, 'slide count');
-assert.equal(meta.ends[meta.ends.length - 1], 28, 'close ends at 28:00, before Q&A');
-for (let i = 1; i < meta.ends.length; i++) assert.ok(meta.ends[i] > meta.ends[i - 1], 'clock targets increase');
+assert.equal(meta.n, 28, 'slide count');
+const closeAt = meta.titles.lastIndexOf('Where Am I?');
+assert.equal(meta.ends[closeAt], 28, 'close ends at 28:00, before Q&A');
+for (let i = 1; i <= closeAt; i++) assert.ok(meta.ends[i] > meta.ends[i - 1], 'clock targets increase');
+assert.equal(meta.titles.includes('A Thousand Paces'), false);
+assert.ok(meta.titles.indexOf('One Degree More') > closeAt, 'star day is after the close');
+assert.equal(meta.titles[closeAt + 1], 'Appendix');
 assert.equal(meta.pauses.filter(Boolean).length, 6, 'six room pauses');
 const joined = JSON.stringify(meta);
 assert.equal(joined.includes('GIS Month'), false);
 assert.equal(joined.toLowerCase().includes('six connected'), false);
 assert.ok(meta.titles[0] === 'Where Am I?');
-assert.equal(meta.titles[2], "Rome's Parallel");
-assert.equal(meta.titles[4], 'Call a Square');
+assert.equal(meta.titles[1], 'The Isles of Scilly');
+assert.equal(meta.titles[3], "Rome's Parallel");
+assert.equal(meta.titles[5], 'Call a Square');
+assert.equal(meta.titles[6], 'The Mile');
+assert.equal(meta.titles.indexOf('Was 1900 a Leap Year?'), meta.titles.indexOf('One Circle, One Day') + 1);
+assert.ok(meta.titles.indexOf('The Prime Meridian') > meta.titles.indexOf('A Watch That Could Travel'));
+assert.equal(meta.titles.indexOf('The Date Line'), meta.titles.indexOf('The Prime Meridian') + 1);
+assert.equal(meta.titles.includes('Easier on Land'), false);
 const stickI = meta.titles.indexOf('A Stick and a Shadow');
 const wholeI = meta.titles.indexOf('The Whole Earth');
 assert.equal(wholeI, stickI + 1);
@@ -132,11 +142,13 @@ await page.waitForTimeout(50);
 assert.equal(await page.evaluate(() => __deck.idx), 1, 'click leaves the title card');
 assert.equal(await page.evaluate(() => __deck.step), 0, 'Havana opens on the question');
 
-// Notes.
+// Notes open on the Havana vote, which is no longer the second slide.
+const havana = meta.titles.indexOf('Where Am I?', 1);
+await page.evaluate(i => __deck.go(i, 0), havana);
 await page.keyboard.press('n');
 await page.waitForTimeout(50);
 const noteText = await page.locator('#notes').innerText();
-assert.match(noteText, /By 1:45/);
+assert.match(noteText, /By 3:00/);
 assert.match(noteText, /30 seconds/);
 await page.keyboard.press('n');
 assert.equal(await page.locator('#notes').isHidden(), true, 'N hides notes');
@@ -153,16 +165,14 @@ await page.mouse.up();
 const afterLat = await page.evaluate(() => __deck.slides.find(s => s.title.startsWith('Fists')).state.lat);
 assert.ok(afterLat > beforeLat + 5, 'dragging the figure north raises the latitude');
 
-// Spin the clock.
-const clock = meta.titles.indexOf('One Circle, One Day');
-await page.evaluate(i => __deck.go(i, 3), clock);
+// One Circle tells 24 hours, then 15 degrees, then 30 degrees.
+const circle = meta.titles.indexOf('One Circle, One Day');
+assert.match(meta.caps[circle][0], /overhead/);
+assert.ok(meta.caps[circle].some(c => c.includes('15')));
+assert.ok(meta.caps[circle].some(c => c.includes('30')));
+await page.evaluate(i => __deck.go(i, 5), circle);
 await page.waitForTimeout(200);
-await page.mouse.move(760, 300);
-await page.mouse.down();
-await page.mouse.move(1000, 500, { steps: 6 });
-await page.mouse.up();
-const west = await page.evaluate(() => __deck.slides.find(s => s.title.startsWith('One Circle')).state.west);
-assert.ok(west > 40, 'spinning the clock changes the hour angle');
+assert.equal(await page.evaluate(() => __deck.step), 5);
 
 // Call a Square toggles do not advance the slide.
 const bingo = meta.titles.indexOf('Call a Square');
