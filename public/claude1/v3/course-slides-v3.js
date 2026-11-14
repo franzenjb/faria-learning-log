@@ -489,10 +489,10 @@ addEventListener('load', () => setTimeout(() => {
         T('Parallel sunlight: the angle at the center is also 7.2°.', 500, 26, 30, W) +
         T('angles drawn larger so you can see them', 40, 630, 18, M, 'start'); },
     // 4 · fifty times
-    () => { const cx = 500, cy = 300, R = 190; let wedges = '';
+    () => { const cx = 500, cy = 335, R = 165; let wedges = '';
       for (let i = 0; i < 50; i++) { const t0 = i / 50 * 2 * Math.PI - Math.PI / 2; wedges += `<line x1="${cx}" y1="${cy}" x2="${cx + R * Math.cos(t0)}" y2="${cy + R * Math.sin(t0)}" stroke="#3b5f8a" stroke-width="1.5"/>`; }
       const t1 = -Math.PI / 2, t2 = t1 + 2 * Math.PI / 50;
-      return T('7.2° is one fiftieth of a circle', 500, 60, 38) + `<circle cx="${cx}" cy="${cy}" r="${R}" fill="#15294a" stroke="#3b5f8a" stroke-width="3"/>` + wedges +
+      return T('360° ÷ 7.2° = 50', 500, 62, 52, G) + T('7.2° is one fiftieth of a circle', 500, 112, 28, W) + `<circle cx="${cx}" cy="${cy}" r="${R}" fill="#15294a" stroke="#3b5f8a" stroke-width="3"/>` + wedges +
         `<path d="M ${cx} ${cy} L ${cx + R * Math.cos(t1)} ${cy + R * Math.sin(t1)} A ${R} ${R} 0 0 1 ${cx + R * Math.cos(t2)} ${cy + R * Math.sin(t2)} Z" fill="${G}"/>` +
         T('500 miles', cx + 40, cy - R - 14, 26, G, 'start') +
         T('50 × 500 miles =', 500, 575, 44) + T('25,000 miles around', 500, 630, 54, G); },
