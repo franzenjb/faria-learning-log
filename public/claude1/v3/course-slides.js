@@ -175,7 +175,7 @@ NEW_SLIDES['Two ships, one latitude'] = {
         ctx.strokeStyle = 'rgba(111,179,255,.55)'; ctx.lineWidth = 1.2; ctx.setLineDash([3, 5]); ctx.beginPath(); ctx.moveTo(q.x, q.y - 22); ctx.lineTo(px, py); ctx.stroke(); ctx.setLineDash([]);
         lab(`${n}: Pole Star 50° up`, q.x + (i ? 18 : -18), q.y + 28, fs * .9, '#ece6da', i ? 'left' : 'right', 500); });
       const m = P(LAT, A + d / 2); if (m.z > 0 && d > .4) lab(`${Math.round(mi)} miles apart`, m.x, m.y - 30, fs * 1.15, '#ff7d6f', 'center', 700);
-      lab('Both read the same star at the same height. Nothing in the sky says how far east or west.', w / 2, h - 30, fs * .95, '#cfc8ba', 'center', 500);
+      lab('', w / 2, h - 30, fs * .95, '#cfc8ba', 'center', 500);
       CS.$(el, '#ts-d-o').textContent = `${CS.fx(d, 1)}° of longitude`;
       CS.$(el, '#ts-r').innerHTML = `<strong>Same star. Same height. ${CS.int(mi)} miles apart.</strong>`;
       ctx.restore();
@@ -218,7 +218,6 @@ NEW_SLIDES['The Longitude Act, 1714'] = {
   h1: 'The Longitude Act, 1714',
   ctl: `<div class="controls">${CS.slider('la-e', 'How far off is your longitude?', 0, 1.5, 0.05, 0.4)}</div><div class="readout" id="la-r"></div>`,
   fig: `<text x="500" y="56" text-anchor="middle" class="xl">£20,000 to Find Longitude at Sea</text>
-  <text x="500" y="96" text-anchor="middle" class="md mu">The test: sail from Britain to the West Indies, then say where you are.</text>
   <g id="la-cards"></g>
   <g id="la-ruler"></g>`,
   init(el) {
@@ -459,7 +458,7 @@ NEW_SLIDES['Galileo’s clock'] = {
 NEW_SLIDES['Pendulum at sea'] = {
   h1: 'The best clocks could not go to sea',
   ctl: `<div class="controls">${CS.slider('pd-s', 'Sea state', 0, 10, 1, 5)}</div><div class="btns"><button id="pd-re">Set both clocks</button></div><div class="readout" id="pd-r"></div>`,
-  fig: `<text x="250" y="60" text-anchor="middle" class="lg">On land</text><text x="730" y="60" text-anchor="middle" class="lg">At sea</text>
+  fig: `<text x="250" y="60" text-anchor="middle" class="lg">On Land</text><text x="730" y="60" text-anchor="middle" class="lg">At Sea</text>
   <g id="pd-land" transform="translate(250,110)"></g><line class="k" x1="90" y1="520" x2="410" y2="520" stroke-width="2"/>
   <g id="pd-shipg"><g id="pd-sea" transform="translate(730,110)"></g><path d="M560 520 L900 520 L870 572 L590 572 Z" fill="#ece6da"/></g>
   <path id="pd-wave" fill="none" stroke="#9a9382" d=""/><text id="pd-tl" x="250" y="600" text-anchor="middle" class="md"></text><text id="pd-ts" x="730" y="620" text-anchor="middle" class="md rd"></text>`,
