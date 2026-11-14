@@ -11,8 +11,13 @@ const lerp = (a, b, u) => a + (b - a) * u;
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const STEP_MS = reduce ? 1 : 680;
 const REVEAL_MS = reduce ? 1 : 1500;
+const CINE_MS = reduce ? 1 : 7200;
+let DPR = 1;
 
 function fit() {
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  const bw = Math.round(W * DPR), bh = Math.round(H * DPR);
+  if (c.width !== bw || c.height !== bh) { c.width = bw; c.height = bh; }
   const s = Math.min(innerWidth / W, innerHeight / H);
   c.style.width = W * s + 'px';
   c.style.height = H * s + 'px';
@@ -202,12 +207,12 @@ function diskPhoto(img, cx, cy, r, bleed = 1.14) {
   x.restore();
   return true;
 }
-function coverPhoto(img) {
+function coverPhoto(img, zoom = 1, ox = 0, oy = 0) {
   if (!img.complete || !img.naturalWidth) return false;
   const iw = img.naturalWidth, ih = img.naturalHeight;
-  const s = Math.max(W / iw, H / ih);
+  const s = Math.max(W / iw, H / ih) * zoom;
   const dw = iw * s, dh = ih * s;
-  x.drawImage(img, (W - dw) / 2, (H - dh) / 2, dw, dh);
+  x.drawImage(img, (W - dw) / 2 + ox, (H - dh) / 2 + oy, dw, dh);
   return true;
 }
 
@@ -292,6 +297,30 @@ function vis(s) { return STEP > s ? 1 : STEP === s ? U : 0; }
 function revealEase() {
   return reduce ? 1 : ez(cl((performance.now() - animFrom) / REVEAL_MS));
 }
+function shotU(ms = CINE_MS) {
+  return reduce ? 1 : cl((performance.now() - animFrom) / ms);
+}
+function span(u, a, b) {
+  return reduce ? 1 : ez(cl((u - a) / Math.max(0.001, b - a)));
+}
+function fmtLat(lat) {
+  const a = Math.abs(lat);
+  if (a < 0.45) return '0°';
+  return Math.round(a) + '° ' + (lat > 0 ? 'N' : 'S');
+}
+const carry = { cx: 960, cy: 460, R: 300, lon0: -50, lat0: 16 };
+function park(cam) { Object.assign(carry, cam); }
+let HITS = [];
+function hit(px, py, r, fn) { HITS.push({ x: px, y: py, r, fn }); }
+function grain(ox, oy, a) {
+  if (a <= 0) return;
+  x.save();
+  x.globalAlpha = a;
+  x.fillStyle = INK;
+  for (let i = 0; i < 70; i++) x.fillRect((i * 197 + ox) % W, (i * 131 + oy) % H, 1.5, 1.5);
+  x.restore();
+}
+function spinOf(s) { return (s && s.state && s.state.spin) || 0; }
 
 function clockDisk(cx, cy, R, west, showShip) {
   C(cx, cy, R, '#ffffff', INK, 2.5);
@@ -351,7 +380,26 @@ add({
     L(cx - R, cy, cx + R, cy, HAIR, 1.5, null, Math.min(1, u * 1.5));
     const yTop = cy - R, yBot = cy + R;
     L(cx, yTop, cx, lerp(yTop, yBot, u), RED, 2.5);
-    if (u > 0.7) star(cx, yTop - 6, 14 + 7 * Math.sin(cl((u - 0.7) / 0.3) * Math.PI), RED, 1);
+    const px = cx, py = yTop - 6;
+    const turn = reduce ? 0.6 : (SEC % 36) / 36;
+    if (u > 0.55) {
+      const a = cl((u - 0.55) / 0.45);
+      for (let i = 0; i < 16; i++) {
+        const rad = 22 + (i % 5) * 18;
+        const a0 = -Math.PI / 2 + i * 0.55 + turn * TAU;
+        const sweep = (0.5 + (i % 4) * 0.28) * a;
+        x.beginPath();
+        x.arc(px, py, rad, a0, a0 + sweep, false);
+        x.strokeStyle = i % 3 === 0 ? RED : INK;
+        x.globalAlpha = 0.35 * a;
+        x.lineWidth = i % 3 === 0 ? 2 : 1.2;
+        x.stroke();
+        x.globalAlpha = 1;
+        const tip = a0 + sweep;
+        C(px + rad * Math.cos(tip), py + rad * Math.sin(tip), i % 3 === 0 ? 2.4 : 1.6, i % 3 === 0 ? RED : INK);
+      }
+      star(px, py, 14 + 5 * Math.sin(cl((u - 0.7) / 0.3) * Math.PI), RED, 1);
+    }
   }
 });
 
@@ -366,12 +414,13 @@ add({
     'One click reveals the globe. D is correct. Havana is 82.4° west. Punta Pariñas is 81.3° west. The meridian runs down the open Pacific. All of South America lies east.',
     'By 3:00. Take the vote out loud. The globe stays quiet until you reveal. Rome is next: same instinct, a parallel this time.'
   ],
-  caps: [
-    '',
-    'None. Havana is 82.4° W. The continent ends at 81.3° W — all of South America lies east.'
-  ],
+  caps: ['', 'None. Open Pacific.'],
   capY: 820,
-  capBox: { x: 64, y: 800, w: 560, align: 'left', size: 36 },
+  capAt: 0.84,
+  cine: 7200,
+  spin: true,
+  state: { spin: 0, fly: null },
+  capBox: { x: 960, y: 800, w: 1200, align: 'center', size: 48 },
   draw() {
     const q = 'Fly due south from Havana. Which South American country do you cross first?';
     const opts = ['Colombia', 'Ecuador', 'Peru', 'None of them'];
@@ -385,32 +434,62 @@ add({
       });
       return;
     }
-    const u = revealEase();
-    wrap(q, 40, 560).forEach((ln, i) => T(ln, 64, 150 + i * 52, 40, INK, 'left', 1, false, 500));
-    opts.forEach((name, i) => {
-      const y = 340 + i * 88;
-      const col = i === 3 ? RED : INK;
-      T('ABCD'[i], 64, y, 56, col, 'left', 1, false, 500);
-      T(name, 140, y, 56, col);
-    });
-    const wide = { cx: 1280, cy: 470, R: 340, lon0: -55, lat0: 14 };
-    const tight = { cx: 1240, cy: 460, R: 470, lon0: -79, lat0: 9 };
+    const u = shotU(7200);
+    const fadeQ = 1 - span(u, 0, 0.14);
+    if (fadeQ > 0.02) {
+      wrap(q, 76, 1680).forEach((ln, i) => T(ln, 960, 250 + i * 92, 76, INK, 'center', fadeQ, false, 500));
+      opts.forEach((name, i) => {
+        const y = 520 + i * 110;
+        T('ABCD'[i], 700, y, 68, INK, 'left', fadeQ, false, 500);
+        T(name, 790, y, 68, INK, 'left', fadeQ);
+      });
+    }
+    const fly = span(u, 0.08, 0.36);
+    const drop = span(u, 0.32, 0.86);
+    const latTip = lerp(23.13, -38, drop);
+    const scripted = lerp(-48, -82.4, fly);
+    if (this.state.fly != null) this.state.spin = lerp(this.state.spin || 0, this.state.fly - scripted, 0.1);
     const cam = {
-      cx: lerp(wide.cx, tight.cx, u), cy: lerp(wide.cy, tight.cy, u), R: lerp(wide.R, tight.R, u),
-      lon0: lerp(wide.lon0, tight.lon0, u), lat0: lerp(wide.lat0, tight.lat0, u)
+      cx: 960, cy: lerp(520, 450, fly),
+      R: lerp(240, 500, Math.max(span(u, 0, 0.22), fly)),
+      lon0: scripted + spinOf(this),
+      lat0: lerp(16, lerp(20, latTip * 0.45, drop), fly)
     };
+    park(cam);
+    grain(fly * 40, drop * 24, 0.18);
     const pr = globe(cam.cx, cam.cy, cam.R, cam.lon0, cam.lat0);
-    meridian(pr, -82.38, 32, -46, u, RED, 4);
-    const hv = pr(-82.38, 23.13), pp = pr(-81.33, -4.68);
-    if (u > 0.08 && hv.z > 0) {
-      C(hv.x, hv.y, 8, RED);
-      T('Havana  82.4° W', hv.x + 16, hv.y - 12, 32, RED, 'left', cl((u - 0.08) / 0.2));
+    const hv = pr(-82.38, 23.13);
+    if (fly > 0.35 && hv.z > 0) {
+      const pulse = 8 + 5 * Math.sin(SEC * 5);
+      C(hv.x, hv.y, pulse, RED);
+      hit(hv.x, hv.y, 46, () => { this.state.fly = -82.38; });
     }
-    if (u > 0.5 && pp.z > 0) {
-      C(pp.x, pp.y, 7, INK);
-      T('Punta Pariñas  81.3° W', pp.x + 16, pp.y + 8, 32, INK, 'left', cl((u - 0.5) / 0.2));
+    if (drop > 0.01) {
+      meridian(pr, -82.38, 23.13, latTip, 1, RED, 4);
+      const tip = pr(-82.38, latTip);
+      if (tip.z > 0) {
+        const g = x.createRadialGradient(tip.x, tip.y, 1, tip.x, tip.y, 42);
+        g.addColorStop(0, 'rgba(176,31,36,.85)');
+        g.addColorStop(1, 'rgba(176,31,36,0)');
+        x.fillStyle = g;
+        x.beginPath();
+        x.arc(tip.x, tip.y, 42, 0, TAU);
+        x.fill();
+        C(tip.x, tip.y, 6, RED);
+      }
+      const read = 1 - span(u, 0.8, 0.9);
+      if (read > 0.02) T(fmtLat(latTip) + '   ·   82.4° W', 960, 150, 48, RED, 'center', read, false, 500);
     }
-    if (u > 0.78) T('open Pacific', cam.cx + 20, cam.cy + cam.R * 0.55, 32, MUTE, 'left', cl((u - 0.78) / 0.2));
+    if (latTip < -1) {
+      const a = cl(((-1 - latTip) / 8));
+      const west = pr(-82.38, -4.68), east = pr(-81.33, -4.68);
+      if (west.z > 0 && east.z > 0) {
+        L(west.x, west.y - 16, west.x, west.y + 16, RED, 3, null, a);
+        L(east.x, east.y - 16, east.x, east.y + 16, INK, 3, null, a);
+        L(west.x, west.y, east.x, east.y, INK, 2, null, a);
+        C(east.x, east.y, 5, INK);
+      }
+    }
   }
 });
 
@@ -454,9 +533,13 @@ add({
     'Then click. C, Boston. Rome is 41.9° north. Boston is 42.4°. New York is 40.7°, Atlanta 33.7°, Miami 25.8°. Same parallel, very different climate. The Gulf Stream warms Italy.',
     'About a minute, with the zoom. By 4:00. Reno is next, and the coast will fool them.'
   ],
-  caps: ['', 'Boston. Same parallel, very different climate: the Gulf Stream warms Italy.'],
+  caps: ['', 'Boston. Same parallel.'],
   capY: 820,
-  capBox: { x: 64, y: 790, w: 520, align: 'left', size: 34 },
+  capAt: 0.72,
+  cine: 6400,
+  spin: true,
+  state: { spin: 0, fly: null },
+  capBox: { x: 960, y: 800, w: 1400, align: 'center', size: 48 },
   draw() {
     const q = "Which of these American cities is closest to Rome's latitude?";
     const opts = ['Atlanta', 'New York', 'Boston', 'Miami'];
@@ -466,33 +549,55 @@ add({
       quizOpts(opts, 2, 740, 480, 110, 68, false);
       return;
     }
-    const u = revealEase();
-    quizLines(q, 64, 140, 40, 520, 'left');
-    quizOpts(opts, 2, 64, 280, 84, 52, true);
-    const wide = { cx: 1200, cy: 480, R: 340, lon0: -45, lat0: 28 };
-    const tight = { cx: 1160, cy: 470, R: 500, lon0: -28, lat0: 40 };
+    const u = shotU(6400);
+    const fly = span(u, 0, 0.42);
+    const race = span(u, 0.38, 0.82);
+    const scripted = lerp(carry.lon0, -30, fly);
+    if (this.state.fly != null) this.state.spin = lerp(this.state.spin || 0, this.state.fly - scripted, 0.1);
     const cam = {
-      cx: lerp(wide.cx, tight.cx, u), cy: lerp(wide.cy, tight.cy, u), R: lerp(wide.R, tight.R, u),
-      lon0: lerp(wide.lon0, tight.lon0, u), lat0: lerp(wide.lat0, tight.lat0, u)
+      cx: lerp(carry.cx, 980, fly),
+      cy: lerp(carry.cy, 460, fly),
+      R: lerp(carry.R, 490, fly),
+      lon0: scripted + spinOf(this),
+      lat0: lerp(carry.lat0, 40, fly)
     };
+    park({ cx: cam.cx, cy: cam.cy, R: cam.R, lon0: cam.lon0 - spinOf(this), lat0: cam.lat0 });
     const pr = globe(cam.cx, cam.cy, cam.R, cam.lon0, cam.lat0);
-    parallel(pr, 42, -71.06, 12.5, u, RED, 4);
+    const endLon = lerp(-71.06, 12.5, race);
+    parallel(pr, 42, -71.06, endLon, 1, RED, 5);
+    const ribbon = [];
+    for (let i = 0; i <= 28; i++) {
+      const t = i / 28;
+      const lon = lerp(-74, -12, t);
+      const lat = 28 + Math.sin(t * Math.PI) * 5 + Math.sin(SEC * 1.3 + t * 6) * 0.5;
+      const p = pr(lon, lat);
+      if (p.z > 0.02) ribbon.push([p.x, p.y]);
+      else if (ribbon.length) { poly(ribbon, race, RED, 2.5); ribbon.length = 0; }
+    }
+    if (ribbon.length) poly(ribbon, race, RED, 2.5);
     const cities = [
-      [-71.06, 42.36, 'Boston  42.4° N', true, 0.08, 0, -78],
-      [-74.01, 40.71, 'New York  40.7°', false, 0.28, 10, 70],
-      [-84.39, 33.75, 'Atlanta  33.7°', false, 0.42, -36, 48],
-      [-80.19, 25.76, 'Miami  25.8°', false, 0.56, 22, 44],
-      [12.5, 41.9, 'Rome  41.9° N', true, 0.82, 20, -16]
+      [-71.06, 42.36, 0.05],
+      [-74.01, 40.71, 0.2],
+      [-84.39, 33.75, 0.28],
+      [-80.19, 25.76, 0.36],
+      [12.5, 41.9, 0.78]
     ];
-    cities.forEach(([lo, la, name, hot, at, dx, dy]) => {
-      const a = cl((u - at) / 0.15);
+    cities.forEach(([lo, la, at]) => {
+      const a = cl((race - at) / 0.12);
       if (a <= 0) return;
       const p = pr(lo, la);
       if (p.z <= 0.02) return;
-      const col = hot ? RED : INK;
-      C(p.x, p.y, hot ? 8 : 6, col);
-      if (Math.abs(dx) + Math.abs(dy) > 36) L(p.x, p.y, p.x + dx * 0.72, p.y + dy * 0.72, col, 1.5, null, a);
-      T(name, p.x + dx, p.y + dy, 30, col, 'center', a);
+      const hot = lo > 0 || lo < -70.5 && lo > -72;
+      C(p.x, p.y, hot ? 9 : 5, hot ? RED : INK);
+      hit(p.x, p.y, 36, () => { this.state.fly = lo; });
+      if (lo > 0 && a > 0.6) {
+        const glow = 0.35 + 0.25 * Math.sin(SEC * 4);
+        C(p.x, p.y, 22, null);
+        x.save();
+        x.globalAlpha = glow;
+        C(p.x, p.y, 18, RED);
+        x.restore();
+      }
     });
   }
 });
@@ -507,9 +612,13 @@ add({
     'Then click. B. Reno is 119.8° west. Los Angeles is 118.2° west. Reno is farther west by 1.6°. The California coast bends east as it runs south.',
     'By 5:00. The close view is California and Nevada, and the coast bends east as it runs south. Then how you would tell a stranger: the grid.'
   ],
-  caps: ['', 'Reno, by 1.6°. The California coast bends east as it runs south.'],
+  caps: ['', 'Reno, by 1.6°.'],
   capY: 820,
-  capBox: { x: 48, y: 800, w: 500, align: 'left', size: 32 },
+  capAt: 0.78,
+  cine: 7000,
+  spin: true,
+  state: { spin: 0, fly: null },
+  capBox: { x: 960, y: 800, w: 1200, align: 'center', size: 48 },
   draw() {
     const q = 'Reno or Los Angeles: which is farther west?';
     const opts = ['Los Angeles', 'Reno', 'Same longitude', 'Depends on the map'];
@@ -519,23 +628,26 @@ add({
       quizOpts(opts, 1, 620, 460, 108, 64, false);
       return;
     }
-    const u = revealEase();
-    quizLines(q, 48, 130, 36, 460, 'left');
-    quizOpts(opts, 1, 48, 250, 72, 44, true);
-    const gU = cl(u / 0.42);
-    const wide = { cx: 1280, cy: 500, R: 300, lon0: -110, lat0: 36 };
-    const tight = { cx: 1320, cy: 480, R: 520, lon0: -119, lat0: 37 };
+    const u = shotU(7000);
+    const dive = span(u, 0, 0.42);
+    const fall = span(u, 0.36, 0.72);
+    const tilt = span(u, 0.4, 0.78);
+    const gap = span(u, 0.72, 0.95);
+    const scripted = lerp(carry.lon0 || -100, -119, dive);
+    if (this.state.fly != null) this.state.spin = lerp(this.state.spin || 0, this.state.fly - scripted, 0.1);
     const cam = {
-      cx: lerp(wide.cx, tight.cx, gU), cy: lerp(wide.cy, tight.cy, gU), R: lerp(wide.R, tight.R, gU),
-      lon0: lerp(wide.lon0, tight.lon0, gU), lat0: lerp(wide.lat0, tight.lat0, gU)
+      cx: lerp(1040, 1180, dive), cy: lerp(480, 500, dive),
+      R: lerp(Math.max(carry.R || 320, 280), 560, dive),
+      lon0: scripted + spinOf(this),
+      lat0: lerp(carry.lat0 || 30, 37, dive)
     };
     x.save();
-    x.globalAlpha = 1 - cl((u - 0.28) / 0.32);
+    x.globalAlpha = 1 - span(u, 0.28, 0.48);
     globe(cam.cx, cam.cy, cam.R, cam.lon0, cam.lat0);
     x.restore();
-    const mapA = cl((u - 0.3) / 0.28);
+    const mapA = span(u, 0.3, 0.5);
     if (mapA > 0) {
-      const x0 = 620, y0 = 110, w = 820, h = 680;
+      const x0 = 560, y0 = 120, w = 980, h = 700;
       const lonW = -124, lonE = -114, latN = 42, latS = 32;
       const pr = (lon, lat) => ({
         x: x0 + (lon - lonW) / (lonE - lonW) * w,
@@ -544,40 +656,26 @@ add({
       });
       x.save();
       x.globalAlpha = mapA;
+      x.translate(x0 + w / 2, y0 + h / 2);
+      x.rotate(lerp(-0.22, 0, tilt));
+      x.translate(-(x0 + w / 2), -(y0 + h / 2));
       x.beginPath();
       x.rect(x0, y0, w, h);
       x.clip();
-      x.strokeStyle = HAIR;
-      x.lineWidth = 1.5;
-      x.strokeRect(x0, y0, w, h);
       coastIn(pr);
-      const border = [[-120, 42], [-120, 39], [-114.63, 35]].map(([lo, la]) => [pr(lo, la).x, pr(lo, la).y]);
-      poly(border, 1, INK, 3, [8, 6]);
-      T('California', pr(-122.2, 36.2).x, pr(-122.2, 36.2).y, 28, MUTE, 'right');
-      T('Nevada', pr(-117.2, 39.2).x, pr(-117.2, 39.2).y, 28, MUTE, 'left');
-      const lineP = cl((u - 0.48) / 0.32);
-      const renoY = pr(-119.82, lerp(42, 32, lineP));
-      const renoTop = pr(-119.82, 42);
+      const lineP = fall;
+      const renoTop = pr(-119.82, 42), renoY = pr(-119.82, lerp(42, 32, lineP));
       L(renoTop.x, renoTop.y, renoY.x, renoY.y, RED, 4);
-      const laP = cl((u - 0.58) / 0.3);
-      const laTop = pr(-118.24, 42), laY = pr(-118.24, lerp(42, 32, laP));
+      const laTop = pr(-118.24, 42), laY = pr(-118.24, lerp(42, 32, Math.max(0, lineP - 0.08)));
       L(laTop.x, laTop.y, laY.x, laY.y, INK, 3.5);
       const rp = pr(-119.82, 39.53), lp = pr(-118.24, 34.05);
-      if (lineP > 0.55) {
-        C(rp.x, rp.y, 9, RED);
-        T('Reno  119.8° W', rp.x - 16, rp.y - 16, 36, RED, 'right', cl((lineP - 0.55) / 0.2), false, 500);
-      }
-      if (laP > 0.7) {
-        C(lp.x, lp.y, 8, INK);
-        T('Los Angeles  118.2° W', lp.x + 16, lp.y + 8, 34, INK, 'left', cl((laP - 0.7) / 0.2));
-      }
-      const gap = cl((u - 0.78) / 0.22);
+      if (lineP > 0.45) C(rp.x, rp.y, 9, RED);
+      if (lineP > 0.55) C(lp.x, lp.y, 8, INK);
       if (gap > 0) {
         const a = pr(-119.82, 37.2), b = pr(-118.24, 37.2);
-        L(a.x, a.y - 14, a.x, a.y + 14, RED, 3, null, gap);
-        L(b.x, b.y - 14, b.x, b.y + 14, INK, 3, null, gap);
+        L(a.x, a.y - 18, a.x, a.y + 18, RED, 3, null, gap);
+        L(b.x, b.y - 18, b.x, b.y + 18, INK, 3, null, gap);
         L(a.x, a.y, b.x, b.y, RED, 3, null, gap);
-        T('1.6°', (a.x + b.x) / 2, a.y - 18, 40, RED, 'center', gap, false, 500);
       }
       x.restore();
     }
@@ -588,7 +686,8 @@ add({
   title: 'Call a Square',
   endMin: 6.25,
   capBox: { x: 36, y: 760, w: 560, align: 'left', size: 40 },
-  state: { lat: false, lon: false, bingo: false },
+  spin: true,
+  state: { lat: false, lon: false, bingo: false, spin: 0, called: '' },
   fade: { lat: 0, lon: 0, bingo: 0, t: 0 },
   notes: [
     'The warm-ups were places the room already knows. This is how you would tell a stranger. The globe is bare. The small buttons on the right show latitude, longitude, or the bingo letters on the globe itself. The clicks still tell the story in order.',
@@ -598,11 +697,11 @@ add({
     'Bingo. The letters and numbers sit on the globe’s own lines. G-4 is the red cell. By 6:15. Bridge: someone in power decided how long a step on that grid is. The mile is next.'
   ],
   caps: [
-    'A harbor, tonight. How would you tell a stranger where to meet you?',
-    'Latitude lines run with the equator. They never meet.',
-    'Longitude lines meet at the poles.',
-    'Parallels stay apart. Meridians come together.',
-    'One square, one address. G-4.'
+    'Where do you meet?',
+    'They never meet.',
+    'They meet at the poles.',
+    'The sky gives the row.',
+    'G-4.'
   ],
   capY: 1000,
   draw() {
@@ -623,7 +722,7 @@ add({
     const lats = [54, 42, 30, 18, 6, -6];
     const cx = lerp(1100, 1040, bingoA), cy = 490;
     const R = lerp(400, 455, bingoA);
-    const pr = globe(cx, cy, R, lerp(-32, -18, bingoA), lerp(24, 16, bingoA), { stipple: true, fine: true });
+    const pr = globe(cx, cy, R, lerp(-32, -18, bingoA) + spinOf(this), lerp(24, 16, bingoA), { stipple: true, fine: true });
     if (bingoA > 0.03) {
       const n = 12, pts = [];
       const push = (lo, la) => { const p = pr(lo, la); if (p.z > 0.02) pts.push(p); };
@@ -645,9 +744,22 @@ add({
         x.stroke();
         x.restore();
         const mid = pr(-18, 12);
-        if (mid.z > 0) T('G-4', mid.x, mid.y + 10, 32, RED, 'center', bingoA, false, 500);
+        if (mid.z > 0 && !this.state.called) T('G-4', mid.x, mid.y + 10, 32, RED, 'center', bingoA, false, 500);
       }
     }
+    if (bingoA > 0.45) {
+      for (let col = 0; col < 5; col++) {
+        for (let row = 0; row < 5; row++) {
+          const name = 'BINGO'[col] + '-' + (row + 1);
+          const mid = pr((lons[col] + lons[col + 1]) / 2, (lats[row] + lats[row + 1]) / 2);
+          if (mid.z > 0.08) hit(mid.x, mid.y, 34, () => { this.state.called = name; });
+          if (this.state.called === name && mid.z > 0) {
+            C(mid.x, mid.y, 16, RED);
+          }
+        }
+      }
+    }
+    if (this.state.called) T(this.state.called, 180, 180, 64, RED, 'left', 1, false, 500);
     if (showLat > 0.02) lats.forEach(lat => parallel(pr, lat, -66, 6, showLat, call && lat === 30 ? RED : HAIR, call && lat === 30 ? 3 : 1.7));
     if (showLon > 0.02) lons.forEach(lon => meridian(pr, lon, 58, -10, showLon, call && lon === -24 ? RED : HAIR, call && lon === -24 ? 3 : 1.7));
     if (bingoA > 0.25) {
@@ -661,11 +773,7 @@ add({
       }
     }
     const pole = pr(-18, 70);
-    if ((showLon > 0.3 || call) && pole.z > 0) T('meet', pole.x + 8, pole.y, 28, RED, 'left', call ? showLon : 0);
-    if (call && showLat > 0.4) {
-      const p = pr(-54, 42);
-      if (p.z > 0) T('never meet', p.x - 8, p.y, 28, RED, 'right', showLat);
-    }
+    if (pole.z > 0) C(pole.x, pole.y, call ? 6 : 0, RED);
   }
 });
 
@@ -1530,22 +1638,36 @@ add({
     'Picture: public-domain engraving of Sir Cloudesley Shovell’s fleet lost on the rocks of Scilly, 22 October 1707.'
   ],
   caps: [
-    '22 October 1707. Sir Cloudesley Shovell is sure of his position.',
-    'The officers agree: safe, in the mouth of the Channel.',
-    'Four ships strike. About 1,400 to 2,000 men.',
-    'Nobody on that deck could find longitude. Where am I?'
+    '22 October 1707.',
+    'They were sure.',
+    'The rocks.',
+    'Where am I?'
   ],
   capY: 990,
   dark: true,
   credit: 'Public domain engraving of the 1707 wreck on the rocks of Scilly.',
   draw() {
-    const cream = '#f4efe4';
-    if (!coverPhoto(PHOTO.scilly)) {
+    const life = reduce ? 1 : cl((performance.now() - (this.born || animFrom)) / 9000);
+    const zoom = 1 + 0.18 * ez(Math.min(1, life));
+    x.save();
+    x.beginPath();
+    x.rect(0, 0, W, H);
+    x.clip();
+    if (!coverPhoto(PHOTO.scilly, zoom, Math.sin(life * 2) * 16, life * 20)) {
       x.fillStyle = '#102033';
       x.fillRect(0, 0, W, H);
     }
-    x.fillStyle = 'rgba(8, 18, 40, 0.42)';
+    x.restore();
+    x.fillStyle = 'rgba(8, 18, 40, 0.38)';
     x.fillRect(0, 0, W, H);
+    x.save();
+    for (let i = 0; i < 5; i++) {
+      const y = ((i * 220 + SEC * 28) % (H + 240)) - 120;
+      x.globalAlpha = 0.09 + 0.04 * Math.sin(SEC + i);
+      x.fillStyle = '#d5dde6';
+      x.fillRect(-40, y, W + 80, 90);
+    }
+    x.restore();
     const glow = (px, py, r, a) => {
       const g = x.createRadialGradient(px, py, 2, px, py, r);
       g.addColorStop(0, `rgba(255, 196, 92, ${0.9 * a})`);
@@ -1556,26 +1678,15 @@ add({
       x.arc(px, py, r, 0, TAU);
       x.fill();
     };
-    const lamps = vis(0);
-    glow(430, 620, 70, lamps);
-    glow(780, 700, 80, lamps);
-    glow(1180, 430, 64, lamps);
-    glow(1500, 520, 48, lamps);
-    T('22 October 1707', 200, 180, 36, cream, 'left', vis(0), false, 500);
-    if (STEP === 1) T('where they reckoned', 1560, 340, 32, '#f4efe4', 'right', 1, true);
-    const struck = vis(2);
-    const boom = STEP === 2 ? 1 : 0;
-    const mark = (px, py) => {
-      L(px - 22, py - 22, px + 22, py + 22, RED, 7, null, struck);
-      L(px + 22, py - 22, px - 22, py + 22, RED, 7, null, struck);
-    };
-    mark(150, 800);
-    mark(1760, 820);
-    T('the rocks', 190, 760, 32, RED, 'left', struck, false, 500);
-    T('about 100 miles off their reckoning', 960, 150, 36, RED, 'center', boom, false, 500);
-    T('Association  ·  Eagle  ·  Romney  ·  Firebrand', 960, 198, 28, cream, 'center', boom);
-    T('1,400 to 2,000 men', 960, 250, 44, RED, 'center', Math.max(boom, vis(3)), false, 500);
-    T('Where am I?', 960, 360, 80, cream, 'center', vis(3), false, 500);
+    [[430, 620, 70], [780, 700, 80], [1180, 430, 64], [1500, 520, 48]].forEach((l, i) => {
+      const flick = 0.45 + 0.55 * Math.abs(Math.sin(SEC * (2.2 + i * 0.7) + i));
+      glow(l[0], l[1], l[2], flick);
+    });
+    const drift = span(life, 0.22, 0.7);
+    const sx = lerp(1580, 470, drift), sy = lerp(480, 740, drift);
+    ship(sx, sy, 1.25, '#f4efe4', -0.25, 0.92);
+    const hitR = span(life, 0.62, 0.82);
+    if (hitR > 0) glow(520, 860, 220, hitR);
   }
 });
 
@@ -1693,35 +1804,43 @@ add({
     'England, 1593, under Elizabeth I. Parliament is limiting new building near London, and in that statute it fixes the mile: 8 furlongs, each of 40 poles, each pole 16½ feet. That is 5,280 feet. They will not shorten the surveyor’s rod, because land is already written down in rods. The farmers’ ruler stays. The mile stretches to fit it.',
     'The nautical mile is different. It is one minute of latitude, a piece of the Earth, which is why sailors and pilots use it. A minute is a little longer near the poles than at the equator, because the Earth is not a perfect sphere. In 1929 an international conference sets the nautical mile at exactly 1,852 meters, a round number near that minute. Not every navy switches that year. By 7:15. The librarian who measured the planet is next.'
   ],
-  caps: [
-    '',
-    'Rome. A legionary’s mile is 1,000 paces.',
-    '1593. Elizabeth’s Parliament keeps the furlong, and the mile becomes 5,280 feet.',
-    'A nautical mile is one minute of latitude. The Earth is the ruler.'
-  ],
+  caps: ['', '1,000 paces.', '5,280 feet.', 'One minute of Earth.'],
   capY: 800,
-  capBox: { x: 960, y: 800, w: 1680, align: 'center', size: 34 },
+  capBox: { x: 960, y: 800, w: 1400, align: 'center', size: 48 },
   draw() {
     if (STEP === 0) {
       T('Who decides how long a mile is?', 960, 460, 64, INK, 'center', 1, false, 500);
       return;
     }
-    const cols = [
-      { t: 'Rome', d: '1,000 paces', s: 'the legions’ roads', on: STEP >= 1 },
-      { t: '1593', d: '5,280 feet', s: 'Parliament, for the furlong', on: STEP >= 2 },
-      { t: 'At sea', d: '1 minute of latitude', s: 'the Earth itself', on: STEP >= 3 }
-    ];
-    cols.forEach((c, i) => {
-      if (!c.on) return;
-      const x0 = 220 + i * 560;
-      const hot = i === 2;
-      x.strokeStyle = hot ? RED : INK;
-      x.lineWidth = hot ? 4 : 2.5;
-      x.strokeRect(x0, 180, 480, 520);
-      T(c.t, x0 + 240, 280, 40, hot ? RED : INK, 'center', 1, false, 500);
-      T(c.d, x0 + 240, 420, 48, hot ? RED : INK, 'center', 1, false, 500);
-      T(c.s, x0 + 240, 520, 28, MUTE, 'center');
-    });
+    const u = reduce ? 1 : ez(cl((performance.now() - animFrom) / 1600));
+    const n = 36;
+    const dots = [];
+    for (let i = 0; i < n; i++) {
+      const march = (i + (reduce ? 0 : SEC * 3)) % n;
+      const road = { x: 240 + march / n * 1440, y: 520 };
+      const col = i % 12, row = Math.floor(i / 12);
+      const field = { x: 360 + col * 100, y: 280 + row * 90 };
+      const p = STEP === 1 ? road : { x: lerp(road.x, field.x, u), y: lerp(road.y, field.y, u) };
+      dots.push(p);
+    }
+    if (STEP < 3) {
+      if (STEP >= 2) {
+        x.strokeStyle = HAIR;
+        x.lineWidth = 2;
+        for (let k = 0; k < 4; k++) L(300, 250 + k * 90, 1560, 250 + k * 90, HAIR, 2, null, u);
+      }
+      dots.forEach(p => C(p.x, p.y, 7, INK));
+      return;
+    }
+    const cx = 960, cy = 860, R = 520;
+    const a0 = -Math.PI * 0.82, a1 = -Math.PI * 0.18;
+    arc(cx, cy, R, a0, a1, INK, 3, false, 1);
+    for (let m = 0; m <= 60; m++) {
+      const a = lerp(a0, a1, m / 60);
+      const show = cl(u * 61 - m);
+      const inner = m === 30 ? R - 90 : R - 26;
+      L(cx + inner * Math.cos(a), cy + inner * Math.sin(a), cx + R * Math.cos(a), cy + R * Math.sin(a), m === 30 ? RED : INK, m === 30 ? 6 : 2, null, show);
+    }
   }
 });
 
@@ -2188,13 +2307,21 @@ function renderNotes() {
 let nightFrom = 0;
 function go(i, st) {
   const prev = SLIDES[idx];
+  const was = step;
   idx = cl(i, 0, SLIDES.length - 1);
   const s = SLIDES[idx];
   if (s.dark && !(prev && prev.dark)) nightFrom = performance.now();
   step = cl(st == null ? 0 : st, 0, s.caps.length - 1);
   STEP = step;
   animFrom = performance.now();
-  if (s.state) s.state.held = false;
+  if (prev !== s || step < was) s.born = performance.now();
+  if (!s.born) s.born = performance.now();
+  if (s.state) {
+    s.state.held = false;
+    if ('spin' in s.state) s.state.spin = 0;
+    if ('fly' in s.state) s.state.fly = null;
+    if ('called' in s.state) s.state.called = '';
+  }
   if (s.title === 'Call a Square') {
     s.state.lat = step >= 1;
     s.state.lon = step >= 2;
@@ -2234,7 +2361,7 @@ function pointer(e) {
   const r = c.getBoundingClientRect();
   return { x: (e.clientX - r.left) / r.width * W, y: (e.clientY - r.top) / r.height * H };
 }
-let down = null, armed = null;
+let down = null, armed = null, spinning = false;
 function stopNav(e) { e.stopPropagation(); }
 ['nav-prev', 'nav-next', 'nav-menu', 'menu-close'].forEach(id => {
   const el = document.getElementById(id);
@@ -2319,17 +2446,28 @@ c.addEventListener('pointermove', e => {
     if (armed.grab(down)) dragSlide = armed;
     armed = null;
   }
+  const s = SLIDES[idx];
+  if (s && s.spin && s.state && down && !dragSlide && Math.abs(p.x - down.x) > 6) {
+    s.state.spin = (s.state.spin || 0) - (p.x - down.x) * 0.14;
+    down = p;
+    spinning = true;
+  }
   if (dragSlide && dragSlide.move) dragSlide.move(p);
 });
 c.addEventListener('pointerup', e => {
   const p = pointer(e);
   if (menuOpen) { dragSlide = null; down = null; armed = null; return; }
-  if (dragSlide) { dragSlide = null; down = null; armed = null; return; }
+  if (dragSlide || spinning) { dragSlide = null; down = null; armed = null; spinning = false; return; }
   if (down) {
     const dx = p.x - down.x, dy = p.y - down.y;
     const adx = Math.abs(dx), ady = Math.abs(dy);
     if (adx > 60 && adx > 1.5 * ady) { if (dx < 0) next(); else prev(); }
-    else if (Math.hypot(dx, dy) < 10) { if (p.x < W / 3) prev(); else next(); }
+    else if (Math.hypot(dx, dy) < 10) {
+      const landed = HITS.find(h => Math.hypot(p.x - h.x, p.y - h.y) < h.r);
+      if (landed) landed.fn();
+      else if (p.x < W / 3) prev();
+      else next();
+    }
   }
   down = null;
   armed = null;
@@ -2356,7 +2494,8 @@ function frame(now) {
   STEP = step;
   U = reduce ? 1 : ez(cl((now - animFrom) / STEP_MS));
   SEC = now / 1000;
-  x.setTransform(1, 0, 0, 1, 0, 0);
+  HITS = [];
+  x.setTransform(DPR, 0, 0, DPR, 0, 0);
   x.globalAlpha = 1;
   x.setLineDash([]);
   x.lineCap = 'butt';
@@ -2396,7 +2535,8 @@ function frame(now) {
   }
   const cap = s.caps[step];
   const capY = idx === 0 ? (s.capY || 940) : Math.min(s.capY || 820, 820);
-  caption(cap, capY, Boolean(s.ask) && cap === s.ask, s.capBox);
+  const hold = s.capAt && shotU(s.cine || CINE_MS) < s.capAt;
+  if (!hold) caption(cap, capY, Boolean(s.ask) && cap === s.ask, s.capBox);
   requestAnimationFrame(frame);
 }
 
