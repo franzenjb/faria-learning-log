@@ -33,3 +33,55 @@ Read this file only. Do not replay the old conversation.
 
 ## Rules from Jeff
 Miles, not km. Short plain copy. Quiz slides show no hint. Spell it Clowdesley. Dimes are face-on. Build, test, commit, push, open PR, merge without asking. Check: `node build.mjs`, serve `dist/` (for example `cd dist && python3 -m http.server 8791`), then `PLAYWRIGHT_MODULE=/Users/jefffranzen/dev/youth-engagement-passport/node_modules/playwright/index.mjs node tests/claude1-browser.mjs`.
+
+## 14 Nov 2026 · v3 and the 30-minute talk (Claude session handoff)
+
+**Where things are**
+- Full course: `/claude1/v3/`.
+- 30-minute weekend Teams talk: `/claude1/v3/?talk=30`. The talk has 14 slides; `TALK30` in `public/claude1/v3/course.js` picks the notes lines and minutes for each.
+- `/claude1/` itself is untouched.
+- v3 loads claude1's coastlines, images and film through `<base href="/claude1/">`, so its own scripts are referenced as `v3/...`.
+
+**Where the code is**
+- New slides and the v3 machinery are in `public/claude1/v3/course-slides-v3.js`:
+  - `V3.steps`: presenter steps on → and ←.
+  - `V3_TUNE`: per-slide hide, kicker and hero line.
+  - The `.v3-payoff` mirror: a reveal's answer appears at the top of the stage.
+  - The presenter keys.
+  - The quiz driver.
+- Older scenes live in `v3/index.html`, `v3/course-slides.js` and `v3/course-slides-b.js`. These are copies; edit the v3 copies only.
+
+**How Jeff presents**
+- There is no side panel. C brings it back.
+- Each slide's controls are on keys 1–9, 0, then letters. ↑/↓ moves the slide's slider. The key list is hidden; K shows it.
+- **Scilly:** → three times (two four-line screens, then the verdict screen).
+- **Quiz:** A–D record votes, → reveals, → shows the next question, → moves on.
+- **Harrison:** → steps through one line at a time.
+
+**Jeff's standing rules** (on top of CLAUDE.md):
+- Story first.
+- The lesson words (latitude, longitude, 1 hour = 15°, a clock 4 seconds off = 1 nautical mile) must be ON SCREEN.
+- Images must stay clearly visible.
+- The most dramatic line must be the biggest thing on screen.
+- No button clutter on screen.
+- Readable over a Teams screen share.
+- Check every change in screenshots before telling Jeff it's done.
+
+**Tests**
+- `tests/claude1-v3-browser.mjs`. Run it with `PLAYWRIGHT_MODULE` pointing at the playwright `index.mjs` and `CHROME_PATH` set, against a served `dist/`.
+
+**Lessons**
+- Topics 102–110, added 14 Nov, fill the timeline gaps:
+  - Scilly 1707
+  - The Longitude Act
+  - Hipparchus and Ptolemy
+  - Lunar distances
+  - The 1884 conference
+  - The date line
+  - GPS
+  - Huygens
+  - Leap years
+
+**Open items**
+- Jeff is reviewing the 30-minute talk slide by slide. Fix each note as it comes, check it in screenshots, then merge.
+- Polaris PR #52 is stale and conflicts with main's newer Polaris rebuild. Jeff hasn't decided whether to close it.
