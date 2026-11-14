@@ -386,12 +386,15 @@ addEventListener('load', () => setTimeout(() => {
   const slider = el => { const t = el && el.querySelector('.text'); return t ? [...t.querySelectorAll('input[type=range]')].find(x => x.offsetParent !== null || document.body.classList.contains('v3-panel') || true) : null; };
   const label = b => { const L = b.querySelector('.label'), ltr = b.querySelector('.letter'); const t = L ? (ltr ? ltr.textContent + ' ' : '') + L.textContent : b.textContent; return t.replace(/\s+/g, ' ').trim().replace(/^\d+ · /, '').slice(0, 26); };
   const draw = () => { const el = active(); const cs = controls(el).slice(0, KEYS.length), sl = slider(el);
-    legend.innerHTML = cs.map((b, i) => `<span><b>${KEYS[i].toUpperCase()}</b>${label(b)}</span>`).join('') + (sl ? `<span><b>↑↓</b>${(sl.closest('label') && sl.closest('label').querySelector('.row') ? sl.closest('label').querySelector('.row').childNodes[0].textContent.trim() : 'Slider')}</span>` : ''); };
+    legend.innerHTML = cs.map((b, i) => `<span data-i="${i}"><b>${KEYS[i].toUpperCase()}</b>${label(b)}</span>`).join('') + (sl ? `<span><b>↑↓</b>${(sl.closest('label') && sl.closest('label').querySelector('.row') ? sl.closest('label').querySelector('.row').childNodes[0].textContent.trim() : 'Slider')}</span>` : ''); };
   addEventListener('keydown', e => { if (e.target.matches('input[type=text],textarea') || e.metaKey || e.ctrlKey || e.altKey) return; const k = e.key.toLowerCase(), el = active(); if (!el) return;
     if (k === 'c') { document.body.classList.toggle('v3-panel'); dispatchEvent(new Event('resize')); return; }
     if (k === 'k') { document.body.classList.toggle('v3-keys-on'); return; }
     if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { const sl = slider(el); if (sl) { e.preventDefault(); const st = Math.max(+sl.step || 1, (+sl.max - +sl.min) / 40); sl.value = +sl.value + (e.key === 'ArrowUp' ? st : -st); sl.dispatchEvent(new Event('input', { bubbles: true })); sl.dispatchEvent(new Event('change', { bubbles: true })); } return; }
     const i = KEYS.indexOf(k); if (i < 0) return; const b = controls(el)[i]; if (b) { e.preventDefault(); e.stopImmediatePropagation(); b.click(); setTimeout(draw, 60); } }, true);
+  // touch screens have no keyboard: show the legend and let a tap press the control
+  if (matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 1) { document.body.classList.add('v3-touch'); const tg = document.createElement('button'); tg.id = 'v3-ctl'; tg.textContent = 'Controls'; tg.onclick = () => { document.body.classList.toggle('v3-keys-on'); tg.classList.toggle('on', document.body.classList.contains('v3-keys-on')); }; (document.getElementById('visual') || document.body).appendChild(tg); }
+  legend.addEventListener('click', e => { const t = e.target.closest('[data-i]'); if (!t) return; const b = controls(active())[+t.dataset.i]; if (b) { b.click(); setTimeout(draw, 60); } });
   new MutationObserver(draw).observe(document.getElementById('deck'), { subtree: true, attributes: true, attributeFilter: ['class'] }); draw();
 }, 50));
 
@@ -420,6 +423,10 @@ addEventListener('load', () => setTimeout(() => {
     }
     if (e.key === 'ArrowLeft' || e.key === 'PageUp') { if (ph === 0) return; stop(); go(ph - 1); }
   }, true);
+  // iPad: the on-screen arrows and swipes step through the quiz the same way
+  const nx = document.getElementById('next'), pv = document.getElementById('prev');
+  if (nx) nx.addEventListener('click', e => { if (el.classList.contains('active') && ph + 1 < S.length) { e.preventDefault(); e.stopImmediatePropagation(); go(ph + 1); } }, true);
+  if (pv) pv.addEventListener('click', e => { if (el.classList.contains('active') && ph > 0) { e.preventDefault(); e.stopImmediatePropagation(); go(ph - 1); } }, true);
   // clicking a card votes for it (cards are drawn on the canvas)
   const cv = el.querySelector('canvas'); if (cv) cv.addEventListener('click', e => {
     if (S[ph][0] !== 'q') return; const r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, w = r.width, h = r.height;
