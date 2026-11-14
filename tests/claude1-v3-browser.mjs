@@ -38,7 +38,7 @@ for (const [w, h] of [[1600, 900], [1280, 720]]) {
 // index, topic pane and the Return button
 const page = await browser.newPage({viewport: {width: 1400, height: 860}});
 await page.goto(url); await page.waitForTimeout(1200);
-await page.click('#ls-tog'); assert.ok(await page.locator('#shell.ls-open').count(), 'index opens');
+await page.evaluate(() => document.body.classList.add('v3-panel')); await page.click('#ls-tog'); assert.ok(await page.locator('#shell.ls-open').count(), 'index opens');
 await page.click('#ls-list li.sl >> text=Eratosthenes'); await page.waitForTimeout(500);
 assert.equal(await page.locator('#jf-title').innerText(), 'Eratosthenes');
 if (!(await page.locator('#shell.rs-open').count())) await page.click('#rs-tog'); await page.waitForTimeout(300); await page.click('#rs-list button >> nth=0'); await page.waitForTimeout(300);
@@ -63,7 +63,7 @@ assert.match(await page.locator('#hv').textContent(), /carpenter beat Newton/, '
 
 // every new slide's buttons run without errors
 const errs = []; page.on('pageerror', e => errs.push(String(e)));
-for (const [t, ids] of NEW) { await page.evaluate(t => go(COURSE_LIVE.findIndex(c => c.t === t)), t); await page.waitForTimeout(500); for (const id of ids) { await page.click(id); await page.waitForTimeout(250); } }
+for (const [t, ids] of NEW) { await page.evaluate(t => go(COURSE_LIVE.findIndex(c => c.t === t)), t); await page.waitForTimeout(500); for (const id of ids) { await page.evaluate(id => document.querySelector(id).click(), id); await page.waitForTimeout(250); } }
 await page.waitForTimeout(2500);
 assert.match(await page.locator('#gps-r').innerText(), /38\.9° N/, 'GPS finds you');
 assert.deepEqual(errs, [], 'new slides: no page errors');

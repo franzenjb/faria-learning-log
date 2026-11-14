@@ -76,7 +76,7 @@ const COURSE = [
 
   /* ---------------- Day 1 ---------------- */
   { day: 1, ch: 'Cold open', t: 'Scilly, 1707', label: 'Cold open: Scilly, 1707', h1: 'Scilly, 22 October 1707', topics: ['84-harrison-and-the-marine-chronometer', '70-time-to-longitude'],
-    script: ['Say nothing yet. Let the picture sit for a breath.', '22 October 1707. Admiral Sir Cloudesley Shovell is bringing the fleet home from the Mediterranean. Fog and gales, no sun, no stars for days.', 'Two numbers say where a ship is. Latitude, north or south, comes from the sky. Longitude, east or west, nobody at sea could measure. The officers compare their guesses and agree they are safe in the Channel. Ask the room: where do you think they were?', 'They were wrong.', 'That night Association, Eagle, Romney and Firebrand strike the Western Rocks of Scilly. Counts run from about 1,400 to 2,000 men, Shovell among them.', 'Twist: they knew their latitude, roughly. They could not find their longitude at all. Charts and currents played a part too, but Parliament heard one word: longitude. That is today: latitude and longitude, and why one took two thousand years longer than the other.'] },
+    script: ['Say nothing yet. Let the picture sit for a breath.', '22 October 1707. Admiral Sir Cloudesley Shovell is bringing the fleet home from the Mediterranean: twenty-one ships. Fog and gales, no sun, no stars for days.', 'Two numbers say where a ship is. Latitude, north or south, comes from the sky. Longitude, east or west, nobody at sea could measure. The officers compare their guesses and agree they are safe in the Channel. Ask the room: where do you think they were? On Teams, take the guesses in the chat.', 'They were wrong.', 'That night Association, Eagle, Romney and Firebrand strike the Western Rocks of Scilly. Counts run from about 1,400 to 2,000 men, Shovell among them.', 'Twist: they knew their latitude, roughly. They could not find their longitude at all. Charts and currents played a part too, but Parliament heard one word: longitude. That is today: latitude and longitude, and why one took two thousand years longer than the other.'] },
   { day: 1, ch: 'Opening quiz', t: 'Mental maps', label: 'Opening Quiz: Your Mental Map', topics: ['47-map-surprises'],
     script: ['Before any history, a test. Four questions. Vote before I show you anything, and do not look it up.', 'Most of us get these wrong, and we get them wrong the same way. We all learned the world from the same flat map.', 'After each reveal, watch the globe. The globe is right. The picture in your head came from a map someone drew.', 'After the Gulf Stream, ask: does one degree of longitude always cover the same distance? At the equator it is about 69 miles. Let the room guess at 60 degrees north before you reveal it: about 35, half. The meridians all meet at the pole. Same degrees, different miles, like two Bingo squares.', 'Hold on to that feeling. The whole course is about how we learned to know where things really are.'] },
   { day: 1, ch: 'Latitude', t: 'Latitude &amp; Longitude', label: 'Latitude is the easy one', h1: 'Latitude is the easy one', topics: ['95-degrees-arcminutes-arcseconds', '48-polaris', '47-map-surprises'],
@@ -171,7 +171,7 @@ function titleCase(str) {
    Each row: [slide t, minutes, script lines to keep (1-based, in order; strings are added lines)]. */
 const TALK30 = [
   ['Cover', .5, ['Every pin you drop on a Red Cross map is two numbers. Tonight is the story of how many people had to die, and one stubborn carpenter had to prove a genius wrong, before anyone could say where they were.']],
-  ['Scilly, 1707', 2.5, [1, 2, 3, 4, 5, 6, 'On Teams: ask for the guesses in the chat.']],
+  ['Scilly, 1707', 2.5, [1, 2, 3, 4, 5, 6]],
   ['Mental maps', 2, ['Two quick questions tonight: Havana, then Rome. Vote in the chat before I reveal.', 3, 'Hold on to that feeling. The rest of the talk is how we learned to know where things really are.']],
   ['Latitude &amp; Longitude', 2, [1, 2, 3, 4, 5, 6]],
   ['Walk north', 2, [1, 2, 3, 'Hold your arm out and make a fist. A fist is about ten degrees of sky; Polaris here is about four fists up.', 'By day, sailors did the same with the noon Sun and a printed table.', 4]],
@@ -179,9 +179,9 @@ const TALK30 = [
   ['Hours are slices', 2, [1, 2, 3, 4, 5, 6]],
   ['Two ships, one latitude', 2, [3, 4, 5, 6, 7, 8]],
   ['The Longitude Act, 1714', 2, [1, 2, 4, 5, 6, 7]],
-  ['Galileo’s clock', 2, [1, 2, 3, 5, 7]],
+  ['Galileo’s clock', 2, [1, 2, 3, 4, 5, 7]],
   ['The lunar distance', 2, ['The idea was old. Johannes Werner proposed it in 1514. For 250 years nobody could predict the Moon well enough to use it.', 1, 3, 4, 5, 'In 1767 Maskelyne printed the first Nautical Almanac: the Moon worked out every three hours, years ahead.', 6]],
-  ['A clock that could travel', 3, [1, 2, 3, 5, 6, 7, 8, 'Skip the H2 and H3 press: tap through it.']],
+  ['A clock that could travel', 3, [1, 2, 3, 'H2 and H3: tap straight through this press.', 5, 6, 7, 8]],
   ['Washington, 1884', 2, [2, 3, 4, 6]],
   ['Where am I, now', 2.5, [1, 2, 'The first test satellite went up in 1978. The full system was declared ready in 1995.', 3, 4, 5, 6, 'So the next time Field Maps drops a pin on a family that needs a cot tonight, remember: the stars gave us latitude, Harrison\'s clock gave us longitude, and a sky full of clocks answered Admiral Shovell\'s question in under a second.']]
 ];

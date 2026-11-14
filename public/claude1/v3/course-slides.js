@@ -131,7 +131,7 @@ NEW_SLIDES['A sphere will not lie flat'] = {
 /* ---------- Chapter slide 2: two ships, one latitude ---------- */
 NEW_SLIDES['Two ships, one latitude'] = {
   h1: 'Longitude has no landmarks', canvas: true,
-  ctl: `<div class="controls">${CS.slider('ts-d', 'Move the second ship east', 0, 40, 0.5, 15)}</div><div class="btns"><button class="primary" id="ts-spin">Pause the Earth</button></div><div class="readout" id="ts-r"></div>`,
+  ctl: `<div class="controls">${CS.slider('ts-d', 'Ship 2 East', 0, 40, 0.5, 15)}</div><div class="btns"><button class="primary" id="ts-spin">Pause the Earth</button></div><div class="readout" id="ts-r"></div>`,
   init(el) {
     const o = CS.canvas(el), S = CS.$(el, '#ts-d'); let spin = true, lon0 = -40, last = 0, LAT = 50, A = -35, zoom = 1, zoomT = 1;
     o.c.addEventListener('wheel', e => { e.preventDefault(); zoomT = Math.max(1, Math.min(9, zoomT * (e.deltaY < 0 ? 1.15 : 1 / 1.15))); }, { passive: false });
@@ -173,10 +173,10 @@ NEW_SLIDES['Two ships, one latitude'] = {
       path(Array.from({ length: 41 }, (_, k) => [LAT, A + d * k / 40]), '#ff7d6f', 6);
       [[A, 'Ship 1'], [B, 'Ship 2']].forEach(([lo, n], i) => { path(Array.from({ length: 37 }, (_, k) => [-90 + k * 5, lo]), 'rgba(255,125,111,.55)', 1.5, [5, 5]); const q = P(LAT, lo); if (q.z <= 0) return; const sc = Math.min(2.6, Math.sqrt(zoom)); ctx.save(); ctx.translate(q.x, q.y); ctx.scale(sc, sc); ctx.fillStyle = '#ece6da'; ctx.beginPath(); ctx.moveTo(-14, 0); ctx.lineTo(14, 0); ctx.lineTo(9, 8); ctx.lineTo(-9, 8); ctx.closePath(); ctx.fill(); ctx.fillRect(-1, -22, 2, 22); ctx.beginPath(); ctx.moveTo(1, -21); ctx.lineTo(13, -5); ctx.lineTo(1, -5); ctx.fill(); ctx.restore();
         ctx.strokeStyle = 'rgba(111,179,255,.55)'; ctx.lineWidth = 1.2; ctx.setLineDash([3, 5]); ctx.beginPath(); ctx.moveTo(q.x, q.y - 22); ctx.lineTo(px, py); ctx.stroke(); ctx.setLineDash([]);
-        lab(`${n}: Pole Star 50° up`, q.x + (i ? 18 : -18), q.y + 28, fs * .9, '#ece6da', i ? 'left' : 'right', 500); });
+        lab(`${n}: Polaris 50° up`, q.x + (i ? 18 : -18), q.y + 28, fs * .9, '#ece6da', i ? 'left' : 'right', 500); });
       const m = P(LAT, A + d / 2); if (m.z > 0 && d > .4) lab(`${Math.round(mi)} miles apart`, m.x, m.y - 30, fs * 1.15, '#ff7d6f', 'center', 700);
       lab('', w / 2, h - 30, fs * .95, '#cfc8ba', 'center', 500);
-      CS.$(el, '#ts-d-o').textContent = `${CS.fx(d, 1)}° of longitude`;
+      CS.$(el, '#ts-d-o').textContent = `${Math.round(d)}°`;
       CS.$(el, '#ts-r').innerHTML = `<strong>Same star. Same height. ${CS.int(mi)} miles apart.</strong>`;
       ctx.restore();
       if (zoom < 1.3) lab('Drag to turn the Earth · scroll to zoom in on the ships · double-click to zoom out', w / 2, 34, fs * .8, '#9a9382', 'center', 500);
@@ -228,14 +228,12 @@ NEW_SLIDES['The Longitude Act, 1714'] = {
     const draw = () => {
       const d = +S.value, won = B.filter(b => d <= b[0] + 1e-9).pop();
       CS.$(el, '#la-cards').innerHTML = B.map((b, i) => {
-        const x = 60 + i * 300, on = won === b, op = on ? 1 : .35;
+        const x = 60 + i * 300, on = won === b, op = on ? 1 : .6;
         return `<g opacity="${op}"><rect x="${x}" y="130" width="280" height="270" rx="16" fill="${on ? '#1b2a48' : '#121c33'}" stroke="${b[6]}" stroke-width="${on ? 4 : 2}"/>
           <text x="${x + 140}" y="190" text-anchor="middle" class="xl" style="fill:${b[6]}">${b[1]}</text>
           <text x="${x + 140}" y="240" text-anchor="middle" class="lg">Within ${b[2]}</text>
           <text x="${x + 140}" y="276" text-anchor="middle" class="md mu">About ${b[3]} miles</text>
-          <line x1="${x + 30}" x2="${x + 250}" y1="302" y2="302" stroke="#283048" stroke-width="2"/>
-          <text x="${x + 140}" y="338" text-anchor="middle" class="md">Clock off by ${b[4]}</text>
-          <text x="${x + 140}" y="372" text-anchor="middle" class="md mu">${b[5]} seconds a day</text></g>`;
+</g>`;
       }).join('');
       let h = `<text x="${L}" y="${RY - 40}" class="md mu">Your error, east or west</text>`;
       h += `<rect x="${L}" y="${RY}" width="${R - L}" height="26" rx="6" fill="#3a1f24"/>`;
@@ -244,7 +242,7 @@ NEW_SLIDES['The Longitude Act, 1714'] = {
       const x = rx(d);
       h += `<path d="M${x} ${RY - 4} l-12 -20 h24 Z" fill="#ffffff"/><line x1="${x}" x2="${x}" y1="${RY}" y2="${RY + 26}" stroke="#ffffff" stroke-width="3"/>`;
       CS.$(el, '#la-ruler').innerHTML = h;
-      CS.$(el, '#la-e-o').textContent = `${CS.fx(d, 2)}° · ${Math.round(d * 60)} miles`;
+      CS.$(el, '#la-e-o').textContent = `${CS.fx(d, 1)}° · ${Math.round(d * 60)} Miles`;
       CS.$(el, '#la-r').innerHTML = `<strong>${won ? won[1] + ' prize' : 'No prize'}</strong>`;
     }; S.oninput = draw; draw();
   }
@@ -279,11 +277,11 @@ NEW_SLIDES['Longitude is time'] = {
 NEW_SLIDES['The lunar distance'] = {
   h1: 'There was a star method. It was brutal.',
   ctl: `<div class="btns"><button class="primary" id="ld-go">Work the sight</button><button id="ld-roll">Roll the deck</button></div><ol class="facts on" id="ld-steps"></ol><div class="readout" id="ld-r"></div>`,
-  fig: `<g id="ld-sky"><circle id="ld-moon" cx="330" cy="200" r="34" fill="#1c2540" stroke="#ece6da" stroke-width="1.6"/><path d="M330 166 A34 34 0 0 1 330 234 A22 34 0 0 0 330 166" fill="#2e3854"/>
+  fig: `<g id="ld-sky"><circle id="ld-moon" cx="330" cy="200" r="34" fill="#ece6da" stroke="#ece6da" stroke-width="1.6"/>
   <g transform="translate(690,150)"><path class="fr" d="M0 -13 L3.5 -4 L13 -4 L5.5 2 L8 12 L0 6 L-8 12 L-5.5 2 L-13 -4 L-3.5 -4 Z"/></g><text x="712" y="140" class="sm">Regulus</text>
   <line id="ld-line" class="red" x1="364" y1="195" x2="676" y2="152" stroke-width="2"/><text id="ld-ang" x="520" y="150" text-anchor="middle" class="lg rd"></text></g>
   <g id="ld-deck"><line class="k" x1="40" y1="470" x2="960" y2="470" stroke-width="2"/><rect x="40" y="470" width="920" height="130" fill="#141b2e"/><text x="500" y="540" text-anchor="middle" class="md mu">the horizon, from a moving deck</text></g>
-  <text x="500" y="330" text-anchor="middle" class="md">The Moon slides past the stars about half a degree an hour.</text><text x="500" y="358" text-anchor="middle" class="sm mu">That makes it a clock hand. A slow, hard one to read.</text>`,
+  `,
   init(el) {
     const steps = ['Measure the Moon-to-star angle, three times', 'Measure both heights above the horizon', 'Correct for the bending of light in air', 'Correct for where you stand on the Earth', 'Find the angle in the almanac tables', 'Work between the three-hour entries', 'Turn the time gap into degrees']; let n = 0, roll = false, tm = 0, last = 0;
     const draw = () => { CS.$(el, '#ld-steps').innerHTML = steps.map((s, i) => `<li class="${i < n ? '' : 'off'}">${i < n ? '✓ ' : ''}${s}</li>`).join(''); CS.$(el, '#ld-r').innerHTML = n >= steps.length ? `<strong>More than an hour later</strong><span>One slip in the arithmetic and the answer is wrong. And the ship has kept moving the whole time.</span>` : `<strong>${n ? `Step ${n} of ${steps.length}` : 'One sight, by hand'}</strong><span>Each arcminute of error in the angle is about half a degree of longitude.</span>`; };

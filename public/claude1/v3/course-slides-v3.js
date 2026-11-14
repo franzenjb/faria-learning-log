@@ -57,10 +57,47 @@ addEventListener('load', () => {
     const r = sl.querySelector('.readout'), st = sl.querySelector('.stage'); if (!r || !st) return;
     if (getComputedStyle(st).position === 'static') st.style.position = 'relative';
     const pay = document.createElement('div'); pay.className = 'v3-payoff'; st.appendChild(pay);
-    const sync = () => { const b = r.querySelector('.big'); const t = b ? b.textContent.trim() : ''; if (t !== pay.textContent) { pay.classList.remove('on'); pay.textContent = t; if (t) requestAnimationFrame(() => pay.classList.add('on')); } };
+    const sync = () => { const b = r.querySelector('.big'); let t = b ? b.textContent.trim() : ''; if (t.length > 48) t = ''; if (t !== pay.textContent) { pay.classList.remove('on'); pay.textContent = t; if (t) requestAnimationFrame(() => pay.classList.add('on')); } };
     new MutationObserver(sync).observe(r, { childList: true, subtree: true, characterData: true }); sync();
   });
 });
+
+
+// ---------- Final-gate tuning: per slide, what to hide, the kicker, and the lesson line on the stage ----------
+const TALK = /[?&]talk=30\b/.test(location.search);
+const V3_TUNE = {
+  'Cover': { talk: { coverSub: 'A 30-Minute Talk' } },
+  'Mental maps': { h1: 'Mental Maps', talk: { hide: ['#m1q [data-q="1"]', '#m1q [data-q="3"]'] } },
+  'Latitude &amp; Longitude': { kicker: '325 BC · Pytheas of Marseille', hide: ['#bingo-open', '#globe-reset'], clickOnLoad: ['#globe-toggles [data-k="lat"].on', '#globe-toggles [data-k="lon"].on', '#globe-toggles [data-k="grid"].on'], hero: '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.', on: { '#fly-nm': '1 Arcminute of <b>Latitude</b> = 1 Nautical Mile', '#fly-north': '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.' } },
+  'Walk north': { hideText: ['Why They Match', 'North Pole'], hero: 'One Star, One Angle. <b>Latitude</b> Needs No Clock.' },
+  'Eratosthenes': { kicker: '240 BC · Eratosthenes of Alexandria', hide: ['.readout'], hero: 'One Shadow, One Angle: The Size of the Earth.' },
+  'Hours are slices': { hide: ['.table-wrap', '#hs-read'], hero: '<b>1 Hour = 15°</b> of Longitude', on: { '#hs-slice': '1 Hour = 15° = 60 Minutes', '#hs-degree': '<b>4 Seconds = 1 Nautical Mile</b>', '#hs-out': '<b>1 Hour = 15°</b> of Longitude' } },
+  'Two ships, one latitude': { h1: 'Two Ships, One Latitude', hero: 'Same Star. Different Time. <b>Longitude Needs a Clock.</b>' },
+  'The Longitude Act, 1714': { kicker: 'Seven Years After Scilly', hide: ['#la-r'] },
+  'Galileo’s clock': { talk: { hide: ['[data-detour]', '#gs-steps [data-s="5"]'] }, hero: 'Jupiter’s Moons: A Clock Everyone Can See. <b>Not From a Ship.</b>' },
+  'The lunar distance': { kicker: '1767 · Nevil Maskelyne’s Almanac', hide: ['#ld-steps', '#ld-deck'], hero: 'The Moon Is a Clock Hand. <b>One Arcminute Wrong = 30 Miles.</b>' },
+  'A clock that could travel': { h1: 'A Clock That Could Travel' },
+  'Washington, 1884': { kicker: 'Washington · October 1884', hide: ['#pm84-r'], hero: 'October 1884: 25 Nations Pick <b>Zero Longitude</b>.' },
+  'Where am I, now': { kicker: 'GPS', hero: 'September 1983: A Navigation Error Kills 269. <b>The Answer Is GPS.</b>' }
+};
+const v3Hero = (el, html) => { let h = el.querySelector('.v3-hero'); const st = el.querySelector('.stage'); if (!st) return; if (!h) { h = document.createElement('div'); h.className = 'v3-hero'; if (getComputedStyle(st).position === 'static') st.style.position = 'relative'; st.appendChild(h); } h.innerHTML = html || ''; };
+addEventListener('load', () => setTimeout(() => {
+  for (const [t, cfg0] of Object.entries(V3_TUNE)) {
+    const el = [...document.querySelectorAll('section')].find(s => s.dataset.title === t || s.getAttribute('data-title') === t.replace(/&amp;/g, '&')); if (!el) continue;
+    const cfg = { ...cfg0, ...(TALK && cfg0.talk ? cfg0.talk : {}) }; if (TALK && cfg0.talk && cfg0.hide && cfg.hide !== cfg0.hide) cfg.hide = [...cfg0.hide, ...cfg.hide];
+    const text = el.querySelector('.text');
+    if (cfg.kicker) { const k = el.querySelector('.kicker'); if (k) k.textContent = cfg.kicker; }
+    if (cfg.h1) { const h = text && text.querySelector('h1'); if (h) { h.style.display = 'none'; const n = document.createElement('h1'); n.textContent = cfg.h1; h.after(n); } }
+    (cfg.hide || []).forEach(sel => el.querySelectorAll(sel).forEach(x => { x.style.display = 'none'; }));
+    if (cfg.keep && text) text.querySelectorAll('button').forEach(b => { if (!cfg.keep.some(sel => b.matches(sel))) b.style.display = 'none'; });
+    if (cfg.hideText && text) text.querySelectorAll('button').forEach(b => { if (cfg.hideText.some(w => b.textContent.includes(w))) b.style.display = 'none'; });
+    if (cfg.coverSub) { const sub = el.querySelector('.sub'); if (sub) sub.textContent = cfg.coverSub; }
+    (cfg.clickOnLoad || []).forEach(sel => { const b = el.querySelector(sel); if (b) b.click(); });
+    if (cfg.hero) v3Hero(el, cfg.hero);
+    for (const [sel, html] of Object.entries(cfg.on || {})) el.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => v3Hero(el, html)));
+  }
+  if (TALK) document.querySelectorAll('.kicker').forEach(k => { k.textContent = k.textContent.replace(/^Day \d+ · /, ''); });
+}, 0));
 
 /* ---------- Power decides the measure ---------- */
 NEW_SLIDES['Power decides the measure'] = {
@@ -184,7 +221,7 @@ NEW_SLIDES['Was 1900 a leap year?'] = {
 /* ---------- Washington, 1884 ---------- */
 NEW_SLIDES['Washington, 1884'] = {
   h1: 'Where should zero be?', canvas: true,
-  ctl: `<div class="btns">${V3.btn('pm84-g', 'Greenwich')}${V3.btn('pm84-p', 'Paris')}${V3.btn('pm84-w', 'Washington')}${V3.btn('pm84-f', 'Ferro, Canaries')}</div><div class="btns">${V3.btn('pm84-vote', 'Count the votes', true)}${V3.btn('pm84-fr', 'And France?')}</div><div class="readout" id="pm84-r"><strong>25 nations. Vote first.</strong></div>`,
+  ctl: `<div class="btns">${V3.btn('pm84-g', 'Greenwich')}${V3.btn('pm84-p', 'Paris')}${V3.btn('pm84-w', 'Washington')}${V3.btn('pm84-f', 'Ferro, Canaries')}</div><div class="btns">${V3.btn('pm84-vote', 'Count the votes', true)}${V3.btn('pm84-fr', 'And Today?')}</div><div class="readout" id="pm84-r"><strong>25 nations. Vote first.</strong></div>`,
   init(el) {
     const C = [['pm84-g', 'Greenwich', 51.48, 0], ['pm84-p', 'Paris', 48.84, 2.34], ['pm84-w', 'Washington', 38.92, -77.07], ['pm84-f', 'Ferro', 27.75, -17.9]];
     let pick = null, stage = 0, t0 = 0;
@@ -193,13 +230,13 @@ NEW_SLIDES['Washington, 1884'] = {
       C.forEach(([id, n, la, lo]) => {
         const win = stage >= 1 && n === 'Greenwich', fr = stage === 2 && n === 'Paris', dim = stage >= 1 && !win && !fr;
         g.meridian(lo, win ? '#f0b35a' : fr ? `rgba(143,176,216,${.5 + .5 * pulse})` : dim ? 'rgba(236,230,218,.12)' : (pick === id ? '#f0b35a' : 'rgba(143,176,216,.7)'), win || fr ? 3.5 : 2);
-        const q = g.dot(la, lo, win ? '#f0b35a' : '#ece6da', win ? 7 : 5); if (q && !dim) g.label(win ? 'Greenwich · 0°' : n, q.x + 12, q.y + 6, win ? '#f0b35a' : '#ece6da', win ? 22 : 18);
+        const q = g.dot(la, lo, win ? '#f0b35a' : '#ece6da', win ? 7 : 5); if (q && !dim) g.label(win ? 'Greenwich · 0°' : n, q.x + 12, q.y + (n === 'Paris' ? 30 : 6), win ? '#f0b35a' : '#ece6da', win ? 22 : 18);
       });
     });
     const sync = () => C.forEach(([id]) => CS.$(el, '#' + id).classList.toggle('on', pick === id));
     C.forEach(([id]) => { CS.$(el, '#' + id).onclick = () => { pick = id; stage = 0; sync(); CS.$(el, '#pm84-r').innerHTML = '<strong>Your vote is in.</strong>'; }; });
-    CS.$(el, '#pm84-vote').onclick = () => { stage = 1; fly(G.st, camFor(45, -10, 1.5), 1600); CS.$(el, '#pm84-r').innerHTML = '<strong class="big">Greenwich, 22 to 1</strong><span>San Domingo against. France and Brazil abstain.</span>'; };
-    CS.$(el, '#pm84-fr').onclick = () => { stage = 2; fly(G.st, camFor(49, 1, 4), 1600); CS.$(el, '#pm84-r').innerHTML = '<strong class="big">Paris time until 1911</strong>'; };
+    CS.$(el, '#pm84-vote').onclick = () => { stage = 1; fly(G.st, camFor(45, -10, 1.5), 1600); CS.$(el, '#pm84-r').innerHTML = '<strong class="big">Greenwich, 22 to 1</strong>'; v3Hero(el, 'San Domingo Against. France and Brazil Abstain.'); };
+    CS.$(el, '#pm84-fr').onclick = () => { stage = 1; fly(G.st, camFor(51.48, 0, 6), 1600); CS.$(el, '#pm84-r').innerHTML = '<strong class="big">Power Decides Zero</strong>'; v3Hero(el, 'GPS Zero (WGS 84) Runs <b>335 Feet East</b> of the Greenwich Line.'); };
   }
 };
 
@@ -245,12 +282,12 @@ NEW_SLIDES['Where am I, now'] = {
       const used = ask ? sats.filter(s => s.see && s.q.z > -.2).sort((a, b) => b.q.z - a.q.z).slice(0, 4) : [];
       const k = ask ? Math.min(1, (t - t0) / 1800) : 0;
       used.forEach((s, i) => { ctx.strokeStyle = `rgba(240,179,90,${.25 + .6 * k})`; ctx.lineWidth = 1.6; ctx.setLineDash([6, 6]); ctx.lineDashOffset = -t / 40; ctx.beginPath(); ctx.moveTo(s.q.x, s.q.y); ctx.lineTo(s.q.x + (mq.x - s.q.x) * k, s.q.y + (mq.y - s.q.y) * k); ctx.stroke(); ctx.setLineDash([]); });
-      sats.forEach(s => { if (s.q.z < 0 && Math.hypot(s.q.x - g.geom().cx, s.q.y - g.geom().cy) < g.geom().R) return; const on = used.includes(s); ctx.fillStyle = on ? '#f0b35a' : '#ece6da'; ctx.globalAlpha = on ? 1 : .55; ctx.fillRect(s.q.x - 4, s.q.y - 4, 8, 8); ctx.globalAlpha = 1; });
+      sats.forEach(s => { const gg = g.geom(), inside = Math.hypot(s.q.x - gg.cx, s.q.y - gg.cy) < gg.R; if (inside && !used.includes(s)) return; const on = used.includes(s); ctx.fillStyle = '#f0b35a'; ctx.globalAlpha = on ? 1 : .7; ctx.beginPath(); ctx.arc(s.q.x, s.q.y, on ? 7 : 5, 0, TAU); ctx.fill(); ctx.globalAlpha = 1; });
       if (mq.z > 0) { ctx.fillStyle = '#6fb3ff'; ctx.beginPath(); ctx.arc(mq.x, mq.y, 6 + (ask && k >= 1 ? 3 * Math.sin(t / 200) : 0), 0, TAU); ctx.fill(); if (ask && k >= 1) g.label('You are here', mq.x + 14, mq.y + 6, '#6fb3ff', 18); }
-      if (ask && k >= 1 && !G.done) { G.done = true; CS.$(el, '#gps-r').innerHTML = '<strong class="big">38.9° N, 77.0° W</strong><span>Four clocks agree. About one second.</span>'; }
+      if (ask && k >= 1 && !G.done) { G.done = true; CS.$(el, '#gps-r').innerHTML = '<strong class="big">38.9° N, 77.0° W</strong>'; v3Hero(el, '<b>Latitude</b> and <b>Longitude</b> on WGS 84, From Four Clocks in the Sky.<br><b>Where Am I? Answered.</b>'); }
     });
-    CS.$(el, '#gps-ask').onclick = () => { ask = 1; t0 = performance.now(); G.done = false; CS.$(el, '#gps-r').innerHTML = '<strong>Each one is an atomic clock.</strong>'; };
-    CS.$(el, '#gps-re').onclick = () => { ask = 0; CS.$(el, '#gps-r').innerHTML = ''; };
+    CS.$(el, '#gps-ask').onclick = () => { ask = 1; t0 = performance.now(); G.done = false; CS.$(el, '#gps-r').innerHTML = ''; v3Hero(el, 'Each Satellite Carries an <b>Atomic Clock</b>.'); };
+    CS.$(el, '#gps-re').onclick = () => { ask = 0; CS.$(el, '#gps-r').innerHTML = ''; v3Hero(el, V3_TUNE['Where am I, now'].hero); };
   }
 };
 
@@ -328,16 +365,34 @@ NEW_SLIDES['A clock that could travel'] = {
     const ph = (k, x, y, w, h) => `<image href="img/harrison-h${k}.jpg" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="xMidYMid meet"/>`;
     const big = (t, y, cls = '', size = 46) => `<text x="500" y="${y}" text-anchor="middle" class="${cls}" style="font-size:${size}px">${t}</text>`;
     const ST = [
-      () => big('Press Next', 330, 'mu', 30),
+      () => big('1714: £20,000 for a Clock at Sea', 320, '', 56),
       () => big('1714 · Isaac Newton:', 230, 'mu', 34) + big('“Such a watch hath not', 330, '', 58) + big('yet been made.”', 405, '', 58),
       () => big('A carpenter says he can build it.', 300, '', 50) + big('John Harrison, born 1693', 370, 'mu', 30),
       () => ph(1, 250, 40, 500, 470) + big('H1, 1735: 75 pounds of brass. It works.', 585, '', 38),
       () => ph(2, 110, 40, 360, 470) + ph(3, 530, 40, 360, 470) + big('Two more clocks. Twenty-two years.', 585, '', 38),
-      () => ph(4, 300, 30, 400, 380) + big('H4: 81 days at sea to Jamaica.', 480, '', 40) + big('How many seconds does it lose?', 548, 'rd', 44),
-      () => ph(4, 380, 30, 240, 230) + big('5 seconds', 420, 'rd', 120) + big('About 1¼ miles of longitude.', 510, '', 36),
+      () => ph(4, 240, 20, 520, 420) + big('H4: 81 days at sea to Jamaica.', 490, '', 40) + big('How many seconds does it lose?', 548, 'rd', 44),
+      () => ph(4, 330, 10, 340, 280) + big('5 seconds', 420, 'rd', 120) + big('About 1¼ miles of longitude.', 510, '', 36),
       () => [1, 2, 3, 4].map((k, i) => ph(k, 70 + i * 220, 60, 200, 260)).join('') + big('1773: at 80, Harrison is paid.', 420, '', 48),
       () => big('The carpenter beat Newton.', 330, 'rd', 72)
     ];
     V3.steps(el, ST.length - 1, k => { CS.$(el, '#hv').innerHTML = ST[k]() + (k >= 3 && k <= 7 ? `<text x="500" y="634" text-anchor="middle" class="xs mu">Harrison’s clocks, Royal Observatory · photos: Tatters, Wikimedia</text>` : ''); });
   }
 };
+
+// ---------- Presenter keys: the panel is hidden, its controls live on 1–9, 0, then letters; ↑/↓ moves the first slider ----------
+addEventListener('load', () => setTimeout(() => {
+  const KEYS = '1234567890qweryuoadghjz'.split('');
+  const legend = document.createElement('div'); legend.id = 'v3-keys'; (document.getElementById('visual') || document.body).appendChild(legend);
+  const active = () => document.querySelector('#deck .slide.active');
+  const controls = el => { const t = el && el.querySelector('.text'); if (!t) return []; return [...t.querySelectorAll('button')].filter(b => b.style.display !== 'none' && !b.closest('[hidden]') && !b.hidden && b.textContent.trim()); };
+  const slider = el => { const t = el && el.querySelector('.text'); return t ? [...t.querySelectorAll('input[type=range]')].find(x => x.offsetParent !== null || document.body.classList.contains('v3-panel') || true) : null; };
+  const label = b => b.textContent.replace(/\s+/g, ' ').trim().replace(/^\d+ · /, '').slice(0, 26);
+  const draw = () => { const el = active(); const cs = controls(el).slice(0, KEYS.length), sl = slider(el);
+    legend.innerHTML = cs.map((b, i) => `<span><b>${KEYS[i].toUpperCase()}</b>${label(b)}</span>`).join('') + (sl ? `<span><b>↑↓</b>${(sl.closest('label') && sl.closest('label').querySelector('.row') ? sl.closest('label').querySelector('.row').childNodes[0].textContent.trim() : 'Slider')}</span>` : ''); };
+  addEventListener('keydown', e => { if (e.target.matches('input[type=text],textarea') || e.metaKey || e.ctrlKey || e.altKey) return; const k = e.key.toLowerCase(), el = active(); if (!el) return;
+    if (k === 'c') { document.body.classList.toggle('v3-panel'); dispatchEvent(new Event('resize')); return; }
+    if (k === 'k') { document.body.classList.toggle('v3-keys-off'); return; }
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { const sl = slider(el); if (sl) { e.preventDefault(); const st = Math.max(+sl.step || 1, (+sl.max - +sl.min) / 40); sl.value = +sl.value + (e.key === 'ArrowUp' ? st : -st); sl.dispatchEvent(new Event('input', { bubbles: true })); sl.dispatchEvent(new Event('change', { bubbles: true })); } return; }
+    const i = KEYS.indexOf(k); if (i < 0) return; const b = controls(el)[i]; if (b) { e.preventDefault(); e.stopImmediatePropagation(); b.click(); setTimeout(draw, 60); } }, true);
+  new MutationObserver(draw).observe(document.getElementById('deck'), { subtree: true, attributes: true, attributeFilter: ['class'] }); draw();
+}, 50));
