@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Where Am I? · GIS Day 2026</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✦</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="deck.css">
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="cover" hidden>
+  <p class="kicker">GIS Day 2026</p>
+  <h1>Where Am I?</h1>
+  <p class="who">Jeff Franzen · Disaster GIS, American Red Cross</p>
+</div>
+<div id="q" hidden></div>
+<p id="line" hidden></p>
+<button type="button" class="navbtn" id="back">‹ Back</button>
+<button type="button" class="navbtn" id="slides">≡ Slides</button>
+<button type="button" class="navbtn" id="next">Next ›</button>
+<div id="shade" hidden></div>
+<nav id="menu" hidden aria-label="Slides"><header><span>Slides</span><button type="button" class="x" id="menu-x" aria-label="Close">×</button></header><div id="menu-list"></div></nav>
+<aside id="notes" hidden></aside>
+<script src="coast.js"></script>
+<script src="coast2.js"></script>
+<script src="engine.js"></script>
+<script src="slides.js"></script>
+<script src="deck.js"></script>
+</body>
+</html>
