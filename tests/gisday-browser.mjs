@@ -32,18 +32,21 @@ const meta = await page.evaluate(() => ({
   caps: __deck.slides.map(s => s.caps),
   pauses: __deck.slides.map(s => s.pause || null)
 }));
-assert.ok(meta.n >= 14 && meta.n <= 20, 'slide count is in range');
+assert.equal(meta.n, 22, 'slide count');
 assert.equal(meta.ends[meta.ends.length - 1], 28, 'close ends at 28:00, before Q&A');
 for (let i = 1; i < meta.ends.length; i++) assert.ok(meta.ends[i] > meta.ends[i - 1], 'clock targets increase');
-assert.ok(meta.pauses.filter(Boolean).length === 4, 'four room pauses');
+assert.equal(meta.pauses.filter(Boolean).length, 6, 'six room pauses');
 const joined = JSON.stringify(meta);
 assert.equal(joined.includes('GIS Month'), false);
 assert.equal(joined.toLowerCase().includes('six connected'), false);
 assert.ok(meta.titles[0] === 'Where Am I?');
-assert.equal(meta.titles[2], 'A Stick and a Shadow');
-assert.equal(meta.titles[3], 'The Whole Earth');
-assert.equal(meta.caps[2].length, 3);
-assert.equal(meta.caps[3].length, 4);
+assert.equal(meta.titles[2], "Rome's Parallel");
+assert.equal(meta.titles[4], 'Call a Square');
+const stickI = meta.titles.indexOf('A Stick and a Shadow');
+const wholeI = meta.titles.indexOf('The Whole Earth');
+assert.equal(wholeI, stickI + 1);
+assert.equal(meta.caps[stickI].length, 3);
+assert.equal(meta.caps[wholeI].length, 4);
 
 const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
@@ -123,16 +126,17 @@ assert.ok(back.i < end.i || back.s < end.s, 'arrow left goes back a step');
 await page.keyboard.press('Home');
 assert.equal(await page.evaluate(() => __deck.idx), 0, 'Home returns to the cover');
 
-// Click advances.
+// Click leaves the one-step title card for the Havana question.
 await page.mouse.click(960, 540);
 await page.waitForTimeout(50);
-assert.equal(await page.evaluate(() => __deck.step), 1, 'click advances');
+assert.equal(await page.evaluate(() => __deck.idx), 1, 'click leaves the title card');
+assert.equal(await page.evaluate(() => __deck.step), 0, 'Havana opens on the question');
 
 // Notes.
 await page.keyboard.press('n');
 await page.waitForTimeout(50);
 const noteText = await page.locator('#notes').innerText();
-assert.match(noteText, /By 1:30/);
+assert.match(noteText, /By 1:45/);
 assert.match(noteText, /30 seconds/);
 await page.keyboard.press('n');
 assert.equal(await page.locator('#notes').isHidden(), true, 'N hides notes');
@@ -160,13 +164,23 @@ await page.mouse.up();
 const west = await page.evaluate(() => __deck.slides.find(s => s.title.startsWith('One Circle')).state.west);
 assert.ok(west > 40, 'spinning the clock changes the hour angle');
 
-// Bingo call.
+// Call a Square toggles do not advance the slide.
 const bingo = meta.titles.indexOf('Call a Square');
 await page.evaluate(i => __deck.go(i, 0), bingo);
 await page.waitForTimeout(200);
-await page.mouse.click(500, 420);
-const called = await page.evaluate(() => __deck.slides.find(s => s.title.startsWith('Call')).state);
-assert.equal(called.picked, true, 'clicking a heading calls a square');
+assert.equal(await page.locator('#layers').isHidden(), false, 'layer buttons show on Call a Square');
+await page.click('#tog-lon');
+const lonOnly = await page.evaluate(() => __deck.slides.find(s => s.title === 'Call a Square').state);
+assert.equal(lonOnly.lon, true, 'Longitude toggles on');
+assert.equal(lonOnly.lat, false, 'Latitude stays off');
+assert.equal(lonOnly.bingo, false, 'Bingo stays off');
+assert.equal(await page.evaluate(() => __deck.step), 0, 'a toggle does not advance');
+await page.click('#tog-lat');
+await page.click('#tog-bingo');
+const allOn = await page.evaluate(() => __deck.slides.find(s => s.title === 'Call a Square').state);
+assert.equal(allOn.lat && allOn.lon && allOn.bingo, true, 'all three layers can be on together');
+await page.evaluate(i => __deck.go(i, 0), 0);
+assert.equal(await page.locator('#layers').isHidden(), true, 'layer buttons hide off this slide');
 
 // Full screen key must not throw.
 await page.keyboard.press('f');
