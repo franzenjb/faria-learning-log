@@ -262,34 +262,32 @@ NEW_SLIDES['Scilly, 1707'] = {
   fig: '',
   init(el) {
     el.classList.add('wide'); el.querySelector('.text').style.display = 'none';
-    // Three presenter steps, no timer: Next (→, space, click) shows screen 1, then screen 2, then the verdict under screen 2.
-    const GROUPS = [
-      ['22 October 1707.', 'Fog and gales. No sun for days.', 'Admiral Shovell’s fleet sails for home.', 'Twenty-one ships.'],
-      ['They know their latitude.', 'Their longitude is a guess.', 'The officers compare their reckonings.', 'All agree: safe in the Channel.']
+    // Four presenter steps, no timer. Each press replaces the whole screen; the story gets shorter and bigger as it lands.
+    const SERIF = 'Georgia,serif';
+    const SCREENS = [
+      `<div style="font-size:clamp(24px,2.7vw,42px);line-height:1.7;letter-spacing:.02em">22 October 1707.<br>Fog and gales. No sun for days.<br>Admiral Shovell’s fleet sails for home.<br>Twenty-one ships.</div>`,
+      `<div style="font-size:clamp(24px,2.7vw,42px);line-height:1.7;letter-spacing:.02em">They know their latitude.<br>Their longitude is a guess.<br>The officers compare their reckonings.<br>All agree: safe in the Channel.</div>`,
+      `<div style="font-size:clamp(64px,8.5vw,140px);line-height:1.05;color:#f0b35a">They were wrong.</div>`,
+      `<div style="font-size:clamp(22px,2.2vw,34px);letter-spacing:.06em;color:#d8d0c2">Four ships on the rocks of Scilly.</div>
+       <div style="margin-top:.35em;font-size:clamp(18px,1.6vw,24px);letter-spacing:.3em;text-transform:uppercase;color:#9a9382">up to</div>
+       <div style="font-size:clamp(120px,17vw,260px);line-height:.95;color:#ffffff;letter-spacing:-.01em">2,000</div>
+       <div style="font-size:clamp(34px,3.6vw,58px);color:#f3ede2;letter-spacing:.04em">men drowned.</div>`
     ];
+    const LOOK = [[1, .72], [1.02, .7], [1.04, .58], [1.07, .45]];
     const stage = el.querySelector('.stage');
-    stage.innerHTML = `<style>
-      .sc-l{display:block;opacity:0;filter:blur(6px);transform:translateY(8px);transition:opacity .7s ease,filter .7s ease,transform .7s ease}
-      .sc-l.on{opacity:1;filter:none;transform:none}
-    </style>
-    <div class="sc-wrap" style="position:absolute;inset:0;overflow:hidden;background:#05070d;cursor:pointer">
-      <img src="v3/img/scilly.jpg" alt="Engraving of Admiral Shovell's fleet wrecked on the rocks of Scilly, 1707" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:sepia(.3) brightness(.7) contrast(1.08);transform:scale(1);transform-origin:60% 60%">
-      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 55% at 50% 50%,rgba(5,7,13,.72) 0%,rgba(5,7,13,.45) 60%,rgba(5,7,13,.85) 100%)"></div>
-      <div style="position:absolute;left:6%;right:6%;top:50%;transform:translateY(-50%);text-align:center;font-family:Georgia,serif;text-shadow:0 2px 18px rgba(0,0,0,.95)">
-        <div class="sc-g" style="font-size:clamp(24px,2.7vw,42px);line-height:1.7;letter-spacing:.02em;color:#f3ede2"></div>
-        <div class="sc-l sc-v" style="margin-top:.45em;font-size:clamp(48px,6vw,96px);color:#f0b35a;text-shadow:0 2px 28px rgba(0,0,0,.95)">They were wrong.</div>
-        <div class="sc-l sc-s" style="margin-top:.5em;font-size:clamp(19px,1.7vw,27px);letter-spacing:.04em;color:#d8d0c2">Four ships on the rocks of Scilly. Up to 2,000 men drowned.</div></div>
+    stage.innerHTML = `<div class="sc-wrap" style="position:absolute;inset:0;overflow:hidden;background:#05070d;cursor:pointer">
+      <img src="v3/img/scilly.jpg" alt="Engraving of Admiral Shovell's fleet wrecked on the rocks of Scilly, 1707" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:sepia(.3) brightness(.72) contrast(1.08);transform:scale(1);transform-origin:60% 60%">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 55% at 50% 50%,rgba(5,7,13,.7) 0%,rgba(5,7,13,.45) 60%,rgba(5,7,13,.85) 100%)"></div>
+      <div class="sc-card" style="position:absolute;left:5%;right:5%;top:50%;transform:translateY(-50%);text-align:center;font-family:${SERIF};color:#f3ede2;text-shadow:0 2px 24px rgba(0,0,0,.95);opacity:0;filter:blur(6px);transition:opacity .6s ease,filter .6s ease"></div>
       <div style="position:absolute;left:18px;top:12px;font:13px Georgia,serif;color:rgba(236,230,218,.5)">Shovell’s fleet on the rocks of Scilly, 1707 · engraving, public domain</div></div>`;
-    const img = stage.querySelector('img'), box = stage.querySelector('.sc-g'), v = stage.querySelector('.sc-v'), sub = stage.querySelector('.sc-s');
-    let step = 0, wasActive = false;
-    const showGroup = n => { box.innerHTML = GROUPS[n].map((t, k) => `<span class="sc-l" style="transition-delay:${k * 120}ms">${t}</span>`).join(''); requestAnimationFrame(() => requestAnimationFrame(() => box.querySelectorAll('.sc-l').forEach(x => x.classList.add('on')))); };
-    const render = () => {
-      v.classList.toggle('on', step >= 3); sub.classList.toggle('on', step >= 3); sub.style.transitionDelay = step >= 3 ? '.5s' : '0s';
-      if (step === 0) box.innerHTML = ''; else if (step === 1 || step === 2) showGroup(step - 1);
-      img.style.transition = 'transform 8s ease-out'; img.style.transform = `scale(${[1, 1.02, 1.04, 1.07][step]})`;
-    };
-    const advance = () => { if (step < 3) { step++; if (step === 3) { v.classList.add('on'); sub.style.transitionDelay = '.5s'; sub.classList.add('on'); img.style.transition = 'transform 8s ease-out'; img.style.transform = 'scale(1.07)'; } else render(); return true; } return false; };
-    const back = () => { if (step > 0) { step--; render(); return true; } return false; };
+    const img = stage.querySelector('img'), card = stage.querySelector('.sc-card');
+    let step = 0, wasActive = false, swap = null;
+    const show = () => { clearTimeout(swap); const [z, b] = LOOK[Math.max(0, step - 1)];
+      img.style.transition = 'transform 8s ease-out, filter 1.2s ease'; img.style.transform = `scale(${step ? z : 1})`; img.style.filter = `sepia(.3) brightness(${step ? b : .72}) contrast(1.08)`;
+      card.style.opacity = 0; card.style.filter = 'blur(6px)';
+      if (step) swap = setTimeout(() => { card.innerHTML = SCREENS[step - 1]; card.style.opacity = 1; card.style.filter = 'none'; }, card.innerHTML ? 450 : 0); };
+    const advance = () => { if (step < SCREENS.length) { step++; show(); return true; } return false; };
+    const back = () => { if (step > 0) { step--; show(); return true; } return false; };
     stage.querySelector('.sc-wrap').onclick = advance;
     // While this slide is up, Next and Back step through it before leaving it.
     addEventListener('keydown', e => { if (!el.classList.contains('active') || e.target.matches('input,textarea')) return;
@@ -298,7 +296,7 @@ NEW_SLIDES['Scilly, 1707'] = {
     const nx = document.getElementById('next'), pv = document.getElementById('prev');
     if (nx) nx.addEventListener('click', e => { if (el.classList.contains('active') && advance()) { e.stopImmediatePropagation(); e.preventDefault(); } }, true);
     if (pv) pv.addEventListener('click', e => { if (el.classList.contains('active') && back()) { e.stopImmediatePropagation(); e.preventDefault(); } }, true);
-    const watch = () => { const on = el.classList.contains('active'); if (on && !wasActive) { step = 0; img.style.transition = 'none'; render(); } wasActive = on; requestAnimationFrame(watch); };
+    const watch = () => { const on = el.classList.contains('active'); if (on && !wasActive) { step = 0; card.innerHTML = ''; img.style.transition = 'none'; show(); } wasActive = on; requestAnimationFrame(watch); };
     watch();
   }
 };
