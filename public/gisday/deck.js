@@ -1011,12 +1011,7 @@ add({
     'Show the counting if you like, and keep it short. The point is the number, not a history of Babylon.',
     'Sixty divides evenly by 2, 3, 4, 5, 6, 10, 12, 15, 20, and 30. By 12:45. Hipparchus is next: the pole star was not always this one.'
   ],
-  caps: [
-    'Babylon, about 1800 BC. A scribe counts the segments of one hand.',
-    'Three segments on a finger, four fingers: twelve.',
-    'Five fingers on the other hand count the twelves. That is sixty.',
-    'Sixty divides by 2, 3, 4, 5, 6, 10, 12, 15, 20, and 30.'
-  ],
+  caps: ['A scribe counts.', 'Twelve.', 'Sixty.', '2, 3, 4, 5, 6, 10, 12, 15, 20, 30.'],
   capY: 980,
   draw() {
     drawHand(700, 470, vis(1) * 12);
@@ -1077,15 +1072,13 @@ add({
     'Alexandria is to the north. The same noon, a stick there casts a shadow. The shadow falls north, away from the Sun and away from Syene. The ray is the one through the tip of the stick. The angle is 7.2°.',
     'Pull back. The Syene ray and the Alexandria stick both run to the center of the Earth. The wedge there is the same 7.2°. By 9:30. The next slide does the arithmetic.'
   ],
-  caps: [
-    'At Syene, noon on the summer solstice, the Sun shines straight down a well.',
-    'At Alexandria the shadow points north, away from Syene. The angle is 7.2°.',
-    'Both lines meet at the center. The wedge is 7.2°.'
-  ],
+  caps: ['Straight down the well.', '7.2°, north.', 'The same wedge.'],
   capY: 1000,
   draw() {
     const cam = STEP === 0 ? CAM_HERO : STEP === 1 ? mixCam(CAM_HERO, CAM_PAIR, U) : mixCam(CAM_PAIR, CAM_ZOOM, U);
-    const sun = { x: -Math.sin(TH_S), y: Math.cos(TH_S) };
+    const noon = STEP === 1 ? U : 1;
+    const sunAng = TH_S + (1 - noon) * 0.42;
+    const sun = { x: -Math.sin(sunAng), y: Math.cos(sunAng) };
     const syene = earthAt(cam, TH_S);
     const alex = earthAt(cam, TH_A);
     const out = outwardOf(TH_A);
@@ -1168,17 +1161,13 @@ add({
     'The bematists put the walk at about 5,000 stadia. Fifty times 5,000 is 250,000 stadia. He later wrote 252,000. Say 250,000.',
     'A stadion was not one fixed length, so the miles are uncertain, roughly 24,000 to 29,000, near 25,000. Today the equator is 24,901 miles, 40,075 kilometers. He was close. By 10:30. Two captains on one parallel are next: the star gives the row, and nothing else.'
   ],
-  caps: [
-    'Eratosthenes multiplies. 360° divided by 7.2° is 50.',
-    'Fifty slices. The red slice is Alexandria to Syene.',
-    '5,000 stadia times 50 is 250,000 stadia.',
-    'About 25,000 miles. His stadion’s length is uncertain. Today it is 24,901 miles.'
-  ],
+  caps: ['50 slices.', 'The red slice is the walk.', '250,000 stadia.', 'About 25,000 miles.'],
   capY: 990,
   draw() {
     const cx = 520, cy = 545, R = 248;
     const start = -Math.PI / 2 - SUN_ANG;
     const grow = STEP > 1 ? 1 : STEP === 1 ? U : 0;
+    const spinIn = STEP === 1 ? (1 - U) * Math.PI : 0;
     C(cx, cy, R, '#ffffff', INK, 2.5);
     x.beginPath();
     x.moveTo(cx, cy);
@@ -1190,7 +1179,7 @@ add({
       const hot = i === 0 || i === 1;
       const show = hot ? 1 : cl(grow * 49 - (i - 2));
       if (show <= 0) continue;
-      const a = start + i * SUN_ANG;
+      const a = start + spinIn + i * SUN_ANG;
       L(cx, cy, cx + R * Math.cos(a), cy + R * Math.sin(a), hot ? RED : HAIR, hot ? 3.5 : 1.15, null, show);
     }
     const edge = a => ({ x: cx + R * Math.cos(a), y: cy + R * Math.sin(a) });
@@ -1220,10 +1209,7 @@ add({
     'At 50° north, one degree of longitude is about 39 nautical miles. Nothing in the sky says who is east.',
     'Keep it short. By 11:15. The row from the bingo card is the one the sky can give you. A fist is the rough tool. Next.'
   ],
-  caps: [
-    'Two captains, 50° north. The same star, at the same height.',
-    'Move them apart. The star still cannot say who is east.'
-  ],
+  caps: ['Same star. Same height.', 'The star cannot say east.'],
   capY: 990,
   grab(p) {
     const x2 = 520 + this.state.sep * 36;
@@ -1337,6 +1323,20 @@ function drawWalker(lat, fists, a) {
 add({
   title: 'Not Always the Pole Star',
   endMin: 17,
+  dragOnly: true,
+  state: { scrub: 0.42, held: false },
+  grab(p) {
+    if (Math.hypot(p.x - 780, p.y - 520) < 280) {
+      this.state.held = true;
+      this.move(p);
+      return true;
+    }
+  },
+  move(p) {
+    let a = Math.atan2(p.y - 520, p.x - 780);
+    if (a < 0) a += TAU;
+    this.state.scrub = a / TAU;
+  },
   notes: [
     'The axis wobbles once in about 26,000 years. Around 100 BC, Polaris was about 12° from the true pole. Hipparchus described an empty patch of sky.',
     'In 1492 the gap was about 3.5°, more than 200 nautical miles if you trust the raw height. Today it is about 0.63°. It comes closest around 2100, near 0.45°, then drifts. Vega is the rough north star in about 12,000 years, still several degrees off.',
@@ -1367,14 +1367,21 @@ add({
       star(p[0], p[1], 12, INK, 1);
       T('1492 · 3.5°', p[0] + 22, p[1] + 36, 32, INK, 'left', 1);
     }
-    if (STEP >= 1) {
+    if (this.state.held) {
+      const a = this.state.scrub * TAU;
+      const p = [cx + R * Math.cos(a), cy + R * Math.sin(a)];
+      L(cx, cy, p[0], p[1], RED, 3);
+      star(p[0], p[1], 18, RED, 1);
+      const year = Math.round(lerp(-2600, 14000, this.state.scrub));
+      const who = year < -1500 ? 'Thuban' : year < 8000 ? 'Polaris' : 'Vega';
+      T(who + '  ·  ' + (year < 0 ? Math.abs(year) + ' BC' : year), 1180, 500, 40, RED, 'left', 1, false, 500);
+    } else if (STEP >= 1) {
       const g = lerp(gaps[STEP - 1], gaps[STEP], U);
       const p = at(g);
       L(cx, cy, p[0], p[1], RED, 2.5, null, U);
       star(p[0], p[1], 18, RED, 1);
       const shown = g < 1 ? g.toFixed(2).replace(/0$/, '') : trimNum(g);
       T(`${shown}°`, 1180, 500, 110, RED, 'left', 1, false, 500);
-      T(STEP === 1 ? 'around 100 BC' : STEP === 2 ? 'in 1492' : 'today', 1196, 560, 32, MUTE, 'left', 1);
     }
   }
 });
@@ -1387,17 +1394,15 @@ add({
     'A long instrument needs a foundation and time. A ship has neither. Latitude was still possible. Longitude was not.',
     'By 14:15. Latitude was still possible. Longitude was not, because east and west are a clock. Greenwich at noon is next.'
   ],
-  caps: [
-    'A lieutenant, mid-ocean. On land the plumb hangs still.',
-    'At sea the deck rolls, and the plumb swings with it.',
-    'There is no steady place to set a long instrument.'
-  ],
+  caps: ['On land, it hangs still.', 'Hold the star.', 'The deck will not.'],
   capY: 960,
   draw() {
     const y = 640;
-    const roll = STEP >= 1 ? Math.sin(SEC * 1.05) * 0.32 : 0;
-    L(240, y, 1680, y, INK, 2.5, null, vis(0));
-    T('true horizon', 260, y - 22, 32, MUTE, 'left', vis(0));
+    const wave = STEP >= 1 ? Math.sin(SEC * 1.05) : 0;
+    const roll = wave * 0.34;
+    const pitch = STEP >= 1 ? Math.sin(SEC * 0.7 + 1) * 14 : 0;
+    L(240, y + pitch, 1680, y - pitch, INK, 2.5, null, vis(0));
+    star(900, 280, 18, INK, vis(0));
     const ox = 900;
     x.save();
     x.translate(ox, y);
@@ -1852,19 +1857,17 @@ add({
     'The same noon, in Alexandria, a stick still casts a shadow. Ask why, and wait one beat.',
     'Eureka: the Earth curves. If the sun’s rays are parallel, that shadow is an angle at the center of the Earth. The next slide is the well, the stick, 7.2°, and the wedge. By 8:15.'
   ],
-  caps: [
-    '',
-    'A report from Syene: at noon on the solstice, the sun lights the bottom of a well.',
-    'The same noon in Alexandria, his stick still casts a shadow.',
-    'The Earth curves. One angle will measure it.'
-  ],
+  caps: ['', 'The well is bright.', 'His stick still shadows.', 'The Earth curves.'],
   capY: 800,
   capBox: { x: 960, y: 800, w: 1600, align: 'center', size: 34 },
   draw() {
     if (STEP === 0) {
-      person(860, 620, 2.4, 0, INK, 1);
-      T('Alexandria, about 240 BC', 1040, 420, 48, INK, 'left', 1, false, 500);
-      T('Eratosthenes keeps the library.', 1040, 490, 36, MUTE, 'left');
+      const open = reduce ? 1 : ez(cl((performance.now() - animFrom) / 1200));
+      person(780, 640, 2.2, 0, INK, 1);
+      x.strokeStyle = INK;
+      x.lineWidth = 2;
+      x.strokeRect(980, 380, 40 + open * 420, 160);
+      T('Syene, noon.', 1010, 470, 36, INK, 'left', open);
       return;
     }
     const ground = STEP >= 3 ? 1 : 0;
@@ -1874,7 +1877,6 @@ add({
       x.strokeStyle = RED;
       x.lineWidth = 4;
       x.stroke();
-      T('It curves.', 960, 200, 56, RED, 'center', 1, false, 500);
     }
     const wx = 520, wy = 560;
     x.strokeStyle = INK;
@@ -1882,15 +1884,16 @@ add({
     x.strokeRect(wx - 36, wy - 20, 72, 90);
     L(wx, 160, wx, wy - 24, RED, 3, null, 1);
     C(wx, 130, 18, PAPER, INK, 2);
-    T('Syene', wx, wy + 120, 36, INK, 'center');
-    T('noon, midsummer', wx, wy + 164, 28, MUTE, 'center');
+    for (let i = 0; i < 8; i++) {
+      x.globalAlpha = 0.35 + 0.65 * Math.abs(Math.sin(SEC * 3 + i));
+      C(wx - 18 + (i % 4) * 12, wy + 40 + Math.floor(i / 4) * 16, 2.4, RED);
+    }
+    x.globalAlpha = 1;
     if (STEP >= 2) {
       const ax = 1360, ay = 560;
       L(ax, ay, ax, ay - 200, INK, 8);
       L(ax + 70, ay, ax, ay - 200, RED, 4);
       person(ax - 80, ay + 8, 1.4, 0, INK, 1);
-      T('Alexandria', ax, ay + 120, 36, INK, 'center');
-      T('a shadow', ax + 90, ay - 40, 32, RED, 'left');
     }
   }
 });
