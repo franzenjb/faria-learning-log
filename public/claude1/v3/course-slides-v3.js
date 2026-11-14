@@ -447,6 +447,7 @@ addEventListener('load', () => setTimeout(() => {
   const text = el.querySelector('.text'); if (text) text.style.display = 'none'; el.classList.add('wide');
   const stage = el.querySelector('.stage'); stage.innerHTML = '<svg class="fig er-fig" viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet"><g id="er"></g></svg>';
   const G = '#f0b35a', W = '#ece6da', B = '#6fb3ff', M = '#9a9382';
+  let ang = 7.2; const K = 20 / 7.2; // the drawing exaggerates every angle by the same factor
   const T = (t, x, y, size, col = W, anchor = 'middle', extra = '') => `<text x="${x}" y="${y}" text-anchor="${anchor}" style="font-size:${size}px;fill:${col}" ${extra}>${t}</text>`;
   const sun = (x, y) => `<circle cx="${x}" cy="${y}" r="34" fill="${G}" opacity=".95"/><circle cx="${x}" cy="${y}" r="54" fill="${G}" opacity=".18"/>`;
   const ground = y => `<line x1="40" y1="${y}" x2="960" y2="${y}" stroke="#4a5470" stroke-width="3"/>`;
@@ -475,17 +476,21 @@ addEventListener('load', () => setTimeout(() => {
         `<path d="M ${x} ${top - A} A ${A} ${A} 0 0 0 ${x - A * Math.sin(r)} ${top - A * Math.cos(r)}" fill="none" stroke="${G}" stroke-width="5"/>` +
         T('7.2°', x - 40, top - A + 20, 64, G, 'end') + T('sunlight', x - 40, top + 60, 26, G, 'end') + T('straight up', x + 16, top - A - 10, 24, M, 'start') + T('stick', x + 22, top + 180, 26, W, 'start') +
         T('The Sun is 7.2° from straight up.', 500, 618, 34, G); },
-    // 3 · why the angle at the center is the same
-    () => { const cx = 500, cy = 600, R = 420, a = 20 * Math.PI / 180, ax = cx - R * Math.sin(a), ay = cy - R * Math.cos(a), sx = cx, sy = cy - R;
+    // 3 · why the angle at the center is the same; ↑↓ or a drag moves Alexandria, and the miles move with the angle
+    () => { const cx = 500, cy = 600, R = 420, a = ang * K * Math.PI / 180, ax = cx - R * Math.sin(a), ay = cy - R * Math.cos(a), sx = cx, sy = cy - R;
+      const mi = Math.round(ang / 7.2 * 500 / 10) * 10, f = ang === 7.2 ? '7.2' : ang.toFixed(1);
       const arc = (r, a0, a1) => `M ${cx - r * Math.sin(a0)} ${cy - r * Math.cos(a0)} A ${r} ${r} 0 0 0 ${cx - r * Math.sin(a1)} ${cy - r * Math.cos(a1)}`;
       return `<path d="M ${cx - R} ${cy} A ${R} ${R} 0 0 1 ${cx + R} ${cy}" fill="#15294a" stroke="#3b5f8a" stroke-width="3"/>` +
         `<line x1="${sx}" y1="30" x2="${sx}" y2="${sy}" stroke="${G}" stroke-width="3"/><line x1="${ax}" y1="30" x2="${ax}" y2="${ay}" stroke="${G}" stroke-width="3"/>` +
         `<line x1="${sx}" y1="${sy}" x2="${cx}" y2="${cy}" stroke="${W}" stroke-width="2" stroke-dasharray="8 8"/><line x1="${ax - 70 * Math.sin(a)}" y1="${ay - 70 * Math.cos(a)}" x2="${cx}" y2="${cy}" stroke="${W}" stroke-width="3"/>` +
-        `<path d="${arc(R, 0, a)}" fill="none" stroke="${G}" stroke-width="9" opacity=".8" transform="scale(1)"/>` +
-        `<path d="${arc(90, 0, a)}" fill="none" stroke="${G}" stroke-width="4"/>` + T('7.2°', cx - 50, cy - 110, 40, G, 'end') +
-        T('Syene', sx + 14, sy - 14, 26, M, 'start') + T('Alexandria', ax - 14, ay - 10, 26, M, 'end') + T('500 miles', (sx + ax) / 2 + 10, sy + 50, 28, G) +
-        T('center of the Earth', cx + 16, cy - 8, 22, M, 'start') + T('sunlight', 940, 70, 26, G, 'end') +
-        T('Parallel sunlight: the angle at the center is also 7.2°.', 500, 26, 30, W) +
+        `<path d="${arc(R, 0, a)}" fill="none" stroke="${G}" stroke-width="9" opacity=".8"/>` +
+        `<path d="${arc(90, 0, a)}" fill="none" stroke="${G}" stroke-width="4"/>` + T(f + '°', cx - 50, cy - 110, 40, G, 'end') +
+        `<circle cx="${ax}" cy="${ay}" r="16" fill="${W}" style="cursor:grab"/>` +
+        T('Syene', sx + 14, sy - 14, 26, M, 'start') + T('Alexandria', ax - 22, ay - 10, 26, M, 'end') + T(mi.toLocaleString('en-US') + ' miles apart', sx + 16, sy + 44, 28, G, 'start') +
+        T('center of the Earth', cx - 16, cy - 8, 22, M, 'end') + T('sunlight', 940, 70, 26, G, 'end') +
+        T(`Parallel sunlight: the angle at the center is also ${f}°.`, 500, 26, 30, W) +
+        T(`360 ÷ ${f}° × ${mi.toLocaleString('en-US')} miles ≈ 25,000 miles`, 960, 566, 24, G, 'end') +
+        T('↑↓ or drag Alexandria', 960, 630, 18, M, 'end') +
         T('angles drawn larger so you can see them', 40, 630, 18, M, 'start'); },
     // 4 · fifty times
     () => { const cx = 500, cy = 300, R = 190; let wedges = '';
@@ -504,6 +509,15 @@ addEventListener('load', () => setTimeout(() => {
         T('His unit, the stadion, is uncertain, so “within a few percent” is the honest claim.', 500, 600, 20, M); }
   ];
   const g = el.querySelector('#er');
-  V3.steps(el, S.length - 1, k => { g.innerHTML = `<g class="er-in">${S[k]()}</g>`; });
+  let cur = 0; const draw = (anim = true) => { g.innerHTML = anim ? `<g class="er-in">${S[cur]()}</g>` : S[cur](); };
+  V3.steps(el, S.length - 1, k => { cur = k; if (k !== 3) ang = 7.2; draw(); });
+  // step 4: move Alexandria; the distance follows the angle, so the Earth always comes out the same size
+  const setAng = v => { ang = Math.round(Math.max(2, Math.min(20, v)) * 10) / 10; draw(false); };
+  addEventListener('keydown', e => { if (!el.classList.contains('active') || cur !== 3) return; if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); e.stopImmediatePropagation(); setAng(ang + (e.key === 'ArrowUp' ? .4 : -.4)); } }, true);
+  const svg = el.querySelector('svg.er-fig'); let dragging = false;
+  const toSvg = e => { const p = svg.createSVGPoint(); p.x = e.clientX; p.y = e.clientY; return p.matrixTransform(svg.getScreenCTM().inverse()); };
+  svg.addEventListener('pointerdown', e => { if (cur !== 3) return; const q = toSvg(e); if (q.x > 520 || q.y > 560) return; dragging = true; svg.setPointerCapture(e.pointerId); setAng(Math.atan2(500 - q.x, 600 - q.y) * 180 / Math.PI / K); });
+  svg.addEventListener('pointermove', e => { if (!dragging) return; const q = toSvg(e); setAng(Math.atan2(500 - q.x, 600 - q.y) * 180 / Math.PI / K); });
+  svg.addEventListener('pointerup', () => { dragging = false; }); svg.addEventListener('pointercancel', () => { dragging = false; });
   const st = document.createElement('style'); st.textContent = '.er-fig{padding:1rem 1.5rem!important}.er-in{animation:erIn .5s ease}@keyframes erIn{from{opacity:0}to{opacity:1}}'; document.head.appendChild(st);
 }, 0));
