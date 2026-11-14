@@ -73,7 +73,7 @@ const V3_TUNE = {
     clickOnLoad: ['#globe-toggles [data-k="lat"].on', '#globe-toggles [data-k="lon"].on', '#globe-toggles [data-k="grid"].on', '#globe-toggles [data-k="polaris"].on', '#globe-toggles [data-k="cities"].on'], hero: '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.', on: { '#fly-nm': '1 Arcminute of <b>Latitude</b> = 1 Nautical Mile', '#fly-north': '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.' } },
   'Walk north': { hideText: ['Why They Match', 'North Pole'], hero: '<b>Latitude</b> Is an Angle From the Equator.', on: { '#wn-l-you': 'One Star, One Angle. <b>Latitude</b> Needs No Clock.', '#wn-south': 'In the South, <b>the Southern Cross</b> Points to the Pole.' } },
   'Eratosthenes': { kicker: '240 BC · Eratosthenes of Alexandria' },
-  'Hours are slices': { hide: ['.table-wrap', '#hs-read'], hero: '<b>1 Hour = 15°</b> of Longitude', on: { '#hs-slice': '1 Hour = 15° = 60 Minutes', '#hs-degree': '<b>4 Seconds = 1 Nautical Mile</b>', '#hs-out': '<b>1 Hour = 15°</b> of Longitude' } },
+  'Hours are slices': {},
   'Two ships, one latitude': { h1: 'Two Ships, One Latitude', hero: 'Same Star. Different Time. <b>Longitude Needs a Clock.</b>' },
   'The Longitude Act, 1714': { kicker: 'Seven Years After Scilly', hide: ['#la-r'] },
   'Galileo’s clock': { talk: { hide: ['[data-detour]', '#gs-steps [data-s="5"]'] }, hero: 'Jupiter’s Moons: A Clock Everyone Can See. <b>Not From a Ship.</b>' },
@@ -447,7 +447,6 @@ addEventListener('load', () => setTimeout(() => {
   const text = el.querySelector('.text'); if (text) text.style.display = 'none'; el.classList.add('wide');
   const stage = el.querySelector('.stage'); stage.innerHTML = '<svg class="fig er-fig" viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet"><g id="er"></g></svg>';
   const G = '#f0b35a', W = '#ece6da', B = '#6fb3ff', M = '#9a9382';
-  let ang = 7.2; const K = 20 / 7.2; // the drawing exaggerates every angle by the same factor
   const T = (t, x, y, size, col = W, anchor = 'middle', extra = '') => `<text x="${x}" y="${y}" text-anchor="${anchor}" style="font-size:${size}px;fill:${col}" ${extra}>${t}</text>`;
   const sun = (x, y) => `<circle cx="${x}" cy="${y}" r="34" fill="${G}" opacity=".95"/><circle cx="${x}" cy="${y}" r="54" fill="${G}" opacity=".18"/>`;
   const ground = y => `<line x1="40" y1="${y}" x2="960" y2="${y}" stroke="#4a5470" stroke-width="3"/>`;
@@ -476,21 +475,17 @@ addEventListener('load', () => setTimeout(() => {
         `<path d="M ${x} ${top - A} A ${A} ${A} 0 0 0 ${x - A * Math.sin(r)} ${top - A * Math.cos(r)}" fill="none" stroke="${G}" stroke-width="5"/>` +
         T('7.2°', x - 40, top - A + 20, 64, G, 'end') + T('sunlight', x - 40, top + 60, 26, G, 'end') + T('straight up', x + 16, top - A - 10, 24, M, 'start') + T('stick', x + 22, top + 180, 26, W, 'start') +
         T('The Sun is 7.2° from straight up.', 500, 618, 34, G); },
-    // 3 · why the angle at the center is the same; ↑↓ or a drag moves Alexandria, and the miles move with the angle
-    () => { const cx = 500, cy = 600, R = 420, a = ang * K * Math.PI / 180, ax = cx - R * Math.sin(a), ay = cy - R * Math.cos(a), sx = cx, sy = cy - R;
-      const mi = Math.round(ang / 7.2 * 500 / 10) * 10, f = ang === 7.2 ? '7.2' : ang.toFixed(1);
+    // 3 · why the angle at the center is the same
+    () => { const cx = 500, cy = 600, R = 420, a = 20 * Math.PI / 180, ax = cx - R * Math.sin(a), ay = cy - R * Math.cos(a), sx = cx, sy = cy - R;
       const arc = (r, a0, a1) => `M ${cx - r * Math.sin(a0)} ${cy - r * Math.cos(a0)} A ${r} ${r} 0 0 0 ${cx - r * Math.sin(a1)} ${cy - r * Math.cos(a1)}`;
       return `<path d="M ${cx - R} ${cy} A ${R} ${R} 0 0 1 ${cx + R} ${cy}" fill="#15294a" stroke="#3b5f8a" stroke-width="3"/>` +
         `<line x1="${sx}" y1="30" x2="${sx}" y2="${sy}" stroke="${G}" stroke-width="3"/><line x1="${ax}" y1="30" x2="${ax}" y2="${ay}" stroke="${G}" stroke-width="3"/>` +
         `<line x1="${sx}" y1="${sy}" x2="${cx}" y2="${cy}" stroke="${W}" stroke-width="2" stroke-dasharray="8 8"/><line x1="${ax - 70 * Math.sin(a)}" y1="${ay - 70 * Math.cos(a)}" x2="${cx}" y2="${cy}" stroke="${W}" stroke-width="3"/>` +
-        `<path d="${arc(R, 0, a)}" fill="none" stroke="${G}" stroke-width="9" opacity=".8"/>` +
-        `<path d="${arc(90, 0, a)}" fill="none" stroke="${G}" stroke-width="4"/>` + T(f + '°', cx - 50, cy - 110, 40, G, 'end') +
-        `<circle cx="${ax}" cy="${ay}" r="16" fill="${W}" style="cursor:grab"/>` +
-        T('Syene', sx + 14, sy - 14, 26, M, 'start') + T('Alexandria', ax - 22, ay - 10, 26, M, 'end') + T(mi.toLocaleString('en-US') + ' miles apart', sx + 16, sy + 44, 28, G, 'start') +
-        T('center of the Earth', cx - 16, cy - 8, 22, M, 'end') + T('sunlight', 940, 70, 26, G, 'end') +
-        T(`Parallel sunlight: the angle at the center is also ${f}°.`, 500, 26, 30, W) +
-        T(`360 ÷ ${f}° × ${mi.toLocaleString('en-US')} miles ≈ 25,000 miles`, 960, 566, 24, G, 'end') +
-        T('↑↓ or drag Alexandria', 960, 630, 18, M, 'end') +
+        `<path d="${arc(R, 0, a)}" fill="none" stroke="${G}" stroke-width="9" opacity=".8" transform="scale(1)"/>` +
+        `<path d="${arc(90, 0, a)}" fill="none" stroke="${G}" stroke-width="4"/>` + T('7.2°', cx - 50, cy - 110, 40, G, 'end') +
+        T('Syene', sx + 14, sy - 14, 26, M, 'start') + T('Alexandria', ax - 14, ay - 10, 26, M, 'end') + T('500 miles', (sx + ax) / 2 + 10, sy + 50, 28, G) +
+        T('center of the Earth', cx + 16, cy - 8, 22, M, 'start') + T('sunlight', 940, 70, 26, G, 'end') +
+        T('Parallel sunlight: the angle at the center is also 7.2°.', 500, 26, 30, W) +
         T('angles drawn larger so you can see them', 40, 630, 18, M, 'start'); },
     // 4 · fifty times
     () => { const cx = 500, cy = 300, R = 190; let wedges = '';
@@ -509,15 +504,64 @@ addEventListener('load', () => setTimeout(() => {
         T('His unit, the stadion, is uncertain, so “within a few percent” is the honest claim.', 500, 600, 20, M); }
   ];
   const g = el.querySelector('#er');
-  let cur = 0; const draw = (anim = true) => { g.innerHTML = anim ? `<g class="er-in">${S[cur]()}</g>` : S[cur](); };
-  V3.steps(el, S.length - 1, k => { cur = k; if (k !== 3) ang = 7.2; draw(); });
-  // step 4: move Alexandria; the distance follows the angle, so the Earth always comes out the same size
-  const setAng = v => { ang = Math.round(Math.max(2, Math.min(20, v)) * 10) / 10; draw(false); };
-  addEventListener('keydown', e => { if (!el.classList.contains('active') || cur !== 3) return; if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); e.stopImmediatePropagation(); setAng(ang + (e.key === 'ArrowUp' ? .4 : -.4)); } }, true);
-  const svg = el.querySelector('svg.er-fig'); let dragging = false;
-  const toSvg = e => { const p = svg.createSVGPoint(); p.x = e.clientX; p.y = e.clientY; return p.matrixTransform(svg.getScreenCTM().inverse()); };
-  svg.addEventListener('pointerdown', e => { if (cur !== 3) return; const q = toSvg(e); if (q.x > 520 || q.y > 560) return; dragging = true; svg.setPointerCapture(e.pointerId); setAng(Math.atan2(500 - q.x, 600 - q.y) * 180 / Math.PI / K); });
-  svg.addEventListener('pointermove', e => { if (!dragging) return; const q = toSvg(e); setAng(Math.atan2(500 - q.x, 600 - q.y) * 180 / Math.PI / K); });
-  svg.addEventListener('pointerup', () => { dragging = false; }); svg.addEventListener('pointercancel', () => { dragging = false; });
+  V3.steps(el, S.length - 1, k => { g.innerHTML = `<g class="er-in">${S[k]()}</g>`; });
   const st = document.createElement('style'); st.textContent = '.er-fig{padding:1rem 1.5rem!important}.er-in{animation:erIn .5s ease}@keyframes erIn{from{opacity:0}to{opacity:1}}'; document.head.appendChild(st);
+}, 0));
+
+
+/* ---------- The Earth is a 24-hour clock: the globe, tip it to the pole, 24 hours, 15° slices, longitude, then the problem ---------- */
+addEventListener('load', () => setTimeout(() => {
+  const el = [...document.querySelectorAll('section')].find(x => x.dataset.title === 'Hours are slices'); if (!el || typeof drawCoast !== 'function') return;
+  const text = el.querySelector('.text'); if (text) text.style.display = 'none'; el.classList.add('wide');
+  const stage = el.querySelector('.stage'); stage.innerHTML = '<canvas class="hc-c" style="position:absolute;inset:0;width:100%;height:100%;display:block"></canvas>';
+  const c = stage.querySelector('canvas'), ctx = c.getContext('2d'), D = Math.PI / 180;
+  const G = '#f0b35a', W = '#ece6da', M = '#9a9382';
+  const STEP = [
+    { top: 'The Earth', cap: 'It turns, all day, every day.' },
+    { top: 'Tip it over', cap: 'Look straight down on the North Pole.' },
+    { top: 'One turn every 24 hours', cap: 'Day on the sunny side, night on the other.' },
+    { top: '360° ÷ 24 hours = 15° an hour', cap: 'Cut the Earth into 24 slices, one for each hour.' },
+    { top: 'Those slices are longitude', cap: 'How far east or west you are: 15° for every hour.' },
+    { top: 'So how do you measure it?', cap: 'Latitude had Polaris. Longitude has no star, and the sky never stops turning.' }
+  ];
+  let k = 0, pitch = 0.3, pT = 0.3, yaw = 0, t0 = performance.now(), last = performance.now();
+  const go = i => { k = i; pT = k === 0 ? 0.3 : Math.PI / 2; t0 = performance.now(); };
+  V3.steps(el, STEP.length - 1, go);
+  const font = (px, w = 400) => `${w} ${px}px Georgia,serif`;
+  const label = (s, x, y, px, col, align = 'center') => { ctx.font = font(px); ctx.textAlign = align; ctx.textBaseline = 'middle'; ctx.lineWidth = 6; ctx.strokeStyle = 'rgba(8,12,22,.85)'; ctx.strokeText(s, x, y); ctx.fillStyle = col; ctx.fillText(s, x, y); };
+  const frame = now => {
+    requestAnimationFrame(frame); if (!el.classList.contains('active')) { last = now; return; }
+    const r = stage.getBoundingClientRect(), dpr = devicePixelRatio || 1; if (!r.width) return;
+    if (c.width !== Math.round(r.width * dpr)) { c.width = Math.round(r.width * dpr); c.height = Math.round(r.height * dpr); }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); const w = r.width, h = r.height; ctx.clearRect(0, 0, w, h);
+    const dt = Math.min(.05, (now - last) / 1000); last = now;
+    pitch += (pT - pitch) * Math.min(1, dt * 2.2); yaw += dt * (k >= 2 ? .35 : .12);
+    const cx = w / 2, cy = h * .53, R = Math.min(w, h) * .3;
+    const proj = v => { const cyw = Math.cos(yaw), syw = Math.sin(yaw), x1 = v[0] * cyw + v[2] * syw, z1 = v[2] * cyw - v[0] * syw, y1 = v[1];
+      const cp = Math.cos(pitch), sp = Math.sin(pitch), y2 = y1 * cp - z1 * sp, z2 = y1 * sp + z1 * cp; return { x: cx + R * x1, y: cy - R * y2, z: z2 }; };
+    const path = (pts, col, wd, dash) => { ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.setLineDash(dash || []); ctx.beginPath(); let pen = false; for (const p of pts) { const q = proj(p); if (q.z >= 0) { pen ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); pen = true; } else pen = false; } ctx.stroke(); ctx.setLineDash([]); };
+    // the globe
+    const g = ctx.createRadialGradient(cx - R * .35, cy - R * .35, R * .05, cx, cy, R); g.addColorStop(0, '#2f5a8c'); g.addColorStop(.7, '#15294a'); g.addColorStop(1, '#0b1526');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fill();
+    path(Array.from({ length: 73 }, (_, i) => ll(0, i * 5)), 'rgba(240,179,90,.5)', 1.5);
+    drawCoast(ctx, proj, 1, { color: 'rgba(236,230,218,.8)' });
+    // night: from above the pole, the half away from the Sun (the Sun is to the right)
+    if (k >= 2) { ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, R, Math.PI / 2, Math.PI * 1.5); ctx.closePath(); ctx.fillStyle = 'rgba(3,6,14,.55)'; ctx.fill(); ctx.restore();
+      ctx.fillStyle = G; ctx.beginPath(); ctx.arc(w - 70, cy, 26, 0, Math.PI * 2); ctx.fill(); for (let i = -2; i <= 2; i++) { ctx.strokeStyle = 'rgba(240,179,90,.5)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(w - 110, cy + i * R * .35); ctx.lineTo(cx + R + 30, cy + i * R * .35); ctx.stroke(); }
+      label('Sun', w - 70, cy + 50, 22, G); label('day', cx + R * .55, cy - R - 26, 22, W); label('night', cx - R * .55, cy - R - 26, 22, M); }
+    // the 24-hour dial around the globe
+    if (k >= 2) { for (let i = 0; i < 24; i++) { const a = i / 24 * Math.PI * 2, r1 = R + 8, r2 = R + (i % 6 ? 18 : 30); ctx.strokeStyle = i % 6 ? 'rgba(236,230,218,.45)' : W; ctx.lineWidth = i % 6 ? 1.5 : 3; ctx.beginPath(); ctx.moveTo(cx + r1 * Math.cos(a), cy + r1 * Math.sin(a)); ctx.lineTo(cx + r2 * Math.cos(a), cy + r2 * Math.sin(a)); ctx.stroke(); }
+      if (k === 2) label('24 hours', cx, cy + R + 60, 26, W); }
+    // 24 slices, one lit; they ride on the Earth
+    if (k >= 3) { for (let i = 0; i < 24; i++) path(Array.from({ length: 19 }, (_, j) => ll(-90 + j * 10, i * 15)), i === 18 || i === 19 ? G : 'rgba(236,230,218,.35)', i === 18 || i === 19 ? 3 : 1.2);
+      const qa = proj(ll(20, -82.5)); if (qa.z > 0) label('15°', qa.x, qa.y, 28, G); }
+    if (k === 4) { const q = proj(ll(5, -150)); if (q.z > 0) label('longitude', q.x, q.y, 24, W); label('1 hour = 15° of longitude', cx, cy + R + 64, 30, G); }
+    if (k === 5) { ctx.fillStyle = 'rgba(5,8,18,.45)'; ctx.fillRect(0, 0, w, h); label('?', cx, cy, R * .9, G); }
+    // words
+    const s = STEP[k], fade = Math.min(1, (now - t0) / 500); ctx.globalAlpha = fade;
+    label(s.top, cx, h * .08, Math.max(30, Math.min(54, w * .04)), W);
+    label(s.cap, cx, h * .95, Math.max(22, Math.min(34, w * .026)), k === 5 ? G : G);
+    ctx.globalAlpha = 1;
+  };
+  requestAnimationFrame(frame);
 }, 0));
