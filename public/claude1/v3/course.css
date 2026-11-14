@@ -272,7 +272,7 @@ body:not(.v3-panel) .slide:not(.cover)>.text{display:none!important}
 #v3-keys{position:absolute;left:14px;bottom:44px;z-index:30;max-width:70%;font:13px/1.5 var(--sans,system-ui);color:#cfc8ba;opacity:.38;pointer-events:none;white-space:normal}
 #v3-keys b{color:#f0b35a;font-weight:600;margin-right:.25em}
 #v3-keys span{margin-right:1.1em;display:inline-block}
-body.v3-keys-off #v3-keys{display:none}
+body:not(.v3-keys-on) #v3-keys{display:none}
 #more-btn,.nav .arrows button{opacity:.4}
 #more-btn:hover,.nav .arrows button:hover{opacity:1}
 .v3-payoff{font-size:clamp(30px,3.4vw,56px)!important;left:8%;right:8%}
