@@ -166,6 +166,7 @@ function wrap(s, size, maxW, it = false, wt = 400) {
   return lines;
 }
 function caption(s, y, it = false) {
+  if (!s) return;
   const size = 38, lines = wrap(s, size, 1560, it);
   const top = y - (lines.length - 1) * 50;
   lines.forEach((ln, i) => T(ln, 960, top + i * 50, size, INK, 'center', 1, it));
@@ -268,40 +269,42 @@ add({
   title: 'Where Am I?',
   endMin: 1.5,
   pause: '30 seconds',
-  ask: 'Fly due south from Havana. Which mainland South American country do you cross first?',
+  ask: 'Fly due south from Havana. Which South American country do you cross first?',
   notes: [
-    'Open with your name: Jeff Franzen, Disaster GIS, American Red Cross. Say GIS Day. Do not say six stories.',
-    'Pause 30 seconds for the vote. Most rooms say Peru. Then click through to the meridian.',
-    'None. Havana is 82.4° west. Punta Pariñas, the western tip of mainland South America, is 81.3° west. The line runs down the open Pacific.'
+    'This first frame is only the question. Pause 30 seconds and take the vote. Most rooms say Peru. Do not mention a map.',
+    'One click reveals the globe. D is correct. Havana is 82.4° west. Punta Pariñas is 81.3° west. The meridian runs down the open Pacific. All of South America lies east.',
+    'By 1:30. Say GIS Day, and your name: Jeff Franzen, Disaster GIS, American Red Cross.'
   ],
   caps: [
-    'GIS Day 2026. Jeff Franzen, Disaster GIS, American Red Cross.',
-    'A pole star, and one meridian.',
-    'Fly due south from Havana. Which mainland South American country do you cross first?',
-    'None. Havana is 82.4° west. The continent ends at 81.3° west.'
+    '',
+    'None. Havana is 82.4° W. The continent ends at 81.3° W — all of South America lies east.'
   ],
-  capY: 960,
+  capY: 980,
   draw() {
-    const g = vis(0);
+    T('GIS Day 2026  ·  Jeff Franzen  ·  Disaster GIS  ·  American Red Cross', 960, 170, 28, MUTE, 'center');
+    wrap('Fly due south from Havana. Which South American country do you cross first?', 42, 1500).forEach((ln, i) => T(ln, 960, 280 + i * 56, 42, INK, 'center', 1, false, 500));
+    const opts = ['Colombia', 'Ecuador', 'Peru', 'None of them'];
+    const reveal = STEP >= 1;
+    opts.forEach((name, i) => {
+      const y = (reveal ? 460 : 480) + i * 72;
+      const x0 = reveal ? 160 : 720;
+      const col = reveal && i === 3 ? RED : INK;
+      T('ABCD'[i], x0, y, 42, col, 'left', 1, false, 500);
+      T(name, x0 + 70, y, 42, col);
+    });
+    if (!reveal) return;
+    const g = vis(1);
     x.save();
     x.globalAlpha = g;
-    const pr = globe(1080, 545, 285, -70, 8);
+    const pr = globe(1240, 560, 250, -70, 6);
     x.restore();
-    const pole = pr(-82.4, 88);
-    if (pole.z > 0) star(pole.x, pole.y, 18, RED, g);
-    const line = Math.max(vis(1), vis(3));
-    const col = STEP >= 3 ? RED : INK;
-    meridian(pr, -82.38, 78, -48, line, col, 3.5);
-    const lab = vis(3);
-    const hv = pr(-82.38, 23.13), pp = pr(-81.33, -4.68), sea = pr(-82.38, -32);
-    if (hv.z > 0) {
-      C(hv.x, hv.y, 6, col, null, 0);
-      T('Havana', hv.x + 18, hv.y - 14, 32, INK, 'left', lab);
-    }
-    if (pp.z > 0) T('Punta Pariñas', pp.x + 16, pp.y + 10, 32, INK, 'left', lab);
-    if (sea.z > 0) T('open Pacific', sea.x - 16, sea.y + 36, 32, INK, 'right', lab);
-    T('GIS Day 2026', 88, 140, 32, MUTE, 'left', 1);
-    T('Jeff Franzen  ·  Disaster GIS  ·  American Red Cross', 88, 184, 28, MUTE, 'left', 1);
+    meridian(pr, -82.38, 36, -46, g, RED, 3.5);
+    const hv = pr(-82.38, 23.13), pp = pr(-81.33, -4.68);
+    if (hv.z > 0) C(hv.x, hv.y, 6, RED);
+    if (pp.z > 0) C(pp.x, pp.y, 5, INK);
+    T('Havana  82.4° W', 1560, 480, 28, INK, 'left', g);
+    T('Punta Pariñas  81.3° W', 1560, 522, 28, INK, 'left', g);
+    T('open Pacific', 1560, 564, 28, MUTE, 'left', g);
   }
 });
 
@@ -1192,7 +1195,10 @@ add({
 
 const notesEl = document.getElementById('notes');
 const hintBy = document.getElementById('hint-by');
-let idx = 0, step = 0, animFrom = 0, notesOn = false, dragSlide = null;
+const menuEl = document.getElementById('menu');
+const menuList = document.getElementById('menu-list');
+const menuBack = document.getElementById('menu-back');
+let idx = 0, step = 0, animFrom = 0, notesOn = false, dragSlide = null, menuOpen = false;
 
 function byLabel(min) {
   const m = Math.floor(min), s = Math.round((min - m) * 60);
@@ -1216,6 +1222,7 @@ function go(i, st) {
   const url = `#${idx + 1}${step ? '.' + (step + 1) : ''}`;
   history.replaceState(null, '', url);
   renderNotes();
+  if (menuOpen) syncMenu();
 }
 function next() {
   const s = SLIDES[idx];
@@ -1236,8 +1243,48 @@ function pointer(e) {
   return { x: (e.clientX - r.left) / r.width * W, y: (e.clientY - r.top) / r.height * H };
 }
 let down = null, armed = null;
+function stopNav(e) { e.stopPropagation(); }
+['nav-prev', 'nav-next', 'nav-menu', 'menu-close'].forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener('pointerdown', stopNav);
+  el.addEventListener('click', stopNav);
+});
+document.getElementById('nav-prev').addEventListener('click', e => { e.preventDefault(); prev(); });
+document.getElementById('nav-next').addEventListener('click', e => { e.preventDefault(); next(); });
+function syncMenu() {
+  menuList.querySelectorAll('button.item:not(.home)').forEach((b, i) => b.classList.toggle('on', i === idx));
+}
+function setMenu(open) {
+  menuOpen = open;
+  menuEl.hidden = !open;
+  menuBack.hidden = !open;
+  if (open) syncMenu();
+}
+function buildMenu() {
+  const home = document.createElement('button');
+  home.type = 'button';
+  home.className = 'item home';
+  home.textContent = 'Slide 1  ·  Home';
+  home.addEventListener('pointerdown', stopNav);
+  home.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); go(0, 0); setMenu(false); });
+  menuList.appendChild(home);
+  SLIDES.forEach((s, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'item';
+    b.textContent = `${i + 1}  ${s.title}`;
+    b.addEventListener('pointerdown', stopNav);
+    b.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); go(i, 0); setMenu(false); });
+    menuList.appendChild(b);
+  });
+}
+buildMenu();
+document.getElementById('nav-menu').addEventListener('click', e => { e.preventDefault(); setMenu(!menuOpen); });
+document.getElementById('menu-close').addEventListener('click', e => { e.preventDefault(); setMenu(false); });
+menuBack.addEventListener('click', () => setMenu(false));
 c.addEventListener('pointerdown', e => {
-  c.setPointerCapture(e.pointerId);
+  try { c.setPointerCapture(e.pointerId); } catch (err) {}
+  if (menuOpen) { down = null; return; }
   const p = pointer(e);
   const s = SLIDES[idx];
   if (s.grab && !s.dragOnly && s.grab(p)) { dragSlide = s; down = null; return; }
@@ -1245,6 +1292,7 @@ c.addEventListener('pointerdown', e => {
   armed = s.dragOnly ? s : null;
 });
 c.addEventListener('pointermove', e => {
+  if (menuOpen) return;
   const p = pointer(e);
   if (!dragSlide && armed && down && Math.hypot(p.x - down.x, p.y - down.y) > 8) {
     if (armed.grab(down)) dragSlide = armed;
@@ -1254,8 +1302,14 @@ c.addEventListener('pointermove', e => {
 });
 c.addEventListener('pointerup', e => {
   const p = pointer(e);
+  if (menuOpen) { dragSlide = null; down = null; armed = null; return; }
   if (dragSlide) { dragSlide = null; down = null; armed = null; return; }
-  if (down && Math.hypot(p.x - down.x, p.y - down.y) < 10) next();
+  if (down) {
+    const dx = p.x - down.x, dy = p.y - down.y;
+    const adx = Math.abs(dx), ady = Math.abs(dy);
+    if (adx > 60 && adx > 1.5 * ady) { if (dx < 0) next(); else prev(); }
+    else if (Math.hypot(dx, dy) < 10) { if (p.x < W / 3) prev(); else next(); }
+  }
   down = null;
   armed = null;
 });
@@ -1267,6 +1321,8 @@ addEventListener('keydown', e => {
   else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'Backspace') { prev(); e.preventDefault(); }
   else if (k === 'Home') go(0, 0);
   else if (k === 'End') go(SLIDES.length - 1, 0);
+  else if (k === 'Escape') { if (menuOpen) setMenu(false); }
+  else if (k.toLowerCase() === 'm') setMenu(!menuOpen);
   else if (k.toLowerCase() === 'n') toggleNotes();
   else if (k.toLowerCase() === 'f') {
     if (document.fullscreenElement) document.exitFullscreen();
