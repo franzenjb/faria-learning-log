@@ -8,5 +8,6 @@ These are live models you can run in a browser, not the downloadable PDFs on [Pa
 - [Deck v2](/deck/v2/). A separate copy of the same lecture, titled *Where Am I?*, in a clearer frame. It was added on 9 November 2026. The two copies later began to differ: the main page gained a slide, "Longitude is two clocks," that this copy does not have.
 - [Walking north, watching Polaris](/polaris/). A walking-to-the-pole experiment: as you go north, the height of Polaris and your latitude stay in step.
 - [Galileo's Moon Mountains](/galileo/). Move a mountain, change its height, and raise or lower the Sun to see how a bright peak reveals its height. The lesson page is [Galileo's Moon Mountains](/topics/86-galileo-moon-mountains/).
+- [GIS Day 2026](/gisday/). A 30-minute presenter deck, *Where Am I?*, added 14 November 2026. Paper and ink, for a live room. It is a separate copy and does not replace the course at [claude1](/claude1/).
 
 The GIS master presentation, *Measurement, Mapping, and Disaster Decisions*, is a PowerPoint in the Franzen Lessons folder on Jeff's Mac, not a page on this site.
