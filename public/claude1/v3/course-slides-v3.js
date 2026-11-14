@@ -254,3 +254,31 @@ NEW_SLIDES['One degree more'] = {
     CS.tick(el, t => { if (!run) return; const k = (t - t0) / 2600; draw(k); if (k >= 1) run = false; }); draw(0);
   }
 };
+
+/* ---------- Cold open: Scilly, 1707 (replaces the map version) ---------- */
+// The period engraving fills the screen. Short lines fade in and out over it, one at a time.
+NEW_SLIDES['Scilly, 1707'] = {
+  h1: 'Scilly, 22 October 1707',
+  fig: '',
+  init(el) {
+    el.classList.add('wide'); el.querySelector('.text').style.display = 'none';
+    const PTS = ['22 October 1707. Fog and gales, no sun for days.', 'Admiral Shovell’s fleet heads home to England.', 'The officers agree: safe in the Channel.', 'They are wrong.', 'Four warships strike the rocks of Scilly.', 'Up to 2,000 men drown.', 'They knew their latitude.', 'They had no idea of their longitude.'];
+    const stage = el.querySelector('.stage');
+    stage.innerHTML = `<div class="sc-wrap" style="position:absolute;inset:0;overflow:hidden;background:#05070d;cursor:pointer">
+      <img src="v3/img/scilly.jpg" alt="Engraving of Admiral Shovell's fleet wrecked on the rocks of Scilly, 1707" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:sepia(.2) brightness(.8) contrast(1.05);transform:scale(1.04)">
+      <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,7,13,.88) 0%,rgba(5,7,13,.6) 42%,rgba(5,7,13,0) 70%)"></div>
+      <ul class="sc-list" style="position:absolute;left:5%;top:50%;transform:translateY(-50%);width:min(46%,640px);margin:0;padding:0;list-style:none;font-family:Georgia,serif;font-size:clamp(20px,2.1vw,32px);line-height:1.3;color:#f3ede2;text-shadow:0 2px 12px rgba(0,0,0,.9)"></ul>
+      <div class="sc-end" style="position:absolute;left:5%;top:50%;transform:translateY(-50%);font-family:Georgia,serif;font-size:clamp(44px,6vw,96px);color:#f0b35a;text-shadow:0 2px 24px rgba(0,0,0,.9);opacity:0;transition:opacity 1.2s ease">Where am I?</div>
+      <div style="position:absolute;left:18px;top:12px;font:12px Georgia,serif;color:rgba(236,230,218,.6)">Shovell’s fleet on the rocks of Scilly, 1707 · engraving, public domain</div></div>`;
+    const img = stage.querySelector('img'), list = stage.querySelector('.sc-list'), end = stage.querySelector('.sc-end');
+    list.innerHTML = PTS.map((p, k) => `<li style="opacity:0;transform:translateX(-12px);transition:opacity .8s ease,transform .8s ease;padding:.32em 0 .32em 1.1em;position:relative;${k === 3 || k === 7 ? 'color:#f0b35a;' : ''}"><span style="position:absolute;left:0;color:#f0b35a">•</span>${p}</li>`).join('');
+    const items = [...list.children]; let i = -1, timer = null, wasActive = false;
+    const next = () => { clearTimeout(timer); if (i < items.length - 1) { i++; const li = items[i]; li.style.opacity = 1; li.style.transform = 'none'; timer = setTimeout(next, i === 3 ? 2600 : 2200); }
+      else if (end.style.opacity !== '1') { list.style.transition = 'opacity 1s ease'; list.style.opacity = 0; setTimeout(() => { end.style.opacity = 1; }, 900); } };
+    const reset = () => { clearTimeout(timer); i = -1; items.forEach(li => { li.style.opacity = 0; li.style.transform = 'translateX(-12px)'; }); list.style.transition = 'none'; list.style.opacity = 1; end.style.opacity = 0;
+      img.style.transition = 'none'; img.style.transform = 'scale(1.04)'; requestAnimationFrame(() => { img.style.transition = 'transform 30s linear'; img.style.transform = 'scale(1.14)'; }); };
+    stage.querySelector('.sc-wrap').onclick = next;
+    const watch = () => { const on = el.classList.contains('active'); if (on && !wasActive) { reset(); timer = setTimeout(next, 900); } if (!on && wasActive) clearTimeout(timer); wasActive = on; requestAnimationFrame(watch); };
+    watch();
+  }
+};
