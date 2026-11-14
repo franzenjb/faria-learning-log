@@ -262,44 +262,43 @@ NEW_SLIDES['Scilly, 1707'] = {
   fig: '',
   init(el) {
     el.classList.add('wide'); el.querySelector('.text').style.display = 'none';
-    // two groups of four lines, then the verdict. Each line rises out of a blur; each group fades away.
+    // Three presenter steps, no timer: Next (→, space, click) shows screen 1, then screen 2, then the verdict under screen 2.
     const GROUPS = [
       ['22 October 1707.', 'Fog and gales. No sun for days.', 'Admiral Shovell’s fleet sails for home.', 'Twenty-one ships.'],
       ['They know their latitude.', 'Their longitude is a guess.', 'The officers compare their reckonings.', 'All agree: safe in the Channel.']
     ];
     const stage = el.querySelector('.stage');
     stage.innerHTML = `<style>
-      .sc-l{display:block;opacity:0;filter:blur(8px);transform:translateY(10px);transition:opacity 1.6s ease,filter 1.6s ease,transform 1.6s ease}
+      .sc-l{display:block;opacity:0;filter:blur(6px);transform:translateY(8px);transition:opacity .7s ease,filter .7s ease,transform .7s ease}
       .sc-l.on{opacity:1;filter:none;transform:none}
-      .sc-g{transition:opacity 1.4s ease}
     </style>
     <div class="sc-wrap" style="position:absolute;inset:0;overflow:hidden;background:#05070d;cursor:pointer">
       <img src="v3/img/scilly.jpg" alt="Engraving of Admiral Shovell's fleet wrecked on the rocks of Scilly, 1707" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:sepia(.3) brightness(.7) contrast(1.08);transform:scale(1);transform-origin:60% 60%">
       <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 55% at 50% 50%,rgba(5,7,13,.72) 0%,rgba(5,7,13,.45) 60%,rgba(5,7,13,.85) 100%)"></div>
-      <div class="sc-g" style="position:absolute;left:8%;right:8%;top:50%;transform:translateY(-50%);text-align:center;font-family:Georgia,serif;font-size:clamp(24px,2.7vw,42px);line-height:1.75;letter-spacing:.02em;color:#f3ede2;text-shadow:0 2px 18px rgba(0,0,0,.95)"></div>
-      <div class="sc-end" style="position:absolute;left:6%;right:6%;top:50%;transform:translateY(-50%);text-align:center;font-family:Georgia,serif;text-shadow:0 2px 28px rgba(0,0,0,.95)">
-        <div class="sc-l sc-v" style="font-size:clamp(56px,7.4vw,118px);letter-spacing:.01em;color:#f0b35a">They were wrong.</div>
-        <div class="sc-l sc-s" style="margin-top:.9em;font-size:clamp(20px,1.9vw,30px);letter-spacing:.04em;color:#d8d0c2">Four ships on the rocks of Scilly. Up to 2,000 men drowned.</div></div>
+      <div style="position:absolute;left:6%;right:6%;top:50%;transform:translateY(-50%);text-align:center;font-family:Georgia,serif;text-shadow:0 2px 18px rgba(0,0,0,.95)">
+        <div class="sc-g" style="font-size:clamp(24px,2.7vw,42px);line-height:1.7;letter-spacing:.02em;color:#f3ede2"></div>
+        <div class="sc-l sc-v" style="margin-top:.45em;font-size:clamp(48px,6vw,96px);color:#f0b35a;text-shadow:0 2px 28px rgba(0,0,0,.95)">They were wrong.</div>
+        <div class="sc-l sc-s" style="margin-top:.5em;font-size:clamp(19px,1.7vw,27px);letter-spacing:.04em;color:#d8d0c2">Four ships on the rocks of Scilly. Up to 2,000 men drowned.</div></div>
       <div style="position:absolute;left:18px;top:12px;font:13px Georgia,serif;color:rgba(236,230,218,.5)">Shovell’s fleet on the rocks of Scilly, 1707 · engraving, public domain</div></div>`;
     const img = stage.querySelector('img'), box = stage.querySelector('.sc-g'), v = stage.querySelector('.sc-v'), sub = stage.querySelector('.sc-s');
-    // the script: [action, wait ms]
-    const SEQ = [];
-    GROUPS.forEach((g, gi) => { SEQ.push(['group', gi, 400]); g.forEach((_, li) => SEQ.push(['line', li, 1900])); SEQ.push(['hold', 0, 2400]); SEQ.push(['clear', 0, 1500]); });
-    SEQ.push(['verdict', 0, 2600], ['sub', 0, 0]);
-    let k = -1, timer = null, wasActive = false;
-    const run = () => { clearTimeout(timer); k++; if (k >= SEQ.length) return; const [a, n, wait] = SEQ[k];
-      if (a === 'group') { box.style.opacity = 1; box.innerHTML = GROUPS[n].map(t => `<span class="sc-l">${t}</span>`).join(''); }
-      if (a === 'line') box.children[n].classList.add('on');
-      if (a === 'clear') box.style.opacity = 0;
-      if (a === 'verdict') { v.classList.add('on'); img.style.transition = 'transform 10s ease-out, filter 6s ease'; img.style.transform = 'scale(1.07)'; img.style.filter = 'sepia(.3) brightness(.55) contrast(1.1)'; }
-      if (a === 'sub') sub.classList.add('on');
-      if (wait) timer = setTimeout(run, wait); };
-    const reset = () => { clearTimeout(timer); k = -1; box.innerHTML = ''; box.style.opacity = 1; v.classList.remove('on'); sub.classList.remove('on');
-      img.style.transition = 'none'; img.style.filter = 'sepia(.3) brightness(.7) contrast(1.08)'; img.style.transform = 'scale(1)';
-      requestAnimationFrame(() => requestAnimationFrame(() => { img.style.transition = 'transform 40s linear'; img.style.transform = 'scale(1.05)'; })); };
-    // a tap skips ahead to the next line
-    stage.querySelector('.sc-wrap').onclick = () => { if (k < SEQ.length - 1) run(); };
-    const watch = () => { const on = el.classList.contains('active'); if (on && !wasActive) { reset(); timer = setTimeout(run, 900); } if (!on && wasActive) clearTimeout(timer); wasActive = on; requestAnimationFrame(watch); };
+    let step = 0, wasActive = false;
+    const showGroup = n => { box.innerHTML = GROUPS[n].map((t, k) => `<span class="sc-l" style="transition-delay:${k * 120}ms">${t}</span>`).join(''); requestAnimationFrame(() => requestAnimationFrame(() => box.querySelectorAll('.sc-l').forEach(x => x.classList.add('on')))); };
+    const render = () => {
+      v.classList.toggle('on', step >= 3); sub.classList.toggle('on', step >= 3); sub.style.transitionDelay = step >= 3 ? '.5s' : '0s';
+      if (step === 0) box.innerHTML = ''; else if (step === 1 || step === 2) showGroup(step - 1);
+      img.style.transition = 'transform 8s ease-out'; img.style.transform = `scale(${[1, 1.02, 1.04, 1.07][step]})`;
+    };
+    const advance = () => { if (step < 3) { step++; if (step === 3) { v.classList.add('on'); sub.style.transitionDelay = '.5s'; sub.classList.add('on'); img.style.transition = 'transform 8s ease-out'; img.style.transform = 'scale(1.07)'; } else render(); return true; } return false; };
+    const back = () => { if (step > 0) { step--; render(); return true; } return false; };
+    stage.querySelector('.sc-wrap').onclick = advance;
+    // While this slide is up, Next and Back step through it before leaving it.
+    addEventListener('keydown', e => { if (!el.classList.contains('active') || e.target.matches('input,textarea')) return;
+      const fwd = e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ', bk = e.key === 'ArrowLeft' || e.key === 'PageUp';
+      if ((fwd && advance()) || (bk && back())) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);
+    const nx = document.getElementById('next'), pv = document.getElementById('prev');
+    if (nx) nx.addEventListener('click', e => { if (el.classList.contains('active') && advance()) { e.stopImmediatePropagation(); e.preventDefault(); } }, true);
+    if (pv) pv.addEventListener('click', e => { if (el.classList.contains('active') && back()) { e.stopImmediatePropagation(); e.preventDefault(); } }, true);
+    const watch = () => { const on = el.classList.contains('active'); if (on && !wasActive) { step = 0; img.style.transition = 'none'; render(); } wasActive = on; requestAnimationFrame(watch); };
     watch();
   }
 };
