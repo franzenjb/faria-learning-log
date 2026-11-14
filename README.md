@@ -10,7 +10,7 @@ See `ADDING_A_SESSION.md` for adding a day.
 
 ## 14 November 2026
 
-[GIS Day 2026](https://faria.jbf.com/gisday/) is a 30-minute presenter deck at `/gisday/`, titled *Where Am I?* Twenty-two slides, paper and ink and one red, from a title card and three warm-up questions through the grid, the stick, the whole Earth, and Harrison. Click, space, or the arrow keys advance a step. N toggles presenter notes with the clock. F is full screen. It does not replace the course at `/claude1/`.
+[GIS Day 2026](https://faria.jbf.com/gisday/) is a 30-minute presenter deck at `/gisday/`, titled *Where Am I?* Twenty-two slides, paper and ink and one red, from a title card and three warm-up questions through the grid, the stick, the whole Earth, and Harrison. Jupiter’s moons and the 1707 wreck are the two dark scenes, with public-domain pictures. Click, space, or the arrow keys advance a step. N toggles presenter notes with the clock. F is full screen. It does not replace the course at `/claude1/`.
 
 ## Interactive deck
 

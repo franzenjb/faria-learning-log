@@ -165,11 +165,44 @@ function wrap(s, size, maxW, it = false, wt = 400) {
   if (cur) lines.push(cur);
   return lines;
 }
+let NIGHT = false;
 function caption(s, y, it = false) {
   if (!s) return;
   const size = 38, lines = wrap(s, size, 1560, it);
   const top = y - (lines.length - 1) * 50;
-  lines.forEach((ln, i) => T(ln, 960, top + i * 50, size, INK, 'center', 1, it));
+  const col = NIGHT ? '#f4efe4' : INK;
+  lines.forEach((ln, i) => T(ln, 960, top + i * 50, size, col, 'center', 1, it));
+}
+function photo(src) {
+  const img = new Image();
+  img.decoding = 'async';
+  img.src = src;
+  return img;
+}
+const PHOTO = {
+  jupiter: photo('img/jupiter.jpg'),
+  io: photo('img/io.jpg'),
+  scilly: photo('img/scilly.jpg')
+};
+function diskPhoto(img, cx, cy, r, bleed = 1.14) {
+  if (!img.complete || !img.naturalWidth) return false;
+  const iw = img.naturalWidth, ih = img.naturalHeight;
+  const s = Math.max((r * 2) / iw, (r * 2) / ih) * bleed;
+  x.save();
+  x.beginPath();
+  x.arc(cx, cy, r, 0, TAU);
+  x.clip();
+  x.drawImage(img, cx - iw * s / 2, cy - ih * s / 2, iw * s, ih * s);
+  x.restore();
+  return true;
+}
+function coverPhoto(img) {
+  if (!img.complete || !img.naturalWidth) return false;
+  const iw = img.naturalWidth, ih = img.naturalHeight;
+  const s = Math.max(W / iw, H / ih);
+  const dw = iw * s, dh = ih * s;
+  x.drawImage(img, (W - dw) / 2, (H - dh) / 2, dw, dh);
+  return true;
 }
 
 function globe(cx, cy, R, lon0, lat0, o = {}) {
@@ -756,24 +789,42 @@ add({
       poly(pts, 1, HAIR, 1.5);
     }
     T('not to scale', 1120, 390, 28, MUTE, 'left', arcP, true);
+    T('seen from above the North Pole', 960, 148, 28, MUTE, 'center', 1);
+    if (arcP > 0.2) {
+      const mid = angA + sweep * 0.72 * arcP;
+      const dir = sweep >= 0 ? 1 : -1;
+      const tx = -Math.sin(mid) * dir, ty = Math.cos(mid) * dir;
+      const px = sun[0] + orbitR * Math.cos(mid), py = sun[1] + orbitR * Math.sin(mid);
+      const head = Math.atan2(ty, tx);
+      L(px, py, px - Math.cos(head - 0.5) * 18, py - Math.sin(head - 0.5) * 18, INK, 2.5, null, arcP);
+      L(px, py, px - Math.cos(head + 0.5) * 18, py - Math.sin(head + 0.5) * 18, INK, 2.5, null, arcP);
+    }
     const place = STEP === 0 ? A : [lerp(A[0], B[0], STEP === 1 ? U : 1), lerp(A[1], B[1], STEP === 1 ? U : 1)];
-    const spin = starAng - TAU * (1 - (STEP === 0 ? U : 1));
+    const spin = starAng + TAU * (1 - (STEP === 0 ? U : 1));
     const swing = STEP >= 2 ? extra * U : 0;
-    const axis = -1.15;
-    const drawEarth = (c, ang, col, w, a, reach) => {
+    const drawEarth = (c, ang, col, w, a, reach, spinArrow) => {
       if (a <= 0) return;
       x.save();
       x.globalAlpha = a;
       C(c[0], c[1], 64, '#ffffff', INK, 2.5);
-      L(c[0] - Math.cos(axis) * 64, c[1] - Math.sin(axis) * 64, c[0] + Math.cos(axis) * 64, c[1] + Math.sin(axis) * 64, HAIR, 1.5, [5, 6]);
+      C(c[0], c[1], 5, INK);
       L(c[0], c[1], c[0] + Math.cos(ang) * 64, c[1] + Math.sin(ang) * 64, col, w);
       C(c[0] + Math.cos(ang) * 64, c[1] + Math.sin(ang) * 64, 7, col);
       L(c[0] + Math.cos(ang) * 74, c[1] + Math.sin(ang) * 74, c[0] + Math.cos(ang) * reach, c[1] + Math.sin(ang) * reach, col, 1.5, [7, 7]);
+      if (spinArrow) {
+        const a0 = -0.2, a1 = -1.7;
+        arc(c[0], c[1], 86, a0, a1, INK, 2.5, true, 1);
+        const tipx = c[0] + 86 * Math.cos(a1), tipy = c[1] + 86 * Math.sin(a1);
+        const hd = Math.atan2(-Math.cos(a1), Math.sin(a1));
+        L(tipx, tipy, tipx - Math.cos(hd - 0.5) * 16, tipy - Math.sin(hd - 0.5) * 16, INK, 2.5);
+        L(tipx, tipy, tipx - Math.cos(hd + 0.5) * 16, tipy - Math.sin(hd + 0.5) * 16, INK, 2.5);
+      }
       x.restore();
+      T('N', c[0] + 14, c[1] - 6, 28, INK, 'left', a);
     };
     const reachStar = slen - 30;
-    if (STEP >= 1) drawEarth(A, starAng, INK, 2, 0.45, reachStar);
-    drawEarth(place, STEP >= 2 ? starAng : spin, INK, 3, 1, STEP === 0 ? reachStar : 250);
+    if (STEP >= 1) drawEarth(A, starAng, INK, 2, 0.45, reachStar, false);
+    drawEarth(place, STEP >= 2 ? starAng : spin, INK, 3, 1, STEP === 0 ? reachStar : 250, true);
     if (STEP === 0 && U > 0.72) T('23 h 56 m', A[0] + 90, A[1] - 36, 48, INK, 'left', cl((U - 0.72) / 0.28), false, 500);
     if (STEP >= 1) T('23 h 56 m', A[0] - 30, A[1] + 120, 40, INK, 'center', STEP === 1 ? 1 : 0.85, false, 500);
     if (STEP >= 2) {
@@ -1219,41 +1270,77 @@ add({
   }
 });
 
+function analogClock(cx, cy, R, hours, minutes) {
+  C(cx, cy, R, '#ffffff', INK, 3);
+  for (let h = 0; h < 12; h++) {
+    const a = -Math.PI / 2 + h * TAU / 12;
+    const inner = h % 3 === 0 ? R - 26 : R - 14;
+    L(cx + inner * Math.cos(a), cy + inner * Math.sin(a), cx + (R - 2) * Math.cos(a), cy + (R - 2) * Math.sin(a), h % 3 === 0 ? INK : HAIR, h % 3 === 0 ? 3 : 1.6);
+  }
+  for (const h of [12, 3, 6, 9]) {
+    const a = -Math.PI / 2 + (h % 12) * TAU / 12;
+    T(String(h), cx + (R - 52) * Math.cos(a), cy + (R - 52) * Math.sin(a) + 12, 32, INK, 'center');
+  }
+  const hh = -Math.PI / 2 + ((hours % 12) / 12) * TAU + (minutes / 60) * (TAU / 12);
+  const mh = -Math.PI / 2 + (minutes / 60) * TAU;
+  L(cx, cy, cx + R * 0.52 * Math.cos(hh), cy + R * 0.52 * Math.sin(hh), INK, 8);
+  L(cx, cy, cx + R * 0.76 * Math.cos(mh), cy + R * 0.76 * Math.sin(mh), INK, 4);
+  C(cx, cy, 8, INK);
+}
+const GREENWICH = { x: 1360, y: 490, r: 210 };
+
 add({
   title: 'Two Clocks',
   endMin: 20,
-  state: { west: 30, held: false },
+  state: { hours: 0, held: false },
   dragOnly: true,
   notes: [
-    'Local noon is the Sun at its highest, not noon on a civil clock. The other clock is the time at home, carried or computed.',
-    'Spin the ship. The gap, in hours, times 15 is the longitude. Two hours behind Greenwich is 30 degrees west. Ahead of Greenwich is east.',
-    'By 20:00.'
+    'The left clock is the ship. Local noon is the Sun overhead, both hands on 12.',
+    'The right clock is Greenwich, the home port. Let the hands sweep to 4:00 in the afternoon. Drag that clock if you want another hour. Each hour is 15 degrees.',
+    'Four hours times 15 degrees is 60 degrees west. Ahead of Greenwich would be east. By 20:00.'
   ],
   caps: [
-    'Local noon is the Sun at its highest. That clock is in the sky.',
-    'The missing clock is the time at home, at that same moment.',
-    'The gap is your longitude. Two hours is 30 degrees.'
+    'Ship at sea: local noon. The Sun is overhead.',
+    'Greenwich, the home port, reads 4:00 in the afternoon.',
+    'Two clocks, two noons. The difference is your longitude.'
   ],
-  capY: 980,
-  sync() {
-    if (this.state.held) return;
-    this.state.west = STEP >= 2 ? 30 : STEP === 1 ? 30 : 0;
-  },
+  capY: 1000,
   grab(p) {
-    if (Math.hypot(p.x - 820, p.y - 500) < 360) { this.state.held = true; this.move(p); return true; }
+    if (Math.hypot(p.x - GREENWICH.x, p.y - GREENWICH.y) < GREENWICH.r + 36) {
+      this.state.held = true;
+      this.move(p);
+      return true;
+    }
   },
-  move(p) { this.state.west = westFromPoint(p.x, p.y, 820, 500); },
+  move(p) {
+    const a = Math.atan2(p.y - GREENWICH.y, p.x - GREENWICH.x);
+    let hours = (a - (-Math.PI / 2)) / (TAU / 12);
+    hours = (hours % 12 + 12) % 12;
+    this.state.hours = hours;
+  },
   draw() {
-    const to = [0, 30, 30][STEP];
-    const from = [0, 0, 30][STEP];
-    const w = this.state.held ? this.state.west : lerp(from, to, U);
-    if (!this.state.held) this.state.west = w;
-    clockDisk(820, 500, 250, w, true);
-    const hours = w / 15;
-    T('your noon', 1240, 400, 32, INK, 'left', vis(0));
-    T('home time', 1240, 460, 32, MUTE, 'left', vis(1));
-    if (STEP >= 1) T(`${trimNum(hours)} h`, 1240, 560, 72, INK, 'left', 1, false, 500);
-    if (STEP >= 2) T(`${trimNum(w)}°`, 1240, 660, 84, RED, 'left', vis(2), false, 500);
+    const target = STEP >= 1 ? 4 : 0;
+    const from = STEP >= 2 ? 4 : 0;
+    const hours = this.state.held ? this.state.hours : lerp(from, target, STEP === 0 ? 1 : U);
+    if (!this.state.held) this.state.hours = hours;
+    const sunY = 168;
+    C(560, sunY, 36, '#fffdf6', INK, 2.5);
+    for (let i = 0; i < 8; i++) {
+      const a = i * TAU / 8;
+      L(560 + 46 * Math.cos(a), sunY + 46 * Math.sin(a), 560 + 68 * Math.cos(a), sunY + 68 * Math.sin(a), INK, 2);
+    }
+    T('Sun overhead', 560, sunY + 96, 28, MUTE, 'center');
+    analogClock(560, 520, 200, 12, 0);
+    T('Ship at sea: local noon', 560, 780, 32, INK, 'center');
+    analogClock(GREENWICH.x, GREENWICH.y, GREENWICH.r, hours, 0);
+    T('Greenwich (home port) clock', GREENWICH.x, 760, 32, INK, 'center');
+    if (STEP >= 1 || this.state.held) {
+      T(`${trimNum(hours)} hours`, 960, 500, 48, RED, 'center', 1, false, 500);
+    }
+    if (STEP >= 2 || this.state.held) {
+      const west = hours * 15;
+      T(`${trimNum(hours)} h × 15° = ${trimNum(west)}° west`, 960, 860, 40, RED, 'center', 1, false, 500);
+    }
   }
 });
 
@@ -1330,7 +1417,8 @@ add({
   notes: [
     'January 1610. Galileo sees four moons and calls them the Medicean Stars. The names Io, Europa, Ganymede, and Callisto come later, from Marius.',
     'Pause 45 seconds. Ask what they will see tomorrow night. Then click. The moons have moved. Io goes around in about 42.5 hours, and an eclipse of Io is the same instant for everyone looking.',
-    'Cassini’s tables used that clock to remap France from dry land. A long telescope on a rolling deck cannot hold the moons. By 24:15.'
+    'Cassini’s tables used that clock to remap France from dry land. A long telescope on a rolling deck cannot hold the moons. By 24:15.',
+    'Pictures: Jupiter, NASA / JPL / University of Arizona, Cassini, public domain. Io, NASA / JPL / University of Arizona, Galileo, public domain.'
   ],
   caps: [
     'In January 1610, Galileo sees four moons beside Jupiter.',
@@ -1340,47 +1428,75 @@ add({
     'On land you can time it. On a rolling deck, the telescope cannot.'
   ],
   capY: 980,
+  dark: true,
+  credit: 'Jupiter: NASA / JPL / University of Arizona, Cassini. Io: NASA / JPL / University of Arizona, Galileo. Public domain.',
   moons: [
-    { name: 'Io', r: 150, P: 1.769 },
-    { name: 'Europa', r: 230, P: 3.551 },
-    { name: 'Ganymede', r: 350, P: 7.155 },
-    { name: 'Callisto', r: 490, P: 16.69 }
+    { name: 'Io', r: 280, P: 1.769 },
+    { name: 'Europa', r: 390, P: 3.551 },
+    { name: 'Ganymede', r: 500, P: 7.155 },
+    { name: 'Callisto', r: 620, P: 16.69 }
   ],
   draw() {
-    const days = [0.22, 0.22, 1.22, 0.8845, 0.8845];
-    const prev = [0.22, 0.22, 0.22, 1.22, 0.8845][STEP];
-    const day = lerp(prev, days[STEP], U);
-    const cx = 960, cy = 470;
-    const blur = STEP >= 4 ? Math.sin(SEC * 1.6) * 18 : 0;
-    L(cx - 560, cy + blur, cx + 560, cy + blur, HAIR, 1.5, null, vis(0));
-    C(cx, cy + blur * 0.2, 62, '#f3eee4', INK, 3);
-    for (let b = -1; b <= 1; b++) {
-      x.save();
-      x.beginPath();
-      x.arc(cx, cy, 58, 0, TAU);
-      x.clip();
-      L(cx - 70, cy + b * 18, cx + 70, cy + b * 18, '#cdbfa0', 5);
-      x.restore();
+    const cream = '#f4efe4';
+    for (let i = 0; i < 90; i++) {
+      const px = (i * 137 + 40) % 1880 + 20;
+      const py = (i * 89 + (i % 5) * 70) % 860 + 40;
+      C(px, py, i % 6 === 0 ? 1.7 : 1.05, cream);
     }
-    T('Jupiter', cx, cy + 110, 32, INK, 'center', vis(0));
-    const eclipse = STEP >= 3;
+    const days = [0.22, 0.22, 1.22, 0.55, 0.55];
+    const prev = [0.22, 0.22, 0.22, 1.22, 0.55][STEP];
+    const day = lerp(prev, days[STEP], U);
+    const blur = STEP >= 4 ? Math.sin(SEC * 1.6) * 16 : 0;
+    const cx = 960 + blur * 0.15, cy = 470;
+    const R = 210;
+    if (!diskPhoto(PHOTO.jupiter, cx, cy, R, 1.18)) C(cx, cy, R, '#c4a574', '#f4efe4', 2);
+    const eclipse = STEP >= 3 ? (STEP === 3 ? U : 1) : 0;
+    x.save();
+    x.globalAlpha = 0.35 + 0.45 * eclipse;
+    const g = x.createLinearGradient(cx + R * 0.2, cy, cx + R * 2.6, cy);
+    g.addColorStop(0, 'rgba(3,6,16,0)');
+    g.addColorStop(0.25, 'rgba(3,6,16,0.72)');
+    g.addColorStop(1, 'rgba(3,6,16,0.2)');
+    x.fillStyle = g;
+    x.beginPath();
+    x.moveTo(cx + R * 0.15, cy - 36);
+    x.lineTo(cx + R * 2.7, cy - 150);
+    x.lineTo(cx + R * 2.7, cy + 150);
+    x.lineTo(cx + R * 0.15, cy + 36);
+    x.closePath();
+    x.fill();
+    x.restore();
+    T('Jupiter', cx, cy + R + 48, 32, cream, 'center', vis(0));
     const placed = [];
+    const slot = { Europa: -1.15, Ganymede: -1.85, Callisto: 1.85, Io: 1.15 };
     this.moons.forEach(m => {
       const a = day / m.P * TAU;
-      const mx = cx + m.r * Math.sin(a) + (m.name === 'Io' ? blur : blur * 0.25);
-      const behind = Math.cos(a) < 0 && Math.abs(Math.sin(a)) < 62 / m.r;
-      const gone = eclipse && m.name === 'Io';
-      if (!behind && !gone) {
-        C(mx, cy + blur * 0.1, m.name === 'Io' && STEP >= 2 ? 12 : 9, m.name === 'Io' && STEP >= 2 ? RED : INK);
-        placed.push({ name: m.name, x: mx, io: m.name === 'Io' });
+      const my = cy + blur * 0.05;
+      let mx = cx + slot[m.name] * (R + 90) + Math.sin(a) * 70 + (m.name === 'Io' ? blur : blur * 0.15);
+      if (m.name === 'Io') {
+        const into = cx + R + 36;
+        mx = lerp(mx, into, eclipse);
+        const dim = 1 - 0.72 * eclipse;
+        x.save();
+        x.globalAlpha = dim;
+        if (!diskPhoto(PHOTO.io, mx, my, 32, 1.08)) C(mx, my, 16, '#e6c15a', cream, 2);
+        x.restore();
+        if (eclipse > 0.04) {
+          x.save();
+          x.globalAlpha = eclipse * 0.62;
+          C(mx, my, 32, '#05070e');
+          x.restore();
+        }
+        placed.push({ name: 'Io', x: mx, io: true, show: true });
+      } else {
+        C(mx, my, 7, cream);
+        placed.push({ name: m.name, x: mx, io: false, show: true });
       }
-      if (gone) T('Io, gone dark', cx, cy - 110, 44, RED, 'center', vis(3), false, 500);
     });
-    placed.sort((a, b) => a.x - b.x);
-    placed.forEach((m, i) => {
-      const crowded = (i > 0 && m.x - placed[i - 1].x < 110) || (i < placed.length - 1 && placed[i + 1].x - m.x < 110);
-      const below = crowded && i % 2 === 1;
-      if (m.io || !crowded) T(m.name, m.x, below ? cy + 100 : cy - 40, 28, m.io && STEP >= 2 ? RED : MUTE, 'center', vis(0));
+    if (eclipse > 0.45) T('Io, gone dark', cx, cy - R - 28, 44, RED, 'center', eclipse, false, 500);
+    placed.filter(m => m.show).sort((a, b) => a.x - b.x).forEach((m, i, arr) => {
+      const crowded = (i > 0 && m.x - arr[i - 1].x < 120) || (i < arr.length - 1 && arr[i + 1].x - m.x < 120);
+      if (m.io || !crowded) T(m.name, m.x, m.io ? cy - 58 : cy + 28, 28, m.io ? '#f0d48a' : '#c9c3b6', 'center', vis(0));
     });
   }
 });
@@ -1391,7 +1507,8 @@ add({
   notes: [
     '22 October 1707. Admiral Sir Clowdesley Shovell, home from Gibraltar, in fog. Spell Clowdesley. The officers agreed they were in the mouth of the Channel.',
     'They were about 100 miles off that reckoning. Association, Eagle, Romney, and Firebrand struck. About two thousand men were lost. Some counts are nearer fourteen hundred.',
-    'In 1714 the Longitude Act offers £20,000 to come within half a degree, £15,000 within two thirds, and £10,000 within one degree. Half a degree is two minutes of time. By 26:00. Harrison is next.'
+    'In 1714 the Longitude Act offers £20,000 to come within half a degree, £15,000 within two thirds, and £10,000 within one degree. Half a degree is two minutes of time. By 26:00. Harrison is next.',
+    'Picture: public-domain engraving of Sir Cloudesley Shovell’s fleet lost on the rocks of Scilly, 22 October 1707.'
   ],
   caps: [
     '22 October 1707. Sir Clowdesley Shovell is bringing the fleet home, in fog.',
@@ -1399,46 +1516,44 @@ add({
     'They are about 100 miles off. Four ships strike the rocks.',
     'In 1714, Parliament offers £20,000 to come within half a degree.'
   ],
-  capY: 980,
+  capY: 990,
+  dark: true,
+  credit: 'Public domain engraving of the 1707 wreck on the rocks of Scilly.',
   draw() {
-    const M = (px, py) => [900 + (px - 682) * 1.7, 500 + (py - 322) * 1.35];
-    const land = (pts) => {
-      x.beginPath();
-      pts.forEach((q, i) => { const p = M(q[0], q[1]); i ? x.lineTo(p[0], p[1]) : x.moveTo(p[0], p[1]); });
-      x.closePath();
-      x.fillStyle = LAND;
-      x.fill();
-      x.strokeStyle = '#a9a498';
-      x.lineWidth = 1.5;
-      x.stroke();
-    };
-    x.save();
-    x.globalAlpha = vis(0);
-    land([[960, 96], [852, 118], [770, 150], [700, 176], [640, 212], [598, 238], [560, 250], [548, 262], [572, 270], [604, 262], [640, 268], [662, 282], [700, 262], [760, 250], [820, 232], [880, 236], [960, 226]]);
-    land([[960, 470], [900, 462], [850, 470], [800, 458], [770, 470], [742, 468], [728, 480], [760, 492], [744, 506], [780, 512], [800, 530], [860, 540], [960, 548]]);
-    [[424, 262, 8], [438, 252, 6], [412, 250, 5], [430, 274, 5], [404, 268, 4]].forEach(q => {
-      const p = M(q[0], q[1]);
-      C(p[0], p[1], q[2] * 1.5, LAND, '#a9a498', 1);
-    });
-    x.restore();
-    const lab = (name, px, py, al = 'left') => { const p = M(px, py); T(name, p[0], p[1], 32, INK, al, vis(0)); };
-    lab('Cornwall', 790, 180);
-    lab('Brittany', 860, 500);
-    const rock = M(420, 260);
-    T('Isles of Scilly', rock[0], rock[1] - 70, 32, INK, 'center', vis(0));
-    const reckoned = [M(260, 500), M(480, 430), M(760, 340), M(920, 300)];
-    const actual = [M(260, 470), M(340, 390), M(390, 320), M(420, 262)];
-    poly(reckoned, vis(1), INK, 3, [12, 10]);
-    const where = M(700, 360);
-    T('where they reckoned', where[0], where[1], 32, MUTE, 'left', vis(1), true);
-    poly(actual, vis(2), RED, 5);
-    const boom = vis(2);
-    if (boom > 0.85) {
-      L(rock[0] - 16, rock[1] - 16, rock[0] + 16, rock[1] + 16, RED, 6);
-      L(rock[0] + 16, rock[1] - 16, rock[0] - 16, rock[1] + 16, RED, 6);
+    const cream = '#f4efe4';
+    if (!coverPhoto(PHOTO.scilly)) {
+      x.fillStyle = '#102033';
+      x.fillRect(0, 0, W, H);
     }
-    T('about 100 miles off', rock[0] - 20, rock[1] + 86, 36, RED, 'center', boom, false, 500);
-    T('Association  ·  Eagle  ·  Romney  ·  Firebrand', 960, 900, 32, INK, 'center', boom);
+    x.fillStyle = 'rgba(8, 18, 40, 0.42)';
+    x.fillRect(0, 0, W, H);
+    const glow = (px, py, r, a) => {
+      const g = x.createRadialGradient(px, py, 2, px, py, r);
+      g.addColorStop(0, `rgba(255, 196, 92, ${0.9 * a})`);
+      g.addColorStop(0.35, `rgba(255, 150, 50, ${0.35 * a})`);
+      g.addColorStop(1, 'rgba(255, 120, 30, 0)');
+      x.fillStyle = g;
+      x.beginPath();
+      x.arc(px, py, r, 0, TAU);
+      x.fill();
+    };
+    const lamps = vis(0);
+    glow(430, 620, 70, lamps);
+    glow(780, 700, 80, lamps);
+    glow(1180, 430, 64, lamps);
+    glow(1500, 520, 48, lamps);
+    T('22 October 1707', 200, 180, 36, cream, 'left', vis(0), false, 500);
+    T('where they reckoned', 1560, 340, 32, '#f4efe4', 'right', vis(1), true);
+    const boom = vis(2);
+    const mark = (px, py) => {
+      L(px - 22, py - 22, px + 22, py + 22, RED, 7, null, boom);
+      L(px + 22, py - 22, px - 22, py + 22, RED, 7, null, boom);
+    };
+    mark(150, 800);
+    mark(1760, 820);
+    T('the rocks', 190, 760, 32, RED, 'left', boom, false, 500);
+    T('about 100 miles off', 960, 188, 40, RED, 'center', boom, false, 500);
+    T('Association  ·  Eagle  ·  Romney  ·  Firebrand', 960, 236, 28, cream, 'center', boom);
   }
 });
 
@@ -1527,9 +1642,12 @@ function renderNotes() {
   hintBy.textContent = byLabel(s.endMin);
   notesEl.innerHTML = `<p class="by">${byLabel(s.endMin)}</p><p class="dur">${dm ? dm + ' min ' : ''}${ds ? ds + ' sec' : ''} on this slide · ${s.caps.length} click${s.caps.length > 1 ? 's' : ''}${s.pause ? ' · pause ' + s.pause : ''}</p><h2>${s.title}</h2>${s.ask ? `<p class="ask">${s.ask}</p>` : ''}<ul>${s.notes.map(n => `<li>${n}</li>`).join('')}</ul>`;
 }
+let nightFrom = 0;
 function go(i, st) {
+  const prev = SLIDES[idx];
   idx = cl(i, 0, SLIDES.length - 1);
   const s = SLIDES[idx];
+  if (s.dark && !(prev && prev.dark)) nightFrom = performance.now();
   step = cl(st == null ? 0 : st, 0, s.caps.length - 1);
   STEP = step;
   animFrom = performance.now();
@@ -1685,17 +1803,35 @@ function frame(now) {
   x.setLineDash([]);
   x.lineCap = 'butt';
   x.lineJoin = 'miter';
+  const night = s.dark ? ez(cl((now - nightFrom) / 420)) : 0;
+  NIGHT = !!s.dark;
+  document.body.classList.toggle('night', NIGHT);
   x.fillStyle = PAPER;
   x.fillRect(0, 0, W, H);
+  if (night > 0) {
+    x.globalAlpha = night;
+    x.fillStyle = '#070b14';
+    x.fillRect(0, 0, W, H);
+    x.globalAlpha = 1;
+  }
   x.save();
+  if (s.dark) x.globalAlpha = night;
   s.draw();
   x.restore();
   syncLayers();
   x.globalAlpha = 1;
   x.setLineDash([]);
-  T(s.title, 88, 86, 48, INK, 'left', 1, false, 500);
+  if (s.dark && night > 0.2) {
+    x.fillStyle = 'rgba(6,10,18,0.5)';
+    x.fillRect(0, 0, W, 118);
+    x.fillRect(0, 900, W, 180);
+  }
+  if (s.credit) T(s.credit, 960, 868, 22, NIGHT ? '#d2cbbf' : MUTE, 'center');
+  const titleCol = NIGHT ? '#f4efe4' : INK;
+  const muteCol = NIGHT ? '#d2cbbf' : MUTE;
+  T(s.title, 88, 86, 48, titleCol, 'left', 1, false, 500);
   const counter = `${idx + 1} / ${SLIDES.length}  ·  ${s.title}`;
-  T(counter, 1832, 86, 28, MUTE, 'right');
+  T(counter, 1832, 86, 28, muteCol, 'right');
   const cap = s.caps[step];
   caption(cap, s.capY || 940, Boolean(s.ask) && cap === s.ask);
   requestAnimationFrame(frame);
