@@ -936,6 +936,20 @@ add({
       }
       C(cx, cy, 6, INK);
       T('N', cx + 14, cy + 6, 28, MUTE, 'left');
+      if (STEP >= 1 && STEP < 5) {
+        const nightA = STEP === 1 ? (gwich + east * u * TAU) : gwich - (SEC % 12) / 12 * TAU;
+        x.save();
+        x.beginPath();
+        x.arc(cx, cy, R - 2, 0, TAU);
+        x.clip();
+        x.fillStyle = 'rgba(22,21,20,.16)';
+        x.beginPath();
+        x.moveTo(cx, cy);
+        x.arc(cx, cy, R, nightA, nightA + Math.PI, false);
+        x.closePath();
+        x.fill();
+        x.restore();
+      }
     }
     if (STEP === 1) {
       const sweep = gwich + east * u * TAU;
@@ -1624,7 +1638,10 @@ add({
         placed.push({ name: m.name, x: mx, io: false, show: true });
       }
     });
-    if (eclipse > 0.45) T('Io, gone dark', cx, cy - R - 28, 44, RED, 'center', eclipse, false, 500);
+    if (eclipse > 0.45) {
+      T('Padua  9:00', 220, 200, 40, '#f4efe4', 'left', eclipse, false, 500);
+      T('Ship  7:00', 220, 260, 40, '#f0d48a', 'left', eclipse, false, 500);
+    }
     placed.filter(m => m.show).sort((a, b) => a.x - b.x).forEach((m, i, arr) => {
       const crowded = (i > 0 && m.x - arr[i - 1].x < 120) || (i < arr.length - 1 && arr[i + 1].x - m.x < 120);
       if (STEP >= 2 && (m.io || !crowded)) T(m.name, m.x, m.io ? cy - 58 : cy + 28, 28, m.io ? '#f0d48a' : '#c9c3b6', 'center', vis(0));
@@ -1726,6 +1743,11 @@ add({
     const t0 = 1713, t1 = 1773;
     const px = t => x0 + (t - t0) / (t1 - t0) * (x1 - x0);
     const grow = STEP >= 1 ? (STEP === 1 ? U : 1) : 0;
+    if (STEP === 1) {
+      const r = lerp(150, 54, U);
+      C(960, 560, r, '#ffffff', INK, 3);
+      T(U < 0.33 ? 'H1' : U < 0.66 ? 'H3' : 'H4', 960, 570, 36, RED, 'center');
+    }
     if (grow > 0) {
       L(x0, y0, lerp(x0, x1, grow), y0, INK, 4);
       marks.forEach(([yr, name]) => {
@@ -1787,15 +1809,18 @@ add({
     }
     const pinAt = [x0 + gw * 0.62, y0 + gh * 0.55];
     pin(pinAt[0], pinAt[1], vis(0));
-    const sats = [[1180, 180], [1500, 280], [1360, 120]];
     const show = vis(2);
-    sats.forEach((s, i) => {
+    for (let i = 0; i < 3; i++) {
+      const ang = SEC * 0.55 + i * 2.094;
+      const rad = 90 + i * 55;
+      const sx = 1380 + Math.cos(ang) * rad;
+      const sy = 260 + Math.sin(ang) * rad * 0.55;
       const a = cl((show * 3) - i);
-      C(s[0], s[1], 16, PAPER, INK, 2.5);
-      T('clock', s[0] + 28, s[1] + 8, 28, MUTE, 'left', a);
-      L(s[0], s[1] + 18, pinAt[0], pinAt[1], RED, 2, [6, 6], a);
-    });
-    T('clocks in the sky', 1280, 460, 48, RED, 'left', show, false, 500);
+      C(sx, sy, 14, PAPER, INK, 2.5);
+      L(sx, sy, pinAt[0], pinAt[1], RED, 2, [6, 6], a);
+      const pulse = (SEC * 0.8 + i * 0.3) % 1;
+      if (a > 0.4) C(lerp(sx, pinAt[0], pulse), lerp(sy, pinAt[1], pulse), 4, RED);
+    }
   }
 });
 
@@ -1943,6 +1968,16 @@ add({
       T('not to scale', 1100, 410, 28, MUTE, 'left');
       T('1582 · 10 days', 1100, 490, 36, INK, 'left', cl((U - 0.25) / 0.3));
       T('1752 · 11 days', 1100, 550, 36, INK, 'left', cl((U - 0.55) / 0.3));
+      for (let i = 0; i < 6; i++) {
+        const fall = ((SEC * 0.4 + i * 0.17) % 1);
+        x.save();
+        x.globalAlpha = 1 - fall;
+        x.translate(1180 + i * 70, 200 + fall * 420);
+        x.rotate(fall * 0.6);
+        x.strokeStyle = INK;
+        x.strokeRect(0, 0, 48, 64);
+        x.restore();
+      }
     }
   }
 });
@@ -1973,6 +2008,11 @@ add({
     C(ex, ey, 18, PAPER, INK, 3);
     T(near ? 'Earth, near' : 'Earth, far', ex, ey + 56, 32, INK, 'center', 1);
     L(ex, ey, jx - 70, jy, RED, 3, [8, 6], vis(1));
+    if (STEP >= 1) {
+      const t = (SEC * 0.35) % 1;
+      const late = STEP >= 2 ? 0.15 : 0;
+      C(lerp(jx - 70, ex, Math.min(1, t + late)), lerp(jy, ey, Math.min(1, t + late)), 7, RED);
+    }
     if (STEP >= 2) T('about 22 minutes across the orbit', 200, 250, 36, RED, 'left', 1, false, 500);
     T('the land clock', 200, 180, 32, MUTE, 'left', vis(0));
   }
@@ -1996,8 +2036,8 @@ add({
   capBox: { x: 960, y: 800, w: 1680, align: 'center', size: 34 },
   draw() {
     if (STEP < 2) {
-      T('£20,000', 960, 250, 96, RED, 'center', 1, false, 500);
-      T('a few million, today, roughly', 960, 320, 28, MUTE, 'center');
+      const pounds = Math.round(lerp(0, 20000, reduce ? 1 : ez(cl((performance.now() - animFrom) / 1400))));
+      T('£' + pounds.toLocaleString('en-US'), 960, 250, 96, RED, 'center', 1, false, 500);
     }
     const rows = [['½°', '£20,000'], ['⅔°', '£15,000'], ['1°', '£10,000']];
     if (STEP >= 1) rows.forEach((r, i) => {
@@ -2005,8 +2045,9 @@ add({
       T(r[1], 820, 420 + i * 64, 40, i === 0 ? RED : INK, 'left');
     });
     if (STEP >= 2) {
-      T('Can a watch do it?', 960, 250, 48, INK, 'center');
-      T('“Such a watch hath not yet been made.”', 960, 640, 36, RED, 'center', 1, true);
+      const quote = 'Such a watch hath not yet been made.';
+      const n = Math.max(1, Math.round(quote.length * (reduce ? 1 : ez(cl((performance.now() - animFrom) / 1600)))));
+      T('“' + quote.slice(0, n) + '”', 960, 560, 40, RED, 'center', 1, true);
     }
   }
 });
@@ -2041,7 +2082,9 @@ add({
     }
     if (STEP === 0) T('Where should zero be?', 200, 360, 56, INK, 'left', 1, false, 500);
     if (STEP >= 1) {
-      T('22', 160, 280, 120, RED, 'left', 1, false, 500);
+      const votes = Math.round(22 * (reduce ? 1 : ez(cl((performance.now() - animFrom) / 1200))));
+      T(String(votes), 160, 280, 120, RED, 'left', 1, false, 500);
+      for (let i = 0; i < votes; i++) C(160 + (i % 11) * 22, 360 + Math.floor(i / 11) * 22, 6, RED);
       T('to 1', 360, 300, 64, INK, 'left');
     }
     if (STEP >= 2) T('San Domingo: no', 120, 460, 32, INK, 'left');
@@ -2086,6 +2129,8 @@ add({
       if (prev && q.z > 0 && prev.z > 0 && i < showN) L(prev.x, prev.y, q.x, q.y, hot ? RED : INK, hot ? 5 : 3);
       prev = q;
     });
+    const sunA = -Math.PI / 2 + (SEC % 10) / 10 * TAU;
+    C(1180 + Math.cos(sunA) * 80, 160 + Math.sin(sunA) * 30, 16, PAPER, INK, 2.5);
     if (STEP >= 1) {
       const a = pr(165, 6), b = pr(-165, 6);
       if (a.z > 0) { ship(a.x, a.y, 1.1, INK, -0.4, 1); T('noon', a.x, a.y - 36, 28, INK, 'center'); }
