@@ -504,7 +504,7 @@ addEventListener('load', () => setTimeout(() => {
         (show ? `<g class="er-in">${bar(380, 24901 * k, B)}${T('24,901 miles', 160 + 24901 * k + 16, 420, 30, B, 'start')}</g>` +
           T('With a stick, a shadow and a paced distance.', 500, 540, 34) +
           T('His unit, the stadion, is uncertain, so “within a few percent” is the honest claim.', 500, 600, 20, M)
-        : `<rect x="160" y="380" width="500" height="56" rx="8" fill="none" stroke="${B}" stroke-width="2" stroke-dasharray="10 8"/>` + T('?', 410, 422, 44, B) +
+        : T('?', 160, 424, 48, B, 'start') +
           T('Your guess?', 500, 540, 40, G)); })
   ];
   const g = el.querySelector('#er');
