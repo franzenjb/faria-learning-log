@@ -40,6 +40,10 @@ const joined = JSON.stringify(meta);
 assert.equal(joined.includes('GIS Month'), false);
 assert.equal(joined.toLowerCase().includes('six connected'), false);
 assert.ok(meta.titles[0] === 'Where Am I?');
+assert.equal(meta.titles[2], 'A Stick and a Shadow');
+assert.equal(meta.titles[3], 'The Whole Earth');
+assert.equal(meta.caps[2].length, 3);
+assert.equal(meta.caps[3].length, 4);
 
 const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
@@ -66,6 +70,33 @@ for (let i = 0; i < meta.n; i++) {
   assert.ok(painted.scroll <= 0, meta.titles[i] + ' no sideways scroll');
   assert.deepEqual(errors, [], meta.titles[i] + ' no console errors');
 }
+
+// Eratosthenes: the shadow falls north of Alexandria, away from Syene.
+const stick = meta.titles.indexOf('A Stick and a Shadow');
+const whole = meta.titles.indexOf('The Whole Earth');
+await page.evaluate(i => __deck.go(i, 1), stick);
+await page.waitForTimeout(900);
+const geom = await page.evaluate(() => __deck.slides.find(s => s.title === 'A Stick and a Shadow').geom);
+assert.ok(geom.north, 'shadow is on the north side of the stick');
+assert.ok(geom.shx < geom.ax - 20, 'shadow tip is north of the Alexandria base');
+assert.ok(geom.sx > geom.ax + 200, 'Syene is south of Alexandria');
+assert.ok(Math.abs(geom.angle - 7.2) < 0.15, 'the sun ray meets the stick at 7.2°');
+assert.equal(geom.well, true, 'the Syene well is on the shadow step');
+await page.screenshot({ path: `${outDir}/stick-shadow-well.png` });
+await page.evaluate(i => __deck.go(i, 2), stick);
+await page.waitForTimeout(900);
+const wedge = await page.evaluate(() => __deck.slides.find(s => s.title === 'A Stick and a Shadow').geom);
+assert.ok(wedge.far > 0.95, 'zoom-out reaches the center');
+await page.screenshot({ path: `${outDir}/stick-wedge.png` });
+await page.evaluate(i => __deck.go(i, 1), whole);
+await page.waitForTimeout(900);
+await page.screenshot({ path: `${outDir}/whole-earth-slices.png` });
+await page.evaluate(i => __deck.go(i, 3), whole);
+await page.waitForTimeout(900);
+await page.screenshot({ path: `${outDir}/whole-earth-miles.png` });
+await page.evaluate(i => __deck.go(i, 0), stick);
+await page.waitForTimeout(800);
+await page.screenshot({ path: `${outDir}/stick-well.png` });
 
 // Animation: a new step changes pixels, then settles.
 await page.evaluate(() => __deck.go(2, 0));

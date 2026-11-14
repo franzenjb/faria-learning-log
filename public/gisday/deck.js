@@ -314,7 +314,7 @@ add({
   notes: [
     'A Roman mile is a thousand paces, and a pace is two steps, left foot back to left foot.',
     'Greek bematists, pronounced BEE-muh-tists, were paid to walk in even steps. Eratosthenes used their count.',
-    'One minute here. The stick is next. This pair ends by 3:30.'
+    'One minute here. The stick is next. By 2:30.'
   ],
   caps: [
     'A pace is two steps, left foot back to left foot.',
@@ -342,72 +342,259 @@ add({
   }
 });
 
+const SUN_ANG = 7.2 * D;
+const TH_S = 0;
+const TH_A = -SUN_ANG;
+
+function earthAt(cam, th) {
+  return { x: cam.cx + cam.R * Math.sin(th), y: cam.cy - cam.R * Math.cos(th) };
+}
+function outwardOf(th) {
+  return { x: Math.sin(th), y: -Math.cos(th) };
+}
+function northOf(th) {
+  return { x: -Math.cos(th), y: -Math.sin(th) };
+}
+function rayOnTangent(tip, dir, base, tangent) {
+  const dx = base.x - tip.x, dy = base.y - tip.y;
+  const det = dir.x * -tangent.y - (-tangent.x) * dir.y;
+  const t = (dx * -tangent.y - (-tangent.x) * dy) / det;
+  const u = (dir.x * dy - dir.y * dx) / det;
+  return { x: base.x + tangent.x * u, y: base.y + tangent.y * u, t, u };
+}
+function mixCam(a, b, u) {
+  const o = {};
+  for (const k of Object.keys(a)) o[k] = lerp(a[k], b[k], u);
+  return o;
+}
+function drawGroundArc(cam, alpha) {
+  if (alpha <= 0.01) return;
+  const samples = [];
+  for (let a = -0.62; a <= 0.48; a += 0.012) samples.push([earthAt(cam, a).x, earthAt(cam, a).y]);
+  x.save();
+  x.globalAlpha = cl(alpha);
+  x.beginPath();
+  x.moveTo(samples[0][0], 1180);
+  samples.forEach(p => x.lineTo(p[0], p[1]));
+  x.lineTo(samples[samples.length - 1][0], 1180);
+  x.closePath();
+  x.fillStyle = LAND;
+  x.fill();
+  poly(samples, 1, INK, 3);
+  x.restore();
+}
+function drawSyeneWell(px, py, theta, scale, alpha) {
+  if (alpha <= 0.02 || scale < 0.45) return;
+  x.save();
+  x.translate(px, py);
+  x.rotate(theta);
+  x.scale(scale, scale);
+  x.globalAlpha = cl(alpha);
+  if (scale > 1.6) {
+    L(-170, 0, -88, 0, INK, 3);
+    L(88, 0, 170, 0, INK, 3);
+  }
+  x.fillStyle = PAPER;
+  x.fillRect(-44, 4, 88, 154);
+  L(-44, 0, -44, 168, INK, 5);
+  L(44, 0, 44, 168, INK, 5);
+  for (const yy of [46, 92, 136]) L(-44, yy, 44, yy, HAIR, 1.5);
+  x.fillStyle = LAND;
+  x.strokeStyle = INK;
+  x.lineWidth = 3;
+  x.beginPath();
+  x.rect(-88, -28, 176, 34);
+  x.fill();
+  x.stroke();
+  for (const bx of [-56, -24, 8, 40]) L(bx, -28, bx, 6, INK, 1.5);
+  L(-88, -8, 88, -8, INK, 1.5);
+  x.beginPath();
+  const wob = i => Math.sin(i * 1.35 + SEC * 2.1) * 3.2;
+  x.moveTo(-40, 164);
+  for (let i = 0; i <= 16; i++) x.lineTo(-40 + i * (80 / 16), 150 + wob(i));
+  x.lineTo(40, 172);
+  x.lineTo(-40, 172);
+  x.closePath();
+  x.fillStyle = LAND;
+  x.fill();
+  x.beginPath();
+  for (let i = 0; i <= 16; i++) {
+    const wx = -40 + i * (80 / 16), wy = 150 + wob(i);
+    i ? x.lineTo(wx, wy) : x.moveTo(wx, wy);
+  }
+  x.strokeStyle = INK;
+  x.lineWidth = 2.5;
+  x.stroke();
+  x.strokeStyle = PAPER;
+  x.lineWidth = 3.5;
+  x.beginPath();
+  x.moveTo(-16, 146);
+  x.lineTo(-2, 141);
+  x.moveTo(8, 154);
+  x.lineTo(18, 150);
+  x.stroke();
+  L(0, -96, 0, 148, RED, 4);
+  const m = 22;
+  L(0, 148 - m, m, 148 - m, RED, 2.5);
+  L(m, 148 - m, m, 148, RED, 2.5);
+  x.restore();
+}
+
+const CAM_HERO = { cx: 960, cy: 12820, R: 12300, well: 2.35, stick: 520, show: 0, far: 0 };
+const CAM_PAIR = { cx: 1180, cy: 3664, R: 3024, well: 1.42, stick: 520, show: 1, far: 0 };
+const CAM_ZOOM = { cx: 760, cy: 548, R: 348, well: 0.2, stick: 36, show: 1, far: 1 };
+
 add({
   title: 'A Stick and a Shadow',
-  endMin: 3.5,
+  endMin: 4.25,
   notes: [
-    'About 240 BC. Syene is Aswan. On the solstice the noon Sun lights the bottom of a well. At Alexandria the same noon, a stick reads 7.2°.',
-    '7.2° is one fiftieth of a circle, so the Earth is fifty times the walked distance, about 5,000 stadia. The picture spreads the angle so the shadow can be seen. His result lands somewhere from about 24,000 to 29,000 miles. The real circumference is about 24,901.',
-    'By 3:30.'
+    'About 240 BC. Say air-uh-TOSS-thuh-neez once. Syene is Aswan. This frame is the well: noon on the summer solstice, the Sun straight overhead. The red ray goes down the center and meets the water at a right angle.',
+    'Alexandria is to the north. The same noon, a stick there casts a shadow. The shadow falls north, away from the Sun and away from Syene. The ray is the one through the tip of the stick. The angle is 7.2°.',
+    'Pull back. The Syene ray and the Alexandria stick both run to the center of the Earth. The wedge there is the same 7.2°. By 4:15. The next slide does the arithmetic.'
   ],
   caps: [
-    'At Syene, on the solstice, the noon Sun lights the bottom of a well.',
-    'At Alexandria, that same noon, a stick’s shadow is 7.2 degrees.',
-    '7.2 degrees is one fiftieth of a circle. The Earth is fifty times that walk.'
+    'At Syene, noon on the summer solstice, the Sun shines straight down a well.',
+    'At Alexandria the shadow points north, away from Syene. The angle is 7.2°.',
+    'Both lines meet at the center. The wedge is 7.2°.'
   ],
-  capY: 960,
+  capY: 1000,
   draw() {
-    const cx = 1080, cy = 2200, R = 1620, tilt = 0.015, sep = 14 * D;
-    const pt = ang => [cx + R * Math.sin(ang), cy - R * Math.cos(ang)];
-    const outward = ang => [Math.sin(ang), -Math.cos(ang)];
-    const samples = [];
-    for (let ang = -0.46; ang <= 0.30; ang += 0.012) samples.push(pt(ang));
-    const left = samples[0], right = samples[samples.length - 1];
-    x.beginPath();
-    x.moveTo(left[0], left[1] + 90);
-    samples.forEach(p => x.lineTo(p[0], p[1]));
-    x.lineTo(right[0], right[1] + 90);
-    x.closePath();
-    x.fillStyle = LAND;
-    x.fill();
-    poly(samples, 1, INK, 3);
-    const show = vis(0);
-    for (let i = -3; i <= 2; i++) {
-      const ang = tilt + i * 0.07;
-      const [bx, by] = pt(ang);
-      L(bx - Math.sin(tilt) * 340, by - Math.cos(tilt) * 340, bx, by, HAIR, 1.5, [8, 10], show);
+    const cam = STEP === 0 ? CAM_HERO : STEP === 1 ? mixCam(CAM_HERO, CAM_PAIR, U) : mixCam(CAM_PAIR, CAM_ZOOM, U);
+    const sun = { x: -Math.sin(TH_S), y: Math.cos(TH_S) };
+    const syene = earthAt(cam, TH_S);
+    const alex = earthAt(cam, TH_A);
+    const out = outwardOf(TH_A);
+    const tip = { x: alex.x + out.x * cam.stick, y: alex.y + out.y * cam.stick };
+    const north = northOf(TH_A);
+    const hit = rayOnTangent(tip, sun, alex, north);
+    const up = { x: -sun.x, y: -sun.y };
+    const angle = Math.acos(cl(out.x * up.x + out.y * up.y, -1, 1)) / D;
+    this.geom = {
+      ax: alex.x, ay: alex.y, sx: syene.x, sy: syene.y,
+      shx: hit.x, shy: hit.y, tx: tip.x, ty: tip.y,
+      angle, north: hit.u > 0 && hit.x < alex.x, well: cam.well > 0.45, far: cam.far
+    };
+    drawGroundArc(cam, 1 - cam.far);
+    if (cam.far > 0.02) {
+      x.save();
+      x.globalAlpha = cl(cam.far);
+      C(cam.cx, cam.cy, cam.R, '#ffffff', INK, 3);
+      x.beginPath();
+      x.moveTo(cam.cx, cam.cy);
+      x.arc(cam.cx, cam.cy, cam.R, TH_A - Math.PI / 2, TH_S - Math.PI / 2, false);
+      x.closePath();
+      x.fillStyle = 'rgba(176,31,36,.16)';
+      x.fill();
+      L(syene.x, syene.y, cam.cx, cam.cy, RED, 4, null, 1);
+      L(alex.x, alex.y, cam.cx, cam.cy, INK, 3.5, null, 1);
+      arc(cam.cx, cam.cy, 118, TH_A - Math.PI / 2, TH_S - Math.PI / 2, RED, 4, false, 1);
+      C(cam.cx, cam.cy, 7, INK);
+      L(alex.x, Math.max(130, alex.y - 80), alex.x, alex.y + 48, HAIR, 2, [7, 8], 1);
+      x.restore();
+      T('7.2°', cam.cx + cam.R + 48, cam.cy + 8, 84, RED, 'left', cam.far, false, 500);
+      T('center', cam.cx + 22, cam.cy + 36, 28, MUTE, 'left', cam.far);
+      T('Alexandria', alex.x - 28, alex.y - 20, 32, INK, 'right', cam.far);
+      T('Syene', syene.x + 36, syene.y - 8, 32, INK, 'left', cam.far);
     }
-    const [sx, sy] = pt(tilt);
-    x.save();
-    x.globalAlpha = show;
-    x.fillStyle = PAPER;
-    x.strokeStyle = INK;
-    x.lineWidth = 3;
-    x.fillRect(sx - 15, sy - 2, 30, 52);
-    x.strokeRect(sx - 15, sy - 2, 30, 52);
-    x.restore();
-    T('Syene', sx + 34, sy + 36, 32, INK, 'left', show);
-    const [ax, ay] = pt(tilt - sep);
-    const [ux, uy] = outward(tilt - sep);
-    const stick = vis(1);
-    const tipx = ax + ux * 190, tipy = ay + uy * 190;
-    L(ax, ay, tipx, tipy, INK, 7, null, stick);
-    const shx = ax + 86, shy = ay + 6;
-    L(tipx, tipy, shx, shy, RED, 3, null, stick);
-    L(ax, ay, shx, shy, RED, 8, null, stick);
-    T('Alexandria', ax - 16, ay + 58, 32, INK, 'right', stick);
-    T('7.2°', tipx + 24, tipy + 8, 56, RED, 'left', stick, false, 500);
-    T('1/50 of the circle', 280, 360, 44, INK, 'left', vis(2), false, 500);
+    const skyA = cam.show * (1 - cam.far);
+    if (skyA > 0.02) {
+      x.save();
+      x.globalAlpha = cl(skyA);
+      L(tip.x, 130, tip.x, tip.y, HAIR, 1.5, [8, 9], 1);
+      const mid = (syene.x + tip.x) / 2;
+      L(mid, 150, mid, 340, HAIR, 1.5, [8, 9], 1);
+      L(syene.x, 348, syene.x, syene.y - cam.well * 28, HAIR, 1.5, [8, 9], 1);
+      x.restore();
+    }
+    drawSyeneWell(syene.x, syene.y, TH_S, cam.well, 1 - cam.far * 0.85);
+    T('Syene', syene.x + cam.well * 118, syene.y - cam.well * 42, 32, INK, 'left', 1 - cam.far);
+    const labelA = 1 - cam.far;
+    const lx = lerp(960, 1540, cam.show), ly = lerp(188, 250, cam.show);
+    T('Noon, Summer Solstice:', lx, ly, 36, INK, 'center', labelA, false, 500);
+    T('Sun Directly Overhead', lx, ly + 46, 36, INK, 'center', labelA, false, 500);
+    if (cam.show > 0.02 && cam.far < 0.92) {
+      const a = cam.show * (1 - cam.far);
+      L(alex.x, alex.y, tip.x, tip.y, INK, 8, null, a);
+      L(tip.x - sun.x * 240, tip.y - sun.y * 240, tip.x, tip.y, HAIR, 2, [8, 8], a);
+      L(tip.x, tip.y, hit.x, hit.y, RED, 3.5, null, a);
+      L(alex.x, alex.y, hit.x, hit.y, RED, 12, null, a);
+      const bx = hit.x - north.x * 22, by = hit.y - north.y * 22;
+      const px = -north.y, py = north.x;
+      L(hit.x, hit.y, bx + px * 12, by + py * 12, RED, 3.5, null, a);
+      L(hit.x, hit.y, bx - px * 12, by - py * 12, RED, 3.5, null, a);
+      const aUp = Math.atan2(up.y, up.x), aOut = Math.atan2(out.y, out.x);
+      let sweep = aOut - aUp;
+      while (sweep > Math.PI) sweep -= TAU;
+      while (sweep < -Math.PI) sweep += TAU;
+      arc(tip.x, tip.y, 72, aUp, aUp + sweep, RED, 3.5, sweep < 0, a);
+      T('7.2°', tip.x + 78, tip.y + 92, 48, RED, 'left', a, false, 500);
+      T('north', hit.x - 30, hit.y - 26, 28, RED, 'right', a);
+      T('Alexandria', alex.x + 24, alex.y + 54, 32, INK, 'left', a);
+    }
+  }
+});
+
+add({
+  title: 'The Whole Earth',
+  endMin: 5.75,
+  notes: [
+    '7.2 goes into 360 fifty times. 360 divided by 7.2 is 50. The walk from Alexandria to Syene is one slice of the Earth.',
+    'Count the slices if you like. The red one is that walk. The other forty-nine are the rest of the way around.',
+    'The bematists put the walk at about 5,000 stadia. Fifty times 5,000 is 250,000 stadia. He later wrote 252,000. Say 250,000.',
+    'A stadion was not one fixed length, so the miles are uncertain, roughly 24,000 to 29,000, near 25,000. Today the equator is 24,901 miles, 40,075 kilometers. He was close. By 5:45.'
+  ],
+  caps: [
+    '360 degrees divided by 7.2 degrees is 50.',
+    'Fifty slices. The red slice is Alexandria to Syene.',
+    '5,000 stadia times 50 is 250,000 stadia.',
+    'About 25,000 miles. His stadion’s length is uncertain. Today it is 24,901 miles.'
+  ],
+  capY: 990,
+  draw() {
+    const cx = 520, cy = 545, R = 248;
+    const start = -Math.PI / 2 - SUN_ANG;
+    const grow = STEP > 1 ? 1 : STEP === 1 ? U : 0;
+    C(cx, cy, R, '#ffffff', INK, 2.5);
+    x.beginPath();
+    x.moveTo(cx, cy);
+    x.arc(cx, cy, R - 1, start, start + SUN_ANG, false);
+    x.closePath();
+    x.fillStyle = 'rgba(176,31,36,.18)';
+    x.fill();
+    for (let i = 0; i <= 50; i++) {
+      const hot = i === 0 || i === 1;
+      const show = hot ? 1 : cl(grow * 49 - (i - 2));
+      if (show <= 0) continue;
+      const a = start + i * SUN_ANG;
+      L(cx, cy, cx + R * Math.cos(a), cy + R * Math.sin(a), hot ? RED : HAIR, hot ? 3.5 : 1.15, null, show);
+    }
+    const edge = a => ({ x: cx + R * Math.cos(a), y: cy + R * Math.sin(a) });
+    const left = edge(start), right = edge(start + SUN_ANG);
+    L(left.x, left.y, 300, 236, HAIR, 1.5);
+    L(right.x, right.y, 760, 236, HAIR, 1.5);
+    T('Alexandria', 288, 230, 32, INK, 'right', 1);
+    T('Syene', 772, 230, 32, INK, 'left', 1);
+    const col = 1040;
+    T('360°  ÷  7.2°', col, 300, 48, INK, 'left', 1, false, 500);
+    T('=  50', col, 420, 120, RED, 'left', 1, false, 500);
+    const stadia = vis(2);
+    T('5,000 stadia  ×  50', col, 560, 36, INK, 'left', stadia);
+    T('=  250,000 stadia', col, 628, 48, RED, 'left', stadia, false, 500);
+    const miles = vis(3);
+    T('≈  25,000 miles', col, 740, 52, RED, 'left', miles, false, 500);
+    T('Today:  24,901 miles', col, 800, 32, INK, 'left', miles);
+    T('40,075 km', col, 846, 32, MUTE, 'left', miles);
+    T('His stadion’s length is uncertain.', col, 898, 28, MUTE, 'left', miles, true);
   }
 });
 
 add({
   title: 'Twelve Knuckles',
-  endMin: 5.5,
+  endMin: 7.25,
   notes: [
     'Thumb counts three segments on each of four fingers: twelve. Five fingers on the other hand count the twelves: sixty.',
     'Show the counting if you like, and keep it short. The point is the number, not a history of Babylon.',
-    'Sixty divides evenly by 2, 3, 4, 5, 6, 10, 12, 15, 20, and 30. By 5:30.'
+    'Sixty divides evenly by 2, 3, 4, 5, 6, 10, 12, 15, 20, and 30. By 7:15.'
   ],
   caps: [
     'The thumb counts the segments on the other four fingers.',
@@ -469,7 +656,7 @@ function drawHand(ox, oy, lit) {
 
 add({
   title: 'One Circle, One Day',
-  endMin: 7.5,
+  endMin: 9.25,
   pause: '30 seconds',
   ask: 'Thirty degrees is how many hours?',
   state: { west: 0, held: false },
@@ -477,7 +664,7 @@ add({
   notes: [
     'The circle is 360 degrees and the day is 24 hours. One full turn. Fifteen degrees is one hour. Spin the disk if you want.',
     'Pause 30 seconds. Ask how many hours thirty degrees is. The answer is two. People say the two phrases interchangeably.',
-    'One minute of latitude is one nautical mile. At the equator, four seconds of time is one nautical mile. By 7:30. The next slide says why the Sun’s day is the longer one.'
+    'One minute of latitude is one nautical mile. At the equator, four seconds of time is one nautical mile. By 9:15. The next slide says why the Sun’s day is the longer one.'
   ],
   caps: [
     'The circle is 360 degrees, and the day is 24 hours.',
@@ -531,11 +718,11 @@ function trimNum(n) {
 
 add({
   title: 'One Degree More',
-  endMin: 8.25,
+  endMin: 10,
   notes: [
     'Forty-five seconds, three clicks. Sidereal, sy-DEER-ee-ul, means by the stars. One turn against the stars is 23 hours 56 minutes. The precise length is 23 hours 56 minutes 4 seconds. Say 23 hours 56 minutes.',
     'The Earth also travels about one degree of its orbit in a day, 360 divided by 365, not a quarter turn. The drawing exaggerates that step. It is marked not to scale.',
-    'One degree of spin is four minutes, because a day has 1,440 minutes and the circle has 360 degrees. The solar day is 24 hours. By 8:15.'
+    'One degree of spin is four minutes, because a day has 1,440 minutes and the circle has 360 degrees. The solar day is 24 hours. By 10:00.'
   ],
   caps: [
     'One full turn against the stars is 23 hours 56 minutes.',
@@ -624,13 +811,13 @@ add({
 
 add({
   title: 'Call a Square',
-  endMin: 10,
+  endMin: 11.75,
   state: { row: null, col: null, picked: false },
   zones: [],
   notes: [
     'A place is a row and a column. Call the latitude, then the longitude. Click a heading to choose a different square.',
     'The row is the one the sky will give you. The column is the one it will not. Save that contrast for the next minute.',
-    'A minute and 45 seconds on this slide. By 10:00.'
+    'A minute and 45 seconds on this slide. By 11:45.'
   ],
   caps: [
     'To name a place, call a row and call a column.',
@@ -691,13 +878,13 @@ add({
 
 add({
   title: 'The Easy Number',
-  endMin: 11,
+  endMin: 12.75,
   state: { sep: 3, held: false },
   dragOnly: true,
   notes: [
     'Both ships read the star at the same height, so they share a latitude. Drag them apart. The star does not change.',
     'At 50° north, one degree of longitude is about 39 nautical miles. Nothing in the sky says who is east.',
-    'Keep this to one minute. By 11:00.'
+    'Keep this to one minute. By 12:45.'
   ],
   caps: [
     'The same star, at the same height. The same latitude.',
@@ -748,7 +935,7 @@ function skyBowl(sx, sy, a) {
 
 add({
   title: 'Fists and the Pole Star',
-  endMin: 13.5,
+  endMin: 14.75,
   pause: '30 seconds',
   ask: 'Hold one fist at arm’s length.',
   state: { lat: 10, held: false },
@@ -756,7 +943,7 @@ add({
   notes: [
     'Pause 30 seconds. One fist at arm’s length is about 10 degrees. Four fists is about 40. Let the room do it.',
     'Then drag the figure north. The height of the pole star and the latitude are the same number.',
-    'Polaris is close to the pole today. The next slide is how far off it used to be. By 13:30.'
+    'Polaris is close to the pole today. The next slide is how far off it used to be. By 14:45.'
   ],
   caps: [
     'One fist at arm’s length is about 10 degrees.',
@@ -815,11 +1002,11 @@ function drawWalker(lat, fists, a) {
 
 add({
   title: 'Not Always the Pole Star',
-  endMin: 15,
+  endMin: 16.25,
   notes: [
     'The axis wobbles once in about 26,000 years. Around 100 BC, Polaris was about 12° from the true pole. Hipparchus described an empty patch of sky.',
     'In 1492 the gap was about 3.5°, more than 200 nautical miles if you trust the raw height. Today it is about 0.63°. It comes closest around 2100, near 0.45°, then drifts. Vega is the rough north star in about 12,000 years, still several degrees off.',
-    'By 15:00.'
+    'By 16:15.'
   ],
   caps: [
     'The pole wanders. One wobble takes about 26,000 years.',
@@ -860,11 +1047,11 @@ add({
 
 add({
   title: 'A Rolling Deck',
-  endMin: 16.5,
+  endMin: 17.75,
   notes: [
     'On land the plumb hangs still and you can wait. At sea the deck, the plumb, and the horizon all move.',
     'A long instrument needs a foundation and time. A ship has neither. Latitude was still possible. Longitude was not.',
-    'By 16:30.'
+    'By 17:45.'
   ],
   caps: [
     'On land, a plumb line hangs still.',
@@ -906,13 +1093,13 @@ add({
 
 add({
   title: 'Two Clocks',
-  endMin: 18.5,
+  endMin: 19.25,
   state: { west: 30, held: false },
   dragOnly: true,
   notes: [
     'Local noon is the Sun at its highest, not noon on a civil clock. The other clock is the time at home, carried or computed.',
     'Spin the ship. The gap, in hours, times 15 is the longitude. Two hours behind Greenwich is 30 degrees west. Ahead of Greenwich is east.',
-    'By 18:30.'
+    'By 19:15.'
   ],
   caps: [
     'Local noon is the Sun at its highest. That clock is in the sky.',
@@ -944,11 +1131,11 @@ add({
 
 add({
   title: 'The Moon as a Clock',
-  endMin: 20,
+  endMin: 20.75,
   notes: [
     'Against the stars, the Moon moves about its own width, half a degree, in an hour. Measure the angle to a known star and an almanac turns it into home time.',
     'That is a lunar distance. Parallax, refraction, and a heaving deck all sit on the same sight. It can be done, and it is easy to get wrong.',
-    'By 20:00.'
+    'By 20:45.'
   ],
   caps: [
     'The Moon moves about its own width against the stars in an hour.',
@@ -977,11 +1164,11 @@ add({
 
 add({
   title: 'Easier on Land',
-  endMin: 21,
+  endMin: 21.75,
   notes: [
     'Recap only. On land the ground holds the instrument and you can wait for the sky. On water you get a rolling deck and no second try.',
     'Do not add a method here. The next slide is the one that works on land and fails at sea.',
-    'By 21:00.'
+    'By 21:45.'
   ],
   caps: [
     'On land you can set the instrument down, and wait.',
@@ -1009,13 +1196,13 @@ add({
 
 add({
   title: 'A Clock in the Sky',
-  endMin: 24,
+  endMin: 24.25,
   pause: '45 seconds',
   ask: 'What will you see tomorrow night?',
   notes: [
     'January 1610. Galileo sees four moons and calls them the Medicean Stars. The names Io, Europa, Ganymede, and Callisto come later, from Marius.',
     'Pause 45 seconds. Ask what they will see tomorrow night. Then click. The moons have moved. Io goes around in about 42.5 hours, and an eclipse of Io is the same instant for everyone looking.',
-    'Cassini’s tables used that clock to remap France from dry land. A long telescope on a rolling deck cannot hold the moons. By 24:00.'
+    'Cassini’s tables used that clock to remap France from dry land. A long telescope on a rolling deck cannot hold the moons. By 24:15.'
   ],
   caps: [
     'In January 1610, Galileo sees four moons beside Jupiter.',
