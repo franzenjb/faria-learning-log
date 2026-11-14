@@ -496,13 +496,16 @@ addEventListener('load', () => setTimeout(() => {
         `<path d="M ${cx} ${cy} L ${cx + R * Math.cos(t1)} ${cy + R * Math.sin(t1)} A ${R} ${R} 0 0 1 ${cx + R * Math.cos(t2)} ${cy + R * Math.sin(t2)} Z" fill="${G}"/>` +
         T('500 miles', cx + 40, cy - R - 14, 26, G, 'start') +
         T('50 × 500 miles =', 500, 575, 44) + T('25,000 miles around', 500, 630, 54, G); },
-    // 5 · his answer and ours
-    () => { const bar = (y, w, col) => `<rect x="160" y="${y}" width="${w}" height="56" rx="8" fill="${col}"/>`, k = 500 / 25000;
+    // 5 · his answer, then the class guesses today's, then → shows it
+    ...[false, true].map(show => () => { const bar = (y, w, col) => `<rect x="160" y="${y}" width="${w}" height="56" rx="8" fill="${col}"/>`, k = 500 / 25000;
       return T('How close did he get?', 500, 70, 40) +
         T('Eratosthenes, 240 BC', 160, 190, 30, W, 'start') + bar(210, 25000 * k, G) + T('about 25,000 miles', 160 + 25000 * k + 16, 250, 30, G, 'start') +
-        T('Today, from satellites', 160, 360, 30, W, 'start') + bar(380, 24901 * k, B) + T('24,901 miles', 160 + 24901 * k + 16, 420, 30, B, 'start') +
-        T('With a stick, a shadow and a paced distance.', 500, 540, 34) +
-        T('His unit, the stadion, is uncertain, so “within a few percent” is the honest claim.', 500, 600, 20, M); }
+        T('Today, from satellites', 160, 360, 30, W, 'start') +
+        (show ? `<g class="er-in">${bar(380, 24901 * k, B)}${T('24,901 miles', 160 + 24901 * k + 16, 420, 30, B, 'start')}</g>` +
+          T('With a stick, a shadow and a paced distance.', 500, 540, 34) +
+          T('His unit, the stadion, is uncertain, so “within a few percent” is the honest claim.', 500, 600, 20, M)
+        : `<rect x="160" y="380" width="500" height="56" rx="8" fill="none" stroke="${B}" stroke-width="2" stroke-dasharray="10 8"/>` + T('?', 410, 422, 44, B) +
+          T('Your guess?', 500, 540, 40, G)); })
   ];
   const g = el.querySelector('#er');
   V3.steps(el, S.length - 1, k => { g.innerHTML = `<g class="er-in">${S[k]()}</g>`; });

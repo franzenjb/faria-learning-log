@@ -45,8 +45,8 @@ if (!(await page.locator('#shell.rs-open').count())) await page.click('#rs-tog')
 assert.equal(await page.locator('#topicview').isVisible(), true, 'topic page opens');
 assert.match(await page.locator('#topicview iframe').getAttribute('src'), /^\/topics\/18-eratosthenes/);
 await page.click('#tv-back'); assert.equal(await page.locator('#topicview').isVisible(), false, 'Return closes the topic page');
-// Eratosthenes steps through six screens on the arrow (well, stick, angle, center angle, 50x, his answer); five presses stay on the slide
-for (let i = 0; i < 5; i++) { await page.keyboard.press('ArrowRight'); await page.waitForTimeout(150); }
+// Eratosthenes steps through seven screens on the arrow (well, stick, angle, center angle, 50x, guess, answer); six presses stay on the slide
+for (let i = 0; i < 6; i++) { await page.keyboard.press('ArrowRight'); await page.waitForTimeout(150); }
 assert.equal(await page.locator('#jf-title').innerText(), 'Eratosthenes', 'Eratosthenes steps stay on the slide');
 await page.keyboard.press('ArrowRight'); await page.waitForTimeout(500);
 assert.equal(await page.locator('#jf-title').innerText(), await page.evaluate(() => COURSE_LIVE[COURSE_LIVE.findIndex(c => c.t === 'Eratosthenes') + 1].label), 'arrow key advances');
