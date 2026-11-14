@@ -50,9 +50,9 @@ assert.equal(await page.locator('#jf-title').innerText(), await page.evaluate(()
 
 // Scilly: four presses step through it, the fifth leaves it
 await page.evaluate(() => go(COURSE_LIVE.findIndex(c => c.t === 'Scilly, 1707'))); await page.waitForTimeout(600);
-for (let k = 0; k < 4; k++) { await page.keyboard.press('ArrowRight'); await page.waitForTimeout(600); }
+for (let k = 0; k < 5; k++) { await page.keyboard.press('ArrowRight'); await page.waitForTimeout(600); }
 assert.equal(await page.evaluate(() => COURSE_LIVE[cur].t), 'Scilly, 1707', 'Scilly holds for four steps');
-assert.match(await page.locator('.sc-card').innerText(), /2,000/, 'the toll is the last screen');
+assert.match(await page.locator('.sc-card').innerText(), /longitude/i, 'the lesson is the last screen');
 await page.keyboard.press('ArrowRight'); await page.waitForTimeout(500);
 assert.equal(await page.evaluate(() => COURSE_LIVE[cur].t), 'Mental maps', 'fifth press moves on to the quiz');
 

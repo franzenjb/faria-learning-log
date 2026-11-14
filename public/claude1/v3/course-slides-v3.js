@@ -293,25 +293,26 @@ NEW_SLIDES['Scilly, 1707'] = {
     const L = 'font-size:clamp(28px,3.2vw,52px);line-height:1.55';
     const SCREENS = [
       `<div style="${L}">22 October 1707.<br>Fog and gales. No sun for days.<br>Admiral Shovell’s fleet sails for home.<br>Twenty-one ships.</div>`,
-      `<div style="${L}">Night falls.<br>The officers compare their reckonings.<br>All agree: safe in the Channel.<br><span style="color:#f0b35a">Where do you think they were?</span></div>`,
+      `<div style="${L}"><span style="color:#f0b35a">Latitude</span>, north or south: they can read it from the sky.<br><span style="color:#f0b35a">Longitude</span>, east or west: only a guess.<br>The officers compare their guesses.<br>All agree: safe in the Channel.</div>`,
       `<div style="font-size:clamp(64px,8.5vw,140px);line-height:1.05">They were wrong.</div>`,
       `<div style="font-size:clamp(24px,2.4vw,38px)">Four ships on the rocks of Scilly.</div>
        <div style="margin-top:.3em;font-size:clamp(22px,2vw,32px);color:#cfc8ba">Up to</div>
        <div style="font-size:clamp(120px,17vw,260px);line-height:.95;color:#f0b35a">2,000</div>
-       <div style="font-size:clamp(36px,3.8vw,62px)">men drowned.</div>`
+       <div style="font-size:clamp(36px,3.8vw,62px)">men drowned.</div>`,
+      `<div style="font-size:clamp(34px,4vw,64px);line-height:1.4">They knew their <span style="color:#f0b35a">latitude</span>.<br>They could not find their <span style="color:#f0b35a">longitude</span>.</div>`
     ];
-    const LOOK = [[1, .7], [1.015, .66], [1.03, .6], [1.045, .52], [1.06, .44]];
+    const LOOK = [[1, 1], [1.015, .95], [1.03, .9], [1.045, .85], [1.06, .8], [1.07, .85]];
     const stage = el.querySelector('.stage');
     stage.innerHTML = `<div class="sc-wrap" style="position:absolute;inset:0;overflow:hidden;background:#05070d;cursor:pointer">
-      <img src="v3/img/scilly.jpg" alt="Engraving of Admiral Shovell's fleet wrecked on the rocks of Scilly, 1707" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.7) contrast(1.05);transform-origin:60% 60%">
-      <div style="position:absolute;inset:0;background:#0b1a3a;mix-blend-mode:multiply;opacity:.85"></div>
-      <div class="sc-band" style="position:absolute;left:0;right:0;top:50%;height:62%;transform:translateY(-50%);background:radial-gradient(ellipse 58% 50% at 50% 50%,rgba(5,8,18,.8) 0%,rgba(5,8,18,.62) 55%,rgba(5,8,18,0) 100%);opacity:0;transition:opacity .6s ease"></div>
+      <img src="v3/img/scilly.jpg" alt="Engraving of Admiral Shovell's fleet wrecked on the rocks of Scilly, 1707" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(1) contrast(1.1);transform-origin:60% 60%">
+      <div style="position:absolute;inset:0;background:#1a2f5c;mix-blend-mode:multiply;opacity:.35"></div>
+      <div class="sc-band" style="position:absolute;left:0;right:0;top:50%;height:56%;transform:translateY(-50%);background:radial-gradient(ellipse 50% 46% at 50% 50%,rgba(5,8,18,.78) 0%,rgba(5,8,18,.55) 55%,rgba(5,8,18,0) 100%);opacity:0;transition:opacity .6s ease"></div>
       <div class="sc-card" style="position:absolute;left:5%;right:5%;top:50%;transform:translateY(-50%);text-align:center;font-family:Georgia,serif;color:#ffffff;text-shadow:0 2px 14px rgba(0,0,0,.9);opacity:0;transition:opacity .5s ease"></div>
       <div style="position:absolute;left:18px;top:12px;font:13px Georgia,serif;color:rgba(236,230,218,.5)">Shovell’s fleet on the rocks of Scilly, 1707 · engraving, public domain</div></div>`;
     const img = stage.querySelector('img'), card = stage.querySelector('.sc-card'), band = stage.querySelector('.sc-band');
     let swap = null;
     const S = V3.steps(el, SCREENS.length, k => { clearTimeout(swap); const [z, b] = LOOK[k];
-      img.style.transition = k ? 'transform 8s ease-out, filter 1.2s ease' : 'none'; img.style.transform = `scale(${z})`; img.style.filter = `grayscale(1) brightness(${b}) contrast(1.05)`;
+      img.style.transition = k ? 'transform 8s ease-out, filter 1.2s ease' : 'none'; img.style.transform = `scale(${z})`; img.style.filter = `grayscale(1) brightness(${b}) contrast(1.1)`;
       band.style.opacity = k ? 1 : 0; card.style.opacity = 0;
       if (k) swap = setTimeout(() => { card.innerHTML = SCREENS[k - 1]; card.style.opacity = 1; }, card.innerHTML ? 380 : 0); else card.innerHTML = ''; });
     stage.querySelector('.sc-wrap').onclick = () => S.fwd();
