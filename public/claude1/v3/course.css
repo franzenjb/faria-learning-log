@@ -245,3 +245,18 @@ svg.fig .xs{font-size:20px}svg.fig .sm{font-size:24px}svg.fig .md{font-size:28px
 .qg-row{display:flex;gap:.6rem}.qg-row button{flex:1;background:#111727;border:2px solid #283048;border-radius:.5rem;padding:.3rem;cursor:pointer;color:#cfc8ba;display:flex;flex-direction:column;align-items:center;gap:.2rem;font:500 .85rem var(--sans)}
 .qg-row button.on{border-color:var(--accent);color:var(--accent)}.qg-row img{height:70px;object-fit:contain}
 body.gal-open #more-btn{display:none}
+
+/* ---------- v3 review pass: the stage is the hero, the panel is a remote ---------- */
+@media (min-width:861px){
+  .slide:not(.wide):not(.cover){grid-template-columns:minmax(200px,16.5rem) 1fr}
+}
+.hint{display:none!important}
+.kicker{font-size:15px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav .counter,.counter{font-size:15px}
+.readout .big{font-size:1.1rem!important}
+#more-btn{color:var(--ink);border:1px solid var(--line);background:#111727;font-size:.95rem;padding:.45rem .8rem;box-shadow:none}
+#more-btn:hover{background:#1b2440;color:var(--ink)}
+/* a reveal lands on the stage, big, in the bottom third */
+.v3-payoff{position:absolute;left:4%;right:4%;bottom:15%;text-align:center;font:400 clamp(40px,5.2vw,88px)/1.08 Georgia,serif;color:#f0b35a;text-shadow:0 2px 24px rgba(0,0,0,.95),0 0 2px rgba(0,0,0,.9);pointer-events:none;z-index:6;opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s ease}
+.v3-payoff.on{opacity:1;transform:none}
+.v3-payoff::before{content:'';position:absolute;inset:-.25em -.6em;background:radial-gradient(ellipse at center,rgba(5,7,13,.7),rgba(5,7,13,0) 70%);z-index:-1}

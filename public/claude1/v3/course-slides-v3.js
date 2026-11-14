@@ -35,26 +35,54 @@ const V3 = {
   }
 };
 
+
+// Presenter steps: while `el` is the active slide, Next/Back (arrow keys, space, PageUp/Down, the nav arrows)
+// move through `n` steps before leaving the slide. onStep(k) draws step k (0 = nothing yet).
+V3.steps = (el, n, onStep) => {
+  const api = { k: 0 };
+  api.go = k => { api.k = Math.max(0, Math.min(n, k)); onStep(api.k); };
+  const fwd = () => api.k < n ? (api.go(api.k + 1), true) : false, back = () => api.k > 0 ? (api.go(api.k - 1), true) : false;
+  addEventListener('keydown', e => { if (!el.classList.contains('active') || e.target.matches('input,textarea,select')) return;
+    const f = e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ', b = e.key === 'ArrowLeft' || e.key === 'PageUp';
+    if ((f && fwd()) || (b && back())) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);
+  const nx = document.getElementById('next'), pv = document.getElementById('prev');
+  if (nx) nx.addEventListener('click', e => { if (el.classList.contains('active') && fwd()) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);
+  if (pv) pv.addEventListener('click', e => { if (el.classList.contains('active') && back()) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);
+  let was = false; const watch = () => { const on = el.classList.contains('active'); if (on && !was) api.go(0); was = on; requestAnimationFrame(watch); }; watch();
+  api.fwd = fwd; api.back = back; return api;
+};
+// A reveal's answer belongs on the stage, not in the side panel: mirror any `.readout .big` onto the stage, large.
+addEventListener('load', () => {
+  document.querySelectorAll('.slide').forEach(sl => {
+    const r = sl.querySelector('.readout'), st = sl.querySelector('.stage'); if (!r || !st) return;
+    if (getComputedStyle(st).position === 'static') st.style.position = 'relative';
+    const pay = document.createElement('div'); pay.className = 'v3-payoff'; st.appendChild(pay);
+    const sync = () => { const b = r.querySelector('.big'); const t = b ? b.textContent.trim() : ''; if (t !== pay.textContent) { pay.classList.remove('on'); pay.textContent = t; if (t) requestAnimationFrame(() => pay.classList.add('on')); } };
+    new MutationObserver(sync).observe(r, { childList: true, subtree: true, characterData: true }); sync();
+  });
+});
+
 /* ---------- Power decides the measure ---------- */
 NEW_SLIDES['Power decides the measure'] = {
   h1: 'Who decides how long a mile is?',
-  ctl: `<div class="btns">${V3.btn('pm-rome', 'Rome', true)}${V3.btn('pm-eliz', 'London, 1593')}${V3.btn('pm-sea', 'At sea')}</div>`,
+  ctl: `<div class="btns">${V3.btn('pm-rome', 'Rome', true)}${V3.btn('pm-eliz', 'London, 1593')}${V3.btn('pm-sea', 'At Sea')}</div>`,
   fig: `<g id="pm"></g>`,
   init(el) {
     const M = [
       ['pm-rome', 'Rome', '1,000 paces · mille passus', 4860, '#8fb0d8', 'a general’s stride'],
       ['pm-eliz', 'Elizabeth I · 1593', '8 furlongs · 5,280 feet', 5280, '#c9a35e', 'a queen’s statute'],
-      ['pm-sea', 'At sea', '1 arcminute of latitude · 6,076 feet', 6076, '#f0b35a', 'the Earth itself']
+      ['pm-sea', 'At Sea', '1 arcminute of latitude · 6,076 feet', 6076, '#f0b35a', 'the Earth itself']
     ];
     let shown = 0; const X0 = 90, PX = 720 / 6076;
     const draw = () => {
       let s = '';
       M.forEach((m, i) => { const y = 120 + i * 160, on = i < shown, w = m[3] * PX;
-        s += `<g opacity="${on ? 1 : .12}"><text x="${X0}" y="${y}" class="lg" style="fill:${m[4]}">${m[1]}</text>
+        if (!on) return;
+        s += `<g><text x="${X0}" y="${y}" class="lg" style="fill:${m[4]}">${m[1]}</text>
           <rect x="${X0}" y="${y + 20}" width="${on ? w : 0}" height="44" rx="6" fill="${m[4]}" fill-opacity="${i === 2 && shown === 3 ? .9 : .55}" style="transition:width .9s ease"/>
           <text x="${X0 + w + 14}" y="${y + 52}" class="md">${on ? m[3].toLocaleString('en-US') + ' ft' : ''}</text>
-          <text x="${X0}" y="${y + 100}" class="md mu">${on ? m[2] : ''}</text></g>`; });
-      if (shown === 3) s += `<text x="${X0 + 6076 * PX}" y="592" text-anchor="end" class="lg rd" font-style="italic">Only one came from the Earth.</text>`;
+          </g>`; });
+      if (shown === 3) s += `<text x="500" y="590" text-anchor="middle" class="rd" style="font-size:52px">Only one came from the Earth.</text>`;
       CS.$(el, '#pm').innerHTML = s;
       M.forEach((m, i) => CS.$(el, '#' + m[0]).classList.toggle('on', i < shown));
     };
@@ -68,7 +96,7 @@ NEW_SLIDES['Fist and knuckle'] = {
   h1: 'Hold out your fist',
   ctl: `<div class="btns">${V3.btn('fk-mia', 'Miami · 26° N')}${V3.btn('fk-dc', 'Washington · 39° N', true)}${V3.btn('fk-tor', 'Toronto · 44° N')}</div><div class="btns">${V3.btn('fk-go', 'Stack the fists', true)}</div><div class="readout" id="fk-r"></div>`,
   fig: `<rect x="40" y="20" width="920" height="560" rx="10" fill="#101830"/><rect x="40" y="540" width="920" height="60" fill="#151f2e"/>
-  <line x1="40" y1="540" x2="960" y2="540" stroke="#6fb3ff" stroke-width="2.5"/><text x="58" y="574" class="sm" style="fill:#6fb3ff">north horizon</text>
+  <line x1="40" y1="540" x2="960" y2="540" stroke="#6fb3ff" stroke-width="2.5"/><text x="58" y="574" class="md" style="fill:#6fb3ff">North Horizon</text>
   <g id="fk-sky"></g>`,
   init(el) {
     const Y0 = 540, PX = 11, X = 520; let lat = 39, stack = 0, t0 = 0, run = false;
@@ -107,8 +135,7 @@ NEW_SLIDES['The pole star wanders'] = {
       const y = +S.value; let s = `<circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="#3b5f8a" stroke-dasharray="3 7"/>`;
       STARS.forEach(([n, yr, off]) => { const [x, yy] = pos(yr, off), near = Math.hypot(...pos(y).map((v, i) => v - [x, yy][i])) < 28; s += `<circle cx="${x}" cy="${yy}" r="${near ? 9 : 5}" fill="${near ? '#f0b35a' : '#ece6da'}"/><text x="${x + 14}" y="${yy - 10}" class="${near ? 'lg rd' : 'sm'}">${n}</text>`; });
       const [px, py] = pos(y); s += `<line x1="${CX}" y1="${CY}" x2="${px}" y2="${py}" stroke="#6fb3ff" stroke-width="1.5" stroke-dasharray="4 5"/><circle cx="${px}" cy="${py}" r="20" fill="none" stroke="#6fb3ff" stroke-width="2.5"/><path d="M${px - 30} ${py}h18M${px + 12} ${py}h18M${px} ${py - 30}v18M${px} ${py + 12}v18" stroke="#6fb3ff" stroke-width="2"/>`;
-      s += `<text x="${CX}" y="${CY + 8}" text-anchor="middle" class="xs mu">the sky’s pole circles here</text>`;
-      s += `<text x="${CX}" y="616" text-anchor="middle" class="xl">${y < 0 ? -y + ' BC' : 'AD ' + y}</text>`;
+      s += `<text x="${CX}" y="${CY + 30}" text-anchor="middle" class="rd" style="font-size:84px">${y < 0 ? -y + ' BC' : 'AD ' + y}</text>`;
       CS.$(el, '#ps-sky').innerHTML = s; CS.$(el, '#ps-y-o').textContent = y < 0 ? `${-y} BC` : `AD ${y}`;
     };
     const goTo = y => { target = y; };
@@ -229,7 +256,7 @@ NEW_SLIDES['Where am I, now'] = {
 
 /* ---------- Appendix: one degree more ---------- */
 NEW_SLIDES['One degree more'] = {
-  h1: 'Why is a day 24 hours, not 23 h 56 m?',
+  h1: 'Why a Day Is 24 Hours',
   ctl: `<div class="btns">${V3.btn('od-star', 'One turn against the stars', true)}${V3.btn('od-sun', 'One more degree')}</div><div class="readout" id="od-r"></div>`,
   fig: `<g id="od"></g>`,
   init(el) {
@@ -246,7 +273,6 @@ NEW_SLIDES['One degree more'] = {
       if (phase) s += `<line x1="${ex}" y1="${ey}" x2="${SX}" y2="${SY}" stroke="#f0b35a" stroke-dasharray="3 6" opacity=".6"/>`;
       const r = 30, mx = ex + r * 1.6 * Math.cos(dir), my = ey + r * 1.6 * Math.sin(dir);
       s += `<circle cx="${ex}" cy="${ey}" r="${r}" fill="#2f5a8c" stroke="#6fb3ff"/><line x1="${ex}" y1="${ey}" x2="${mx}" y2="${my}" stroke="#ece6da" stroke-width="3"/><circle cx="${mx}" cy="${my}" r="5" fill="#ece6da"/>`;
-      s += `<text x="${SX}" y="610" text-anchor="middle" class="xs mu">not to scale</text>`;
       CS.$(el, '#od').innerHTML = s;
     };
     const go = p => { phase = p; t0 = performance.now(); run = true; CS.$(el, '#od-r').innerHTML = p === 1 ? '<strong class="big">23 h 56 m</strong><span>The star is back. The Sun is not.</span>' : '<strong class="big">+1° = 4 minutes</strong><span>Now the Sun is back: 24 h.</span>'; };
@@ -262,41 +288,55 @@ NEW_SLIDES['Scilly, 1707'] = {
   fig: '',
   init(el) {
     el.classList.add('wide'); el.querySelector('.text').style.display = 'none';
-    // Four presenter steps, no timer. Each press replaces the whole screen; the story gets shorter and bigger as it lands.
-    const SERIF = 'Georgia,serif';
+    // Four presses. Each replaces the screen; the story gets shorter and bigger as it lands.
+    // Built for screen-share: Georgia, no letter-spacing, near-solid dark band behind the type.
+    const L = 'font-size:clamp(28px,3.2vw,52px);line-height:1.55';
     const SCREENS = [
-      `<div style="font-size:clamp(24px,2.7vw,42px);line-height:1.7;letter-spacing:.02em">22 October 1707.<br>Fog and gales. No sun for days.<br>Admiral Shovell’s fleet sails for home.<br>Twenty-one ships.</div>`,
-      `<div style="font-size:clamp(24px,2.7vw,42px);line-height:1.7;letter-spacing:.02em">They know their latitude.<br>Their longitude is a guess.<br>The officers compare their reckonings.<br>All agree: safe in the Channel.</div>`,
-      `<div style="font-size:clamp(64px,8.5vw,140px);line-height:1.05;color:#f0b35a">They were wrong.</div>`,
-      `<div style="font-size:clamp(22px,2.2vw,34px);letter-spacing:.06em;color:#d8d0c2">Four ships on the rocks of Scilly.</div>
-       <div style="margin-top:.35em;font-size:clamp(18px,1.6vw,24px);letter-spacing:.3em;text-transform:uppercase;color:#9a9382">up to</div>
-       <div style="font-size:clamp(120px,17vw,260px);line-height:.95;color:#ffffff;letter-spacing:-.01em">2,000</div>
-       <div style="font-size:clamp(34px,3.6vw,58px);color:#f3ede2;letter-spacing:.04em">men drowned.</div>`
+      `<div style="${L}">22 October 1707.<br>Fog and gales. No sun for days.<br>Admiral Shovell’s fleet sails for home.<br>Twenty-one ships.</div>`,
+      `<div style="${L}">Night falls.<br>The officers compare their reckonings.<br>All agree: safe in the Channel.<br><span style="color:#f0b35a">Where do you think they were?</span></div>`,
+      `<div style="font-size:clamp(64px,8.5vw,140px);line-height:1.05">They were wrong.</div>`,
+      `<div style="font-size:clamp(24px,2.4vw,38px)">Four ships on the rocks of Scilly.</div>
+       <div style="margin-top:.3em;font-size:clamp(22px,2vw,32px);color:#cfc8ba">Up to</div>
+       <div style="font-size:clamp(120px,17vw,260px);line-height:.95;color:#f0b35a">2,000</div>
+       <div style="font-size:clamp(36px,3.8vw,62px)">men drowned.</div>`
     ];
-    const LOOK = [[1, .72], [1.02, .7], [1.04, .58], [1.07, .45]];
+    const LOOK = [[1, .7], [1.015, .66], [1.03, .6], [1.045, .52], [1.06, .44]];
     const stage = el.querySelector('.stage');
     stage.innerHTML = `<div class="sc-wrap" style="position:absolute;inset:0;overflow:hidden;background:#05070d;cursor:pointer">
-      <img src="v3/img/scilly.jpg" alt="Engraving of Admiral Shovell's fleet wrecked on the rocks of Scilly, 1707" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:sepia(.3) brightness(.72) contrast(1.08);transform:scale(1);transform-origin:60% 60%">
-      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 55% at 50% 50%,rgba(5,7,13,.7) 0%,rgba(5,7,13,.45) 60%,rgba(5,7,13,.85) 100%)"></div>
-      <div class="sc-card" style="position:absolute;left:5%;right:5%;top:50%;transform:translateY(-50%);text-align:center;font-family:${SERIF};color:#f3ede2;text-shadow:0 2px 24px rgba(0,0,0,.95);opacity:0;filter:blur(6px);transition:opacity .6s ease,filter .6s ease"></div>
+      <img src="v3/img/scilly.jpg" alt="Engraving of Admiral Shovell's fleet wrecked on the rocks of Scilly, 1707" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.7) contrast(1.05);transform-origin:60% 60%">
+      <div style="position:absolute;inset:0;background:#0b1a3a;mix-blend-mode:multiply;opacity:.85"></div>
+      <div class="sc-band" style="position:absolute;left:0;right:0;top:50%;height:62%;transform:translateY(-50%);background:radial-gradient(ellipse 58% 50% at 50% 50%,rgba(5,8,18,.8) 0%,rgba(5,8,18,.62) 55%,rgba(5,8,18,0) 100%);opacity:0;transition:opacity .6s ease"></div>
+      <div class="sc-card" style="position:absolute;left:5%;right:5%;top:50%;transform:translateY(-50%);text-align:center;font-family:Georgia,serif;color:#ffffff;text-shadow:0 2px 14px rgba(0,0,0,.9);opacity:0;transition:opacity .5s ease"></div>
       <div style="position:absolute;left:18px;top:12px;font:13px Georgia,serif;color:rgba(236,230,218,.5)">Shovell’s fleet on the rocks of Scilly, 1707 · engraving, public domain</div></div>`;
-    const img = stage.querySelector('img'), card = stage.querySelector('.sc-card');
-    let step = 0, wasActive = false, swap = null;
-    const show = () => { clearTimeout(swap); const [z, b] = LOOK[Math.max(0, step - 1)];
-      img.style.transition = 'transform 8s ease-out, filter 1.2s ease'; img.style.transform = `scale(${step ? z : 1})`; img.style.filter = `sepia(.3) brightness(${step ? b : .72}) contrast(1.08)`;
-      card.style.opacity = 0; card.style.filter = 'blur(6px)';
-      if (step) swap = setTimeout(() => { card.innerHTML = SCREENS[step - 1]; card.style.opacity = 1; card.style.filter = 'none'; }, card.innerHTML ? 450 : 0); };
-    const advance = () => { if (step < SCREENS.length) { step++; show(); return true; } return false; };
-    const back = () => { if (step > 0) { step--; show(); return true; } return false; };
-    stage.querySelector('.sc-wrap').onclick = advance;
-    // While this slide is up, Next and Back step through it before leaving it.
-    addEventListener('keydown', e => { if (!el.classList.contains('active') || e.target.matches('input,textarea')) return;
-      const fwd = e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ', bk = e.key === 'ArrowLeft' || e.key === 'PageUp';
-      if ((fwd && advance()) || (bk && back())) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);
-    const nx = document.getElementById('next'), pv = document.getElementById('prev');
-    if (nx) nx.addEventListener('click', e => { if (el.classList.contains('active') && advance()) { e.stopImmediatePropagation(); e.preventDefault(); } }, true);
-    if (pv) pv.addEventListener('click', e => { if (el.classList.contains('active') && back()) { e.stopImmediatePropagation(); e.preventDefault(); } }, true);
-    const watch = () => { const on = el.classList.contains('active'); if (on && !wasActive) { step = 0; card.innerHTML = ''; img.style.transition = 'none'; show(); } wasActive = on; requestAnimationFrame(watch); };
-    watch();
+    const img = stage.querySelector('img'), card = stage.querySelector('.sc-card'), band = stage.querySelector('.sc-band');
+    let swap = null;
+    const S = V3.steps(el, SCREENS.length, k => { clearTimeout(swap); const [z, b] = LOOK[k];
+      img.style.transition = k ? 'transform 8s ease-out, filter 1.2s ease' : 'none'; img.style.transform = `scale(${z})`; img.style.filter = `grayscale(1) brightness(${b}) contrast(1.05)`;
+      band.style.opacity = k ? 1 : 0; card.style.opacity = 0;
+      if (k) swap = setTimeout(() => { card.innerHTML = SCREENS[k - 1]; card.style.opacity = 1; }, card.innerHTML ? 380 : 0); else card.innerHTML = ''; });
+    stage.querySelector('.sc-wrap').onclick = () => S.fwd();
+  }
+};
+
+
+/* ---------- Harrison: one line per press, a vote before the payoff ---------- */
+NEW_SLIDES['A clock that could travel'] = {
+  h1: 'The Carpenter and the Clock',
+  fig: `<g id="hv"></g>`,
+  init(el) {
+    const ph = (k, x, y, w, h) => `<image href="img/harrison-h${k}.jpg" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="xMidYMid meet"/>`;
+    const big = (t, y, cls = '', size = 46) => `<text x="500" y="${y}" text-anchor="middle" class="${cls}" style="font-size:${size}px">${t}</text>`;
+    const ST = [
+      () => big('Press Next', 330, 'mu', 30),
+      () => big('1714 · Isaac Newton:', 230, 'mu', 34) + big('“Such a watch hath not', 330, '', 58) + big('yet been made.”', 405, '', 58),
+      () => big('A carpenter says he can build it.', 300, '', 50) + big('John Harrison, born 1693', 370, 'mu', 30),
+      () => ph(1, 250, 40, 500, 470) + big('H1, 1735: 75 pounds of brass. It works.', 585, '', 38),
+      () => ph(2, 110, 40, 360, 470) + ph(3, 530, 40, 360, 470) + big('Two more clocks. Twenty-two years.', 585, '', 38),
+      () => ph(4, 300, 30, 400, 380) + big('H4: 81 days at sea to Jamaica.', 480, '', 40) + big('How many seconds does it lose?', 548, 'rd', 44),
+      () => ph(4, 380, 30, 240, 230) + big('5 seconds', 420, 'rd', 120) + big('About 1¼ miles of longitude.', 510, '', 36),
+      () => [1, 2, 3, 4].map((k, i) => ph(k, 70 + i * 220, 60, 200, 260)).join('') + big('1773: at 80, Harrison is paid.', 420, '', 48),
+      () => big('The carpenter beat Newton.', 330, 'rd', 72)
+    ];
+    V3.steps(el, ST.length - 1, k => { CS.$(el, '#hv').innerHTML = ST[k]() + (k >= 3 && k <= 7 ? `<text x="500" y="634" text-anchor="middle" class="xs mu">Harrison’s clocks, Royal Observatory · photos: Tatters, Wikimedia</text>` : ''); });
   }
 };

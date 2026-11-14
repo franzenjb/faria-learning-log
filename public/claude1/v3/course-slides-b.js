@@ -11,7 +11,7 @@ function jupiterScene(mode) {
     <circle cx="572" cy="330" r="34" fill="none" stroke="#2e3854" stroke-dasharray="2 4"/><circle id="${id}-io" cx="606" cy="330" r="4" class="fk"/>
     <line id="${id}-ray" class="red" x1="0" y1="0" x2="0" y2="0" stroke-width="1.6"/><circle id="${id}-e" r="9" class="fk"/><text id="${id}-el" class="sm"></text><text id="${id}-dl" class="md rd" text-anchor="middle"></text>
     <g transform="translate(800,140)"><rect x="-180" y="-110" width="370" height="${mode === 'clock' ? 250 : 220}" rx="8" fill="#111727" stroke="#2e3854"/><g id="${id}-in"></g></g>
-    <text x="500" y="590" text-anchor="middle" class="sm mu">Orbits to scale with each other. Sun, planets and moons drawn far too big.</text>`,
+    <text x="500" y="590" text-anchor="middle" class="sm mu"></text>`,
     init(el) {
       const S = CS.$(el, `#${id}-a`), AU = 62; const draw = () => {
         const th = +S.value * D2R, ex = 250 + AU * Math.cos(th), ey = 330 - AU * Math.sin(th), d = Math.hypot(5.2 - Math.cos(th), Math.sin(th));
