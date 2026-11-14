@@ -281,3 +281,5 @@ body.v3-touch #v3-keys span{padding:.3em .6em;margin:.2em;border:1px solid rgba(
 #v3-ctl{position:absolute;left:14px;bottom:56px;z-index:31;font:15px var(--sans,system-ui);color:#f0b35a;background:rgba(17,23,39,.85);border:1px solid rgba(240,179,90,.4);border-radius:.4rem;padding:.35rem .8rem;opacity:.7}
 #v3-ctl.on{opacity:1;background:#f0b35a;color:#0a0e18}
 body.v3-touch .nav .arrows button{opacity:.9;font-size:20px;padding:.5rem 1.1rem}
+/* slide 3: the bingo card shows on the globe, but its row/column calls stay off the controls */
+.slide[data-notap] #bingo-panel{display:none!important}
