@@ -16,7 +16,7 @@ for (const [w, h] of [[1600, 900], [1280, 720]]) {
   const errors = []; page.on('pageerror', e => errors.push(String(e)));
   await page.goto(url); await page.waitForTimeout(1200);
   const n = await page.evaluate(() => COURSE_LIVE.length);
-  assert.equal(n, 37, 'course has 37 slides');
+  assert.equal(n, 36, 'course has 36 slides');
   if (w === 1600) assert.deepEqual(await page.evaluate(() => COURSE_LIVE.filter(c => c.day === 1).map(c => c.t)), DAY1, 'Day 1 follows the storyline');
   for (let i = 0; i < n; i++) {
     await page.evaluate(i => go(i), i); await page.waitForTimeout(450);

@@ -73,7 +73,6 @@ const TOPICS = {
 // n = position in the ten-slide longitude chapter. script = what Jeff says. topics = Faria pages.
 const COURSE = [
   { day: 0, t: 'Cover', label: 'Cover', script: ['Welcome. This is a two-day course in GIS for the American Red Cross.', 'Each story is somebody trying to answer one question: where am I?', 'Every map you use at a disaster stands on these stories.'] },
-  { day: 0, t: 'Course index', label: 'Course index', script: ['Two days.', 'Day one: where am I? An opening quiz, latitude and longitude, then the long race to find longitude at sea, ending with John Harrison\'s clocks, where zero ended up, and the phone in your pocket.', 'Day two: measuring the heavens. Galileo, the Moon, Picard, Halley, the transits of Venus, Captain Cook, Mason and Dixon, and Gaia.', 'Click any day to jump to it.'] },
 
   /* ---------------- Day 1 ---------------- */
   { day: 1, ch: 'Cold open', t: 'Scilly, 1707', label: 'Cold open: Scilly, 1707', h1: 'Scilly, 22 October 1707', topics: ['84-harrison-and-the-marine-chronometer', '70-time-to-longitude'],

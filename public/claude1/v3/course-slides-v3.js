@@ -20,7 +20,7 @@ const V3 = {
         ctx.stroke(); ctx.setLineDash([]); },
       meridian(lon, color, width) { api.path([[85, lon], [-85, lon]], color, width); },
       dot(lat, lon, color, r = 6) { const q = proj(ll(lat, lon)); if (q.z < 0) return null; o.ctx.fillStyle = color; o.ctx.beginPath(); o.ctx.arc(q.x, q.y, r, 0, TAU); o.ctx.fill(); return q; },
-      label(s, x, y, color = '#ece6da', size = 16, align = 'left') { const { ctx } = o; ctx.font = `${size}px Georgia, serif`; ctx.textAlign = align; ctx.fillStyle = 'rgba(10,14,24,.75)'; const w = ctx.measureText(s).width, x0 = align === 'center' ? x - w / 2 : align === 'right' ? x - w : x; ctx.fillRect(x0 - 5, y - size, w + 10, size + 8); ctx.fillStyle = color; ctx.fillText(s, x, y); ctx.textAlign = 'left'; }
+      label(s, x, y, color = '#ece6da', size = 18, align = 'left') { const { ctx } = o; ctx.font = `${size}px Georgia, serif`; ctx.textAlign = align; ctx.fillStyle = 'rgba(10,14,24,.75)'; const w = ctx.measureText(s).width, x0 = align === 'center' ? x - w / 2 : align === 'right' ? x - w : x; ctx.fillRect(x0 - 5, y - size, w + 10, size + 8); ctx.fillStyle = color; ctx.fillText(s, x, y); ctx.textAlign = 'left'; }
     };
     scenes.push({ o, draw(t) {
       stepAnim(st, t); const { ctx, w, h } = o; ctx.clearRect(0, 0, w, h); drawStars(o, t); const { cx, cy, R } = geom();
@@ -166,7 +166,7 @@ NEW_SLIDES['Washington, 1884'] = {
       C.forEach(([id, n, la, lo]) => {
         const win = stage >= 1 && n === 'Greenwich', fr = stage === 2 && n === 'Paris', dim = stage >= 1 && !win && !fr;
         g.meridian(lo, win ? '#f0b35a' : fr ? `rgba(143,176,216,${.5 + .5 * pulse})` : dim ? 'rgba(236,230,218,.12)' : (pick === id ? '#f0b35a' : 'rgba(143,176,216,.7)'), win || fr ? 3.5 : 2);
-        const q = g.dot(la, lo, win ? '#f0b35a' : '#ece6da', win ? 7 : 5); if (q && !dim) g.label(win ? 'Greenwich · 0°' : n, q.x + 12, q.y + 6, win ? '#f0b35a' : '#ece6da', win ? 20 : 16);
+        const q = g.dot(la, lo, win ? '#f0b35a' : '#ece6da', win ? 7 : 5); if (q && !dim) g.label(win ? 'Greenwich · 0°' : n, q.x + 12, q.y + 6, win ? '#f0b35a' : '#ece6da', win ? 22 : 18);
       });
     });
     const sync = () => C.forEach(([id]) => CS.$(el, '#' + id).classList.toggle('on', pick === id));
@@ -190,7 +190,7 @@ NEW_SLIDES['The date line'] = {
       if (mode === 'kir') { g.path(OLD, 'rgba(255,125,111,.3)', 2, [5, 6]); }
       g.path(V3IDL, '#ff7d6f', 3);
       const a = g.dot(...APIA, '#f0b35a', 7), p = g.dot(...PAGO, '#6fb3ff', 7);
-      if (mode === 'kir') { [[1.4, 173], [-3.7, -171.2], [1.9, -157.4]].forEach(c => g.dot(...c, '#ece6da', 5)); const q = g.proj(ll(1.9, -157.4)); if (q.z > 0) g.label('Kiribati: one country, one date', q.x + 12, q.y - 10, '#ece6da', 16); return; }
+      if (mode === 'kir') { [[1.4, 173], [-3.7, -171.2], [1.9, -157.4]].forEach(c => g.dot(...c, '#ece6da', 5)); const q = g.proj(ll(1.9, -157.4)); if (q.z > 0) g.label('Kiribati: one country, one date', q.x + 12, q.y - 10, '#ece6da', 18); return; }
       const apDate = mode === '2011' ? (k < .5 ? 'Thursday 29 December' : 'Saturday 31 December') : 'Saturday';
       if (a) g.label(`Apia · noon · ${apDate}`, a.x - 14, a.y - 16, '#f0b35a', 18, 'right');
       if (p) g.label(`Pago Pago · noon · ${mode === '2011' ? 'Friday 30 December' : 'Friday'}`, p.x + 14, p.y + 28, '#6fb3ff', 18);
@@ -262,23 +262,44 @@ NEW_SLIDES['Scilly, 1707'] = {
   fig: '',
   init(el) {
     el.classList.add('wide'); el.querySelector('.text').style.display = 'none';
-    const PTS = ['22 October 1707. Fog and gales, no sun for days.', 'Admiral Shovell’s fleet heads home to England.', 'The officers agree: safe in the Channel.', 'They are wrong.', 'Four warships strike the rocks of Scilly.', 'Up to 2,000 men drown.', 'They knew their latitude.', 'They had no idea of their longitude.'];
+    // two groups of four lines, then the verdict. Each line rises out of a blur; each group fades away.
+    const GROUPS = [
+      ['22 October 1707.', 'Fog and gales. No sun for days.', 'Admiral Shovell’s fleet sails for home.', 'Twenty-one ships.'],
+      ['They know their latitude.', 'Their longitude is a guess.', 'The officers compare their reckonings.', 'All agree: safe in the Channel.']
+    ];
     const stage = el.querySelector('.stage');
-    stage.innerHTML = `<div class="sc-wrap" style="position:absolute;inset:0;overflow:hidden;background:#05070d;cursor:pointer">
-      <img src="v3/img/scilly.jpg" alt="Engraving of Admiral Shovell's fleet wrecked on the rocks of Scilly, 1707" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:sepia(.2) brightness(.8) contrast(1.05);transform:scale(1.04)">
-      <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,7,13,.88) 0%,rgba(5,7,13,.6) 42%,rgba(5,7,13,0) 70%)"></div>
-      <ul class="sc-list" style="position:absolute;left:5%;top:50%;transform:translateY(-50%);width:min(46%,640px);margin:0;padding:0;list-style:none;font-family:Georgia,serif;font-size:clamp(20px,2.1vw,32px);line-height:1.3;color:#f3ede2;text-shadow:0 2px 12px rgba(0,0,0,.9)"></ul>
-      <div class="sc-end" style="position:absolute;left:5%;top:50%;transform:translateY(-50%);font-family:Georgia,serif;font-size:clamp(44px,6vw,96px);color:#f0b35a;text-shadow:0 2px 24px rgba(0,0,0,.9);opacity:0;transition:opacity 1.2s ease">Where am I?</div>
-      <div style="position:absolute;left:18px;top:12px;font:12px Georgia,serif;color:rgba(236,230,218,.6)">Shovell’s fleet on the rocks of Scilly, 1707 · engraving, public domain</div></div>`;
-    const img = stage.querySelector('img'), list = stage.querySelector('.sc-list'), end = stage.querySelector('.sc-end');
-    list.innerHTML = PTS.map((p, k) => `<li style="opacity:0;transform:translateX(-12px);transition:opacity .8s ease,transform .8s ease;padding:.32em 0 .32em 1.1em;position:relative;${k === 3 || k === 7 ? 'color:#f0b35a;' : ''}"><span style="position:absolute;left:0;color:#f0b35a">•</span>${p}</li>`).join('');
-    const items = [...list.children]; let i = -1, timer = null, wasActive = false;
-    const next = () => { clearTimeout(timer); if (i < items.length - 1) { i++; const li = items[i]; li.style.opacity = 1; li.style.transform = 'none'; timer = setTimeout(next, i === 3 ? 2600 : 2200); }
-      else if (end.style.opacity !== '1') { list.style.transition = 'opacity 1s ease'; list.style.opacity = 0; setTimeout(() => { end.style.opacity = 1; }, 900); } };
-    const reset = () => { clearTimeout(timer); i = -1; items.forEach(li => { li.style.opacity = 0; li.style.transform = 'translateX(-12px)'; }); list.style.transition = 'none'; list.style.opacity = 1; end.style.opacity = 0;
-      img.style.transition = 'none'; img.style.transform = 'scale(1.04)'; requestAnimationFrame(() => { img.style.transition = 'transform 30s linear'; img.style.transform = 'scale(1.14)'; }); };
-    stage.querySelector('.sc-wrap').onclick = next;
-    const watch = () => { const on = el.classList.contains('active'); if (on && !wasActive) { reset(); timer = setTimeout(next, 900); } if (!on && wasActive) clearTimeout(timer); wasActive = on; requestAnimationFrame(watch); };
+    stage.innerHTML = `<style>
+      .sc-l{display:block;opacity:0;filter:blur(8px);transform:translateY(10px);transition:opacity 1.6s ease,filter 1.6s ease,transform 1.6s ease}
+      .sc-l.on{opacity:1;filter:none;transform:none}
+      .sc-g{transition:opacity 1.4s ease}
+    </style>
+    <div class="sc-wrap" style="position:absolute;inset:0;overflow:hidden;background:#05070d;cursor:pointer">
+      <img src="v3/img/scilly.jpg" alt="Engraving of Admiral Shovell's fleet wrecked on the rocks of Scilly, 1707" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:sepia(.3) brightness(.7) contrast(1.08);transform:scale(1);transform-origin:60% 60%">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 55% at 50% 50%,rgba(5,7,13,.72) 0%,rgba(5,7,13,.45) 60%,rgba(5,7,13,.85) 100%)"></div>
+      <div class="sc-g" style="position:absolute;left:8%;right:8%;top:50%;transform:translateY(-50%);text-align:center;font-family:Georgia,serif;font-size:clamp(24px,2.7vw,42px);line-height:1.75;letter-spacing:.02em;color:#f3ede2;text-shadow:0 2px 18px rgba(0,0,0,.95)"></div>
+      <div class="sc-end" style="position:absolute;left:6%;right:6%;top:50%;transform:translateY(-50%);text-align:center;font-family:Georgia,serif;text-shadow:0 2px 28px rgba(0,0,0,.95)">
+        <div class="sc-l sc-v" style="font-size:clamp(56px,7.4vw,118px);letter-spacing:.01em;color:#f0b35a">They were wrong.</div>
+        <div class="sc-l sc-s" style="margin-top:.9em;font-size:clamp(20px,1.9vw,30px);letter-spacing:.04em;color:#d8d0c2">Four ships on the rocks of Scilly. Up to 2,000 men drowned.</div></div>
+      <div style="position:absolute;left:18px;top:12px;font:13px Georgia,serif;color:rgba(236,230,218,.5)">Shovell’s fleet on the rocks of Scilly, 1707 · engraving, public domain</div></div>`;
+    const img = stage.querySelector('img'), box = stage.querySelector('.sc-g'), v = stage.querySelector('.sc-v'), sub = stage.querySelector('.sc-s');
+    // the script: [action, wait ms]
+    const SEQ = [];
+    GROUPS.forEach((g, gi) => { SEQ.push(['group', gi, 400]); g.forEach((_, li) => SEQ.push(['line', li, 1900])); SEQ.push(['hold', 0, 2400]); SEQ.push(['clear', 0, 1500]); });
+    SEQ.push(['verdict', 0, 2600], ['sub', 0, 0]);
+    let k = -1, timer = null, wasActive = false;
+    const run = () => { clearTimeout(timer); k++; if (k >= SEQ.length) return; const [a, n, wait] = SEQ[k];
+      if (a === 'group') { box.style.opacity = 1; box.innerHTML = GROUPS[n].map(t => `<span class="sc-l">${t}</span>`).join(''); }
+      if (a === 'line') box.children[n].classList.add('on');
+      if (a === 'clear') box.style.opacity = 0;
+      if (a === 'verdict') { v.classList.add('on'); img.style.transition = 'transform 10s ease-out, filter 6s ease'; img.style.transform = 'scale(1.07)'; img.style.filter = 'sepia(.3) brightness(.55) contrast(1.1)'; }
+      if (a === 'sub') sub.classList.add('on');
+      if (wait) timer = setTimeout(run, wait); };
+    const reset = () => { clearTimeout(timer); k = -1; box.innerHTML = ''; box.style.opacity = 1; v.classList.remove('on'); sub.classList.remove('on');
+      img.style.transition = 'none'; img.style.filter = 'sepia(.3) brightness(.7) contrast(1.08)'; img.style.transform = 'scale(1)';
+      requestAnimationFrame(() => requestAnimationFrame(() => { img.style.transition = 'transform 40s linear'; img.style.transform = 'scale(1.05)'; })); };
+    // a tap skips ahead to the next line
+    stage.querySelector('.sc-wrap').onclick = () => { if (k < SEQ.length - 1) run(); };
+    const watch = () => { const on = el.classList.contains('active'); if (on && !wasActive) { reset(); timer = setTimeout(run, 900); } if (!on && wasActive) clearTimeout(timer); wasActive = on; requestAnimationFrame(watch); };
     watch();
   }
 };
