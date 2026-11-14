@@ -68,6 +68,11 @@ await page.waitForTimeout(2500);
 assert.match(await page.locator('#gps-r').innerText(), /38\.9° N/, 'GPS finds you');
 assert.deepEqual(errs, [], 'new slides: no page errors');
 
+// the 30-minute talk
+await page.goto(url + '?talk=30#0'); await page.waitForTimeout(1200);
+assert.equal(await page.evaluate(() => COURSE_LIVE.length), 14, '30-minute talk has 14 slides');
+assert.equal(await page.evaluate(() => COURSE_LIVE.at(-1).t), 'Where am I, now', '30-minute talk ends on GPS');
+
 // phone: everything stacks, nothing scrolls sideways
 await page.setViewportSize({width: 390, height: 844}); await page.waitForTimeout(400);
 assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'phone: no sideways scroll');

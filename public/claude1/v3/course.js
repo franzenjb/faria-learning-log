@@ -96,7 +96,7 @@ const COURSE = [
   { day: 1, ch: 'The Clock', t: 'Hours are slices', label: 'The Earth is a 24-hour clock', topics: ['70-time-to-longitude', '95-degrees-arcminutes-arcseconds'],
     script: ['Before longitude, one idea about time. Look down on the North Pole.', 'A full turn is 360 degrees. A day is 24 hours. Cut the Earth into 24 slices, one for each hour.', '360 divided by 24 is 15. Every hour, the Earth turns 15 degrees under the Sun.', 'So if your noon comes two hours after Greenwich noon, you are two slices west: 30 degrees.', 'Zoom into one slice. One degree is four minutes of time. One arcminute is four seconds.', 'Twist: a clock four seconds wrong puts you a nautical mile out. That is how good a clock at sea has to be.'] },
   { day: 1, ch: 'The Clock', t: 'Two ships, one latitude', label: 'Longitude has no landmarks', topics: ['70-time-to-longitude', '49-bowditch'],
-    script: ['Latitude is easy because the sky gives you a fixed mark. Polaris sits right above the North Pole. It does not move while the Earth turns underneath it.', 'So how high Polaris stands tells you how far north you are. Fifty degrees up, you are at fifty degrees north. Any night, any hour, the answer is the same.', 'Now look at the two ships. Both are on the gold line, fifty degrees north. Both captains look up and see Polaris fifty degrees high. The same reading, the same answer.', 'Slide the second ship east. Hundreds of miles. Polaris still reads fifty degrees for both of them. The star cannot tell them apart.', 'Watch the Earth turn. Everything else in the sky, the Sun, the Moon, the other stars, swings past both ships. It rises, crosses, and sets for each of them at a different time.', 'That is the key. East and west are not written in the sky. They are written in time. The difference in longitude between two ships is the difference in the time the Sun crosses over each of them.', 'So latitude needs a star and an angle. Longitude needs a clock. That is the whole longitude problem in one picture.'] },
+    script: ['Latitude is easy because the sky gives you a fixed mark. Polaris sits right above the North Pole. It does not move while the Earth turns underneath it.', 'So how high Polaris stands tells you how far north you are. Fifty degrees up, you are at fifty degrees north. Any night, any hour, the answer is the same.', 'Now look at the two ships. Both are on the gold line, fifty degrees north. Both captains look up and see Polaris fifty degrees high. The same reading, the same answer.', 'Slide the second ship east. Hundreds of miles. Polaris still reads fifty degrees for both of them. The star cannot tell them apart.', 'Watch the Earth turn. Everything else in the sky, the Sun, the Moon, the other stars, swings past both ships. It rises, crosses, and sets for each of them at a different time.', 'That is the key. East and west are not written in the sky. They are written in time. The difference in longitude between two ships is the difference in the time the Sun crosses over each of them.', 'So latitude needs a star and an angle. Longitude needs a clock. That is the whole longitude problem in one picture.', 'GIS today: one degree of longitude is 69 miles at the equator and about 35 at 60 degrees north. That is why you never buffer in degrees: project first.'] },
   { day: 1, n: 1, ch: 'Longitude', t: 'The Longitude Act, 1714', label: 'The Longitude Act, 1714', topics: ['84-harrison-and-the-marine-chronometer'],
     script: ['Seven years after Scilly, Parliament acts. The Longitude Act of 1714: twenty thousand pounds, millions in today\'s money.', 'It does not care how you do it. A clock, the Moon, Jupiter, anything. It only cares how close you get.', 'The test: sail from Britain to the West Indies, about six weeks, then say where you are.', 'Three prizes. Within half a degree, about thirty miles: twenty thousand pounds. Within two thirds: fifteen thousand. Within one degree, about sixty miles: ten thousand.', 'Slide the error and watch which prize you win. Past one degree, nothing.', 'To win the top prize with a clock, it can drift only two minutes in six weeks. Three seconds a day, on a rolling ship.', 'Twist: three ideas raced for the money. Way one came from Galileo.'] },
   { day: 1, n: 2, ch: 'Longitude', t: 'Galileo\u2019s clock', h1: 'Way 1: Jupiter\u2019s Moon Io', label: 'Way 1: Jupiter\u2019s Moon Io', topics: ['64-galileo-jupiters-moons', '79-cassini-paris-and-jupiter', '70-time-to-longitude'],
@@ -165,6 +165,38 @@ function titleCase(str) {
     }).join('-');
   }).join('');
 }
+
+/* ---------- The 30-minute talk: /claude1/v3/?talk=30 ----------
+   Chosen by a review panel (presentation design, story, GIS teaching) for a 30-minute Teams talk.
+   Each row: [slide t, minutes, script lines to keep (1-based, in order; strings are added lines)]. */
+const TALK30 = [
+  ['Cover', .5, ['Every pin you drop on a Red Cross map is two numbers. Tonight is the story of how many people had to die, and one stubborn carpenter had to prove a genius wrong, before anyone could say where they were.']],
+  ['Scilly, 1707', 2.5, [1, 2, 3, 4, 5, 6, 'On Teams: ask for the guesses in the chat.']],
+  ['Mental maps', 2, ['Two quick questions tonight: Havana, then Rome. Vote in the chat before I reveal.', 3, 'Hold on to that feeling. The rest of the talk is how we learned to know where things really are.']],
+  ['Latitude &amp; Longitude', 2, [1, 2, 3, 4, 5, 6]],
+  ['Walk north', 2, [1, 2, 3, 'Hold your arm out and make a fist. A fist is about ten degrees of sky; Polaris here is about four fists up.', 'By day, sailors did the same with the noon Sun and a printed table.', 4]],
+  ['Eratosthenes', 2, [2, 3, 4, 5, 6, 'A century later Hipparchus laid a grid of numbered lines over the world. Around AD 150 Ptolemy\'s Geography listed thousands of places by two numbers, with zero longitude out in the Canary Islands. Remember the Canaries.']],
+  ['Hours are slices', 2, [1, 2, 3, 4, 5, 6]],
+  ['Two ships, one latitude', 2, [3, 4, 5, 6, 7, 8]],
+  ['The Longitude Act, 1714', 2, [1, 2, 4, 5, 6, 7]],
+  ['Galileo’s clock', 2, [1, 2, 3, 5, 7]],
+  ['The lunar distance', 2, ['The idea was old. Johannes Werner proposed it in 1514. For 250 years nobody could predict the Moon well enough to use it.', 1, 3, 4, 5, 'In 1767 Maskelyne printed the first Nautical Almanac: the Moon worked out every three hours, years ahead.', 6]],
+  ['A clock that could travel', 3, [1, 2, 3, 5, 6, 7, 8, 'Skip the H2 and H3 press: tap through it.']],
+  ['Washington, 1884', 2, [2, 3, 4, 6]],
+  ['Where am I, now', 2.5, [1, 2, 'The first test satellite went up in 1978. The full system was declared ready in 1995.', 3, 4, 5, 6, 'So the next time Field Maps drops a pin on a family that needs a cot tonight, remember: the stars gave us latitude, Harrison\'s clock gave us longitude, and a sky full of clocks answered Admiral Shovell\'s question in under a second.']]
+];
+if (/[?&]talk=30\b/.test(location.search)) {
+  const keep = [];
+  for (const [t, min, pick] of TALK30) {
+    const c = COURSE.find(x => x.t === t); if (!c) { console.warn('talk30: no slide', t); continue; }
+    const lines = pick.map(p => typeof p === 'number' ? c.script[p - 1] : p).filter(Boolean);
+    lines[0] = `⏱ ${min} min · ` + lines[0];
+    keep.push({ ...c, script: lines });
+  }
+  COURSE.length = 0; COURSE.push(...keep);
+  document.title = 'Where Am I? · 30 Minutes';
+}
+
 (function () {
   const deck = document.getElementById('deck');
   const find = t => [...deck.querySelectorAll('.slide')].find(s => s.dataset.title === t || s.getAttribute('data-title') === t.replace(/&amp;/g, '&'));
@@ -173,7 +205,7 @@ function titleCase(str) {
   /* ---- course index slide ---- */
   const firstOf = d => COURSE.find(c => c.day === d);
   const idx = document.createElement('section'); idx.className = 'slide native wide'; idx.dataset.title = 'Course index'; idx.dataset.fx = 'fade';
-  idx.innerHTML = `<div class="stage"><div class="cindex"><p class="kicker">American Red Cross · Disaster GIS</p><h1>Two Days, One Question: Where Am I?</h1><div class="ci-days">${[1, 2].map(d => `<button class="ci-day" data-first="${firstOf(d).t}"><span class="ci-n"><small>Day</small> ${d}</span><span class="ci-dot"></span><strong>${titleCase(DAYS[d].name)}</strong></button>`).join('')}</div></div></div>`;
+  idx.innerHTML = `<div class="stage"><div class="cindex"><p class="kicker">American Red Cross · Disaster GIS</p><h1>Two Days, One Question: Where Am I?</h1><div class="ci-days">${[1, 2].map(d => `<button class="ci-day" data-first="${(firstOf(d) || {}).t || ''}"><span class="ci-n"><small>Day</small> ${d}</span><span class="ci-dot"></span><strong>${titleCase(DAYS[d].name)}</strong></button>`).join('')}</div></div></div>`;
   deck.appendChild(idx);
 
   /* ---- build the new native slides ---- */
