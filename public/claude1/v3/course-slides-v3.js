@@ -72,7 +72,7 @@ const V3_TUNE = {
     keep: ['[data-k="lat"]', '[data-k="lon"]', '[data-k="grid"]', '#bingo-open'], noTap: true, hide: ['a[href="/polaris/"]'],
     clickOnLoad: ['#globe-toggles [data-k="lat"].on', '#globe-toggles [data-k="lon"].on', '#globe-toggles [data-k="grid"].on', '#globe-toggles [data-k="polaris"].on', '#globe-toggles [data-k="cities"].on'], hero: '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.', on: { '#fly-nm': '1 Arcminute of <b>Latitude</b> = 1 Nautical Mile', '#fly-north': '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.' } },
   'Walk north': { hideText: ['Why They Match', 'North Pole'], hero: '<b>Latitude</b> Is an Angle From the Equator.', on: { '#wn-l-you': 'One Star, One Angle. <b>Latitude</b> Needs No Clock.', '#wn-south': 'In the South, <b>the Southern Cross</b> Points to the Pole.' } },
-  'Eratosthenes': { kicker: '240 BC · Eratosthenes of Alexandria', hide: ['.readout'], hero: 'One Shadow, One Angle: The Size of the Earth.' },
+  'Eratosthenes': { kicker: '240 BC · Eratosthenes of Alexandria' },
   'Hours are slices': { hide: ['.table-wrap', '#hs-read'], hero: '<b>1 Hour = 15°</b> of Longitude', on: { '#hs-slice': '1 Hour = 15° = 60 Minutes', '#hs-degree': '<b>4 Seconds = 1 Nautical Mile</b>', '#hs-out': '<b>1 Hour = 15°</b> of Longitude' } },
   'Two ships, one latitude': { h1: 'Two Ships, One Latitude', hero: 'Same Star. Different Time. <b>Longitude Needs a Clock.</b>' },
   'The Longitude Act, 1714': { kicker: 'Seven Years After Scilly', hide: ['#la-r'] },
@@ -385,9 +385,9 @@ addEventListener('load', () => setTimeout(() => {
   const KEYS = '1234567890qweryuoadghjz'.split('');
   const legend = document.createElement('div'); legend.id = 'v3-keys'; (document.getElementById('visual') || document.body).appendChild(legend);
   const active = () => document.querySelector('#deck .slide.active');
-  const controls = el => { const t = el && el.querySelector('.text'); if (!t) return []; const off = b => { for (let n = b; n && n !== t; n = n.parentElement) if (getComputedStyle(n).display === 'none') return true; return false; };
+  const controls = el => { const t = el && el.querySelector('.text'); if (!t) return []; const off = b => { for (let n = b; n; n = n.parentElement) { if (n.style && n.style.display === 'none') return true; if (n === t) break; if (getComputedStyle(n).display === 'none') return true; } return false; };
     return [...t.querySelectorAll('button')].filter(b => b.style.display !== 'none' && !b.closest('[hidden]') && !b.hidden && b.textContent.trim() && !off(b)); };
-  const slider = el => { const t = el && el.querySelector('.text'); return t ? [...t.querySelectorAll('input[type=range]')].find(x => !x.closest('[hidden]') && x.style.display !== 'none') : null; };
+  const slider = el => { const t = el && el.querySelector('.text'); return t && t.style.display !== 'none' ? [...t.querySelectorAll('input[type=range]')].find(x => !x.closest('[hidden]') && x.style.display !== 'none') : null; };
   const label = b => { const L = b.querySelector('.label'), ltr = b.querySelector('.letter'); const t = L ? (ltr ? ltr.textContent + ' ' : '') + L.textContent : b.textContent; return t.replace(/\s+/g, ' ').trim().replace(/^\d+ · /, '').slice(0, 26); };
   const draw = () => { const el = active(); const cs = controls(el).slice(0, KEYS.length), sl = slider(el);
     legend.innerHTML = cs.map((b, i) => `<span data-i="${i}"><b>${KEYS[i].toUpperCase()}</b>${label(b)}</span>`).join('') + (sl ? `<span><b>↑↓</b>${(sl.closest('label') && sl.closest('label').querySelector('.row') ? sl.closest('label').querySelector('.row').childNodes[0].textContent.trim() : 'Slider')}</span>` : ''); };
@@ -438,4 +438,72 @@ addEventListener('load', () => setTimeout(() => {
     const col = x < w * .5 ? 0 : 1, row = y < h * .62 ? 0 : 1;
     if (x > x0 && x < x0 + 2 * cw + gx && y > h * .4) vote(row * 2 + col);
   });
+}, 0));
+
+
+/* ---------- Eratosthenes, one idea per press: the well, the stick, the angle, why it matches, 50×, his answer ---------- */
+addEventListener('load', () => setTimeout(() => {
+  const el = [...document.querySelectorAll('section')].find(x => x.dataset.title === 'Eratosthenes'); if (!el) return;
+  const text = el.querySelector('.text'); if (text) text.style.display = 'none'; el.classList.add('wide');
+  const stage = el.querySelector('.stage'); stage.innerHTML = '<svg class="fig er-fig" viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet"><g id="er"></g></svg>';
+  const G = '#f0b35a', W = '#ece6da', B = '#6fb3ff', M = '#9a9382';
+  const T = (t, x, y, size, col = W, anchor = 'middle', extra = '') => `<text x="${x}" y="${y}" text-anchor="${anchor}" style="font-size:${size}px;fill:${col}" ${extra}>${t}</text>`;
+  const sun = (x, y) => `<circle cx="${x}" cy="${y}" r="34" fill="${G}" opacity=".95"/><circle cx="${x}" cy="${y}" r="54" fill="${G}" opacity=".18"/>`;
+  const ground = y => `<line x1="40" y1="${y}" x2="960" y2="${y}" stroke="#4a5470" stroke-width="3"/>`;
+  const well = (cx, top, lit) => `<rect x="${cx - 60}" y="${top}" width="120" height="190" fill="#0b1222" stroke="#8a7a5c" stroke-width="6"/>` +
+    `<rect x="${cx - 54}" y="${top + 160}" width="108" height="24" fill="${lit ? G : '#1f3554'}" opacity="${lit ? .95 : 1}"/>` +
+    (lit ? `<ellipse cx="${cx}" cy="${top + 165}" rx="70" ry="22" fill="${G}" opacity=".25"/>` : '');
+  const rays = (x0, x1, y0, y1, n, dx = 0) => Array.from({ length: n }, (_, i) => { const x = x0 + (x1 - x0) * i / (n - 1); return `<line x1="${x}" y1="${y0}" x2="${x + dx}" y2="${y1}" stroke="${G}" stroke-width="3" opacity=".75"/>`; }).join('');
+  const stick = (x, base, h, ang) => { const r = ang * Math.PI / 180, sh = h * Math.tan(r);
+    return `<line x1="${x}" y1="${base}" x2="${x}" y2="${base - h}" stroke="${W}" stroke-width="7" stroke-linecap="round"/>` +
+      `<line x1="${x}" y1="${base}" x2="${x + sh}" y2="${base}" stroke="#000" stroke-width="12"/>` +
+      // the ray grazes the top of the stick and lands at the tip of the shadow
+      `<line x1="${x - sh * 0.8}" y1="${base - h * 1.8}" x2="${x + sh}" y2="${base}" stroke="${G}" stroke-width="3" opacity=".85"/>`; };
+  const S = [
+    // 0 · the well at Syene
+    () => T('Syene, noon, the longest day of the year', 500, 60, 34) + sun(500, 130) + rays(470, 530, 180, 560, 4) + ground(380) + well(500, 380, true) +
+      T('The Sun shines straight down the well.', 500, 618, 34, G),
+    // 1 · same noon, Alexandria
+    () => T('Same day, same noon', 500, 60, 34) + ground(470) +
+      T('Syene', 760, 520, 28, M) + well(760, 470, true).replace(/height="190"/, 'height="110"').replace(/y="\d+" width="108" height="24"/, `y="${470 + 82}" width="108" height="24"`).replace(/cy="\d+" rx="70"/, `cy="${470 + 88}" rx="70"`) + rays(745, 775, 110, 560, 2) +
+      stick(240, 470, 240, 7.2) + T('Alexandria, 500 miles north', 240, 520, 28, M) +
+      T('In Alexandria, a stick casts a shadow.', 500, 618, 34, G),
+    // 2 · measure the angle
+    () => { const x = 500, base = 570, h = 250, r = 7.2 * Math.PI / 180, top = base - h, A = 150;
+      return T('Measure the shadow', 500, 60, 34) + ground(base) + stick(x, base, h, 7.2) +
+        `<line x1="${x}" y1="${top}" x2="${x}" y2="${top - A - 30}" stroke="${W}" stroke-width="2" stroke-dasharray="8 8"/>` +
+        `<path d="M ${x} ${top - A} A ${A} ${A} 0 0 0 ${x - A * Math.sin(r)} ${top - A * Math.cos(r)}" fill="none" stroke="${G}" stroke-width="5"/>` +
+        T('7.2°', x - 40, top - A + 20, 64, G, 'end') + T('sunlight', x - 40, top + 60, 26, G, 'end') + T('straight up', x + 16, top - A - 10, 24, M, 'start') + T('stick', x + 22, top + 180, 26, W, 'start') +
+        T('The Sun is 7.2° from straight up.', 500, 618, 34, G); },
+    // 3 · why the angle at the center is the same
+    () => { const cx = 500, cy = 600, R = 420, a = 20 * Math.PI / 180, ax = cx - R * Math.sin(a), ay = cy - R * Math.cos(a), sx = cx, sy = cy - R;
+      const arc = (r, a0, a1) => `M ${cx - r * Math.sin(a0)} ${cy - r * Math.cos(a0)} A ${r} ${r} 0 0 0 ${cx - r * Math.sin(a1)} ${cy - r * Math.cos(a1)}`;
+      return `<path d="M ${cx - R} ${cy} A ${R} ${R} 0 0 1 ${cx + R} ${cy}" fill="#15294a" stroke="#3b5f8a" stroke-width="3"/>` +
+        `<line x1="${sx}" y1="30" x2="${sx}" y2="${sy}" stroke="${G}" stroke-width="3"/><line x1="${ax}" y1="30" x2="${ax}" y2="${ay}" stroke="${G}" stroke-width="3"/>` +
+        `<line x1="${sx}" y1="${sy}" x2="${cx}" y2="${cy}" stroke="${W}" stroke-width="2" stroke-dasharray="8 8"/><line x1="${ax - 70 * Math.sin(a)}" y1="${ay - 70 * Math.cos(a)}" x2="${cx}" y2="${cy}" stroke="${W}" stroke-width="3"/>` +
+        `<path d="${arc(R, 0, a)}" fill="none" stroke="${G}" stroke-width="9" opacity=".8" transform="scale(1)"/>` +
+        `<path d="${arc(90, 0, a)}" fill="none" stroke="${G}" stroke-width="4"/>` + T('7.2°', cx - 50, cy - 110, 40, G, 'end') +
+        T('Syene', sx + 14, sy - 14, 26, M, 'start') + T('Alexandria', ax - 14, ay - 10, 26, M, 'end') + T('500 miles', (sx + ax) / 2 + 10, sy + 50, 28, G) +
+        T('center of the Earth', cx + 16, cy - 8, 22, M, 'start') + T('sunlight', 940, 70, 26, G, 'end') +
+        T('Parallel sunlight: the angle at the center is also 7.2°.', 500, 26, 30, W) +
+        T('angles drawn larger so you can see them', 40, 630, 18, M, 'start'); },
+    // 4 · fifty times
+    () => { const cx = 500, cy = 300, R = 190; let wedges = '';
+      for (let i = 0; i < 50; i++) { const t0 = i / 50 * 2 * Math.PI - Math.PI / 2; wedges += `<line x1="${cx}" y1="${cy}" x2="${cx + R * Math.cos(t0)}" y2="${cy + R * Math.sin(t0)}" stroke="#3b5f8a" stroke-width="1.5"/>`; }
+      const t1 = -Math.PI / 2, t2 = t1 + 2 * Math.PI / 50;
+      return T('7.2° is one fiftieth of a circle', 500, 60, 38) + `<circle cx="${cx}" cy="${cy}" r="${R}" fill="#15294a" stroke="#3b5f8a" stroke-width="3"/>` + wedges +
+        `<path d="M ${cx} ${cy} L ${cx + R * Math.cos(t1)} ${cy + R * Math.sin(t1)} A ${R} ${R} 0 0 1 ${cx + R * Math.cos(t2)} ${cy + R * Math.sin(t2)} Z" fill="${G}"/>` +
+        T('500 miles', cx + 40, cy - R - 14, 26, G, 'start') +
+        T('50 × 500 miles =', 500, 575, 44) + T('25,000 miles around', 500, 630, 54, G); },
+    // 5 · his answer and ours
+    () => { const bar = (y, w, col) => `<rect x="160" y="${y}" width="${w}" height="56" rx="8" fill="${col}"/>`, k = 500 / 25000;
+      return T('How close did he get?', 500, 70, 40) +
+        T('Eratosthenes, 240 BC', 160, 190, 30, W, 'start') + bar(210, 25000 * k, G) + T('about 25,000 miles', 160 + 25000 * k + 16, 250, 30, G, 'start') +
+        T('Today, from satellites', 160, 360, 30, W, 'start') + bar(380, 24901 * k, B) + T('24,901 miles', 160 + 24901 * k + 16, 420, 30, B, 'start') +
+        T('With a stick, a shadow and a paced distance.', 500, 540, 34) +
+        T('His unit, the stadion, is uncertain, so “within a few percent” is the honest claim.', 500, 600, 20, M); }
+  ];
+  const g = el.querySelector('#er');
+  V3.steps(el, S.length - 1, k => { g.innerHTML = `<g class="er-in">${S[k]()}</g>`; });
+  const st = document.createElement('style'); st.textContent = '.er-fig{padding:1rem 1.5rem!important}.er-in{animation:erIn .5s ease}@keyframes erIn{from{opacity:0}to{opacity:1}}'; document.head.appendChild(st);
 }, 0));
