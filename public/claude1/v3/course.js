@@ -176,22 +176,22 @@ const TALK30 = [
   ['Latitude &amp; Longitude', 2, [1, 2, 3, 4, 'Longitude lines run pole to pole. Now lay the Bingo card on the globe: latitude calls the row, longitude calls the column. Two calls, one square, and everyone finds it.', 6]],
   ['Walk north', 2, ['Build it a piece at a time: 1 the angle from the equator, 2 your parallel, 3 you and Polaris. What You See adds the view facing north.', 1, 2, 3, 'Hold your arm out and make a fist. A fist is about ten degrees of sky; Polaris here is about four fists up.', 'By day, sailors did the same with the noon Sun and a printed table.', 'Now go south. Cross the equator and Polaris sinks below the horizon. No star marks the south pole. Find the Southern Cross and run a line through its long arm, about four and a half lengths: that spot is the south celestial pole, and its height is your latitude.', 4]],
   ['Eratosthenes', 2, ['→ steps through: the well, the stick, the angle, why the center angle matches, 50 times, his answer against today.', 2, 3, 4, 5, 6, 'A century later Hipparchus laid a grid of numbered lines over the world. Around AD 150 Ptolemy\'s Geography listed thousands of places by two numbers, with zero longitude out in the Canary Islands. Remember the Canaries.']],
-  ['Hours are slices', 2, [1, 2, 3, 4, 5, 6]],
+  ['Hours are slices', 2, ['→ steps: the globe, tip it to the North Pole, 24 hours, 15° slices, longitude, then the problem.', 'Here is the globe. It turns, all day, every day.', 'Tip it over and look straight down on the North Pole.', 'One turn every 24 hours. Day on the sunny side, night on the other.', '360 degrees in 24 hours: 15 degrees every hour. Cut the Earth into 24 slices.', 'Those slices are longitude: how far east or west you are. Every hour is 15 degrees.', 'So how do you measure it? Latitude had Polaris. Longitude has no star, and the sky never stops turning. That is the problem the next three hundred years are about.']],
   ['Two ships, one latitude', 2, [3, 4, 5, 6, 7, 8]],
-  ['The Longitude Act, 1714', 2, [1, 2, 4, 5, 6, 7]],
-  ['Galileo’s clock', 2, [1, 2, 3, 4, 5, 7]],
-  ['The lunar distance', 2, ['The idea was old. Johannes Werner proposed it in 1514. For 250 years nobody could predict the Moon well enough to use it.', 1, 3, 4, 5, 'In 1767 Maskelyne printed the first Nautical Almanac: the Moon worked out every three hours, years ahead.', 6]],
+  ['The lunar distance', 2, ['Way one: read home time off the Moon.', 'The idea was old. Johannes Werner proposed it in 1514. For 250 years nobody could predict the Moon well enough to use it.', 3, 4, 5, 'In 1767 Maskelyne printed the first Nautical Almanac: the Moon worked out every three hours, years ahead.', 6], { label: 'Way 1: The Moon', h1: 'Way 1: Read Home Time off the Moon' }],
+  ['Galileo’s clock', 2, [1, 2, 3, 4, 5, 7], { label: 'Way 2: Jupiter\u2019s Moon Io', h1: 'Way 2: Jupiter\u2019s Moon Io' }],
+  ['The Longitude Act, 1714', 2, [1, 2, 4, 5, 6, 'Twist: the Moon needed an hour of arithmetic, and Jupiter needed a steady telescope. Neither worked on a rolling deck. The prize waited for a clock.']],
   ['A clock that could travel', 3, [1, 2, 3, 'H2 and H3: tap straight through this press.', 5, 6, 7, 8]],
   ['Washington, 1884', 2, [2, 3, 4, 6]],
   ['Where am I, now', 2.5, [1, 2, 'The first test satellite went up in 1978. The full system was declared ready in 1995.', 3, 4, 5, 6, 'So the next time Field Maps drops a pin on a family that needs a cot tonight, remember: the stars gave us latitude, Harrison\'s clock gave us longitude, and a sky full of clocks answered Admiral Shovell\'s question in under a second.']]
 ];
 if (/[?&]talk=30\b/.test(location.search)) {
   const keep = [];
-  for (const [t, min, pick] of TALK30) {
+  for (const [t, min, pick, over] of TALK30) {
     const c = COURSE.find(x => x.t === t); if (!c) { console.warn('talk30: no slide', t); continue; }
     const lines = pick.map(p => typeof p === 'number' ? c.script[p - 1] : p).filter(Boolean);
     lines[0] = `⏱ ${min} min · ` + lines[0];
-    keep.push({ ...c, script: lines });
+    keep.push({ ...c, ...(over || {}), script: lines });
   }
   COURSE.length = 0; COURSE.push(...keep);
   document.title = 'Where Am I? · 30 Minutes';
