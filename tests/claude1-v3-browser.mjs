@@ -50,9 +50,9 @@ assert.equal(await page.locator('#jf-title').innerText(), await page.evaluate(()
 
 // Scilly: four presses step through it, the fifth leaves it
 await page.evaluate(() => go(COURSE_LIVE.findIndex(c => c.t === 'Scilly, 1707'))); await page.waitForTimeout(600);
-for (let k = 0; k < 4; k++) { await page.keyboard.press('ArrowRight'); await page.waitForTimeout(600); }
+for (let k = 0; k < 5; k++) { await page.keyboard.press('ArrowRight'); await page.waitForTimeout(600); }
 assert.equal(await page.evaluate(() => COURSE_LIVE[cur].t), 'Scilly, 1707', 'Scilly holds for four steps');
-assert.match(await page.locator('.sc-card').innerText(), /2,000/, 'the toll is the last screen');
+assert.match(await page.locator('.sc-card').innerText(), /longitude/i, 'the lesson is the last screen');
 await page.keyboard.press('ArrowRight'); await page.waitForTimeout(500);
 assert.equal(await page.evaluate(() => COURSE_LIVE[cur].t), 'Mental maps', 'fifth press moves on to the quiz');
 
@@ -67,6 +67,11 @@ for (const [t, ids] of NEW) { await page.evaluate(t => go(COURSE_LIVE.findIndex(
 await page.waitForTimeout(2500);
 assert.match(await page.locator('#gps-r').innerText(), /38\.9° N/, 'GPS finds you');
 assert.deepEqual(errs, [], 'new slides: no page errors');
+
+// the 30-minute talk
+await page.goto(url + '?talk=30#0'); await page.waitForTimeout(1200);
+assert.equal(await page.evaluate(() => COURSE_LIVE.length), 14, '30-minute talk has 14 slides');
+assert.equal(await page.evaluate(() => COURSE_LIVE.at(-1).t), 'Where am I, now', '30-minute talk ends on GPS');
 
 // phone: everything stacks, nothing scrolls sideways
 await page.setViewportSize({width: 390, height: 844}); await page.waitForTimeout(400);
