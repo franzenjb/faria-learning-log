@@ -454,11 +454,12 @@ addEventListener('load', () => setTimeout(() => {
     `<rect x="${cx - 54}" y="${top + 160}" width="108" height="24" fill="${lit ? G : '#1f3554'}" opacity="${lit ? .95 : 1}"/>` +
     (lit ? `<ellipse cx="${cx}" cy="${top + 165}" rx="70" ry="22" fill="${G}" opacity=".25"/>` : '');
   const rays = (x0, x1, y0, y1, n, dx = 0) => Array.from({ length: n }, (_, i) => { const x = x0 + (x1 - x0) * i / (n - 1); return `<line x1="${x}" y1="${y0}" x2="${x + dx}" y2="${y1}" stroke="${G}" stroke-width="3" opacity=".75"/>`; }).join('');
-  const stick = (x, base, h, ang) => { const r = ang * Math.PI / 180, sh = h * Math.tan(r);
-    return `<line x1="${x}" y1="${base}" x2="${x}" y2="${base - h}" stroke="${W}" stroke-width="7" stroke-linecap="round"/>` +
-      `<line x1="${x}" y1="${base}" x2="${x + sh}" y2="${base}" stroke="#000" stroke-width="12"/>` +
-      // the ray grazes the top of the stick and lands at the tip of the shadow
-      `<line x1="${x - sh * 0.8}" y1="${base - h * 1.8}" x2="${x + sh}" y2="${base}" stroke="${G}" stroke-width="3" opacity=".85"/>`; };
+  // the Sun is to the south (toward Syene, on the right), so the ray comes down from the upper right and the shadow points north, to the left
+  const stick = (x, base, h, ang) => { const r = ang * Math.PI / 180, sh = h * Math.tan(r), f = 1.8;
+    return `<line x1="${x}" y1="${base}" x2="${x - sh}" y2="${base}" stroke="#8a93b0" stroke-width="12" stroke-linecap="round"/>` +
+      `<line x1="${x}" y1="${base}" x2="${x}" y2="${base - h}" stroke="${W}" stroke-width="7" stroke-linecap="round"/>` +
+      `<line x1="${x - sh + sh * f}" y1="${base - h * f}" x2="${x - sh}" y2="${base}" stroke="${G}" stroke-width="3" opacity=".9"/>` +
+      `<text x="${x - sh - 14}" y="${base - 12}" text-anchor="end" style="font-size:24px;fill:#b8bfd4">shadow</text>`; };
   const S = [
     // 0 · the well at Syene
     () => T('Syene, noon, the longest day of the year', 500, 60, 34) + sun(500, 130) + rays(470, 530, 180, 560, 4) + ground(380) + well(500, 380, true) +
@@ -466,14 +467,14 @@ addEventListener('load', () => setTimeout(() => {
     // 1 · same noon, Alexandria
     () => T('Same day, same noon', 500, 60, 34) + ground(470) +
       T('Syene', 760, 520, 28, M) + well(760, 470, true).replace(/height="190"/, 'height="110"').replace(/y="\d+" width="108" height="24"/, `y="${470 + 82}" width="108" height="24"`).replace(/cy="\d+" rx="70"/, `cy="${470 + 88}" rx="70"`) + rays(745, 775, 110, 560, 2) +
-      stick(240, 470, 240, 7.2) + T('Alexandria, 500 miles north', 240, 520, 28, M) +
+      stick(240, 470, 240, 7.2) + T('Alexandria, 500 miles north', 240, 530, 28, M) +
       T('In Alexandria, a stick casts a shadow.', 500, 618, 34, G),
     // 2 · measure the angle
     () => { const x = 500, base = 570, h = 250, r = 7.2 * Math.PI / 180, top = base - h, A = 150;
       return T('Measure the shadow', 500, 60, 34) + ground(base) + stick(x, base, h, 7.2) +
         `<line x1="${x}" y1="${top}" x2="${x}" y2="${top - A - 30}" stroke="${W}" stroke-width="2" stroke-dasharray="8 8"/>` +
-        `<path d="M ${x} ${top - A} A ${A} ${A} 0 0 0 ${x - A * Math.sin(r)} ${top - A * Math.cos(r)}" fill="none" stroke="${G}" stroke-width="5"/>` +
-        T('7.2°', x - 40, top - A + 20, 64, G, 'end') + T('sunlight', x - 40, top + 60, 26, G, 'end') + T('straight up', x + 16, top - A - 10, 24, M, 'start') + T('stick', x + 22, top + 180, 26, W, 'start') +
+        `<path d="M ${x} ${top - A} A ${A} ${A} 0 0 1 ${x + A * Math.sin(r)} ${top - A * Math.cos(r)}" fill="none" stroke="${G}" stroke-width="5"/>` +
+        T('7.2°', x + 40, top - A + 20, 64, G, 'start') + T('sunlight', x + 60, top + 60, 26, G, 'start') + T('straight up', x - 16, top - A - 10, 24, M, 'end') + T('stick', x + 22, top + 180, 26, W, 'start') +
         T('The Sun is 7.2° from straight up.', 500, 618, 34, G); },
     // 3 · why the angle at the center is the same
     () => { const cx = 500, cy = 600, R = 420, a = 20 * Math.PI / 180, ax = cx - R * Math.sin(a), ay = cy - R * Math.cos(a), sx = cx, sy = cy - R;
