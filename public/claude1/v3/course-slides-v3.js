@@ -401,28 +401,28 @@ addEventListener('load', () => setTimeout(() => {
 addEventListener('load', () => setTimeout(() => {
   const el = [...document.querySelectorAll('section')].find(s => s.dataset.title === 'Mental maps'); if (!el) return;
   const plan = TALK ? [0, 2] : [0, 1, 2, 3];
-  let ph = 0; // even = question showing, odd = answer revealed; question = plan[ph >> 1]
-  const showQ = i => { const b = el.querySelector(`#m1q [data-q="${plan[i]}"]`); if (b) b.click(); };
+  // steps: question, answer, and for Boston vs Rome a third beat: the Gulf Stream and westerlies.
+  const S = []; plan.forEach(q => { S.push(['q', q], ['r', q]); if (q === 2) S.push(['g', q]); });
+  let ph = 0;
+  const showQ = q => { const b = el.querySelector(`#m1q [data-q="${q}"]`); if (b) b.click(); };
   const reveal = () => { const b = el.querySelector('#qz-reveal'); if (b) b.click(); };
+  const gulf = () => { const b = el.querySelector('#qz-gulf'); if (b) b.click(); };
+  const go = i => { const [k, q] = S[i]; if (k === 'q') showQ(q); else if (k === 'r') { if (S[ph][0] === 'g') gulf(); else { showQ(q); reveal(); } } else gulf(); ph = i; };
   const vote = k => { const b = el.querySelector(`#qz-opts .opt[data-k="${k}"]`); if (b) b.click(); };
-  let was = false; const watch = () => { const on = el.classList.contains('active'); if (on && !was) { ph = 0; showQ(0); } was = on; requestAnimationFrame(watch); }; watch();
+  let was = false; const watch = () => { const on = el.classList.contains('active'); if (on && !was) { ph = 0; showQ(S[0][1]); } was = on; requestAnimationFrame(watch); }; watch();
   addEventListener('keydown', e => {
     if (!el.classList.contains('active') || e.metaKey || e.ctrlKey || e.altKey || e.target.matches('input,textarea')) return;
     const k = e.key.toLowerCase(), stop = () => { e.preventDefault(); e.stopImmediatePropagation(); };
-    if ('abcd'.includes(k) && k.length === 1) { stop(); if (ph % 2 === 0) vote('abcd'.indexOf(k)); return; }
+    if ('abcd'.includes(k) && k.length === 1) { stop(); if (S[ph][0] === 'q') vote('abcd'.indexOf(k)); return; }
     if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ' || e.key === 'Enter') {
-      if (ph % 2 === 0) { stop(); reveal(); ph++; return; }
-      if ((ph >> 1) + 1 < plan.length) { stop(); ph++; showQ(ph >> 1); return; }
-      return; // last answer shown: let the deck move on
+      if (ph + 1 < S.length) { stop(); go(ph + 1); }
+      return; // last beat shown: let the deck move on
     }
-    if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
-      if (ph === 0) return;
-      stop(); ph--; showQ(ph >> 1); if (ph % 2 === 1) reveal();
-    }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { if (ph === 0) return; stop(); go(ph - 1); }
   }, true);
   // clicking a card votes for it (cards are drawn on the canvas)
   const cv = el.querySelector('canvas'); if (cv) cv.addEventListener('click', e => {
-    if (ph % 2) return; const r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, w = r.width, h = r.height;
+    if (S[ph][0] !== 'q') return; const r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, w = r.width, h = r.height;
     const cw = Math.min(w * .38, 560), ch = Math.max(70, h * .11), gx = Math.min(w * .03, 36), gy = Math.max(18, h * .03), x0 = w * .5 - cw - gx / 2;
     const col = x < w * .5 ? 0 : 1, row = y < h * .62 ? 0 : 1;
     if (x > x0 && x < x0 + 2 * cw + gx && y > h * .4) vote(row * 2 + col);

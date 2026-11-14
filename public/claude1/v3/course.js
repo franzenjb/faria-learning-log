@@ -172,7 +172,7 @@ function titleCase(str) {
 const TALK30 = [
   ['Cover', .5, ['Every pin you drop on a Red Cross map is two numbers. Tonight is the story of how many people had to die, and one stubborn carpenter had to prove a genius wrong, before anyone could say where they were.']],
   ['Scilly, 1707', 2.5, [1, 2, 3, 4, 5, 6]],
-  ['Mental maps', 2, ['Two quick questions tonight: Havana, then Rome. Vote in the chat. Keys: A to D record votes; → reveals on the globe; → again brings Rome; → again moves on.', 3, 'Hold on to that feeling. The rest of the talk is how we learned to know where things really are.']],
+  ['Mental maps', 2, ['Two quick questions tonight: Havana, then Rome. Vote in the chat. Keys: A to D record votes; → reveals on the globe; → brings Rome; → reveals; → draws the Gulf Stream and the westerlies; → moves on.', 'The Gulf Stream: warm water from the tropics, and the westerlies carry that warmth to Europe. Boston gets air off a frozen continent. Same latitude, different climate.', 3, 'Hold on to that feeling. The rest of the talk is how we learned to know where things really are.']],
   ['Latitude &amp; Longitude', 2, [1, 2, 3, 4, 5, 6]],
   ['Walk north', 2, [1, 2, 3, 'Hold your arm out and make a fist. A fist is about ten degrees of sky; Polaris here is about four fists up.', 'By day, sailors did the same with the noon Sun and a printed table.', 4]],
   ['Eratosthenes', 2, [2, 3, 4, 5, 6, 'A century later Hipparchus laid a grid of numbered lines over the world. Around AD 150 Ptolemy\'s Geography listed thousands of places by two numbers, with zero longitude out in the Canary Islands. Remember the Canaries.']],
