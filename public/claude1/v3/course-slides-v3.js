@@ -384,7 +384,7 @@ addEventListener('load', () => setTimeout(() => {
   const active = () => document.querySelector('#deck .slide.active');
   const controls = el => { const t = el && el.querySelector('.text'); if (!t) return []; return [...t.querySelectorAll('button')].filter(b => b.style.display !== 'none' && !b.closest('[hidden]') && !b.hidden && b.textContent.trim()); };
   const slider = el => { const t = el && el.querySelector('.text'); return t ? [...t.querySelectorAll('input[type=range]')].find(x => x.offsetParent !== null || document.body.classList.contains('v3-panel') || true) : null; };
-  const label = b => b.textContent.replace(/\s+/g, ' ').trim().replace(/^\d+ · /, '').slice(0, 26);
+  const label = b => { const L = b.querySelector('.label'), ltr = b.querySelector('.letter'); const t = L ? (ltr ? ltr.textContent + ' ' : '') + L.textContent : b.textContent; return t.replace(/\s+/g, ' ').trim().replace(/^\d+ · /, '').slice(0, 26); };
   const draw = () => { const el = active(); const cs = controls(el).slice(0, KEYS.length), sl = slider(el);
     legend.innerHTML = cs.map((b, i) => `<span><b>${KEYS[i].toUpperCase()}</b>${label(b)}</span>`).join('') + (sl ? `<span><b>↑↓</b>${(sl.closest('label') && sl.closest('label').querySelector('.row') ? sl.closest('label').querySelector('.row').childNodes[0].textContent.trim() : 'Slider')}</span>` : ''); };
   addEventListener('keydown', e => { if (e.target.matches('input[type=text],textarea') || e.metaKey || e.ctrlKey || e.altKey) return; const k = e.key.toLowerCase(), el = active(); if (!el) return;
