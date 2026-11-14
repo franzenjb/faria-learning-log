@@ -48,6 +48,14 @@ await page.click('#tv-back'); assert.equal(await page.locator('#topicview').isVi
 await page.keyboard.press('ArrowRight'); await page.waitForTimeout(500);
 assert.equal(await page.locator('#jf-title').innerText(), await page.evaluate(() => COURSE_LIVE[COURSE_LIVE.findIndex(c => c.t === 'Eratosthenes') + 1].label), 'arrow key advances');
 
+// Scilly: three presses step through it, the fourth leaves it
+await page.evaluate(() => go(COURSE_LIVE.findIndex(c => c.t === 'Scilly, 1707'))); await page.waitForTimeout(600);
+for (let k = 0; k < 3; k++) { await page.keyboard.press('ArrowRight'); await page.waitForTimeout(300); }
+assert.equal(await page.evaluate(() => COURSE_LIVE[cur].t), 'Scilly, 1707', 'Scilly holds for three steps');
+assert.equal(await page.locator('.sc-v.on').count(), 1, 'the verdict is showing');
+await page.keyboard.press('ArrowRight'); await page.waitForTimeout(500);
+assert.equal(await page.evaluate(() => COURSE_LIVE[cur].t), 'Mental maps', 'fourth press moves on to the quiz');
+
 // every new slide's buttons run without errors
 const errs = []; page.on('pageerror', e => errs.push(String(e)));
 for (const [t, ids] of NEW) { await page.evaluate(t => go(COURSE_LIVE.findIndex(c => c.t === t)), t); await page.waitForTimeout(500); for (const id of ids) { await page.click(id); await page.waitForTimeout(250); } }
