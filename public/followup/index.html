@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Far Is It?</title>
+<meta name="description" content="How Far Is It? A GIS Day follow-up by Jeff Franzen. Parallax, from a thumb to the transit of Venus, Cook, the Bounty, Lewis and Clark, the Harvard Computers, and Gaia.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='3' fill='%23b01f24'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="deck.css">
+</head>
+<body>
+<div id="fit">
+<button type="button" class="edge" id="prev" aria-label="Previous slide"></button>
+<button type="button" class="edge" id="next" aria-label="Next slide"></button>
+
+<section class="slide cover" data-title="How Far Is It?" data-min="1">
+  <div class="top">
+    <p class="kicker">GIS Day Follow-Up</p>
+    <h1>How Far Is It<span class="red">?</span></h1>
+    <p class="sub">A longer baseline, from a thumb to a billion stars.</p>
+    <p class="who">Jeff Franzen</p>
+  </div>
+  <div class="fig"><svg viewBox="0 0 1600 520" aria-hidden="true">
+    <line data-draw x1="180" y1="360" x2="620" y2="360" stroke="#b01f24" stroke-width="4"/>
+    <line data-draw data-delay="0.35s" x1="180" y1="360" x2="900" y2="120" stroke="#161514" stroke-width="3"/>
+    <line data-draw data-delay="0.5s" x1="620" y1="360" x2="900" y2="120" stroke="#161514" stroke-width="3"/>
+    <circle cx="180" cy="360" r="8" fill="#161514"/>
+    <circle cx="620" cy="360" r="8" fill="#161514"/>
+    <circle cx="900" cy="120" r="7" fill="#161514"/>
+    <text x="400" y="410" text-anchor="middle" font-size="32" fill="#6b6763">the side you can measure</text>
+    <text x="980" y="130" font-size="32">the thing you cannot touch</text>
+  </svg></div>
+  <p class="cap">The sequel to Where Am I? Same triangle. A longer baseline.</p>
+  <template><ul>
+    <li>Welcome. Last time the question was where am I. Today it is how far is it.</li>
+    <li>Every distance in the hour is one triangle. You measure one side. The sky gives you an angle. The far corner falls out.</li>
+    <li>We start with a thumb and end with a spacecraft. Do not preview the whole list. Let the baseline grow.</li>
+    <li>About one minute. Then go.</li>
+  </ul></template>
+</section>
+
+<section class="slide" data-title="One Known Side" data-min="1.5">
+  <div class="top"><p class="kicker">The Whole Talk</p><h1>One Known Side</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <polygon data-draw points="240,560 1120,560 760,140" fill="none" stroke="#161514" stroke-width="3"/>
+    <line data-draw data-delay="0.6s" x1="240" y1="560" x2="1120" y2="560" stroke="#b01f24" stroke-width="6"/>
+    <text x="680" y="620" text-anchor="middle" font-size="34" fill="#b01f24">baseline</text>
+    <text x="430" y="340" font-size="32" fill="#6b6763">angle</text>
+    <text x="790" y="120" font-size="32">distance</text>
+  </svg></div>
+  <p class="cap">Name the side you measured, and the distance stops being a metaphor.</p>
+  <template><ul>
+    <li>Point at the red side. That is the only length in the picture. The other two sides are free.</li>
+    <li>Surveyors, sailors, and Gaia all do this. The arguments are about the baseline, not about a new kind of triangle.</li>
+    <li>About a minute and a half.</li>
+  </ul></template>
+</section>
+
+<section class="slide center" data-title="The Thumb" data-min="0.3">
+  <div class="top"><p class="kicker">Part One</p><h1>The Thumb</h1></div>
+  <p class="cap">Two eyes. One nearby thing.</p>
+  <template><ul>
+    <li>A breath. Tell them to have a thumb ready. Do not start the demo yet.</li>
+  </ul></template>
+</section>
+
+<section class="slide" data-title="Close One Eye" data-scene="blink" data-min="2.5">
+  <div class="top"><p class="kicker">Parallax</p><h1>Close One Eye</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 720" aria-hidden="true"></svg></div>
+  <p class="cap">The thumb does not move. You do, by the gap between your eyes.</p>
+  <template><ul>
+    <li>Hold your thumb at arm’s length. Close one eye, then the other. It jumps against the far wall.</li>
+    <li>Let the drawing blink with you. The red line is the open eye. The bracket is the jump.</li>
+    <li>Name the baseline: the distance between your eyes, a few inches. That small side is why a nearby thumb moves and a mark on the wall barely does.</li>
+    <li>About two and a half minutes. Stay on it until the room has seen the jump.</li>
+  </ul></template>
+</section>
+
+<section class="slide" data-title="Nearer Things Jump More" data-scene="shrink" data-min="1.5">
+  <div class="top"><p class="kicker">Parallax</p><h1>Nearer Things Jump More</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 720" aria-hidden="true"></svg></div>
+  <p class="cap">Push the thumb away and the jump shrinks. Distance is hiding in the angle.</p>
+  <template><ul>
+    <li>Watch the thumb walk away. The bracket on the wall closes up.</li>
+    <li>Closer means a bigger shift. Farther means a smaller one. That is the whole measuring rule.</li>
+    <li>If the shift is too small to see, you do not get to say the distance. You only get to say “far.”</li>
+  </ul></template>
+</section>
+
+<section class="slide" data-title="What the Greeks Concluded" data-min="1.5">
+  <div class="top"><p class="kicker">The Stars Would Not Jump</p><h1>What the Greeks Concluded</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <text x="400" y="70" text-anchor="middle" font-size="32" fill="#6b6763">a nearby lamp</text>
+    <circle cx="250" cy="430" r="16" fill="#161514"/>
+    <circle cx="340" cy="430" r="16" fill="#fffdf6" stroke="#161514" stroke-width="3"/>
+    <line data-draw x1="250" y1="430" x2="470" y2="160" stroke="#161514" stroke-width="2.5"/>
+    <line data-draw data-delay="0.25s" x1="340" y1="430" x2="560" y2="160" stroke="#b01f24" stroke-width="2.5"/>
+    <circle cx="470" cy="150" r="8" fill="#161514"/>
+    <circle cx="560" cy="150" r="8" fill="#b01f24"/>
+    <text x="400" y="560" text-anchor="middle" font-size="32">the lamp jumps</text>
+    <text x="1140" y="70" text-anchor="middle" font-size="32" fill="#6b6763">the stars</text>
+    <circle cx="1040" cy="430" r="16" fill="#161514"/>
+    <circle cx="1160" cy="430" r="16" fill="#fffdf6" stroke="#161514" stroke-width="3"/>
+    <line data-draw x1="1040" y1="414" x2="1040" y2="170" stroke="#161514" stroke-width="2.5"/>
+    <line data-draw data-delay="0.25s" x1="1160" y1="414" x2="1160" y2="170" stroke="#161514" stroke-width="2.5"/>
+    <circle cx="1040" cy="150" r="5" fill="#161514"/>
+    <circle cx="1160" cy="150" r="5" fill="#161514"/>
+    <text x="1140" y="560" text-anchor="middle" font-size="32">the stars do not</text>
+  </svg></div>
+  <p class="cap">Either the Earth was still, or the stars were impossibly far.</p>
+  <template><ul>
+    <li>Aristotle took the first fork. If the Earth were moving, the stars should shift the way the lamp does. They do not. So the Earth is still.</li>
+    <li>Aristarchus of Samos took the second fork. The Sun is the center, and the stars are so far that the Earth’s whole orbit is a point by comparison. Archimedes wrote that down in The Sand Reckoner.</li>
+    <li>Both forks are reasonable if you cannot measure the shift. The argument sat there for two thousand years.</li>
+    <li>Say AIR-iss-TAR-kus. Do not make this a vote about who was “right.” The point is the missing measurement.</li>
+  </ul></template>
+</section>
+
+<section class="slide" data-title="No Shift, No Miles" data-min="1.5">
+  <div class="top"><p class="kicker">What Stayed Abstract</p><h1>No Shift, No Miles</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <line data-draw x1="160" y1="280" x2="1440" y2="280" stroke="#161514" stroke-width="3"/>
+    <text x="180" y="250" font-size="32">near</text>
+    <text x="1280" y="250" font-size="32">far</text>
+    <line data-draw data-delay="0.4s" x1="160" y1="460" x2="1440" y2="460" stroke="#cdc8bc" stroke-width="3"/>
+    <text x="180" y="520" font-size="32" fill="#6b6763">east</text>
+    <text x="1320" y="520" font-size="32" fill="#6b6763">west</text>
+    <text x="800" y="430" text-anchor="middle" font-size="32" fill="#b01f24">no landmark either</text>
+  </svg></div>
+  <p class="cap">Without a shift you can measure, distance stays a ratio, and longitude stays a guess.</p>
+  <template><ul>
+    <li>Kepler could draw the solar system to shape. Venus is about 0.72 of the Earth’s orbit. He could not say the orbit in miles.</li>
+    <li>Longitude has the same hole. Latitude has Polaris. East and west have no landmark in the sky. You need a baseline you can actually hold: a measured shift, or a clock.</li>
+    <li>That is why the next chapters are expeditions and watches, not a new theorem.</li>
+  </ul></template>
+</section>
+
+<section class="slide ask" data-title="Try the Thumb" data-min="2">
+  <div class="top"><p class="kicker">A Pause</p><h1>Try the Thumb</h1></div>
+  <p class="ask">Hold it up. Close one eye, then the other. What jumps? What never does?</p>
+  <p class="cap">Wait for two answers before you move on.</p>
+  <template><ul>
+    <li>Let them do it. Take a nearby face and a far exit sign, or the screen itself.</li>
+    <li>You want someone to say the near thing jumps and the far thing does not. If they say “the thumb moved,” send them back to the drawing: the thumb stayed. The eye moved.</li>
+    <li>About two minutes. Do not rush the first pause. The later pauses are shorter.</li>
+  </ul></template>
+</section>
+
+<section class="slide center" data-title="Venus on the Sun" data-min="0.3">
+  <div class="top"><p class="kicker">Part Two</p><h1>Venus on the Sun</h1></div>
+  <p class="cap">The thumb, with a baseline the size of the Earth.</p>
+  <template><ul><li>A breath. The eyes are about to become two continents.</li></ul></template>
+</section>
+
+<section class="slide" data-title="Halley Writes It Down" data-min="1.5">
+  <div class="top"><p class="kicker">1716</p><h1>Halley Writes It Down</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <line data-draw x1="120" y1="300" x2="1480" y2="300" stroke="#161514" stroke-width="2"/>
+    <g font-size="32">
+      <line x1="220" y1="280" x2="220" y2="320" stroke="#161514" stroke-width="3"/>
+      <text x="220" y="250" text-anchor="middle">1677</text>
+      <text x="220" y="380" text-anchor="middle" fill="#6b6763">Mercury, from</text>
+      <text x="220" y="418" text-anchor="middle" fill="#6b6763">St Helena</text>
+      <line x1="620" y1="270" x2="620" y2="330" stroke="#b01f24" stroke-width="4"/>
+      <circle cx="620" cy="300" r="9" fill="#b01f24"/>
+      <text x="620" y="250" text-anchor="middle" fill="#b01f24">1716</text>
+      <text x="620" y="380" text-anchor="middle">the instructions</text>
+      <line x1="980" y1="280" x2="980" y2="320" stroke="#161514" stroke-width="3"/>
+      <text x="980" y="250" text-anchor="middle">1742</text>
+      <text x="980" y="380" text-anchor="middle" fill="#6b6763">Halley dies</text>
+      <line x1="1320" y1="280" x2="1320" y2="320" stroke="#161514" stroke-width="3"/>
+      <text x="1320" y="250" text-anchor="middle">1761</text>
+      <text x="1320" y="380" text-anchor="middle" fill="#6b6763">the transit</text>
+    </g>
+  </svg></div>
+  <p class="cap">He asked the next generation to time a transit he would not live to see.</p>
+  <template><ul>
+    <li>Edmond Halley. He had watched a transit of Mercury from St Helena in 1677. Mercury is too far, at a transit, for a clean parallax. Venus is the useful one.</li>
+    <li>In 1716, in the Philosophical Transactions, he wrote the method. He wanted a duration: internal contact to internal contact. A clock error that is the same at both ends mostly cancels.</li>
+    <li>He died in 1742. The transits were 1761 and 1769. Say the paper is a set of instructions, not a measurement.</li>
+    <li>Pronounce HAL-ee, as in the comet. He was already associated with that comet.</li>
+  </ul></template>
+</section>
+
+<section class="slide" data-title="Two Chords" data-min="2">
+  <div class="top"><p class="kicker">Why a Duration Is a Parallax</p><h1>Two Chords</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <circle cx="520" cy="340" r="250" fill="#fffdf6" stroke="#161514" stroke-width="3"/>
+    <line data-draw x1="290" y1="340" x2="750" y2="340" stroke="#b01f24" stroke-width="4"/>
+    <circle cx="470" cy="340" r="14" fill="#b01f24"/>
+    <line data-draw data-delay="0.45s" x1="360" y1="230" x2="680" y2="230" stroke="#161514" stroke-width="3"/>
+    <circle cx="500" cy="230" r="12" fill="#161514"/>
+    <text x="800" y="348" font-size="32" fill="#b01f24">longer</text>
+    <text x="800" y="238" font-size="32">shorter</text>
+    <text x="520" y="640" text-anchor="middle" font-size="30" fill="#6b6763">Venus, crossing the Sun</text>
+  </svg></div>
+  <p class="cap">A track nearer the center of the Sun lasts longer. Two stations see two tracks.</p>
+  <template><ul>
+    <li>Do not start with arcseconds. Start with the chords. The red track is closer to the center, so Venus takes longer to cross it.</li>
+    <li>A station to the north and a station to the south see Venus on different chords. The difference in duration is the parallax, dressed up as a time.</li>
+    <li>The other method, Delisle’s, times one contact at two places in absolute time. It can use a station that sees only the entrance. It demands a known longitude. Halley’s duration is kinder to a bad absolute clock and hungrier for a clear afternoon all the way through.</li>
+    <li>The angles are exaggerated here, wildly. Say so if someone thinks Venus looks that big.</li>
+  </ul></template>
+</section>
+
+<section class="slide" data-title="Eight Years, Then a Century" data-min="1.5">
+  <div class="top"><p class="kicker">The Calendar</p><h1>Eight Years, Then a Century</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <text x="180" y="250" font-size="64">6 June 1761</text>
+    <text x="180" y="360" font-size="64">3 June 1769</text>
+    <line data-draw x1="180" y1="460" x2="1100" y2="460" stroke="#cdc8bc" stroke-width="2"/>
+    <text x="180" y="520" font-size="32" fill="#6b6763">then 1874, and 1882</text>
+    <text x="980" y="250" font-size="32" fill="#b01f24">a pair</text>
+    <text x="180" y="620" font-size="30" fill="#6b6763">1639: Horrocks and Crabtree, one country, no second station</text>
+  </svg></div>
+  <p class="cap">Transits of Venus come in pairs eight years apart, then go quiet for a century.</p>
+  <template><ul>
+    <li>6 June 1761, and 3 June 1769 at Tahiti. Stations far to the east of Tahiti dated that same transit 4 June.</li>
+    <li>Jeremiah Horrocks and William Crabtree saw the 1639 transit from England. One place, so Halley’s comparison could not be made. Mention them, then leave them.</li>
+    <li>The next pair was 1874 and 1882. Photography had arrived by then. This talk stays with the eighteenth-century expeditions.</li>
+  </ul></template>
+</section>
+
+<section class="slide" data-title="Stations Half a World Apart" data-min="1.5">
+  <div class="top"><p class="kicker">Who Stood Where</p><h1>Stations Half a World Apart</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <text x="160" y="70" font-size="32" fill="#6b6763">1761</text>
+    <text x="860" y="70" font-size="32" fill="#6b6763">1769</text>
+    <line data-draw x1="160" y1="100" x2="160" y2="620" stroke="#161514" stroke-width="2"/>
+    <line data-draw x1="860" y1="100" x2="860" y2="620" stroke="#161514" stroke-width="2"/>
+    <g font-size="34">
+      <circle cx="160" cy="180" r="7" fill="#161514"/>
+      <text x="190" y="190">Chappe · Tobolsk</text>
+      <circle cx="160" cy="300" r="7" fill="#161514"/>
+      <text x="190" y="310">Mason and Dixon · the Cape</text>
+      <circle cx="860" cy="180" r="8" fill="#b01f24"/>
+      <text x="890" y="190" fill="#b01f24">Cook and Green · Tahiti</text>
+      <circle cx="860" cy="300" r="7" fill="#161514"/>
+      <text x="890" y="310">Wales and Dymond · Hudson Bay</text>
+      <circle cx="860" cy="420" r="7" fill="#161514"/>
+      <text x="890" y="430">Hell · Vardø</text>
+      <circle cx="860" cy="540" r="7" fill="#161514"/>
+      <text x="890" y="550">Chappe · San José del Cabo</text>
+    </g>
+  </svg></div>
+  <p class="cap">The red station is the one this talk follows onto the ship.</p>
+  <template><ul>
+    <li>1761: Jean-Baptiste Chappe d’Auteroche at Tobolsk, in western Siberia. Mason and Dixon, sent toward Sumatra, observed from the Cape of Good Hope after war and weather turned them around.</li>
+    <li>1769: Cook and Charles Green at Tahiti, 3 June. William Wales and Joseph Dymond at Prince of Wales Fort on Hudson Bay, the northern station Halley had named. Maximilian Hell at Vardø, in northern Norway. Chappe again, at San José del Cabo in Baja California. He observed, and he died in the epidemic there on 1 August 1769. The observations were carried home.</li>
+    <li>Do not call the 1769 Russian work “Tobolsk.” Tobolsk was 1761. The deep Siberian station in 1769 was Yakutsk. Say “a Russian network” if asked, and stop.</li>
+    <li>Pronounce SHAP, VAR-duh, and san ho-ZAY del KAH-bo.</li>
+  </ul></template>
+</section>
+
+<section class="slide" data-title="A Length for the Sun" data-min="1.5">
+  <div class="top"><p class="kicker">What the Campaign Returned</p><h1>A Length for the Sun</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <text x="140" y="280" font-size="92">about <tspan fill="#b01f24">93</tspan> million miles</text>
+    <line data-draw x1="140" y1="340" x2="980" y2="340" stroke="#161514" stroke-width="3"/>
+    <text x="140" y="420" font-size="34">The observers could not agree on the second.</text>
+    <text x="140" y="480" font-size="34" fill="#6b6763">A dark neck, the black drop, blurred internal contact.</text>
+  </svg></div>
+  <p class="cap">Kepler’s map finally had a scale bar. The bar was still soft.</p>
+  <template><ul>
+    <li>Say “about 93 million miles” out loud. The astronomical unit we use now is defined as exactly 149,597,870,700 meters, which is 92.96 million miles. That definition is from 2012. It is not a stopwatch reading from Tahiti.</li>
+    <li>Cook’s journal: they saw a dusky shade around Venus that disturbed the contacts, especially the two internal ones. He, Green, and Daniel Solander differed by more than they expected. The black drop is mostly the telescope’s blur on the Sun’s limb, not Venus’s air. Mercury, which has almost no air, shows it too.</li>
+    <li>If someone wants the later number: Encke in 1824 combined both transits and got 8.58 arcseconds. The modern solar parallax is 8.79. His Sun was about 2.5 percent too far. The expeditions did the job. They did not finish it.</li>
+  </ul></template>
+</section>
+
+<section class="slide ask" data-title="Where Would You Stand?" data-min="2">
+  <div class="top"><p class="kicker">A Pause</p><h1>Where Would You Stand?</h1></div>
+  <p class="ask">One ship. One clear afternoon. Do you need the whole transit, or only one contact?</p>
+  <p class="cap">There are two good answers. They are not the same answer.</p>
+  <template><ul>
+    <li>Let two people answer. Do not correct them immediately.</li>
+    <li>Then: Halley’s duration wants both internal contacts, so a station under the whole track, and a long north–south baseline helps. A bad absolute clock is survivable.</li>
+    <li>Delisle’s single contact can use a station that sees only the entrance or only the exit. The price is longitude. Both clocks have to be reduced to one meridian.</li>
+    <li>About two minutes. Then Cook, who was sent to get the Tahiti duration.</li>
+  </ul></template>
+</section>
+
+<section class="slide center" data-title="Captain Cook" data-min="0.3">
+  <div class="top"><p class="kicker">Part Three</p><h1>Captain Cook</h1></div>
+  <p class="cap">The transit gets a ship. The clock comes later.</p>
+  <template><ul><li>A breath. Split the man in two voyages, or the watch will show up at Tahiti, where it was not.</li></ul></template>
+</section>
+
+<section class="slide" data-title="Point Venus, 3 June 1769" data-min="1.5">
+  <div class="top"><p class="kicker">Endeavour · Tahiti</p><h1>Point Venus, 3 June 1769</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <circle cx="1180" cy="230" r="150" fill="#fffdf6" stroke="#161514" stroke-width="3"/>
+    <circle cx="1160" cy="250" r="16" fill="#b01f24"/>
+    <text x="1360" y="200" font-size="32">Venus</text>
+    <path data-draw d="M80 520 C260 480 420 500 560 470" fill="none" stroke="#161514" stroke-width="3"/>
+    <path d="M80 520 L80 560 L640 560 L520 500 Z" fill="#e9e5dc" stroke="#161514" stroke-width="2"/>
+    <text x="180" y="430" font-size="32">Point Venus</text>
+    <path d="M700 500 L780 500 L760 530 L720 530 Z" fill="#161514"/>
+    <line x1="740" y1="500" x2="740" y2="450" stroke="#161514" stroke-width="2"/>
+    <path d="M742 452 L780 478 L742 478 Z" fill="#fffdf6" stroke="#161514" stroke-width="1.5"/>
+    <text x="800" y="490" font-size="32">Endeavour</text>
+    <text x="80" y="640" font-size="32" fill="#6b6763">Matavai Bay, 13 April. Fort Venus. A clear day.</text>
+  </svg></div>
+  <p class="cap">Three observers, one black drop, and no chronometer on this voyage.</p>
+  <template><ul>
+    <li>James Cook, lieutenant, commanding Endeavour. Astronomer Charles Green, who had been Maskelyne’s assistant at Greenwich. Joseph Banks and Daniel Solander were aboard to collect. Cook commanded, and he surveyed.</li>
+    <li>They anchored in Matavai Bay on 13 April 1769, built Fort Venus on the point still called Point Venus, and had a clear 3 June. A quadrant was stolen and recovered before the day. Say that in one sentence. It is a good story and it is not the measurement.</li>
+    <li>They did not agree on the contacts. The quote, if you want it: they “very distinctly saw an Atmosphere or dusky shade round the body of the Planet which very much disturbed the times of the Contacts particularly the two internal ones.”</li>
+    <li>K1 was not on this ship. Kendall finished that copy in 1769. It sailed on the second voyage. If you blur the two voyages, the room will leave thinking the transit was timed by Harrison’s watch. It was not.</li>
+    <li>After Tahiti, sealed orders: keep going. He charted New Zealand and the east coast of Australia. Those shores were not empty, and a European chart is not the first knowledge of a place. One sentence. Then the watch.</li>
+  </ul></template>
+</section>
+
+<section class="slide" data-title="The Trusty Friend" data-min="1.5">
+  <div class="top"><p class="kicker">K1 · The Second Voyage</p><h1>The Trusty Friend</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <circle cx="430" cy="340" r="180" fill="#fffdf6" stroke="#161514" stroke-width="4"/>
+    <circle cx="430" cy="340" r="8" fill="#161514"/>
+    <line x1="430" y1="340" x2="430" y2="200" stroke="#161514" stroke-width="4"/>
+    <line data-draw x1="430" y1="340" x2="560" y2="390" stroke="#b01f24" stroke-width="3"/>
+    <text x="700" y="250" font-size="40">K1 · Larcum Kendall · 1769</text>
+    <text x="700" y="320" font-size="34">A copy of Harrison’s H4.</text>
+    <text x="700" y="390" font-size="34">Issued for Resolution, 1772–1775.</text>
+    <text x="700" y="470" font-size="34" fill="#6b6763">“our trusty friend the Watch”</text>
+  </svg></div>
+  <p class="cap">Longitude, at last, from a clock that could live on a ship.</p>
+  <template><ul>
+    <li>The Board of Longitude asked Larcum Kendall to copy H4. He finished K1 in 1769. The plate carries his name and that year. H4 stayed the original. The watch under test was the copy.</li>
+    <li>It was issued to Cook for the second voyage, 1772 to 1775, in Resolution, with Adventure. It also went on the third voyage. Cook called it “our trusty friend the Watch” and “our never-failing guide.”</li>
+    <li>At Dusky Sound, after a long stretch out of sight of land, longitude by the watch and by lunar distance agreed to within a few miles. That is the sentence that closes the sea problem for this talk.</li>
+    <li>If asked about his death: 14 February 1779, Kealakekua Bay. The ships came home in 1780. We are not going there today. The next man on the watch is Bligh.</li>
+  </ul></template>
+</section>
+
+<section class="slide center" data-title="The Watch Leaves the Ship" data-min="0.3">
+  <div class="top"><p class="kicker">Part Four</p><h1>The Watch Leaves the Ship</h1></div>
+  <p class="cap">A chronometer can survive a voyage the captain does not finish.</p>
+  <template><ul><li>A breath. This is K2, not K1. Different watch.</li></ul></template>
+</section>
+
+<section class="slide" data-title="28 April 1789" data-min="1.5">
+  <div class="top"><p class="kicker">HMS Bounty</p><h1>28 April 1789</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <path d="M180 300 L340 300 L310 350 L210 350 Z" fill="#161514"/>
+    <line x1="260" y1="300" x2="260" y2="210" stroke="#161514" stroke-width="3"/>
+    <path d="M263 214 L320 260 L263 260 Z" fill="#fffdf6" stroke="#161514"/>
+    <circle cx="300" cy="250" r="14" fill="#b01f24"/>
+    <text x="330" y="258" font-size="32" fill="#b01f24">K2 stays</text>
+    <path data-draw d="M520 360 L700 400" stroke="#161514" stroke-width="2" stroke-dasharray="6 6"/>
+    <path d="M700 400 L790 400 L770 424 L720 424 Z" fill="none" stroke="#161514" stroke-width="3"/>
+    <text x="700" y="480" font-size="32">the launch</text>
+    <text x="160" y="560" font-size="34">Fletcher Christian takes the ship.</text>
+    <text x="160" y="620" font-size="34">William Bligh and eighteen others take the boat.</text>
+  </svg></div>
+  <p class="cap">Bligh had been sailing master of Resolution. The watch he carried this time did not go with him.</p>
+  <template><ul>
+    <li>William Bligh, born 1754, had sailed with Cook as master of Resolution on the third voyage. He knew the method. He was also a hard commander. Hold both. A later court acquitted him of losing the ship. An acquittal is not a character reference.</li>
+    <li>Bounty had gone for breadfruit. On 28 April 1789, near Tofua, Fletcher Christian took the ship. Not everyone who stayed aboard had chosen the mutiny in the same way, and not everyone in the boat was a simple volunteer. Say that, or the story turns into a play.</li>
+    <li>K2, Kendall’s cheaper 1771 timekeeper, had been issued to Bligh for this voyage. It stayed on Bounty. The red dot is the whole point of the picture.</li>
+  </ul></template>
+</section>
+
+<section class="slide" data-title="The Open Boat" data-scene="boat" data-min="2">
+  <div class="top"><p class="kicker">Tofua to Timor</p><h1>The Open Boat</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 720" aria-hidden="true"></svg></div>
+  <p class="cap">About 3,600 nautical miles in 47 days. A sextant, a compass, and no chronometer.</p>
+  <template><ul>
+    <li>The launch was 23 feet. Bligh and eighteen others. At Tofua on 2 May, John Norton was killed casting off the stern line. Bligh’s book is the account we have. There is no Tongan testimony in it. Say Norton’s name.</li>
+    <li>They reached Coupang, on Timor, on 14 June 1789. Forty-seven days. About 3,600 nautical miles. A nautical mile is the one that comes from an arcminute of latitude, a little longer than a land mile.</li>
+    <li>Latitude from the Sun. Longitude by account: dead reckoning, carefully kept. The watch that would have carried Greenwich time was on the other ship. The feat is real. It is also the limit. This is what navigation looks like when the baseline you wanted stays behind.</li>
+    <li>Not every man of the launch lived to see England. Do not turn the passage into a triumph and stop. One clause is enough.</li>
+  </ul></template>
+</section>
+
+<section class="slide" data-title="K2 Comes Home" data-min="1.5">
+  <div class="top"><p class="kicker">Pitcairn, Then Chile, Then Greenwich</p><h1>K2 Comes Home</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <line data-draw x1="80" y1="250" x2="1500" y2="250" stroke="#161514" stroke-width="2"/>
+    <g font-size="30" text-anchor="middle">
+      <line x1="140" y1="230" x2="140" y2="270" stroke="#161514" stroke-width="3"/>
+      <text x="140" y="200">1771</text>
+      <text x="140" y="320">Kendall</text>
+      <text x="140" y="356" fill="#6b6763">£200</text>
+      <line x1="400" y1="230" x2="400" y2="270" stroke="#161514" stroke-width="3"/>
+      <text x="400" y="200">1787</text>
+      <text x="400" y="320">issued to Bligh</text>
+      <line x1="680" y1="230" x2="680" y2="270" stroke="#161514" stroke-width="3"/>
+      <text x="680" y="200">1790</text>
+      <text x="680" y="320">Pitcairn</text>
+      <line x1="960" y1="220" x2="960" y2="280" stroke="#b01f24" stroke-width="4"/>
+      <circle cx="960" cy="250" r="8" fill="#b01f24"/>
+      <text x="960" y="200" fill="#b01f24">1808</text>
+      <text x="960" y="320">Folger, Topaz</text>
+      <line x1="1240" y1="230" x2="1240" y2="270" stroke="#161514" stroke-width="3"/>
+      <text x="1240" y="200">1840</text>
+      <text x="1240" y="320">Herbert buys it</text>
+      <text x="1240" y="356" fill="#6b6763">home by 1843</text>
+    </g>
+  </svg></div>
+  <p class="cap">The instrument outlived the mutiny, the island, and a muleteer’s lifetime.</p>
+  <template><ul>
+    <li>K2 is Kendall’s simplification of H4, finished for the Board in 1771, price £200. Before Bounty it had already been to sea, including Constantine Phipps’s 1773 voyage toward the north in Racehorse, with the young Nelson aboard as a midshipman. One aside, if you have it. Do not build a slide on it.</li>
+    <li>The mutineers reached Pitcairn in January 1790. The ship was burned on 23 January. In February 1808 John Adams let Mayhew Folger, of the American whaler Topaz, take the watch. Greenwich’s history says Folger bought it. The case engraving says sold. Either way, it left with Folger.</li>
+    <li>At Juan Fernández the Spanish governor confiscated it. A Chilean muleteer named Castillo later bought it, for three doubloons, and kept it until he died in 1840. Captain Thomas Herbert, of HMS Calliope, bought it for 50 guineas, had it repaired in Valparaíso, and brought it home. It was presented in London about 1843. It is at the National Maritime Museum, Greenwich.</li>
+    <li>Do not say Cook carried K2 in 1776. The engraving on the case says that. The case is wrong. Cook’s watch was K1. If a sharp listener quotes the engraving, thank them and correct it.</li>
+  </ul></template>
+</section>
+
+<section class="slide ask" data-title="What Does the Watch Prove?" data-min="1.5">
+  <div class="top"><p class="kicker">A Pause</p><h1>What Does the Watch Prove?</h1></div>
+  <p class="ask">It came home fifty years late. What can the instrument tell you that the story cannot?</p>
+  <p class="cap">Take one answer from the room.</p>
+  <template><ul>
+    <li>Good answers: the watch is a particular object, so the chain of hands is checkable. A story can move a clock from one voyage to another. The case almost did.</li>
+    <li>Also fair: it proves a timekeeper could be carried, lost, sold, and still be a timekeeper. It does not prove the mutiny’s morals.</li>
+    <li>About a minute and a half. Then leave the ocean. The next baseline is a riverbank.</li>
+  </ul></template>
+</section>
+
+<section class="slide center" data-title="Inland" data-min="0.3">
+  <div class="top"><p class="kicker">Part Five</p><h1>Inland</h1></div>
+  <p class="cap">The same instruments, and no sea horizon to rest them on.</p>
+  <template><ul><li>A breath. Chronological on purpose: Cook, then Bligh, then Lewis and Clark.</li></ul></template>
+</section>
+
+<section class="slide" data-title="Lewis and Clark" data-min="1.5">
+  <div class="top"><p class="kicker">1804 to 1806</p><h1>Lewis and Clark</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <g font-size="36">
+      <text x="140" y="160">a sextant</text>
+      <text x="140" y="240">an octant</text>
+      <text x="140" y="320">an artificial horizon</text>
+      <text x="140" y="400" fill="#b01f24">an English chronometer</text>
+      <text x="140" y="480">the Nautical Almanac</text>
+    </g>
+    <line data-draw x1="120" y1="530" x2="900" y2="530" stroke="#161514" stroke-width="2"/>
+    <text x="120" y="590" font-size="32" fill="#6b6763">Camp Dubois, 14 May 1804 · St. Louis, 23 September 1806</text>
+  </svg></div>
+  <p class="cap">Meriwether Lewis learned the sights in Philadelphia before the river.</p>
+  <template><ul>
+    <li>The Corps of Discovery left Camp Dubois on 14 May 1804 and was back in St. Louis on 23 September 1806.</li>
+    <li>Jefferson wanted lunar distances. Andrew Ellicott, at Lancaster, and Robert Patterson, in Philadelphia, trained Lewis. By May 1803 they had talked him into sextants and an artificial horizon, and into an Arnold-pattern chronometer, rather than a fragile theodolite as the main tool.</li>
+    <li>The red line is the watch, because that is the one that cost more than the rest of the mathematical instruments together, and the one that would misbehave. The list is the promise. The next two slides are the catch.</li>
+  </ul></template>
+</section>
+
+<section class="slide" data-title="No Sea Horizon" data-min="2">
+  <div class="top"><p class="kicker">The Artificial Horizon</p><h1>No Sea Horizon</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <line data-draw x1="160" y1="360" x2="860" y2="360" stroke="#161514" stroke-width="3"/>
+    <text x="400" y="410" text-anchor="middle" font-size="30">level mercury</text>
+    <circle cx="460" cy="90" r="26" fill="none" stroke="#161514" stroke-width="3"/>
+    <text x="500" y="98" font-size="32">Sun</text>
+    <circle cx="460" cy="630" r="26" fill="none" stroke="#cdc8bc" stroke-width="3"/>
+    <text x="500" y="638" font-size="32" fill="#6b6763">its reflection</text>
+    <line data-draw x1="1120" y1="360" x2="486" y2="90" stroke="#161514" stroke-width="2.5"/>
+    <line data-draw data-delay="0.35s" x1="1120" y1="360" x2="486" y2="630" stroke="#161514" stroke-width="2.5"/>
+    <circle cx="1120" cy="360" r="8" fill="#161514"/>
+    <text x="1140" y="330" font-size="30">eye</text>
+    <path data-draw data-delay="0.7s" d="M980 250 A 160 160 0 0 1 980 470" fill="none" stroke="#b01f24" stroke-width="4"/>
+    <text x="1180" y="200" font-size="34" fill="#b01f24">twice the altitude</text>
+  </svg></div>
+  <p class="cap">On a river there is no clean sea horizon. You manufacture one, and you pay double.</p>
+  <template><ul>
+    <li>A pool with a level surface reflects the Sun. The sextant measures from the Sun down to that reflection. The angle is twice the altitude, because the ray goes down and the reflection comes back up.</li>
+    <li>Lewis carried three artificial horizons. Ellicott’s used water when the object was bright enough to throw a clear image. Patterson’s was a glass pane on a leveled wooden ball, better for the Moon and the stars. A roof, or a pair of glass panes, keeps the wind off the surface.</li>
+    <li>The catch, if you want it: a sextant’s arc, asked to measure a doubled angle, cannot take the noon Sun once it stands more than about 60 degrees up. Then they used the octant backward. Land is fussier than a ship with a sharp horizon.</li>
+  </ul></template>
+</section>
+
+<section class="slide" data-title="An Hour of Arithmetic" data-min="1.5">
+  <div class="top"><p class="kicker">The $250 Watch</p><h1>An Hour of Arithmetic</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <text x="120" y="200" font-size="56">15.5 seconds slow</text>
+    <text x="120" y="270" font-size="40" fill="#6b6763">each day, on 22 July 1804</text>
+    <line data-draw x1="120" y1="320" x2="720" y2="320" stroke="#b01f24" stroke-width="4"/>
+    <text x="120" y="410" font-size="36">Then they let it run down.</text>
+    <text x="120" y="480" font-size="36">The rate from Philadelphia was gone.</text>
+    <text x="120" y="580" font-size="32" fill="#6b6763">A lunar distance still wanted three angles at once, repeated, and a reduction they mostly saved for later.</text>
+  </svg></div>
+  <p class="cap">Latitude held. Longitude was still a profession.</p>
+  <template><ul>
+    <li>Lewis bought the chronometer from Thomas Parker in Philadelphia for $250, plus 75 cents for the key. No chronometers were made in the United States yet. It was an English piece of Arnold’s pattern. We do not have a maker’s name beyond that. Do not say “John Arnold made this one” as a fact.</li>
+    <li>Henry Voigt cleaned it and hung it in a wooden case on a universal joint, so the jolts of the river would not go straight into the movement. Ellicott rated it for two weeks.</li>
+    <li>Lewis’s own note of 22 July 1804: 15 and a half seconds slow in twenty-four hours, close to Ellicott’s 15.6. Four seconds of time is about a mile of longitude at the equator, and less than that as you go north. Fifteen seconds a day is a rate you can live with, if you know it.</li>
+    <li>They sometimes let the watch run down. Then the Pennsylvania rate no longer applied, and local noon had to be rebuilt from equal altitudes of the Sun. Lunar distances needed the Moon, a star or the Sun, both altitudes, and the chronometer, taken together and repeated. Ellicott had told them to save the full reduction for the return. The longitudes rarely proved out. The map that worked was dead reckoning of the westing, plus the latitudes.</li>
+    <li>That is the inland moral. Cook had a watch that held. Lewis had a watch, a sextant, and the almanac, and longitude was still hard.</li>
+  </ul></template>
+</section>
+
+<section class="slide center" data-title="The Stars Jump" data-min="0.3">
+  <div class="top"><p class="kicker">Part Six</p><h1>The Stars Jump</h1></div>
+  <p class="cap">The shift the Greeks could not see was small. It was not zero.</p>
+  <template><ul><li>A breath. Sixty years after Lewis and Clark. The baseline is now the Earth’s orbit, and the mile on it came from the Venus work.</li></ul></template>
+</section>
+
+<section class="slide" data-title="Bessel, 1838" data-min="1.5">
+  <div class="top"><p class="kicker">Königsberg · A Split Lens</p><h1>Bessel, 1838</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <circle cx="360" cy="320" r="140" fill="none" stroke="#161514" stroke-width="3"/>
+    <line data-draw x1="360" y1="180" x2="360" y2="460" stroke="#b01f24" stroke-width="6"/>
+    <text x="560" y="250" font-size="40">61 Cygni</text>
+    <text x="560" y="320" font-size="36">0.314 arcsecond, give or take 0.02</text>
+    <text x="560" y="390" font-size="36">his light-time: 10.3 years</text>
+    <text x="560" y="470" font-size="32" fill="#6b6763">a heliometer, not a photograph</text>
+  </svg></div>
+  <p class="cap">Friedrich Bessel published a stellar parallax the errors could not swallow.</p>
+  <template><ul>
+    <li>Friedrich Wilhelm Bessel, at Königsberg, used a Fraunhofer heliometer: the objective is cut in half, and you slide the halves until the nearby star and a comparison star coincide. The red cut is that instrument, exaggerated.</li>
+    <li>He chose 61 Cygni because it moves fast across the sky, a hint that it is near, and because the pair is clean to measure. In 1838 he published a parallax of 0.3136 arcsecond, give or take 0.0202. He turned it into a light-time of 10.3 years. The modern distance is about 11.4 light-years. He was close, and he was first to publish a result the errors could not eat.</li>
+    <li>Thomas Henderson had measured Alpha Centauri from the Cape in 1832 and 1833 and published in 1839, after Bessel. Wilhelm Struve measured Vega, less accurately. Say “first published success,” not “nobody else was looking.”</li>
+    <li>It was not a photograph. Daguerre’s process was announced in 1839. The first successful photograph of a star, Vega, was made at Harvard in 1850. January and July are a fair way to teach the geometry. They are not what Bessel did.</li>
+    <li>One quiet correction, if you need it: the parallax p is the angle for one astronomical unit. The full jump from one side of the orbit to the other is 2p. Distance in parsecs is 1 over p, with p in arcseconds.</li>
+  </ul></template>
+</section>
+
+<section class="slide center" data-title="The Harvard Computers" data-min="0.3">
+  <div class="top"><p class="kicker">Part Seven</p><h1>The Harvard Computers</h1></div>
+  <p class="cap">A person who computes. The plates of the sky, read by hand.</p>
+  <template><ul><li>A breath. Parallax reaches the near stars. The next distance is a candle, and the people who found it were on the payroll as computers.</li></ul></template>
+</section>
+
+<section class="slide" data-title="A Person Who Computes" data-min="1.5">
+  <div class="top"><p class="kicker">Harvard College Observatory</p><h1>A Person Who Computes</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <g stroke="#161514" fill="#fffdf6" stroke-width="3">
+      <rect data-draw x="180" y="360" width="420" height="28"/>
+      <rect data-draw data-delay="0.15s" x="200" y="320" width="420" height="28"/>
+      <rect data-draw data-delay="0.3s" x="160" y="280" width="420" height="28"/>
+      <rect data-draw data-delay="0.45s" x="210" y="240" width="420" height="28"/>
+    </g>
+    <line data-draw data-delay="0.7s" x1="250" y1="252" x2="520" y2="252" stroke="#b01f24" stroke-width="3"/>
+    <text x="760" y="250" font-size="36">Edward Charles Pickering</text>
+    <text x="760" y="310" font-size="32" fill="#6b6763">director from 1877</text>
+    <text x="760" y="390" font-size="34">Women hired from the early 1880s</text>
+    <text x="760" y="450" font-size="34">to measure the glass.</text>
+    <text x="760" y="530" font-size="32" fill="#6b6763">About 25 cents an hour. On the order of</text>
+    <text x="760" y="572" font-size="32" fill="#6b6763">half a million plates.</text>
+  </svg></div>
+  <p class="cap">The night observers took the plates. The daytime computers read them.</p>
+  <template><ul>
+    <li>“Computer” meant a person. The English word is older than the machines. At an observatory it meant the person hired to calculate.</li>
+    <li>Edward Charles Pickering became director in 1877. Photography was turning the sky into a flood. From the early 1880s he hired women for the daytime measuring. Williamina Fleming came out of his household onto the payroll in 1881. Over the decades, on the order of eighty women. The plates, Cambridge plus the southern station at Arequipa in Peru, run to about half a million. Anna Palmer Draper paid for a great part of it, in memory of Henry Draper. The catalogues still carry his name.</li>
+    <li>The pay was about 25 cents an hour. Men doing similar work were paid more. Say the number. It is why the labor could be scaled, and it is not a compliment to the institution.</li>
+    <li>If someone offers the old sneering nickname for the group, do not use it. The name is the Harvard Computers.</li>
+  </ul></template>
+</section>
+
+<section class="slide" data-title="Hot to Cool" data-min="1.5">
+  <div class="top"><p class="kicker">Annie Jump Cannon · 1896</p><h1>Hot to Cool</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <line data-draw x1="120" y1="300" x2="1480" y2="300" stroke="#161514" stroke-width="2"/>
+    <g font-size="72" text-anchor="middle">
+      <text x="220" y="270" fill="#b01f24">O</text>
+      <text x="420" y="270">B</text>
+      <text x="620" y="270">A</text>
+      <text x="820" y="270">F</text>
+      <text x="1020" y="270">G</text>
+      <text x="1220" y="270">K</text>
+      <text x="1420" y="270">M</text>
+    </g>
+    <text x="220" y="360" text-anchor="middle" font-size="30" fill="#b01f24">hottest</text>
+    <text x="1420" y="360" text-anchor="middle" font-size="30">coolest</text>
+    <line x1="1020" y1="300" x2="1020" y2="400" stroke="#161514" stroke-width="3"/>
+    <text x="1020" y="450" text-anchor="middle" font-size="32">Sun · G2</text>
+    <text x="140" y="500" font-size="34">About 225,000 stars in the Henry Draper Catalogue.</text>
+    <text x="140" y="560" font-size="32" fill="#6b6763">The astronomical union adopted her order in 1922.</text>
+  </svg></div>
+  <p class="cap">She took an older alphabet and reordered it by temperature.</p>
+  <template><ul>
+    <li>Annie Jump Cannon, Wellesley, joined the observatory in 1896. She had lost much of her hearing after scarlet fever. The slide is about the order, not about that. If you mention it, one clause.</li>
+    <li>The letters were already in use. She put them in temperature order: O, B, A, F, G, K, M. O is hottest. M is coolest. The Sun is a G2 star. It looks alphabetical. It is not.</li>
+    <li>For the nine volumes of the Henry Draper Catalogue, 1918 to 1924, she classified about 225,000 spectra. Across her life the usual figure is about 350,000. The International Astronomical Union adopted her system in 1922.</li>
+    <li>There is a mnemonic her students used. It has not aged well. Leave it in your pocket unless the room asks how anyone remembers the letters. The letters on the slide are enough.</li>
+  </ul></template>
+</section>
+
+<section class="slide ask" data-title="Which Star Is Hotter?" data-min="1.5">
+  <div class="top"><p class="kicker">A Pause</p><h1>Which Star Is Hotter?</h1></div>
+  <p class="ask">One star is class O. One is class M. Do not look it up. Which one?</p>
+  <p class="cap">The letters are a temperature, read from a glass plate.</p>
+  <template><ul>
+    <li>Let them vote. O is hotter. M is the cool red end.</li>
+    <li>If they say M because it is “later in the alphabet,” that is the trap Cannon’s order sets. The alphabet is the old filing system. Temperature is the sequence.</li>
+    <li>About a minute and a half. Then Leavitt, who was not sorting letters. She was timing pulses.</li>
+  </ul></template>
+</section>
+
+<section class="slide" data-title="Brighter, and Slower" data-min="1.5">
+  <div class="top"><p class="kicker">Henrietta Swan Leavitt · 1908</p><h1>Brighter, and Slower</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <text x="140" y="220" font-size="40" font-style="italic">“the brighter variables have</text>
+    <text x="140" y="280" font-size="40" font-style="italic">the longer periods.”</text>
+    <line data-draw x1="140" y1="330" x2="760" y2="330" stroke="#b01f24" stroke-width="4"/>
+    <text x="140" y="410" font-size="34">1,777 variables in the Magellanic Clouds.</text>
+    <text x="140" y="470" font-size="32" fill="#6b6763">She said the sample was still small.</text>
+    <text x="140" y="560" font-size="32">Henrietta Swan Leavitt, 1868–1921.</text>
+  </svg></div>
+  <p class="cap">Annals of the Harvard College Observatory, 1908. A sentence, and a caution.</p>
+  <template><ul>
+    <li>Her name is Henrietta Swan Leavitt. Swan is not a middle initial you can drop. 4 July 1868, Lancaster, Massachusetts. 12 December 1921, Cambridge. She volunteered in 1895 and was on the permanent staff in the early 1900s. She was nearly deaf. The work was variable stars: the same field, plate against plate, night against night.</li>
+    <li>1908. “1777 Variables in the Magellanic Clouds.” The sentence on the slide is hers. She warned that the sample was small. Do not promote the 1908 paper into the finished law. The finished line is 1912, and it is the next slide.</li>
+    <li>Say the Magellanic Clouds as the nearby galaxies you can see from the southern station. The Small Cloud is the one that matters in a moment, because its stars sit at one distance.</li>
+  </ul></template>
+</section>
+
+<section class="slide" data-title="Twenty-Five Stars, One Line" data-min="2">
+  <div class="top"><p class="kicker">Circular 173 · 3 March 1912</p><h1>Twenty-Five Stars, One Line</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <line x1="180" y1="80" x2="180" y2="560" stroke="#cdc8bc" stroke-width="2"/>
+    <line x1="180" y1="560" x2="1450" y2="560" stroke="#cdc8bc" stroke-width="2"/>
+    <text x="150" y="70" font-size="30">brighter</text>
+    <text x="1100" y="610" font-size="30">longer period</text>
+    <line data-draw x1="280" y1="470" x2="1320" y2="160" stroke="#b01f24" stroke-width="4"/>
+    <g fill="#161514">
+      <circle cx="340" cy="450" r="6"/><circle cx="480" cy="400" r="6"/><circle cx="560" cy="430" r="6"/>
+      <circle cx="700" cy="340" r="6"/><circle cx="820" cy="300" r="6"/><circle cx="900" cy="330" r="6"/>
+      <circle cx="1040" cy="250" r="6"/><circle cx="1180" cy="210" r="6"/><circle cx="1260" cy="190" r="6"/>
+    </g>
+    <text x="900" y="150" font-size="32" fill="#b01f24">0.48 in the log of the period,</text>
+    <text x="900" y="190" font-size="32" fill="#b01f24">per magnitude</text>
+  </svg></div>
+  <p class="cap">Same cloud, same distance, so a difference in brightness is a real difference.</p>
+  <template><ul>
+    <li>Harvard College Observatory Circular 173, 3 March 1912. “Periods of 25 Variable Stars in the Small Magellanic Cloud.” The circular carries Pickering’s signature, the form of the day, and the first sentence names Miss Leavitt.</li>
+    <li>Twenty-five Cepheids, all at roughly one distance. She plotted magnitude against the logarithm of the period. A straight line. Her words: the logarithm of the period increases by about 0.48 for each increase of one magnitude in brightness.</li>
+    <li>The drawing puts brighter upward, so the line rises. A magnitude axis often runs the other way. Say which way is up. The dots are the shape of the relation, not a claim that each one is a star from her table. Do not invent a twenty-sixth.</li>
+    <li>This fixes the slope. It does not fix the zero point in miles. She said the parallaxes still had to be measured. A candle tells you which star is intrinsically brighter. It does not, by itself, tell you the watts.</li>
+  </ul></template>
+</section>
+
+<section class="slide" data-title="A Candle, Then a Galaxy" data-min="1.5">
+  <div class="top"><p class="kicker">The Zero Point, Then Hubble</p><h1>A Candle, Then a Galaxy</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <ellipse cx="360" cy="360" rx="220" ry="80" fill="none" stroke="#161514" stroke-width="3"/>
+    <circle cx="470" cy="330" r="8" fill="#b01f24"/>
+    <text x="500" y="300" font-size="32" fill="#b01f24">a Cepheid</text>
+    <text x="700" y="240" font-size="36">Andromeda</text>
+    <text x="700" y="310" font-size="32">a plate from 6 October 1923</text>
+    <text x="700" y="380" font-size="32" fill="#6b6763">outside the Milky Way</text>
+    <text x="700" y="470" font-size="30" fill="#6b6763">His distance was too short.</text>
+    <text x="700" y="516" font-size="30" fill="#6b6763">The conclusion held.</text>
+  </svg></div>
+  <p class="cap">Leavitt died in 1921. The candle was already lit.</p>
+  <template><ul>
+    <li>Ejnar Hertzsprung, in 1913, made a first rough zero point from the motions of galactic Cepheids. Harlow Shapley revised the calibration later and used it on the Milky Way. The revision was bold and partly wrong. You do not need the whole fight. You need: the slope was Leavitt’s, and the miles were still being argued.</li>
+    <li>Edwin Hubble found a Cepheid in the Andromeda “nebula” on a plate taken 6 October 1923. The result was announced in 1924 and 1925. Andromeda was a galaxy, outside the Milky Way. His distance was too small, on the order of 900,000 light-years. The modern distance is about two and a half million. Say “too short, and still outside.” Do not give the room his number as the distance.</li>
+    <li>Leavitt died of cancer on 12 December 1921, at 53. In February 1925 Gösta Mittag-Leffler wrote to her about a Nobel nomination, not knowing she was dead. Prizes are not given posthumously. Shapley wrote back. One sentence, if the room is quiet. Then stop. The next move is back to parallax, which is what she said was still missing.</li>
+  </ul></template>
+</section>
+
+<section class="slide center" data-title="Back to the Thumb" data-min="0.3">
+  <div class="top"><p class="kicker">Part Eight</p><h1>Back to the Thumb</h1></div>
+  <p class="cap">The baseline is the Earth’s orbit. The eyes are six months apart.</p>
+  <template><ul><li>A breath. Tell them the first picture is about to come back.</li></ul></template>
+</section>
+
+<section class="slide" data-title="A Billion Parallaxes" data-min="1.5">
+  <div class="top"><p class="kicker">ESA · Gaia</p><h1>A Billion Parallaxes</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 700" aria-hidden="true">
+    <ellipse cx="380" cy="400" rx="230" ry="48" fill="#e9e5dc" stroke="#161514" stroke-width="3"/>
+    <rect x="330" y="300" width="100" height="70" fill="#fffdf6" stroke="#161514" stroke-width="3"/>
+    <line data-draw x1="430" y1="330" x2="1180" y2="180" stroke="#b01f24" stroke-width="3"/>
+    <circle cx="1180" cy="180" r="6" fill="#161514"/>
+    <text x="700" y="160" font-size="32">one star, then another</text>
+    <text x="760" y="360" font-size="36">launched 19 December 2013</text>
+    <text x="760" y="420" font-size="32">watched until 15 January 2025</text>
+    <text x="760" y="490" font-size="34">nearly two billion stars</text>
+    <text x="760" y="560" font-size="30" fill="#6b6763">not every star in the Milky Way</text>
+  </svg></div>
+  <p class="cap">The fine end of the measurement is about the width of a dime on the Moon.</p>
+  <template><ul>
+    <li>Gaia, the European Space Agency. Launched 19 December 2013. Science from July 2014. It was planned for five years and ran about ten and a half, until the cold gas that kept it spinning ran out. Observations ended 15 January 2025. It was switched off on 27 March 2025.</li>
+    <li>Nearly two billion stars and other objects. The Milky Way holds a few hundred billion. This is a census of the brighter stars, not every star. Say “nearly two billion,” not “all of them.”</li>
+    <li>The baseline is the Earth’s orbit. January and July, for a star in the right direction, are about 186 million miles apart. That is the two eyes. The dime line is the fine end, roughly ten millionths of an arcsecond: about the width of a dime sitting on the Moon, seen from here. Faint stars are not that sharp. Do not promise the dime for every dot.</li>
+    <li>It sits about 930,000 miles beyond the Earth, on the night side, at the balance point called L2. No crew. If you want one surprise and only one: in 2024 it found a sleeping black hole, Gaia BH3, about 33 times the Sun’s mass, about 1,926 light-years away, because a star was wobbling around nothing. Then come back to the thumb. The surprises are not the ending. The parallax is.</li>
+  </ul></template>
+</section>
+
+<section class="slide" data-title="The Eyes Are a Year Apart" data-scene="loop" data-min="2.5">
+  <div class="top"><p class="kicker">The Same Triangle</p><h1>The Eyes Are a Year Apart</h1></div>
+  <div class="fig"><svg viewBox="0 0 1600 720" aria-hidden="true"></svg></div>
+  <p class="cap">The drawing is exaggerated, or the angle would be invisible. The triangle is not.</p>
+  <template><ul>
+    <li>Let it play. First the thumb. Then the eyes become January and July, and the thumb becomes a nearby star.</li>
+    <li>The red lines are the two sightlines. Where they meet the distant stars, they do not meet each other. That gap is the parallax. Bessel measured one. Gaia measured a billion.</li>
+    <li>The picture is exaggerated. Say so. If it were to scale, the star would be out of the building and the shift would be invisible.</li>
+    <li>January and July are the right pair for a star in this direction. Another star wants other months. The full shift across the orbit is twice the parallax angle in the definition. You do not need to say that unless someone asks which angle is “the” parallax.</li>
+    <li>This is the close of the argument. The Greeks were not wrong about the size of the shift. They were wrong that “too small to see” meant “not there.”</li>
+  </ul></template>
+</section>
+
+<section class="slide cover" data-title="The Baseline Got Longer" data-min="1">
+  <div class="top">
+    <p class="kicker">How Far Is It?</p>
+    <h1>The Baseline Got Longer</h1>
+    <p class="sub">A thumb. A planet on the Sun. A watch. A glass plate. A billion stars.</p>
+    <p class="who">Jeff Franzen · faria.jbf.com/followup</p>
+  </div>
+  <div class="fig"><svg viewBox="0 0 1600 420" aria-hidden="true">
+    <line data-draw x1="160" y1="200" x2="1440" y2="200" stroke="#b01f24" stroke-width="4"/>
+    <text x="160" y="160" font-size="32">inches</text>
+    <text x="1280" y="160" font-size="32">the Earth’s orbit</text>
+  </svg></div>
+  <p class="cap">The question was never new.</p>
+  <template><ul>
+    <li>Read the line, then stop. Do not summarize every name. The baseline got longer. That is the talk.</li>
+    <li>If you take questions: K2 was not Cook’s 1776 watch. Tobolsk was 1761, not the 1769 Siberian station. Leavitt’s line is a slope, not a mileage. Gaia did not map every star.</li>
+    <li>The address is on the slide. About one minute, and then the room.</li>
+  </ul></template>
+</section>
+
+<div class="hud">
+  <span id="counter">1 / 40 · How Far Is It?</span>
+  <span class="hint">Arrows move · N notes · I index · F full screen</span>
+</div>
+</div>
+
+<aside id="notes" hidden>
+  <header>
+    <span id="notes-meta"></span>
+    <button type="button" id="notes-close">Close</button>
+  </header>
+  <h2>Notes</h2>
+  <div id="notes-body"></div>
+</aside>
+<aside id="index" hidden>
+  <h2>How Far Is It?</h2>
+  <button type="button" class="shut" id="index-close">Close</button>
+  <ol id="index-list"></ol>
+</aside>
+<script src="deck.js"></script>
+</body>
+</html>

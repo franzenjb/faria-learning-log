@@ -1,0 +1,192 @@
+/* How Far Is It? — ink on cream, one red, serif.
+   Designed at 1920×1080 and scaled to the viewport. */
+:root {
+  --paper: #fffdf6;
+  --ink: #161514;
+  --red: #b01f24;
+  --mute: #6b6763;
+  --hair: #cdc8bc;
+  --land: #e9e5dc;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+}
+button, input { font-family: inherit; }
+#fit {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background: var(--paper);
+  transform-origin: 0 0;
+}
+.slide {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  padding: 52px 84px 56px;
+  visibility: hidden;
+  pointer-events: none;
+}
+.slide.active { visibility: visible; pointer-events: auto; }
+.top { display: flex; flex-direction: column; gap: 6px; min-height: 0; }
+.kicker {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: 0.04em;
+  color: var(--mute);
+  font-weight: 400;
+}
+h1 {
+  margin: 0;
+  font-size: 68px;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+}
+h1 .red, .red-word { color: var(--red); }
+.sub, .who, .cap, .ask {
+  margin: 0;
+  font-size: 32px;
+  line-height: 1.35;
+  color: var(--ink);
+}
+.sub { color: var(--mute); font-style: italic; margin-top: 10px; }
+.who { margin-top: 8px; }
+.cap { color: var(--mute); max-width: 1500px; }
+.fig { min-height: 0; margin: 8px 0 12px; }
+.fig svg { width: 100%; height: 100%; display: block; overflow: visible; }
+svg text { font-family: var(--serif); fill: var(--ink); }
+.slide.center {
+  grid-template-rows: 1fr auto;
+  align-content: center;
+  text-align: center;
+  justify-items: center;
+}
+.slide.center .top { align-items: center; margin-top: 180px; }
+.slide.center h1 { font-size: 92px; }
+.slide.center .cap { text-align: center; }
+.slide.cover { grid-template-rows: auto minmax(0, 1fr) auto; }
+.slide.cover h1 { font-size: 120px; margin-top: 12px; }
+.slide.ask h1 { font-size: 78px; max-width: 1560px; }
+.slide.ask .ask { font-size: 40px; max-width: 1400px; align-self: center; }
+.hud {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  left: 84px;
+  right: 84px;
+  bottom: 18px;
+  pointer-events: none;
+  font-size: 28px;
+  color: var(--mute);
+}
+#counter { color: var(--ink); }
+.hint { font-size: 28px; }
+.edge {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 90px;
+  border: 0;
+  background: transparent;
+  color: transparent;
+  cursor: pointer;
+  z-index: 3;
+}
+.edge:focus, .edge:focus-visible { outline: none; }
+.slide.center h1::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 4px;
+  margin: 28px auto 0;
+  background: var(--red);
+}
+.slide.center.active h1::after { animation: rule 0.9s ease forwards; }
+@keyframes rule { to { width: 240px; } }
+#prev { left: 0; }
+#next { right: 0; }
+#notes {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 36vh;
+  overflow: auto;
+  background: var(--paper);
+  color: var(--ink);
+  border-top: 2px solid var(--ink);
+  z-index: 5;
+  padding: 18px 28px 22px;
+}
+#notes[hidden] { display: none; }
+#notes header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: baseline;
+  font-size: 18px;
+  color: var(--mute);
+}
+#notes h2 { margin: 4px 0 8px; font-size: 28px; font-weight: 500; }
+#notes ul { margin: 0; padding-left: 1.2em; }
+#notes li { margin: 0 0 0.45em; font-size: 20px; line-height: 1.35; }
+#notes button {
+  background: transparent;
+  border: 1px solid var(--ink);
+  padding: 4px 12px;
+  cursor: pointer;
+  font-size: 18px;
+}
+#index {
+  position: fixed;
+  inset: 0;
+  background: var(--paper);
+  z-index: 6;
+  overflow: auto;
+  padding: 36px 48px 64px;
+}
+#index[hidden] { display: none; }
+#index h2 { font-size: 36px; font-weight: 500; margin: 0 0 8px; }
+#index ol { margin: 12px 0 0; padding: 0; list-style: none; columns: 2; column-gap: 48px; }
+#index button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--hair);
+  padding: 8px 4px;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--ink);
+}
+#index button.on { color: var(--red); }
+#index .shut {
+  position: absolute;
+  top: 28px;
+  right: 36px;
+  background: transparent;
+  border: 1px solid var(--ink);
+  padding: 6px 14px;
+  font-size: 18px;
+  cursor: pointer;
+}
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  [data-draw] { animation: none !important; stroke-dashoffset: 0 !important; }
+  .slide.center h1::after { animation: none; width: 240px; }
+}
