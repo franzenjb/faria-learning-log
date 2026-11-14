@@ -331,14 +331,12 @@ NEW_SLIDES['Scilly, 1707'] = {
     const SCREENS = [
       `<div style="${L}">22 October 1707.<br>Fog and gales. No sun for days.<br>Admiral Shovell’s fleet sails for home.<br>Twenty-one ships.</div>`,
       `<div style="${L}"><span style="color:#f0b35a">Latitude</span>, north or south: they can read it from the sky.<br><span style="color:#f0b35a">Longitude</span>, east or west: only a guess.<br>The officers compare their guesses.<br>All agree: safe in the Channel.</div>`,
-      `<div style="font-size:clamp(64px,8.5vw,140px);line-height:1.05">They were wrong.</div>`,
-      `<div style="font-size:clamp(24px,2.4vw,38px)">Four ships on the rocks of Scilly.</div>
-       <div style="margin-top:.3em;font-size:clamp(22px,2vw,32px);color:#cfc8ba">Up to</div>
-       <div style="font-size:clamp(120px,17vw,260px);line-height:.95;color:#f0b35a">2,000</div>
-       <div style="font-size:clamp(36px,3.8vw,62px)">men drowned.</div>`,
-      `<div style="font-size:clamp(34px,4vw,64px);line-height:1.4">They knew their <span style="color:#f0b35a">latitude</span>.<br>They could not find their <span style="color:#f0b35a">longitude</span>.</div>`
+      `<style>.sc-in{opacity:0;animation:scIn 1s ease forwards}@keyframes scIn{to{opacity:1}}</style>
+       <div class="sc-in" style="font-size:clamp(56px,6.8vw,112px);line-height:1.05">They were wrong.</div>
+       <div class="sc-in" style="animation-delay:1.1s;margin-top:.15em;font-size:clamp(64px,8vw,132px);line-height:1.05;color:#f0b35a">2,000 died.</div>
+       <div class="sc-in" style="animation-delay:2.2s;margin-top:.45em;font-size:clamp(30px,3.4vw,56px);line-height:1.3">They knew their <span style="color:#f0b35a">latitude</span>, not their <span style="color:#f0b35a">longitude</span>.</div>`
     ];
-    const LOOK = [[1, 1], [1.015, .95], [1.03, .9], [1.045, .85], [1.06, .8], [1.07, .85]];
+    const LOOK = [[1, 1], [1.015, .95], [1.03, .9], [1.05, .82]];
     const stage = el.querySelector('.stage');
     stage.innerHTML = `<div class="sc-wrap" style="position:absolute;inset:0;overflow:hidden;background:#05070d;cursor:pointer">
       <img src="v3/img/scilly.jpg" alt="Engraving of Admiral Shovell's fleet wrecked on the rocks of Scilly, 1707" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(1) contrast(1.1);transform-origin:60% 60%">
