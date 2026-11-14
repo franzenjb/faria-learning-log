@@ -227,6 +227,7 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
     <p class="lede">Drag the person from the equator to the pole. On the left is the Earth cut in half, with you standing on it. On the right is what you see when you face north.</p>
     <p>The two gold angles are always the same number. One is measured at the center of the Earth, where nobody can stand. The other you can measure tonight with a stick and a protractor.</p>
     <div class="controls"><label><span class="row">Your latitude <output id="wn-lat-out">43.7° N</output></span><input id="wn-lat" type="range" min="0" max="90" step="0.1" value="43.7"></label></div>
+    <div class="chips" id="wn-layers"><button id="wn-l-ang">Angle from the equator</button><button id="wn-l-par">Your parallel</button><button id="wn-l-you">You and Polaris</button></div>
     <div class="chips" id="wn-places"><button data-lat="0">Equator · 0°</button><button data-lat="25.8">Miami · 25.8°</button><button data-lat="38.9">Washington, D.C. · 38.9°</button><button data-lat="43.7">Toronto · 43.7°</button><button data-lat="90">North Pole · 90°</button></div>
     <div class="btns"><button class="primary" id="wn-walk">Walk north</button><button id="wn-why">Why they match</button><button id="wn-view">What you see</button><button id="wn-south">Go south: the Southern Cross</button></div>
     <div class="readout" id="wn-read"></div>
@@ -944,12 +945,16 @@ if(holdNoon)tag(ctx,'ship held at noon · slide GMT and the ship moves',w*.78-kr
 /* ---------- 2b · Walk north: why the star's height is your latitude ---------- */
 {const o=setup('c2w');const latIn=document.getElementById('wn-lat'),latOut=document.getElementById('wn-lat-out'),read=document.getElementById('wn-read'),whyB=document.getElementById('wn-why'),walkB=document.getElementById('wn-walk');
 let lat=43.7,why=false,walk=null,drag=false,south=false,view=false;const viewB=document.getElementById('wn-view');viewB.onclick=()=>{view=!view;viewB.classList.toggle('on',view);};const southB=document.getElementById('wn-south');
-const H=()=>south?'S':'N';const man=new Path2D('M -8 -42 L 8 -42 Q 12 -42 13 -38 L 16 -22 Q 16 -19 13 -19 Q 11 -19 10.5 -21 L 8 -32 L 8 -4 Q 8 0 5 0 L 3 0 Q 1.5 0 1.5 -2 L 1 -18 L -1 -18 L -1.5 -2 Q -1.5 0 -3 0 L -5 0 Q -8 0 -8 -4 L -8 -32 L -10.5 -21 Q -11 -19 -13 -19 Q -16 -19 -16 -22 L -13 -38 Q -12 -42 -8 -42 Z');
+const H=()=>south?'S':'N';
+// layers Jeff turns on one at a time: the angle at the Earth's center, the parallel, then the person with the horizon and the line to Polaris
+const lay={ang:false,par:false,you:false};const layB={ang:'wn-l-ang',par:'wn-l-par',you:'wn-l-you'};const syncLay=()=>{for(const k in lay)document.getElementById(layB[k]).classList.toggle('on',lay[k]);};
+for(const k in lay)document.getElementById(layB[k]).onclick=()=>{lay[k]=!lay[k];syncLay();update();};
+const man=new Path2D('M -8 -42 L 8 -42 Q 12 -42 13 -38 L 16 -22 Q 16 -19 13 -19 Q 11 -19 10.5 -21 L 8 -32 L 8 -4 Q 8 0 5 0 L 3 0 Q 1.5 0 1.5 -2 L 1 -18 L -1 -18 L -1.5 -2 Q -1.5 0 -3 0 L -5 0 Q -8 0 -8 -4 L -8 -32 L -10.5 -21 Q -11 -19 -13 -19 Q -16 -19 -16 -22 L -13 -38 Q -12 -42 -8 -42 Z');
 function set(v){lat=Math.max(0,Math.min(90,v));latIn.value=lat;update();}
-function update(){latOut.textContent=fmt(lat)+'° '+H();if(south){read.innerHTML=`<strong>You stand at ${fmt(lat)}° S</strong><span class="big">The south celestial pole is ${fmt(lat)}° up</span><span>Find the Southern Cross. Run a line through its long arm, about four and a half arm-lengths. That spot, the south celestial pole, is ${fmt(lat)}° above your south horizon: your latitude.</span>`;return;}read.innerHTML=why?`<strong>Why They Match</strong><p class="why">Walk 1° north and the ground under your feet tilts 1°.</p><p class="why">Tilt your ground 1° and Polaris climbs 1° in your sky.</p><p class="why why-k">You have walked ${fmt(lat)}° from the equator, so Polaris is ${fmt(lat)}° up.</p>`:`<strong>You stand at ${fmt(lat)}° N</strong><span class="big">Polaris is ${fmt(lat)}° above your horizon</span><span>${lat<1?'At the equator your ground points straight at the star. Polaris sits on the horizon: 0°.':lat>89?'At the pole your ground is square to the starlight. Polaris is straight overhead: 90°.':'Every degree you walk north tips your ground one more degree away from the starlight, so the star climbs one degree. The two numbers are the same angle, seen from two places.'}${why?'<br><b>Why:</b> your ground is square to your radius, and the starlight is square to the equator. Turn the radius away from the equator by some angle and the ground turns away from the starlight by exactly that angle.':''}</span>`;}
+function update(){latOut.textContent=fmt(lat)+'° '+H();if(south){read.innerHTML=`<strong>You stand at ${fmt(lat)}° S</strong><span class="big">The south celestial pole is ${fmt(lat)}° up</span><span>Find the Southern Cross. Run a line through its long arm, about four and a half arm-lengths. That spot, the south celestial pole, is ${fmt(lat)}° above your south horizon: your latitude.</span>`;return;}read.innerHTML=why?`<strong>Why They Match</strong><p class="why">Walk 1° north and the ground under your feet tilts 1°.</p><p class="why">Tilt your ground 1° and Polaris climbs 1° in your sky.</p><p class="why why-k">You have walked ${fmt(lat)}° from the equator, so Polaris is ${fmt(lat)}° up.</p>`:`<strong>You stand at ${fmt(lat)}° N</strong>${lay.you?`<span class="big">Polaris is ${fmt(lat)}° above your horizon</span>`:lay.ang||lay.par?`<span class="big">Latitude ${fmt(lat)}° N</span>`:''}<span>${lat<1?'At the equator your ground points straight at the star. Polaris sits on the horizon: 0°.':lat>89?'At the pole your ground is square to the starlight. Polaris is straight overhead: 90°.':'Every degree you walk north tips your ground one more degree away from the starlight, so the star climbs one degree. The two numbers are the same angle, seen from two places.'}${why?'<br><b>Why:</b> your ground is square to your radius, and the starlight is square to the equator. Turn the radius away from the equator by some angle and the ground turns away from the starlight by exactly that angle.':''}</span>`;}
 latIn.oninput=()=>{walk=null;set(+latIn.value);};
 document.querySelectorAll('#wn-places button').forEach(b=>b.onclick=()=>{walk=null;set(+b.dataset.lat);});
-southB.onclick=()=>{south=!south;if(south&&!view)viewB.onclick();southB.classList.toggle('on',south);why=false;whyB.classList.remove('on');walk=null;set(south?33.9:43.7);};
+southB.onclick=()=>{south=!south;if(south){lay.ang=lay.par=lay.you=true;syncLay();}if(south&&!view)viewB.onclick();southB.classList.toggle('on',south);why=false;whyB.classList.remove('on');walk=null;set(south?33.9:43.7);};
 whyB.onclick=()=>{why=!why;whyB.classList.toggle('on',why);update();};
 walkB.onclick=()=>{walk={t0:performance.now()};};
 // the globe alone sits in the middle; 'What you see' slides it left to make room for the sky view
@@ -963,7 +968,7 @@ scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);
 if(walk){const k=Math.min(1,(t-walk.t0)/9000);set(90*(k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2));if(k>=1)walk=null;}
 const{cx,cy,R}=geom();const a=lat*DEG;const px=cx+R*Math.cos(a),py=cy-R*Math.sin(a);const nx=Math.cos(a),ny=-Math.sin(a),tx=-Math.sin(a),ty=-Math.cos(a);
 // starlight: parallel lines from Polaris, straight down the page
-ctx.setLineDash([4,7]);ctx.strokeStyle='rgba(111,179,255,.28)';ctx.lineWidth=1;for(let x=cx-R*1.5;x<=cx+R*2.2;x+=R*.37){ctx.beginPath();ctx.moveTo(x,h*.07);ctx.lineTo(x,h*.93);ctx.stroke();}ctx.setLineDash([]);
+if(lay.you){ctx.setLineDash([4,7]);ctx.strokeStyle='rgba(111,179,255,.28)';ctx.lineWidth=1;for(let x=cx-R*1.5;x<=cx+R*2.2;x+=R*.37){ctx.beginPath();ctx.moveTo(x,h*.07);ctx.lineTo(x,h*.93);ctx.stroke();}ctx.setLineDash([]);}
 text(ctx,'',w*.5,h*.075,{size:28,color:'#f0b35a',align:'center',weight:600,font:'serif'});
 // Earth (south: the same picture mirrored below the equator, labels kept upright)
 ctx.save();if(south){ctx.translate(0,2*cy);ctx.scale(1,-1);}
@@ -973,17 +978,18 @@ const g=ctx.createRadialGradient(cx-R*.3,cy-R*.3,R*.1,cx,cy,R);g.addColorStop(0,
 {const L0=south?135:-75;const pr=v=>{const la=Math.asin(Math.max(-1,Math.min(1,v[1]))),lo=Math.atan2(-v[2],v[0])-L0*DEG;const X=Math.cos(la)*Math.sin(lo),Z=Math.cos(la)*Math.cos(lo);return{x:cx+R*X,y:cy-R*Math.sin(south?-la:la),z:Z};};
 ctx.save();ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.clip();drawCoast(ctx,pr,1,{color:'rgba(236,230,218,.7)',width:1.3});ctx.restore();
 // your parallel: the line of latitude through where you stand, parallel to the equator
-const hw=R*Math.cos(a),yy=cy-R*Math.sin(a);ctx.strokeStyle='#f0b35a';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(cx-hw,yy);ctx.lineTo(cx+hw,yy);ctx.stroke();
+if(lay.par){const hw=R*Math.cos(a),yy=cy-R*Math.sin(a);ctx.strokeStyle='#f0b35a';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(cx-hw,yy);ctx.lineTo(cx+hw,yy);ctx.stroke();
 const city=(south?[['Sydney',-33.9,151.2]]:[['Quito',0,-78.5],['Miami',25.8,-80.2],['Washington, D.C.',38.9,-77]  ,['Toronto',43.7,-79.4]]).find(c=>Math.abs(Math.abs(c[1])-lat)<.6);
 if(city){const q=pr(ll(city[1],city[2]));ctx.fillStyle='#f0b35a';ctx.beginPath();ctx.arc(q.x,q.y,6,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();T(ctx,city[0],q.x,q.y+(south?-18:28),{size:17,color:'#f0b35a',align:'center',weight:600});}
-if(lat>3)T(ctx,'your parallel · '+fmt(lat)+'° '+H(),cx-hw*.3,yy+(south?30:-12),{size:17,color:'#f0b35a',align:'center',weight:600});}
+if(lat>3)T(ctx,'your parallel · '+fmt(lat)+'° '+H(),cx-hw*.3,yy+(south?30:-12),{size:17,color:'#f0b35a',align:'center',weight:600});}}
 ctx.setLineDash([6,6]);ctx.strokeStyle='rgba(236,230,218,.45)';ctx.beginPath();ctx.moveTo(cx,cy-R*1.25);ctx.lineTo(cx,cy+R*1.1);ctx.stroke();ctx.strokeStyle='rgba(240,179,90,.6)';ctx.beginPath();ctx.moveTo(cx-R*1.1,cy);ctx.lineTo(cx+R*1.35,cy);ctx.stroke();ctx.setLineDash([]);
 if(lat<75)T(ctx,south?'South Pole':'North Pole',cx-8,cy-R-10,{size:12,color:'#ece6da',align:'right'});T(ctx,'equator',cx-R*1.13,cy+4,{size:12,color:'#f0b35a',align:'right'});
 // the walked arc and the radius
-ctx.strokeStyle='rgba(240,179,90,.5)';ctx.lineWidth=5;ctx.beginPath();ctx.arc(cx,cy,R,-a,0);ctx.stroke();
+if(lay.ang){ctx.strokeStyle='rgba(240,179,90,.5)';ctx.lineWidth=5;ctx.beginPath();ctx.arc(cx,cy,R,-a,0);ctx.stroke();
 ctx.strokeStyle='#f0b35a';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();ctx.beginPath();ctx.arc(cx,cy,R*.3,-a,0);ctx.stroke();
-{const b=Math.max(a/2,.16);T(ctx,fmt(lat)+'° '+H(),cx+R*.5*Math.cos(b),cy-R*.5*Math.sin(b)+6,{size:20,color:'#f0b35a',font:'mono',align:'center',weight:600});}
+{const b=Math.max(a/2,.16);T(ctx,fmt(lat)+'° '+H(),cx+R*.5*Math.cos(b),cy-R*.5*Math.sin(b)+6,{size:20,color:'#f0b35a',font:'mono',align:'center',weight:600});}}
 // your ground: the horizon line, tangent to the Earth where you stand
+if(lay.you){
 const L=R*1.05;ctx.strokeStyle='#6fd48a';ctx.lineWidth=3.5;ctx.beginPath();ctx.moveTo(px-tx*L,py-ty*L);ctx.lineTo(px+tx*L,py+ty*L);ctx.stroke();T(ctx,'your horizon',px+tx*L-8,py+ty*L+(lat>60?-10:-6),{size:14,color:'#6fd48a',align:'right'});
 // the line of sight to Polaris and the angle above the horizon
 ctx.strokeStyle='#6fb3ff';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px,py-R*.95);ctx.stroke();ctx.fillStyle='#6fb3ff';ctx.beginPath();ctx.moveTo(px,py-R*.95-12);ctx.lineTo(px-7,py-R*.95+2);ctx.lineTo(px+7,py-R*.95+2);ctx.closePath();ctx.fill();T(ctx,south?'to the celestial pole':'to Polaris',px+10,py-R*.95,{size:13,color:'#6fb3ff'});
@@ -992,7 +998,8 @@ if(why){const sq=(x,y,ux,uy,vx,vy,c)=>{const s=13;ctx.strokeStyle=c;ctx.lineWidt
 sq(px,py,-nx,-ny,-tx,-ty,'#ece6da');sq(cx,cy,1,0,0,-1,'#ece6da');ctx.setLineDash([3,6]);ctx.strokeStyle='rgba(236,230,218,.6)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px+nx*R*.8,py+ny*R*.8);ctx.stroke();ctx.setLineDash([]);T(ctx,'straight up',px+nx*R*.82+6,py+ny*R*.82+4,{size:12,color:'#cfc8ba'});
 }
 // you
-ctx.save();ctx.translate(px,py);ctx.rotate(Math.atan2(ny,nx)+Math.PI/2);ctx.scale(1.25,1.25);ctx.fillStyle='#ece6da';ctx.fill(man);ctx.beginPath();ctx.arc(0,-50,6.5,0,TAU);ctx.fill();ctx.restore();
+ctx.save();ctx.translate(px,py);ctx.rotate(Math.atan2(ny,nx)+Math.PI/2);ctx.scale(1.25,1.25);ctx.fillStyle='#ece6da';ctx.fill(man);ctx.beginPath();ctx.arc(0,-50,6.5,0,TAU);ctx.fill();ctx.restore();}
+else if(lay.ang||lay.par){ctx.fillStyle='#f0b35a';ctx.beginPath();ctx.arc(px,py,7,0,TAU);ctx.fill();ctx.strokeStyle='#0a0e18';ctx.lineWidth=2;ctx.stroke();}
 ctx.restore();
 
 // ---- what you see: the same angle from where you stand (only when toggled on)
