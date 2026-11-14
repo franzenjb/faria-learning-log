@@ -1,0 +1,247 @@
+/* Course shell and cream theme for /claude1/. Loaded after the deck's own styles. */
+:root{--bg:#0a0e18;--panel:#111727;--ink:#ece6da;--muted:#9a9382;--line:#283048;--accent:#f0b35a;--sun:#ffd66b;--sky:#6fb3ff;--ok:#6fd48a;--bad:#ff7d6f;
+  --serif:"Source Serif 4","Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;--mono:"SF Mono",Menlo,Consolas,monospace}
+html,body{background:var(--bg);color:var(--ink)}
+#shell{display:grid;grid-template-columns:auto minmax(15rem,22rem) minmax(0,1fr) auto;grid-template-rows:minmax(0,1fr);height:100%;width:100%;overflow:hidden}
+#visual{position:relative;min-width:0;overflow:hidden;border-left:1px solid var(--line);border-right:1px solid var(--line)}
+#visual .deck{position:absolute;inset:0}
+#visual .nav{position:absolute;background:linear-gradient(0deg,rgba(10,14,24,.95),rgba(10,14,24,0));padding:.5rem .9rem}
+#visual .nav .dots,#presenter{display:none}
+.nav .arrows button{background:#111727;color:var(--ink);border-color:var(--line)}
+.counter{color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* slides inside the visual pane: headline and controls on the left, picture on the right */
+.slide{grid-template-columns:minmax(210px,19rem) 1fr;transition:opacity .35s}
+.slide.wide,.slide.cover{grid-template-columns:1fr}
+.text{background:var(--bg);border-right:1px solid var(--line);padding:1.6rem 1.3rem 4.5rem 1.5rem}
+.slide:not(.native) .text p:not(.kicker):not(.onscreen),.slide:not(.native) .text ul.facts{display:none}
+.slide:not(.native) .text .readout p,.slide:not(.native) .text .quiz p{display:block}
+.text p.onscreen{display:block;color:var(--muted);font-style:italic;margin:.9rem 0 0}
+.kicker{color:var(--accent);letter-spacing:.06em;text-transform:none;font:500 .82rem/1.2 var(--serif)}
+h1{font-weight:500;font-size:1.75rem;line-height:1.12;letter-spacing:-.005em}
+.stage{background:radial-gradient(ellipse at 60% 40%,#121a2e 0%,#0a0e18 70%)}
+.facts li{color:var(--ink);border-color:var(--line)}
+.readout{background:#111727;border-color:var(--line)}.readout strong{font-weight:600}.readout span{color:var(--muted)}
+.readout .big{color:var(--accent)}
+.controls label{text-transform:none;letter-spacing:0;font-size:.9rem;color:var(--muted)}
+.controls label output{color:var(--ink);font-weight:600}
+.modes,.btns,.chips{flex-wrap:wrap}
+.btns button,.modes button,.chips button{background:#111727;color:var(--ink);border-color:#3a4460;font-size:.86rem}
+.btns button.primary,.modes button.on{background:var(--accent);border-color:var(--accent);color:#111727}
+.chips button.on{background:var(--ink);border-color:var(--ink);color:#111727}
+.quiz .opt{background:#111727;border-color:var(--line);color:var(--ink)}
+.card{background:rgba(17,23,39,.97);border-color:var(--line);box-shadow:0 10px 40px rgba(236,230,218,.18);font-family:var(--serif)}
+.card p{color:var(--ink)}.card svg,.card img{background:#111727}
+.hint{color:var(--muted);text-transform:none;letter-spacing:0;font-style:italic;font-size:.82rem}
+.cover-text h1{font-weight:500;text-shadow:none;color:var(--ink)}.cover-text .sub{color:var(--muted)}.cover-text .go{color:var(--accent)}
+
+/* native figures */
+.stage svg.fig,.stage canvas.fig{position:absolute;inset:0;width:100%;height:100%;display:block}
+.stage svg.fig{padding:.6rem 1rem 2.6rem}
+.stage canvas.fig{cursor:default;transform:none!important}
+svg.fig text{font-family:var(--serif);fill:#ece6da}
+svg.fig .xs{font-size:14px}svg.fig .sm{font-size:17px}svg.fig .md{font-size:21px}svg.fig .lg{font-size:27px}svg.fig .xl{font-size:36px}
+svg.fig .mu{fill:#9a9382}svg.fig .rd{fill:#f0b35a}
+svg.fig .k{stroke:#ece6da;stroke-width:1.6;fill:none}svg.fig .hair{stroke:#2e3854;stroke-width:1;fill:none}svg.fig .red{stroke:#f0b35a;stroke-width:1.8;fill:none}
+svg.fig .fk{fill:#ece6da}svg.fig .fr{fill:#f0b35a}svg.fig .land{fill:#1f2a46;stroke:#4a5470;stroke-width:1}
+svg.fig .pick{cursor:pointer}
+
+/* course index */
+.cindex{position:absolute;inset:0;padding:6vh 5vw 4rem;display:flex;flex-direction:column;justify-content:center}
+.cindex h1{font-size:clamp(1.9rem,3.6vw,3.2rem);margin:.3rem 0 .5rem}
+.ci-sub{color:var(--muted);font-style:italic;font-size:1.25rem;margin:0 0 2.2rem}
+.ci-days{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;position:relative}
+.ci-days:before{content:"";position:absolute;left:0;right:0;top:3.05rem;border-top:1px solid #3a4460}
+.ci-day{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:.35rem;padding:0 .4rem 1rem;border-radius:.4rem;position:relative}
+.ci-day:hover strong{color:var(--accent)}
+.ci-n{color:var(--accent);font-size:1.6rem;line-height:1}.ci-dot{width:.8rem;height:.8rem;border-radius:50%;background:var(--accent);margin:.5rem 0 .8rem}
+.ci-day strong{font-size:1.45rem;font-weight:500;line-height:1.15}.ci-day em{color:var(--muted);font-size:.98rem;line-height:1.35}
+.ci-day ul{margin:.5rem 0 0;padding:0;list-style:none}.ci-day li{font-size:.95rem;padding:.22rem 0;border-top:1px solid var(--line)}
+.ci-day small{color:var(--muted);margin-top:.3rem}
+.ci-foot{font-size:1.5rem;margin:2.2rem 0 0}
+
+/* left: slide index */
+#lside{position:relative;width:2.6rem;transition:width .22s;background:var(--panel);overflow:hidden}
+#shell.ls-open #lside{width:17rem}
+#ls-tog,#rs-tog{all:unset;cursor:pointer;width:2.6rem;height:2.6rem;display:grid;place-items:center;font-size:1.15rem;color:var(--ink)}
+#ls-tog:hover,#rs-tog:hover{color:var(--accent)}
+#ls-panel{position:absolute;left:0;top:2.6rem;bottom:0;width:17rem;overflow:auto;padding:0 .9rem 2rem;opacity:0;pointer-events:none;transition:opacity .2s}
+#shell.ls-open #ls-panel{opacity:1;pointer-events:auto}
+#ls-panel h2,#rs-panel h2{font:500 1.05rem var(--serif);margin:.2rem 0 .7rem;color:var(--muted)}
+#ls-list{list-style:none;margin:0;padding:0}
+#ls-list li{cursor:pointer;line-height:1.25}
+#ls-list li.day{font-weight:600;color:var(--accent);margin:1rem 0 .3rem;font-size:.95rem}
+#ls-list li.ch{font-style:italic;color:var(--muted);margin:.55rem 0 .15rem;font-size:.88rem}
+#ls-list li.sl{font-size:.88rem;padding:.2rem .3rem;border-radius:.25rem;display:flex;gap:.45rem}
+#ls-list li.sl span{color:var(--muted);min-width:1.3rem;text-align:right;font-variant-numeric:tabular-nums}
+#ls-list li.sl:hover{background:#161d30}#ls-list li.sl.on{background:var(--ink);color:#111727}#ls-list li.sl.on span{color:#9a9382}
+
+/* Jeff's side: the teleprompter */
+#jeff{--jfs:1;min-height:0;display:flex;flex-direction:column;min-width:0;background:#111727;padding:.9rem 1.2rem .8rem 1.3rem}
+#jeff header{display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:.5rem}
+#jeff .who{color:var(--accent);font-weight:600}#jeff .sz{margin-left:auto;display:flex;gap:.25rem}
+#jeff button{all:unset;cursor:pointer;border:1px solid var(--line);border-radius:.3rem;padding:.1rem .45rem;font-size:.8rem;color:var(--ink)}
+#jeff button:hover{border-color:var(--accent)}
+#jf-title{font:500 1.2rem/1.2 var(--serif);margin:.8rem 0 .5rem}
+#jf-script{flex:1;overflow:auto;font-size:calc(1.32rem * var(--jfs));line-height:1.5;padding-right:.4rem}
+#jf-script p{margin:0 0 .85em}
+#jeff footer{display:flex;justify-content:space-between;align-items:center;gap:.6rem;border-top:1px solid var(--line);padding-top:.5rem;font-size:.85rem;color:var(--muted)}
+#jeff footer b{color:var(--ink);font-weight:500}#jeff .clk{display:flex;align-items:center;gap:.4rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* right: Faria topic pages */
+#rside{position:relative;width:11.5rem;transition:width .22s;background:var(--panel);overflow:hidden}
+#shell.rs-shut #rside{width:2.6rem}
+#rs-panel{position:absolute;right:0;top:2.6rem;bottom:0;width:11.5rem;overflow:auto;padding:0 .8rem 2rem;transition:opacity .2s}
+#shell.rs-shut #rs-panel{opacity:0;pointer-events:none}
+#rs-list button{all:unset;cursor:pointer;display:block;width:100%;box-sizing:border-box;background:#111727;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:.25rem;padding:.5rem .6rem;margin:0 0 .5rem;font-size:.9rem;line-height:1.25}
+#rs-list button:hover{border-color:var(--accent)}
+#rs-list .none{color:var(--muted);font-style:italic;font-size:.85rem}
+#topicview{position:fixed;inset:0;z-index:50;background:var(--bg)}
+#topicview[hidden]{display:none}
+#topicview iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+#tv-back{position:fixed;left:1rem;top:1rem;z-index:51;border:0;cursor:pointer;background:var(--accent);color:#111727;font:600 1.25rem var(--serif);padding:.8rem 1.4rem;border-radius:.5rem;box-shadow:0 6px 24px rgba(236,230,218,.3)}
+
+@media (max-width:860px){
+  #shell{display:block;height:auto}#lside,#rside{display:none}
+  #jeff{border-bottom:1px solid var(--line);max-height:38vh}
+  #visual{height:auto;overflow:visible;border:0}#visual .deck{position:relative}
+  .cindex{position:relative}.ci-days{grid-template-columns:1fr 1fr}.ci-days:before{display:none}
+  .slide{grid-template-columns:1fr}.text{border-right:0}
+  .stage svg.fig,.stage canvas.fig{position:relative;height:60vh}
+}
+
+/* speaker notes hidden by default; the ☰-row button toggles them */
+#jeff{display:none}#shell.notes-on #jeff{display:flex}
+#shell{grid-template-columns:auto minmax(15rem,22rem) minmax(0,1fr) auto}
+#shell:not(.notes-on){grid-template-columns:auto minmax(0,1fr) auto}
+#notes-tog{all:unset;cursor:pointer;width:2.6rem;height:2.6rem;display:grid;place-items:center;font-size:1rem;color:var(--muted);position:absolute;top:2.6rem;left:0}
+#notes-tog:hover,#shell.notes-on #notes-tog{color:var(--accent)}
+#shell.ls-open #notes-tog{display:none}
+/* one combined column: a narrow control strip beside a big picture */
+.slide{grid-template-columns:minmax(190px,16rem) 1fr}
+.text{padding:1.2rem 1rem 4rem 1.1rem}
+.text h1{font-size:1.4rem}
+.readout span:not(.big){display:none}
+.readout .big{font-size:1.25rem}
+
+/* classroom legibility: bigger type in the control strip and in the drawn figures */
+.slide{grid-template-columns:minmax(230px,20rem) 1fr}
+.text h1{font-size:1.9rem;line-height:1.12}
+.kicker{font-size:1rem}
+.controls label{font-size:1.1rem}.controls label output{font-size:1.2rem}
+.btns button,.modes button,.chips button{font-size:1.05rem;padding:.45rem 1rem}
+.readout strong{font-size:1.2rem}.readout .big{font-size:1.6rem}
+.facts li{font-size:1.1rem}
+.hint{font-size:1rem}
+svg.fig .xs{font-size:20px}svg.fig .sm{font-size:24px}svg.fig .md{font-size:28px}svg.fig .lg{font-size:34px}svg.fig .xl{font-size:44px}
+
+/* night theme: buttons */
+.btns button.primary,.modes button.on{color:#1a1206}.chips button.on{background:#2a3350;border-color:var(--sky);color:#fff}
+#ls-list li.sl.on{background:#2a3350;color:#fff}
+#tv-back{color:#1a1206}
+.cover-text h1{color:var(--ink);text-shadow:0 4px 40px rgba(0,0,0,.8)}
+#shell.rs-shut #rside{width:2.6rem}
+
+/* course index: four big day names, nothing else */
+.cindex h1{font-size:clamp(2.6rem,4.6vw,4.4rem);margin:.4rem 0 3.2rem}
+.cindex .kicker{font-size:1.3rem}
+.ci-days:before{top:3.6rem}
+.ci-n{font-size:2rem}.ci-dot{width:1.1rem;height:1.1rem;margin:.7rem 0 1.2rem}
+.ci-day strong{font-size:clamp(1.8rem,2.6vw,2.6rem);line-height:1.15}
+
+/* course index: four separate cards, not one running line */
+.ci-days{gap:2rem}
+.ci-days:before{display:none}
+.ci-dot{display:none}
+.ci-day{background:var(--panel);border:1px solid var(--line);border-top:5px solid var(--accent);border-radius:.6rem;padding:1.6rem 1.5rem 2rem;min-height:11rem;justify-content:flex-start;gap:1rem;transition:border-color .2s,transform .2s}
+.ci-day:hover{border-color:var(--accent);transform:translateY(-3px)}
+.ci-n{font-size:clamp(2.6rem,4vw,3.8rem);line-height:1;font-weight:500}
+.ci-day strong{font-size:clamp(1.6rem,2.2vw,2.2rem)}
+.ci-n small{font-size:.45em;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-right:.2em;vertical-align:middle}
+
+#bingo-panel{border:1px solid var(--line);border-radius:.6rem;padding:.6rem .7rem;margin:.4rem 0 .8rem;background:rgba(17,23,39,.7)}
+.bingo-h{margin:.2rem 0 .3rem!important;font-size:.95rem;color:var(--muted)!important;display:block!important}
+
+/* pop-up cards fill the picture so a room can read them */
+.card.gloss{left:1rem;right:1rem;top:1rem;bottom:1rem;width:auto;max-height:none;display:flex;flex-direction:column;padding:1.4rem 2rem}
+.card.gloss h3{font-size:2.2rem}
+.card.gloss svg,.card.gloss img{flex:1;min-height:0;width:100%;height:100%;object-fit:contain}
+.card.gloss p{font-size:1.5rem;line-height:1.4}
+
+#idl-legend{list-style:none;margin:.3rem 0 .9rem;padding:.7rem .8rem;border:1px solid #ff7d6f55;border-radius:.6rem;background:rgba(17,23,39,.7)}
+#idl-legend li{color:#ffd0c8;font-size:1.15rem;font-family:var(--sans);line-height:1.35;margin:.25rem 0}
+#idl-legend b{display:inline-grid;place-items:center;width:1.5em;height:1.5em;border-radius:50%;background:#ff7d6f;color:#0a0e18;margin-right:.4em;font-size:.85em}
+
+#detour-back{position:absolute;right:1rem;top:1rem;z-index:20;border:0;cursor:pointer;background:var(--accent);color:#1a1206;font:600 1.15rem var(--sans);padding:.75rem 1.3rem;border-radius:.5rem;box-shadow:0 6px 24px rgba(0,0,0,.45)}
+.btns button.detour{border-color:var(--sky);color:var(--sky)}
+
+#more-btn{position:absolute;right:1rem;bottom:4rem;z-index:19;cursor:pointer;background:rgba(10,18,40,.82);color:var(--accent);border:2px solid var(--accent);font:600 1.1rem var(--sans);padding:.6rem 1.1rem;border-radius:.5rem;box-shadow:0 6px 24px rgba(0,0,0,.45)}
+#more-btn:hover{background:var(--accent);color:#1a1206}
+#more-btn[hidden],#more-panel[hidden]{display:none}
+#more-panel{position:absolute;right:1rem;bottom:7.6rem;z-index:21;width:min(34rem,calc(100% - 2rem));max-height:70%;overflow:auto;background:#0b1530;border:2px solid var(--accent);border-radius:.7rem;padding:1rem 1.2rem;box-shadow:0 12px 40px rgba(0,0,0,.6);color:#e8ecf6;font-family:var(--sans)}
+#more-panel header{display:flex;justify-content:space-between;align-items:center}
+#more-panel h3{margin:0;color:var(--accent);font-size:1.5rem}
+#more-panel .x{background:none;border:0;color:#e8ecf6;font-size:2rem;cursor:pointer;line-height:1}
+#more-panel p{margin:.3rem 0 .8rem;font-size:1.05rem;opacity:.8}
+#more-panel .pdf{display:flex;align-items:center;gap:.6rem;padding:.6rem 0;border-top:1px solid rgba(255,255,255,.12);font-size:1.15rem}
+#more-panel .pdf span{flex:1}
+#more-panel .pdf small{opacity:.6;font-size:.85rem}
+#more-panel .pdf a{color:#1a1206;background:var(--accent);text-decoration:none;font-weight:600;padding:.35rem .8rem;border-radius:.4rem;font-size:1rem}
+#more-panel .pdf a+a{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+
+/* phones: the cover is a stage only, so give it the full screen */
+@media (max-width:860px){
+  .slide.cover.active{grid-template-rows:1fr;height:100svh;min-height:32rem;padding-bottom:0}
+  .slide.cover .stage{position:relative;height:100%}
+  .cover-text h1{font-size:3.2rem}
+  .slide:not(.cover){grid-template-columns:1fr!important;grid-template-rows:auto 62vh!important}
+  .slide:not(.cover) .stage{min-height:62vh}
+  #more-btn.in-nav{position:static;font-size:.9rem;padding:.4rem .7rem;box-shadow:none;white-space:nowrap}
+  #more-panel{bottom:4.4rem!important}
+  #more-panel{position:fixed;left:.8rem;right:.8rem;width:auto;bottom:7.4rem;max-height:70vh}
+}
+
+/* hidden cards must stay hidden even when a card style sets display:flex */
+.card[hidden]{display:none!important}
+
+/* quadrant slide: historical photo of the instrument */
+.qd-photo{position:absolute;right:1rem;top:1rem;z-index:6;margin:0;width:min(26%,22rem);background:rgba(11,21,48,.96);border:2px solid var(--accent);border-radius:.7rem;padding:.7rem;box-shadow:0 12px 40px rgba(0,0,0,.6)}
+.qd-photo[hidden]{display:none}
+.qd-photo.tall{width:min(26%,20rem)}
+.qd-photo img{width:100%;max-height:52vh;object-fit:contain;display:block;border-radius:.3rem}
+.qd-photo figcaption{margin-top:.5rem;font:400 1rem/1.35 var(--sans);color:#e8ecf6}
+.qd-photo figcaption b{display:block;color:var(--accent);font-size:1.15rem;margin-bottom:.2rem}
+.qd-photo .x{position:absolute;right:.3rem;top:.1rem;background:rgba(11,21,48,.8);border:0;color:#e8ecf6;font-size:1.8rem;line-height:1;cursor:pointer;border-radius:.3rem}
+
+/* Walk North: plain-language "why" lines in the readout */
+.readout p.why{display:block!important;margin:.5rem 0 0;font:400 1.15rem/1.4 var(--sans);color:var(--ink)}
+.readout p.why-k{color:var(--accent);font-weight:600}
+
+/* labels on pictures are not text to select: a drag across the stage must not paint selection boxes */
+.stage svg,.stage svg text,.stage canvas{-webkit-user-select:none;user-select:none}
+
+/* Jupiter slide: the date readout must not wrap (it made the controls jump) */
+#jup-t-out{white-space:nowrap;font-size:.95rem}
+.controls label .row output{white-space:nowrap}
+
+.md-steps{margin:.6rem 0 0 1.1rem;padding:0;font-size:1rem;line-height:1.4}.md-steps li{margin:.35rem 0}
+
+/* Galileo's moons: the eclipse timetable stays visible */
+.slide:not(.native) .text ul#jup-moon-facts{display:block;margin-top:.8rem}
+#jup-moon-facts li{font:500 1.1rem var(--sans)}#jup-moon-facts li.hd{color:var(--accent);font-weight:600;border:0}
+#jup-moon-facts li.off{opacity:.4}
+
+/* Galileo's clock story: scenes fade between steps */
+.gs-scene{transition:opacity .6s ease}
+
+/* quadrant slide: instruments-through-time gallery */
+.qd-gal{position:absolute;inset:1rem;z-index:7;background:#080c18;border:2px solid var(--accent);border-radius:.8rem;padding:1rem 1.2rem;display:flex;flex-direction:column;gap:.8rem;font-family:var(--sans);color:#e8ecf6}
+.qd-gal[hidden]{display:none}
+.qd-gal h3{margin:0;color:var(--accent);font:600 1.6rem var(--serif)}
+.qd-gal .x{position:absolute;right:.6rem;top:.3rem;background:none;border:0;color:#e8ecf6;font-size:2.2rem;cursor:pointer}
+.qg-main{flex:1;min-height:0;display:flex;gap:1.4rem;align-items:center}
+.qg-main img{height:100%;max-width:62%;object-fit:contain;border-radius:.4rem;background:#fff1}
+.qg-cap{display:flex;flex-direction:column;gap:.6rem}.qg-cap b{font:600 1.6rem var(--serif);color:#ece6da}.qg-cap span{font-size:1.25rem;line-height:1.4}.qg-cap small{opacity:.6}
+.qg-row{display:flex;gap:.6rem}.qg-row button{flex:1;background:#111727;border:2px solid #283048;border-radius:.5rem;padding:.3rem;cursor:pointer;color:#cfc8ba;display:flex;flex-direction:column;align-items:center;gap:.2rem;font:500 .85rem var(--sans)}
+.qg-row button.on{border-color:var(--accent);color:var(--accent)}.qg-row img{height:70px;object-fit:contain}
+body.gal-open #more-btn{display:none}
