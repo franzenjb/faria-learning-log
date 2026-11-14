@@ -804,8 +804,12 @@ const cities=[{n:'Miami',lat:25.8,lon:-80.2},{n:'Washington, D.C.',lat:38.9,lon:
 const crux=[{n:'Acrux',ra:12.44,dec:-63.1},{n:'Mimosa',ra:12.80,dec:-59.7},{n:'Gacrux',ra:12.52,dec:-57.1},{n:'Imai',ra:12.25,dec:-58.7}];const sky=s=>v3.mul(ll(s.dec,s.ra*15),2.4);
 function geom(){const{w,h}=o;return{cx:w*.5,cy:h*.5,R:Math.min(w,h)*.33*st.zoom};}
 function proj(p){const{cx,cy,R}=geom();const q=rot(p,st.yaw,st.pitch);return{x:cx+q[0]*R,y:cy-q[1]*R,z:q[2]};}
-function tap(p){if(o.c.closest('[data-notap]'))return;// a slide can turn off 'tap to stand there'
-const{cx,cy,R}=geom();const X=(p.x-cx)/R,Y=-(p.y-cy)/R;const r2=X*X+Y*Y;if(r2>1)return;const ni=proj(ll(0,0));if(show.cities&&ni.z>=0&&Math.hypot(p.x-ni.x,p.y-ni.y)<14){me={lat:0,lon:0};readout();openTerm('nullisland',o.c);return;}const q=[X,Y,Math.sqrt(1-r2)];const wpt=unrot(q,st.yaw,st.pitch);me={lat:Math.asin(wpt[1])/DEG,lon:Math.atan2(-wpt[2],wpt[0])/DEG};readout();}
+function tap(p){const{cx,cy,R}=geom();const X=(p.x-cx)/R,Y=-(p.y-cy)/R;const r2=X*X+Y*Y;if(r2>1)return;const q=[X,Y,Math.sqrt(1-r2)];const wpt=unrot(q,st.yaw,st.pitch);const la=Math.asin(wpt[1])/DEG,lo=Math.atan2(-wpt[2],wpt[0])/DEG;
+// tap a square on the bingo card: light up its row and its column (tap the same square again to clear)
+if(bingo.on){const r=bingo.rows.findIndex(([a,b])=>la>=Math.min(a,b)&&la<=Math.max(a,b));const c=bingo.cols.findIndex(([a,b])=>{const d=((lo-a)%360+360)%360;return d<=((b-a)%360+360)%360;});
+if(r>=0&&c>=0){if(bingo.r===r&&bingo.c===c){bingo.r=bingo.c=null;}else{bingo.r=r;bingo.c=c;}syncBingo();}return;}
+if(o.c.closest('[data-notap]'))return;// a slide can turn off 'tap to stand there'
+const ni=proj(ll(0,0));if(show.cities&&ni.z>=0&&Math.hypot(p.x-ni.x,p.y-ni.y)<14){me={lat:0,lon:0};readout();openTerm('nullisland',o.c);return;}me={lat:la,lon:lo};readout();}
 // a straight-on cross-section of the Earth for the latitude card: observer, horizon, parallel starlight, the two equal angles
 function latDiagram(lat){const north=lat>=0,a=Math.abs(lat)*DEG,W=480,H=320,cx=200,cy=175,R=110;const sgn=north?-1:1;// screen y of the pole end
 const px=cx+R*Math.cos(a),py=cy+sgn*R*Math.sin(a);const tx=-Math.sin(a),ty=sgn*Math.cos(a);// tangent toward the pole
