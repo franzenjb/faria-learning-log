@@ -67,6 +67,10 @@ Printed lessons and plates, grouped with the topic each one belongs to. The comp
 - [QED: The End of a Proof](/topics/99-qed-the-end-of-a-proof/). This lesson is the web page. It has no separate PDF.
 - [Celestial Navigation and Earth's Geometry](/topics/100-celestial-navigation-and-earth-geometry/): [lesson PDF](/downloads/Faria_Celestial_Navigation_and_Earth_Geometry_2026-11-13.pdf). Polaris's distance from the true pole from 100 BC to 2100, the Regiment of the North Star, Columbus off Cuba, the nautical mile, why a degree of longitude shrinks with latitude, the Southern Cross, and the trade winds.
 
+## 14 November 2026
+
+- [The Furlong, the Mile, and the Acre: How English Land Was Measured](/topics/101-the-furlong-the-mile-and-the-acre/): [lesson PDF](/downloads/The_Furlong_the_Mile_and_the_Acre_How_English_Land_Was_Measured_Faria_2026-11-14.pdf). Three pages. The 660-foot furlong, the 1593 statute mile of 5,280 feet, Gunter's chain, and the acre as a furlong by a tenth of a furlong.
+
 ## Complete binder
 
 [Complete lessons binder (PDF)](/downloads/Franzen_Complete_Lessons_Binder.pdf). 458 pages. 72 topics and 37 papers, assembled before the later 8 November lessons. Those later pages, including Picard, Tycho, the mathematics lessons, and the historical lessons added with them, are on the site and are not in this file. The binder has not been rebuilt. The separate lesson PDFs on this page stay as they are.
