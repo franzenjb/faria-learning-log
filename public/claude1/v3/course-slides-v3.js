@@ -81,7 +81,7 @@ const V3_TUNE = {
   'The lunar distance': { kicker: '1767 · Nevil Maskelyne’s Almanac' },
   'A clock that could travel': { h1: 'A Clock That Could Travel' },
   'Washington, 1884': { kicker: 'Washington · October 1884', arrow: ['#pm84-vote'], talk: { hide: ['#pm84-fr'] }, hide: ['#pm84-r'], hero: 'Nature Set the Equator. Where Is <b>Zero Longitude</b>?' },
-  'Where am I, now': { kicker: 'GPS', arrow: ['#gps-ask'], hero: 'Today: <b>GPS</b>, a Sky Full of Clocks.' }
+  'Where am I, now': { kicker: 'GPS' } // the GPS close is a full V3 scene now (see the end of this file)
 };
 const v3Hero = (el, html) => { let h = el.querySelector('.v3-hero'); const st = el.querySelector('.stage'); if (!st) return; if (!h) { h = document.createElement('div'); h.className = 'v3-hero'; if (getComputedStyle(st).position === 'static') st.style.position = 'relative'; st.appendChild(h); } h.innerHTML = html || ''; };
 addEventListener('load', () => setTimeout(() => {
@@ -1194,5 +1194,76 @@ addEventListener('load', () => setTimeout(() => {
       S.text('Scilly: four ships, 1,400 to 2,000 men', 800, 500, 64, G, 'center', S.fade(now, 700, 700));
       S.text('Seven years later, Parliament offers a prize.', 800, 610, 44, W, 'center', S.fade(now, 1500, 700));
     }
+  });
+}, 0));
+
+/* ---------- Close: GPS, rebuilt. The real shell of satellites, then four of them fix one spot, anywhere ---------- */
+addEventListener('load', () => setTimeout(() => {
+  const el = v3Find('Where am I, now'); if (!el || typeof drawCoast !== 'function' || typeof ll !== 'function') return;
+  const D = Math.PI / 180, G = '#f0b35a', W = '#ece6da', M = '#c2bba9', B = '#6fb3ff', MI = 3959, C = 186282;
+  // 31 satellites in six planes inclined 55°, 26,560 km from Earth's center (4.17 Earth radii); one orbit every 12 hours
+  const SAT = []; for (let p = 0; p < 6; p++) for (let k = 0; k < (p < 1 ? 6 : 5); k++) SAT.push({ node: p * 60 * D, ph: (k * (360 / (p < 1 ? 6 : 5)) + p * 17) * D });
+  const unit = (s, t) => { const u = s.ph + t * .00016, x = Math.cos(u), z = Math.sin(u), y = z * Math.sin(55 * D), zz = z * Math.cos(55 * D); return [x * Math.cos(s.node) - zz * Math.sin(s.node), y, x * Math.sin(s.node) + zz * Math.cos(s.node)]; };
+  const CITIES = [['Tampa', 27.95, -82.46], ['Portland, Maine', 43.66, -70.26], ['Houston', 29.76, -95.37], ['Denver', 39.74, -104.99], ['Seattle', 47.61, -122.33], ['Chicago', 41.88, -87.63]];
+  const CAM = [{ yaw: 5, pitch: .45, R: 108, cy: 540, rs: 4.17 }, { yaw: 5, pitch: .45, R: 108, cy: 540, rs: 4.17 }, { yaw: 5, pitch: -.2, R: 640, cy: 1180, rs: 1.6 }, { yaw: 5, pitch: -.2, R: 640, cy: 1180, rs: 1.6 }, { yaw: 5, pitch: -.2, R: 640, cy: 1180, rs: 1.6 }];
+  const WORDS = ['Today: GPS, a Sky Full of Clocks', 'Each Satellite Carries an Atomic Clock', 'Travel Time = Distance', 'Four Satellites, One Spot', 'Anywhere: Four Satellites, Every Time'];
+  const add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]], sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]], mul = (a, k) => [a[0] * k, a[1] * k, a[2] * k], dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2], len = a => Math.hypot(...a);
+  let cam = { ...CAM[0] }, from = { ...CAM[0] }, last = 0;
+  const satGlyph = (ctx, x, y, sc, on) => { ctx.save(); ctx.translate(x, y); ctx.scale(sc, sc);
+    if (on) { const g = ctx.createRadialGradient(0, 0, 0, 0, 0, 26); g.addColorStop(0, 'rgba(240,179,90,.55)'); g.addColorStop(1, 'rgba(240,179,90,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, 26, 0, 7); ctx.fill(); }
+    ctx.fillStyle = '#3d7fd9'; ctx.fillRect(-19, -3.5, 12, 7); ctx.fillRect(7, -3.5, 12, 7); ctx.strokeStyle = '#a9c8ff'; ctx.lineWidth = .8; ctx.strokeRect(-19, -3.5, 12, 7); ctx.strokeRect(7, -3.5, 12, 7);
+    ctx.fillStyle = on ? '#ffd27a' : '#d9b46a'; ctx.fillRect(-5, -5, 10, 10); ctx.restore(); };
+  V3.scene(el, 5, (S, ctx, now) => {
+    const k = S.step, age = S.age(now);
+    if (S.t0 !== last) { from = { ...cam }; last = S.t0; }
+    const e = S.ease(age / 2200), T = CAM[k]; cam = {}; for (const q of ['yaw', 'pitch', 'R', 'cy', 'rs']) cam[q] = S.lerp(from[q], T[q], e);
+    const P = V3.orbitProj({ yaw: cam.yaw, pitch: cam.pitch, R: cam.R, cx: 800, cy: cam.cy }), t = now;
+    // stars
+    S.stars(now, .7);
+    // satellites: positions for drawing (altitude squeezed up close) and real positions for travel time
+    const sats = SAT.map(s => { const u = unit(s, t); return { u, p: mul(u, cam.rs), real: mul(u, 4.17) }; });
+    const occluded = q => q.z < 0 && Math.hypot(q.x - 800, q.y - cam.cy) < cam.R;
+    // orbit rings, the far half first
+    const ring = (s, back) => { ctx.beginPath(); let pen = false; for (let i = 0; i <= 96; i++) { const u = s.ph + i / 96 * 2 * Math.PI, x = Math.cos(u), z = Math.sin(u), y = z * Math.sin(55 * D), zz = z * Math.cos(55 * D), v = mul([x * Math.cos(s.node) - zz * Math.sin(s.node), y, x * Math.sin(s.node) + zz * Math.cos(s.node)], cam.rs), q = P(v), hide = back ? q.z >= 0 : (q.z < 0); if (hide || occluded(q)) { pen = false; continue; } pen ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); pen = true; } ctx.stroke(); };
+    const planes = SAT.filter((s, i) => SAT.findIndex(o => o.node === s.node) === i), ringA = k <= 1 ? .22 : .07;
+    ctx.strokeStyle = `rgba(111,179,255,${ringA})`; ctx.lineWidth = 1.5; planes.forEach(s => ring(s, true));
+    sats.forEach(s => { const q = P(s.p); if (q.z < 0 && !occluded(q)) satGlyph(ctx, q.x, q.y, .8, false); });
+    // the Earth
+    const gr = ctx.createRadialGradient(800 - cam.R * .35, cam.cy - cam.R * .35, cam.R * .05, 800, cam.cy, cam.R); gr.addColorStop(0, '#2f5a8c'); gr.addColorStop(.7, '#15294a'); gr.addColorStop(1, '#0b1526');
+    ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(800, cam.cy, cam.R, 0, 7); ctx.fill();
+    const atm = ctx.createRadialGradient(800, cam.cy, cam.R * .96, 800, cam.cy, cam.R * 1.08); atm.addColorStop(0, 'rgba(111,179,255,.35)'); atm.addColorStop(1, 'rgba(111,179,255,0)'); ctx.fillStyle = atm; ctx.beginPath(); ctx.arc(800, cam.cy, cam.R * 1.08, 0, 7); ctx.fill();
+    drawCoast(ctx, P, 1, { color: 'rgba(236,230,218,.85)', width: 1.8 });
+    ctx.strokeStyle = 'rgba(111,179,255,.22)'; ctx.lineWidth = 1.5; planes.forEach(s => ring(s, false));
+    // who is listening: one city, or a city that hops on the last beat
+    const ci = k === 4 ? Math.floor(Math.max(0, age - 1800) / 3200) % CITIES.length : 0, hopT = k === 4 ? (Math.max(0, age - 1800) % 3200) / 3200 : 1;
+    const [cname, clat, clon] = CITIES[ci], me = ll(clat, clon), mq = P(me);
+    // the four satellites highest in that city's sky
+    const vis = sats.map(s => ({ ...s, el: dot(sub(s.real, me), me) / len(sub(s.real, me)) })).filter(s => s.el > .45 && P(s.p).y < mq.y - 60 && P(s.p).z > -.2).sort((a, b) => b.el - a.el).slice(0, 4); // high in the sky, and above the city on screen
+    const chosen = k >= 2 ? vis : [];
+    // the satellite whose clock we watch: the one nearest the viewer
+    const clockSat = sats.reduce((a, s) => P(s.p).z > P(a.p).z ? s : a, sats[0]);
+    // front satellites
+    sats.forEach(s => { const q = P(s.p); if (q.z >= 0) satGlyph(ctx, q.x, q.y, k >= 2 ? 1.4 : 1.25, chosen.includes(s) || (k === 1 && s === clockSat)); });
+    // beat 2: every satellite broadcasts; one clock ticking
+    if (k === 1) { sats.forEach((s, i) => { const q = P(s.p); if (q.z < 0) return; const ph = ((now / 1600) + i * .37) % 1; ctx.strokeStyle = `rgba(240,179,90,${.5 * (1 - ph)})`; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(q.x, q.y, 6 + ph * 60, 0, 7); ctx.stroke(); });
+      const q = P(clockSat.p); if (q.z >= 0) { const ns = Math.floor(now * 1e3) % 1e9, txt = `12:00:00.${String(Math.floor(ns / 1e3)).padStart(6, '0')}`; ctx.save(); ctx.fillStyle = 'rgba(8,12,22,.85)'; ctx.strokeStyle = G; ctx.lineWidth = 2; ctx.beginPath(); ctx.roundRect(q.x + 30, q.y - 40, 330, 80, 12); ctx.fill(); ctx.stroke(); ctx.restore(); S.text('atomic clock', q.x + 50, q.y - 14, 26, M, 'left'); S.text(txt, q.x + 50, q.y + 20, 34, G, 'left', 1, 600); } }
+    // beats 3–5: the signals come down to the city
+    if (chosen.length && mq.z > 0) {
+      chosen.forEach((s, i) => { const q = P(s.p), grow = k === 4 ? S.ease(hopT * 3 - i * .15) : S.ease((age - 1800 - i * 350) / 900); if (grow <= 0) return;
+        const ex = S.lerp(q.x, mq.x, grow), ey = S.lerp(q.y, mq.y, grow);
+        ctx.strokeStyle = 'rgba(240,179,90,.75)'; ctx.lineWidth = 3; ctx.setLineDash([12, 9]); ctx.lineDashOffset = -now / 25; ctx.beginPath(); ctx.moveTo(q.x, q.y); ctx.lineTo(ex, ey); ctx.stroke(); ctx.setLineDash([]);
+        if (grow >= 1) { const ph = ((now / 1100) + i * .25) % 1; ctx.fillStyle = '#ffe39a'; ctx.beginPath(); ctx.arc(S.lerp(q.x, mq.x, ph), S.lerp(q.y, mq.y, ph), 6, 0, 7); ctx.fill(); }
+        if (k === 2 && grow >= 1) { const mi = len(sub(s.real, me)) * MI, ms = mi / C * 1000; const lx = S.lerp(q.x, mq.x, .35), ly = S.lerp(q.y, mq.y, .35); S.text(`${Math.round(ms)} ms`, lx + (q.x < mq.x ? -16 : 16), ly, 34, G, q.x < mq.x ? 'right' : 'left', S.fade(now, 2600 + i * 350), 600); }
+        // beat 4: each distance as a ring, all four passing through the one spot
+        if (k === 3 && grow >= 1) { const r = Math.hypot(mq.x - q.x, mq.y - q.y), a0 = Math.atan2(mq.y - q.y, mq.x - q.x); ctx.strokeStyle = 'rgba(111,179,255,.7)'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(q.x, q.y, r, a0 - .45, a0 + .45); ctx.stroke(); } });
+      const fix = k >= 3 ? S.fade(now, k === 4 ? 0 : 2400, 500) * (k === 4 ? S.clamp(hopT * 3 - .6) : 1) : 0;
+      ctx.fillStyle = B; ctx.beginPath(); ctx.arc(mq.x, mq.y, 10, 0, 7); ctx.fill();
+      if (fix > 0) { const pu = .5 + .5 * Math.sin(now / 160); ctx.strokeStyle = `rgba(255,255,255,${fix})`; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(mq.x, mq.y, 18 + 10 * pu, 0, 7); ctx.stroke();
+        S.text(cname, mq.x, mq.y + 56, 38, W, 'center', fix, 600); S.text(`${Math.abs(clat).toFixed(2)}° N, ${Math.abs(clon).toFixed(2)}° W`, mq.x, mq.y + 100, 32, G, 'center', fix); }
+      if (k === 2) S.text('a shelter in Tampa', mq.x, mq.y + 56, 32, W, 'center', S.fade(now, 1400));
+    }
+    if (k >= 2) S.text('Satellite heights not to scale: they orbit 12,550 miles up.', 40, 962, 17, M, 'left', .6);
+    if (k <= 1) S.text('31 satellites · 12,550 miles up · two orbits a day', 800, 905, 38, G, 'center', S.fade(now, 1200));
+    S.text(WORDS[k], 800, 78, 60, W, 'center', S.fade(now, 0, 600));
   });
 }, 0));
