@@ -263,7 +263,7 @@ body.gal-open #more-btn{display:none}
 /* final gate: answers at the top of the stage, the lesson line at the bottom */
 .v3-payoff{bottom:auto;top:5%}
 .readout:empty{display:none}
-.v3-hero{position:absolute;left:0;right:0;bottom:3.5%;padding:.45em 5% .5em;text-align:center;font:400 clamp(28px,3.4vw,54px)/1.2 Georgia,serif;color:#ffffff;background:linear-gradient(180deg,rgba(5,8,18,0),rgba(5,8,18,.82) 22%,rgba(5,8,18,.82) 78%,rgba(5,8,18,0));pointer-events:none;z-index:6;transition:opacity .4s ease}
+.v3-hero{position:absolute;left:0;right:0;bottom:3.5%;padding:.45em 14% .5em;text-align:center;font:400 clamp(26px,3vw,50px)/1.2 Georgia,serif;color:#ffffff;background:linear-gradient(180deg,rgba(5,8,18,0),rgba(5,8,18,.82) 22%,rgba(5,8,18,.82) 78%,rgba(5,8,18,0));pointer-events:none;z-index:6;transition:opacity .4s ease}
 .v3-hero b{color:#f0b35a;font-weight:400}
 .v3-hero:empty{display:none}
 /* Presenting: no control panel on screen. Each slide's controls are on keys, listed faintly bottom-left for Jeff. C brings the panel back. */
