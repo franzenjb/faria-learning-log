@@ -689,7 +689,7 @@ V3.orbitProj = (cam) => { const D = Math.PI / 180, cy = Math.cos(cam.yaw * D), s
 addEventListener('load', () => setTimeout(() => {
   const el = v3Find('Two ships, one latitude'); if (!el || typeof drawCoast !== 'function' || typeof ll !== 'function') return;
   const D = Math.PI / 180, G = '#f0b35a', W = '#ece6da', M = '#9a9382', B = '#6fb3ff', RED = '#ff7d6f', L1 = 0, LAT = 51.5;
-  const CAM = [{ yaw: -80, pitch: .5, R: 300, cy: 560 }, { yaw: -75, pitch: .5, R: 300, cy: 560 }, { yaw: -40, pitch: Math.PI / 2, R: 320, cy: 490 }, { yaw: -40, pitch: Math.PI / 2, R: 320, cy: 490 }, { yaw: 30, pitch: Math.PI / 2, R: 320, cy: 490 }];
+  const CAM = [{ yaw: -78, pitch: .55, R: 720, cy: 910 }, { yaw: -75, pitch: .55, R: 720, cy: 910 }, { yaw: -40, pitch: Math.PI / 2, R: 320, cy: 490 }, { yaw: -40, pitch: Math.PI / 2, R: 320, cy: 490 }, { yaw: 30, pitch: Math.PI / 2, R: 320, cy: 490 }];
   let cam = { ...CAM[0] }, from = { ...CAM[0] }, last = 0;
   const WORDS = [
     ['London, and a ship leaving port, both at 51.5° N', 'Both measure Polaris: 51.5° above the horizon. Same latitude.'],
@@ -712,7 +712,7 @@ addEventListener('load', () => setTimeout(() => {
       ctx.strokeStyle = 'rgba(240,179,90,.35)'; ctx.lineWidth = 2; ctx.setLineDash([14, 12]); ctx.lineDashOffset = now / 30; for (let i = -3; i <= 3; i++) { ctx.beginPath(); ctx.moveTo(sx - 80, cam.cy + i * cam.R * .3); ctx.lineTo(800 + cam.R + 20, cam.cy + i * cam.R * .3); ctx.stroke(); } ctx.restore(); S.text('Sun', sx, cam.cy + 120, 26, G, 'center', sunA); }
     // Polaris over the pole while we look from the side
     const polA = 1 - polar;
-    if (polA > 0) { const np = P([0, 1, 0]), st = P([0, 1.5, 0]); ctx.save(); ctx.globalAlpha = polA; ctx.strokeStyle = 'rgba(111,179,255,.5)'; ctx.setLineDash([5, 7]); ctx.beginPath(); ctx.moveTo(np.x, np.y); ctx.lineTo(st.x, st.y); ctx.stroke(); ctx.setLineDash([]); const g = ctx.createRadialGradient(st.x, st.y, 0, st.x, st.y, 26); g.addColorStop(0, '#fff'); g.addColorStop(.3, 'rgba(111,179,255,.9)'); g.addColorStop(1, 'rgba(111,179,255,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(st.x, st.y, 26, 0, 7); ctx.fill(); ctx.restore(); S.text('Polaris', st.x + 30, st.y, 26, '#dfe7ff', 'left', polA); }
+    if (polA > 0) { const np = P([0, 1, 0]), st = P([0, 1.27, 0]); ctx.save(); ctx.globalAlpha = polA; ctx.strokeStyle = 'rgba(111,179,255,.5)'; ctx.setLineDash([5, 7]); ctx.beginPath(); ctx.moveTo(np.x, np.y); ctx.lineTo(st.x, st.y); ctx.stroke(); ctx.setLineDash([]); const g = ctx.createRadialGradient(st.x, st.y, 0, st.x, st.y, 26); g.addColorStop(0, '#fff'); g.addColorStop(.3, 'rgba(111,179,255,.9)'); g.addColorStop(1, 'rgba(111,179,255,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(st.x, st.y, 26, 0, 7); ctx.fill(); ctx.restore(); S.text('Polaris', st.x + 30, st.y, 26, '#dfe7ff', 'left', polA); }
     // the globe
     const gr = ctx.createRadialGradient(800 - cam.R * .35, cam.cy - cam.R * .35, cam.R * .05, 800, cam.cy, cam.R); gr.addColorStop(0, '#2f5a8c'); gr.addColorStop(.7, '#15294a'); gr.addColorStop(1, '#0b1526');
     ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(800, cam.cy, cam.R, 0, 7); ctx.fill();
