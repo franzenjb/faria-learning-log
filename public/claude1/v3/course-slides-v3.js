@@ -453,7 +453,7 @@ addEventListener('load', () => setTimeout(() => {
   const el = [...document.querySelectorAll('section')].find(x => x.dataset.title === 'Eratosthenes'); if (!el) return;
   const text = el.querySelector('.text'); if (text) text.style.display = 'none'; el.classList.add('wide');
   const stage = el.querySelector('.stage'); stage.innerHTML = '<svg class="fig er-fig" viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet"><g id="er"></g></svg>';
-  const G = '#f0b35a', W = '#ece6da', B = '#6fb3ff', M = '#9a9382';
+  const G = '#f0b35a', W = '#ece6da', B = '#6fb3ff', M = '#c2bba9';
   const T = (t, x, y, size, col = W, anchor = 'middle', extra = '') => `<text x="${x}" y="${y}" text-anchor="${anchor}" style="font-size:${size}px;fill:${col}" ${extra}>${t}</text>`;
   const sun = (x, y) => `<circle cx="${x}" cy="${y}" r="34" fill="${G}" opacity=".95"/><circle cx="${x}" cy="${y}" r="54" fill="${G}" opacity=".18"/>`;
   const ground = y => `<line x1="40" y1="${y}" x2="960" y2="${y}" stroke="#4a5470" stroke-width="3"/>`;
@@ -558,7 +558,7 @@ addEventListener('load', () => setTimeout(() => {
     // labels for the two cities
     const near = sc > 0.3 && sc < 50; // only when the cities sit at sensible screen distances
     const cityA = step === 1 || step === 3 ? Math.min(1, (now - stepT - 1400) / 500) : 0;
-    if (step === 0) label('Syene', sy[0] + wellW, sy[1] + wellD + 34, 24, '#9a9382', 'left', Math.min(1, (now - stepT) / 500));
+    if (step === 0) label('Syene', sy[0] + wellW, sy[1] + wellD + 34, 24, '#c2bba9', 'left', Math.min(1, (now - stepT) / 500));
     label('Syene', sy[0] + 14, sy[1] - 26, 22, '#cfc8ba', 'left', cityA); label('Alexandria', axp[0] - 14, axp[1] - 26, 22, '#cfc8ba', 'right', cityA);
     // 500 miles along the ground
     const milesA = Math.max(vis(1, now), vis(3, now));
@@ -568,13 +568,13 @@ addEventListener('load', () => setTimeout(() => {
     const angA = Math.max(vis(1, now), vis(2, now)), angB = step === 2 ? angA : 0; // step 1 shows just the angle; the close-up (step 2) is no longer used
     if (angA > 0) { ctx.globalAlpha = angA; const L = stickH * .9; ctx.strokeStyle = 'rgba(236,230,218,.75)'; ctx.lineWidth = 2; ctx.setLineDash([8, 8]); ctx.beginPath(); ctx.moveTo(tip[0], tip[1]); ctx.lineTo(tip[0] + up[0] * L, tip[1] + up[1] * L); ctx.stroke(); ctx.setLineDash([]);
       const r = stickH * .62, a0 = Math.atan2(up[1], up[0]), a1 = Math.atan2(-rd[1], -rd[0]); ctx.strokeStyle = '#f0b35a'; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(tip[0], tip[1], r, Math.min(a0, a1), Math.max(a0, a1)); ctx.stroke(); ctx.globalAlpha = 1;
-      label('7.2°', tip[0] + 44, tip[1] - r * .75, 58, '#f0b35a', 'left', angA); label('straight up', tip[0] - 14, tip[1] + up[1] * L, 20, '#9a9382', 'right', angB); label('sunlight', tip[0] - rd[0] * stickH * 1.3 + 22, tip[1] - rd[1] * stickH * 1.3, 22, '#f0b35a', 'left', angB); label('stick', axp[0] + 16, axp[1] - stickH * .4, 22, '#ece6da', 'left', angB); label('shadow', shEnd[0] - 10, shEnd[1] + 30, 20, '#b8bfd4', 'right', angB); }
+      label('7.2°', tip[0] + 44, tip[1] - r * .75, 58, '#f0b35a', 'left', angA); label('straight up', tip[0] - 14, tip[1] + up[1] * L, 20, '#c2bba9', 'right', angB); label('sunlight', tip[0] - rd[0] * stickH * 1.3 + 22, tip[1] - rd[1] * stickH * 1.3, 22, '#f0b35a', 'left', angB); label('stick', axp[0] + 16, axp[1] - stickH * .4, 22, '#ece6da', 'left', angB); label('shadow', shEnd[0] - 10, shEnd[1] + 30, 20, '#b8bfd4', 'right', angB); }
     // the centre of the Earth: both "straight up" lines meet there at the same 7.2°
     const cenA = step >= 3 ? (step === 3 ? vis(3, now) : 1) : 0;
     if (cenA > 0 && !far) { ctx.globalAlpha = cenA; ctx.strokeStyle = '#ece6da'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(C[0], C[1]); ctx.lineTo(sy[0], sy[1]); ctx.moveTo(C[0], C[1]); ctx.lineTo(axp[0], axp[1]); ctx.stroke();
       if (step <= 4) { ctx.fillStyle = 'rgba(240,179,90,.35)'; ctx.beginPath(); ctx.moveTo(C[0], C[1]); ctx.arc(C[0], C[1], R * sc, -Math.PI / 2 - A7, -Math.PI / 2); ctx.closePath(); ctx.fill(); }
       const rr = Math.min(R * sc * .3, 160); ctx.strokeStyle = '#f0b35a'; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(C[0], C[1], rr, -Math.PI / 2 - A7, -Math.PI / 2); ctx.stroke(); ctx.globalAlpha = 1;
-      if (step === 3) { label('7.2°', C[0] - 24, C[1] - rr - 34, 46, '#f0b35a', 'right', cenA); label('center of the Earth', C[0] + 16, C[1] - 18, 22, '#9a9382', 'left', cenA); }
+      if (step === 3) { label('7.2°', C[0] - 24, C[1] - rr - 34, 46, '#f0b35a', 'right', cenA); label('center of the Earth', C[0] + 16, C[1] - 18, 22, '#c2bba9', 'left', cenA); }
       // drawn huge, not to scale: the stick and the well are the two pointers to the center
       if (step === 3) { const ou = q => { const dx = q[0] - C[0], dy = q[1] - C[1], d = Math.hypot(dx, dy) || 1; return [dx / d, dy / d]; }, ua = ou(axp), us = ou(sy), nrm = u => [-u[1], u[0]];
         ctx.globalAlpha = cenA; ctx.lineCap = 'round';
@@ -587,7 +587,7 @@ addEventListener('load', () => setTimeout(() => {
         // and each one's line carries straight on to the center
         ctx.setLineDash([10, 8]); ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(axp[0] + ua[0] * sh, axp[1] + ua[1] * sh); ctx.lineTo(C[0], C[1]); ctx.moveTo(sy[0] + us[0] * 90, sy[1] + us[1] * 90); ctx.lineTo(C[0], C[1]); ctx.stroke(); ctx.setLineDash([]); ctx.lineCap = 'butt';
         label('stick', axp[0] + ua[0] * sh - 18, axp[1] + ua[1] * sh, 28, '#ffffff', 'right', cenA); label('well', sy[0] + 30, sy[1] - us[1] * 40, 28, '#ffffff', 'left', cenA);
-        label('stick and well drawn huge · both point at the center', 24, h * .86, 20, '#9a9382', 'left', cenA); } }
+        label('stick and well drawn huge · both point at the center', 24, h * .86, 20, '#c2bba9', 'left', cenA); } }
     // the whole circle in fiftieths
     if (step === 5 && !far) { const k5 = Math.max(0, Math.min(50, Math.floor((now - stepT - 1200) / 70) + 1)), RR = R * sc;
       for (let i = 0; i < k5; i++) { const a0 = -Math.PI / 2 - A7 * (i + 1), a1 = -Math.PI / 2 - A7 * i; ctx.fillStyle = i % 2 ? 'rgba(240,179,90,.20)' : 'rgba(240,179,90,.42)'; ctx.beginPath(); ctx.moveTo(C[0], C[1]); ctx.arc(C[0], C[1], RR, a0, a1); ctx.closePath(); ctx.fill(); ctx.strokeStyle = 'rgba(236,230,218,.55)'; ctx.lineWidth = 1; ctx.stroke(); }
@@ -611,7 +611,7 @@ addEventListener('load', () => setTimeout(() => {
   const text = el.querySelector('.text'); if (text) text.style.display = 'none'; el.classList.add('wide');
   const stage = el.querySelector('.stage'); stage.innerHTML = '<canvas class="hc-c" style="position:absolute;inset:0;width:100%;height:100%;display:block"></canvas>';
   const c = stage.querySelector('canvas'), ctx = c.getContext('2d'), D = Math.PI / 180;
-  const G = '#f0b35a', W = '#ece6da', M = '#9a9382';
+  const G = '#f0b35a', W = '#ece6da', M = '#c2bba9';
   const STEP = [
     { top: 'The Earth', cap: 'It turns, all day, every day.' },
     { top: 'Tip it over', cap: 'Look straight down on the North Pole.' },
@@ -678,7 +678,7 @@ V3.scene = (el, n, draw) => {
   S.age = now => now - S.t0; S.fade = (now, delay = 0, dur = 500) => clamp((now - S.t0 - delay) / dur);
   S.text = (str, x, y, px, col = '#ece6da', align = 'center', alpha = 1, wt = 400, maxW = 1520, plain = false) => { if (alpha <= 0 || !str) return; ctx.save(); ctx.globalAlpha *= alpha; ctx.font = `${wt} ${px}px Georgia,serif`; const tw = ctx.measureText(str).width; if (tw > maxW) ctx.font = `${wt} ${px * maxW / tw}px Georgia,serif`; ctx.textAlign = align; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round'; if (!plain) { ctx.lineWidth = 7; ctx.strokeStyle = 'rgba(6,9,18,.85)'; ctx.strokeText(str, x, y); } ctx.fillStyle = col; ctx.fillText(str, x, y); ctx.restore(); };
   S.words = (now, top, cap, topCol = '#ece6da') => { const a = S.fade(now, 0, 600); S.text(top, 800, 70, 46, topCol, 'center', a); S.text(cap, 800, 905, 30, '#f0b35a', 'center', a); };
-  S.card = (x, y, w, h, title, big, sub, col, alpha = 1) => { if (alpha <= 0) return; ctx.save(); ctx.globalAlpha *= alpha; ctx.fillStyle = 'rgba(14,20,36,.94)'; ctx.strokeStyle = col; ctx.lineWidth = 3; ctx.beginPath(); ctx.roundRect(x, y, w, h, 14); ctx.fill(); ctx.stroke(); ctx.restore(); S.text(title, x + 22, y + 34, 26, col, 'left', alpha); S.text(big, x + 22, y + h / 2 + 12, 52, '#ece6da', 'left', alpha); if (sub) S.text(sub, x + 22, y + h - 26, 20, '#9a9382', 'left', alpha); };
+  S.card = (x, y, w, h, title, big, sub, col, alpha = 1) => { if (alpha <= 0) return; ctx.save(); ctx.globalAlpha *= alpha; ctx.fillStyle = 'rgba(14,20,36,.94)'; ctx.strokeStyle = col; ctx.lineWidth = 3; ctx.beginPath(); ctx.roundRect(x, y, w, h, 14); ctx.fill(); ctx.stroke(); ctx.restore(); S.text(title, x + 22, y + 34, 26, col, 'left', alpha); S.text(big, x + 22, y + h / 2 + 12, 52, '#ece6da', 'left', alpha); if (sub) S.text(sub, x + 22, y + h - 26, 20, '#c2bba9', 'left', alpha); };
   const STARS = Array.from({ length: 220 }, (_, i) => [((i * 7919) % 1600), ((i * 104729) % 1000), .4 + ((i * 31) % 10) / 12, (i * 17) % 7]);
   S.stars = (now, alpha = 1) => { ctx.save(); STARS.forEach(([x, y, r, p]) => { ctx.globalAlpha = alpha * (.35 + .45 * Math.abs(Math.sin(now * .0006 + p))); ctx.fillStyle = '#dfe7ff'; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); }); ctx.restore(); };
   V3.steps(el, n - 1, k => { S.prev = S.step; S.step = k; S.t0 = performance.now(); });
@@ -700,7 +700,7 @@ V3.orbitProj = (cam) => { const D = Math.PI / 180, cy = Math.cos(cam.yaw * D), s
 /* ---------- 7 · Longitude has no landmarks: two ships, one star, then the Earth turns under the Sun ---------- */
 addEventListener('load', () => setTimeout(() => {
   const el = v3Find('Two ships, one latitude'); if (!el || typeof drawCoast !== 'function' || typeof ll !== 'function') return;
-  const D = Math.PI / 180, G = '#f0b35a', W = '#ece6da', M = '#9a9382', B = '#6fb3ff', RED = '#ff7d6f', L1 = 0, LAT = 51.5;
+  const D = Math.PI / 180, G = '#f0b35a', W = '#ece6da', M = '#c2bba9', B = '#6fb3ff', RED = '#ff7d6f', L1 = 0, LAT = 51.5;
   const CAM = [{ yaw: -78, pitch: .55, R: 720, cy: 910 }, { yaw: -75, pitch: .55, R: 720, cy: 910 }, { yaw: -40, pitch: Math.PI / 2, R: 320, cy: 490 }, { yaw: -40, pitch: Math.PI / 2, R: 320, cy: 490 }, { yaw: 30, pitch: Math.PI / 2, R: 320, cy: 490 }];
   let cam = { ...CAM[0] }, from = { ...CAM[0] }, last = 0;
   const WORDS = [
@@ -761,7 +761,7 @@ addEventListener('load', () => setTimeout(() => {
 /* ---------- 10 · Way 2: the Moon is a clock hand. Time-lapse, measure, look it up, then the rolling deck ---------- */
 addEventListener('load', () => setTimeout(() => {
   const el = v3Find('The lunar distance'); if (!el) return;
-  const G = '#f0b35a', W = '#ece6da', M = '#9a9382', RED = '#ff7d6f';
+  const G = '#f0b35a', W = '#ece6da', M = '#c2bba9', RED = '#ff7d6f';
   const REG = [1180, 330], PXD = 13.5, dist = h => 44.1 - .6 * (h - 6); // 0.6° an hour against the stars
   const moonAt = h => [430 + (h - 6) * 64, 470 - (h - 6) * 16]; // not to scale: the Moon moves about its own width each hour
   const dm = d => { const deg = Math.floor(d), min = Math.round((d - deg) * 60); return `${deg}° ${String(min).padStart(2, '0')}′`; };
@@ -811,7 +811,7 @@ addEventListener('load', () => setTimeout(() => {
 /* ---------- 8 · Way 1: Galileo, through the eyepiece. Moon, Jupiter's moons, the eclipse clock, land vs sea, Scilly ---------- */
 addEventListener('load', () => setTimeout(() => {
   const el = v3Find('Galileo’s clock'); if (!el) return;
-  const G = '#f0b35a', W = '#ece6da', M = '#9a9382', B = '#6fb3ff', RED = '#ff7d6f';
+  const G = '#f0b35a', W = '#ece6da', M = '#c2bba9', B = '#6fb3ff', RED = '#ff7d6f';
   const moonImg = new Image(); moonImg.src = 'img/moon-first-quarter.jpg';
   const scilly = new Image(); scilly.src = 'v3/img/scilly.jpg';
   const sn = new Image(); sn.src = 'img/sidereus-nuncius-jupiter.jpg';
@@ -927,7 +927,7 @@ addEventListener('load', () => setTimeout(() => {
 /* ---------- 10 · The Longitude Act, 1714: the prize, then its three tiers. Plain and quiet. ---------- */
 addEventListener('load', () => setTimeout(() => {
   const el = v3Find('The Longitude Act, 1714'); if (!el) return;
-  const G = '#f0b35a', W = '#ece6da', M = '#9a9382';
+  const G = '#f0b35a', W = '#ece6da', M = '#c2bba9';
   const TIERS = [['£10,000', 'Within 1°', 'about 60 miles'], ['£15,000', 'Within ⅔°', 'about 40 miles'], ['£20,000', 'Within ½°', 'about 30 miles']];
   V3.scene(el, 2, (S, ctx, now) => {
     const k = S.step, up = S.ease(S.age(now) / 900);
@@ -986,7 +986,7 @@ addEventListener('load', () => setTimeout(() => {
 /* ---------- Appendix: the star day (23 h 56 m) and the Sun day (24 h) ---------- */
 addEventListener('load', () => setTimeout(() => {
   const el = v3Find('Sidereal day'); if (!el) return;
-  const G = '#f0b35a', W = '#ece6da', M = '#9a9382', B = '#6fb3ff', DL = 14 * Math.PI / 180; // orbit step drawn 14× too big
+  const G = '#f0b35a', W = '#ece6da', M = '#c2bba9', B = '#6fb3ff', DL = 14 * Math.PI / 180; // orbit step drawn 14× too big
   const WORDS = [['Noon: the Sun straight overhead', 'A far star lines up with it.'], ['One full turn, 360°: 23 h 56 min', 'The star is back overhead. The Sun is not.'], ['About 1° more: 4 minutes', 'Noon to noon: 24 hours.']];
   let rho = 0, phi = 0;
   V3.scene(el, 3, (S, ctx, now) => {
@@ -1049,7 +1049,7 @@ addEventListener('load', () => setTimeout(() => {
     S.text('0°, 0°', x, y + 72, 30, '#ffffff', 'center', 1, 600);
     if (photo.complete && photo.naturalWidth) { const w = 620, h = w * photo.naturalHeight / photo.naturalWidth, X = 900, Y = 500 - h / 2 + 20, a = S.fade(now, 300, 900);
       ctx.save(); ctx.globalAlpha = a; ctx.shadowColor = 'rgba(0,0,0,.6)'; ctx.shadowBlur = 30; ctx.fillStyle = '#fff'; ctx.fillRect(X - 10, Y - 10, w + 20, h + 20); ctx.shadowBlur = 0; ctx.drawImage(photo, X, Y, w, h); ctx.restore(); }
-    V3SAT.bands(ctx); S.text(V3SAT.credit, 1540, 960, 17, '#9a9382', 'right');
+    V3SAT.bands(ctx); S.text(V3SAT.credit, 1540, 960, 17, '#c2bba9', 'right');
     S.text('Null Island', 800, 70, 46, '#ece6da');
   });
 }, 0));
@@ -1076,9 +1076,9 @@ addEventListener('load', () => setTimeout(() => {
     if (k === 1) {
       const C = [['Latitude, Longitude', '27.9506° N', '82.4572° W', 'degrees', G], ['UTM Zone 17', '356,650 m E', '3,092,585 m N', 'meters', B], ['State Plane, Florida West', '508,565 ft E', '1,315,020 ft N', 'feet', '#9be3a7']];
       C.forEach(([t, a, b, u, col], i) => { const al = S.fade(now, 200 + i * 450), X = 110 + i * 480; ctx.save(); ctx.globalAlpha = al; ctx.fillStyle = 'rgba(10,14,26,.9)'; ctx.strokeStyle = col; ctx.lineWidth = 3; ctx.beginPath(); ctx.roundRect(X, 560, 420, 250, 16); ctx.fill(); ctx.stroke(); ctx.restore();
-        S.text(t, X + 210, 610, 28, col, 'center', al); S.text(a, X + 210, 675, 40, '#ece6da', 'center', al, 600); S.text(b, X + 210, 730, 40, '#ece6da', 'center', al, 600); S.text(u, X + 210, 785, 24, '#9a9382', 'center', al); });
+        S.text(t, X + 210, 610, 28, col, 'center', al); S.text(a, X + 210, 675, 40, '#ece6da', 'center', al, 600); S.text(b, X + 210, 730, 40, '#ece6da', 'center', al, 600); S.text(u, X + 210, 785, 24, '#c2bba9', 'center', al); });
     }
-    V3SAT.bands(ctx); S.text(V3SAT.credit, 1540, 960, 17, '#9a9382', 'right');
+    V3SAT.bands(ctx); S.text(V3SAT.credit, 1540, 960, 17, '#c2bba9', 'right');
     S.words(now, ...WORDS[k]);
   });
 }, 0));
@@ -1113,7 +1113,7 @@ addEventListener('load', () => setTimeout(() => {
 /* ---------- Aside: Rømer, light needs time. To scale: 1 AU = 200 px. Light rings leave Jupiter; Earth near, then far ---------- */
 NEW_SLIDES['Light needs time, again'] = { h1: 'Rømer: Light Needs Time', fig: '', init() {} }; // appendix copy, so Q&A can jump to it
 const romerScene = el => {
-  const G = '#f0b35a', W = '#ece6da', M = '#9a9382', B = '#6fb3ff', AU = 200, SX = 360, SY = 520, JX = SX + 5.2 * AU, C = AU / .6, MIN = 8.317; // to scale: 1 AU = 200 px; light: 1 AU every 0.6 s
+  const G = '#f0b35a', W = '#ece6da', M = '#c2bba9', B = '#6fb3ff', AU = 200, SX = 360, SY = 520, JX = SX + 5.2 * AU, C = AU / .6, MIN = 8.317; // to scale: 1 AU = 200 px; light: 1 AU every 0.6 s
   const WORDS = [['Paris, 1676 · Ole Rømer Times Io', 'Earth on Jupiter’s side of the Sun: the eclipse arrives on time.'], ['Months Later', 'The Earth swings round to the far side of the Sun.'], ['Now the Eclipse Is Late', 'The light has to cross the Earth’s whole orbit: about 16½ minutes more.'], ['Io Is on Time. The Light Is Late.', 'Light takes time: about 8 minutes from the Sun to us.']];
   let ang = 0, rings = [], lastIo = 0, flash = 0;
   V3.scene(el, 4, (S, ctx, now) => {
