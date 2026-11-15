@@ -10,7 +10,7 @@ export const FACTS = {
  'Deaths: estimates run from about 1,400 to 2,000. Sources disagree; say "well over a thousand."',
  'Causes are debated: longitude by dead reckoning, Scilly charted in the wrong place, compass error, tides and currents. W. E. May (1960) argued the latitude and chart errors mattered as much as longitude.',
  'Shovell\'s body came ashore at Porthellick Cove on St Mary\'s. The story that a local woman killed him for his emerald ring is legend, not record.',
- 'The disaster added public pressure that led to the Longitude Act seven years later, in 1714.'],
+ 'The disaster added to public pressure, but historians debate how directly it led to the Longitude Act of 1714; the parliamentary record shows several causes (merchants, the navy, a petition by Whiston and Ditton). Say it exposed the cost of uncertainty at sea, not that it caused the Act.'],
 'Mental maps': [
  'Havana is at 82.4° W. The westernmost point of mainland South America, Punta Pariñas in Peru, is at 81.3° W. So all of South America lies east of Havana.',
  'Reno, Nevada (119.8° W) is west of Los Angeles (118.2° W).',
