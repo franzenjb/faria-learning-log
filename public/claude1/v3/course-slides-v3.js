@@ -80,7 +80,7 @@ const V3_TUNE = {
   'Galileo’s clock': { talk: { hide: ['[data-detour]', '#gs-steps [data-s="5"]'] } },
   'The lunar distance': { kicker: '1767 · Nevil Maskelyne’s Almanac' },
   'A clock that could travel': { h1: 'A Clock That Could Travel' },
-  'Washington, 1884': { kicker: 'Washington · October 1884', hide: ['#pm84-r'], hero: 'October 1884: 25 Nations Pick <b>Zero Longitude</b>.' },
+  'Washington, 1884': { kicker: 'Washington · October 1884', hide: ['#pm84-r'], hero: 'Nature Set the Equator. Where Is <b>Zero Longitude</b>?' },
   'Where am I, now': { kicker: 'GPS', hero: 'Today: <b>GPS</b>, a Sky Full of Clocks.' }
 };
 const v3Hero = (el, html) => { let h = el.querySelector('.v3-hero'); const st = el.querySelector('.stage'); if (!st) return; if (!h) { h = document.createElement('div'); h.className = 'v3-hero'; if (getComputedStyle(st).position === 'static') st.style.position = 'relative'; st.appendChild(h); } h.innerHTML = html || ''; };
