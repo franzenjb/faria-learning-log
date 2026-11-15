@@ -64,6 +64,13 @@ await page.evaluate(() => go(COURSE_LIVE.findIndex(c => c.t === 'A clock that co
 for (let k = 0; k < 8; k++) { await page.keyboard.press('ArrowRight'); await page.waitForTimeout(150); }
 assert.match(await page.locator('#hv').textContent(), /carpenter beat Newton/, 'Harrison lands on the twist');
 
+// the controls list opens by itself on slides that have controls (Jeff kept losing them)
+for (const [t, min] of [['Latitude &amp; Longitude', 4], ['Walk north', 8]]) {
+  await page.evaluate(t => go(COURSE_LIVE.findIndex(c => c.t === t)), t); await page.waitForTimeout(500);
+  assert.equal(await page.evaluate(() => document.body.classList.contains('v3-keys-on')), true, `controls open on ${t}`);
+  assert.ok(await page.locator('#v3-keys span').count() >= min, `controls listed on ${t}`);
+  assert.equal(await page.locator('#v3-keys').isVisible(), true, `controls visible on ${t}`);
+}
 // every new slide's buttons run without errors
 const errs = []; page.on('pageerror', e => errs.push(String(e)));
 for (const [t, ids] of NEW) { await page.evaluate(t => go(COURSE_LIVE.findIndex(c => c.t === t)), t); await page.waitForTimeout(500); for (const id of ids) { await page.evaluate(id => document.querySelector(id).click(), id); await page.waitForTimeout(250); } }
