@@ -489,7 +489,7 @@ addEventListener('load', () => setTimeout(() => {
     { w: SY, f: [.5, .64], vh: 0.05, sym: 1.5, rot: 0 },                 // the well
     { w: [-400, -R + 40], f: [.5, .6], vh: 640, sym: 1.05, rot: A7 / 2 }, // both cities on gently curved ground
     { w: AX, f: [.5, .76], vh: 0.05, sym: 1.6, rot: A7 },                // the stick, close, its ground level
-    { w: [-400, -R * .5], f: [.5, .5], vh: R * 1.45, sym: .45, rot: 0 }, // the slice down to the centre
+    { w: [-400, -R * .5], f: [.5, .55], vh: R * 1.45, sym: .45, rot: 0 }, // the slice down to the centre (low, so the stick and well have room above)
     { w: [0, 0], f: [.5, .53], vh: R * 2.45, sym: .35, rot: 0 },         // the whole Earth
     { w: [0, 0], f: [.5, .53], vh: R * 2.45, sym: .35, rot: 0 }          // 50 slices
   ];
@@ -563,7 +563,7 @@ addEventListener('load', () => setTimeout(() => {
     // 500 miles along the ground
     const milesA = Math.max(vis(1, now), vis(3, now));
     if (milesA > 0) { ctx.globalAlpha = milesA; const off = step === 1 ? 40 : 22; ctx.strokeStyle = '#f0b35a'; ctx.lineWidth = 3; ctx.setLineDash([8, 7]); ctx.beginPath(); for (let i = 0; i <= 40; i++) { const q = S(P(A7 * i / 40, R + off / sc)); i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1]); } ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
-      const m = step === 3 ? S(P(A7 / 2, R - 46 / sc)) : S(P(A7 / 2, R + (off + 30) / sc)); label('500 miles', m[0], m[1], 26, '#f0b35a', step === 3 ? 'left' : 'center', milesA); }
+      const m = step === 3 ? S(P(A7 / 2, R - 120 / sc)) : S(P(A7 / 2, R + (off + 30) / sc)); label('500 miles', m[0], m[1], 26, '#f0b35a', step === 3 ? 'left' : 'center', milesA); }
     // the angle at the top of the stick: between straight up (dashed) and the sunlight
     const angA = vis(2, now);
     if (angA > 0) { ctx.globalAlpha = angA; const L = stickH * .9; ctx.strokeStyle = 'rgba(236,230,218,.75)'; ctx.lineWidth = 2; ctx.setLineDash([8, 8]); ctx.beginPath(); ctx.moveTo(tip[0], tip[1]); ctx.lineTo(tip[0] + up[0] * L, tip[1] + up[1] * L); ctx.stroke(); ctx.setLineDash([]);
@@ -574,7 +574,20 @@ addEventListener('load', () => setTimeout(() => {
     if (cenA > 0 && !far) { ctx.globalAlpha = cenA; ctx.strokeStyle = '#ece6da'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(C[0], C[1]); ctx.lineTo(sy[0], sy[1]); ctx.moveTo(C[0], C[1]); ctx.lineTo(axp[0], axp[1]); ctx.stroke();
       if (step <= 4) { ctx.fillStyle = 'rgba(240,179,90,.35)'; ctx.beginPath(); ctx.moveTo(C[0], C[1]); ctx.arc(C[0], C[1], R * sc, -Math.PI / 2 - A7, -Math.PI / 2); ctx.closePath(); ctx.fill(); }
       const rr = Math.min(R * sc * .3, 160); ctx.strokeStyle = '#f0b35a'; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(C[0], C[1], rr, -Math.PI / 2 - A7, -Math.PI / 2); ctx.stroke(); ctx.globalAlpha = 1;
-      if (step === 3) { label('7.2°', C[0] - 24, C[1] - rr - 34, 46, '#f0b35a', 'right', cenA); label('center of the Earth', C[0] + 16, C[1] - 18, 22, '#9a9382', 'left', cenA); } }
+      if (step === 3) { label('7.2°', C[0] - 24, C[1] - rr - 34, 46, '#f0b35a', 'right', cenA); label('center of the Earth', C[0] + 16, C[1] - 18, 22, '#9a9382', 'left', cenA); }
+      // drawn huge, not to scale: the stick and the well are the two pointers to the center
+      if (step === 3) { const ou = q => { const dx = q[0] - C[0], dy = q[1] - C[1], d = Math.hypot(dx, dy) || 1; return [dx / d, dy / d]; }, ua = ou(axp), us = ou(sy), nrm = u => [-u[1], u[0]];
+        ctx.globalAlpha = cenA; ctx.lineCap = 'round';
+        // well at Syene: a deep shaft along its radius, sunlight at the bottom
+        const wn = nrm(us), ww = 15, wd = 70; ctx.fillStyle = '#05080f'; ctx.strokeStyle = '#d9c08a'; ctx.lineWidth = 4; ctx.beginPath();
+        [[ww, 0], [ww, wd], [-ww, wd], [-ww, 0]].forEach(([s, d], i) => { const p = [sy[0] + wn[0] * s - us[0] * d, sy[1] + wn[1] * s - us[1] * d]; i ? ctx.lineTo(...p) : ctx.moveTo(...p); }); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = '#ffd66b'; ctx.beginPath(); ctx.arc(sy[0] - us[0] * (wd - 12), sy[1] - us[1] * (wd - 12), 9, 0, 7); ctx.fill();
+        // stick at Alexandria: tall, standing along its radius
+        const sh = 70; ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 9; ctx.beginPath(); ctx.moveTo(axp[0], axp[1]); ctx.lineTo(axp[0] + ua[0] * sh, axp[1] + ua[1] * sh); ctx.stroke();
+        // and each one's line carries straight on to the center
+        ctx.setLineDash([10, 8]); ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(axp[0] + ua[0] * sh, axp[1] + ua[1] * sh); ctx.lineTo(C[0], C[1]); ctx.moveTo(sy[0] + us[0] * 90, sy[1] + us[1] * 90); ctx.lineTo(C[0], C[1]); ctx.stroke(); ctx.setLineDash([]); ctx.lineCap = 'butt';
+        label('stick', axp[0] + ua[0] * sh - 18, axp[1] + ua[1] * sh, 28, '#ffffff', 'right', cenA); label('well', sy[0] + 30, sy[1] - us[1] * 40, 28, '#ffffff', 'left', cenA);
+        label('stick and well drawn huge · both point at the center', 24, h * .86, 20, '#9a9382', 'left', cenA); } }
     // the whole circle in fiftieths
     if (step === 5 && !far) { const k5 = Math.max(0, Math.min(50, Math.floor((now - stepT - 1200) / 70) + 1)), RR = R * sc;
       for (let i = 0; i < k5; i++) { const a0 = -Math.PI / 2 - A7 * (i + 1), a1 = -Math.PI / 2 - A7 * i; ctx.fillStyle = i % 2 ? 'rgba(240,179,90,.20)' : 'rgba(240,179,90,.42)'; ctx.beginPath(); ctx.moveTo(C[0], C[1]); ctx.arc(C[0], C[1], RR, a0, a1); ctx.closePath(); ctx.fill(); ctx.strokeStyle = 'rgba(236,230,218,.55)'; ctx.lineWidth = 1; ctx.stroke(); }
