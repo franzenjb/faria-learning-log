@@ -679,7 +679,7 @@ V3.scene = (el, n, draw) => {
   S.clamp = clamp; S.lerp = (a, b, t) => a + (b - a) * t; S.ease = t => { t = clamp(t); return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
   S.age = now => now - S.t0; S.fade = (now, delay = 0, dur = 500) => clamp((now - S.t0 - delay) / dur);
   S.text = (str, x, y, px, col = '#ece6da', align = 'center', alpha = 1, wt = 400, maxW = 1520, plain = false) => { if (alpha <= 0 || !str) return; ctx.save(); ctx.globalAlpha *= alpha; ctx.font = `${wt} ${px}px Georgia,serif`; const tw = ctx.measureText(str).width; if (tw > maxW) ctx.font = `${wt} ${px * maxW / tw}px Georgia,serif`; ctx.textAlign = align; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round'; if (!plain) { ctx.lineWidth = 7; ctx.strokeStyle = 'rgba(6,9,18,.85)'; ctx.strokeText(str, x, y); } ctx.fillStyle = col; ctx.fillText(str, x, y); ctx.restore(); };
-  S.words = (now, top, cap, topCol = '#ece6da') => { const a = S.fade(now, 0, 600); S.text(top, 800, 70, 46, topCol, 'center', a); S.text(cap, 800, 905, 30, '#f0b35a', 'center', a); };
+  S.words = (now, top, cap, topCol = '#ece6da') => { const a = S.fade(now, 0, 600); S.text(top, 800, 78, 60, topCol, 'center', a); S.text(cap, 800, 900, 38, '#f0b35a', 'center', a); }; // Teams-size: headline 60, caption 38
   S.card = (x, y, w, h, title, big, sub, col, alpha = 1) => { if (alpha <= 0) return; ctx.save(); ctx.globalAlpha *= alpha; ctx.fillStyle = 'rgba(14,20,36,.94)'; ctx.strokeStyle = col; ctx.lineWidth = 3; ctx.beginPath(); ctx.roundRect(x, y, w, h, 14); ctx.fill(); ctx.stroke(); ctx.restore(); S.text(title, x + 22, y + 34, 26, col, 'left', alpha); S.text(big, x + 22, y + h / 2 + 12, 52, '#ece6da', 'left', alpha); if (sub) S.text(sub, x + 22, y + h - 26, 20, '#c2bba9', 'left', alpha); };
   const STARS = Array.from({ length: 220 }, (_, i) => [((i * 7919) % 1600), ((i * 104729) % 1000), .4 + ((i * 31) % 10) / 12, (i * 17) % 7]);
   S.stars = (now, alpha = 1) => { ctx.save(); STARS.forEach(([x, y, r, p]) => { ctx.globalAlpha = alpha * (.35 + .45 * Math.abs(Math.sin(now * .0006 + p))); ctx.fillStyle = '#dfe7ff'; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); }); ctx.restore(); };
@@ -934,12 +934,12 @@ addEventListener('load', () => setTimeout(() => {
   V3.scene(el, 2, (S, ctx, now) => {
     const k = S.step, up = S.ease(S.age(now) / 900);
     const ty = k === 0 ? 400 : S.lerp(400, 190, up); // the headline rises to make room for the prizes
-    S.text('1714', 800, ty - 120, 40, M, 'center', 1);
-    S.text('The Longitude Act', 800, ty - 40, 76, W, 'center', 1);
-    S.text('£20,000 to find longitude at sea', 800, ty + 50, 40, G, 'center', k === 0 ? 1 : 1 - up);
+    S.text('1714', 800, ty - 140, 60, M, 'center', 1);
+    S.text('The Longitude Act', 800, ty - 40, 110, W, 'center', 1);
+    S.text('£20,000 Prize', 800, ty + 90, 76, G, 'center', k === 0 ? 1 : 1 - up);
     if (k === 1) TIERS.forEach(([amt, mi], i) => { const a = S.fade(now, 500 + i * 450, 600), x = 300 + i * 500;
-      ctx.save(); ctx.globalAlpha = a; ctx.strokeStyle = i === 2 ? G : 'rgba(236,230,218,.25)'; ctx.lineWidth = i === 2 ? 2.5 : 1.5; ctx.beginPath(); ctx.moveTo(x - 190, 400); ctx.lineTo(x + 190, 400); ctx.stroke(); ctx.restore();
-      S.text(amt, x, 520, 80, i === 2 ? G : W, 'center', a); S.text(mi, x, 620, 48, W, 'center', a); });
+      ctx.save(); ctx.globalAlpha = a; ctx.strokeStyle = i === 2 ? G : 'rgba(236,230,218,.25)'; ctx.lineWidth = i === 2 ? 2.5 : 1.5; ctx.beginPath(); ctx.moveTo(x - 220, 420); ctx.lineTo(x + 220, 420); ctx.stroke(); ctx.restore();
+      S.text(amt, x, 560, 120, i === 2 ? G : W, 'center', a); S.text(mi, x, 720, 84, W, 'center', a); });
   });
 }, 0));
 
