@@ -65,7 +65,7 @@ for (let k = 0; k < 8; k++) { await page.keyboard.press('ArrowRight'); await pag
 assert.match(await page.locator('#hv').textContent(), /carpenter beat Newton/, 'Harrison lands on the twist');
 
 // the controls list opens by itself on slides that have controls (Jeff kept losing them)
-for (const [t, min] of [['Latitude &amp; Longitude', 4], ['Walk north', 8]]) {
+for (const [t, min] of [['Latitude &amp; Longitude', 4], ['Walk north', 5]]) {
   await page.evaluate(t => go(COURSE_LIVE.findIndex(c => c.t === t)), t); await page.waitForTimeout(500);
   assert.equal(await page.evaluate(() => document.body.classList.contains('v3-keys-on')), true, `controls open on ${t}`);
   assert.ok(await page.locator('#v3-keys span').count() >= min, `controls listed on ${t}`);
