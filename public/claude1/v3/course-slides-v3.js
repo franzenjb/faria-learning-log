@@ -71,7 +71,8 @@ const V3_TUNE = {
   'Latitude &amp; Longitude': { kicker: '325 BC · Pytheas of Marseille', // just the grid and the bingo card here: Polaris and the Southern Cross wait for Walk North; the Date Line and Null Island come later
     keep: ['[data-k="lat"]', '[data-k="lon"]', '[data-k="grid"]', '#bingo-open', '#g-spin'], noTap: true, hide: ['a[href="/polaris/"]'],
     clickOnLoad: ['#globe-toggles [data-k="lat"].on', '#globe-toggles [data-k="lon"].on', '#globe-toggles [data-k="grid"].on', '#globe-toggles [data-k="polaris"].on', '#globe-toggles [data-k="cities"].on'], hero: '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.', on: { '#fly-nm': '1 Arcminute of <b>Latitude</b> = 1 Nautical Mile', '#fly-north': '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.' } },
-  'Walk north': { hide: ['#wn-places', '#wn-south'], hideText: ['Why They Match', 'North Pole'], hero: '<b>Latitude</b> Is an Angle From the Equator.', on: { '#wn-l-you': 'One Star, One Angle. <b>Latitude</b> Needs No Clock.', '#wn-south': 'In the South, <b>the Southern Cross</b> Points to the Pole.' } },
+  'Walk north': { hide: ['#wn-places', '#wn-south'], clickOnLoad: ['#wn-l-ang', '#wn-l-par'], setRange: { '#wn-lat': 0 }, // opens on the equator with 1 and 2 on; ↑ walks north
+    hideText: ['Why They Match', 'North Pole'], hero: '<b>Latitude</b> Is an Angle From the Equator.', on: { '#wn-l-you': 'One Star, One Angle. <b>Latitude</b> Needs No Clock.', '#wn-south': 'In the South, <b>the Southern Cross</b> Points to the Pole.' } },
   'Eratosthenes': { kicker: '240 BC · Eratosthenes of Alexandria' },
   'Hours are slices': {},
   'Two ships, one latitude': { h1: 'Two Ships, One Latitude' },
@@ -96,6 +97,7 @@ addEventListener('load', () => setTimeout(() => {
     if (cfg.noTap) el.dataset.notap = '1';
     if (cfg.coverSub) { const sub = el.querySelector('.sub'); if (sub) sub.textContent = cfg.coverSub; }
     (cfg.clickOnLoad || []).forEach(sel => { const b = el.querySelector(sel); if (b) b.click(); });
+    for (const [sel, v] of Object.entries(cfg.setRange || {})) el.querySelectorAll(sel).forEach(r => { r.value = v; r.dispatchEvent(new Event('input')); });
     if (cfg.hero) v3Hero(el, cfg.hero);
     for (const [sel, html] of Object.entries(cfg.on || {})) el.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => v3Hero(el, html)));
   }
