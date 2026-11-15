@@ -814,16 +814,22 @@ addEventListener('load', () => setTimeout(() => {
     ['France Shrinks, and the King Complains', ''],
     ['At Sea, It Fails', 'You cannot hold a moon of Jupiter in the eyepiece on a rolling deck, and a pendulum cannot keep time on the waves.'],
     ['', '']];
-  let eye = { ...EYE[0] }, from = { ...EYE[0] }, last = 0, tilt = .03, tj = 0, curK = 0, zoom = 1, zoomS = 1;
+  let eye = { ...EYE[0] }, from = { ...EYE[0] }, last = 0, tilt = .03, tj = 0, curK = 0, zoom = 1, zoomS = 1, tiltT = .03;
   // step 4 ("Not everything circles the Earth") is full width and zoomable: ↑/↓, mouse wheel, or pinch on the iPad
   const zoomBy = f => { zoom = Math.max(.5, Math.min(5, zoom * f)); };
+  // and tiltable: 1 = edge-on, as Galileo saw it (moons slide back and forth and vanish); 2 = tilted, the orbits show; or drag up and down
+  addEventListener('keydown', e => { if (!el.classList.contains('active') || curK !== 3 || (e.key !== '1' && e.key !== '2')) return; e.preventDefault(); e.stopImmediatePropagation(); tiltT = e.key === '1' ? .03 : .5; }, true);
   addEventListener('keydown', e => { if (!el.classList.contains('active') || curK !== 3 || (e.key !== 'ArrowUp' && e.key !== 'ArrowDown')) return; e.preventDefault(); e.stopImmediatePropagation(); zoomBy(e.key === 'ArrowUp' ? 1.35 : 1 / 1.35); }, true);
-  { const cv = el.querySelector('canvas'); let g0 = 1, pinch = null;
-    if (cv) { cv.addEventListener('wheel', e => { if (curK !== 3) return; e.preventDefault(); zoomBy(e.deltaY < 0 ? 1.12 : 1 / 1.12); }, { passive: false });
+  const attachCtl = () => { const cv = [...el.querySelectorAll('canvas')].pop(); let g0 = 1, pinch = null; // the scene's own canvas, added by V3.scene
+    let drag = null;
+    if (cv) { cv.addEventListener('pointerdown', e => { if (curK === 3 && e.isPrimary) drag = { y: e.clientY, t: tiltT }; });
+      cv.addEventListener('pointermove', e => { if (curK !== 3 || !drag || pinch) return; const h = cv.getBoundingClientRect().height; tiltT = Math.max(.02, Math.min(.95, drag.t + (drag.y - e.clientY) / h * 1.6)); });
+      addEventListener('pointerup', () => { drag = null; }); addEventListener('pointercancel', () => { drag = null; });
+      cv.addEventListener('wheel', e => { if (curK !== 3) return; e.preventDefault(); zoomBy(e.deltaY < 0 ? 1.12 : 1 / 1.12); }, { passive: false });
       cv.addEventListener('gesturestart', e => { if (curK !== 3) return; e.preventDefault(); g0 = zoom; });
       cv.addEventListener('gesturechange', e => { if (curK !== 3) return; e.preventDefault(); zoom = Math.max(.5, Math.min(5, g0 * e.scale)); });
       cv.addEventListener('touchmove', e => { if (curK !== 3 || e.touches.length !== 2) return; e.preventDefault(); const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY); if (pinch) zoom = Math.max(.5, Math.min(5, pinch.z * d / pinch.d)); else pinch = { d, z: zoom }; }, { passive: false });
-      cv.addEventListener('touchend', () => { pinch = null; }); } }
+      cv.addEventListener('touchend', () => { pinch = null; }); } };
   const system = (ctx, S, now, cx, cy, sc, opts = {}) => { // Jupiter and its moons; sc = pixels per Jupiter radius
     const t = opts.t, ti = opts.tilt, rJ = sc;
     if (ti > .1) MOONS.forEach(([, d]) => { ctx.strokeStyle = `rgba(236,230,218,${.25 * Math.min(1, ti * 2)})`; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(cx, cy, d * sc, d * sc * ti, 0, 0, 7); ctx.stroke(); });
@@ -834,13 +840,21 @@ addEventListener('load', () => setTimeout(() => {
     const jg = ctx.createRadialGradient(cx - rJ * .3, cy - rJ * .3, 0, cx, cy, rJ); jg.addColorStop(0, '#f1d7a8'); jg.addColorStop(1, '#b8925a'); ctx.fillStyle = jg; ctx.beginPath(); ctx.arc(cx, cy, rJ, 0, 7); ctx.fill();
     ctx.strokeStyle = 'rgba(138,106,61,.7)'; ctx.lineWidth = Math.max(1, rJ * .12); [-.35, .1, .45].forEach(f => { ctx.beginPath(); ctx.moveTo(cx - rJ * Math.sqrt(1 - f * f), cy + rJ * f); ctx.lineTo(cx + rJ * Math.sqrt(1 - f * f), cy + rJ * f); ctx.stroke(); });
     pos.filter(p => !p.behind).forEach(dot); return pos; };
+  // mainland France as one polygon: Atlantic coast (Hendaye to Belgium), a hand-drawn land border, Mediterranean coast (Menton to Cerbère), the Pyrenees
+  let FR = null;
+  const frPoly = () => { const L = COAST_FR.lines, pts = l => { const o = []; for (let i = 0; i < l.length; i += 2) o.push([l[i] / 100, l[i + 1] / 100]); return o; };
+    const atl = pts(L[4]), a0 = atl.findIndex(([lo, la]) => la > 43.3 && lo > -1.9), a1 = atl.findIndex(([lo, la], i) => i > a0 && la > 51 && lo > 2.5);
+    const med = pts(L[3]), m0 = med.findIndex(([lo]) => lo < 7.55), m1 = med.findIndex(([lo, la], i) => i > m0 && la < 42.5);
+    const east = [[2.9, 50.7], [3.6, 50.5], [4.2, 50.3], [4.8, 50.15], [4.85, 49.8], [5.8, 49.55], [6.4, 49.45], [7.0, 49.15], [7.6, 49.05], [8.2, 48.95], [7.6, 47.6], [7.0, 47.5], [6.1, 46.6], [6.1, 46.15], [6.8, 46.0], [7.0, 45.6], [6.6, 45.1], [7.0, 44.7], [7.6, 44.1]];
+    const pyr = [[2.6, 42.35], [1.7, 42.5], [0.7, 42.7], [-0.3, 42.8], [-1.4, 43.05]];
+    return [...atl.slice(a0, a1 + 1), ...east, ...med.slice(m0, m1 + 1), ...pyr]; };
   const GMAP = [0, 1, 2, 3, 5, 6, 7, 8, 9]; // beat 4 (Io slips into the shadow) is cut; its line folds into the clock beat
   V3.scene(el, 9, (S, ctx, now) => {
     if (S.t0 !== last) { from = { ...eye }; last = S.t0; }
     const age = S.age(now), k = GMAP[S.step], e = S.ease(age / 1500), T = EYE[k];
-    if (k !== curK) { curK = k; zoom = 1; }
+    if (k !== curK) { curK = k; zoom = 1; tiltT = .03; }
     eye = { x: S.lerp(from.x, T.x, e), y: S.lerp(from.y, T.y, e), r: S.lerp(from.r, T.r, e) };
-    tilt = S.lerp(tilt, k >= 3 && k <= 5 ? .5 : .03, .05);
+    tilt = S.lerp(tilt, k === 3 ? tiltT : k >= 4 && k <= 5 ? .5 : .03, k === 3 ? .12 : .05);
     const sky = ctx.createLinearGradient(0, 0, 0, 1000); sky.addColorStop(0, '#05070f'); sky.addColorStop(1, '#101a30'); ctx.fillStyle = sky; ctx.fillRect(0, 0, 1600, 1000); S.stars(now, .8);
     // the ground: Padua's rooftops, a steady stand on land, or the rolling sea
     const sea = k === 8, roll = sea ? S.clamp(age / 800) : 0, ang = roll * .12 * Math.sin(now / 600);
@@ -865,7 +879,8 @@ addEventListener('load', () => setTimeout(() => {
       else if (k === 6 || k === 8) system(ctx, S, now, cx, cy, 11 * eye.r / 230, { t: age / 3000 + 6, tilt });
       ctx.restore(); ctx.strokeStyle = '#6b5a40'; ctx.lineWidth = 10; ctx.beginPath(); ctx.arc(eye.x, eye.y, eye.r, 0, 7); ctx.stroke(); }
     // full width: Jupiter and its four moons, zoomable
-    if (k === 3) { zoomS = S.lerp(zoomS, zoom, .15); ctx.save(); ctx.globalAlpha = S.fade(now, 300, 900); system(ctx, S, now, 800, 490, 68 * zoomS, { t: 6 + age / 2500, tilt, names: true, lab: 26 }); ctx.restore(); }
+    if (k === 3) { zoomS = S.lerp(zoomS, zoom, .15); ctx.save(); ctx.globalAlpha = S.fade(now, 300, 900); system(ctx, S, now, 800, 490, 68 * zoomS, { t: 6 + age / 2500, tilt, names: true, lab: 26 }); ctx.restore();
+      S.text('1 flat, as Galileo saw it · 2 tilted · drag to tilt · ↑↓ zoom', 40, 962, 17, M, 'left', .8); }
     // Galileo's own record of those nights: a page of Sidereus Nuncius, Venice, March 1610 (public domain)
     if (k === 2 && sn.complete && sn.naturalWidth) { const a = S.fade(now, 200, 800), h = 660, w = h * sn.naturalWidth / sn.naturalHeight; ctx.save(); ctx.globalAlpha = a; ctx.drawImage(sn, 70, 150, w, h); ctx.strokeStyle = 'rgba(240,179,90,.5)'; ctx.lineWidth = 2; ctx.strokeRect(70, 150, w, h); ctx.restore(); S.text('Galileo’s own record · Sidereus Nuncius, 1610', 70 + w / 2, 840, 20, M, 'center', a); }
     if (k === 5) { S.card(40, 300, 340, 150, 'London writes down', '9:00 PM', 'Io vanished', G, S.fade(now, 400)); S.card(1220, 300, 340, 150, 'You write down', '7:00 PM', 'Io vanished', B, S.fade(now, 1000)); S.text('2 hours = 30° West', 800, 845, 44, G, 'center', S.fade(now, 1700)); }
@@ -874,19 +889,22 @@ addEventListener('load', () => setTimeout(() => {
       ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(5,8,18,.72)'; ctx.fillRect(0, 300, 1600, 400); ctx.restore();
       S.text('So in 1707, at sea, longitude was still a guess', 800, 400, 50, W, 'center', a); S.text('Scilly: four ships, about 2,000 men', 800, 500, 64, G, 'center', S.fade(now, 700, 700)); S.text('Seven years later, Parliament acts.', 800, 610, 44, W, 'center', S.fade(now, 1500, 700)); }
     // France shrinks: the old outline (longitudes guessed) slides east onto the 1693 survey (longitudes timed by Io)
-    if (k === 7 && typeof COAST_FR !== 'undefined') { const T = S.clamp(((age % 4000) - 500) / 2600), kk = S.ease(T), // loops every 4 s: hold the old map, slide east, hold the survey
+    if (k === 7 && typeof COAST_FR !== 'undefined') { const ph = age % 4000, kk = S.ease((ph - 600) / 1500), gone = S.clamp((ph - 2300) / 900), // loops every 4 s: old map, the survey slides over it, the lost strip fades
       sc = 66, P = (la, lo) => [800 + (lo - 2.4) * Math.cos(46.6 * Math.PI / 180) * sc, 440 - (la - 46.6) * sc];
       const old = (la, lo, f) => { const west = Math.max(0, (2.35 - lo) / 6.85), south = Math.max(0, (45 - la) / 3); return [la - .5 * south * f, lo - 1.5 * west * f]; };
-      const draw = (fn, col, wd, dash) => { ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.setLineDash(dash || []); ctx.beginPath(); for (const ln of COAST_FR.lines) { let pen = false; for (let i = 0; i < ln.length; i += 2) { const q = P(...fn(ln[i + 1] / 100, ln[i] / 100)); pen ? ctx.lineTo(...q) : ctx.moveTo(...q); pen = true; } } ctx.stroke(); ctx.setLineDash([]); };
-      ctx.save(); ctx.globalAlpha = S.fade(now, 0, 500); draw((la, lo) => [la, lo], G, 3); draw((la, lo) => old(la, lo, 1), 'rgba(236,230,218,.5)', 2, [6, 7]); draw((la, lo) => old(la, lo, 1 - kk), '#6fb3ff', 4); ctx.restore();
-      // arrows down the west coast, old place to new
-      [[48.39, -4.49], [46.16, -1.15], [43.49, -1.47]].forEach(([la, lo]) => { const a = P(...old(la, lo, 1)), b2 = P(...old(la, lo, 1 - kk)); if (b2[0] - a[0] < 4) return; ctx.strokeStyle = RED; ctx.fillStyle = RED; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(...a); ctx.lineTo(...b2); ctx.stroke(); ctx.beginPath(); ctx.moveTo(b2[0] + 4, b2[1]); ctx.lineTo(b2[0] - 12, b2[1] - 9); ctx.lineTo(b2[0] - 12, b2[1] + 9); ctx.closePath(); ctx.fill(); });
+      if (!FR) FR = frPoly();
+      const fill = (f, col) => { ctx.fillStyle = col; ctx.beginPath(); FR.forEach(([lo, la], i) => { const q = P(...old(la, lo, f)); i ? ctx.lineTo(...q) : ctx.moveTo(...q); }); ctx.closePath(); ctx.fill(); };
+      const a0 = S.fade(now, 0, 500);
+      ctx.save(); ctx.globalAlpha = a0 * (1 - gone); fill(1, '#f0c95a'); ctx.restore();                       // the old map: yellow
+      ctx.save(); ctx.globalAlpha = a0 * S.clamp((ph - 400) / 300); fill(1 - kk, 'rgba(140,195,255,.92)'); ctx.restore(); // the 1693 survey: light blue, sliding east over it
+      if (kk > .9 && gone < .6) S.text('lost to the astronomers', P(46.2, -4.6)[0], P(46.2, -4.6)[1], 24, '#f0c95a', 'center', 1 - gone);
       [['Paris', 48.86, 2.35], ['Brest', 48.39, -4.49], ['Marseille', 43.3, 5.37]].forEach(([n, la, lo]) => { const q = P(la, lo); ctx.fillStyle = G; ctx.beginPath(); ctx.arc(...q, 6, 0, 7); ctx.fill(); S.text(n, q[0] + 12, q[1] - 12, 22, W, 'left'); });
       { S.text(`Brest moves ${(1.5 * kk).toFixed(1)}° east`, P(48.39, -6.3)[0], P(48.39, -6.3)[1] + 50, 24, RED, 'center', S.fade(now, 800)); }
       S.text('“His Majesty’s astronomers have taken more of France than his enemies ever did.”', 800, 790, 32, G, 'center', S.fade(now, 4200, 800));
       S.text('attributed to Louis XIV, 1693 · the sentiment is recorded, the exact words are not', 800, 832, 18, M, 'center', S.fade(now, 4600, 800)); }
     S.words(now, ...WORDS[k]);
   });
+  attachCtl();
 }, 0));
 
 
