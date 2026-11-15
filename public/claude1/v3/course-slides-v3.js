@@ -756,7 +756,7 @@ addEventListener('load', () => setTimeout(() => {
   const WORDS = [
     ['Way 1: the Moon is a clock hand', 'Against the stars it moves about its own width every hour, the same for everyone.'],
     ['Measure the Moon–star distance', 'With a sextant: from the Moon’s edge to the bright star Regulus.'],
-    ['Look it up in the almanac', '42° 18′ means 9:00 PM in London. Your own clock says 7:00 PM: 2 hours = 30° west.'],
+    ['Look it up in the almanac', '42° 18′ means 9:00 PM in London. Your own clock says 7:00 PM: 2 hours = 30° West.'],
     ['Now do it on a rolling deck', 'One arcminute wrong = about 30 miles. Then an hour of arithmetic by candlelight.']];
   let H = 6;
   V3.scene(el, 4, (S, ctx, now) => {
@@ -788,7 +788,7 @@ addEventListener('load', () => setTimeout(() => {
     if (S.step === 2) { const a = S.fade(now, 200, 600); ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = '#efe4c8'; ctx.beginPath(); ctx.roundRect(60, 150, 470, 470, 10); ctx.fill(); ctx.restore();
       const ink = '#3a2f22'; S.text('The Nautical Almanac, 1767', 295, 195, 28, ink, 'center', a, 600, 440, true); S.text('Moon from Regulus, at London', 295, 234, 21, '#6b5a40', 'center', a, 400, 440, true);
       [[6, 44.1], [9, 42.3], [12, 40.5]].forEach(([h, d], i) => { const y = 300 + i * 90, on = h === 9; if (on) { ctx.save(); ctx.globalAlpha = a * S.fade(now, 1200, 400); ctx.fillStyle = 'rgba(240,179,90,.55)'; ctx.fillRect(80, y - 34, 430, 68); ctx.restore(); } S.text(t12(h + 12), 110, y, 32, ink, 'left', a, 400, 300, true); S.text(dm(d), 480, y, 32, ink, 'right', a, 400, 300, true); });
-      S.card(1020, 560, 260, 140, 'London', '9:00 PM', 'from the table', G, S.fade(now, 1700)); S.card(1300, 560, 260, 140, 'Your clock', '7:00 PM', 'set by your noon', '#6fb3ff', S.fade(now, 2300)); S.text('2 hours = 30° west', 1290, 750, 40, G, 'center', S.fade(now, 2900)); }
+      S.card(1020, 560, 260, 140, 'London', '9:00 PM', 'from the table', G, S.fade(now, 1700)); S.card(1300, 560, 260, 140, 'Your clock', '7:00 PM', 'set by your noon', '#6fb3ff', S.fade(now, 2300)); S.text('2 hours = 30° West', 1290, 750, 40, G, 'center', S.fade(now, 2900)); }
     if (S.step === 3) { S.text('±1′ in the sighting  =  ±30 miles', 1170, 620, 34, RED, 'center', S.fade(now, 1200)); S.text('+ refraction, parallax, the almanac every 3 hours…', 1170, 670, 24, M, 'center', S.fade(now, 2000)); }
     S.words(now, ...WORDS[S.step]);
   });
@@ -810,7 +810,7 @@ addEventListener('load', () => setTimeout(() => {
     ['January 1610 · Jupiter has company', 'Four little “stars” that change places night by night. They go round Jupiter.'],
     ['Not everything circles the Earth', 'Moons circling another world: evidence for Copernicus, and trouble with the Church.'],
     ['Io slips into Jupiter’s shadow', 'Every 42½ hours it vanishes, on schedule, for everyone on Earth at the same instant.'],
-    ['A clock in the sky that everyone can read', 'London writes down 9:00 PM. You write down 7:00 PM. 2 hours = 30° west.'],
+    ['A clock in the sky that everyone can read', 'London writes down 9:00 PM. You write down 7:00 PM. 2 hours = 30° West.'],
     ['On land, it works', 'A long telescope on a steady stand, a pendulum clock beside it. By 1668 map makers redraw whole countries.'],
     ['At sea, it fails', 'You cannot hold a moon of Jupiter in the eyepiece on a rolling deck, and a pendulum cannot keep time on the waves.'],
     ['', '']];
@@ -856,7 +856,7 @@ addEventListener('load', () => setTimeout(() => {
       ctx.restore(); ctx.strokeStyle = '#6b5a40'; ctx.lineWidth = 10; ctx.beginPath(); ctx.arc(eye.x, eye.y, eye.r, 0, 7); ctx.stroke(); }
     // Galileo's notebook, one night per line
     if (k === 2) { const shown = Math.min(NIGHTS.length, Math.floor(tj) + 1); S.text('Galileo’s notebook', 230, 170, 24, M, 'center', S.fade(now)); for (let i = 0; i < shown; i++) { const y = 225 + i * 70; S.text(NIGHTS[i], 90, y, 22, M, 'left'); ctx.save(); system(ctx, S, now, 300, y, 6, { t: NT[i], tilt: 0 }); ctx.restore(); } }
-    if (k === 5) { S.card(40, 300, 340, 150, 'London writes down', '9:00 PM', 'Io vanished', G, S.fade(now, 400)); S.card(1220, 300, 340, 150, 'You write down', '7:00 PM', 'Io vanished', B, S.fade(now, 1000)); S.text('2 hours = 30° west', 800, 845, 44, G, 'center', S.fade(now, 1700)); }
+    if (k === 5) { S.card(40, 300, 340, 150, 'London writes down', '9:00 PM', 'Io vanished', G, S.fade(now, 400)); S.card(1220, 300, 340, 150, 'You write down', '7:00 PM', 'Io vanished', B, S.fade(now, 1000)); S.text('2 hours = 30° West', 800, 845, 44, G, 'center', S.fade(now, 1700)); }
     // Scilly: the bill for longitude at sea
     if (k === 8) { const a = S.fade(now, 0, 800); ctx.save(); ctx.globalAlpha = a * .5; if (scilly.complete && scilly.naturalWidth) { const s = Math.max(1600 / scilly.naturalWidth, 1000 / scilly.naturalHeight); ctx.filter = 'grayscale(1)'; ctx.drawImage(scilly, 800 - scilly.naturalWidth * s / 2, 500 - scilly.naturalHeight * s / 2, scilly.naturalWidth * s, scilly.naturalHeight * s); ctx.filter = 'none'; } ctx.restore();
       ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(5,8,18,.72)'; ctx.fillRect(0, 300, 1600, 400); ctx.restore();
