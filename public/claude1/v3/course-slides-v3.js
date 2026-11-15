@@ -1004,24 +1004,19 @@ NEW_SLIDES['Null Island'] = { h1: 'Null Island', fig: '', init() {} };
 NEW_SLIDES['Which system'] = { h1: 'Which System?', fig: '', init() {} };
 NEW_SLIDES['Errors grow'] = { h1: 'Errors Grow', fig: '', init() {} };
 
-/* ---------- Appendix: Null Island. 0, 0 is where bad data goes ---------- */
+/* ---------- Appendix: Null Island. One map, one red dot, one joke photo ---------- */
 addEventListener('load', () => setTimeout(() => {
   const el = v3Find('Null Island'); if (!el) return;
-  const G = '#f0b35a', RED = '#ff7d6f';
-  const WORDS = [['0°, 0°: Null Island', 'Open ocean in the Gulf of Guinea. One weather buoy.'], ['Where Bad Data Goes', 'A failed geocode, a blank cell, a GPS left off: all read as 0, 0.'], ['Not a Place. A Failure.', 'Filter 0, 0 before you map anything.']];
-  let rnd = 7; const r = () => (rnd = (rnd * 16807) % 2147483647) / 2147483647;
-  const DOTS = Array.from({ length: 140 }, () => [r() * 1600, r() * 1000, r() * 2400, (r() - .5) * 14, (r() - .5) * 14]);
-  V3.scene(el, 3, (S, ctx, now) => {
-    const k = S.step, P = V3SAT.draw(ctx, 0, 0, 5.4);
-    ctx.save(); ctx.strokeStyle = 'rgba(240,179,90,.75)'; ctx.lineWidth = 2; ctx.setLineDash([10, 8]);
-    ctx.beginPath(); ctx.moveTo(0, 500); ctx.lineTo(1600, 500); ctx.moveTo(800, 150); ctx.lineTo(800, 1000); ctx.stroke(); ctx.restore();
-    S.text('Equator', 1560, 482, 22, G, 'right'); S.text('Prime meridian', 812, 200, 22, G, 'left');
-    const ag = S.age(now);
-    if (k >= 1) DOTS.forEach(([x, y, d, jx, jy]) => { const t = k === 1 ? S.ease((ag - d) / 900) : 1; if (t <= 0) return; ctx.fillStyle = RED; ctx.globalAlpha = .85; ctx.beginPath(); ctx.arc(S.lerp(x, 800 + jx, t), S.lerp(y, 500 + jy, t), 6, 0, 7); ctx.fill(); ctx.globalAlpha = 1; });
-    if (k === 0) { ctx.fillStyle = '#ece6da'; ctx.beginPath(); ctx.arc(800, 500, 9, 0, 7); ctx.fill(); S.text('the buoy', 820, 540, 24, '#ece6da', 'left', S.fade(now, 600)); }
-    if (k === 2) { const pu = .5 + .5 * Math.sin(now * .004); ctx.strokeStyle = RED; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(800, 500, 46 + 10 * pu, 0, 7); ctx.stroke(); }
+  const photo = new Image(); photo.src = 'img/null-island.jpg';
+  V3.scene(el, 1, (S, ctx, now) => {
+    const P = V3SAT.draw(ctx, 0, 9, 5.4), [x, y] = P(0, 0), pu = .5 + .5 * Math.sin(now * .004);
+    ctx.fillStyle = '#ff5a4a'; ctx.beginPath(); ctx.arc(x, y, 12, 0, 7); ctx.fill();
+    ctx.strokeStyle = '#ff5a4a'; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(x, y, 28 + 14 * pu, 0, 7); ctx.stroke();
+    S.text('0°, 0°', x, y + 72, 30, '#ffffff', 'center', 1, 600);
+    if (photo.complete && photo.naturalWidth) { const w = 620, h = w * photo.naturalHeight / photo.naturalWidth, X = 900, Y = 500 - h / 2 + 20, a = S.fade(now, 300, 900);
+      ctx.save(); ctx.globalAlpha = a; ctx.shadowColor = 'rgba(0,0,0,.6)'; ctx.shadowBlur = 30; ctx.fillStyle = '#fff'; ctx.fillRect(X - 10, Y - 10, w + 20, h + 20); ctx.shadowBlur = 0; ctx.drawImage(photo, X, Y, w, h); ctx.restore(); }
     V3SAT.bands(ctx); S.text(V3SAT.credit, 1540, 960, 17, '#9a9382', 'right');
-    S.words(now, ...WORDS[k]);
+    S.text('Null Island', 800, 70, 46, '#ece6da');
   });
 }, 0));
 
