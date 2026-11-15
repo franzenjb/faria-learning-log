@@ -183,3 +183,4 @@ export const FACTS = {
  'The Gregorian year averages 365.2425 days, off by about one day in 3,000 years.',
  'Why 360° in a circle: most likely from an old 360-day year, one degree per day.'],
 };
+FACTS['Light needs time, again'] = FACTS['Light needs time'];
