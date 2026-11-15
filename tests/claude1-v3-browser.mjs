@@ -7,7 +7,7 @@ const mod = process.env.PLAYWRIGHT_MODULE;
 const {chromium} = mod ? await import(mod) : createRequire(import.meta.url)('playwright');
 const base = (process.argv[2] || 'http://localhost:8791').replace(/\/$/, '');
 const url = base + '/claude1/v3/';
-const DAY1 = ['Scilly, 1707', 'Mental maps', 'Latitude &amp; Longitude', 'Walk north', 'Fist and knuckle', 'The pole star wanders', 'The quadrant', 'Power decides the measure', 'Eratosthenes', 'Hours are slices', 'Two ships, one latitude', 'The Longitude Act, 1714', 'Galileo\u2019s clock', 'Light needs time', 'The lunar distance', 'Pendulum at sea', 'A clock that could travel', 'Washington, 1884', 'The date line', 'Was 1900 a leap year?', 'Where am I, now', 'Decimal places', 'Sidereal day'];
+const DAY1 = ['Scilly, 1707', 'Mental maps', 'Latitude &amp; Longitude', 'Walk north', 'Fist and knuckle', 'The pole star wanders', 'The quadrant', 'Power decides the measure', 'Eratosthenes', 'Hours are slices', 'Two ships, one latitude', 'The Longitude Act, 1714', 'Galileo\u2019s clock', 'Light needs time', 'The lunar distance', 'Pendulum at sea', 'A clock that could travel', 'Washington, 1884', 'The date line', 'Was 1900 a leap year?', 'Where am I, now', 'Decimal places', 'Sidereal day', 'Null Island', 'Which system', 'Errors grow'];
 const NEW = [['Power decides the measure', ['#pm-rome', '#pm-eliz', '#pm-sea']], ['Fist and knuckle', ['#fk-tor', '#fk-go']], ['The pole star wanders', ['#ps-pyr', '#ps-vega']], ['Was 1900 a leap year?', ['#ly-no', '#ly-next', '#ly-next', '#ly-next', '#ly-next', '#ly-next', '#ly-next', '#ly-back']], ['Washington, 1884', ['#pm84-g', '#pm84-vote', '#pm84-fr']], ['The date line', ['#dl-2011', '#dl-kir', '#dl-now']], ['One degree more', ['#od-star', '#od-sun']], ['Where am I, now', ['#gps-ask']]];
 const browser = await chromium.launch(process.env.CHROME_PATH ? {executablePath: process.env.CHROME_PATH} : {headless: true, channel: 'chrome'});
 
@@ -16,7 +16,7 @@ for (const [w, h] of [[1600, 900], [1280, 720]]) {
   const errors = []; page.on('pageerror', e => errors.push(String(e)));
   await page.goto(url); await page.waitForTimeout(1200);
   const n = await page.evaluate(() => COURSE_LIVE.length);
-  assert.equal(n, 37, 'course has 37 slides');
+  assert.equal(n, 40, 'course has 40 slides');
   if (w === 1600) assert.deepEqual(await page.evaluate(() => COURSE_LIVE.filter(c => c.day === 1).map(c => c.t)), DAY1, 'Day 1 follows the storyline');
   for (let i = 0; i < n; i++) {
     await page.evaluate(i => go(i), i); await page.waitForTimeout(450);
@@ -80,8 +80,8 @@ assert.deepEqual(errs, [], 'new slides: no page errors');
 
 // the 30-minute talk
 await page.goto(url + '?talk=30#0'); await page.waitForTimeout(1200);
-assert.equal(await page.evaluate(() => COURSE_LIVE.length), 17, '30-minute talk has 17 slides');
-assert.equal(await page.evaluate(() => COURSE_LIVE.at(-4).t), 'Where am I, now', '30-minute talk ends on GPS, then the appendix');
+assert.equal(await page.evaluate(() => COURSE_LIVE.length), 25, '30-minute talk has 25 slides');
+assert.equal(await page.evaluate(() => COURSE_LIVE.at(-12).t), 'Where am I, now', '30-minute talk ends on GPS, then the appendix');
 
 // phone: everything stacks, nothing scrolls sideways
 await page.setViewportSize({width: 390, height: 844}); await page.waitForTimeout(400);
