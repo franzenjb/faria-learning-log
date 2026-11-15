@@ -531,7 +531,7 @@ addEventListener('load', () => setTimeout(() => {
   const go = i => { k = i; pT = k === 0 ? 0.3 : Math.PI / 2; t0 = performance.now(); };
   V3.steps(el, STEP.length - 1, go);
   const font = (px, w = 400) => `${w} ${px}px Georgia,serif`;
-  const label = (s, x, y, px, col, align = 'center') => { ctx.font = font(px); ctx.textAlign = align; ctx.textBaseline = 'middle'; ctx.lineWidth = 6; ctx.strokeStyle = 'rgba(8,12,22,.85)'; ctx.strokeText(s, x, y); ctx.fillStyle = col; ctx.fillText(s, x, y); };
+  const label = (s, x, y, px, col, align = 'center') => { ctx.font = font(px); const room = c.width / (devicePixelRatio || 1) * .92, tw = ctx.measureText(s).width; if (align === 'center' && tw > room) { px = px * room / tw; ctx.font = font(px); } ctx.textAlign = align; ctx.textBaseline = 'middle'; ctx.lineWidth = 6; ctx.strokeStyle = 'rgba(8,12,22,.85)'; ctx.strokeText(s, x, y); ctx.fillStyle = col; ctx.fillText(s, x, y); };
   const frame = now => {
     requestAnimationFrame(frame); if (!el.classList.contains('active')) { last = now; return; }
     const r = stage.getBoundingClientRect(), dpr = devicePixelRatio || 1; if (!r.width) return;
@@ -556,14 +556,14 @@ addEventListener('load', () => setTimeout(() => {
     if (k >= 2) { for (let i = 0; i < 24; i++) { const a = i / 24 * Math.PI * 2, r1 = R + 8, r2 = R + (i % 6 ? 18 : 30); ctx.strokeStyle = i % 6 ? 'rgba(236,230,218,.45)' : W; ctx.lineWidth = i % 6 ? 1.5 : 3; ctx.beginPath(); ctx.moveTo(cx + r1 * Math.cos(a), cy + r1 * Math.sin(a)); ctx.lineTo(cx + r2 * Math.cos(a), cy + r2 * Math.sin(a)); ctx.stroke(); }
       if (k === 2) label('24 hours', cx, cy + R + 60, 26, W); }
     // 24 slices, one lit; they ride on the Earth
-    if (k >= 3) { for (let i = 0; i < 24; i++) path(Array.from({ length: 19 }, (_, j) => ll(-90 + j * 10, i * 15)), i === 18 || i === 19 ? G : 'rgba(236,230,218,.35)', i === 18 || i === 19 ? 3 : 1.2);
-      const qa = proj(ll(20, -82.5)); if (qa.z > 0) label('15°', qa.x, qa.y, 28, G); }
+    if (k >= 3) { const lit = i => k < 5 && (i === 18 || i === 19); for (let i = 0; i < 24; i++) path(Array.from({ length: 19 }, (_, j) => ll(-90 + j * 10, i * 15)), lit(i) ? G : 'rgba(236,230,218,.35)', lit(i) ? 3 : 1.2);
+      if (k < 5) { const qa = proj(ll(20, -82.5)); if (qa.z > 0) label('15°', qa.x, qa.y, 28, G); } }
     if (k === 4) { const q = proj(ll(5, -150)); if (q.z > 0) label('longitude', q.x, q.y, 24, W); label('1 hour = 15° of longitude', cx, cy + R + 64, 30, G); }
     if (k === 5) { ctx.fillStyle = 'rgba(5,8,18,.45)'; ctx.fillRect(0, 0, w, h); label('?', cx, cy, R * .9, G); }
     // words
     const s = STEP[k], fade = Math.min(1, (now - t0) / 500); ctx.globalAlpha = fade;
     label(s.top, cx, h * .08, Math.max(30, Math.min(54, w * .04)), W);
-    label(s.cap, cx, h * .95, Math.max(22, Math.min(34, w * .026)), k === 5 ? G : G);
+    label(s.cap, cx, h * .905, Math.max(22, Math.min(34, w * .026)), G);
     ctx.globalAlpha = 1;
   };
   requestAnimationFrame(frame);
