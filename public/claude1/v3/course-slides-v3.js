@@ -840,6 +840,14 @@ addEventListener('load', () => setTimeout(() => {
     const jg = ctx.createRadialGradient(cx - rJ * .3, cy - rJ * .3, 0, cx, cy, rJ); jg.addColorStop(0, '#f1d7a8'); jg.addColorStop(1, '#b8925a'); ctx.fillStyle = jg; ctx.beginPath(); ctx.arc(cx, cy, rJ, 0, 7); ctx.fill();
     ctx.strokeStyle = 'rgba(138,106,61,.7)'; ctx.lineWidth = Math.max(1, rJ * .12); [-.35, .1, .45].forEach(f => { ctx.beginPath(); ctx.moveTo(cx - rJ * Math.sqrt(1 - f * f), cy + rJ * f); ctx.lineTo(cx + rJ * Math.sqrt(1 - f * f), cy + rJ * f); ctx.stroke(); });
     pos.filter(p => !p.behind).forEach(dot); return pos; };
+  // mainland France as one polygon: Atlantic coast (Hendaye to Belgium), a hand-drawn land border, Mediterranean coast (Menton to Cerbère), the Pyrenees
+  let FR = null;
+  const frPoly = () => { const L = COAST_FR.lines, pts = l => { const o = []; for (let i = 0; i < l.length; i += 2) o.push([l[i] / 100, l[i + 1] / 100]); return o; };
+    const atl = pts(L[4]), a0 = atl.findIndex(([lo, la]) => la > 43.3 && lo > -1.9), a1 = atl.findIndex(([lo, la], i) => i > a0 && la > 51 && lo > 2.5);
+    const med = pts(L[3]), m0 = med.findIndex(([lo]) => lo < 7.55), m1 = med.findIndex(([lo, la], i) => i > m0 && la < 42.5);
+    const east = [[2.9, 50.7], [3.6, 50.5], [4.2, 50.3], [4.8, 50.15], [4.85, 49.8], [5.8, 49.55], [6.4, 49.45], [7.0, 49.15], [7.6, 49.05], [8.2, 48.95], [7.6, 47.6], [7.0, 47.5], [6.1, 46.6], [6.1, 46.15], [6.8, 46.0], [7.0, 45.6], [6.6, 45.1], [7.0, 44.7], [7.6, 44.1]];
+    const pyr = [[2.6, 42.35], [1.7, 42.5], [0.7, 42.7], [-0.3, 42.8], [-1.4, 43.05]];
+    return [...atl.slice(a0, a1 + 1), ...east, ...med.slice(m0, m1 + 1), ...pyr]; };
   const GMAP = [0, 1, 2, 3, 5, 6, 7, 8, 9]; // beat 4 (Io slips into the shadow) is cut; its line folds into the clock beat
   V3.scene(el, 9, (S, ctx, now) => {
     if (S.t0 !== last) { from = { ...eye }; last = S.t0; }
@@ -881,13 +889,15 @@ addEventListener('load', () => setTimeout(() => {
       ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(5,8,18,.72)'; ctx.fillRect(0, 300, 1600, 400); ctx.restore();
       S.text('So in 1707, at sea, longitude was still a guess', 800, 400, 50, W, 'center', a); S.text('Scilly: four ships, about 2,000 men', 800, 500, 64, G, 'center', S.fade(now, 700, 700)); S.text('Seven years later, Parliament acts.', 800, 610, 44, W, 'center', S.fade(now, 1500, 700)); }
     // France shrinks: the old outline (longitudes guessed) slides east onto the 1693 survey (longitudes timed by Io)
-    if (k === 7 && typeof COAST_FR !== 'undefined') { const T = S.clamp(((age % 4000) - 500) / 2600), kk = S.ease(T), // loops every 4 s: hold the old map, slide east, hold the survey
+    if (k === 7 && typeof COAST_FR !== 'undefined') { const ph = age % 4000, kk = S.ease((ph - 600) / 1500), gone = S.clamp((ph - 2300) / 900), // loops every 4 s: old map, the survey slides over it, the lost strip fades
       sc = 66, P = (la, lo) => [800 + (lo - 2.4) * Math.cos(46.6 * Math.PI / 180) * sc, 440 - (la - 46.6) * sc];
       const old = (la, lo, f) => { const west = Math.max(0, (2.35 - lo) / 6.85), south = Math.max(0, (45 - la) / 3); return [la - .5 * south * f, lo - 1.5 * west * f]; };
-      const draw = (fn, col, wd, dash) => { ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.setLineDash(dash || []); ctx.beginPath(); for (const ln of COAST_FR.lines) { let pen = false; for (let i = 0; i < ln.length; i += 2) { const q = P(...fn(ln[i + 1] / 100, ln[i] / 100)); pen ? ctx.lineTo(...q) : ctx.moveTo(...q); pen = true; } } ctx.stroke(); ctx.setLineDash([]); };
-      ctx.save(); ctx.globalAlpha = S.fade(now, 0, 500); draw((la, lo) => [la, lo], G, 3); draw((la, lo) => old(la, lo, 1), 'rgba(236,230,218,.5)', 2, [6, 7]); draw((la, lo) => old(la, lo, 1 - kk), '#6fb3ff', 4); ctx.restore();
-      // arrows down the west coast, old place to new
-      [[48.39, -4.49], [46.16, -1.15], [43.49, -1.47]].forEach(([la, lo]) => { const a = P(...old(la, lo, 1)), b2 = P(...old(la, lo, 1 - kk)); if (b2[0] - a[0] < 4) return; ctx.strokeStyle = RED; ctx.fillStyle = RED; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(...a); ctx.lineTo(...b2); ctx.stroke(); ctx.beginPath(); ctx.moveTo(b2[0] + 4, b2[1]); ctx.lineTo(b2[0] - 12, b2[1] - 9); ctx.lineTo(b2[0] - 12, b2[1] + 9); ctx.closePath(); ctx.fill(); });
+      if (!FR) FR = frPoly();
+      const fill = (f, col) => { ctx.fillStyle = col; ctx.beginPath(); FR.forEach(([lo, la], i) => { const q = P(...old(la, lo, f)); i ? ctx.lineTo(...q) : ctx.moveTo(...q); }); ctx.closePath(); ctx.fill(); };
+      const a0 = S.fade(now, 0, 500);
+      ctx.save(); ctx.globalAlpha = a0 * (1 - gone); fill(1, '#f0c95a'); ctx.restore();                       // the old map: yellow
+      ctx.save(); ctx.globalAlpha = a0 * S.clamp((ph - 400) / 300); fill(1 - kk, 'rgba(140,195,255,.92)'); ctx.restore(); // the 1693 survey: light blue, sliding east over it
+      if (kk > .9 && gone < .6) S.text('lost to the astronomers', P(46.2, -4.6)[0], P(46.2, -4.6)[1], 24, '#f0c95a', 'center', 1 - gone);
       [['Paris', 48.86, 2.35], ['Brest', 48.39, -4.49], ['Marseille', 43.3, 5.37]].forEach(([n, la, lo]) => { const q = P(la, lo); ctx.fillStyle = G; ctx.beginPath(); ctx.arc(...q, 6, 0, 7); ctx.fill(); S.text(n, q[0] + 12, q[1] - 12, 22, W, 'left'); });
       { S.text(`Brest moves ${(1.5 * kk).toFixed(1)}° east`, P(48.39, -6.3)[0], P(48.39, -6.3)[1] + 50, 24, RED, 'center', S.fade(now, 800)); }
       S.text('“His Majesty’s astronomers have taken more of France than his enemies ever did.”', 800, 790, 32, G, 'center', S.fade(now, 4200, 800));
