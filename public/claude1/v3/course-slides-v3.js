@@ -742,10 +742,10 @@ addEventListener('load', () => setTimeout(() => {
     const L2 = S.step === 0 ? -3 : S.step === 1 ? S.lerp(-3, -30, S.ease((age - 300) / 2500)) : -30;
     const ships = [[L1, 'London', G], [L2, 'Ship', B]];
     // each one's longitude line, pole to equator: plain to see, value unknown
-    [[L1, 'rgba(240,179,90,.9)', G], [L2, 'rgba(111,179,255,.95)', B]].forEach(([lo, col, tc]) => { path(Array.from({ length: 46 }, (_, i) => ll(90 - i * 2, lo)), col, 3.5, [12, 8]); const q = P(ll(36, lo)); if (q.z > 0) S.text('?', q.x + 22, q.y, 40, tc, 'left', 1, 600); });
+    [[L1, 'rgba(240,179,90,.9)', G], [L2, 'rgba(111,179,255,.95)', B]].forEach(([lo, col, tc]) => { path(Array.from({ length: 46 }, (_, i) => ll(90 - i * 2, lo)), col, 3.5, [12, 8]); const q = P(ll(36, lo)); if (q.z > 0) S.text('Longitude ?', q.x + 18, q.y, 30, tc, 'left', 1, 600); });
     if (S.step === 1 || S.step === 0) { const q1 = P(ll(LAT, L1)), q2 = P(ll(LAT, L2)); if (S.step === 1 && q1.z > 0 && q2.z > 0) { path(Array.from({ length: 30 }, (_, i) => ll(LAT, L1 + (L2 - L1) * i / 29)), RED, 5); const mi = Math.round(Math.abs(L2 - L1) * 43.06 / 10) * 10; S.text(`${mi.toLocaleString('en-US')} miles apart`, (q1.x + q2.x) / 2 + 40, Math.max(q1.y, q2.y) + 80, 30, RED); } }
     ships.forEach(([lo, name, col], i) => { const q = P(ll(LAT, lo)); if (q.z < 0) return; if (i) ship(ctx, q.x, q.y, col); else { ctx.fillStyle = col; ctx.fillRect(q.x - 9, q.y - 14, 18, 14); ctx.beginPath(); ctx.moveTo(q.x - 12, q.y - 14); ctx.lineTo(q.x, q.y - 26); ctx.lineTo(q.x + 12, q.y - 14); ctx.fill(); }
-      if (S.step <= 1) S.text(`${name}: Polaris 51.5° up`, q.x + (i ? -24 : 24), i ? q.y + 34 : q.y - 44, 24, col, i ? 'right' : 'left', S.fade(now, 600));
+      if (S.step <= 1) S.text(`${name}: Latitude 51.5° N`, q.x + (i ? -24 : 24), i ? q.y + 34 : q.y - 44, 24, col, i ? 'right' : 'left', S.fade(now, 600));
       else { const th = ((lo + cam.yaw + 540) % 360) - 180, hrs = 12 + th / 15, noon = Math.abs(th) < 2.2;
         if (noon && S.step === 3) { ctx.save(); ctx.strokeStyle = G; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(q.x, q.y, 34 + 6 * Math.sin(now / 90), 0, 7); ctx.stroke(); ctx.restore(); }
         const lx = q.x + (i ? -26 : 26), ly = q.y + (i ? 34 : -30), shown = i === 0 && S.step === 4 ? '?' : noon && S.step >= 3 ? 'NOON' : t12(hrs); S.text(`${name} · ${shown}`, lx, ly, 26, noon && S.step >= 3 ? G : col, i ? 'right' : 'left', polar); } });
