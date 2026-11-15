@@ -283,3 +283,4 @@ body.v3-touch #v3-keys span{padding:.3em .6em;margin:.2em;border:1px solid rgba(
 body.v3-touch .nav .arrows button{opacity:.9;font-size:20px;padding:.5rem 1.1rem}
 /* slide 3: the bingo card shows on the globe, but its row/column calls stay off the controls */
 .slide[data-notap] #bingo-panel{display:none!important}
+#v3-keys:empty{display:none!important}

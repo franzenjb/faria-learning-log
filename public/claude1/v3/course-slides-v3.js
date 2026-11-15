@@ -397,7 +397,7 @@ addEventListener('load', () => setTimeout(() => {
     if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { const sl = slider(el); if (sl) { e.preventDefault(); const st = Math.max(+sl.step || 1, (+sl.max - +sl.min) / 40); sl.value = +sl.value + (e.key === 'ArrowUp' ? st : -st); sl.dispatchEvent(new Event('input', { bubbles: true })); sl.dispatchEvent(new Event('change', { bubbles: true })); } return; }
     const i = KEYS.indexOf(k); if (i < 0) return; const b = controls(el)[i]; if (b) { e.preventDefault(); e.stopImmediatePropagation(); b.click(); setTimeout(draw, 60); } }, true);
   // touch screens have no keyboard: show the legend and let a tap press the control
-  if (matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 1) { document.body.classList.add('v3-touch'); const tg = document.createElement('button'); tg.id = 'v3-ctl'; tg.textContent = 'Controls'; tg.onclick = () => { document.body.classList.toggle('v3-keys-on'); tg.classList.toggle('on', document.body.classList.contains('v3-keys-on')); }; (document.getElementById('visual') || document.body).appendChild(tg); }
+  { /* every device gets the Controls button (laptop too): tap or click it, or press K */ document.body.classList.add('v3-touch'); const tg = document.createElement('button'); tg.id = 'v3-ctl'; tg.textContent = 'Controls'; tg.onclick = () => { document.body.classList.toggle('v3-keys-on'); tg.classList.toggle('on', document.body.classList.contains('v3-keys-on')); }; (document.getElementById('visual') || document.body).appendChild(tg); }
   legend.addEventListener('click', e => { const t = e.target.closest('[data-i]'); if (!t) return; const b = controls(active())[+t.dataset.i]; if (b) { b.click(); setTimeout(draw, 60); } });
   new MutationObserver(draw).observe(document.getElementById('deck'), { subtree: true, attributes: true, attributeFilter: ['class'] }); draw();
 }, 50));
@@ -462,7 +462,7 @@ addEventListener('load', () => setTimeout(() => {
       `<text x="${x - sh - 14}" y="${base - 12}" text-anchor="end" style="font-size:24px;fill:#b8bfd4">shadow</text>`; };
   const S = [
     // 0 · the well at Syene
-    () => T('Syene, noon, the longest day of the year', 500, 60, 34) + sun(500, 130) + rays(470, 530, 180, 560, 4) + ground(380) + well(500, 380, true) +
+    () => T('Syene, about 240 BC: noon on the longest day of the year', 500, 60, 31) + sun(500, 130) + rays(470, 530, 180, 560, 4) + ground(380) + well(500, 380, true) +
       T('The Sun shines straight down the well.', 500, 618, 34, G),
     // 1 · same noon, Alexandria
     () => T('Same day, same noon', 500, 60, 34) + ground(470) +
@@ -502,8 +502,7 @@ addEventListener('load', () => setTimeout(() => {
         T('Eratosthenes, 240 BC', 160, 190, 30, W, 'start') + bar(210, 25000 * k, G) + T('about 25,000 miles', 160 + 25000 * k + 16, 250, 30, G, 'start') +
         T('Today, from satellites', 160, 360, 30, W, 'start') +
         (show ? `<g class="er-in">${bar(380, 24901 * k, B)}${T('24,901 miles', 160 + 24901 * k + 16, 420, 30, B, 'start')}</g>` +
-          T('With a stick, a shadow and a paced distance.', 500, 540, 34) +
-          T('His unit, the stadion, is uncertain, so “within a few percent” is the honest claim.', 500, 600, 20, M)
+          T('With a stick, a shadow and a paced distance.', 500, 540, 34)
         : T('?', 160, 424, 48, B, 'start') +
           T('Your guess?', 500, 540, 40, G)); })
   ];
