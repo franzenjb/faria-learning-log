@@ -383,7 +383,7 @@ NEW_SLIDES['A clock that could travel'] = {
 // ---------- Presenter keys: the panel is hidden, its controls live on 1–9, 0, then letters; ↑/↓ moves the first slider ----------
 addEventListener('load', () => setTimeout(() => {
   const KEYS = '1234567890qweryuoadghjz'.split('');
-  const legend = document.createElement('div'); legend.id = 'v3-keys'; (document.getElementById('visual') || document.body).appendChild(legend);
+  const legend = document.createElement('div'); legend.id = 'v3-keys'; const lpanel = document.getElementById('ls-panel'); if (lpanel) lpanel.prepend(legend); else (document.getElementById('visual') || document.body).appendChild(legend);
   const active = () => document.querySelector('#deck .slide.active');
   const controls = el => { const t = el && el.querySelector('.text'); if (!t) return []; const off = b => { for (let n = b; n; n = n.parentElement) { if (n.style && n.style.display === 'none') return true; if (n === t) break; if (getComputedStyle(n).display === 'none') return true; } return false; };
     return [...t.querySelectorAll('button')].filter(b => b.style.display !== 'none' && !b.closest('[hidden]') && !b.hidden && b.textContent.trim() && !off(b)); };
@@ -393,11 +393,18 @@ addEventListener('load', () => setTimeout(() => {
     legend.innerHTML = cs.map((b, i) => `<span data-i="${i}"><b>${KEYS[i].toUpperCase()}</b>${label(b)}</span>`).join('') + (sl ? `<span><b>↑↓</b>${(sl.closest('label') && sl.closest('label').querySelector('.row') ? sl.closest('label').querySelector('.row').childNodes[0].textContent.trim() : 'Slider')}</span>` : ''); };
   addEventListener('keydown', e => { if (e.target.matches('input[type=text],textarea') || e.metaKey || e.ctrlKey || e.altKey) return; const k = e.key.toLowerCase(), el = active(); if (!el) return;
     if (k === 'c') { document.body.classList.toggle('v3-panel'); dispatchEvent(new Event('resize')); return; }
-    if (k === 'k') { document.body.classList.toggle('v3-keys-on'); return; }
+    if (k === 'k') { if (window.v3SetKeys) v3SetKeys(!document.body.classList.contains('v3-keys-on')); else document.body.classList.toggle('v3-keys-on'); return; }
     if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { const sl = slider(el); if (sl) { e.preventDefault(); const st = Math.max(+sl.step || 1, (+sl.max - +sl.min) / 40); sl.value = +sl.value + (e.key === 'ArrowUp' ? st : -st); sl.dispatchEvent(new Event('input', { bubbles: true })); sl.dispatchEvent(new Event('change', { bubbles: true })); } return; }
     const i = KEYS.indexOf(k); if (i < 0) return; const b = controls(el)[i]; if (b) { e.preventDefault(); e.stopImmediatePropagation(); b.click(); setTimeout(draw, 60); } }, true);
   // touch screens have no keyboard: show the legend and let a tap press the control
-  { /* every device gets the Controls button (laptop too): tap or click it, or press K */ document.body.classList.add('v3-touch'); const tg = document.createElement('button'); tg.id = 'v3-ctl'; tg.textContent = 'Controls'; tg.onclick = () => { document.body.classList.toggle('v3-keys-on'); tg.classList.toggle('on', document.body.classList.contains('v3-keys-on')); }; (document.getElementById('visual') || document.body).appendChild(tg); }
+  // the Controls button lives in the left rail; the list opens in the left panel, which pushes the slide over instead of covering it
+  document.body.classList.add('v3-touch');
+  const shell = document.getElementById('shell'), lside = document.getElementById('lside'), lsTog = document.getElementById('ls-tog');
+  const tg = document.createElement('button'); tg.id = 'v3-ctl'; tg.title = 'Controls (K)'; tg.setAttribute('aria-label', 'Controls'); tg.textContent = '1·2';
+  let opened = false; const setKeys = on => { document.body.classList.toggle('v3-keys-on', on); tg.classList.toggle('on', on);
+    if (shell && lsTog) { const isOpen = shell.classList.contains('ls-open'); if (on && !isOpen) { lsTog.click(); opened = true; } else if (!on && isOpen && opened) { lsTog.click(); opened = false; } } dispatchEvent(new Event('resize')); };
+  tg.onclick = () => setKeys(!document.body.classList.contains('v3-keys-on')); window.v3SetKeys = setKeys;
+  (lside || document.getElementById('visual') || document.body).appendChild(tg);
   legend.addEventListener('click', e => { const t = e.target.closest('[data-i]'); if (!t) return; const b = controls(active())[+t.dataset.i]; if (b) { b.click(); setTimeout(draw, 60); } });
   new MutationObserver(draw).observe(document.getElementById('deck'), { subtree: true, attributes: true, attributeFilter: ['class'] }); draw();
 }, 50));
@@ -601,6 +608,27 @@ addEventListener('load', () => setTimeout(() => {
   ];
   const g = ov.querySelector('#gl');
   // after the story, → walks the clock diagram's own steps (the talk hides its last one)
+  // then the turn in the story: it works on land, fails at sea, and the sea collects the bill at Scilly
+  const ship = `<path d="M330 430 L670 430 L630 490 L370 490 Z" fill="#5a3a24"/><line x1="500" y1="430" x2="500" y2="250" stroke="#8a6a3d" stroke-width="8"/><path d="M505 260 L600 330 L505 400 Z" fill="#cfc8ba" opacity=".8"/>`;
+  const waves = Array.from({ length: 9 }, (_, i) => `<path d="M${120 + i * 90} 500 q22 -18 45 0 t45 0" fill="none" stroke="#3b5f8a" stroke-width="4"/>`).join('');
+  const E = [
+    () => T('On land, it works', 500, 70, 52, G) +
+      `<rect x="180" y="380" width="640" height="14" fill="#3a2f22"/><line x1="330" y1="240" x2="275" y2="380" stroke="#8a6a3d" stroke-width="9"/><line x1="330" y1="240" x2="385" y2="380" stroke="#8a6a3d" stroke-width="9"/><line x1="330" y1="240" x2="330" y2="380" stroke="#8a6a3d" stroke-width="7"/><line x1="215" y1="285" x2="450" y2="193" stroke="#b8925a" stroke-width="26" stroke-linecap="round"/><circle cx="330" cy="240" r="9" fill="#5a3a24"/>` +
+      `<g transform="translate(650 160)"><rect x="-50" y="0" width="100" height="220" rx="8" fill="#3a2f22"/><circle cx="0" cy="45" r="30" fill="#efe4c8"/><line x1="0" y1="80" x2="0" y2="190" stroke="#cfc8ba" stroke-width="3"/><circle cx="0" cy="195" r="14" fill="#f0b35a"/></g>` +
+      T('A long telescope on a steady stand. A pendulum clock beside it.', 500, 470, 28, W) +
+      T('Cassini’s tables of Io, 1668: map makers redraw whole countries.', 500, 520, 26, M),
+    () => T('At sea, it fails', 500, 70, 52, '#ff7d6f') + `<g transform="rotate(-9 500 470)">${ship}</g>` + waves +
+      `<g transform="translate(250 180) rotate(25)"><line x1="0" y1="0" x2="0" y2="110" stroke="#cfc8ba" stroke-width="3"/><circle cx="0" cy="115" r="14" fill="#f0b35a"/></g>` + T('the pendulum swings with the ship', 250, 345, 22, M) +
+      `<circle cx="790" cy="170" r="16" fill="#d9b98a"/><circle cx="830" cy="150" r="5" fill="#ffe9b0"/><circle cx="760" cy="200" r="5" fill="#ffe9b0"/>` + T('Io jumps all over the eyepiece', 790, 250, 22, M) +
+      T('You cannot hold a telescope on a moon of Jupiter from a rolling deck,', 500, 570, 26, W) + T('and a pendulum clock cannot keep time on the waves.', 500, 606, 26, W),
+    () => `<image href="v3/img/scilly.jpg" x="0" y="0" width="1000" height="640" preserveAspectRatio="xMidYMid slice" opacity=".45" style="filter:grayscale(1)"/>` +
+      `<rect x="0" y="170" width="1000" height="300" fill="rgba(5,8,18,.7)"/>` +
+      T('So in 1707, at sea, longitude was still a guess', 500, 250, 40, W) + T('Scilly: four ships, about 2,000 men', 500, 330, 50, G) +
+      T('Seven years later, Parliament acts.', 500, 420, 36, W)
+  ];
   const DS = TALK ? 5 : 6, dstep = i => { const b = el.querySelector(`#gs-steps [data-s="${i}"]`); if (b) b.click(); };
-  V3.steps(el, S.length + DS - 1, k => { if (k < S.length) { ov.style.display = 'block'; g.innerHTML = `<g class="er-in">${S[k]()}</g>`; dstep(0); } else { ov.style.display = 'none'; dstep(k - S.length); } });
+  V3.steps(el, S.length + DS + E.length - 1, k => {
+    if (k < S.length) { ov.style.display = 'block'; g.innerHTML = `<g class="er-in">${S[k]()}</g>`; dstep(0); }
+    else if (k < S.length + DS) { ov.style.display = 'none'; dstep(k - S.length); }
+    else { ov.style.display = 'block'; g.innerHTML = `<g class="er-in">${E[k - S.length - DS]()}</g>`; } });
 }, 0));
