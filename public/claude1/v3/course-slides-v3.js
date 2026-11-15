@@ -487,7 +487,7 @@ addEventListener('load', () => setTimeout(() => {
   const KEY = [
     // rot rolls the camera so the ground under the city in view is level (Alexandria's ground is tilted 7.2° from Syene's)
     { w: SY, f: [.5, .64], vh: 0.05, sym: 1.5, rot: 0 },                 // the well
-    { w: [-400, -R + 40], f: [.5, .6], vh: 640, sym: 1.05, rot: A7 / 2 }, // both cities on gently curved ground
+    { w: [-400, -R + 40], f: [.5, .6], vh: 800, sym: 1.05, rot: 0 }, // both cities on gently curved ground; Syene level, so the well and the sunlight are straight up and down
     { w: AX, f: [.5, .76], vh: 0.05, sym: 1.6, rot: A7 },                // the stick, close, its ground level
     { w: [-400, -R * .5], f: [.5, .55], vh: R * 1.45, sym: .45, rot: 0 }, // the slice down to the centre (low, so the stick and well have room above)
     { w: [0, 0], f: [.5, .53], vh: R * 2.45, sym: .35, rot: 0 },         // the whole Earth
