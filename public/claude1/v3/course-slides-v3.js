@@ -742,7 +742,7 @@ addEventListener('load', () => setTimeout(() => {
     const L2 = S.step === 0 ? -3 : S.step === 1 ? S.lerp(-3, -30, S.ease((age - 300) / 2500)) : -30;
     const ships = [[L1, 'London', G], [L2, 'Ship', B]];
     // each one's longitude line, pole to equator: plain to see, value unknown
-    if (S.step < 4) [[L1, 'rgba(240,179,90,.9)', G], [L2, 'rgba(111,179,255,.95)', B]].forEach(([lo, col, tc]) => { path(Array.from({ length: 46 }, (_, i) => ll(90 - i * 2, lo)), col, 3.5, [12, 8]); const q = P(ll(36, lo)); if (q.z > 0 && S.step <= 1) S.text('Longitude ?', q.x + 18, q.y, 30, tc, 'left', 1, 600); });
+    if (S.step < 4) [[L1, 'rgba(240,179,90,.9)', G], [L2, 'rgba(111,179,255,.95)', B]].forEach(([lo, col, tc]) => { path(Array.from({ length: 46 }, (_, i) => ll(90 - i * 2, lo)), col, 3.5, [12, 8]); const q = P(ll(36, lo)); if (q.z > 0 && S.step === 1) S.text('Longitude ?', q.x + 18, q.y, 30, tc, 'left', 1, 600); });
     if (S.step === 1 || S.step === 0) { const q1 = P(ll(LAT, L1)), q2 = P(ll(LAT, L2)); if (S.step === 1 && q1.z > 0 && q2.z > 0) { path(Array.from({ length: 30 }, (_, i) => ll(LAT, L1 + (L2 - L1) * i / 29)), RED, 5); const mi = Math.round(Math.abs(L2 - L1) * 43.06 / 10) * 10; S.text(`${mi.toLocaleString('en-US')} miles apart`, (q1.x + q2.x) / 2 + 40, Math.max(q1.y, q2.y) + 80, 30, RED); } }
     ships.forEach(([lo, name, col], i) => { const q = P(ll(LAT, lo)); if (q.z < 0) return; if (i) ship(ctx, q.x, q.y, col); else { ctx.fillStyle = col; ctx.fillRect(q.x - 9, q.y - 14, 18, 14); ctx.beginPath(); ctx.moveTo(q.x - 12, q.y - 14); ctx.lineTo(q.x, q.y - 26); ctx.lineTo(q.x + 12, q.y - 14); ctx.fill(); }
       if (S.step <= 1) S.text(`${name}: Latitude 51.5° N`, q.x + (i ? -24 : 24), i ? q.y + 34 : q.y - 44, 24, col, i ? 'right' : 'left', S.fade(now, 600));
@@ -864,8 +864,8 @@ addEventListener('load', () => setTimeout(() => {
     const east = [[2.9, 50.7], [3.6, 50.5], [4.2, 50.3], [4.8, 50.15], [4.85, 49.8], [5.8, 49.55], [6.4, 49.45], [7.0, 49.15], [7.6, 49.05], [8.2, 48.95], [7.6, 47.6], [7.0, 47.5], [6.1, 46.6], [6.1, 46.15], [6.8, 46.0], [7.0, 45.6], [6.6, 45.1], [7.0, 44.7], [7.6, 44.1]];
     const pyr = [[2.6, 42.35], [1.7, 42.5], [0.7, 42.7], [-0.3, 42.8], [-1.4, 43.05]];
     return [...atl.slice(a0, a1 + 1), ...east, ...med.slice(m0, m1 + 1), ...pyr]; };
-  const GMAP = [0, 1, 2, 3, 5, 6, 7, 8, 9]; // beat 4 (Io slips into the shadow) is cut; its line folds into the clock beat
-  V3.scene(el, 9, (S, ctx, now) => {
+  const GMAP = TALK ? [0, 1, 2, 3, 5, 6, 7] : [0, 1, 2, 3, 5, 6, 7, 8, 9]; // the talk ends on France; at sea and Scilly come after Rømer, on their own slide // beat 4 (Io slips into the shadow) is cut; its line folds into the clock beat
+  V3.scene(el, GMAP.length, (S, ctx, now) => {
     if (S.t0 !== last) { from = { ...eye }; last = S.t0; }
     const age = S.age(now), k = GMAP[S.step], e = S.ease(age / 1500), T = EYE[k];
     if (k !== curK) { curK = k; zoom = 1; tiltT = .03; ioOnly = false; }
@@ -899,7 +899,7 @@ addEventListener('load', () => setTimeout(() => {
       S.text('1 flat, as Galileo saw it · 2 tilted · 3 Io only · drag to tilt · ↑↓ zoom', 40, 962, 17, M, 'left', .8); }
     // Galileo's own record of those nights: a page of Sidereus Nuncius, Venice, March 1610 (public domain)
     if (k === 2 && sn.complete && sn.naturalWidth) { const a = S.fade(now, 200, 800), h = 660, w = h * sn.naturalWidth / sn.naturalHeight; ctx.save(); ctx.globalAlpha = a; ctx.drawImage(sn, 70, 150, w, h); ctx.strokeStyle = 'rgba(240,179,90,.5)'; ctx.lineWidth = 2; ctx.strokeRect(70, 150, w, h); ctx.restore(); S.text('Galileo’s own record · Sidereus Nuncius, 1610', 70 + w / 2, 840, 20, M, 'center', a); }
-    if (k === 5) { S.card(40, 300, 340, 150, 'London', '9:00 PM', 'read from Io', G, S.fade(now, 400)); S.card(1220, 300, 340, 150, 'Ship’s clock', '7:00 PM', 'its own noon', B, S.fade(now, 1000)); S.text('2 hours = 30° West', 800, 845, 44, G, 'center', S.fade(now, 1700)); }
+    if (k === 5) { S.card(40, 300, 340, 150, 'London', '9:00 PM', 'Io vanishes', G, S.fade(now, 400)); S.card(1220, 300, 340, 150, 'New York', '4:04 PM', 'the same instant', B, S.fade(now, 1000)); S.text('4 h 56 min = 74° West', 800, 845, 44, G, 'center', S.fade(now, 1700)); }
     // Scilly: the bill for longitude at sea
     if (k === 9) { const a = S.fade(now, 0, 800); ctx.save(); ctx.globalAlpha = a * .5; if (scilly.complete && scilly.naturalWidth) { const s = Math.max(1600 / scilly.naturalWidth, 1000 / scilly.naturalHeight); ctx.filter = 'grayscale(1)'; ctx.drawImage(scilly, 800 - scilly.naturalWidth * s / 2, 500 - scilly.naturalHeight * s / 2, scilly.naturalWidth * s, scilly.naturalHeight * s); ctx.filter = 'none'; } ctx.restore();
       ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(5,8,18,.72)'; ctx.fillRect(0, 300, 1600, 400); ctx.restore();
@@ -1114,7 +1114,7 @@ addEventListener('load', () => setTimeout(() => {
 NEW_SLIDES['Light needs time, again'] = { h1: 'Rømer: Light Needs Time', fig: '', init() {} }; // appendix copy, so Q&A can jump to it
 const romerScene = el => {
   const G = '#f0b35a', W = '#ece6da', M = '#c2bba9', B = '#6fb3ff', AU = 200, SX = 360, SY = 520, JX = SX + 5.2 * AU, C = AU / .6, MIN = 8.317; // to scale: 1 AU = 200 px; light: 1 AU every 0.6 s
-  const WORDS = [['Paris, 1676 · Ole Rømer Times Io', 'Earth on Jupiter’s side of the Sun: the eclipse arrives on time.'], ['Io Is on Time. The Light Is Late.', 'Earth on the far side: the light crosses the whole orbit, about 16½ minutes more.']];
+  const WORDS = [['An Aside · Paris, 1676 · Ole Rømer Times Io', 'Earth on Jupiter’s side of the Sun: the eclipse arrives on time.'], ['Io Is on Time. The Light Is Late.', 'Earth on the far side: the light crosses the whole orbit, about 16½ minutes more.']];
   let ang = 0, rings = [], lastIo = 0, flash = 0;
   V3.scene(el, 2, (S, ctx, now) => { // two beats: near side on time; then the Earth travels to the far side and the eclipse runs late
     const k = S.step, age = Math.max(0, S.age(now));
@@ -1150,6 +1150,48 @@ const romerScene = el => {
     S.card(1130, 150, 430, 150, 'Eclipse seen', late < .3 ? 'On time' : `${Math.floor(late)} min ${String(Math.round((late % 1) * 60) % 60).padStart(2, '0')} s`, late < .3 ? 'Earth on the near side' : 'late, compared with the near side', late < .3 ? W : G);
     S.text('Distances and light time to scale · sizes not to scale', 1560, 960, 17, M, 'right');
     S.words(now, ...WORDS[k]);
+    ctx.save(); ctx.strokeStyle = G; ctx.lineWidth = 2; ctx.beginPath(); ctx.roundRect(40, 30, 170, 44, 10); ctx.stroke(); ctx.restore(); S.text('AN ASIDE', 125, 53, 22, G, 'center', 1, 600);
   });
 };
 addEventListener('load', () => setTimeout(() => { ['Light needs time', 'Light needs time, again'].forEach(n => { const el = v3Find(n); if (el) romerScene(el); }); }, 0));
+
+/* ---------- Talk only: At sea, it fails, then Scilly. Comes after Rømer and before the Longitude Act ---------- */
+NEW_SLIDES['At sea, it fails'] = { h1: 'At Sea, It Fails', fig: '', init() {} };
+addEventListener('load', () => setTimeout(() => {
+  const el = v3Find('At sea, it fails'); if (!el) return;
+  const G = '#f0b35a', W = '#ece6da', B = '#6fb3ff';
+  const scilly = new Image(); scilly.src = 'v3/img/scilly.jpg';
+  V3.scene(el, 2, (S, ctx, now) => {
+    const k = S.step;
+    if (k === 0) {
+      const sky = ctx.createLinearGradient(0, 0, 0, 1000); sky.addColorStop(0, '#05070f'); sky.addColorStop(1, '#101a30'); ctx.fillStyle = sky; ctx.fillRect(0, 0, 1600, 1000); S.stars(now, .8);
+      const roll = .14 * Math.sin(now / 600) + .05 * Math.sin(now / 230);
+      // the sea
+      ctx.fillStyle = '#0b1424'; ctx.fillRect(0, 790, 1600, 210); ctx.strokeStyle = 'rgba(59,95,138,.85)'; ctx.lineWidth = 3;
+      for (let i = 0; i < 22; i++) { const x = -100 + i * 85 + (now / 30) % 85, y = 806 + 6 * Math.sin(now / 400 + i); ctx.beginPath(); ctx.moveTo(x, y); ctx.quadraticCurveTo(x + 21, y - 16, x + 42, y); ctx.stroke(); }
+      // a rocking deck, a telescope and a pendulum clock that cannot keep its swing
+      ctx.save(); ctx.translate(520, 790); ctx.rotate(-roll);
+      ctx.fillStyle = '#3a2a1a'; ctx.fillRect(-330, -10, 660, 26);
+      ctx.strokeStyle = '#8a6a3d'; ctx.lineWidth = 8; ctx.beginPath(); ctx.moveTo(0, -10); ctx.lineTo(0, -130); ctx.moveTo(0, -130); ctx.lineTo(-45, -10); ctx.moveTo(0, -130); ctx.lineTo(45, -10); ctx.stroke();
+      ctx.strokeStyle = '#b8925a'; ctx.lineCap = 'round'; ctx.lineWidth = 22; ctx.beginPath(); ctx.moveTo(-110, -90); ctx.lineTo(150, -210); ctx.stroke(); ctx.lineCap = 'butt';
+      ctx.save(); ctx.translate(230, -200); ctx.fillStyle = '#3a2f22'; ctx.fillRect(-40, 0, 80, 180); ctx.fillStyle = '#efe4c8'; ctx.beginPath(); ctx.arc(0, 36, 24, 0, 7); ctx.fill();
+      const sw = .5 * Math.sin(now / 260) + .3 * Math.sin(now / 97); ctx.strokeStyle = G; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(0, 70); ctx.lineTo(70 * Math.sin(sw), 70 + 90 * Math.cos(sw)); ctx.stroke(); ctx.fillStyle = G; ctx.beginPath(); ctx.arc(70 * Math.sin(sw), 70 + 90 * Math.cos(sw), 10, 0, 7); ctx.fill(); ctx.restore();
+      ctx.restore();
+      // the eyepiece: Jupiter will not hold still
+      const ex = 1160, ey = 380, er = 250, jx = ex + er * .8 * Math.sin(now / 410), jy = ey + er * .6 * Math.sin(now / 290 + 1);
+      ctx.save(); ctx.beginPath(); ctx.arc(ex, ey, er, 0, 7); ctx.fillStyle = '#03050a'; ctx.fill(); ctx.clip();
+      const jg = ctx.createRadialGradient(jx - 6, jy - 6, 2, jx, jy, 20); jg.addColorStop(0, '#f1d7a8'); jg.addColorStop(1, '#b8925a'); ctx.fillStyle = jg; ctx.beginPath(); ctx.arc(jx, jy, 20, 0, 7); ctx.fill();
+      [-70, -38, 44, 96].forEach(d => { ctx.fillStyle = '#ffe9b0'; ctx.beginPath(); ctx.arc(jx + d, jy, 5, 0, 7); ctx.fill(); });
+      ctx.restore(); ctx.strokeStyle = '#6b5a40'; ctx.lineWidth = 10; ctx.beginPath(); ctx.arc(ex, ey, er, 0, 7); ctx.stroke();
+      S.words(now, 'At Sea, It Fails', '');
+    } else {
+      ctx.fillStyle = '#05070f'; ctx.fillRect(0, 0, 1600, 1000);
+      const a = S.fade(now, 0, 800); ctx.save(); ctx.globalAlpha = a * .5;
+      if (scilly.complete && scilly.naturalWidth) { const s = Math.max(1600 / scilly.naturalWidth, 1000 / scilly.naturalHeight); ctx.filter = 'grayscale(1)'; ctx.drawImage(scilly, 800 - scilly.naturalWidth * s / 2, 500 - scilly.naturalHeight * s / 2, scilly.naturalWidth * s, scilly.naturalHeight * s); ctx.filter = 'none'; }
+      ctx.restore(); ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(5,8,18,.72)'; ctx.fillRect(0, 300, 1600, 400); ctx.restore();
+      S.text('So in 1707, at sea, longitude was still a guess', 800, 400, 50, W, 'center', a);
+      S.text('Scilly: four ships, 1,400 to 2,000 men', 800, 500, 64, G, 'center', S.fade(now, 700, 700));
+      S.text('Seven years later, Parliament offers a prize.', 800, 610, 44, W, 'center', S.fade(now, 1500, 700));
+    }
+  });
+}, 0));
