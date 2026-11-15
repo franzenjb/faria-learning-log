@@ -308,6 +308,6 @@ if (/[?&]talk=30\b/.test(location.search)) {
   addEventListener('load', () => { for (const def of Object.values(NEW_SLIDES)) { try { def.init(def._el); } catch (e) { console.error('course slide failed', def.h1, e); } } sync(); relayout(); });
   // occasional fun: the warp (stars rush outward, slide racks into focus) plays only
   // from the cover into the course index, and when moving forward into a new day
-  window.FX_PICK = (prev, target) => { if (target <= prev) return null; const i = live.findIndex(c => c.el === document.querySelectorAll('.slide')[target]); if (i < 1) return null; return live[i].day !== live[i - 1].day || live[i - 1].t === 'Cover' ? 'warp' : null; };
+  window.FX_PICK = () => null; // Jeff: no star-warp transitions; every slide change is a straight cut
   window.COURSE_LIVE = live;
 })();
