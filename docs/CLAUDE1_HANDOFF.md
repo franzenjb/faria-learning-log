@@ -89,3 +89,8 @@ Miles, not km. Short plain copy. Quiz slides show no hint. Spell it Clowdesley. 
 ## Controls and animated scenes (v3 talk)
 - The Controls list is a quiet vertical list in the bottom-left corner, always on when a slide has controls (not inside the chapter panel: Jeff found that distracting). Closing it by hand (the 1·2 button or K) is remembered. `tests/claude1-v3-browser.mjs` fails if slides 3 or 4 lose their controls.
 - Slides 5, 7, 8 and 9 are continuous canvas scenes (`V3.scene` in `course-slides-v3.js`): one camera, → per beat. Do not add a helper named `V3.globe`: that name is taken by the 1884, date line and GPS globes.
+
+## Talk appendix (Q&A only, after GPS)
+
+`?talk=30` ends with 11 appendix slides: Decimal Places, The Star Day, Rømer, Null Island, Which System?, Errors Grow, The Date Line, The Pole Star Wanders, Your Hand Is a Protractor, Picard and the Meter, Was 1900 a Leap Year?
+Map scenes use Esri World Imagery tiles (`V3SAT` in course-slides-v3.js; no key). CARTO basemaps now need an API key, so don't go back to them.

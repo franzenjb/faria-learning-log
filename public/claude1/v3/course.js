@@ -121,6 +121,12 @@ const COURSE = [
     script: ['If someone asks why GPS shows so many decimals: each decimal place makes the circle ten times smaller. Press up to add a place, down to take one away.', 'No decimals: you are somewhere in a circle about 69 miles across New York. Two: about 0.7 mile. Four: about 36 feet, the plaza. Six: about 4 inches.', 'For a Red Cross address, four decimals is the building; five is the door. More than six is noise from the receiver, not real precision.'] },
   { day: 1, ch: 'Appendix', t: 'Sidereal day', label: 'Appendix: the star day and the Sun day', topics: ['70-time-to-longitude'],
     script: ['If someone asks why the stars rise 4 minutes earlier each night: start at noon, the Sun overhead, and a far star in the same direction.', 'One full turn, 360 degrees, takes 23 hours 56 minutes. The star is back overhead. The Sun is not, because the Earth has moved along its orbit.', 'The Earth has to turn about one degree more, 4 more minutes, to bring the Sun back overhead. Noon to noon is 24 hours. The orbit motion is drawn larger here so you can see it.'] },
+  { day: 1, ch: 'Appendix', t: 'Null Island', label: 'Appendix: Null Island', topics: ['47-map-surprises'],
+    script: ['If someone asks why points show up off Africa: 0 degrees latitude, 0 degrees longitude. Open ocean in the Gulf of Guinea, and one weather buoy.', 'A failed geocode, a blank cell in a spreadsheet, a GPS left off. Every one of them is read as 0, 0, and lands right here.', 'So a point at Null Island is not a place. It is a failure that looks like a place. Filter for 0, 0 before you map anything.'] },
+  { day: 1, ch: 'Appendix', t: 'Which system', label: 'Appendix: Which System?', topics: ['47-map-surprises'],
+    script: ['If someone asks why their points landed in the wrong place: here is one shelter in Tampa. Latitude and longitude, in degrees.', 'The same shelter in UTM zone 17 is in meters. In Florida West State Plane it is in feet. Same place, three sets of numbers.', 'Now read the UTM numbers as zone 16 instead of 17. Same digits, and the shelter lands about 365 miles west, in the Gulf. Always ask: which system?'] },
+  { day: 1, ch: 'Appendix', t: 'Errors grow', label: 'Appendix: Errors Grow', topics: ['84-harrison-and-the-marine-chronometer'],
+    script: ['If someone asks how careful navigators still got lost: start from the last sure position. Each day the compass is good to about 2 degrees and the speed to about 8 percent.', 'Here are 160 ships, every one steered and logged with care. After five days the doubt has grown.', 'After twelve days it is a circle well over a hundred miles across. Nobody made a mistake. Small errors, carried forward, grow. That was the fleet off Scilly, and it is every chain of measurements you inherit.'] },
   
   /* ---------------- Day 2 ---------------- */
   { day: 2, ch: 'Galileo', t: 'Jupiter\'s moons', label: 'Galileo\'s moons', topics: ['64-galileo-jupiters-moons', '46-galileo'],
@@ -192,6 +198,14 @@ const TALK30 = [
   ['Decimal places', 1, [1, 2, 3], { label: 'Appendix: Decimal Places' }],
   ['Sidereal day', 1, [1, 2, 3], { label: 'Appendix: The Star Day' }],
   ['Light needs time', 1, [1, 2, 3, 4], { ch: 'Appendix', label: 'Appendix: Rømer, Light Needs Time' }],
+  ['Null Island', 1, [1, 2, 3], { label: 'Appendix: Null Island' }],
+  ['Which system', 1, [1, 2, 3], { label: 'Appendix: Which System?' }],
+  ['Errors grow', 1, [1, 2, 3], { label: 'Appendix: Errors Grow' }],
+  ['The date line', 1, [1, 2, 3, 4, 5, 6], { ch: 'Appendix', label: 'Appendix: The Date Line' }],
+  ['The pole star wanders', 1, [1, 2, 3, 4, 5], { ch: 'Appendix', label: 'Appendix: The Pole Star Wanders' }],
+  ['Fist and knuckle', 1, [1, 2, 3, 4], { ch: 'Appendix', label: 'Appendix: Your Hand Is a Protractor' }],
+  ['Picard and the meter', 1, [1, 2, 3, 4, 5], { ch: 'Appendix', label: 'Appendix: Picard and the Meter' }],
+  ['Was 1900 a leap year?', 1, [1, 2, 3, 4, 5, 6, 7], { ch: 'Appendix', label: 'Appendix: Was 1900 a Leap Year?' }],
 ];
 if (/[?&]talk=30\b/.test(location.search)) {
   const keep = [];

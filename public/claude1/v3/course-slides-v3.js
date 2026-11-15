@@ -960,3 +960,106 @@ addEventListener('load', () => setTimeout(() => {
     S.words(now, ...WORDS[k]);
   });
 }, 0));
+
+/* ---------- Appendix: shared satellite tiles (Esri World Imagery, no key needed) ---------- */
+const V3SAT = (() => {
+  const tiles = {}, D = Math.PI / 180;
+  const tile = (zz, x, y) => { const k = zz + '/' + x + '/' + y; if (!tiles[k]) { const im = new Image(); im.crossOrigin = 'anonymous'; im.src = `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${zz}/${y}/${x}`; tiles[k] = im; } return tiles[k]; };
+  const world = (lat, lon, n) => [(lon + 180) / 360 * 256 * n, (1 - Math.log(Math.tan(lat * D) + 1 / Math.cos(lat * D)) / Math.PI) / 2 * 256 * n];
+  // draw the map so (lat, lon) sits at screen (800, 500); returns a projector for other points
+  const draw = (ctx, lat, lon, z) => {
+    const zi = Math.max(1, Math.min(19, Math.floor(z))), sc = Math.pow(2, z - zi), n = Math.pow(2, zi), [wx, wy] = world(lat, lon, n);
+    ctx.fillStyle = '#0b1020'; ctx.fillRect(0, 0, 1600, 1000);
+    const ts = 256 * sc, x0 = Math.floor((wx - 800 / sc) / 256), x1 = Math.floor((wx + 800 / sc) / 256), y0 = Math.floor((wy - 500 / sc) / 256), y1 = Math.floor((wy + 500 / sc) / 256);
+    for (let tx = x0; tx <= x1; tx++) for (let ty = y0; ty <= y1; ty++) {
+      if (ty < 0 || ty >= n) continue; const xx = ((tx % n) + n) % n, im = tile(zi, xx, ty), X = 800 + (tx * 256 - wx) * sc, Y = 500 + (ty * 256 - wy) * sc;
+      if (im.complete && im.naturalWidth) ctx.drawImage(im, X, Y, ts + .5, ts + .5);
+      else for (let up = 1; up <= 6 && zi - up >= 1; up++) { const f = 1 << up, p = tile(zi - up, xx >> up, ty >> up); if (p.complete && p.naturalWidth) { const w = 256 / f; ctx.drawImage(p, (xx % f) * w, (ty % f) * w, w, w, X, Y, ts + .5, ts + .5); break; } }
+    }
+    const zz = Math.pow(2, z); return (la, lo) => { const [a, b] = world(la, lo, zz), [c, d] = world(lat, lon, zz); return [800 + a - c, 500 + b - d]; };
+  };
+  // dark bands top and bottom so the headline and caption read over imagery
+  const bands = ctx => { let g = ctx.createLinearGradient(0, 0, 0, 170); g.addColorStop(0, 'rgba(6,9,18,.85)'); g.addColorStop(1, 'rgba(6,9,18,0)'); ctx.fillStyle = g; ctx.fillRect(0, 0, 1600, 170); g = ctx.createLinearGradient(0, 820, 0, 1000); g.addColorStop(0, 'rgba(6,9,18,0)'); g.addColorStop(1, 'rgba(6,9,18,.9)'); ctx.fillStyle = g; ctx.fillRect(0, 820, 1600, 180); };
+  return { draw, bands, credit: 'Imagery © Esri, Maxar, Earthstar Geographics' };
+})();
+
+NEW_SLIDES['Null Island'] = { h1: 'Null Island', fig: '', init() {} };
+NEW_SLIDES['Which system'] = { h1: 'Which System?', fig: '', init() {} };
+NEW_SLIDES['Errors grow'] = { h1: 'Errors Grow', fig: '', init() {} };
+
+/* ---------- Appendix: Null Island. 0, 0 is where bad data goes ---------- */
+addEventListener('load', () => setTimeout(() => {
+  const el = v3Find('Null Island'); if (!el) return;
+  const G = '#f0b35a', RED = '#ff7d6f';
+  const WORDS = [['0°, 0°: Null Island', 'Open ocean in the Gulf of Guinea. One weather buoy.'], ['Where Bad Data Goes', 'A failed geocode, a blank cell, a GPS left off: all read as 0, 0.'], ['Not a Place. A Failure.', 'Filter 0, 0 before you map anything.']];
+  let rnd = 7; const r = () => (rnd = (rnd * 16807) % 2147483647) / 2147483647;
+  const DOTS = Array.from({ length: 140 }, () => [r() * 1600, r() * 1000, r() * 2400, (r() - .5) * 14, (r() - .5) * 14]);
+  V3.scene(el, 3, (S, ctx, now) => {
+    const k = S.step, P = V3SAT.draw(ctx, 0, 0, 5.4);
+    ctx.save(); ctx.strokeStyle = 'rgba(240,179,90,.75)'; ctx.lineWidth = 2; ctx.setLineDash([10, 8]);
+    ctx.beginPath(); ctx.moveTo(0, 500); ctx.lineTo(1600, 500); ctx.moveTo(800, 150); ctx.lineTo(800, 1000); ctx.stroke(); ctx.restore();
+    S.text('Equator', 1560, 482, 22, G, 'right'); S.text('Prime meridian', 812, 200, 22, G, 'left');
+    const ag = S.age(now);
+    if (k >= 1) DOTS.forEach(([x, y, d, jx, jy]) => { const t = k === 1 ? S.ease((ag - d) / 900) : 1; if (t <= 0) return; ctx.fillStyle = RED; ctx.globalAlpha = .85; ctx.beginPath(); ctx.arc(S.lerp(x, 800 + jx, t), S.lerp(y, 500 + jy, t), 6, 0, 7); ctx.fill(); ctx.globalAlpha = 1; });
+    if (k === 0) { ctx.fillStyle = '#ece6da'; ctx.beginPath(); ctx.arc(800, 500, 9, 0, 7); ctx.fill(); S.text('the buoy', 820, 540, 24, '#ece6da', 'left', S.fade(now, 600)); }
+    if (k === 2) { const pu = .5 + .5 * Math.sin(now * .004); ctx.strokeStyle = RED; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(800, 500, 46 + 10 * pu, 0, 7); ctx.stroke(); }
+    V3SAT.bands(ctx); S.text(V3SAT.credit, 1540, 960, 17, '#9a9382', 'right');
+    S.words(now, ...WORDS[k]);
+  });
+}, 0));
+
+/* ---------- Appendix: which system? One shelter, three sets of numbers ---------- */
+addEventListener('load', () => setTimeout(() => {
+  const el = v3Find('Which system'); if (!el) return;
+  const G = '#f0b35a', RED = '#ff7d6f', B = '#6fb3ff', LAT = 27.9506, LON = -82.4572;
+  const WORDS = [['One Shelter in Tampa', '27.9506° N, 82.4572° W'], ['Three Ways to Write It', 'Same place. Different numbers.'], ['Right Numbers, Wrong System', 'UTM read as zone 16, not 17: about 365 miles west, in the Gulf.']];
+  let z = 10, cla = LAT, clo = LON;
+  V3.scene(el, 3, (S, ctx, now) => {
+    const k = S.step, tz = k === 2 ? 5.9 : 10, tlo = k === 2 ? LON - 3 : LON;
+    z += (tz - z) * .05; clo += (tlo - clo) * .05;
+    const P = V3SAT.draw(ctx, cla, clo, z), [x, y] = P(LAT, LON);
+    if (k === 2) {
+      const [wx, wy] = P(LAT, LON - 6), t = S.ease((S.age(now) - 900) / 1400);
+      ctx.save(); ctx.strokeStyle = RED; ctx.lineWidth = 4; ctx.setLineDash([12, 10]); ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(S.lerp(x, wx, t), y); ctx.stroke(); ctx.restore();
+      if (t > 0) { ctx.strokeStyle = RED; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(S.lerp(x, wx, t), wy, 16, 0, 7); ctx.stroke(); }
+      S.text('365 miles', (x + wx) / 2, y - 30, 34, RED, 'center', S.fade(now, 2300));
+      S.text('where the map put it', wx, wy + 56, 24, RED, 'center', S.fade(now, 2300));
+    }
+    ctx.fillStyle = G; ctx.beginPath(); ctx.arc(x, y, 12, 0, 7); ctx.fill(); ctx.strokeStyle = '#0b1020'; ctx.lineWidth = 3; ctx.stroke();
+    if (k === 0) S.text('the shelter', x, y + 52, 28, G, 'center', S.fade(now, 400));
+    if (k === 1) {
+      const C = [['Latitude, Longitude', '27.9506° N', '82.4572° W', 'degrees', G], ['UTM Zone 17', '356,650 m E', '3,092,585 m N', 'meters', B], ['State Plane, Florida West', '508,565 ft E', '1,315,020 ft N', 'feet', '#9be3a7']];
+      C.forEach(([t, a, b, u, col], i) => { const al = S.fade(now, 200 + i * 450), X = 110 + i * 480; ctx.save(); ctx.globalAlpha = al; ctx.fillStyle = 'rgba(10,14,26,.9)'; ctx.strokeStyle = col; ctx.lineWidth = 3; ctx.beginPath(); ctx.roundRect(X, 560, 420, 250, 16); ctx.fill(); ctx.stroke(); ctx.restore();
+        S.text(t, X + 210, 610, 28, col, 'center', al); S.text(a, X + 210, 675, 40, '#ece6da', 'center', al, 600); S.text(b, X + 210, 730, 40, '#ece6da', 'center', al, 600); S.text(u, X + 210, 785, 24, '#9a9382', 'center', al); });
+    }
+    V3SAT.bands(ctx); S.text(V3SAT.credit, 1540, 960, 17, '#9a9382', 'right');
+    S.words(now, ...WORDS[k]);
+  });
+}, 0));
+
+/* ---------- Appendix: errors grow. 160 careful ships, dead reckoning ---------- */
+addEventListener('load', () => setTimeout(() => {
+  const el = v3Find('Errors grow'); if (!el) return;
+  const G = '#f0b35a', RED = '#ff7d6f', DAYS = [1, 5, 12], RUN = 115, HE = 2 * Math.PI / 180, SE = .08, X0 = 170, Y0 = 520, PX = 1240 / (12 * RUN);
+  let seed = 42; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647, g = () => { let u = 0; for (let i = 0; i < 6; i++) u += rnd(); return (u - 3) / .7071; };
+  // every ship: a fixed compass bias and speed bias, plus a fresh error each day
+  const SHIPS = Array.from({ length: 160 }, () => { const hb = g() * HE * .5, sb = g() * SE * .5, pts = [[0, 0]]; let x = 0, y = 0; for (let d = 0; d < 12; d++) { const a = hb + g() * HE, v = RUN * (1 + sb + g() * SE); x += v * Math.cos(a); y += v * Math.sin(a); pts.push([x, y]); } return pts; });
+  const doubt = d => { const fl = Math.floor(d), fr = d - fl, E = SHIPS.map(p => { const a = p[fl], b = p[Math.min(12, fl + 1)]; return [S0(a[0], b[0], fr), S0(a[1], b[1], fr)]; }), mx = E.reduce((s, e) => s + e[0], 0) / E.length, my = E.reduce((s, e) => s + e[1], 0) / E.length, rs = E.map(e => Math.hypot(e[0] - mx, e[1] - my)).sort((a, b) => a - b); return { E, mx, my, r: rs[Math.floor(rs.length * .95)] }; };
+  const S0 = (a, b, t) => a + (b - a) * t;
+  const CAP = ['Each day: compass good to 2°, speed good to 8%.', '160 ships, every one steered and logged with care.', 'Nobody made a mistake. That was the fleet off Scilly.'];
+  let day = 1;
+  V3.scene(el, 3, (S, ctx, now) => {
+    const k = S.step; day += (DAYS[k] - day) * .03; if (Math.abs(DAYS[k] - day) < .01) day = DAYS[k];
+    S.stars(now, .5);
+    ctx.strokeStyle = 'rgba(236,230,218,.25)'; ctx.setLineDash([6, 8]); ctx.beginPath(); ctx.moveTo(X0, Y0); ctx.lineTo(1500, Y0); ctx.stroke(); ctx.setLineDash([]);
+    const fl = Math.floor(day), fr = day - fl;
+    ctx.strokeStyle = 'rgba(236,230,218,.14)'; ctx.lineWidth = 1.2;
+    SHIPS.forEach(p => { ctx.beginPath(); ctx.moveTo(X0, Y0); for (let d = 1; d <= fl; d++) ctx.lineTo(X0 + p[d][0] * PX, Y0 + p[d][1] * PX); if (fl < 12) ctx.lineTo(X0 + S0(p[fl][0], p[fl + 1][0], fr) * PX, Y0 + S0(p[fl][1], p[fl + 1][1], fr) * PX); ctx.stroke(); });
+    const { E, mx, my, r } = doubt(day);
+    ctx.fillStyle = RED; E.forEach(e => { ctx.beginPath(); ctx.arc(X0 + e[0] * PX, Y0 + e[1] * PX, 3.5, 0, 7); ctx.fill(); });
+    ctx.strokeStyle = RED; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(X0 + mx * PX, Y0 + my * PX, Math.max(8, r * PX), 0, 7); ctx.stroke();
+    ctx.fillStyle = '#ece6da'; ctx.beginPath(); ctx.arc(X0, Y0, 9, 0, 7); ctx.fill(); S.text('last sure position', X0 - 20, Y0 + 50, 24, '#ece6da', 'left');
+    S.text(`Day ${Math.round(day)}: ${Math.round(r)} Miles of Doubt Either Way`, 800, 70, 46, '#ece6da');
+    S.text(CAP[k], 800, 905, 30, G, 'center', S.fade(now, 0, 600));
+  });
+}, 0));
