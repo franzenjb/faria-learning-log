@@ -810,7 +810,8 @@ function proj(p){const{cx,cy,R}=geom();const q=rot(p,st.yaw,st.pitch);return{x:c
 function tap(p){const{cx,cy,R}=geom();const X=(p.x-cx)/R,Y=-(p.y-cy)/R;const r2=X*X+Y*Y;if(r2>1)return;const q=[X,Y,Math.sqrt(1-r2)];const wpt=unrot(q,st.yaw,st.pitch);const la=Math.asin(wpt[1])/DEG,lo=Math.atan2(-wpt[2],wpt[0])/DEG;
 // tap a square on the bingo card: light up its row and its column (tap the same square again to clear)
 if(bingo.on){const r=bingo.rows.findIndex(([a,b])=>la>=Math.min(a,b)&&la<=Math.max(a,b));const c=bingo.cols.findIndex(([a,b])=>{const d=((lo-a)%360+360)%360;return d<=((b-a)%360+360)%360;});
-if(r>=0&&c>=0){if(bingo.r===r&&bingo.c===c){bingo.r=bingo.c=null;}else{bingo.r=r;bingo.c=c;}syncBingo();}return;}
+if(r>=0&&c>=0){if(bingo.r===r&&bingo.c===c){bingo.r=bingo.c=null;}else{bingo.r=r;bingo.c=c;// zoom the card to fill the view the first time a square is picked
+if(st.zoom<1.8){const la=(bingo.rows[0][1]+bingo.rows[4][0])/2,lo=(((bingo.cols[2][0]+7.5)+540)%360)-180;fly(st,camFor(la,lo,2.1),1400);}}syncBingo();}return;}
 if(o.c.closest('[data-notap]'))return;// a slide can turn off 'tap to stand there'
 const ni=proj(ll(0,0));if(show.cities&&ni.z>=0&&Math.hypot(p.x-ni.x,p.y-ni.y)<14){me={lat:0,lon:0};readout();openTerm('nullisland',o.c);return;}me={lat:la,lon:lo};readout();}
 // a straight-on cross-section of the Earth for the latitude card: observer, horizon, parallel starlight, the two equal angles

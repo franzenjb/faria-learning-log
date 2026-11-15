@@ -87,5 +87,5 @@ Miles, not km. Short plain copy. Quiz slides show no hint. Spell it Clowdesley. 
 - Polaris PR #52 is stale and conflicts with main's newer Polaris rebuild. Jeff hasn't decided whether to close it.
 
 ## Controls and animated scenes (v3 talk)
-- The Controls list sits in the left panel and opens by itself on any slide that has controls; it closes on slides without. Closing it by hand (the 1·2 button or K) is remembered. `tests/claude1-v3-browser.mjs` fails if slides 3 or 4 lose their controls.
+- The Controls list is a quiet vertical list in the bottom-left corner, always on when a slide has controls (not inside the chapter panel: Jeff found that distracting). Closing it by hand (the 1·2 button or K) is remembered. `tests/claude1-v3-browser.mjs` fails if slides 3 or 4 lose their controls.
 - Slides 5, 7, 8 and 9 are continuous canvas scenes (`V3.scene` in `course-slides-v3.js`): one camera, → per beat. Do not add a helper named `V3.globe`: that name is taken by the 1884, date line and GPS globes.
