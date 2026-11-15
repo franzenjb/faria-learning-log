@@ -366,17 +366,13 @@ NEW_SLIDES['A clock that could travel'] = {
     const ph = (k, x, y, w, h) => `<image href="img/harrison-h${k}.jpg" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="xMidYMid meet"/>`;
     const big = (t, y, cls = '', size = 46) => `<text x="500" y="${y}" text-anchor="middle" class="${cls}" style="font-size:${size}px">${t}</text>`;
     const ST = [
-      () => big('1714: £20,000 for a Clock at Sea', 320, '', 56),
-      () => big('1714 · Isaac Newton:', 230, 'mu', 34) + big('“Such a watch hath not', 330, '', 58) + big('yet been made.”', 405, '', 58),
-      () => big('A carpenter says he can build it.', 300, '', 50) + big('John Harrison, born 1693', 370, 'mu', 30),
-      () => ph(1, 250, 40, 500, 470) + big('H1, 1735: 75 pounds of brass. It works.', 585, '', 38),
-      () => ph(2, 110, 40, 360, 470) + ph(3, 530, 40, 360, 470) + big('Two more clocks. Twenty-two years.', 585, '', 38),
+      () => `<image href="img/harrison-portrait.jpg" x="360" y="30" width="280" height="350" preserveAspectRatio="xMidYMid meet"/>` + big('John Harrison, village carpenter', 450, '', 46) + big('Born 1693, Yorkshire. Never schooled in science.', 510, 'mu', 28) + `<text x="500" y="634" text-anchor="middle" class="xs mu">Mezzotint after Thomas King, 1767 · public domain</text>`,
+      () => ph(1, 30, 60, 300, 330) + ph(2, 350, 60, 300, 330) + ph(3, 670, 60, 300, 330) + big('H1, 1735: it works', 440, '', 26).replace('x="500"', 'x="180"') + big('H2, 1741: sturdier', 440, '', 26) + big('H3, 1759: nineteen years', 440, '', 26).replace('x="500"', 'x="820"') + big('Thirty years. Three clocks. Still too big.', 530, 'mu', 30),
       () => ph(4, 240, 20, 520, 420) + big('H4: 81 days at sea to Jamaica.', 490, '', 40) + big('How many seconds does it lose?', 548, 'rd', 44),
       () => ph(4, 330, 10, 340, 280) + big('5 seconds', 420, 'rd', 120) + big('About 1¼ miles of longitude.', 510, '', 36),
-      () => [1, 2, 3, 4].map((k, i) => ph(k, 70 + i * 220, 60, 200, 260)).join('') + big('1773: at 80, Harrison is paid.', 420, '', 48),
       () => big('The carpenter beat Newton.', 330, 'rd', 72)
     ];
-    V3.steps(el, ST.length - 1, k => { CS.$(el, '#hv').innerHTML = ST[k]() + (k >= 3 && k <= 7 ? `<text x="500" y="634" text-anchor="middle" class="xs mu">Harrison’s clocks, Royal Observatory · photos: Tatters, Wikimedia</text>` : ''); });
+    V3.steps(el, ST.length - 1, k => { CS.$(el, '#hv').innerHTML = ST[k]() + (k >= 1 && k <= 3 ? `<text x="500" y="634" text-anchor="middle" class="xs mu">Harrison’s clocks, Royal Observatory · photos: Tatters, Wikimedia</text>` : ''); });
   }
 };
 
@@ -803,7 +799,7 @@ addEventListener('load', () => setTimeout(() => {
   // the four moons: distance (in Jupiter radii, squeezed to fit) and period in days
   const MOONS = [['Io', 2.4, 1.769, .3], ['Europa', 3.8, 3.551, 2.1], ['Ganymede', 6.0, 7.155, 4.0], ['Callisto', 10.3, 16.69, 5.6]];
   const NIGHTS = ['Jan 7', 'Jan 8', 'Jan 10', 'Jan 11', 'Jan 12', 'Jan 13'], NT = [0, 1, 3, 4, 5, 6];
-  const EYE = [{ x: 640, y: 560, r: 0 }, { x: 800, y: 470, r: 340 }, { x: 900, y: 470, r: 340 }, { x: 800, y: 470, r: 340 }, { x: 800, y: 470, r: 340 }, { x: 800, y: 470, r: 340 }, { x: 1150, y: 380, r: 230 }, { x: 1150, y: 380, r: 230 }, { x: 800, y: 470, r: 0 }];
+  const EYE = [{ x: 640, y: 560, r: 0 }, { x: 800, y: 470, r: 340 }, { x: 900, y: 470, r: 340 }, { x: 800, y: 470, r: 340 }, { x: 800, y: 470, r: 340 }, { x: 800, y: 470, r: 340 }, { x: 1150, y: 380, r: 230 }, { x: 1150, y: 380, r: 0 }, { x: 1150, y: 380, r: 230 }, { x: 800, y: 470, r: 0 }];
   const WORDS = [
     ['1609 · Galileo turns a telescope on the night sky', 'About 20 times magnification. Nobody has looked up like this before.'],
     ['The Moon is not smooth', 'Mountains, craters, long shadows. The heavens were supposed to be perfect.'],
@@ -812,6 +808,7 @@ addEventListener('load', () => setTimeout(() => {
     ['Io slips into Jupiter’s shadow', 'Every 42½ hours it vanishes, on schedule, for everyone on Earth at the same instant.'],
     ['A clock in the sky that everyone can read', 'London writes down 9:00 PM. You write down 7:00 PM. 2 hours = 30° West.'],
     ['On land, it works', 'A long telescope on a steady stand, a pendulum clock beside it. By 1668 map makers redraw whole countries.'],
+    ['France shrinks, and the king complains', 'Longitudes timed by Jupiter’s moons, 1679–1693: the west coast moves east. The real France is smaller.'],
     ['At sea, it fails', 'You cannot hold a moon of Jupiter in the eyepiece on a rolling deck, and a pendulum cannot keep time on the waves.'],
     ['', '']];
   let eye = { ...EYE[0] }, from = { ...EYE[0] }, last = 0, tilt = .03, tj = 0;
@@ -825,21 +822,21 @@ addEventListener('load', () => setTimeout(() => {
     const jg = ctx.createRadialGradient(cx - rJ * .3, cy - rJ * .3, 0, cx, cy, rJ); jg.addColorStop(0, '#f1d7a8'); jg.addColorStop(1, '#b8925a'); ctx.fillStyle = jg; ctx.beginPath(); ctx.arc(cx, cy, rJ, 0, 7); ctx.fill();
     ctx.strokeStyle = 'rgba(138,106,61,.7)'; ctx.lineWidth = Math.max(1, rJ * .12); [-.35, .1, .45].forEach(f => { ctx.beginPath(); ctx.moveTo(cx - rJ * Math.sqrt(1 - f * f), cy + rJ * f); ctx.lineTo(cx + rJ * Math.sqrt(1 - f * f), cy + rJ * f); ctx.stroke(); });
     pos.filter(p => !p.behind).forEach(dot); return pos; };
-  V3.scene(el, 9, (S, ctx, now) => {
+  V3.scene(el, 10, (S, ctx, now) => {
     if (S.t0 !== last) { from = { ...eye }; last = S.t0; }
     const age = S.age(now), k = S.step, e = S.ease(age / 1500), T = EYE[k];
     eye = { x: S.lerp(from.x, T.x, e), y: S.lerp(from.y, T.y, e), r: S.lerp(from.r, T.r, e) };
     tilt = S.lerp(tilt, k >= 3 && k <= 5 ? .5 : .03, .05);
     const sky = ctx.createLinearGradient(0, 0, 0, 1000); sky.addColorStop(0, '#05070f'); sky.addColorStop(1, '#101a30'); ctx.fillStyle = sky; ctx.fillRect(0, 0, 1600, 1000); S.stars(now, .8);
     // the ground: Padua's rooftops, a steady stand on land, or the rolling sea
-    const sea = k === 7, roll = sea ? S.clamp(age / 800) : 0, ang = roll * .12 * Math.sin(now / 600);
-    if (k <= 1 || k >= 6) { ctx.save(); ctx.globalAlpha = k === 8 ? 0 : 1;
+    const sea = k === 8, roll = sea ? S.clamp(age / 800) : 0, ang = roll * .12 * Math.sin(now / 600);
+    if (k <= 1 || k === 6 || k === 8) { ctx.save();
       if (sea) { ctx.fillStyle = '#0b1424'; ctx.fillRect(0, 800, 1600, 200); ctx.strokeStyle = 'rgba(59,95,138,.8)'; ctx.lineWidth = 3; for (let i = 0; i < 22; i++) { const x = -100 + i * 85 + (now / 30) % 85; ctx.beginPath(); ctx.moveTo(x, 816); ctx.quadraticCurveTo(x + 21, 800, x + 42, 816); ctx.stroke(); } }
       else { ctx.fillStyle = '#0a0d16'; ctx.beginPath(); ctx.moveTo(0, 1000); [[0, 820], [120, 820], [120, 760], [200, 720], [280, 760], [280, 800], [420, 800], [420, 700], [450, 640], [480, 700], [480, 790], [700, 790], [700, 820], [1600, 820], [1600, 1000]].forEach(p => ctx.lineTo(...p)); ctx.fill(); }
       // telescope (and on land, its stand and a pendulum clock)
       ctx.save(); ctx.translate(560, 800); ctx.rotate(-ang); ctx.strokeStyle = '#8a6a3d'; ctx.lineWidth = 8; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-50, -0); ctx.moveTo(0, -120); ctx.lineTo(-45, 0); ctx.moveTo(0, -120); ctx.lineTo(45, 0); ctx.moveTo(0, -120); ctx.lineTo(0, 0); ctx.stroke();
       ctx.strokeStyle = '#b8925a'; ctx.lineCap = 'round'; ctx.lineWidth = 22; ctx.beginPath(); ctx.moveTo(-110, -80); ctx.lineTo(150, -200); ctx.stroke(); ctx.lineCap = 'butt'; ctx.restore();
-      if (k >= 6) { const sw = sea ? .5 * Math.sin(now / 260) + .3 * Math.sin(now / 97) : .35 * Math.sin(now / 500); ctx.save(); ctx.translate(800, 620); ctx.rotate(-ang); ctx.fillStyle = '#3a2f22'; ctx.fillRect(-45, 0, 90, 190); ctx.fillStyle = '#efe4c8'; ctx.beginPath(); ctx.arc(0, 40, 26, 0, 7); ctx.fill(); ctx.strokeStyle = '#cfc8ba'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(0, 70); ctx.lineTo(90 * Math.sin(sw), 70 + 90 * Math.cos(sw)); ctx.stroke(); ctx.fillStyle = G; ctx.beginPath(); ctx.arc(90 * Math.sin(sw), 70 + 90 * Math.cos(sw), 12, 0, 7); ctx.fill(); ctx.restore(); S.text(sea ? 'the pendulum swings with the ship' : 'pendulum clock', 800, 840, 22, M, 'center', S.fade(now, 600)); }
+      if (k === 6 || k === 8) { const sw = sea ? .5 * Math.sin(now / 260) + .3 * Math.sin(now / 97) : .35 * Math.sin(now / 500); ctx.save(); ctx.translate(800, 620); ctx.rotate(-ang); ctx.fillStyle = '#3a2f22'; ctx.fillRect(-45, 0, 90, 190); ctx.fillStyle = '#efe4c8'; ctx.beginPath(); ctx.arc(0, 40, 26, 0, 7); ctx.fill(); ctx.strokeStyle = '#cfc8ba'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(0, 70); ctx.lineTo(90 * Math.sin(sw), 70 + 90 * Math.cos(sw)); ctx.stroke(); ctx.fillStyle = G; ctx.beginPath(); ctx.arc(90 * Math.sin(sw), 70 + 90 * Math.cos(sw), 12, 0, 7); ctx.fill(); ctx.restore(); S.text(sea ? 'the pendulum swings with the ship' : 'pendulum clock', 800, 840, 22, M, 'center', S.fade(now, 600)); }
       ctx.restore(); }
     // the eyepiece view
     if (eye.r > 4) { ctx.save(); ctx.beginPath(); ctx.arc(eye.x, eye.y, eye.r, 0, 7); ctx.fillStyle = '#03050a'; ctx.fill(); ctx.clip();
@@ -852,15 +849,44 @@ addEventListener('load', () => setTimeout(() => {
         const io = k === 5 ? 0 : -1.15 + .17 * Math.max(0, age - 1500) / 1000;
         const pos = system(ctx, S, now, eye.x - 60, eye.y, sc, { t: 6, tilt, shadow: true, io, names: false });
         const p = pos[0]; S.text(p.inSh ? 'Io vanishes!' : 'Io', p.x, p.y - 30, p.inSh ? 30 : 22, p.inSh ? G : W); S.text('Sunlight →', eye.x - eye.r + 90, eye.y - eye.r * .62, 22, G, 'left'); S.text('Jupiter’s shadow', eye.x + eye.r - 30, eye.y + 70, 20, M, 'right'); }
-      else if (k === 6 || k === 7) system(ctx, S, now, cx, cy, 11 * eye.r / 230, { t: age / 3000 + 6, tilt });
+      else if (k === 6 || k === 8) system(ctx, S, now, cx, cy, 11 * eye.r / 230, { t: age / 3000 + 6, tilt });
       ctx.restore(); ctx.strokeStyle = '#6b5a40'; ctx.lineWidth = 10; ctx.beginPath(); ctx.arc(eye.x, eye.y, eye.r, 0, 7); ctx.stroke(); }
     // Galileo's notebook, one night per line
     if (k === 2) { const shown = Math.min(NIGHTS.length, Math.floor(tj) + 1); S.text('Galileo’s notebook', 230, 170, 24, M, 'center', S.fade(now)); for (let i = 0; i < shown; i++) { const y = 225 + i * 70; S.text(NIGHTS[i], 90, y, 22, M, 'left'); ctx.save(); system(ctx, S, now, 300, y, 6, { t: NT[i], tilt: 0 }); ctx.restore(); } }
     if (k === 5) { S.card(40, 300, 340, 150, 'London writes down', '9:00 PM', 'Io vanished', G, S.fade(now, 400)); S.card(1220, 300, 340, 150, 'You write down', '7:00 PM', 'Io vanished', B, S.fade(now, 1000)); S.text('2 hours = 30° West', 800, 845, 44, G, 'center', S.fade(now, 1700)); }
     // Scilly: the bill for longitude at sea
-    if (k === 8) { const a = S.fade(now, 0, 800); ctx.save(); ctx.globalAlpha = a * .5; if (scilly.complete && scilly.naturalWidth) { const s = Math.max(1600 / scilly.naturalWidth, 1000 / scilly.naturalHeight); ctx.filter = 'grayscale(1)'; ctx.drawImage(scilly, 800 - scilly.naturalWidth * s / 2, 500 - scilly.naturalHeight * s / 2, scilly.naturalWidth * s, scilly.naturalHeight * s); ctx.filter = 'none'; } ctx.restore();
+    if (k === 9) { const a = S.fade(now, 0, 800); ctx.save(); ctx.globalAlpha = a * .5; if (scilly.complete && scilly.naturalWidth) { const s = Math.max(1600 / scilly.naturalWidth, 1000 / scilly.naturalHeight); ctx.filter = 'grayscale(1)'; ctx.drawImage(scilly, 800 - scilly.naturalWidth * s / 2, 500 - scilly.naturalHeight * s / 2, scilly.naturalWidth * s, scilly.naturalHeight * s); ctx.filter = 'none'; } ctx.restore();
       ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(5,8,18,.72)'; ctx.fillRect(0, 300, 1600, 400); ctx.restore();
       S.text('So in 1707, at sea, longitude was still a guess', 800, 400, 50, W, 'center', a); S.text('Scilly: four ships, about 2,000 men', 800, 500, 64, G, 'center', S.fade(now, 700, 700)); S.text('Seven years later, Parliament acts.', 800, 610, 44, W, 'center', S.fade(now, 1500, 700)); }
+    // France shrinks: the old outline (longitudes guessed) slides east onto the 1693 survey (longitudes timed by Io)
+    if (k === 7 && typeof COAST_FR !== 'undefined') { const T = S.clamp((age - 600) / 3800), kk = S.ease(T), sc = 66, P = (la, lo) => [800 + (lo - 2.4) * Math.cos(46.6 * Math.PI / 180) * sc, 440 - (la - 46.6) * sc];
+      const old = (la, lo, f) => { const west = Math.max(0, (2.35 - lo) / 6.85), south = Math.max(0, (45 - la) / 3); return [la - .5 * south * f, lo - 1.5 * west * f]; };
+      const draw = (fn, col, wd, dash) => { ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.setLineDash(dash || []); ctx.beginPath(); for (const ln of COAST_FR.lines) { let pen = false; for (let i = 0; i < ln.length; i += 2) { const q = P(...fn(ln[i + 1] / 100, ln[i] / 100)); pen ? ctx.lineTo(...q) : ctx.moveTo(...q); pen = true; } } ctx.stroke(); ctx.setLineDash([]); };
+      ctx.save(); ctx.globalAlpha = S.fade(now, 0, 500); draw((la, lo) => [la, lo], G, 3); draw((la, lo) => old(la, lo, 1), 'rgba(236,230,218,.35)', 1.5, [5, 6]); draw((la, lo) => old(la, lo, 1 - kk), `rgba(236,230,218,${.85 - .5 * kk})`, 2.5); ctx.restore();
+      [['Paris', 48.86, 2.35], ['Brest', 48.39, -4.49], ['Marseille', 43.3, 5.37]].forEach(([n, la, lo]) => { const q = P(la, lo); ctx.fillStyle = G; ctx.beginPath(); ctx.arc(...q, 6, 0, 7); ctx.fill(); S.text(n, q[0] + 12, q[1] - 12, 22, W, 'left'); });
+      { const qo = P(...old(48.39, -4.49, 1 - kk)), q = P(48.39, -4.49); if (kk < 1) { ctx.strokeStyle = RED; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(...qo); ctx.lineTo(...q); ctx.stroke(); } S.text(`Brest moves ${(1.5 * kk).toFixed(1)}° east`, P(48.39, -6.3)[0], P(48.39, -6.3)[1] + 50, 24, RED, 'center', S.fade(now, 800)); }
+      S.text('gray: the old map · gold: the 1693 survey', 1540, 160, 22, M, 'right', S.fade(now, 400));
+      S.text('“His Majesty’s astronomers have taken more of France than his enemies ever did.”', 800, 790, 32, G, 'center', S.fade(now, 4200, 800));
+      S.text('attributed to Louis XIV, 1693 · the sentiment is recorded, the exact words are not', 800, 832, 18, M, 'center', S.fade(now, 4600, 800)); }
     S.words(now, ...WORDS[k]);
+  });
+}, 0));
+
+
+/* ---------- 10 · The Longitude Act, 1714: the prize, then its three tiers. Plain and quiet. ---------- */
+addEventListener('load', () => setTimeout(() => {
+  const el = v3Find('The Longitude Act, 1714'); if (!el) return;
+  const G = '#f0b35a', W = '#ece6da', M = '#9a9382';
+  const TIERS = [['£10,000', 'Within 1°', 'about 60 miles'], ['£15,000', 'Within ⅔°', 'about 40 miles'], ['£20,000', 'Within ½°', 'about 30 miles']];
+  V3.scene(el, 2, (S, ctx, now) => {
+    const k = S.step, up = S.ease(S.age(now) / 900);
+    const ty = k === 0 ? 400 : S.lerp(400, 190, up); // the headline rises to make room for the prizes
+    S.text('1714', 800, ty - 120, 40, M, 'center', 1);
+    S.text('The Longitude Act', 800, ty - 40, 76, W, 'center', 1);
+    S.text('£20,000 to find longitude at sea', 800, ty + 50, 40, G, 'center', 1);
+    if (k === 1) TIERS.forEach(([amt, tol, mi], i) => { const a = S.fade(now, 500 + i * 450, 600), x = 300 + i * 500;
+      ctx.save(); ctx.globalAlpha = a; ctx.strokeStyle = i === 2 ? G : 'rgba(236,230,218,.25)'; ctx.lineWidth = i === 2 ? 2.5 : 1.5; ctx.beginPath(); ctx.moveTo(x - 190, 400); ctx.lineTo(x + 190, 400); ctx.stroke(); ctx.restore();
+      S.text(amt, x, 490, 68, i === 2 ? G : W, 'center', a); S.text(tol, x, 580, 44, W, 'center', a); S.text(mi, x, 640, 30, M, 'center', a); });
+    if (k === 1) S.text('Sail to the West Indies, about six weeks, and say where you are.', 800, 800, 30, M, 'center', S.fade(now, 2200, 700));
   });
 }, 0));
