@@ -1084,30 +1084,42 @@ addEventListener('load', () => setTimeout(() => {
 /* ---------- Aside: Rømer, light needs time. To scale: 1 AU = 200 px. Light rings leave Jupiter; Earth near, then far ---------- */
 NEW_SLIDES['Light needs time, again'] = { h1: 'Rømer: Light Needs Time', fig: '', init() {} }; // appendix copy, so Q&A can jump to it
 const romerScene = el => {
-  const G = '#f0b35a', W = '#ece6da', M = '#9a9382', B = '#6fb3ff', AU = 200, SX = 400, SY = 520, JX = SX + 5.2 * AU, C = AU / .75; // light: 1 AU every 0.75 s
-  const WORDS = [['Paris, 1676 · Ole Rømer Times Io', 'Earth on Jupiter’s side of the Sun: the eclipse arrives on time.'], ['Months Later', 'The Earth is on the far side of the Sun.'], ['Now the Eclipse Is Late', 'The light has to cross the Earth’s whole orbit: about 16½ minutes more.'], ['Io Is on Time. The Light Is Late.', 'Light takes time: about 8 minutes from the Sun to us.']];
-  let ang = 0;
+  const G = '#f0b35a', W = '#ece6da', M = '#9a9382', B = '#6fb3ff', AU = 200, SX = 360, SY = 520, JX = SX + 5.2 * AU, C = AU / .6, MIN = 8.317; // to scale: 1 AU = 200 px; light: 1 AU every 0.6 s
+  const WORDS = [['Paris, 1676 · Ole Rømer Times Io', 'Earth on Jupiter’s side of the Sun: the eclipse arrives on time.'], ['Months Later', 'The Earth swings round to the far side of the Sun.'], ['Now the Eclipse Is Late', 'The light has to cross the Earth’s whole orbit: about 16½ minutes more.'], ['Io Is on Time. The Light Is Late.', 'Light takes time: about 8 minutes from the Sun to us.']];
+  let ang = 0, rings = [], lastIo = 0, flash = 0;
   V3.scene(el, 4, (S, ctx, now) => {
-    const k = S.step, age = S.age(now);
-    ang = S.lerp(ang, k >= 1 ? Math.PI : 0, k === 1 ? .025 : .2);
-    S.stars(now, .6);
-    ctx.strokeStyle = 'rgba(236,230,218,.25)'; ctx.setLineDash([6, 8]); ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(SX, SY, AU, 0, 7); ctx.stroke(); ctx.setLineDash([]);
-    const sg = ctx.createRadialGradient(SX, SY, 0, SX, SY, 60); sg.addColorStop(0, '#ffe39a'); sg.addColorStop(.5, G); sg.addColorStop(1, 'rgba(240,179,90,0)'); ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(SX, SY, 60, 0, 7); ctx.fill(); S.text('Sun', SX, SY + 80, 24, G);
-    const jg = ctx.createRadialGradient(JX - 10, SY - 10, 0, JX, SY, 34); jg.addColorStop(0, '#f1d7a8'); jg.addColorStop(1, '#b8925a'); ctx.fillStyle = jg; ctx.beginPath(); ctx.arc(JX, SY, 34, 0, 7); ctx.fill(); S.text('Jupiter', JX, SY + 74, 24, W);
-    const ex = SX + AU * Math.cos(ang), ey = SY - AU * Math.sin(ang) * .0;
-    // light rings: Io blinks out every 4.5 s and the news spreads at light speed
-    const per = 4500, ph = (Math.max(0, age) % per) / 1000, r = ph * C, blink = ph < .5;
-    ctx.fillStyle = blink ? '#262a33' : '#ffe9b0'; ctx.beginPath(); ctx.arc(JX - 58, SY, 8, 0, 7); ctx.fill(); S.text(blink ? 'Io goes dark' : 'Io', JX - 58, SY - 26, 20, blink ? G : M);
-    if (k !== 1) { ctx.strokeStyle = 'rgba(111,179,255,.9)'; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(JX - 58, SY, r, 0, 7); ctx.stroke(); }
-    // where the Earth was and where it is
-    const dNear = (JX - 58) - (SX + AU), dFar = (JX - 58) - (SX - AU);
-    if (k >= 2) { ctx.fillStyle = 'rgba(111,179,255,.35)'; ctx.beginPath(); ctx.arc(SX + AU, SY, 14, 0, 7); ctx.fill(); S.text('near: on time', SX + AU, SY - 34, 22, M);
-      ctx.strokeStyle = G; ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(SX - AU, SY + 130); ctx.lineTo(SX + AU, SY + 130); ctx.stroke(); [SX - AU, SX + AU].forEach(x => { ctx.beginPath(); ctx.moveTo(x, SY + 116); ctx.lineTo(x, SY + 144); ctx.stroke(); });
-      S.text('the extra trip: across the orbit, 186 million miles', SX, SY + 180, 26, G, 'center', S.fade(now, 600)); }
-    const hit = r >= (k >= 1 ? dFar : dNear) && k !== 1;
-    ctx.fillStyle = hit && ph < (k >= 1 ? dFar : dNear) / C + .6 ? '#ffffff' : B; ctx.beginPath(); ctx.arc(ex, ey, 18, 0, 7); ctx.fill(); S.text('Earth', ex, ey - 34, 26, B);
-    if (k === 0 || k >= 2) { const late = k === 0 ? 'on time' : '16½ min late'; S.text(hit ? 'Seen ' + late : '', ex, ey + 56, 28, k === 0 ? W : G); }
-    S.text('Sun, Earth and Jupiter to scale · light slowed down', 1560, 960, 17, M, 'right');
+    const k = S.step, age = Math.max(0, S.age(now));
+    // the Earth: near Jupiter (angle 0), then round the top of its orbit to the far side
+    const target = k >= 1 ? Math.PI : 0; ang += (target - ang) * (k === 1 ? .022 : .25); if (Math.abs(target - ang) < .002) ang = target;
+    const ex = SX + AU * Math.cos(ang), ey = SY - AU * Math.sin(ang);
+    S.stars(now, .55);
+    // orbit and Sun
+    ctx.strokeStyle = 'rgba(111,179,255,.45)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(SX, SY, AU, 0, 7); ctx.stroke(); S.text('Earth’s orbit', SX, SY - AU - 18, 20, B, 'center', .8);
+    const sg = ctx.createRadialGradient(SX, SY, 0, SX, SY, 62); sg.addColorStop(0, '#fff3c4'); sg.addColorStop(.5, '#ffd66b'); sg.addColorStop(1, 'rgba(255,214,107,0)'); ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(SX, SY, 62, 0, 7); ctx.fill(); S.text('Sun', SX, SY + 86, 24, G);
+    // Jupiter, its shadow pointing away from the Sun, and Io going round
+    ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.beginPath(); ctx.moveTo(JX, SY - 30); ctx.lineTo(JX + 150, SY - 24); ctx.lineTo(JX + 150, SY + 24); ctx.lineTo(JX, SY + 30); ctx.closePath(); ctx.fill();
+    const jg = ctx.createRadialGradient(JX - 8, SY - 8, 2, JX, SY, 30); jg.addColorStop(0, '#f6e2bd'); jg.addColorStop(1, '#b98a55'); ctx.fillStyle = jg; ctx.beginPath(); ctx.arc(JX, SY, 30, 0, 7); ctx.fill(); S.text('Jupiter', JX, SY + 76, 24, W);
+    ctx.strokeStyle = 'rgba(236,230,218,.3)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(JX, SY, 64, 26, 0, 0, 7); ctx.stroke();
+    const ia = (now / 1000) * (2 * Math.PI / 4.5), iox = JX + 64 * Math.cos(ia), ioy = SY + 26 * Math.sin(ia), dark = Math.cos(ia) > 0 && Math.abs(Math.sin(ia)) < .45;
+    if (dark && !lastIo && k !== 1) rings.push({ t0: now, hit: false }); lastIo = dark;
+    ctx.fillStyle = dark ? '#2a2f3a' : '#ffe9b0'; ctx.beginPath(); ctx.arc(iox, ioy, 7, 0, 7); ctx.fill(); S.text(dark ? 'Io goes dark' : 'Io', iox, ioy - 22, 20, dark ? G : M);
+    // the light-time line, Earth to Jupiter
+    const dAU = Math.hypot(JX - ex, SY - ey) / AU;
+    ctx.setLineDash([5, 7]); ctx.strokeStyle = 'rgba(236,230,218,.4)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(ex, ey); ctx.lineTo(JX, SY); ctx.stroke(); ctx.setLineDash([]);
+    S.text(`${dAU.toFixed(1)} AU · light takes ${Math.round(dAU * MIN)} min`, (ex + JX) / 2 + 40, (ey + SY) / 2 - 22, 24, '#cfc8ba');
+    // light rings from Jupiter; the Earth lights up when one arrives
+    rings = rings.filter(r => (now - r.t0) / 1000 * C < 1700);
+    rings.forEach(r => { const rr = (now - r.t0) / 1000 * C; ctx.strokeStyle = `rgba(255,246,220,${Math.max(.15, 1 - rr / 1700)})`; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(JX, SY, rr, 0, 7); ctx.stroke(); if (!r.hit && rr >= dAU * AU) { r.hit = true; flash = now; } });
+    if (k >= 2) { ctx.fillStyle = 'rgba(111,179,255,.35)'; ctx.beginPath(); ctx.arc(SX + AU, SY, 12, 0, 7); ctx.fill(); S.text('near side', SX + AU, SY + 40, 20, M);
+      ctx.strokeStyle = G; ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(SX - AU, SY + 150); ctx.lineTo(SX + AU, SY + 150); ctx.stroke(); [SX - AU, SX + AU].forEach(x => { ctx.beginPath(); ctx.moveTo(x, SY + 136); ctx.lineTo(x, SY + 164); ctx.stroke(); });
+      S.text('the extra trip: 186 million miles', SX, SY + 200, 26, G, 'center', S.fade(now, 600)); }
+    const gl = Math.max(0, 1 - (now - flash) / 1500);
+    if (gl > 0) { const g2 = ctx.createRadialGradient(ex, ey, 0, ex, ey, 60); g2.addColorStop(0, `rgba(111,179,255,${.9 * gl})`); g2.addColorStop(1, 'rgba(111,179,255,0)'); ctx.fillStyle = g2; ctx.beginPath(); ctx.arc(ex, ey, 60, 0, 7); ctx.fill(); }
+    ctx.fillStyle = B; ctx.beginPath(); ctx.arc(ex, ey, 16, 0, 7); ctx.fill(); S.text('Earth', ex, ey - 32, 26, B);
+    // the delay card
+    const late = Math.max(0, (dAU - 4.2) * MIN);
+    S.card(1130, 150, 430, 150, 'Eclipse seen', late < .3 ? 'On time' : `${Math.floor(late)} min ${String(Math.round((late % 1) * 60) % 60).padStart(2, '0')} s`, late < .3 ? 'Earth on the near side' : 'late, compared with the near side', late < .3 ? W : G);
+    S.text('Distances and light time to scale · sizes not to scale', 1560, 960, 17, M, 'right');
     S.words(now, ...WORDS[k]);
   });
 };
