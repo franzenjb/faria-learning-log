@@ -742,7 +742,7 @@ addEventListener('load', () => setTimeout(() => {
   });
 }, 0));
 
-/* ---------- 8 · Way 1: the Moon is a clock hand. Time-lapse, measure, look it up, then the rolling deck ---------- */
+/* ---------- 10 · Way 2: the Moon is a clock hand. Time-lapse, measure, look it up, then the rolling deck ---------- */
 addEventListener('load', () => setTimeout(() => {
   const el = v3Find('The lunar distance'); if (!el) return;
   const G = '#f0b35a', W = '#ece6da', M = '#9a9382', RED = '#ff7d6f';
@@ -752,10 +752,10 @@ addEventListener('load', () => setTimeout(() => {
   const t12 = h => { const hh = Math.floor(((h % 24) + 24) % 24), mm = Math.round((h - Math.floor(h)) * 60) % 60; return `${hh % 12 || 12}:${String(mm).padStart(2, '0')} ${hh < 12 ? 'AM' : 'PM'}`; };
   const FIELD = Array.from({ length: 18 }, (_, i) => [300 + ((i * 397) % 1000), 260 + ((i * 211) % 260), 1 + (i % 3) * .6]);
   const WORDS = [
-    ['Way 1: the Moon is a clock hand', 'Against the stars it moves about its own width every hour, the same for everyone.'],
-    ['Measure the Moon–star distance', 'With a sextant: from the Moon’s edge to the bright star Regulus.'],
-    ['Look it up in the almanac', '42° 18′ means 9:00 PM in London. Your own clock says 7:00 PM: 2 hours = 30° West.'],
-    ['Now do it on a rolling deck', 'One arcminute wrong = about 30 miles. Then an hour of arithmetic by candlelight.']];
+    ['Way 2: The Moon Is a Clock Hand', 'An idea from 1514. It finally worked at sea in the 1760s.'],
+    ['Measure the Moon–Star Distance', 'With a sextant: from the Moon’s edge to the bright star Regulus.'],
+    ['Look It Up in the Almanac', '42° 18′ means 9:00 PM in London. Your own clock says 7:00 PM: 2 hours = 30° West.'],
+    ['Now Do It on a Rolling Deck', 'One arcminute wrong = about 30 miles. Then an hour of arithmetic by candlelight.']];
   let H = 6;
   V3.scene(el, 4, (S, ctx, now) => {
     const age = S.age(now), roll = S.step === 3 ? S.clamp(age / 900) : 0;
@@ -792,7 +792,7 @@ addEventListener('load', () => setTimeout(() => {
   });
 }, 0));
 
-/* ---------- 9 · Way 2: Galileo, through the eyepiece. Moon, Jupiter's moons, the eclipse clock, land vs sea, Scilly ---------- */
+/* ---------- 8 · Way 1: Galileo, through the eyepiece. Moon, Jupiter's moons, the eclipse clock, land vs sea, Scilly ---------- */
 addEventListener('load', () => setTimeout(() => {
   const el = v3Find('Galileo’s clock'); if (!el) return;
   const G = '#f0b35a', W = '#ece6da', M = '#9a9382', B = '#6fb3ff', RED = '#ff7d6f';
