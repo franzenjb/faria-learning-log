@@ -80,7 +80,7 @@ const V3_TUNE = {
   'The lunar distance': { kicker: '1767 · Nevil Maskelyne’s Almanac', hide: ['#ld-steps', '#ld-deck'], hero: 'The Moon Is a Clock Hand. <b>One Arcminute Wrong = 30 Miles.</b>' },
   'A clock that could travel': { h1: 'A Clock That Could Travel' },
   'Washington, 1884': { kicker: 'Washington · October 1884', hide: ['#pm84-r'], hero: 'October 1884: 25 Nations Pick <b>Zero Longitude</b>.' },
-  'Where am I, now': { kicker: 'GPS', hero: 'September 1983: A Navigation Error Kills 269. <b>The Answer Is GPS.</b>' }
+  'Where am I, now': { kicker: 'GPS', hero: 'Today: <b>GPS</b>, a Sky Full of Clocks.' }
 };
 const v3Hero = (el, html) => { let h = el.querySelector('.v3-hero'); const st = el.querySelector('.stage'); if (!st) return; if (!h) { h = document.createElement('div'); h.className = 'v3-hero'; if (getComputedStyle(st).position === 'static') st.style.position = 'relative'; st.appendChild(h); } h.innerHTML = html || ''; };
 addEventListener('load', () => setTimeout(() => {
@@ -529,7 +529,7 @@ addEventListener('load', () => setTimeout(() => {
   const STEP = [
     { top: 'The Earth', cap: 'It turns, all day, every day.' },
     { top: 'Tip it over', cap: 'Look straight down on the North Pole.' },
-    { top: 'One turn every 24 hours', cap: 'Day on the sunny side, night on the other.' },
+    { top: 'One turn every 24 hours', cap: '' },
     { top: '360° ÷ 24 hours = 15° an hour', cap: 'Cut the Earth into 24 slices, one for each hour.' },
     { top: 'Those slices are longitude', cap: 'How far east or west you are: 15° for every hour.' },
     { top: 'So how do you measure it?', cap: 'Latitude had Polaris. Longitude has no star, and the sky never stops turning.' }
@@ -561,16 +561,16 @@ addEventListener('load', () => setTimeout(() => {
       label('Sun', w - 70, cy + 50, 22, G); label('day', cx + R * .55, cy - R - 26, 22, W); label('night', cx - R * .55, cy - R - 26, 22, M); }
     // the 24-hour dial around the globe
     if (k >= 2) { for (let i = 0; i < 24; i++) { const a = i / 24 * Math.PI * 2, r1 = R + 8, r2 = R + (i % 6 ? 18 : 30); ctx.strokeStyle = i % 6 ? 'rgba(236,230,218,.45)' : W; ctx.lineWidth = i % 6 ? 1.5 : 3; ctx.beginPath(); ctx.moveTo(cx + r1 * Math.cos(a), cy + r1 * Math.sin(a)); ctx.lineTo(cx + r2 * Math.cos(a), cy + r2 * Math.sin(a)); ctx.stroke(); }
-      if (k === 2) label('24 hours', cx, cy + R + 60, 26, W); }
+      }
     // 24 slices, one lit; they ride on the Earth
     if (k >= 3) { const lit = i => k < 5 && (i === 18 || i === 19); for (let i = 0; i < 24; i++) path(Array.from({ length: 19 }, (_, j) => ll(-90 + j * 10, i * 15)), lit(i) ? G : 'rgba(236,230,218,.35)', lit(i) ? 3 : 1.2);
       if (k < 5) { const qa = proj(ll(20, -82.5)); if (qa.z > 0) label('15°', qa.x, qa.y, 28, G); } }
-    if (k === 4) { const q = proj(ll(5, -150)); if (q.z > 0) label('longitude', q.x, q.y, 24, W); label('1 hour = 15° of longitude', cx, cy + R + 64, 30, G); }
+    if (k === 4) { const q = proj(ll(5, -150)); if (q.z > 0) label('longitude', q.x, q.y, 24, W); }
     if (k === 5) { ctx.fillStyle = 'rgba(5,8,18,.45)'; ctx.fillRect(0, 0, w, h); label('?', cx, cy, R * .9, G); }
     // words
     const s = STEP[k], fade = Math.min(1, (now - t0) / 500); ctx.globalAlpha = fade;
     label(s.top, cx, h * .08, Math.max(30, Math.min(54, w * .04)), W);
-    label(s.cap, cx, h * .905, Math.max(22, Math.min(34, w * .026)), G);
+    if (s.cap) label(s.cap, cx, h * .905, Math.max(22, Math.min(34, w * .026)), G);
     ctx.globalAlpha = 1;
   };
   requestAnimationFrame(frame);
