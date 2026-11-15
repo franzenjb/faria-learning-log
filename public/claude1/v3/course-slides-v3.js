@@ -416,7 +416,7 @@ addEventListener('load', () => setTimeout(() => {
   const el = [...document.querySelectorAll('section')].find(s => s.dataset.title === 'Mental maps'); if (!el) return;
   const plan = TALK ? [0, 2] : [0, 1, 2, 3];
   // steps: question, answer, and for Boston vs Rome a third beat: the Gulf Stream and westerlies.
-  const S = []; plan.forEach(q => { S.push(['q', q], ['r', q]); if (q === 2) S.push(['g', q]); });
+  const S = []; plan.forEach(q => { S.push(['q', q], ['r', q]); if (q === 2 && !TALK) S.push(['g', q]); }); // the talk skips the Gulf Stream beat
   let ph = 0;
   const showQ = q => { const b = el.querySelector(`#m1q [data-q="${q}"]`); if (b) b.click(); };
   const reveal = () => { const b = el.querySelector('#qz-reveal'); if (b) b.click(); };
@@ -1114,9 +1114,9 @@ addEventListener('load', () => setTimeout(() => {
 NEW_SLIDES['Light needs time, again'] = { h1: 'Rømer: Light Needs Time', fig: '', init() {} }; // appendix copy, so Q&A can jump to it
 const romerScene = el => {
   const G = '#f0b35a', W = '#ece6da', M = '#c2bba9', B = '#6fb3ff', AU = 200, SX = 360, SY = 520, JX = SX + 5.2 * AU, C = AU / .6, MIN = 8.317; // to scale: 1 AU = 200 px; light: 1 AU every 0.6 s
-  const WORDS = [['Paris, 1676 · Ole Rømer Times Io', 'Earth on Jupiter’s side of the Sun: the eclipse arrives on time.'], ['Months Later', 'The Earth swings round to the far side of the Sun.'], ['Now the Eclipse Is Late', 'The light has to cross the Earth’s whole orbit: about 16½ minutes more.'], ['Io Is on Time. The Light Is Late.', 'Light takes time: about 8 minutes from the Sun to us.']];
+  const WORDS = [['Paris, 1676 · Ole Rømer Times Io', 'Earth on Jupiter’s side of the Sun: the eclipse arrives on time.'], ['Io Is on Time. The Light Is Late.', 'Earth on the far side: the light crosses the whole orbit, about 16½ minutes more.']];
   let ang = 0, rings = [], lastIo = 0, flash = 0;
-  V3.scene(el, 4, (S, ctx, now) => {
+  V3.scene(el, 2, (S, ctx, now) => { // two beats: near side on time; then the Earth travels to the far side and the eclipse runs late
     const k = S.step, age = Math.max(0, S.age(now));
     // the Earth: near Jupiter (angle 0), then round the top of its orbit to the far side
     const target = k >= 1 ? Math.PI : 0; ang += (target - ang) * (k === 1 ? .022 : .25); if (Math.abs(target - ang) < .002) ang = target;
@@ -1130,7 +1130,7 @@ const romerScene = el => {
     const jg = ctx.createRadialGradient(JX - 8, SY - 8, 2, JX, SY, 30); jg.addColorStop(0, '#f6e2bd'); jg.addColorStop(1, '#b98a55'); ctx.fillStyle = jg; ctx.beginPath(); ctx.arc(JX, SY, 30, 0, 7); ctx.fill(); S.text('Jupiter', JX, SY + 76, 24, W);
     ctx.strokeStyle = 'rgba(236,230,218,.3)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(JX, SY, 64, 26, 0, 0, 7); ctx.stroke();
     const ia = (now / 1000) * (2 * Math.PI / 4.5), iox = JX + 64 * Math.cos(ia), ioy = SY + 26 * Math.sin(ia), dark = Math.cos(ia) > 0 && Math.abs(Math.sin(ia)) < .45;
-    if (dark && !lastIo && k !== 1) rings.push({ t0: now, hit: false }); lastIo = dark;
+    if (dark && !lastIo) rings.push({ t0: now, hit: false }); lastIo = dark;
     ctx.fillStyle = dark ? '#2a2f3a' : '#ffe9b0'; ctx.beginPath(); ctx.arc(iox, ioy, 7, 0, 7); ctx.fill(); S.text(dark ? 'Io goes dark' : 'Io', iox, ioy - 22, 20, dark ? G : M);
     // the light-time line, Earth to Jupiter
     const dAU = Math.hypot(JX - ex, SY - ey) / AU;
@@ -1139,7 +1139,7 @@ const romerScene = el => {
     // light rings from Jupiter; the Earth lights up when one arrives
     rings = rings.filter(r => (now - r.t0) / 1000 * C < 1700);
     rings.forEach(r => { const rr = (now - r.t0) / 1000 * C; ctx.strokeStyle = `rgba(255,246,220,${Math.max(.15, 1 - rr / 1700)})`; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(JX, SY, rr, 0, 7); ctx.stroke(); if (!r.hit && rr >= dAU * AU) { r.hit = true; flash = now; } });
-    if (k >= 2) { ctx.fillStyle = 'rgba(111,179,255,.35)'; ctx.beginPath(); ctx.arc(SX + AU, SY, 12, 0, 7); ctx.fill(); S.text('near side', SX + AU, SY + 40, 20, M);
+    if (k >= 1 && ang > Math.PI - .05) { ctx.fillStyle = 'rgba(111,179,255,.35)'; ctx.beginPath(); ctx.arc(SX + AU, SY, 12, 0, 7); ctx.fill(); S.text('near side', SX + AU, SY + 40, 20, M);
       ctx.strokeStyle = G; ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(SX - AU, SY + 150); ctx.lineTo(SX + AU, SY + 150); ctx.stroke(); [SX - AU, SX + AU].forEach(x => { ctx.beginPath(); ctx.moveTo(x, SY + 136); ctx.lineTo(x, SY + 164); ctx.stroke(); });
       S.text('the extra trip: 186 million miles', SX, SY + 200, 26, G, 'center', S.fade(now, 600)); }
     const gl = Math.max(0, 1 - (now - flash) / 1500);
