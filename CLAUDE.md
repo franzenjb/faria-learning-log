@@ -6,4 +6,5 @@
 - Miles, not km. Short, plain copy.
 - Never overwrite another tool's copy: `/deck/`, `/deck/v2/`, `/kimi1/`. Claude's copy is `public/claude1/`.
 - After build and test pass: commit, push, open a PR and merge it without asking.
+- **Always end every reply about the deck with the live link:** https://faria.jbf.com/claude1/v3/?talk=30 (Jeff asked for this every time).
 - Handoff notes for the course: `docs/CLAUDE1_HANDOFF.md`.
