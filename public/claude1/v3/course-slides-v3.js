@@ -890,3 +890,73 @@ addEventListener('load', () => setTimeout(() => {
     if (k === 1) S.text('Sail to the West Indies, about six weeks, and say where you are.', 800, 800, 30, M, 'center', S.fade(now, 2200, 700));
   });
 }, 0));
+
+
+/* ---------- Appendix: what each decimal place buys. ↑ adds a place, ↓ takes one away (tap the top or bottom half on an iPad) ---------- */
+NEW_SLIDES['Decimal places'] = { h1: 'What Each Decimal Place Buys', fig: '', init() {} };
+NEW_SLIDES['Sidereal day'] = { h1: 'The Star Day and the Sun Day', fig: '', init() {} };
+addEventListener('load', () => setTimeout(() => {
+  const el = v3Find('Decimal places'); if (!el) return;
+  const LAT = 40.758655, LON = -73.978645, D = Math.PI / 180; // Rockefeller Center tree, approximately
+  const R = [['69 miles', 111320], ['7 miles', 11132], ['0.7 mile', 1113], ['365 feet', 111.3], ['36 feet', 11.13], ['3.6 feet', 1.113], ['4 inches', .1113]];
+  let d = 0, z = 0, tiles = {}, pressT = 0;
+  const mpp = zz => 156543.03 * Math.cos(LAT * D) / Math.pow(2, zz);
+  const want = dd => Math.min(22.5, Math.log2(156543.03 * Math.cos(LAT * D) / (R[dd][1] / 300)));
+  const tile = (zz, x, y) => { const k = zz + '/' + x + '/' + y; if (!tiles[k]) { const im = new Image(); im.crossOrigin = 'anonymous'; im.src = `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${zz}/${y}/${x}`; tiles[k] = im; } return tiles[k]; };
+  const pre = dd => { const zz = Math.max(1, Math.min(20, Math.floor(want(dd)))), n = 2 ** zz, cx = Math.floor((LON + 180) / 360 * n), cy = Math.floor((1 - Math.log(Math.tan(LAT * D) + 1 / Math.cos(LAT * D)) / Math.PI) / 2 * n); for (let i = -3; i <= 3; i++) for (let j = -2; j <= 2; j++) tile(zz, cx + i, cy + j); };
+  const set = dd => { d = Math.max(0, Math.min(6, dd)); pressT = performance.now(); pre(d); pre(Math.min(6, d + 1)); };
+  z = want(0);
+  addEventListener('keydown', e => { if (!el.classList.contains('active') || (e.key !== 'ArrowUp' && e.key !== 'ArrowDown')) return; e.preventDefault(); e.stopImmediatePropagation(); set(d + (e.key === 'ArrowUp' ? 1 : -1)); }, true);
+  V3.scene(el, 1, (S, ctx, now) => {
+    z += (want(d) - z) * .06;
+    const zi = Math.max(1, Math.min(20, Math.floor(z))), sc = Math.pow(2, z - zi), n = Math.pow(2, zi);
+    const wx = (LON + 180) / 360 * 256 * n, wy = (1 - Math.log(Math.tan(LAT * D) + 1 / Math.cos(LAT * D)) / Math.PI) / 2 * 256 * n;
+    ctx.fillStyle = '#0b1020'; ctx.fillRect(0, 0, 1600, 1000);
+    const ts = 256 * sc, x0 = Math.floor((wx - 800 / sc) / 256), x1 = Math.floor((wx + 800 / sc) / 256), y0 = Math.floor((wy - 500 / sc) / 256), y1 = Math.floor((wy + 500 / sc) / 256);
+    for (let tx = x0; tx <= x1; tx++) for (let ty = y0; ty <= y1; ty++) { if (ty < 0 || ty >= n) continue; const im = tile(zi, ((tx % n) + n) % n, ty); const X = 800 + (tx * 256 - wx) * sc, Y = 500 + (ty * 256 - wy) * sc, xx = ((tx % n) + n) % n;
+      if (im.complete && im.naturalWidth) ctx.drawImage(im, X, Y, ts + .5, ts + .5);
+      else for (let up = 1; up <= 6 && zi - up >= 1; up++) { const f = 1 << up, p = tile(zi - up, xx >> up, ty >> up); if (p.complete && p.naturalWidth) { const w = 256 / f; ctx.drawImage(p, (xx % f) * w, (ty % f) * w, w, w, X, Y, ts + .5, ts + .5); break; } } }
+    // the circle you could be anywhere inside
+    const rp = R[d][1] / mpp(z), pulse = Math.max(0, 1 - (now - pressT) / 700);
+    ctx.save(); ctx.fillStyle = 'rgba(240,179,90,.14)'; ctx.strokeStyle = '#f0b35a'; ctx.lineWidth = 4 + 4 * pulse; ctx.beginPath(); ctx.arc(800, 500, Math.max(10, rp), 0, 7); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#ff7d6f'; ctx.beginPath(); ctx.arc(800, 500, Math.min(6, Math.max(3, rp * .4)), 0, 7); ctx.fill(); ctx.restore();
+    // the number, with the decimals you have so far
+    const fmt = v => v.toFixed(d);
+    ctx.save(); ctx.fillStyle = 'rgba(8,12,22,.82)'; ctx.beginPath(); ctx.roundRect(400, 30, 800, 150, 16); ctx.fill(); ctx.restore();
+    S.text(`${fmt(LAT)}, ${fmt(LON)}`, 800, 88, 60, '#ece6da', 'center', 1, 600);
+    S.text(`${d} decimal place${d === 1 ? '' : 's'}  ·  within about ${R[d][0]}`, 800, 148, 32, '#f0b35a');
+    ctx.save(); ctx.fillStyle = 'rgba(8,12,22,.82)'; ctx.beginPath(); ctx.roundRect(470, 860, 660, 70, 14); ctx.fill(); ctx.restore();
+    S.text('↑ one more decimal  ·  ↓ one fewer', 800, 895, 28, '#cfc8ba');
+    S.text('Rockefeller Center tree · imagery © Esri, Maxar, Earthstar Geographics', 1570, 215, 17, '#cfc8ba', 'right');
+  });
+  const cv = el.querySelector('canvas'); if (cv) cv.addEventListener('click', e => { const r = cv.getBoundingClientRect(); set(d + (e.clientY - r.top < r.height / 2 ? 1 : -1)); });
+}, 0));
+
+/* ---------- Appendix: the star day (23 h 56 m) and the Sun day (24 h) ---------- */
+addEventListener('load', () => setTimeout(() => {
+  const el = v3Find('Sidereal day'); if (!el) return;
+  const G = '#f0b35a', W = '#ece6da', M = '#9a9382', B = '#6fb3ff', DL = 14 * Math.PI / 180; // orbit step drawn 14× too big
+  const WORDS = [['Noon: the Sun straight overhead', 'A far star lines up with it.'], ['One full turn, 360°: 23 h 56 min', 'The star is back overhead. The Sun is not.'], ['About 1° more: 4 minutes', 'Noon to noon: 24 hours.']];
+  let rho = 0, phi = 0;
+  V3.scene(el, 3, (S, ctx, now) => {
+    const k = S.step, t = S.ease((S.age(now) - 300) / 2600);
+    const tr = [0, -2 * Math.PI, -2 * Math.PI - DL][k], tp = [0, -DL, -DL][k];
+    rho = S.lerp(rho, tr, k ? Math.max(.02, t * .12) : .2); phi = S.lerp(phi, tp, k ? Math.max(.02, t * .12) : .2);
+    S.stars(now, .6);
+    const sx = 700, sy = 520, OR = 340, ex = sx + OR * Math.cos(phi), ey = sy + OR * Math.sin(phi);
+    ctx.strokeStyle = 'rgba(236,230,218,.18)'; ctx.setLineDash([6, 8]); ctx.beginPath(); ctx.arc(sx, sy, OR, 0, 7); ctx.stroke(); ctx.setLineDash([]);
+    const sg = ctx.createRadialGradient(sx, sy, 0, sx, sy, 70); sg.addColorStop(0, '#ffe39a'); sg.addColorStop(.5, G); sg.addColorStop(1, 'rgba(240,179,90,0)'); ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(sx, sy, 70, 0, 7); ctx.fill(); S.text('Sun', sx, sy + 92, 26, G);
+    // the far star: always the same direction (left), drawn as parallel starlight
+    ctx.strokeStyle = 'rgba(111,179,255,.5)'; ctx.setLineDash([3, 7]); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(ex - 80, ey); ctx.lineTo(80, ey); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = B; ctx.beginPath(); ctx.arc(60, ey, 8, 0, 7); ctx.fill(); S.text('far star', 60, ey - 28, 22, B);
+    // the Earth and its noon marker
+    const R0 = 64, a = Math.PI + rho; ctx.fillStyle = '#1d3354'; ctx.beginPath(); ctx.arc(ex, ey, R0, 0, 7); ctx.fill(); ctx.strokeStyle = '#3b5f8a'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.fillStyle = 'rgba(3,6,14,.55)'; ctx.beginPath(); ctx.arc(ex, ey, R0, phi - Math.PI / 2, phi + Math.PI / 2); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = '#ff7d6f'; ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(ex, ey); ctx.lineTo(ex + (R0 + 26) * Math.cos(a), ey + (R0 + 26) * Math.sin(a)); ctx.stroke();
+    ctx.fillStyle = '#ff7d6f'; ctx.beginPath(); ctx.arc(ex + (R0 + 26) * Math.cos(a), ey + (R0 + 26) * Math.sin(a), 8, 0, 7); ctx.fill();
+    if (k >= 1) { ctx.strokeStyle = G; ctx.lineWidth = 2; ctx.setLineDash([6, 6]); ctx.beginPath(); ctx.moveTo(ex, ey); ctx.lineTo(sx, sy); ctx.stroke(); ctx.setLineDash([]); }
+    if (k === 2) { const r = 150; ctx.strokeStyle = G; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(ex, ey, r, Math.PI + phi, Math.PI, false); ctx.stroke(); S.text('≈ 1°', ex - r - 20, ey - 30, 40, G, 'right', S.fade(now, 2600)); }
+    S.text('The orbit step is drawn 14× larger so you can see it.', 1540, 925, 17, M, 'right');
+    S.words(now, ...WORDS[k]);
+  });
+}, 0));
