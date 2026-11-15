@@ -74,10 +74,10 @@ const V3_TUNE = {
   'Walk north': { hideText: ['Why They Match', 'North Pole'], hero: '<b>Latitude</b> Is an Angle From the Equator.', on: { '#wn-l-you': 'One Star, One Angle. <b>Latitude</b> Needs No Clock.', '#wn-south': 'In the South, <b>the Southern Cross</b> Points to the Pole.' } },
   'Eratosthenes': { kicker: '240 BC · Eratosthenes of Alexandria' },
   'Hours are slices': {},
-  'Two ships, one latitude': { h1: 'Two Ships, One Latitude', hero: 'Same Star. Different Time. <b>Longitude Needs a Clock.</b>' },
+  'Two ships, one latitude': { h1: 'Two Ships, One Latitude' },
   'The Longitude Act, 1714': { kicker: 'Seven Years After Scilly', hide: ['#la-r'] },
   'Galileo’s clock': { talk: { hide: ['[data-detour]', '#gs-steps [data-s="5"]'] } },
-  'The lunar distance': { kicker: '1767 · Nevil Maskelyne’s Almanac', hide: ['#ld-steps', '#ld-deck'], hero: 'The Moon Is a Clock Hand. <b>One Arcminute Wrong = 30 Miles.</b>' },
+  'The lunar distance': { kicker: '1767 · Nevil Maskelyne’s Almanac' },
   'A clock that could travel': { h1: 'A Clock That Could Travel' },
   'Washington, 1884': { kicker: 'Washington · October 1884', hide: ['#pm84-r'], hero: 'October 1884: 25 Nations Pick <b>Zero Longitude</b>.' },
   'Where am I, now': { kicker: 'GPS', hero: 'Today: <b>GPS</b>, a Sky Full of Clocks.' }
@@ -649,58 +649,216 @@ addEventListener('load', () => setTimeout(() => {
 }, 0));
 
 
-/* ---------- Galileo first: the story before the clock. → steps through five screens, then the clock diagram ---------- */
+
+
+/* ---------- Scene engine: one canvas, a 1600×1000 virtual stage, steps on → / ← (and the on-screen arrows) ---------- */
+V3.scene = (el, n, draw) => {
+  const text = el.querySelector('.text'); if (text) text.style.display = 'none'; el.classList.add('wide', 'v3-scene');
+  const stage = el.querySelector('.stage'); if (getComputedStyle(stage).position === 'static') stage.style.position = 'relative';
+  [...stage.children].forEach(c => { c.style.display = 'none'; });
+  const cv = document.createElement('canvas'); cv.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;display:block;z-index:5'; stage.appendChild(cv);
+  const ctx = cv.getContext('2d');
+  const S = { step: 0, prev: 0, t0: performance.now(), ctx };
+  const clamp = v => Math.max(0, Math.min(1, v));
+  S.clamp = clamp; S.lerp = (a, b, t) => a + (b - a) * t; S.ease = t => { t = clamp(t); return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
+  S.age = now => now - S.t0; S.fade = (now, delay = 0, dur = 500) => clamp((now - S.t0 - delay) / dur);
+  S.text = (str, x, y, px, col = '#ece6da', align = 'center', alpha = 1, wt = 400, maxW = 1520, plain = false) => { if (alpha <= 0 || !str) return; ctx.save(); ctx.globalAlpha *= alpha; ctx.font = `${wt} ${px}px Georgia,serif`; const tw = ctx.measureText(str).width; if (tw > maxW) ctx.font = `${wt} ${px * maxW / tw}px Georgia,serif`; ctx.textAlign = align; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round'; if (!plain) { ctx.lineWidth = 7; ctx.strokeStyle = 'rgba(6,9,18,.85)'; ctx.strokeText(str, x, y); } ctx.fillStyle = col; ctx.fillText(str, x, y); ctx.restore(); };
+  S.words = (now, top, cap, topCol = '#ece6da') => { const a = S.fade(now, 0, 600); S.text(top, 800, 70, 46, topCol, 'center', a); S.text(cap, 800, 905, 30, '#f0b35a', 'center', a); };
+  S.card = (x, y, w, h, title, big, sub, col, alpha = 1) => { if (alpha <= 0) return; ctx.save(); ctx.globalAlpha *= alpha; ctx.fillStyle = 'rgba(14,20,36,.94)'; ctx.strokeStyle = col; ctx.lineWidth = 3; ctx.beginPath(); ctx.roundRect(x, y, w, h, 14); ctx.fill(); ctx.stroke(); ctx.restore(); S.text(title, x + 22, y + 34, 26, col, 'left', alpha); S.text(big, x + 22, y + h / 2 + 12, 52, '#ece6da', 'left', alpha); if (sub) S.text(sub, x + 22, y + h - 26, 20, '#9a9382', 'left', alpha); };
+  const STARS = Array.from({ length: 220 }, (_, i) => [((i * 7919) % 1600), ((i * 104729) % 1000), .4 + ((i * 31) % 10) / 12, (i * 17) % 7]);
+  S.stars = (now, alpha = 1) => { ctx.save(); STARS.forEach(([x, y, r, p]) => { ctx.globalAlpha = alpha * (.35 + .45 * Math.abs(Math.sin(now * .0006 + p))); ctx.fillStyle = '#dfe7ff'; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); }); ctx.restore(); };
+  V3.steps(el, n - 1, k => { S.prev = S.step; S.step = k; S.t0 = performance.now(); });
+  const frame = now => {
+    requestAnimationFrame(frame); if (!el.classList.contains('active')) return;
+    const dpr = devicePixelRatio || 1, cw = cv.clientWidth, ch = cv.clientHeight; if (!cw) return;
+    if (cv.width !== Math.round(cw * dpr) || cv.height !== Math.round(ch * dpr)) { cv.width = Math.round(cw * dpr); cv.height = Math.round(ch * dpr); }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, cw, ch);
+    const k = Math.min(cw / 1600, ch / 1000); ctx.setTransform(dpr * k, 0, 0, dpr * k, dpr * (cw - 1600 * k) / 2, dpr * (ch - 1000 * k) / 2);
+    draw(S, ctx, now);
+  };
+  requestAnimationFrame(frame); return S;
+};
+const v3Find = t => [...document.querySelectorAll('section')].find(x => x.dataset.title === t);
+// a rotatable globe on the virtual stage: yaw/pitch in degrees/radians, ll() and drawCoast() come from the deck
+V3.orbitProj = (cam) => { const D = Math.PI / 180, cy = Math.cos(cam.yaw * D), sy = Math.sin(cam.yaw * D), cp = Math.cos(cam.pitch), sp = Math.sin(cam.pitch);
+  return v => { const x1 = v[0] * cy + v[2] * sy, z1 = v[2] * cy - v[0] * sy, y1 = v[1]; const y2 = y1 * cp - z1 * sp, z2 = y1 * sp + z1 * cp; return { x: cam.cx + cam.R * x1, y: cam.cy - cam.R * y2, z: z2 }; }; };
+
+/* ---------- 7 · Longitude has no landmarks: two ships, one star, then the Earth turns under the Sun ---------- */
 addEventListener('load', () => setTimeout(() => {
-  const el = [...document.querySelectorAll('section')].find(x => x.dataset.title === 'Galileo’s clock'); if (!el) return;
-  const stage = el.querySelector('.stage'); if (!stage) return; if (getComputedStyle(stage).position === 'static') stage.style.position = 'relative';
-  const ov = document.createElement('div'); ov.className = 'gl-story';
-  ov.style.cssText = 'position:absolute;inset:0;z-index:6;background:radial-gradient(ellipse at 50% 40%,#131c33,#070a13 75%)';
-  ov.innerHTML = '<svg viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet" style="width:100%;height:100%;display:block;padding:1rem 1.5rem"><g id="gl"></g></svg>';
-  stage.appendChild(ov);
-  const G = '#f0b35a', W = '#ece6da', M = '#9a9382';
-  const T = (t, x, y, size, col = W, anchor = 'middle') => `<text x="${x}" y="${y}" text-anchor="${anchor}" style="font-family:Georgia,serif;font-size:${size}px;fill:${col}">${t}</text>`;
-  const jup = (cx, cy, moons, r = 16) => `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#d9b98a"/>` + moons.map(d => `<circle cx="${cx + d}" cy="${cy}" r="4.5" fill="#ffe9b0"/>`).join('');
-  // his notebook, January 1610: the "little stars" change places every night (simplified from Sidereus Nuncius)
-  const NIGHTS = [['Jan 7', [-60, -30, 45]], ['Jan 8', [25, 45, 65]], ['Jan 10', [-55, -30]], ['Jan 11', [-70, -40]], ['Jan 12', [-50, -25, 35]], ['Jan 13', [-35, 25, 45, 70]]];
-  const S = [
-    () => T('1609 · Galileo Galilei, Padua', 500, 70, 34, M) + T('He builds a telescope', 500, 140, 56) +
-      `<g transform="translate(500 360) rotate(-18)"><rect x="-260" y="-26" width="420" height="52" rx="10" fill="#8a6a3d"/><rect x="150" y="-38" width="110" height="76" rx="10" fill="#b8925a"/><rect x="-300" y="-16" width="50" height="32" rx="6" fill="#5a3a24"/><circle cx="262" cy="0" r="30" fill="#6fb3ff" opacity=".35"/></g>` +
-      T('Magnifies about 20 times. Then he points it at the night sky.', 500, 590, 30, G),
-    () => `<image href="img/moon-first-quarter.jpg" x="270" y="95" width="460" height="400" preserveAspectRatio="xMidYMid meet"/>` +
-      T('The Moon is not smooth', 500, 60, 46) + T('Mountains, craters and long shadows. He used the shadows to estimate how tall the mountains are.', 500, 560, 24, G) +
-      T('The heavens were supposed to be perfect. They are not.', 500, 600, 26, W) + T('Moon at first quarter · photo', 735, 490, 17, M, 'start'),
-    () => T('January 1610 · Jupiter has company', 500, 60, 42) +
-      NIGHTS.map(([d, m], i) => T(d, 230, 140 + i * 66, 24, M, 'end') + jup(520, 132 + i * 66, m)).join('') +
-      T('Little “stars” beside Jupiter change places every night.', 500, 560, 28, G) + T('Four moons going round Jupiter. The first moons found beyond our own.', 500, 600, 26, W),
-    () => `<circle cx="500" cy="300" r="34" fill="#d9b98a"/>` + [80, 120, 170, 230].map((r, i) => `<ellipse cx="500" cy="300" rx="${r}" ry="${r * .32}" fill="none" stroke="rgba(236,230,218,.35)" stroke-width="2"/><circle cx="${500 + r * Math.cos(i * 1.7)}" cy="${300 + r * .32 * Math.sin(i * 1.7)}" r="8" fill="#ffe9b0"/>`).join('') +
-      T('Not everything circles the Earth', 500, 70, 46) + T('Here were moons circling another world.', 500, 520, 30, G) +
-      T('Strong evidence for Copernicus: the Earth goes round the Sun.', 500, 570, 30, W) + T('It got Galileo into trouble with the Church.', 500, 612, 22, M),
-    () => T('And a clock in the sky', 500, 120, 56, G) + jup(500, 320, [-120, -55, 70, 150], 30) +
-      T('The moons keep perfect time. When Io slips into Jupiter’s shadow,', 500, 500, 28, W) + T('everyone on Earth who is looking sees it at the same instant.', 500, 540, 28, W) + T('Galileo saw a way to find longitude.', 500, 600, 32, G)
-  ];
-  const g = ov.querySelector('#gl');
-  // after the story, → walks the clock diagram's own steps (the talk hides its last one)
-  // then the turn in the story: it works on land, fails at sea, and the sea collects the bill at Scilly
-  const ship = `<path d="M330 430 L670 430 L630 490 L370 490 Z" fill="#5a3a24"/><line x1="500" y1="430" x2="500" y2="250" stroke="#8a6a3d" stroke-width="8"/><path d="M505 260 L600 330 L505 400 Z" fill="#cfc8ba" opacity=".8"/>`;
-  const waves = Array.from({ length: 9 }, (_, i) => `<path d="M${120 + i * 90} 500 q22 -18 45 0 t45 0" fill="none" stroke="#3b5f8a" stroke-width="4"/>`).join('');
-  const E = [
-    () => T('On land, it works', 500, 70, 52, G) +
-      `<rect x="180" y="380" width="640" height="14" fill="#3a2f22"/><line x1="330" y1="240" x2="275" y2="380" stroke="#8a6a3d" stroke-width="9"/><line x1="330" y1="240" x2="385" y2="380" stroke="#8a6a3d" stroke-width="9"/><line x1="330" y1="240" x2="330" y2="380" stroke="#8a6a3d" stroke-width="7"/><line x1="215" y1="285" x2="450" y2="193" stroke="#b8925a" stroke-width="26" stroke-linecap="round"/><circle cx="330" cy="240" r="9" fill="#5a3a24"/>` +
-      `<g transform="translate(650 160)"><rect x="-50" y="0" width="100" height="220" rx="8" fill="#3a2f22"/><circle cx="0" cy="45" r="30" fill="#efe4c8"/><line x1="0" y1="80" x2="0" y2="190" stroke="#cfc8ba" stroke-width="3"/><circle cx="0" cy="195" r="14" fill="#f0b35a"/></g>` +
-      T('A long telescope on a steady stand. A pendulum clock beside it.', 500, 470, 28, W) +
-      T('Cassini’s tables of Io, 1668: map makers redraw whole countries.', 500, 520, 26, M),
-    () => T('At sea, it fails', 500, 70, 52, '#ff7d6f') + `<g transform="rotate(-9 500 470)">${ship}</g>` + waves +
-      `<g transform="translate(250 180) rotate(25)"><line x1="0" y1="0" x2="0" y2="110" stroke="#cfc8ba" stroke-width="3"/><circle cx="0" cy="115" r="14" fill="#f0b35a"/></g>` + T('the pendulum swings with the ship', 250, 345, 22, M) +
-      `<circle cx="790" cy="170" r="16" fill="#d9b98a"/><circle cx="830" cy="150" r="5" fill="#ffe9b0"/><circle cx="760" cy="200" r="5" fill="#ffe9b0"/>` + T('Io jumps all over the eyepiece', 790, 250, 22, M) +
-      T('You cannot hold a telescope on a moon of Jupiter from a rolling deck,', 500, 570, 26, W) + T('and a pendulum clock cannot keep time on the waves.', 500, 606, 26, W),
-    () => `<image href="v3/img/scilly.jpg" x="0" y="0" width="1000" height="640" preserveAspectRatio="xMidYMid slice" opacity=".45" style="filter:grayscale(1)"/>` +
-      `<rect x="0" y="170" width="1000" height="300" fill="rgba(5,8,18,.7)"/>` +
-      T('So in 1707, at sea, longitude was still a guess', 500, 250, 40, W) + T('Scilly: four ships, about 2,000 men', 500, 330, 50, G) +
-      T('Seven years later, Parliament acts.', 500, 420, 36, W)
-  ];
-  const DS = TALK ? 5 : 6, dstep = i => { const b = el.querySelector(`#gs-steps [data-s="${i}"]`); if (b) b.click(); };
-  V3.steps(el, S.length + DS + E.length - 1, k => {
-    if (k < S.length) { ov.style.display = 'block'; g.innerHTML = `<g class="er-in">${S[k]()}</g>`; dstep(0); }
-    else if (k < S.length + DS) { ov.style.display = 'none'; dstep(k - S.length); }
-    else { ov.style.display = 'block'; g.innerHTML = `<g class="er-in">${E[k - S.length - DS]()}</g>`; } });
+  const el = v3Find('Two ships, one latitude'); if (!el || typeof drawCoast !== 'function' || typeof ll !== 'function') return;
+  const D = Math.PI / 180, G = '#f0b35a', W = '#ece6da', M = '#9a9382', B = '#6fb3ff', RED = '#ff7d6f', L1 = -40;
+  const CAM = [{ yaw: -65, pitch: .45, R: 300, cy: 560 }, { yaw: -60, pitch: .45, R: 300, cy: 560 }, { yaw: -20, pitch: Math.PI / 2, R: 320, cy: 490 }, { yaw: -20, pitch: Math.PI / 2, R: 320, cy: 490 }, { yaw: 40, pitch: Math.PI / 2, R: 320, cy: 490 }];
+  let cam = { ...CAM[0] }, from = { ...CAM[0] }, last = 0;
+  const WORDS = [
+    ['Two ships, both at 50° N', 'Both captains measure Polaris: 50° above the horizon. Same latitude.'],
+    ['Sail Ship 2 east', 'Polaris still reads 50° for both. The star cannot tell them apart.'],
+    ['Look down on the North Pole and let the Earth turn', 'Each ship sets its clock by its own noon: the Sun at its highest.'],
+    ['Ship 2 reaches noon first', '30° of longitude = 2 hours. East and west are written in time, not in the sky.'],
+    ['So what time is it in London?', 'To know your longitude, you must carry home time with you.']];
+  const t12 = h => { h = ((h % 24) + 24) % 24; const hh = Math.floor(h), mm = Math.round((h - hh) * 60) % 60, H = hh % 12 || 12; return `${H}:${String(mm).padStart(2, '0')} ${hh < 12 ? 'AM' : 'PM'}`; };
+  const ship = (ctx, x, y, col) => { ctx.save(); ctx.translate(x, y); ctx.fillStyle = col; ctx.beginPath(); ctx.moveTo(-14, 0); ctx.lineTo(14, 0); ctx.lineTo(9, 7); ctx.lineTo(-9, 7); ctx.closePath(); ctx.fill(); ctx.fillRect(-1, -20, 2, 20); ctx.beginPath(); ctx.moveTo(1, -19); ctx.lineTo(12, -4); ctx.lineTo(1, -4); ctx.fill(); ctx.restore(); };
+  V3.scene(el, 5, (S, ctx, now) => {
+    if (S.t0 !== last) { from = { ...cam }; last = S.t0; }
+    const age = S.age(now), e = S.ease(age / 2000), T = CAM[S.step];
+    cam = { yaw: S.lerp(from.yaw, T.yaw, e), pitch: S.lerp(from.pitch, T.pitch, e), R: S.lerp(from.R, T.R, e), cy: S.lerp(from.cy, T.cy, e) };
+    if (S.step === 3 && age > 2000) cam.yaw = -20 + 60 * S.clamp((age - 2000) / 8000);
+    const P = V3.orbitProj({ ...cam, cx: 800 }), polar = S.clamp((cam.pitch - .45) / (Math.PI / 2 - .45));
+    S.stars(now, .8);
+    // the Sun on the right, once we look down on the pole
+    const sunA = S.step >= 2 ? polar : 0;
+    if (sunA > 0) { ctx.save(); ctx.globalAlpha = sunA; const sx = 800 + cam.R + 300; const sg = ctx.createRadialGradient(sx, cam.cy, 0, sx, cam.cy, 90); sg.addColorStop(0, '#ffe39a'); sg.addColorStop(.4, G); sg.addColorStop(1, 'rgba(240,179,90,0)'); ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(sx, cam.cy, 90, 0, 7); ctx.fill();
+      ctx.strokeStyle = 'rgba(240,179,90,.35)'; ctx.lineWidth = 2; ctx.setLineDash([14, 12]); ctx.lineDashOffset = now / 30; for (let i = -3; i <= 3; i++) { ctx.beginPath(); ctx.moveTo(sx - 80, cam.cy + i * cam.R * .3); ctx.lineTo(800 + cam.R + 20, cam.cy + i * cam.R * .3); ctx.stroke(); } ctx.restore(); S.text('Sun', sx, cam.cy + 120, 26, G, 'center', sunA); }
+    // Polaris over the pole while we look from the side
+    const polA = 1 - polar;
+    if (polA > 0) { const np = P([0, 1, 0]), st = P([0, 1.5, 0]); ctx.save(); ctx.globalAlpha = polA; ctx.strokeStyle = 'rgba(111,179,255,.5)'; ctx.setLineDash([5, 7]); ctx.beginPath(); ctx.moveTo(np.x, np.y); ctx.lineTo(st.x, st.y); ctx.stroke(); ctx.setLineDash([]); const g = ctx.createRadialGradient(st.x, st.y, 0, st.x, st.y, 26); g.addColorStop(0, '#fff'); g.addColorStop(.3, 'rgba(111,179,255,.9)'); g.addColorStop(1, 'rgba(111,179,255,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(st.x, st.y, 26, 0, 7); ctx.fill(); ctx.restore(); S.text('Polaris', st.x + 30, st.y, 26, '#dfe7ff', 'left', polA); }
+    // the globe
+    const gr = ctx.createRadialGradient(800 - cam.R * .35, cam.cy - cam.R * .35, cam.R * .05, 800, cam.cy, cam.R); gr.addColorStop(0, '#2f5a8c'); gr.addColorStop(.7, '#15294a'); gr.addColorStop(1, '#0b1526');
+    ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(800, cam.cy, cam.R, 0, 7); ctx.fill();
+    const path = (pts, col, wd, dash) => { ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.setLineDash(dash || []); ctx.beginPath(); let pen = false; for (const p of pts) { const q = P(p); if (q.z >= 0) { pen ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); pen = true; } else pen = false; } ctx.stroke(); ctx.setLineDash([]); };
+    for (let lo = 0; lo < 360; lo += 15) path(Array.from({ length: 37 }, (_, i) => ll(-90 + i * 5, lo)), 'rgba(236,230,218,.09)', 1);
+    path(Array.from({ length: 73 }, (_, i) => ll(0, i * 5)), 'rgba(236,230,218,.25)', 1.2);
+    drawCoast(ctx, P, 1, { color: 'rgba(236,230,218,.75)' });
+    path(Array.from({ length: 145 }, (_, i) => ll(50, i * 2.5)), G, 3);
+    // night half, from above the pole
+    if (sunA > 0) { ctx.save(); ctx.globalAlpha = sunA; ctx.beginPath(); ctx.arc(800, cam.cy, cam.R, Math.PI / 2, Math.PI * 1.5); ctx.closePath(); ctx.fillStyle = 'rgba(3,6,14,.5)'; ctx.fill();
+      ctx.strokeStyle = 'rgba(240,179,90,.6)'; ctx.setLineDash([8, 8]); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(800, cam.cy); ctx.lineTo(800 + cam.R, cam.cy); ctx.stroke(); ctx.setLineDash([]); ctx.restore();
+      S.text('noon', 800 + cam.R - 10, cam.cy - 22, 24, G, 'right', sunA); S.text('midnight', 800 - cam.R + 10, cam.cy - 22, 24, M, 'left', sunA); }
+    ctx.strokeStyle = '#3b5f8a'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(800, cam.cy, cam.R, 0, 7); ctx.stroke();
+    // the ships
+    const L2 = S.step === 0 ? -36 : S.step === 1 ? S.lerp(-36, -10, S.ease((age - 300) / 2500)) : -10;
+    const ships = [[L1, 'Ship 1', B], [L2, 'Ship 2', RED]];
+    if (S.step === 1 || S.step === 0) { const q1 = P(ll(50, L1)), q2 = P(ll(50, L2)); if (S.step === 1 && q1.z > 0 && q2.z > 0) { path(Array.from({ length: 30 }, (_, i) => ll(50, L1 + (L2 - L1) * i / 29)), RED, 5); const mi = Math.round((L2 - L1) * 44.46 / 10) * 10; S.text(`${mi.toLocaleString('en-US')} miles apart`, (q1.x + q2.x) / 2 + 40, Math.max(q1.y, q2.y) + 80, 30, RED); } }
+    ships.forEach(([lo, name, col], i) => { const q = P(ll(50, lo)); if (q.z < 0) return; ship(ctx, q.x, q.y, col);
+      if (S.step <= 1) S.text(`${name}: Polaris 50° up`, q.x + (i ? 24 : -24), i ? q.y - 44 : q.y + 34, 24, col, i ? 'left' : 'right', S.fade(now, 600));
+      else { const th = ((lo + cam.yaw + 540) % 360) - 180, hrs = 12 + th / 15, noon = Math.abs(th) < 2.2;
+        if (noon && S.step === 3) { ctx.save(); ctx.strokeStyle = G; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(q.x, q.y, 34 + 6 * Math.sin(now / 90), 0, 7); ctx.stroke(); ctx.restore(); }
+        const lx = q.x + (i ? 26 : -26), ly = q.y + (i ? -30 : 34); S.text(`${name} · ${noon && S.step >= 3 ? 'NOON' : t12(hrs)}`, lx, ly, 26, noon && S.step >= 3 ? G : col, i ? 'left' : 'right', polar); } });
+    // 30° = 2 hours, measured at the pole
+    if (S.step >= 3) { const a1 = -(L1 + cam.yaw) * D, a2 = -(L2 + cam.yaw) * D, r = cam.R * .42, A = S.fade(now, 1000); ctx.save(); ctx.globalAlpha = A; ctx.strokeStyle = G; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(800, cam.cy, r, Math.min(a1, a2), Math.max(a1, a2)); ctx.stroke(); ctx.restore(); const am = (a1 + a2) / 2; S.text('30° = 2 hours', 800 + r * .55 * Math.cos(am), cam.cy + r * .55 * Math.sin(am), 28, G, 'center', A); }
+    // London: on the globe, its time unknown to the ships
+    if (S.step === 4) { const q = P(ll(51.5, 0)); if (q.z > 0) { ctx.fillStyle = W; ctx.beginPath(); ctx.arc(q.x, q.y, 7, 0, 7); ctx.fill(); S.text('London', q.x - 14, q.y - 16, 24, W, 'right', S.fade(now, 1500)); }
+      S.card(40, 300, 330, 150, 'Ship 1’s clock', '12:00', 'set by its own noon', B, S.fade(now, 1800)); S.card(40, 490, 330, 150, 'London', '?', 'left behind', G, S.fade(now, 2400)); }
+    S.words(now, ...WORDS[S.step]);
+  });
+}, 0));
+
+/* ---------- 8 · Way 1: the Moon is a clock hand. Time-lapse, measure, look it up, then the rolling deck ---------- */
+addEventListener('load', () => setTimeout(() => {
+  const el = v3Find('The lunar distance'); if (!el) return;
+  const G = '#f0b35a', W = '#ece6da', M = '#9a9382', RED = '#ff7d6f';
+  const REG = [1180, 330], PXD = 13.5, dist = h => 44.1 - .6 * (h - 6); // 0.6° an hour against the stars
+  const moonAt = h => [430 + (h - 6) * 64, 470 - (h - 6) * 16]; // not to scale: the Moon moves about its own width each hour
+  const dm = d => { const deg = Math.floor(d), min = Math.round((d - deg) * 60); return `${deg}° ${String(min).padStart(2, '0')}′`; };
+  const t12 = h => { const hh = Math.floor(((h % 24) + 24) % 24), mm = Math.round((h - Math.floor(h)) * 60) % 60; return `${hh % 12 || 12}:${String(mm).padStart(2, '0')} ${hh < 12 ? 'AM' : 'PM'}`; };
+  const FIELD = Array.from({ length: 18 }, (_, i) => [300 + ((i * 397) % 1000), 260 + ((i * 211) % 260), 1 + (i % 3) * .6]);
+  const WORDS = [
+    ['Way 1: the Moon is a clock hand', 'Against the stars it moves about its own width every hour, the same for everyone.'],
+    ['Measure the Moon–star distance', 'With a sextant: from the Moon’s edge to the bright star Regulus.'],
+    ['Look it up in the almanac', '42° 18′ means 9:00 PM in London. Your own clock says 7:00 PM: 2 hours = 30° west.'],
+    ['Now do it on a rolling deck', 'One arcminute wrong = about 30 miles. Then an hour of arithmetic by candlelight.']];
+  let H = 6;
+  V3.scene(el, 4, (S, ctx, now) => {
+    const age = S.age(now), roll = S.step === 3 ? S.clamp(age / 900) : 0;
+    // the Moon's hour: a time-lapse on the first step, parked at 9 PM after that
+    if (S.step === 0) H = 6 + ((age / 1000) * .9) % 6; else H = S.lerp(H, 9, Math.min(1, .06));
+    const sky = ctx.createLinearGradient(0, 0, 0, 1000); sky.addColorStop(0, '#060912'); sky.addColorStop(.75, '#0f1a33'); sky.addColorStop(1, '#14223d'); ctx.fillStyle = sky; ctx.fillRect(0, 0, 1600, 1000);
+    ctx.save(); const ang = roll * (.07 * Math.sin(now / 650) + .03 * Math.sin(now / 270)), bob = roll * 14 * Math.sin(now / 520); ctx.translate(800, 820 + bob); ctx.rotate(ang); ctx.translate(-800, -820);
+    S.stars(now, .7); FIELD.forEach(([x, y, r]) => { ctx.fillStyle = '#dfe7ff'; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); });
+    // Regulus
+    const rg = ctx.createRadialGradient(...REG, 0, ...REG, 22); rg.addColorStop(0, '#fff'); rg.addColorStop(.35, 'rgba(200,220,255,.9)'); rg.addColorStop(1, 'rgba(111,179,255,0)'); ctx.fillStyle = rg; ctx.beginPath(); ctx.arc(...REG, 22, 0, 7); ctx.fill(); S.text('Regulus', REG[0] + 26, REG[1] - 6, 26, '#dfe7ff', 'left');
+    // the Moon's track and the Moon
+    const [mx, my] = moonAt(H);
+    if (S.step === 0) { ctx.strokeStyle = 'rgba(236,230,218,.18)'; ctx.setLineDash([4, 8]); ctx.beginPath(); ctx.moveTo(...moonAt(6)); ctx.lineTo(...moonAt(12)); ctx.stroke(); ctx.setLineDash([]); [6, 9, 12].forEach(h => { const p = moonAt(h); S.text(t12(h + 12), p[0], p[1] + 58, 20, M); }); }
+    const mg = ctx.createRadialGradient(mx - 10, my - 10, 4, mx, my, 34); mg.addColorStop(0, '#fbf6ea'); mg.addColorStop(1, '#cfc6b2'); ctx.fillStyle = mg; ctx.beginPath(); ctx.arc(mx, my, 34, 0, 7); ctx.fill(); ctx.fillStyle = 'rgba(120,110,95,.35)'; [[-9, -6, 7], [10, 6, 9], [-4, 14, 5], [12, -12, 4]].forEach(([dx, dy, r]) => { ctx.beginPath(); ctx.arc(mx + dx, my + dy, r, 0, 7); ctx.fill(); });
+    // the measurement: Moon to Regulus
+    if (S.step >= 1) { const a = S.fade(now, S.step === 1 ? 400 : 0, 700), jit = roll * (Math.sin(now / 83) * .045 + Math.sin(now / 37) * .03), d = dist(H) + jit;
+      ctx.save(); ctx.globalAlpha = a; ctx.strokeStyle = G; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(mx + 34, my - 2); ctx.lineTo(REG[0] - 14 + roll * 30 * Math.sin(now / 120), REG[1] + 2 + roll * 18 * Math.sin(now / 77)); ctx.stroke(); ctx.restore();
+      S.text(dm(d), (mx + REG[0]) / 2, (my + REG[1]) / 2 - 44, 64, roll ? RED : G, 'center', a); }
+    ctx.restore();
+    // the sea and the ship, which roll together on the last step
+    ctx.save(); ctx.translate(800, 820 + bob); ctx.rotate(-ang * .4); ctx.translate(-800, -820);
+    ctx.fillStyle = '#0b1424'; ctx.fillRect(-200, 820, 2000, 400); ctx.strokeStyle = 'rgba(59,95,138,.8)'; ctx.lineWidth = 3; for (let i = 0; i < 22; i++) { const x = -100 + i * 85 + (now / 40) % 85; ctx.beginPath(); ctx.moveTo(x, 836); ctx.quadraticCurveTo(x + 21, 822, x + 42, 836); ctx.stroke(); }
+    ctx.fillStyle = '#2a1d12'; ctx.beginPath(); ctx.moveTo(250, 815); ctx.lineTo(560, 815); ctx.lineTo(525, 855); ctx.lineTo(280, 855); ctx.closePath(); ctx.fill(); ctx.fillRect(400, 640, 6, 176); ctx.fillStyle = 'rgba(207,200,186,.55)'; ctx.beginPath(); ctx.moveTo(408, 650); ctx.lineTo(500, 740); ctx.lineTo(408, 790); ctx.closePath(); ctx.fill();
+    ctx.restore();
+    // a clock for the time-lapse: the Moon's place among the stars is London time
+    if (S.step === 0) S.card(60, 160, 340, 150, 'London time', t12(H + 12), 'read from the Moon’s place', G, S.fade(now, 300));
+    // the almanac page
+    if (S.step === 2) { const a = S.fade(now, 200, 600); ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = '#efe4c8'; ctx.beginPath(); ctx.roundRect(60, 150, 470, 470, 10); ctx.fill(); ctx.restore();
+      const ink = '#3a2f22'; S.text('The Nautical Almanac, 1767', 295, 195, 28, ink, 'center', a, 600, 440, true); S.text('Moon from Regulus, at London', 295, 234, 21, '#6b5a40', 'center', a, 400, 440, true);
+      [[6, 44.1], [9, 42.3], [12, 40.5]].forEach(([h, d], i) => { const y = 300 + i * 90, on = h === 9; if (on) { ctx.save(); ctx.globalAlpha = a * S.fade(now, 1200, 400); ctx.fillStyle = 'rgba(240,179,90,.55)'; ctx.fillRect(80, y - 34, 430, 68); ctx.restore(); } S.text(t12(h + 12), 110, y, 32, ink, 'left', a, 400, 300, true); S.text(dm(d), 480, y, 32, ink, 'right', a, 400, 300, true); });
+      S.card(1020, 560, 260, 140, 'London', '9:00 PM', 'from the table', G, S.fade(now, 1700)); S.card(1300, 560, 260, 140, 'Your clock', '7:00 PM', 'set by your noon', '#6fb3ff', S.fade(now, 2300)); S.text('2 hours = 30° west', 1290, 750, 40, G, 'center', S.fade(now, 2900)); }
+    if (S.step === 3) { S.text('±1′ in the sighting  =  ±30 miles', 1170, 620, 34, RED, 'center', S.fade(now, 1200)); S.text('+ refraction, parallax, the almanac every 3 hours…', 1170, 670, 24, M, 'center', S.fade(now, 2000)); }
+    S.words(now, ...WORDS[S.step]);
+  });
+}, 0));
+
+/* ---------- 9 · Way 2: Galileo, through the eyepiece. Moon, Jupiter's moons, the eclipse clock, land vs sea, Scilly ---------- */
+addEventListener('load', () => setTimeout(() => {
+  const el = v3Find('Galileo’s clock'); if (!el) return;
+  const G = '#f0b35a', W = '#ece6da', M = '#9a9382', B = '#6fb3ff', RED = '#ff7d6f';
+  const moonImg = new Image(); moonImg.src = 'img/moon-first-quarter.jpg';
+  const scilly = new Image(); scilly.src = 'v3/img/scilly.jpg';
+  // the four moons: distance (in Jupiter radii, squeezed to fit) and period in days
+  const MOONS = [['Io', 2.4, 1.769, .3], ['Europa', 3.8, 3.551, 2.1], ['Ganymede', 6.0, 7.155, 4.0], ['Callisto', 10.3, 16.69, 5.6]];
+  const NIGHTS = ['Jan 7', 'Jan 8', 'Jan 10', 'Jan 11', 'Jan 12', 'Jan 13'], NT = [0, 1, 3, 4, 5, 6];
+  const EYE = [{ x: 640, y: 560, r: 0 }, { x: 800, y: 470, r: 340 }, { x: 900, y: 470, r: 340 }, { x: 800, y: 470, r: 340 }, { x: 800, y: 470, r: 340 }, { x: 800, y: 470, r: 340 }, { x: 1150, y: 380, r: 230 }, { x: 1150, y: 380, r: 230 }, { x: 800, y: 470, r: 0 }];
+  const WORDS = [
+    ['1609 · Galileo turns a telescope on the night sky', 'About 20 times magnification. Nobody has looked up like this before.'],
+    ['The Moon is not smooth', 'Mountains, craters, long shadows. The heavens were supposed to be perfect.'],
+    ['January 1610 · Jupiter has company', 'Four little “stars” that change places night by night. They go round Jupiter.'],
+    ['Not everything circles the Earth', 'Moons circling another world: evidence for Copernicus, and trouble with the Church.'],
+    ['Io slips into Jupiter’s shadow', 'Every 42½ hours it vanishes, on schedule, for everyone on Earth at the same instant.'],
+    ['A clock in the sky that everyone can read', 'London writes down 9:00 PM. You write down 7:00 PM. 2 hours = 30° west.'],
+    ['On land, it works', 'A long telescope on a steady stand, a pendulum clock beside it. By 1668 map makers redraw whole countries.'],
+    ['At sea, it fails', 'You cannot hold a moon of Jupiter in the eyepiece on a rolling deck, and a pendulum cannot keep time on the waves.'],
+    ['', '']];
+  let eye = { ...EYE[0] }, from = { ...EYE[0] }, last = 0, tilt = .03, tj = 0;
+  const system = (ctx, S, now, cx, cy, sc, opts = {}) => { // Jupiter and its moons; sc = pixels per Jupiter radius
+    const t = opts.t, ti = opts.tilt, rJ = sc;
+    if (ti > .1) MOONS.forEach(([, d]) => { ctx.strokeStyle = `rgba(236,230,218,${.25 * Math.min(1, ti * 2)})`; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(cx, cy, d * sc, d * sc * ti, 0, 0, 7); ctx.stroke(); });
+    if (opts.shadow) { ctx.fillStyle = 'rgba(0,0,0,.55)'; ctx.fillRect(cx, cy - rJ * Math.max(ti, .15), sc * 14, 2 * rJ * Math.max(ti, .15)); }
+    const pos = MOONS.map(([n, d, P, ph], i) => { const a = (opts.io != null && i === 0) ? opts.io : 2 * Math.PI * t / P + ph; return { n, x: cx + d * sc * Math.cos(a), y: cy + d * sc * Math.sin(a) * ti, behind: Math.sin(a) < 0, inSh: Math.cos(a) > 0 && Math.abs(d * Math.sin(a)) < 1, i }; });
+    const dot = p => { if (p.i >= 4) return; const dark = opts.shadow && p.inSh; ctx.fillStyle = dark ? '#262a33' : '#ffe9b0'; ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(4.5, sc * .24), 0, 7); ctx.fill(); if (opts.names) S.text(p.n, p.x, p.y - 20, 18, dark ? M : W); };
+    pos.filter(p => p.behind).forEach(p => { if (Math.abs(p.x - cx) > rJ) dot(p); });
+    const jg = ctx.createRadialGradient(cx - rJ * .3, cy - rJ * .3, 0, cx, cy, rJ); jg.addColorStop(0, '#f1d7a8'); jg.addColorStop(1, '#b8925a'); ctx.fillStyle = jg; ctx.beginPath(); ctx.arc(cx, cy, rJ, 0, 7); ctx.fill();
+    ctx.strokeStyle = 'rgba(138,106,61,.7)'; ctx.lineWidth = Math.max(1, rJ * .12); [-.35, .1, .45].forEach(f => { ctx.beginPath(); ctx.moveTo(cx - rJ * Math.sqrt(1 - f * f), cy + rJ * f); ctx.lineTo(cx + rJ * Math.sqrt(1 - f * f), cy + rJ * f); ctx.stroke(); });
+    pos.filter(p => !p.behind).forEach(dot); return pos; };
+  V3.scene(el, 9, (S, ctx, now) => {
+    if (S.t0 !== last) { from = { ...eye }; last = S.t0; }
+    const age = S.age(now), k = S.step, e = S.ease(age / 1500), T = EYE[k];
+    eye = { x: S.lerp(from.x, T.x, e), y: S.lerp(from.y, T.y, e), r: S.lerp(from.r, T.r, e) };
+    tilt = S.lerp(tilt, k >= 3 && k <= 5 ? .5 : .03, .05);
+    const sky = ctx.createLinearGradient(0, 0, 0, 1000); sky.addColorStop(0, '#05070f'); sky.addColorStop(1, '#101a30'); ctx.fillStyle = sky; ctx.fillRect(0, 0, 1600, 1000); S.stars(now, .8);
+    // the ground: Padua's rooftops, a steady stand on land, or the rolling sea
+    const sea = k === 7, roll = sea ? S.clamp(age / 800) : 0, ang = roll * .12 * Math.sin(now / 600);
+    if (k <= 1 || k >= 6) { ctx.save(); ctx.globalAlpha = k === 8 ? 0 : 1;
+      if (sea) { ctx.fillStyle = '#0b1424'; ctx.fillRect(0, 800, 1600, 200); ctx.strokeStyle = 'rgba(59,95,138,.8)'; ctx.lineWidth = 3; for (let i = 0; i < 22; i++) { const x = -100 + i * 85 + (now / 30) % 85; ctx.beginPath(); ctx.moveTo(x, 816); ctx.quadraticCurveTo(x + 21, 800, x + 42, 816); ctx.stroke(); } }
+      else { ctx.fillStyle = '#0a0d16'; ctx.beginPath(); ctx.moveTo(0, 1000); [[0, 820], [120, 820], [120, 760], [200, 720], [280, 760], [280, 800], [420, 800], [420, 700], [450, 640], [480, 700], [480, 790], [700, 790], [700, 820], [1600, 820], [1600, 1000]].forEach(p => ctx.lineTo(...p)); ctx.fill(); }
+      // telescope (and on land, its stand and a pendulum clock)
+      ctx.save(); ctx.translate(560, 800); ctx.rotate(-ang); ctx.strokeStyle = '#8a6a3d'; ctx.lineWidth = 8; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-50, -0); ctx.moveTo(0, -120); ctx.lineTo(-45, 0); ctx.moveTo(0, -120); ctx.lineTo(45, 0); ctx.moveTo(0, -120); ctx.lineTo(0, 0); ctx.stroke();
+      ctx.strokeStyle = '#b8925a'; ctx.lineCap = 'round'; ctx.lineWidth = 22; ctx.beginPath(); ctx.moveTo(-110, -80); ctx.lineTo(150, -200); ctx.stroke(); ctx.lineCap = 'butt'; ctx.restore();
+      if (k >= 6) { const sw = sea ? .5 * Math.sin(now / 260) + .3 * Math.sin(now / 97) : .35 * Math.sin(now / 500); ctx.save(); ctx.translate(800, 620); ctx.rotate(-ang); ctx.fillStyle = '#3a2f22'; ctx.fillRect(-45, 0, 90, 190); ctx.fillStyle = '#efe4c8'; ctx.beginPath(); ctx.arc(0, 40, 26, 0, 7); ctx.fill(); ctx.strokeStyle = '#cfc8ba'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(0, 70); ctx.lineTo(90 * Math.sin(sw), 70 + 90 * Math.cos(sw)); ctx.stroke(); ctx.fillStyle = G; ctx.beginPath(); ctx.arc(90 * Math.sin(sw), 70 + 90 * Math.cos(sw), 12, 0, 7); ctx.fill(); ctx.restore(); S.text(sea ? 'the pendulum swings with the ship' : 'pendulum clock', 800, 840, 22, M, 'center', S.fade(now, 600)); }
+      ctx.restore(); }
+    // the eyepiece view
+    if (eye.r > 4) { ctx.save(); ctx.beginPath(); ctx.arc(eye.x, eye.y, eye.r, 0, 7); ctx.fillStyle = '#03050a'; ctx.fill(); ctx.clip();
+      const sh = sea ? [eye.r * .9 * Math.sin(now / 410), eye.r * .7 * Math.sin(now / 290 + 1)] : [0, 0], cx = eye.x + sh[0], cy = eye.y + sh[1];
+      if (k <= 1) { if (moonImg.complete && moonImg.naturalWidth) { const s = eye.r * 2.3 / Math.max(moonImg.naturalWidth, moonImg.naturalHeight); ctx.globalAlpha = S.fade(now, 300, 900); ctx.drawImage(moonImg, eye.x - moonImg.naturalWidth * s / 2, eye.y - moonImg.naturalHeight * s / 2, moonImg.naturalWidth * s, moonImg.naturalHeight * s); ctx.globalAlpha = 1; } }
+      else if (k === 2) { tj = age / 1400; const n = Math.min(NT.length - 1, Math.floor(tj)); system(ctx, S, now, cx, cy, 24 * eye.r / 340, { t: NT[n] + (tj - n) * (n < NT.length - 1 ? NT[n + 1] - NT[n] : 1), tilt }); }
+      else if (k === 3) system(ctx, S, now, cx, cy, 30 * eye.r / 340, { t: 6 + age / 2500, tilt, names: true });
+      else if (k === 4 || k === 5) { const zs = 30 * S.lerp(1, 1.6, S.ease(age / 1500)) * (k === 5 ? 1 : 1); const sc = k === 5 ? 48 : zs;
+        const sg = ctx.createRadialGradient(eye.x - eye.r - 60, eye.y, 0, eye.x - eye.r - 60, eye.y, 260); sg.addColorStop(0, 'rgba(255,214,107,.7)'); sg.addColorStop(1, 'rgba(255,214,107,0)'); ctx.fillStyle = sg; ctx.fillRect(eye.x - eye.r, eye.y - eye.r, eye.r * 2, eye.r * 2);
+        const io = k === 5 ? 0 : -1.15 + .17 * Math.max(0, age - 1500) / 1000;
+        const pos = system(ctx, S, now, eye.x - 60, eye.y, sc, { t: 6, tilt, shadow: true, io, names: false });
+        const p = pos[0]; S.text(p.inSh ? 'Io vanishes!' : 'Io', p.x, p.y - 30, p.inSh ? 30 : 22, p.inSh ? G : W); S.text('Sunlight →', eye.x - eye.r + 90, eye.y - eye.r * .62, 22, G, 'left'); S.text('Jupiter’s shadow', eye.x + eye.r - 30, eye.y + 70, 20, M, 'right'); }
+      else if (k === 6 || k === 7) system(ctx, S, now, cx, cy, 11 * eye.r / 230, { t: age / 3000 + 6, tilt });
+      ctx.restore(); ctx.strokeStyle = '#6b5a40'; ctx.lineWidth = 10; ctx.beginPath(); ctx.arc(eye.x, eye.y, eye.r, 0, 7); ctx.stroke(); }
+    // Galileo's notebook, one night per line
+    if (k === 2) { const shown = Math.min(NIGHTS.length, Math.floor(tj) + 1); S.text('Galileo’s notebook', 230, 170, 24, M, 'center', S.fade(now)); for (let i = 0; i < shown; i++) { const y = 225 + i * 70; S.text(NIGHTS[i], 90, y, 22, M, 'left'); ctx.save(); system(ctx, S, now, 300, y, 6, { t: NT[i], tilt: 0 }); ctx.restore(); } }
+    if (k === 5) { S.card(40, 300, 340, 150, 'London writes down', '9:00 PM', 'Io vanished', G, S.fade(now, 400)); S.card(1220, 300, 340, 150, 'You write down', '7:00 PM', 'Io vanished', B, S.fade(now, 1000)); S.text('2 hours = 30° west', 800, 845, 44, G, 'center', S.fade(now, 1700)); }
+    // Scilly: the bill for longitude at sea
+    if (k === 8) { const a = S.fade(now, 0, 800); ctx.save(); ctx.globalAlpha = a * .5; if (scilly.complete && scilly.naturalWidth) { const s = Math.max(1600 / scilly.naturalWidth, 1000 / scilly.naturalHeight); ctx.filter = 'grayscale(1)'; ctx.drawImage(scilly, 800 - scilly.naturalWidth * s / 2, 500 - scilly.naturalHeight * s / 2, scilly.naturalWidth * s, scilly.naturalHeight * s); ctx.filter = 'none'; } ctx.restore();
+      ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(5,8,18,.72)'; ctx.fillRect(0, 300, 1600, 400); ctx.restore();
+      S.text('So in 1707, at sea, longitude was still a guess', 800, 400, 50, W, 'center', a); S.text('Scilly: four ships, about 2,000 men', 800, 500, 64, G, 'center', S.fade(now, 700, 700)); S.text('Seven years later, Parliament acts.', 800, 610, 44, W, 'center', S.fade(now, 1500, 700)); }
+    S.words(now, ...WORDS[k]);
+  });
 }, 0));
