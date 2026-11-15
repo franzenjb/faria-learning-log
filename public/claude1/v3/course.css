@@ -276,11 +276,16 @@ body:not(.v3-keys-on) #v3-keys{display:none}
 #more-btn,.nav .arrows button{opacity:.4}
 #more-btn:hover,.nav .arrows button:hover{opacity:1}
 .v3-payoff{font-size:clamp(30px,3.4vw,56px)!important;left:8%;right:8%}
-body.v3-touch #v3-keys{pointer-events:auto;opacity:1;font-size:15px;bottom:100px;max-width:62%;background:rgba(10,14,24,.92);padding:.5rem;border:1px solid var(--line);border-radius:.5rem}
-body.v3-touch #v3-keys span{padding:.3em .6em;margin:.2em;border:1px solid rgba(240,179,90,.35);border-radius:.4rem;cursor:pointer}
-#v3-ctl{position:absolute;left:14px;bottom:56px;z-index:31;font:15px var(--sans,system-ui);color:#f0b35a;background:rgba(17,23,39,.85);border:1px solid rgba(240,179,90,.4);border-radius:.4rem;padding:.35rem .8rem;opacity:.7}
-#v3-ctl.on{opacity:1;background:#f0b35a;color:#0a0e18}
 body.v3-touch .nav .arrows button{opacity:.9;font-size:20px;padding:.5rem 1.1rem}
 /* slide 3: the bingo card shows on the globe, but its row/column calls stay off the controls */
 .slide[data-notap] #bingo-panel{display:none!important}
 #v3-keys:empty{display:none!important}
+/* Controls: a quiet vertical list at the top of the left panel; only the presenter looks there */
+#ls-panel #v3-keys{position:static;max-width:none;opacity:1;pointer-events:auto;margin:.2rem 0 1.1rem;padding:.4rem 0 .8rem;border-bottom:1px solid var(--line);font:13px/1.35 var(--sans,system-ui);color:#9a9382;background:none}
+#ls-panel #v3-keys::before{content:'Controls';display:block;font:500 .95rem var(--serif);color:var(--muted);margin-bottom:.35rem}
+#ls-panel #v3-keys span{display:block;margin:0;padding:.28rem .35rem;border-radius:.3rem;cursor:pointer}
+#ls-panel #v3-keys span:hover{background:rgba(240,179,90,.1);color:#ece6da}
+#ls-panel #v3-keys b{display:inline-block;min-width:1.3em;color:#f0b35a;opacity:.8}
+#v3-ctl{all:unset;cursor:pointer;position:absolute;left:0;bottom:.4rem;width:2.6rem;height:2.4rem;display:grid;place-items:center;font:600 11px var(--sans,system-ui);color:var(--muted);z-index:3}
+#v3-ctl:hover,#v3-ctl.on{color:var(--accent)}
+#shell #ls-panel{bottom:3rem}
