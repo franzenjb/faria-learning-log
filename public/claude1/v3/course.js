@@ -127,6 +127,8 @@ const COURSE = [
     script: ['If someone asks why their points landed in the wrong place: here is one shelter in Tampa. Latitude and longitude, in degrees.', 'The same shelter in UTM zone 17 is in meters. In Florida West State Plane it is in feet. Same place, three sets of numbers.', 'Now read the UTM numbers as zone 16 instead of 17. Same digits, and the shelter lands about 365 miles west, in the Gulf. Always ask: which system?'] },
   { day: 1, ch: 'Appendix', t: 'Errors grow', label: 'Appendix: Errors Grow', topics: ['84-harrison-and-the-marine-chronometer'],
     script: ['If someone asks how careful navigators still got lost: start from the last sure position. Each day the compass is good to about 2 degrees and the speed to about 8 percent.', 'Here are 160 ships, every one steered and logged with care. After five days the doubt has grown.', 'After twelve days it is a circle well over a hundred miles across. Nobody made a mistake. Small errors, carried forward, grow. That was the fleet off Scilly, and it is every chain of measurements you inherit.'] },
+  { day: 1, ch: 'Appendix', t: 'Light needs time, again', label: 'Appendix: Rømer, Light Needs Time', topics: ['96-jupiters-moons-as-a-measuring-stick'],
+    script: ['Same scene as in the talk, for questions. Earth near Jupiter: the eclipse is on time.', 'Months later the Earth is on the far side of the Sun.', 'The eclipse is about 16 and a half minutes late: the light crosses the whole orbit.', 'Io is on time. The light is late.'] },
   
   /* ---------------- Day 2 ---------------- */
   { day: 2, ch: 'Galileo', t: 'Jupiter\'s moons', label: 'Galileo\'s moons', topics: ['64-galileo-jupiters-moons', '46-galileo'],
@@ -198,6 +200,7 @@ const TALK30 = [
   // appendix: only if asked
   ['Decimal places', 1, [1, 2, 3], { label: 'Appendix: Decimal Places' }],
   ['Sidereal day', 1, [1, 2, 3], { label: 'Appendix: The Star Day' }],
+  ['Light needs time, again', 1, [1, 2, 3, 4]],
   ['Null Island', 1, [1, 2, 3], { label: 'Appendix: Null Island' }],
   ['Which system', 1, [1, 2, 3], { label: 'Appendix: Which System?' }],
   ['Errors grow', 1, [1, 2, 3], { label: 'Appendix: Errors Grow' }],

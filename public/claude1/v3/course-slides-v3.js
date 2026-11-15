@@ -1082,8 +1082,8 @@ addEventListener('load', () => setTimeout(() => {
 }, 0));
 
 /* ---------- Aside: Rømer, light needs time. To scale: 1 AU = 200 px. Light rings leave Jupiter; Earth near, then far ---------- */
-addEventListener('load', () => setTimeout(() => {
-  const el = v3Find('Light needs time'); if (!el) return;
+NEW_SLIDES['Light needs time, again'] = { h1: 'Rømer: Light Needs Time', fig: '', init() {} }; // appendix copy, so Q&A can jump to it
+const romerScene = el => {
   const G = '#f0b35a', W = '#ece6da', M = '#9a9382', B = '#6fb3ff', AU = 200, SX = 400, SY = 520, JX = SX + 5.2 * AU, C = AU / .75; // light: 1 AU every 0.75 s
   const WORDS = [['Paris, 1676 · Ole Rømer Times Io', 'Earth on Jupiter’s side of the Sun: the eclipse arrives on time.'], ['Months Later', 'The Earth is on the far side of the Sun.'], ['Now the Eclipse Is Late', 'The light has to cross the Earth’s whole orbit: about 16½ minutes more.'], ['Io Is on Time. The Light Is Late.', 'Light takes time: about 8 minutes from the Sun to us.']];
   let ang = 0;
@@ -1110,4 +1110,5 @@ addEventListener('load', () => setTimeout(() => {
     S.text('Sun, Earth and Jupiter to scale · light slowed down', 1560, 960, 17, M, 'right');
     S.words(now, ...WORDS[k]);
   });
-}, 0));
+};
+addEventListener('load', () => setTimeout(() => { ['Light needs time', 'Light needs time, again'].forEach(n => { const el = v3Find(n); if (el) romerScene(el); }); }, 0));
