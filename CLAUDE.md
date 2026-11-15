@@ -1,6 +1,7 @@
 # Standing rules from Jeff (apply to every page, slide, film and doc in this repo)
 
 - **TITLE CASE, ALWAYS.** Jeff has asked for this many times. Every title-like string is Title Case: slide titles, headlines, kickers, day and chapter names, index and menu entries, the slide counter ("9 / 40 · Two Ships, One Latitude"), card titles, button-style labels that name a thing, page and film titles, PR titles. Body sentences and captions stay in sentence case. In `/claude1/`, `titleCase()` in `public/claude1/course.js` enforces it at runtime, including the counter and any headline a scene rewrites; write new copy in Title Case anyway.
+- **BIG TYPE, ALWAYS. Jeff presents over Teams in a small window.** On the 1600×1000 scene canvas: headlines at least 60px, captions at least 38px, key numbers 100px or more, labels at least 28px. Few words: one idea per screen. Check every new or changed screen at iPad size before merging; if it looks small, it is.
 - Look: the dark night-sky style of `/deck/` (navy, starfield, glowing globe, gold accent). Jeff rejected the cream version. Type must be readable from the back of a classroom: no canvas label under about 17px.
 - American spelling: center, meter, color, gray, labeled. Jeff is in the US.
 - Miles, not km. Short, plain copy.
