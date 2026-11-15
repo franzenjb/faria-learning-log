@@ -69,9 +69,9 @@ const V3_TUNE = {
   'Cover': { talk: { coverSub: 'A 30-Minute Talk' } },
   'Mental maps': { h1: 'Mental Maps', talk: { hide: ['#m1q [data-q="1"]', '#m1q [data-q="3"]'] } },
   'Latitude &amp; Longitude': { kicker: '325 BC · Pytheas of Marseille', // just the grid and the bingo card here: Polaris and the Southern Cross wait for Walk North; the Date Line and Null Island come later
-    keep: ['[data-k="lat"]', '[data-k="lon"]', '[data-k="grid"]', '#bingo-open', '#g-spin'], noTap: true, hide: ['a[href="/polaris/"]'],
-    clickOnLoad: ['#globe-toggles [data-k="lat"].on', '#globe-toggles [data-k="lon"].on', '#globe-toggles [data-k="grid"].on', '#globe-toggles [data-k="polaris"].on', '#globe-toggles [data-k="cities"].on'], hero: '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.', on: { '#fly-nm': '1 Arcminute of <b>Latitude</b> = 1 Nautical Mile', '#fly-north': '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.' } },
-  'Walk north': { hide: ['#wn-places', '#wn-south'], clickOnLoad: ['#wn-l-ang', '#wn-l-par'], setRange: { '#wn-lat': 0 }, // opens on the equator with 1 and 2 on; ↑ walks north
+    keep: ['[data-k="lat"]', '[data-k="lon"]', '[data-k="grid"]', '#bingo-open', '#g-spin'], noTap: true, arrow: ['#bingo-open'], hide: ['a[href="/polaris/"]'],
+    clickOnLoad: ['#globe-toggles [data-k="lat"].on', '#globe-toggles [data-k="lon"].on', '#globe-toggles [data-k="grid"].on', '#globe-toggles [data-k="polaris"].on', '#globe-toggles [data-k="cities"].on'], hero: '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.', on: { '#bingo-open': '<b>Latitude</b> Calls the Row, <b>Longitude</b> Calls the Column.', '#fly-nm': '1 Arcminute of <b>Latitude</b> = 1 Nautical Mile', '#fly-north': '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.' } },
+  'Walk north': { arrow: ['#wn-l-you', '#wn-walk', '#wn-view'], hide: ['#wn-places', '#wn-south'], clickOnLoad: ['#wn-l-ang', '#wn-l-par'], setRange: { '#wn-lat': 0 }, // opens on the equator with 1 and 2 on; ↑ walks north
     hideText: ['Why They Match', 'North Pole'], hero: '<b>Latitude</b> Is an Angle From the Equator.', on: { '#wn-l-you': 'One Star, One Angle. <b>Latitude</b> Needs No Clock.', '#wn-south': 'In the South, <b>the Southern Cross</b> Points to the Pole.' } },
   'Eratosthenes': { kicker: '240 BC · Eratosthenes of Alexandria' },
   'Hours are slices': {},
@@ -80,8 +80,8 @@ const V3_TUNE = {
   'Galileo’s clock': { talk: { hide: ['[data-detour]', '#gs-steps [data-s="5"]'] } },
   'The lunar distance': { kicker: '1767 · Nevil Maskelyne’s Almanac' },
   'A clock that could travel': { h1: 'A Clock That Could Travel' },
-  'Washington, 1884': { kicker: 'Washington · October 1884', hide: ['#pm84-r'], hero: 'Nature Set the Equator. Where Is <b>Zero Longitude</b>?' },
-  'Where am I, now': { kicker: 'GPS', hero: 'Today: <b>GPS</b>, a Sky Full of Clocks.' }
+  'Washington, 1884': { kicker: 'Washington · October 1884', arrow: ['#pm84-vote'], talk: { hide: ['#pm84-fr'] }, hide: ['#pm84-r'], hero: 'Nature Set the Equator. Where Is <b>Zero Longitude</b>?' },
+  'Where am I, now': { kicker: 'GPS', arrow: ['#gps-ask'], hero: 'Today: <b>GPS</b>, a Sky Full of Clocks.' }
 };
 const v3Hero = (el, html) => { let h = el.querySelector('.v3-hero'); const st = el.querySelector('.stage'); if (!st) return; if (!h) { h = document.createElement('div'); h.className = 'v3-hero'; if (getComputedStyle(st).position === 'static') st.style.position = 'relative'; st.appendChild(h); } h.innerHTML = html || ''; };
 addEventListener('load', () => setTimeout(() => {
@@ -97,6 +97,8 @@ addEventListener('load', () => setTimeout(() => {
     if (cfg.noTap) el.dataset.notap = '1';
     if (cfg.coverSub) { const sub = el.querySelector('.sub'); if (sub) sub.textContent = cfg.coverSub; }
     (cfg.clickOnLoad || []).forEach(sel => { const b = el.querySelector(sel); if (b) b.click(); });
+    // → walks these builds in order before leaving the slide; ← clicks the last one again to undo it
+    if (cfg.arrow) { let prev = 0; const click = sel => { const b = el.querySelector(sel); if (b) b.click(); }; V3.steps(el, cfg.arrow.length, k => { if (k > prev) click(cfg.arrow[k - 1]); else if (k < prev) click(cfg.arrow[prev - 1]); prev = k; }); }
     for (const [sel, v] of Object.entries(cfg.setRange || {})) el.querySelectorAll(sel).forEach(r => { r.value = v; r.dispatchEvent(new Event('input')); });
     if (cfg.hero) v3Hero(el, cfg.hero);
     for (const [sel, html] of Object.entries(cfg.on || {})) el.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => v3Hero(el, html)));
@@ -896,7 +898,7 @@ addEventListener('load', () => setTimeout(() => {
       ctx.restore(); ctx.strokeStyle = '#6b5a40'; ctx.lineWidth = 10; ctx.beginPath(); ctx.arc(eye.x, eye.y, eye.r, 0, 7); ctx.stroke(); }
     // full width: Jupiter and its four moons, zoomable
     if (k === 3) { zoomS = S.lerp(zoomS, zoom, .15); ctx.save(); ctx.globalAlpha = S.fade(now, 300, 900); system(ctx, S, now, 800, 490, 68 * zoomS, { t: 6 + age / 2500, tilt, names: true, lab: 26, only: ioOnly ? 0 : null }); ctx.restore();
-      S.text('1 flat, as Galileo saw it · 2 tilted · 3 Io only · drag to tilt · ↑↓ zoom', 40, 962, 17, M, 'left', .8); }
+      S.text('1 flat · 2 tilted · 3 Io only · ↑↓ zoom', 40, 962, 17, M, 'left', .4); }
     // Galileo's own record of those nights: a page of Sidereus Nuncius, Venice, March 1610 (public domain)
     if (k === 2 && sn.complete && sn.naturalWidth) { const a = S.fade(now, 200, 800), h = 660, w = h * sn.naturalWidth / sn.naturalHeight; ctx.save(); ctx.globalAlpha = a; ctx.drawImage(sn, 70, 150, w, h); ctx.strokeStyle = 'rgba(240,179,90,.5)'; ctx.lineWidth = 2; ctx.strokeRect(70, 150, w, h); ctx.restore(); S.text('Galileo’s own record · Sidereus Nuncius, 1610', 70 + w / 2, 840, 20, M, 'center', a); }
     if (k === 5) { S.card(40, 300, 340, 150, 'London', '9:00 PM', 'Io vanishes', G, S.fade(now, 400)); S.card(1220, 300, 340, 150, 'New York', '4:04 PM', 'the same instant', B, S.fade(now, 1000)); S.text('4 h 56 min = 74° West', 800, 845, 44, G, 'center', S.fade(now, 1700)); }
@@ -1148,7 +1150,7 @@ const romerScene = el => {
     // the delay card
     const late = Math.max(0, (dAU - 4.2) * MIN);
     S.card(1130, 150, 430, 150, 'Eclipse seen', late < .3 ? 'On time' : `${Math.floor(late)} min ${String(Math.round((late % 1) * 60) % 60).padStart(2, '0')} s`, late < .3 ? 'Earth on the near side' : 'late, compared with the near side', late < .3 ? W : G);
-    S.text('Distances and light time to scale · sizes not to scale', 1560, 960, 17, M, 'right');
+    S.text('Distances and light time to scale · sizes not to scale', 1560, 330, 17, M, 'right');
     S.words(now, ...WORDS[k]);
     ctx.save(); ctx.strokeStyle = G; ctx.lineWidth = 2; ctx.beginPath(); ctx.roundRect(40, 30, 170, 44, 10); ctx.stroke(); ctx.restore(); S.text('AN ASIDE', 125, 53, 22, G, 'center', 1, 600);
   });
