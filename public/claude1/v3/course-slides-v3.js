@@ -720,7 +720,7 @@ addEventListener('load', () => setTimeout(() => {
     S.stars(now, .8);
     // the Sun on the right, once we look down on the pole
     const sunA = S.step >= 2 ? polar : 0;
-    if (sunA > 0) { ctx.save(); ctx.globalAlpha = sunA; const sx = 800 + cam.R + 300; const sg = ctx.createRadialGradient(sx, cam.cy, 0, sx, cam.cy, 90); sg.addColorStop(0, '#ffe39a'); sg.addColorStop(.4, G); sg.addColorStop(1, 'rgba(240,179,90,0)'); ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(sx, cam.cy, 90, 0, 7); ctx.fill();
+    if (sunA > 0) { ctx.save(); ctx.globalAlpha = sunA; const sx = 800 + cam.R + (S.step === 4 ? 370 : 300); const sg = ctx.createRadialGradient(sx, cam.cy, 0, sx, cam.cy, 90); sg.addColorStop(0, '#ffe39a'); sg.addColorStop(.4, G); sg.addColorStop(1, 'rgba(240,179,90,0)'); ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(sx, cam.cy, 90, 0, 7); ctx.fill();
       ctx.strokeStyle = 'rgba(240,179,90,.35)'; ctx.lineWidth = 2; ctx.setLineDash([14, 12]); ctx.lineDashOffset = -now / 30; /* sunlight flows from the Sun toward the Earth */ for (let i = -3; i <= 3; i++) { ctx.beginPath(); ctx.moveTo(sx - 80, cam.cy + i * cam.R * .3); ctx.lineTo(800 + cam.R + 20, cam.cy + i * cam.R * .3); ctx.stroke(); } ctx.restore(); S.text('Sun', sx, cam.cy + 120, 26, G, 'center', sunA); }
     // Polaris over the pole while we look from the side
     const polA = 1 - polar;
@@ -736,13 +736,13 @@ addEventListener('load', () => setTimeout(() => {
     // night half, from above the pole
     if (sunA > 0) { ctx.save(); ctx.globalAlpha = sunA; ctx.beginPath(); ctx.arc(800, cam.cy, cam.R, Math.PI / 2, Math.PI * 1.5); ctx.closePath(); ctx.fillStyle = 'rgba(3,6,14,.5)'; ctx.fill();
       ctx.strokeStyle = 'rgba(240,179,90,.6)'; ctx.setLineDash([8, 8]); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(800, cam.cy); ctx.lineTo(800 + cam.R, cam.cy); ctx.stroke(); ctx.setLineDash([]); ctx.restore();
-      S.text('noon', 800 + cam.R - 10, cam.cy - 22, 24, G, 'right', sunA); S.text('midnight', 800 - cam.R + 10, cam.cy - 22, 24, M, 'left', sunA); }
+      if (S.step < 4) { S.text('noon', 800 + cam.R - 10, cam.cy - 22, 24, G, 'right', sunA); S.text('midnight', 800 - cam.R + 10, cam.cy - 22, 24, M, 'left', sunA); } }
     ctx.strokeStyle = '#3b5f8a'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(800, cam.cy, cam.R, 0, 7); ctx.stroke();
     // the ships
     const L2 = S.step === 0 ? -3 : S.step === 1 ? S.lerp(-3, -30, S.ease((age - 300) / 2500)) : -30;
     const ships = [[L1, 'London', G], [L2, 'Ship', B]];
     // each one's longitude line, pole to equator: plain to see, value unknown
-    [[L1, 'rgba(240,179,90,.9)', G], [L2, 'rgba(111,179,255,.95)', B]].forEach(([lo, col, tc]) => { path(Array.from({ length: 46 }, (_, i) => ll(90 - i * 2, lo)), col, 3.5, [12, 8]); const q = P(ll(36, lo)); if (q.z > 0) S.text('Longitude ?', q.x + 18, q.y, 30, tc, 'left', 1, 600); });
+    if (S.step < 4) [[L1, 'rgba(240,179,90,.9)', G], [L2, 'rgba(111,179,255,.95)', B]].forEach(([lo, col, tc]) => { path(Array.from({ length: 46 }, (_, i) => ll(90 - i * 2, lo)), col, 3.5, [12, 8]); const q = P(ll(36, lo)); if (q.z > 0 && S.step <= 1) S.text('Longitude ?', q.x + 18, q.y, 30, tc, 'left', 1, 600); });
     if (S.step === 1 || S.step === 0) { const q1 = P(ll(LAT, L1)), q2 = P(ll(LAT, L2)); if (S.step === 1 && q1.z > 0 && q2.z > 0) { path(Array.from({ length: 30 }, (_, i) => ll(LAT, L1 + (L2 - L1) * i / 29)), RED, 5); const mi = Math.round(Math.abs(L2 - L1) * 43.06 / 10) * 10; S.text(`${mi.toLocaleString('en-US')} miles apart`, (q1.x + q2.x) / 2 + 40, Math.max(q1.y, q2.y) + 80, 30, RED); } }
     ships.forEach(([lo, name, col], i) => { const q = P(ll(LAT, lo)); if (q.z < 0) return; if (i) ship(ctx, q.x, q.y, col); else { ctx.fillStyle = col; ctx.fillRect(q.x - 9, q.y - 14, 18, 14); ctx.beginPath(); ctx.moveTo(q.x - 12, q.y - 14); ctx.lineTo(q.x, q.y - 26); ctx.lineTo(q.x + 12, q.y - 14); ctx.fill(); }
       if (S.step <= 1) S.text(`${name}: Latitude 51.5° N`, q.x + (i ? -24 : 24), i ? q.y + 34 : q.y - 44, 24, col, i ? 'right' : 'left', S.fade(now, 600));
@@ -750,11 +750,11 @@ addEventListener('load', () => setTimeout(() => {
         if (noon && S.step === 3) { ctx.save(); ctx.strokeStyle = G; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(q.x, q.y, 34 + 6 * Math.sin(now / 90), 0, 7); ctx.stroke(); ctx.restore(); }
         const lx = q.x + (i ? -26 : 26), ly = q.y + (i ? 34 : -30), shown = i === 0 && S.step === 4 ? '?' : noon && S.step >= 3 ? 'NOON' : t12(hrs); S.text(`${name} · ${shown}`, lx, ly, 26, noon && S.step >= 3 ? G : col, i ? 'right' : 'left', polar); } });
     // 30° = 2 hours, measured at the pole
-    if (S.step >= 3) { const a1 = -(L1 + cam.yaw) * D, a2 = -(L2 + cam.yaw) * D, r = cam.R * .42, A = S.fade(now, 1000); ctx.save(); ctx.globalAlpha = A; ctx.strokeStyle = G; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(800, cam.cy, r, Math.min(a1, a2), Math.max(a1, a2)); ctx.stroke(); ctx.restore(); const am = (a1 + a2) / 2; S.text('30° = 2 hours', 800 + r * .55 * Math.cos(am), cam.cy + r * .55 * Math.sin(am), 28, G, 'center', A); }
+    if (S.step === 3) { const a1 = -(L1 + cam.yaw) * D, a2 = -(L2 + cam.yaw) * D, r = cam.R * .42, A = S.fade(now, 1000); ctx.save(); ctx.globalAlpha = A; ctx.strokeStyle = G; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(800, cam.cy, r, Math.min(a1, a2), Math.max(a1, a2)); ctx.stroke(); ctx.restore(); const am = (a1 + a2) / 2; S.text('30° = 2 hours', 800 + r * .55 * Math.cos(am), cam.cy + r * .55 * Math.sin(am), 28, G, 'center', A); }
     // London: on the globe, its time unknown to the ships
     if (S.step === 4) {
-      S.card(40, 300, 330, 150, 'The ship’s clock', '12:00', 'set by its own noon', B, S.fade(now, 1800)); S.card(40, 490, 330, 150, 'London', '?', 'left behind', G, S.fade(now, 2400)); }
-    S.words(now, ...WORDS[S.step]);
+      S.card(1140, 330, 250, 140, 'Ship’s clock', '12:00', 'its own noon', B, S.fade(now, 1800)); S.card(1140, 510, 250, 140, 'London', '?', 'unknown', G, S.fade(now, 2400)); }
+    S.words(now, WORDS[S.step][0], ''); // headline only: no caption line on this slide
   });
 }, 0));
 
@@ -820,7 +820,7 @@ addEventListener('load', () => setTimeout(() => {
   const NIGHTS = ['Jan 7', 'Jan 8', 'Jan 10', 'Jan 11', 'Jan 12', 'Jan 13'], NT = [0, 1, 3, 4, 5, 6];
   const EYE = [{ x: 640, y: 560, r: 0 }, { x: 800, y: 470, r: 340 }, { x: 900, y: 470, r: 340 }, { x: 800, y: 470, r: 0 }, { x: 800, y: 470, r: 340 }, { x: 800, y: 470, r: 340 }, { x: 1150, y: 380, r: 230 }, { x: 1150, y: 380, r: 0 }, { x: 1150, y: 380, r: 230 }, { x: 800, y: 470, r: 0 }];
   const WORDS = [
-    ['1609 · Galileo Turns a Telescope on the Night Sky', 'About 20 times magnification. Nobody has looked up like this before.'],
+    ['1609 · Galileo Turns a Telescope on the Night Sky', ''],
     ['The Moon Is Not Smooth', 'Mountains, craters, long shadows. The heavens were supposed to be perfect.'],
     ['January 1610 · Jupiter Has Company', ''],
     ['Not Everything Circles the Earth', 'Moons circling another world: evidence for Copernicus, and trouble with the Church.'],
