@@ -468,41 +468,6 @@ addEventListener('load', () => setTimeout(() => {
       `<line x1="${x - sh + sh * f}" y1="${base - h * f}" x2="${x - sh}" y2="${base}" stroke="${G}" stroke-width="3" opacity=".9"/>` +
       `<text x="${x - sh - 14}" y="${base - 12}" text-anchor="end" style="font-size:24px;fill:#b8bfd4">shadow</text>`; };
   const S = [
-    // 0 · the well at Syene
-    () => T('Syene, about 240 BC: noon on the longest day of the year', 500, 60, 31) + sun(500, 130) + rays(470, 530, 180, 560, 4) + ground(380) + well(500, 380, true) +
-      T('The Sun shines straight down the well.', 500, 618, 34, G),
-    // 1 · same noon, Alexandria
-    () => T('Same day, same noon', 500, 60, 34) + ground(470) +
-      T('Syene', 760, 520, 28, M) + well(760, 470, true).replace(/height="190"/, 'height="110"').replace(/y="\d+" width="108" height="24"/, `y="${470 + 82}" width="108" height="24"`).replace(/cy="\d+" rx="70"/, `cy="${470 + 88}" rx="70"`) + rays(745, 775, 110, 560, 2) +
-      stick(240, 470, 240, 7.2) + T('Alexandria, 500 miles north', 240, 530, 28, M) +
-      T('In Alexandria, a stick casts a shadow.', 500, 618, 34, G),
-    // 2 · measure the angle
-    () => { const x = 500, base = 570, h = 250, r = 7.2 * Math.PI / 180, top = base - h, A = 150;
-      return T('Measure the shadow', 500, 60, 34) + ground(base) + stick(x, base, h, 7.2) +
-        `<line x1="${x}" y1="${top}" x2="${x}" y2="${top - A - 30}" stroke="${W}" stroke-width="2" stroke-dasharray="8 8"/>` +
-        `<path d="M ${x} ${top - A} A ${A} ${A} 0 0 1 ${x + A * Math.sin(r)} ${top - A * Math.cos(r)}" fill="none" stroke="${G}" stroke-width="5"/>` +
-        T('7.2°', x + 40, top - A + 20, 64, G, 'start') + T('sunlight', x + 60, top + 60, 26, G, 'start') + T('straight up', x - 16, top - A - 10, 24, M, 'end') + T('stick', x + 22, top + 180, 26, W, 'start') +
-        T('The Sun is 7.2° from straight up.', 500, 618, 34, G); },
-    // 3 · why the angle at the center is the same
-    () => { const cx = 500, cy = 600, R = 420, a = 20 * Math.PI / 180, ax = cx - R * Math.sin(a), ay = cy - R * Math.cos(a), sx = cx, sy = cy - R;
-      const arc = (r, a0, a1) => `M ${cx - r * Math.sin(a0)} ${cy - r * Math.cos(a0)} A ${r} ${r} 0 0 0 ${cx - r * Math.sin(a1)} ${cy - r * Math.cos(a1)}`;
-      return `<path d="M ${cx - R} ${cy} A ${R} ${R} 0 0 1 ${cx + R} ${cy}" fill="#15294a" stroke="#3b5f8a" stroke-width="3"/>` +
-        `<line x1="${sx}" y1="30" x2="${sx}" y2="${sy}" stroke="${G}" stroke-width="3"/><line x1="${ax}" y1="30" x2="${ax}" y2="${ay}" stroke="${G}" stroke-width="3"/>` +
-        `<line x1="${sx}" y1="${sy}" x2="${cx}" y2="${cy}" stroke="${W}" stroke-width="2" stroke-dasharray="8 8"/><line x1="${ax - 70 * Math.sin(a)}" y1="${ay - 70 * Math.cos(a)}" x2="${cx}" y2="${cy}" stroke="${W}" stroke-width="3"/>` +
-        `<path d="${arc(R, 0, a)}" fill="none" stroke="${G}" stroke-width="9" opacity=".8" transform="scale(1)"/>` +
-        `<path d="${arc(90, 0, a)}" fill="none" stroke="${G}" stroke-width="4"/>` + T('7.2°', cx - 50, cy - 110, 40, G, 'end') +
-        T('Syene', sx + 14, sy - 14, 26, M, 'start') + T('Alexandria', ax - 14, ay - 10, 26, M, 'end') + T('500 miles', (sx + ax) / 2 + 10, sy + 50, 28, G) +
-        T('center of the Earth', cx + 16, cy - 8, 22, M, 'start') + T('sunlight', 940, 70, 26, G, 'end') +
-        T('Parallel sunlight: the angle at the center is also 7.2°.', 500, 26, 30, W) +
-        T('angles drawn larger so you can see them', 40, 630, 18, M, 'start'); },
-    // 4 · fifty times
-    () => { const cx = 500, cy = 335, R = 165; let wedges = '';
-      for (let i = 0; i < 50; i++) { const t0 = i / 50 * 2 * Math.PI - Math.PI / 2; wedges += `<line x1="${cx}" y1="${cy}" x2="${cx + R * Math.cos(t0)}" y2="${cy + R * Math.sin(t0)}" stroke="#3b5f8a" stroke-width="1.5"/>`; }
-      const t1 = -Math.PI / 2, t2 = t1 + 2 * Math.PI / 50;
-      return T('360° ÷ 7.2° = 50', 500, 62, 52, G) + T('7.2° is one fiftieth of a circle', 500, 112, 28, W) + `<circle cx="${cx}" cy="${cy}" r="${R}" fill="#15294a" stroke="#3b5f8a" stroke-width="3"/>` + wedges +
-        `<path d="M ${cx} ${cy} L ${cx + R * Math.cos(t1)} ${cy + R * Math.sin(t1)} A ${R} ${R} 0 0 1 ${cx + R * Math.cos(t2)} ${cy + R * Math.sin(t2)} Z" fill="${G}"/>` +
-        T('500 miles', cx + 40, cy - R - 14, 26, G, 'start') +
-        T('50 × 500 miles =', 500, 575, 44) + T('25,000 miles around', 500, 630, 54, G); },
     // 5 · his answer, then the class guesses today's, then → shows it
     ...[false, true].map(show => () => { const bar = (y, w, col) => `<rect x="160" y="${y}" width="${w}" height="56" rx="8" fill="${col}"/>`, k = 500 / 25000;
       return T('How close did he get?', 500, 70, 40) +
@@ -514,7 +479,114 @@ addEventListener('load', () => setTimeout(() => {
           T('Your guess?', 500, 540, 40, G)); })
   ];
   const g = el.querySelector('#er');
-  V3.steps(el, S.length - 1, k => { g.innerHTML = `<g class="er-in">${S[k]()}</g>`; });
+  // ---- one continuous camera over a true-scale Earth: well → both cities → the stick's angle → the centre → the whole globe → 50 slices
+  const cv = document.createElement('canvas'); cv.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;display:block'; stage.appendChild(cv);
+  const svgEl = stage.querySelector('svg'), ctx = cv.getContext('2d');
+  const R = 6371, A7 = 7.2 * Math.PI / 180, SY = [0, -R], AX = [-R * Math.sin(A7), -R * Math.cos(A7)];
+  // world: km, y down; Syene at the top of the Earth, Alexandria 7.2° round to the left (north). Sunlight comes straight down.
+  const KEY = [
+    // rot rolls the camera so the ground under the city in view is level (Alexandria's ground is tilted 7.2° from Syene's)
+    { w: SY, f: [.5, .64], vh: 0.05, sym: 1.5, rot: 0 },                 // the well
+    { w: [-400, -R + 40], f: [.5, .6], vh: 640, sym: 1.05, rot: A7 / 2 }, // both cities on gently curved ground
+    { w: AX, f: [.5, .76], vh: 0.05, sym: 1.6, rot: A7 },                // the stick, close, its ground level
+    { w: [-400, -R * .5], f: [.5, .5], vh: R * 1.45, sym: .45, rot: 0 }, // the slice down to the centre
+    { w: [0, 0], f: [.5, .53], vh: R * 2.45, sym: .35, rot: 0 },         // the whole Earth
+    { w: [0, 0], f: [.5, .53], vh: R * 2.45, sym: .35, rot: 0 }          // 50 slices
+  ];
+  const WORDS = [
+    ['Syene, about 240 BC: noon on the longest day of the year', 'The Sun shines straight down the well.'],
+    ['Same noon, 500 miles north: Alexandria', 'The same parallel sunlight. Here a stick casts a shadow.'],
+    ['Measure the shadow', 'The sunlight comes in 7.2° from straight up.'],
+    ['Eureka: the angle at the center is also 7.2°', 'Parallel sunlight, so the two angles match. 500 miles of ground is 7.2° of the circle.'],
+    ['360° ÷ 7.2° = 50', '7.2° is one fiftieth of the whole circle.'],
+    ['50 × 500 miles = 25,000 miles', 'The size of the Earth, from one shadow.']
+  ];
+  const NC = KEY.length; let from = KEY[0], to = KEY[0], t0 = 0, step = 0, stepT = 0, cam = { ...KEY[0] };
+  const lerp = (a, b, t) => a + (b - a) * t, ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  // pan in step with the zoom (measured in real distance), so the camera pulls back before it travels and never dives into the ground
+  const camAt = t => { const e = ease(t), vh = Math.exp(lerp(Math.log(from.vh), Math.log(to.vh), e)), big = Math.max(from.vh, to.vh) / Math.min(from.vh, to.vh) > 3, ep = big ? (vh - from.vh) / (to.vh - from.vh) : e; return { w: [lerp(from.w[0], to.w[0], ep), lerp(from.w[1], to.w[1], ep)], f: [lerp(from.f[0], to.f[0], ep), lerp(from.f[1], to.f[1], ep)], vh, sym: lerp(from.sym, to.sym, e), rot: lerp(from.rot, to.rot, e) }; };
+  let shown = false;
+  const goCam = k => { const now = performance.now(); from = shown ? { ...cam } : KEY[k]; to = KEY[k]; t0 = now; step = k; stepT = now; shown = true; };
+  const font = (px, wt = 400) => `${wt} ${px}px Georgia,serif`;
+  const label = (str, x, y, px, col, align = 'center', alpha = 1) => { if (alpha <= 0) return; ctx.globalAlpha = alpha; ctx.font = font(px); const room = cv.clientWidth * .94, tw = ctx.measureText(str).width; if (align === 'center' && tw > room) ctx.font = font(px * room / tw); ctx.textAlign = align; ctx.textBaseline = 'middle'; ctx.lineWidth = 6; ctx.strokeStyle = 'rgba(6,9,18,.85)'; ctx.strokeText(str, x, y); ctx.fillStyle = col; ctx.fillText(str, x, y); ctx.globalAlpha = 1; };
+  const vis = (k, now) => { // how visible a step's own layer is: fades in after the camera mostly arrives
+    if (step !== k) return 0; return Math.max(0, Math.min(1, (now - stepT - 1300) / 600)); };
+  const frame = now => {
+    requestAnimationFrame(frame); if (!el.classList.contains('active') || cv.style.display === 'none') return;
+    const dpr = devicePixelRatio || 1, w = cv.clientWidth, h = cv.clientHeight; if (!w) return;
+    if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, w, h);
+    const tt = Math.min(1, (now - t0) / 2400); cam = camAt(tt);
+    const sc = h / cam.vh, ax = w * cam.f[0], ay = h * cam.f[1];
+    const cr = Math.cos(cam.rot), sr = Math.sin(cam.rot), rv = v => [v[0] * cr - v[1] * sr, v[0] * sr + v[1] * cr];
+    const S = p => { const d = rv([(p[0] - cam.w[0]) * sc, (p[1] - cam.w[1]) * sc]); return [ax + d[0], ay + d[1]]; }, sym = cam.sym * Math.min(1, h / 700);
+    const P = (th, r = R) => [-r * Math.sin(th), -r * Math.cos(th)]; // th: angle from Syene toward Alexandria
+    // the Earth: a fan from the centre over the part that can be on screen
+    const span = Math.min(Math.PI, (w / sc) / R * 1.5 + 1e-7), thc = Math.atan2(-cam.w[0], -cam.w[1]);
+    const n = 160, arc = []; for (let i = 0; i <= n; i++) arc.push(S(P(thc - span + 2 * span * i / n)));
+    const C = S([0, 0]), far = Math.abs(C[0]) > 2e4 || Math.abs(C[1]) > 2e4;
+    ctx.beginPath(); if (far) { ctx.moveTo(arc[0][0], arc[0][1]); arc.forEach(q => ctx.lineTo(q[0], q[1])); ctx.lineTo(arc[n][0], h + 4000); ctx.lineTo(arc[0][0], h + 4000); } else { ctx.moveTo(C[0], C[1]); arc.forEach(q => ctx.lineTo(q[0], q[1])); } ctx.closePath();
+    if (far) { const ys = Math.min(...arc.map(q => q[1])), lg = ctx.createLinearGradient(0, ys, 0, ys + 220); lg.addColorStop(0, '#2f4466'); lg.addColorStop(.3, '#1d3354'); lg.addColorStop(1, '#122039'); ctx.fillStyle = lg; }
+    else { const gr = ctx.createRadialGradient(C[0], C[1], 0, C[0], C[1], R * sc); gr.addColorStop(0, '#0d1830'); gr.addColorStop(.96, '#1d3354'); gr.addColorStop(1, '#2f4466'); ctx.fillStyle = gr; }
+    ctx.fill();
+    ctx.strokeStyle = '#a08a5c'; ctx.lineWidth = 3; ctx.beginPath(); arc.forEach((q, i) => i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1])); ctx.stroke();
+    // symbols, drawn at screen size: the well at Syene and the stick at Alexandria, both standing along their own "straight up"
+    const sy = S(SY), axp = S(AX), wellW = 46 * sym, wellD = 80 * sym, stickH = 150 * sym;
+    const up = rv([-Math.sin(A7), -Math.cos(A7)]), tan = rv([-Math.cos(A7), Math.sin(A7)]), rd = rv([0, 1]);
+    const tip = [axp[0] + up[0] * stickH, axp[1] + up[1] * stickH], mu = stickH * Math.tan(A7), shEnd = [axp[0] + tan[0] * mu, axp[1] + tan[1] * mu];
+    // sunlight: parallel rays across the whole sky, flowing down (all parallel to the ray down the well)
+    const flow = (now / 22) % 28, diag = Math.hypot(w, h) / sc, step0 = 44 / sc, cx0 = cam.w[0];
+    ctx.save(); ctx.setLineDash([16, 12]); ctx.lineDashOffset = -flow; ctx.strokeStyle = 'rgba(240,179,90,.28)'; ctx.lineWidth = 2;
+    for (let x = Math.floor((cx0 - diag) / step0) * step0; x <= cx0 + diag; x += step0) { const top = S([x, cam.w[1] - diag * 1.5]); const end = Math.abs(x) < R ? S([x, -Math.sqrt(R * R - x * x)]) : S([x, cam.w[1] + diag * 1.5]); ctx.beginPath(); ctx.moveTo(top[0], top[1]); ctx.lineTo(end[0], end[1]); ctx.stroke(); }
+    ctx.restore();
+    const symA = Math.max(0, Math.min(1, (cam.sym - .5) / .3)); ctx.globalAlpha = Math.max(.25, symA);
+    // the two rays that matter: straight down the well, and the one past the top of the stick
+    ctx.strokeStyle = '#f0b35a'; ctx.lineWidth = 3.5; const FAR = Math.hypot(w, h) * 2;
+    ctx.beginPath(); ctx.moveTo(sy[0] - rd[0] * FAR, sy[1] - rd[1] * FAR); ctx.lineTo(sy[0] + rd[0] * wellD * .9, sy[1] + rd[1] * wellD * .9); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(shEnd[0] - rd[0] * FAR, shEnd[1] - rd[1] * FAR); ctx.lineTo(shEnd[0], shEnd[1]); ctx.stroke();
+    ctx.globalAlpha = symA;
+    // well
+    ctx.save(); ctx.translate(sy[0], sy[1]); ctx.rotate(cam.rot); ctx.fillStyle = '#070b16'; ctx.fillRect(-wellW / 2, 0, wellW, wellD); ctx.strokeStyle = '#a08a5c'; ctx.lineWidth = Math.max(2, 5 * sym); ctx.strokeRect(-wellW / 2, 0, wellW, wellD);
+    ctx.fillStyle = '#f0b35a'; ctx.fillRect(-wellW / 2 + 3, wellD * .82, wellW - 6, wellD * .14); ctx.restore();
+    // stick and its shadow (the shadow points north, away from the Sun)
+    ctx.lineCap = 'round'; ctx.strokeStyle = '#8a93b0'; ctx.lineWidth = Math.max(3, 10 * sym); ctx.beginPath(); ctx.moveTo(axp[0], axp[1]); ctx.lineTo(shEnd[0], shEnd[1]); ctx.stroke();
+    ctx.strokeStyle = '#ece6da'; ctx.lineWidth = Math.max(2.5, 7 * sym); ctx.beginPath(); ctx.moveTo(axp[0], axp[1]); ctx.lineTo(tip[0], tip[1]); ctx.stroke(); ctx.lineCap = 'butt';
+    ctx.globalAlpha = 1 - symA; if (1 - symA > 0) [sy, axp].forEach(q => { ctx.fillStyle = '#f0b35a'; ctx.beginPath(); ctx.arc(q[0], q[1], 7, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = '#0a0e18'; ctx.lineWidth = 2; ctx.stroke(); }); ctx.globalAlpha = 1;
+    // the Sun, only in the first view
+    const sunA = step === 0 ? Math.min(1, (now - stepT) / 400) : Math.max(0, 1 - (now - stepT) / 500);
+    if (sunA > 0) { ctx.globalAlpha = sunA; const sx = sy[0], syy = Math.max(70, sy[1] - 330 * Math.min(1, h / 800)); const sg = ctx.createRadialGradient(sx, syy, 0, sx, syy, 80); sg.addColorStop(0, 'rgba(255,214,107,1)'); sg.addColorStop(.45, 'rgba(240,179,90,.9)'); sg.addColorStop(1, 'rgba(240,179,90,0)'); ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(sx, syy, 80, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1; }
+    // labels for the two cities
+    const near = sc > 0.3 && sc < 50; // only when the cities sit at sensible screen distances
+    const cityA = step === 1 || step === 3 ? Math.min(1, (now - stepT - 1400) / 500) : 0;
+    if (step === 0) label('Syene', sy[0] + wellW, sy[1] + wellD + 34, 24, '#9a9382', 'left', Math.min(1, (now - stepT) / 500));
+    label('Syene', sy[0] + 14, sy[1] - 26, 22, '#cfc8ba', 'left', cityA); label('Alexandria', axp[0] - 14, axp[1] - 26, 22, '#cfc8ba', 'right', cityA);
+    // 500 miles along the ground
+    const milesA = Math.max(vis(1, now), vis(3, now));
+    if (milesA > 0) { ctx.globalAlpha = milesA; const off = step === 1 ? 40 : 22; ctx.strokeStyle = '#f0b35a'; ctx.lineWidth = 3; ctx.setLineDash([8, 7]); ctx.beginPath(); for (let i = 0; i <= 40; i++) { const q = S(P(A7 * i / 40, R + off / sc)); i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1]); } ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
+      const m = step === 3 ? S(P(A7 / 2, R - 46 / sc)) : S(P(A7 / 2, R + (off + 30) / sc)); label('500 miles', m[0], m[1], 26, '#f0b35a', step === 3 ? 'left' : 'center', milesA); }
+    // the angle at the top of the stick: between straight up (dashed) and the sunlight
+    const angA = vis(2, now);
+    if (angA > 0) { ctx.globalAlpha = angA; const L = stickH * .9; ctx.strokeStyle = 'rgba(236,230,218,.75)'; ctx.lineWidth = 2; ctx.setLineDash([8, 8]); ctx.beginPath(); ctx.moveTo(tip[0], tip[1]); ctx.lineTo(tip[0] + up[0] * L, tip[1] + up[1] * L); ctx.stroke(); ctx.setLineDash([]);
+      const r = stickH * .62, a0 = Math.atan2(up[1], up[0]), a1 = Math.atan2(-rd[1], -rd[0]); ctx.strokeStyle = '#f0b35a'; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(tip[0], tip[1], r, Math.min(a0, a1), Math.max(a0, a1)); ctx.stroke(); ctx.globalAlpha = 1;
+      label('7.2°', tip[0] + 44, tip[1] - r * .75, 58, '#f0b35a', 'left', angA); label('straight up', tip[0] - 14, tip[1] + up[1] * L, 20, '#9a9382', 'right', angA); label('sunlight', tip[0] - rd[0] * stickH * 1.3 + 22, tip[1] - rd[1] * stickH * 1.3, 22, '#f0b35a', 'left', angA); label('stick', axp[0] + 16, axp[1] - stickH * .4, 22, '#ece6da', 'left', angA); label('shadow', shEnd[0] - 10, shEnd[1] + 30, 20, '#b8bfd4', 'right', angA); }
+    // the centre of the Earth: both "straight up" lines meet there at the same 7.2°
+    const cenA = step >= 3 ? (step === 3 ? vis(3, now) : 1) : 0;
+    if (cenA > 0 && !far) { ctx.globalAlpha = cenA; ctx.strokeStyle = '#ece6da'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(C[0], C[1]); ctx.lineTo(sy[0], sy[1]); ctx.moveTo(C[0], C[1]); ctx.lineTo(axp[0], axp[1]); ctx.stroke();
+      if (step <= 4) { ctx.fillStyle = 'rgba(240,179,90,.35)'; ctx.beginPath(); ctx.moveTo(C[0], C[1]); ctx.arc(C[0], C[1], R * sc, -Math.PI / 2 - A7, -Math.PI / 2); ctx.closePath(); ctx.fill(); }
+      const rr = Math.min(R * sc * .3, 160); ctx.strokeStyle = '#f0b35a'; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(C[0], C[1], rr, -Math.PI / 2 - A7, -Math.PI / 2); ctx.stroke(); ctx.globalAlpha = 1;
+      if (step === 3) { label('7.2°', C[0] - 24, C[1] - rr - 34, 46, '#f0b35a', 'right', cenA); label('center of the Earth', C[0] + 16, C[1] - 18, 22, '#9a9382', 'left', cenA); } }
+    // the whole circle in fiftieths
+    if (step === 5 && !far) { const k5 = Math.max(0, Math.min(50, Math.floor((now - stepT - 1200) / 70) + 1)), RR = R * sc;
+      for (let i = 0; i < k5; i++) { const a0 = -Math.PI / 2 - A7 * (i + 1), a1 = -Math.PI / 2 - A7 * i; ctx.fillStyle = i % 2 ? 'rgba(240,179,90,.20)' : 'rgba(240,179,90,.42)'; ctx.beginPath(); ctx.moveTo(C[0], C[1]); ctx.arc(C[0], C[1], RR, a0, a1); ctx.closePath(); ctx.fill(); ctx.strokeStyle = 'rgba(236,230,218,.55)'; ctx.lineWidth = 1; ctx.stroke(); }
+      if (k5 >= 50) label('25,000 miles', C[0], C[1], 60, '#f0b35a', 'center', Math.min(1, (now - stepT - 4800) / 500)); else label(String(k5), C[0], C[1], 64, '#f0b35a', 'center'); }
+    if (step === 4 && !far) { const RR = R * sc; ctx.strokeStyle = 'rgba(236,230,218,.25)'; ctx.lineWidth = 1; for (let i = 1; i < 50; i++) { const a = -Math.PI / 2 - A7 * i; ctx.globalAlpha = vis(4, now); ctx.beginPath(); ctx.moveTo(C[0], C[1]); ctx.lineTo(C[0] + RR * Math.cos(a), C[1] + RR * Math.sin(a)); ctx.stroke(); } ctx.globalAlpha = 1; }
+    // words
+    const [top, cap] = WORDS[step], wa = Math.min(1, (now - stepT) / 600);
+    label(top, w / 2, h * .075, Math.max(28, Math.min(48, w * .034)), step >= 4 ? '#f0b35a' : '#ece6da', 'center', wa);
+    label(cap, w / 2, h * .92, Math.max(20, Math.min(32, w * .024)), '#f0b35a', 'center', wa);
+  };
+  requestAnimationFrame(frame);
+  V3.steps(el, NC + S.length - 1, k => { if (k < NC) { cv.style.display = 'block'; svgEl.style.display = 'none'; goCam(k); } else { cv.style.display = 'none'; svgEl.style.display = 'block'; shown = false; g.innerHTML = `<g class="er-in">${S[k - NC]()}</g>`; } });
   const st = document.createElement('style'); st.textContent = '.er-fig{padding:1rem 1.5rem!important}.er-in{animation:erIn .5s ease}@keyframes erIn{from{opacity:0}to{opacity:1}}'; document.head.appendChild(st);
 }, 0));
 
