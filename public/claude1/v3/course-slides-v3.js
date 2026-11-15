@@ -383,7 +383,7 @@ NEW_SLIDES['A clock that could travel'] = {
 // ---------- Presenter keys: the panel is hidden, its controls live on 1–9, 0, then letters; ↑/↓ moves the first slider ----------
 addEventListener('load', () => setTimeout(() => {
   const KEYS = '1234567890qweryuoadghjz'.split('');
-  const legend = document.createElement('div'); legend.id = 'v3-keys'; const lpanel = document.getElementById('ls-panel'); if (lpanel) lpanel.prepend(legend); else (document.getElementById('visual') || document.body).appendChild(legend);
+  const legend = document.createElement('div'); legend.id = 'v3-keys'; (document.getElementById('visual') || document.body).appendChild(legend);
   const active = () => document.querySelector('#deck .slide.active');
   const controls = el => { const t = el && el.querySelector('.text'); if (!t) return []; const off = b => { for (let n = b; n; n = n.parentElement) { if (n.style && n.style.display === 'none') return true; if (n === t) break; if (getComputedStyle(n).display === 'none') return true; } return false; };
     return [...t.querySelectorAll('button')].filter(b => b.style.display !== 'none' && !b.closest('[hidden]') && !b.hidden && b.textContent.trim() && !off(b)); };
@@ -402,7 +402,7 @@ addEventListener('load', () => setTimeout(() => {
   const shell = document.getElementById('shell'), lside = document.getElementById('lside'), lsTog = document.getElementById('ls-tog');
   const tg = document.createElement('button'); tg.id = 'v3-ctl'; tg.title = 'Controls (K)'; tg.setAttribute('aria-label', 'Controls'); tg.textContent = '1·2';
   let opened = false; const setKeys = on => { document.body.classList.toggle('v3-keys-on', on); tg.classList.toggle('on', on);
-    if (shell && lsTog) { const isOpen = shell.classList.contains('ls-open'); if (on && !isOpen) { lsTog.click(); opened = true; } else if (!on && isOpen && opened) { lsTog.click(); opened = false; } } dispatchEvent(new Event('resize')); };
+    };
   let manualOff = false; try { manualOff = localStorage.getItem('v3-keys-off') === '1'; } catch (e) {}
   tg.onclick = () => { const on = !document.body.classList.contains('v3-keys-on'); manualOff = !on; try { localStorage.setItem('v3-keys-off', on ? '0' : '1'); } catch (e) {} setKeys(on); }; window.v3SetKeys = setKeys;
   window.v3AutoKeys = n => { const on = document.body.classList.contains('v3-keys-on'); if (n && !on && !manualOff) setKeys(true); else if (!n && on) setKeys(false); };
