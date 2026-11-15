@@ -834,9 +834,10 @@ addEventListener('load', () => setTimeout(() => {
     const jg = ctx.createRadialGradient(cx - rJ * .3, cy - rJ * .3, 0, cx, cy, rJ); jg.addColorStop(0, '#f1d7a8'); jg.addColorStop(1, '#b8925a'); ctx.fillStyle = jg; ctx.beginPath(); ctx.arc(cx, cy, rJ, 0, 7); ctx.fill();
     ctx.strokeStyle = 'rgba(138,106,61,.7)'; ctx.lineWidth = Math.max(1, rJ * .12); [-.35, .1, .45].forEach(f => { ctx.beginPath(); ctx.moveTo(cx - rJ * Math.sqrt(1 - f * f), cy + rJ * f); ctx.lineTo(cx + rJ * Math.sqrt(1 - f * f), cy + rJ * f); ctx.stroke(); });
     pos.filter(p => !p.behind).forEach(dot); return pos; };
-  V3.scene(el, 10, (S, ctx, now) => {
+  const GMAP = [0, 1, 2, 3, 5, 6, 7, 8, 9]; // beat 4 (Io slips into the shadow) is cut; its line folds into the clock beat
+  V3.scene(el, 9, (S, ctx, now) => {
     if (S.t0 !== last) { from = { ...eye }; last = S.t0; }
-    const age = S.age(now), k = S.step, e = S.ease(age / 1500), T = EYE[k];
+    const age = S.age(now), k = GMAP[S.step], e = S.ease(age / 1500), T = EYE[k];
     if (k !== curK) { curK = k; zoom = 1; }
     eye = { x: S.lerp(from.x, T.x, e), y: S.lerp(from.y, T.y, e), r: S.lerp(from.r, T.r, e) };
     tilt = S.lerp(tilt, k >= 3 && k <= 5 ? .5 : .03, .05);
@@ -1077,5 +1078,36 @@ addEventListener('load', () => setTimeout(() => {
     ctx.fillStyle = '#ece6da'; ctx.beginPath(); ctx.arc(X0, Y0, 9, 0, 7); ctx.fill(); S.text('last sure position', X0 - 20, Y0 + 50, 24, '#ece6da', 'left');
     S.text(`Day ${Math.round(day)}: ${Math.round(r)} Miles of Doubt Either Way`, 800, 70, 46, '#ece6da');
     S.text(CAP[k], 800, 905, 30, G, 'center', S.fade(now, 0, 600));
+  });
+}, 0));
+
+/* ---------- Aside: Rømer, light needs time. To scale: 1 AU = 200 px. Light rings leave Jupiter; Earth near, then far ---------- */
+addEventListener('load', () => setTimeout(() => {
+  const el = v3Find('Light needs time'); if (!el) return;
+  const G = '#f0b35a', W = '#ece6da', M = '#9a9382', B = '#6fb3ff', AU = 200, SX = 400, SY = 520, JX = SX + 5.2 * AU, C = AU / .75; // light: 1 AU every 0.75 s
+  const WORDS = [['Paris, 1676 · Ole Rømer Times Io', 'Earth on Jupiter’s side of the Sun: the eclipse arrives on time.'], ['Months Later', 'The Earth is on the far side of the Sun.'], ['Now the Eclipse Is Late', 'The light has to cross the Earth’s whole orbit: about 16½ minutes more.'], ['Io Is on Time. The Light Is Late.', 'Light takes time: about 8 minutes from the Sun to us.']];
+  let ang = 0;
+  V3.scene(el, 4, (S, ctx, now) => {
+    const k = S.step, age = S.age(now);
+    ang = S.lerp(ang, k >= 1 ? Math.PI : 0, k === 1 ? .025 : .2);
+    S.stars(now, .6);
+    ctx.strokeStyle = 'rgba(236,230,218,.25)'; ctx.setLineDash([6, 8]); ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(SX, SY, AU, 0, 7); ctx.stroke(); ctx.setLineDash([]);
+    const sg = ctx.createRadialGradient(SX, SY, 0, SX, SY, 60); sg.addColorStop(0, '#ffe39a'); sg.addColorStop(.5, G); sg.addColorStop(1, 'rgba(240,179,90,0)'); ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(SX, SY, 60, 0, 7); ctx.fill(); S.text('Sun', SX, SY + 80, 24, G);
+    const jg = ctx.createRadialGradient(JX - 10, SY - 10, 0, JX, SY, 34); jg.addColorStop(0, '#f1d7a8'); jg.addColorStop(1, '#b8925a'); ctx.fillStyle = jg; ctx.beginPath(); ctx.arc(JX, SY, 34, 0, 7); ctx.fill(); S.text('Jupiter', JX, SY + 74, 24, W);
+    const ex = SX + AU * Math.cos(ang), ey = SY - AU * Math.sin(ang) * .0;
+    // light rings: Io blinks out every 4.5 s and the news spreads at light speed
+    const per = 4500, ph = (Math.max(0, age) % per) / 1000, r = ph * C, blink = ph < .5;
+    ctx.fillStyle = blink ? '#262a33' : '#ffe9b0'; ctx.beginPath(); ctx.arc(JX - 58, SY, 8, 0, 7); ctx.fill(); S.text(blink ? 'Io goes dark' : 'Io', JX - 58, SY - 26, 20, blink ? G : M);
+    if (k !== 1) { ctx.strokeStyle = 'rgba(111,179,255,.9)'; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(JX - 58, SY, r, 0, 7); ctx.stroke(); }
+    // where the Earth was and where it is
+    const dNear = (JX - 58) - (SX + AU), dFar = (JX - 58) - (SX - AU);
+    if (k >= 2) { ctx.fillStyle = 'rgba(111,179,255,.35)'; ctx.beginPath(); ctx.arc(SX + AU, SY, 14, 0, 7); ctx.fill(); S.text('near: on time', SX + AU, SY - 34, 22, M);
+      ctx.strokeStyle = G; ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(SX - AU, SY + 130); ctx.lineTo(SX + AU, SY + 130); ctx.stroke(); [SX - AU, SX + AU].forEach(x => { ctx.beginPath(); ctx.moveTo(x, SY + 116); ctx.lineTo(x, SY + 144); ctx.stroke(); });
+      S.text('the extra trip: across the orbit, 186 million miles', SX, SY + 180, 26, G, 'center', S.fade(now, 600)); }
+    const hit = r >= (k >= 1 ? dFar : dNear) && k !== 1;
+    ctx.fillStyle = hit && ph < (k >= 1 ? dFar : dNear) / C + .6 ? '#ffffff' : B; ctx.beginPath(); ctx.arc(ex, ey, 18, 0, 7); ctx.fill(); S.text('Earth', ex, ey - 34, 26, B);
+    if (k === 0 || k >= 2) { const late = k === 0 ? 'on time' : '16½ min late'; S.text(hit ? 'Seen ' + late : '', ex, ey + 56, 28, k === 0 ? W : G); }
+    S.text('Sun, Earth and Jupiter to scale · light slowed down', 1560, 960, 17, M, 'right');
+    S.words(now, ...WORDS[k]);
   });
 }, 0));
