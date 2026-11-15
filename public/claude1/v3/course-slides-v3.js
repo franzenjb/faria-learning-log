@@ -825,16 +825,16 @@ addEventListener('load', () => setTimeout(() => {
     ['January 1610 · Jupiter Has Company', ''],
     ['Not Everything Circles the Earth', 'Moons circling another world: evidence for Copernicus, and trouble with the Church.'],
     ['Io Slips Into Jupiter’s Shadow', 'Every 42½ hours it vanishes, on schedule, for everyone on Earth at the same instant.'],
-    ['A Clock in the Sky That Everyone Can Read', 'London writes down 9:00 PM. You write down 7:00 PM. 2 hours = 30° West.'],
+    ['A Clock in the Sky That Everyone Can Read', ''],
     ['On Land, It Works', 'A long telescope on a steady stand, a pendulum clock beside it. By 1668 map makers redraw whole countries.'],
     ['France Shrinks, and the King Complains', ''],
     ['At Sea, It Fails', 'You cannot hold a moon of Jupiter in the eyepiece on a rolling deck, and a pendulum cannot keep time on the waves.'],
     ['', '']];
-  let eye = { ...EYE[0] }, from = { ...EYE[0] }, last = 0, tilt = .03, tj = 0, curK = 0, zoom = 1, zoomS = 1, tiltT = .03;
+  let eye = { ...EYE[0] }, from = { ...EYE[0] }, last = 0, tilt = .03, tj = 0, curK = 0, zoom = 1, zoomS = 1, tiltT = .03, ioOnly = false;
   // step 4 ("Not everything circles the Earth") is full width and zoomable: ↑/↓, mouse wheel, or pinch on the iPad
   const zoomBy = f => { zoom = Math.max(.5, Math.min(5, zoom * f)); };
   // and tiltable: 1 = edge-on, as Galileo saw it (moons slide back and forth and vanish); 2 = tilted, the orbits show; or drag up and down
-  addEventListener('keydown', e => { if (!el.classList.contains('active') || curK !== 3 || (e.key !== '1' && e.key !== '2')) return; e.preventDefault(); e.stopImmediatePropagation(); tiltT = e.key === '1' ? .03 : .5; }, true);
+  addEventListener('keydown', e => { if (!el.classList.contains('active') || curK !== 3 || !['1', '2', '3'].includes(e.key)) return; e.preventDefault(); e.stopImmediatePropagation(); if (e.key === '3') ioOnly = !ioOnly; else tiltT = e.key === '1' ? .03 : .5; }, true); // 3: Io only
   addEventListener('keydown', e => { if (!el.classList.contains('active') || curK !== 3 || (e.key !== 'ArrowUp' && e.key !== 'ArrowDown')) return; e.preventDefault(); e.stopImmediatePropagation(); zoomBy(e.key === 'ArrowUp' ? 1.35 : 1 / 1.35); }, true);
   const attachCtl = () => { const cv = [...el.querySelectorAll('canvas')].pop(); let g0 = 1, pinch = null; // the scene's own canvas, added by V3.scene
     let drag = null;
@@ -848,10 +848,10 @@ addEventListener('load', () => setTimeout(() => {
       cv.addEventListener('touchend', () => { pinch = null; }); } };
   const system = (ctx, S, now, cx, cy, sc, opts = {}) => { // Jupiter and its moons; sc = pixels per Jupiter radius
     const t = opts.t, ti = opts.tilt, rJ = sc;
-    if (ti > .1) MOONS.forEach(([, d]) => { ctx.strokeStyle = `rgba(236,230,218,${.25 * Math.min(1, ti * 2)})`; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(cx, cy, d * sc, d * sc * ti, 0, 0, 7); ctx.stroke(); });
+    if (ti > .1) MOONS.forEach(([, d], mi) => { if (opts.only != null && mi !== opts.only) return; ctx.strokeStyle = `rgba(236,230,218,${.25 * Math.min(1, ti * 2)})`; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(cx, cy, d * sc, d * sc * ti, 0, 0, 7); ctx.stroke(); });
     if (opts.shadow) { ctx.fillStyle = 'rgba(0,0,0,.55)'; ctx.fillRect(cx, cy - rJ * Math.max(ti, .15), sc * 14, 2 * rJ * Math.max(ti, .15)); }
     const pos = MOONS.map(([n, d, P, ph], i) => { const a = (opts.io != null && i === 0) ? opts.io : 2 * Math.PI * t / P + ph; return { n, x: cx + d * sc * Math.cos(a), y: cy + d * sc * Math.sin(a) * ti, behind: Math.sin(a) < 0, inSh: Math.cos(a) > 0 && Math.abs(d * Math.sin(a)) < 1, i }; });
-    const dot = p => { if (p.i >= 4) return; const dark = opts.shadow && p.inSh; ctx.fillStyle = dark ? '#262a33' : '#ffe9b0'; ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(4.5, sc * .24), 0, 7); ctx.fill(); if (opts.names) S.text(p.n, p.x, p.y - Math.max(20, sc * .24 + 14), opts.lab || 18, dark ? M : W); };
+    const dot = p => { if (p.i >= 4 || (opts.only != null && p.i !== opts.only)) return; const dark = opts.shadow && p.inSh; ctx.fillStyle = dark ? '#262a33' : '#ffe9b0'; ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(4.5, sc * .24), 0, 7); ctx.fill(); if (opts.names) S.text(p.n, p.x, p.y - Math.max(20, sc * .24 + 14), opts.lab || 18, dark ? M : W); };
     pos.filter(p => p.behind).forEach(p => { if (Math.abs(p.x - cx) > rJ) dot(p); });
     const jg = ctx.createRadialGradient(cx - rJ * .3, cy - rJ * .3, 0, cx, cy, rJ); jg.addColorStop(0, '#f1d7a8'); jg.addColorStop(1, '#b8925a'); ctx.fillStyle = jg; ctx.beginPath(); ctx.arc(cx, cy, rJ, 0, 7); ctx.fill();
     ctx.strokeStyle = 'rgba(138,106,61,.7)'; ctx.lineWidth = Math.max(1, rJ * .12); [-.35, .1, .45].forEach(f => { ctx.beginPath(); ctx.moveTo(cx - rJ * Math.sqrt(1 - f * f), cy + rJ * f); ctx.lineTo(cx + rJ * Math.sqrt(1 - f * f), cy + rJ * f); ctx.stroke(); });
@@ -868,7 +868,7 @@ addEventListener('load', () => setTimeout(() => {
   V3.scene(el, 9, (S, ctx, now) => {
     if (S.t0 !== last) { from = { ...eye }; last = S.t0; }
     const age = S.age(now), k = GMAP[S.step], e = S.ease(age / 1500), T = EYE[k];
-    if (k !== curK) { curK = k; zoom = 1; tiltT = .03; }
+    if (k !== curK) { curK = k; zoom = 1; tiltT = .03; ioOnly = false; }
     eye = { x: S.lerp(from.x, T.x, e), y: S.lerp(from.y, T.y, e), r: S.lerp(from.r, T.r, e) };
     tilt = S.lerp(tilt, k === 3 ? tiltT : k >= 4 && k <= 5 ? .5 : .03, k === 3 ? .12 : .05);
     const sky = ctx.createLinearGradient(0, 0, 0, 1000); sky.addColorStop(0, '#05070f'); sky.addColorStop(1, '#101a30'); ctx.fillStyle = sky; ctx.fillRect(0, 0, 1600, 1000); S.stars(now, .8);
@@ -895,11 +895,11 @@ addEventListener('load', () => setTimeout(() => {
       else if (k === 6 || k === 8) system(ctx, S, now, cx, cy, 11 * eye.r / 230, { t: age / 3000 + 6, tilt });
       ctx.restore(); ctx.strokeStyle = '#6b5a40'; ctx.lineWidth = 10; ctx.beginPath(); ctx.arc(eye.x, eye.y, eye.r, 0, 7); ctx.stroke(); }
     // full width: Jupiter and its four moons, zoomable
-    if (k === 3) { zoomS = S.lerp(zoomS, zoom, .15); ctx.save(); ctx.globalAlpha = S.fade(now, 300, 900); system(ctx, S, now, 800, 490, 68 * zoomS, { t: 6 + age / 2500, tilt, names: true, lab: 26 }); ctx.restore();
-      S.text('1 flat, as Galileo saw it · 2 tilted · drag to tilt · ↑↓ zoom', 40, 962, 17, M, 'left', .8); }
+    if (k === 3) { zoomS = S.lerp(zoomS, zoom, .15); ctx.save(); ctx.globalAlpha = S.fade(now, 300, 900); system(ctx, S, now, 800, 490, 68 * zoomS, { t: 6 + age / 2500, tilt, names: true, lab: 26, only: ioOnly ? 0 : null }); ctx.restore();
+      S.text('1 flat, as Galileo saw it · 2 tilted · 3 Io only · drag to tilt · ↑↓ zoom', 40, 962, 17, M, 'left', .8); }
     // Galileo's own record of those nights: a page of Sidereus Nuncius, Venice, March 1610 (public domain)
     if (k === 2 && sn.complete && sn.naturalWidth) { const a = S.fade(now, 200, 800), h = 660, w = h * sn.naturalWidth / sn.naturalHeight; ctx.save(); ctx.globalAlpha = a; ctx.drawImage(sn, 70, 150, w, h); ctx.strokeStyle = 'rgba(240,179,90,.5)'; ctx.lineWidth = 2; ctx.strokeRect(70, 150, w, h); ctx.restore(); S.text('Galileo’s own record · Sidereus Nuncius, 1610', 70 + w / 2, 840, 20, M, 'center', a); }
-    if (k === 5) { S.card(40, 300, 340, 150, 'London writes down', '9:00 PM', 'Io vanished', G, S.fade(now, 400)); S.card(1220, 300, 340, 150, 'You write down', '7:00 PM', 'Io vanished', B, S.fade(now, 1000)); S.text('2 hours = 30° West', 800, 845, 44, G, 'center', S.fade(now, 1700)); }
+    if (k === 5) { S.card(40, 300, 340, 150, 'London', '9:00 PM', 'read from Io', G, S.fade(now, 400)); S.card(1220, 300, 340, 150, 'Ship’s clock', '7:00 PM', 'its own noon', B, S.fade(now, 1000)); S.text('2 hours = 30° West', 800, 845, 44, G, 'center', S.fade(now, 1700)); }
     // Scilly: the bill for longitude at sea
     if (k === 9) { const a = S.fade(now, 0, 800); ctx.save(); ctx.globalAlpha = a * .5; if (scilly.complete && scilly.naturalWidth) { const s = Math.max(1600 / scilly.naturalWidth, 1000 / scilly.naturalHeight); ctx.filter = 'grayscale(1)'; ctx.drawImage(scilly, 800 - scilly.naturalWidth * s / 2, 500 - scilly.naturalHeight * s / 2, scilly.naturalWidth * s, scilly.naturalHeight * s); ctx.filter = 'none'; } ctx.restore();
       ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(5,8,18,.72)'; ctx.fillRect(0, 300, 1600, 400); ctx.restore();
