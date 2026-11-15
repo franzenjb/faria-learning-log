@@ -889,19 +889,19 @@ addEventListener('load', () => setTimeout(() => {
       ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(5,8,18,.72)'; ctx.fillRect(0, 300, 1600, 400); ctx.restore();
       S.text('So in 1707, at sea, longitude was still a guess', 800, 400, 50, W, 'center', a); S.text('Scilly: four ships, about 2,000 men', 800, 500, 64, G, 'center', S.fade(now, 700, 700)); S.text('Seven years later, Parliament acts.', 800, 610, 44, W, 'center', S.fade(now, 1500, 700)); }
     // France shrinks: the old outline (longitudes guessed) slides east onto the 1693 survey (longitudes timed by Io)
-    if (k === 7 && typeof COAST_FR !== 'undefined') { const ph = age % 4000, kk = S.ease((ph - 600) / 1500), gone = S.clamp((ph - 2300) / 900), // loops every 4 s: old map, the survey slides over it, the lost strip fades
-      sc = 66, P = (la, lo) => [800 + (lo - 2.4) * Math.cos(46.6 * Math.PI / 180) * sc, 440 - (la - 46.6) * sc];
+    if (k === 7 && typeof COAST_FR !== 'undefined') { const ph = age % 4000, kk = S.ease((ph - 500) / 1200), gone = S.clamp((ph - 3100) / 700), // loops every 4 s: old map, the survey slides over it, the lost strip fades
+      sc = 84, P = (la, lo) => [820 + (lo - 1.2) * Math.cos(46.6 * Math.PI / 180) * sc, 478 - (la - 46.8) * sc];
       const old = (la, lo, f) => { const west = Math.max(0, (2.35 - lo) / 6.85), south = Math.max(0, (45 - la) / 3); return [la - .5 * south * f, lo - 1.5 * west * f]; };
       if (!FR) FR = frPoly();
-      const fill = (f, col) => { ctx.fillStyle = col; ctx.beginPath(); FR.forEach(([lo, la], i) => { const q = P(...old(la, lo, f)); i ? ctx.lineTo(...q) : ctx.moveTo(...q); }); ctx.closePath(); ctx.fill(); };
+      const fill = (f, col, edge) => { ctx.fillStyle = col; ctx.beginPath(); FR.forEach(([lo, la], i) => { const q = P(...old(la, lo, f)); i ? ctx.lineTo(...q) : ctx.moveTo(...q); }); ctx.closePath(); ctx.fill(); if (edge) { ctx.strokeStyle = edge; ctx.lineWidth = 2.5; ctx.lineJoin = 'round'; ctx.stroke(); } };
       const a0 = S.fade(now, 0, 500);
-      ctx.save(); ctx.globalAlpha = a0 * (1 - gone); fill(1, '#f0c95a'); ctx.restore();                       // the old map: yellow
-      ctx.save(); ctx.globalAlpha = a0 * S.clamp((ph - 400) / 300); fill(1 - kk, 'rgba(140,195,255,.92)'); ctx.restore(); // the 1693 survey: light blue, sliding east over it
-      if (kk > .9 && gone < .6) S.text('lost to the astronomers', P(46.2, -4.6)[0], P(46.2, -4.6)[1], 24, '#f0c95a', 'center', 1 - gone);
-      [['Paris', 48.86, 2.35], ['Brest', 48.39, -4.49], ['Marseille', 43.3, 5.37]].forEach(([n, la, lo]) => { const q = P(la, lo); ctx.fillStyle = G; ctx.beginPath(); ctx.arc(...q, 6, 0, 7); ctx.fill(); S.text(n, q[0] + 12, q[1] - 12, 22, W, 'left'); });
-      { S.text(`Brest moves ${(1.5 * kk).toFixed(1)}° east`, P(48.39, -6.3)[0], P(48.39, -6.3)[1] + 50, 24, RED, 'center', S.fade(now, 800)); }
-      S.text('“His Majesty’s astronomers have taken more of France than his enemies ever did.”', 800, 790, 32, G, 'center', S.fade(now, 4200, 800));
-      S.text('attributed to Louis XIV, 1693 · the sentiment is recorded, the exact words are not', 800, 832, 18, M, 'center', S.fade(now, 4600, 800)); }
+      ctx.save(); ctx.globalAlpha = a0 * (1 - gone); fill(1, '#ffc23d'); ctx.restore();                       // the old map: bright gold
+      ctx.save(); ctx.globalAlpha = a0 * S.clamp((ph - 300) / 300); fill(1 - kk, '#3f86e0', 'rgba(255,255,255,.9)'); ctx.restore(); // the 1693 survey: blue with a white edge, sliding east over it
+      if (kk > .9 && gone < .6) { const q = P(45.6, -4.2); S.text('lost to the', q[0], q[1] - 18, 30, '#ffc23d', 'center', 1 - gone, 600); S.text('astronomers', q[0], q[1] + 18, 30, '#ffc23d', 'center', 1 - gone, 600); }
+      [['Paris', 48.86, 2.35], ['Brest', 48.39, -4.49], ['Marseille', 43.3, 5.37]].forEach(([n, la, lo]) => { const q = P(la, lo); ctx.fillStyle = '#ffffff'; ctx.strokeStyle = '#0b1020'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(...q, 7, 0, 7); ctx.fill(); ctx.stroke(); S.text(n, q[0] + 14, q[1] - 14, 26, W, 'left', 1, 600); });
+      { const q = P(49.3, -6.6); S.text(`Brest moves ${(1.5 * kk).toFixed(1)}° east`, q[0], q[1], 28, RED, 'center', S.fade(now, 800), 600); }
+      S.text('“His Majesty’s astronomers have taken more of France than his enemies ever did.”', 800, 900, 32, G, 'center', S.fade(now, 4200, 800));
+      S.text('attributed to Louis XIV, 1693 · the sentiment is recorded, the exact words are not', 800, 940, 18, M, 'center', S.fade(now, 4600, 800)); }
     S.words(now, ...WORDS[k]);
   });
   attachCtl();
