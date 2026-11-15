@@ -76,7 +76,7 @@ const V3_TUNE = {
   'Hours are slices': {},
   'Two ships, one latitude': { h1: 'Two Ships, One Latitude', hero: 'Same Star. Different Time. <b>Longitude Needs a Clock.</b>' },
   'The Longitude Act, 1714': { kicker: 'Seven Years After Scilly', hide: ['#la-r'] },
-  'Galileo’s clock': { talk: { hide: ['[data-detour]', '#gs-steps [data-s="5"]'] }, hero: 'Jupiter’s Moons: A Clock Everyone Can See. <b>Not From a Ship.</b>' },
+  'Galileo’s clock': { talk: { hide: ['[data-detour]', '#gs-steps [data-s="5"]'] } },
   'The lunar distance': { kicker: '1767 · Nevil Maskelyne’s Almanac', hide: ['#ld-steps', '#ld-deck'], hero: 'The Moon Is a Clock Hand. <b>One Arcminute Wrong = 30 Miles.</b>' },
   'A clock that could travel': { h1: 'A Clock That Could Travel' },
   'Washington, 1884': { kicker: 'Washington · October 1884', hide: ['#pm84-r'], hero: 'October 1884: 25 Nations Pick <b>Zero Longitude</b>.' },
@@ -567,4 +567,40 @@ addEventListener('load', () => setTimeout(() => {
     ctx.globalAlpha = 1;
   };
   requestAnimationFrame(frame);
+}, 0));
+
+
+/* ---------- Galileo first: the story before the clock. → steps through five screens, then the clock diagram ---------- */
+addEventListener('load', () => setTimeout(() => {
+  const el = [...document.querySelectorAll('section')].find(x => x.dataset.title === 'Galileo’s clock'); if (!el) return;
+  const stage = el.querySelector('.stage'); if (!stage) return; if (getComputedStyle(stage).position === 'static') stage.style.position = 'relative';
+  const ov = document.createElement('div'); ov.className = 'gl-story';
+  ov.style.cssText = 'position:absolute;inset:0;z-index:6;background:radial-gradient(ellipse at 50% 40%,#131c33,#070a13 75%)';
+  ov.innerHTML = '<svg viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet" style="width:100%;height:100%;display:block;padding:1rem 1.5rem"><g id="gl"></g></svg>';
+  stage.appendChild(ov);
+  const G = '#f0b35a', W = '#ece6da', M = '#9a9382';
+  const T = (t, x, y, size, col = W, anchor = 'middle') => `<text x="${x}" y="${y}" text-anchor="${anchor}" style="font-family:Georgia,serif;font-size:${size}px;fill:${col}">${t}</text>`;
+  const jup = (cx, cy, moons, r = 16) => `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#d9b98a"/>` + moons.map(d => `<circle cx="${cx + d}" cy="${cy}" r="4.5" fill="#ffe9b0"/>`).join('');
+  // his notebook, January 1610: the "little stars" change places every night (simplified from Sidereus Nuncius)
+  const NIGHTS = [['Jan 7', [-60, -30, 45]], ['Jan 8', [25, 45, 65]], ['Jan 10', [-55, -30]], ['Jan 11', [-70, -40]], ['Jan 12', [-50, -25, 35]], ['Jan 13', [-35, 25, 45, 70]]];
+  const S = [
+    () => T('1609 · Galileo Galilei, Padua', 500, 70, 34, M) + T('He builds a telescope', 500, 140, 56) +
+      `<g transform="translate(500 360) rotate(-18)"><rect x="-260" y="-26" width="420" height="52" rx="10" fill="#8a6a3d"/><rect x="150" y="-38" width="110" height="76" rx="10" fill="#b8925a"/><rect x="-300" y="-16" width="50" height="32" rx="6" fill="#5a3a24"/><circle cx="262" cy="0" r="30" fill="#6fb3ff" opacity=".35"/></g>` +
+      T('Magnifies about 20 times. Then he points it at the night sky.', 500, 590, 30, G),
+    () => `<image href="img/moon-first-quarter.jpg" x="270" y="95" width="460" height="400" preserveAspectRatio="xMidYMid meet"/>` +
+      T('The Moon is not smooth', 500, 60, 46) + T('Mountains, craters and long shadows. He used the shadows to estimate how tall the mountains are.', 500, 560, 24, G) +
+      T('The heavens were supposed to be perfect. They are not.', 500, 600, 26, W) + T('Moon at first quarter · photo', 735, 490, 17, M, 'start'),
+    () => T('January 1610 · Jupiter has company', 500, 60, 42) +
+      NIGHTS.map(([d, m], i) => T(d, 230, 140 + i * 66, 24, M, 'end') + jup(520, 132 + i * 66, m)).join('') +
+      T('Little “stars” beside Jupiter change places every night.', 500, 560, 28, G) + T('Four moons going round Jupiter. The first moons found beyond our own.', 500, 600, 26, W),
+    () => `<circle cx="500" cy="300" r="34" fill="#d9b98a"/>` + [80, 120, 170, 230].map((r, i) => `<ellipse cx="500" cy="300" rx="${r}" ry="${r * .32}" fill="none" stroke="rgba(236,230,218,.35)" stroke-width="2"/><circle cx="${500 + r * Math.cos(i * 1.7)}" cy="${300 + r * .32 * Math.sin(i * 1.7)}" r="8" fill="#ffe9b0"/>`).join('') +
+      T('Not everything circles the Earth', 500, 70, 46) + T('Here were moons circling another world.', 500, 520, 30, G) +
+      T('Strong evidence for Copernicus: the Earth goes round the Sun.', 500, 570, 30, W) + T('It got Galileo into trouble with the Church.', 500, 612, 22, M),
+    () => T('And a clock in the sky', 500, 120, 56, G) + jup(500, 320, [-120, -55, 70, 150], 30) +
+      T('The moons keep perfect time. When Io slips into Jupiter’s shadow,', 500, 500, 28, W) + T('everyone on Earth who is looking sees it at the same instant.', 500, 540, 28, W) + T('Galileo saw a way to find longitude.', 500, 600, 32, G)
+  ];
+  const g = ov.querySelector('#gl');
+  // after the story, → walks the clock diagram's own steps (the talk hides its last one)
+  const DS = TALK ? 5 : 6, dstep = i => { const b = el.querySelector(`#gs-steps [data-s="${i}"]`); if (b) b.click(); };
+  V3.steps(el, S.length + DS - 1, k => { if (k < S.length) { ov.style.display = 'block'; g.innerHTML = `<g class="er-in">${S[k]()}</g>`; dstep(0); } else { ov.style.display = 'none'; dstep(k - S.length); } });
 }, 0));
