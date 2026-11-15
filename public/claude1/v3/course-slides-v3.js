@@ -487,7 +487,7 @@ addEventListener('load', () => setTimeout(() => {
   const KEY = [
     // rot rolls the camera so the ground under the city in view is level (Alexandria's ground is tilted 7.2° from Syene's)
     { w: SY, f: [.5, .64], vh: 0.05, sym: 1.5, rot: 0 },                 // the well
-    { w: [-400, -R + 40], f: [.5, .6], vh: 640, sym: 1.05, rot: A7 / 2 }, // both cities on gently curved ground
+    { w: [-400, -R + 40], f: [.5, .6], vh: 800, sym: 1.05, rot: 0 }, // both cities on gently curved ground; Syene level, so the well and the sunlight are straight up and down
     { w: AX, f: [.5, .76], vh: 0.05, sym: 1.6, rot: A7 },                // the stick, close, its ground level
     { w: [-400, -R * .5], f: [.5, .55], vh: R * 1.45, sym: .45, rot: 0 }, // the slice down to the centre (low, so the stick and well have room above)
     { w: [0, 0], f: [.5, .53], vh: R * 2.45, sym: .35, rot: 0 },         // the whole Earth
@@ -495,7 +495,7 @@ addEventListener('load', () => setTimeout(() => {
   ];
   const WORDS = [
     ['Syene, about 240 BC: noon on the longest day of the year', 'The Sun shines straight down the well.'],
-    ['Same noon, 500 miles north: Alexandria', 'The same parallel sunlight. Here a stick casts a shadow.'],
+    ['Same Noon, 500 Miles North: Alexandria', 'Here a stick’s shadow shows the sunlight 7.2° from straight up.'],
     ['Measure the shadow', 'The sunlight comes in 7.2° from straight up.'],
     ['Eureka: the angle at the center is also 7.2°', 'Parallel sunlight, so the two angles match. 500 miles of ground is 7.2° of the circle.'],
     ['360° ÷ 7.2° = 50', '7.2° is one fiftieth of the whole circle.'],
@@ -565,10 +565,10 @@ addEventListener('load', () => setTimeout(() => {
     if (milesA > 0) { ctx.globalAlpha = milesA; const off = step === 1 ? 40 : 22; ctx.strokeStyle = '#f0b35a'; ctx.lineWidth = 3; ctx.setLineDash([8, 7]); ctx.beginPath(); for (let i = 0; i <= 40; i++) { const q = S(P(A7 * i / 40, R + off / sc)); i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1]); } ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
       const m = step === 3 ? S(P(A7 / 2, R - 120 / sc)) : S(P(A7 / 2, R + (off + 30) / sc)); label('500 miles', m[0], m[1], 26, '#f0b35a', step === 3 ? 'left' : 'center', milesA); }
     // the angle at the top of the stick: between straight up (dashed) and the sunlight
-    const angA = vis(2, now);
+    const angA = Math.max(vis(1, now), vis(2, now)), angB = step === 2 ? angA : 0; // step 1 shows just the angle; the close-up (step 2) is no longer used
     if (angA > 0) { ctx.globalAlpha = angA; const L = stickH * .9; ctx.strokeStyle = 'rgba(236,230,218,.75)'; ctx.lineWidth = 2; ctx.setLineDash([8, 8]); ctx.beginPath(); ctx.moveTo(tip[0], tip[1]); ctx.lineTo(tip[0] + up[0] * L, tip[1] + up[1] * L); ctx.stroke(); ctx.setLineDash([]);
       const r = stickH * .62, a0 = Math.atan2(up[1], up[0]), a1 = Math.atan2(-rd[1], -rd[0]); ctx.strokeStyle = '#f0b35a'; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(tip[0], tip[1], r, Math.min(a0, a1), Math.max(a0, a1)); ctx.stroke(); ctx.globalAlpha = 1;
-      label('7.2°', tip[0] + 44, tip[1] - r * .75, 58, '#f0b35a', 'left', angA); label('straight up', tip[0] - 14, tip[1] + up[1] * L, 20, '#9a9382', 'right', angA); label('sunlight', tip[0] - rd[0] * stickH * 1.3 + 22, tip[1] - rd[1] * stickH * 1.3, 22, '#f0b35a', 'left', angA); label('stick', axp[0] + 16, axp[1] - stickH * .4, 22, '#ece6da', 'left', angA); label('shadow', shEnd[0] - 10, shEnd[1] + 30, 20, '#b8bfd4', 'right', angA); }
+      label('7.2°', tip[0] + 44, tip[1] - r * .75, 58, '#f0b35a', 'left', angA); label('straight up', tip[0] - 14, tip[1] + up[1] * L, 20, '#9a9382', 'right', angB); label('sunlight', tip[0] - rd[0] * stickH * 1.3 + 22, tip[1] - rd[1] * stickH * 1.3, 22, '#f0b35a', 'left', angB); label('stick', axp[0] + 16, axp[1] - stickH * .4, 22, '#ece6da', 'left', angB); label('shadow', shEnd[0] - 10, shEnd[1] + 30, 20, '#b8bfd4', 'right', angB); }
     // the centre of the Earth: both "straight up" lines meet there at the same 7.2°
     const cenA = step >= 3 ? (step === 3 ? vis(3, now) : 1) : 0;
     if (cenA > 0 && !far) { ctx.globalAlpha = cenA; ctx.strokeStyle = '#ece6da'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(C[0], C[1]); ctx.lineTo(sy[0], sy[1]); ctx.moveTo(C[0], C[1]); ctx.lineTo(axp[0], axp[1]); ctx.stroke();
@@ -599,7 +599,8 @@ addEventListener('load', () => setTimeout(() => {
     label(cap, w / 2, h * .92, Math.max(20, Math.min(32, w * .024)), '#f0b35a', 'center', wa);
   };
   requestAnimationFrame(frame);
-  V3.steps(el, NC + S.length - 1, k => { if (k < NC) { cv.style.display = 'block'; svgEl.style.display = 'none'; goCam(k); } else { cv.style.display = 'none'; svgEl.style.display = 'block'; shown = false; g.innerHTML = `<g class="er-in">${S[k - NC]()}</g>`; } });
+  const EMAP = [0, 1, 3, 4, 5], EN = EMAP.length; // the stick close-up (camera beat 2) is cut; its 7.2° now shows on the both-cities view
+  V3.steps(el, EN + S.length - 1, k => { if (k < EN) { cv.style.display = 'block'; svgEl.style.display = 'none'; goCam(EMAP[k]); } else { cv.style.display = 'none'; svgEl.style.display = 'block'; shown = false; g.innerHTML = `<g class="er-in">${S[k - EN]()}</g>`; } });
   const st = document.createElement('style'); st.textContent = '.er-fig{padding:1rem 1.5rem!important}.er-in{animation:erIn .5s ease}@keyframes erIn{from{opacity:0}to{opacity:1}}'; document.head.appendChild(st);
 }, 0));
 
