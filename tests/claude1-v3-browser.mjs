@@ -81,7 +81,7 @@ assert.deepEqual(errs, [], 'new slides: no page errors');
 // the 30-minute talk
 await page.goto(url + '?talk=30#0'); await page.waitForTimeout(1200);
 assert.equal(await page.evaluate(() => COURSE_LIVE.length), 25, '30-minute talk has 25 slides');
-assert.equal(await page.evaluate(() => COURSE_LIVE.at(-12).t), 'Where am I, now', '30-minute talk ends on GPS, then the appendix');
+assert.equal(await page.evaluate(() => COURSE_LIVE.at(-11).t), 'Where am I, now', '30-minute talk ends on GPS, then the appendix');
 
 // phone: everything stacks, nothing scrolls sideways
 await page.setViewportSize({width: 390, height: 844}); await page.waitForTimeout(400);
