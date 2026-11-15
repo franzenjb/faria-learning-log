@@ -798,7 +798,6 @@ addEventListener('load', () => setTimeout(() => {
   const G = '#f0b35a', W = '#ece6da', M = '#9a9382', B = '#6fb3ff', RED = '#ff7d6f';
   const moonImg = new Image(); moonImg.src = 'img/moon-first-quarter.jpg';
   const scilly = new Image(); scilly.src = 'v3/img/scilly.jpg';
-  const sn = new Image(); sn.src = 'img/sidereus-nuncius-jupiter.jpg';
   // the four moons: distance (in Jupiter radii, squeezed to fit) and period in days
   const MOONS = [['Io', 2.4, 1.769, .3], ['Europa', 3.8, 3.551, 2.1], ['Ganymede', 6.0, 7.155, 4.0], ['Callisto', 10.3, 16.69, 5.6]];
   const NIGHTS = ['Jan 7', 'Jan 8', 'Jan 10', 'Jan 11', 'Jan 12', 'Jan 13'], NT = [0, 1, 3, 4, 5, 6];
@@ -855,8 +854,6 @@ addEventListener('load', () => setTimeout(() => {
       else if (k === 6 || k === 8) system(ctx, S, now, cx, cy, 11 * eye.r / 230, { t: age / 3000 + 6, tilt });
       ctx.restore(); ctx.strokeStyle = '#6b5a40'; ctx.lineWidth = 10; ctx.beginPath(); ctx.arc(eye.x, eye.y, eye.r, 0, 7); ctx.stroke(); }
     // Galileo's notebook, one night per line
-    // Galileo's own record of those nights: a page of Sidereus Nuncius, Venice, March 1610 (public domain)
-    if (k === 2 && sn.complete && sn.naturalWidth) { const a = S.fade(now, 200, 800), h = 660, w = h * sn.naturalWidth / sn.naturalHeight; ctx.save(); ctx.globalAlpha = a; ctx.drawImage(sn, 70, 150, w, h); ctx.strokeStyle = 'rgba(240,179,90,.5)'; ctx.lineWidth = 2; ctx.strokeRect(70, 150, w, h); ctx.restore(); S.text('Galileo’s own record · Sidereus Nuncius, 1610', 70 + w / 2, 840, 20, M, 'center', a); }
     if (k === 5) { S.card(40, 300, 340, 150, 'London writes down', '9:00 PM', 'Io vanished', G, S.fade(now, 400)); S.card(1220, 300, 340, 150, 'You write down', '7:00 PM', 'Io vanished', B, S.fade(now, 1000)); S.text('2 hours = 30° West', 800, 845, 44, G, 'center', S.fade(now, 1700)); }
     // Scilly: the bill for longitude at sea
     if (k === 9) { const a = S.fade(now, 0, 800); ctx.save(); ctx.globalAlpha = a * .5; if (scilly.complete && scilly.naturalWidth) { const s = Math.max(1600 / scilly.naturalWidth, 1000 / scilly.naturalHeight); ctx.filter = 'grayscale(1)'; ctx.drawImage(scilly, 800 - scilly.naturalWidth * s / 2, 500 - scilly.naturalHeight * s / 2, scilly.naturalWidth * s, scilly.naturalHeight * s); ctx.filter = 'none'; } ctx.restore();
