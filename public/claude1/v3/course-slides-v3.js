@@ -390,10 +390,10 @@ addEventListener('load', () => setTimeout(() => {
   const slider = el => { const t = el && el.querySelector('.text'); return t && t.style.display !== 'none' ? [...t.querySelectorAll('input[type=range]')].find(x => !x.closest('[hidden]') && x.style.display !== 'none') : null; };
   const label = b => { const L = b.querySelector('.label'), ltr = b.querySelector('.letter'); const t = L ? (ltr ? ltr.textContent + ' ' : '') + L.textContent : b.textContent; return t.replace(/\s+/g, ' ').trim().replace(/^\d+ · /, '').slice(0, 26); };
   const draw = () => { const el = active(); const cs = controls(el).slice(0, KEYS.length), sl = slider(el);
-    legend.innerHTML = cs.map((b, i) => `<span data-i="${i}"><b>${KEYS[i].toUpperCase()}</b>${label(b)}</span>`).join('') + (sl ? `<span><b>↑↓</b>${(sl.closest('label') && sl.closest('label').querySelector('.row') ? sl.closest('label').querySelector('.row').childNodes[0].textContent.trim() : 'Slider')}</span>` : ''); };
+    if (window.v3AutoKeys) setTimeout(() => window.v3AutoKeys(cs.length + (sl ? 1 : 0)), 0); legend.innerHTML = cs.map((b, i) => `<span data-i="${i}"><b>${KEYS[i].toUpperCase()}</b>${label(b)}</span>`).join('') + (sl ? `<span><b>↑↓</b>${(sl.closest('label') && sl.closest('label').querySelector('.row') ? sl.closest('label').querySelector('.row').childNodes[0].textContent.trim() : 'Slider')}</span>` : ''); };
   addEventListener('keydown', e => { if (e.target.matches('input[type=text],textarea') || e.metaKey || e.ctrlKey || e.altKey) return; const k = e.key.toLowerCase(), el = active(); if (!el) return;
     if (k === 'c') { document.body.classList.toggle('v3-panel'); dispatchEvent(new Event('resize')); return; }
-    if (k === 'k') { if (window.v3SetKeys) v3SetKeys(!document.body.classList.contains('v3-keys-on')); else document.body.classList.toggle('v3-keys-on'); return; }
+    if (k === 'k') { if (window.v3SetKeys) document.getElementById('v3-ctl').click(); else document.body.classList.toggle('v3-keys-on'); return; }
     if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { const sl = slider(el); if (sl) { e.preventDefault(); const st = Math.max(+sl.step || 1, (+sl.max - +sl.min) / 40); sl.value = +sl.value + (e.key === 'ArrowUp' ? st : -st); sl.dispatchEvent(new Event('input', { bubbles: true })); sl.dispatchEvent(new Event('change', { bubbles: true })); } return; }
     const i = KEYS.indexOf(k); if (i < 0) return; const b = controls(el)[i]; if (b) { e.preventDefault(); e.stopImmediatePropagation(); b.click(); setTimeout(draw, 60); } }, true);
   // touch screens have no keyboard: show the legend and let a tap press the control
@@ -403,7 +403,9 @@ addEventListener('load', () => setTimeout(() => {
   const tg = document.createElement('button'); tg.id = 'v3-ctl'; tg.title = 'Controls (K)'; tg.setAttribute('aria-label', 'Controls'); tg.textContent = '1·2';
   let opened = false; const setKeys = on => { document.body.classList.toggle('v3-keys-on', on); tg.classList.toggle('on', on);
     if (shell && lsTog) { const isOpen = shell.classList.contains('ls-open'); if (on && !isOpen) { lsTog.click(); opened = true; } else if (!on && isOpen && opened) { lsTog.click(); opened = false; } } dispatchEvent(new Event('resize')); };
-  tg.onclick = () => setKeys(!document.body.classList.contains('v3-keys-on')); window.v3SetKeys = setKeys;
+  let manualOff = false; try { manualOff = localStorage.getItem('v3-keys-off') === '1'; } catch (e) {}
+  tg.onclick = () => { const on = !document.body.classList.contains('v3-keys-on'); manualOff = !on; try { localStorage.setItem('v3-keys-off', on ? '0' : '1'); } catch (e) {} setKeys(on); }; window.v3SetKeys = setKeys;
+  window.v3AutoKeys = n => { const on = document.body.classList.contains('v3-keys-on'); if (n && !on && !manualOff) setKeys(true); else if (!n && on) setKeys(false); };
   (lside || document.getElementById('visual') || document.body).appendChild(tg);
   legend.addEventListener('click', e => { const t = e.target.closest('[data-i]'); if (!t) return; const b = controls(active())[+t.dataset.i]; if (b) { b.click(); setTimeout(draw, 60); } });
   new MutationObserver(draw).observe(document.getElementById('deck'), { subtree: true, attributes: true, attributeFilter: ['class'] }); draw();
@@ -686,22 +688,22 @@ V3.orbitProj = (cam) => { const D = Math.PI / 180, cy = Math.cos(cam.yaw * D), s
 /* ---------- 7 · Longitude has no landmarks: two ships, one star, then the Earth turns under the Sun ---------- */
 addEventListener('load', () => setTimeout(() => {
   const el = v3Find('Two ships, one latitude'); if (!el || typeof drawCoast !== 'function' || typeof ll !== 'function') return;
-  const D = Math.PI / 180, G = '#f0b35a', W = '#ece6da', M = '#9a9382', B = '#6fb3ff', RED = '#ff7d6f', L1 = -40;
-  const CAM = [{ yaw: -65, pitch: .45, R: 300, cy: 560 }, { yaw: -60, pitch: .45, R: 300, cy: 560 }, { yaw: -20, pitch: Math.PI / 2, R: 320, cy: 490 }, { yaw: -20, pitch: Math.PI / 2, R: 320, cy: 490 }, { yaw: 40, pitch: Math.PI / 2, R: 320, cy: 490 }];
+  const D = Math.PI / 180, G = '#f0b35a', W = '#ece6da', M = '#9a9382', B = '#6fb3ff', RED = '#ff7d6f', L1 = 0, LAT = 51.5;
+  const CAM = [{ yaw: -80, pitch: .5, R: 300, cy: 560 }, { yaw: -75, pitch: .5, R: 300, cy: 560 }, { yaw: -40, pitch: Math.PI / 2, R: 320, cy: 490 }, { yaw: -40, pitch: Math.PI / 2, R: 320, cy: 490 }, { yaw: 30, pitch: Math.PI / 2, R: 320, cy: 490 }];
   let cam = { ...CAM[0] }, from = { ...CAM[0] }, last = 0;
   const WORDS = [
-    ['Two ships, both at 50° N', 'Both captains measure Polaris: 50° above the horizon. Same latitude.'],
-    ['Sail Ship 2 east', 'Polaris still reads 50° for both. The star cannot tell them apart.'],
-    ['Look down on the North Pole and let the Earth turn', 'Each ship sets its clock by its own noon: the Sun at its highest.'],
-    ['Ship 2 reaches noon first', '30° of longitude = 2 hours. East and west are written in time, not in the sky.'],
-    ['So what time is it in London?', 'To know your longitude, you must carry home time with you.']];
+    ['London, and a ship leaving port, both at 51.5° N', 'Both measure Polaris: 51.5° above the horizon. Same latitude.'],
+    ['The ship sails west', 'Polaris still reads 51.5°. The star cannot tell the ship from London.'],
+    ['Look down on the North Pole and let the Earth turn', 'London and the ship each set their clocks by their own noon: the Sun at its highest.'],
+    ['London reaches noon first', '30° of longitude = 2 hours. East and west are written in time, not in the sky.'],
+    ['So what time is it in London?', 'The ship knows its own noon. To know its longitude, it must carry London time.']];
   const t12 = h => { h = ((h % 24) + 24) % 24; const hh = Math.floor(h), mm = Math.round((h - hh) * 60) % 60, H = hh % 12 || 12; return `${H}:${String(mm).padStart(2, '0')} ${hh < 12 ? 'AM' : 'PM'}`; };
   const ship = (ctx, x, y, col) => { ctx.save(); ctx.translate(x, y); ctx.fillStyle = col; ctx.beginPath(); ctx.moveTo(-14, 0); ctx.lineTo(14, 0); ctx.lineTo(9, 7); ctx.lineTo(-9, 7); ctx.closePath(); ctx.fill(); ctx.fillRect(-1, -20, 2, 20); ctx.beginPath(); ctx.moveTo(1, -19); ctx.lineTo(12, -4); ctx.lineTo(1, -4); ctx.fill(); ctx.restore(); };
   V3.scene(el, 5, (S, ctx, now) => {
     if (S.t0 !== last) { from = { ...cam }; last = S.t0; }
     const age = S.age(now), e = S.ease(age / 2000), T = CAM[S.step];
     cam = { yaw: S.lerp(from.yaw, T.yaw, e), pitch: S.lerp(from.pitch, T.pitch, e), R: S.lerp(from.R, T.R, e), cy: S.lerp(from.cy, T.cy, e) };
-    if (S.step === 3 && age > 2000) cam.yaw = -20 + 60 * S.clamp((age - 2000) / 8000);
+    if (S.step === 3 && age > 2000) cam.yaw = -40 + 70 * S.clamp((age - 2000) / 9000);
     const P = V3.orbitProj({ ...cam, cx: 800 }), polar = S.clamp((cam.pitch - .45) / (Math.PI / 2 - .45));
     S.stars(now, .8);
     // the Sun on the right, once we look down on the pole
@@ -718,26 +720,26 @@ addEventListener('load', () => setTimeout(() => {
     for (let lo = 0; lo < 360; lo += 15) path(Array.from({ length: 37 }, (_, i) => ll(-90 + i * 5, lo)), 'rgba(236,230,218,.09)', 1);
     path(Array.from({ length: 73 }, (_, i) => ll(0, i * 5)), 'rgba(236,230,218,.25)', 1.2);
     drawCoast(ctx, P, 1, { color: 'rgba(236,230,218,.75)' });
-    path(Array.from({ length: 145 }, (_, i) => ll(50, i * 2.5)), G, 3);
+    path(Array.from({ length: 145 }, (_, i) => ll(LAT, i * 2.5)), G, 3);
     // night half, from above the pole
     if (sunA > 0) { ctx.save(); ctx.globalAlpha = sunA; ctx.beginPath(); ctx.arc(800, cam.cy, cam.R, Math.PI / 2, Math.PI * 1.5); ctx.closePath(); ctx.fillStyle = 'rgba(3,6,14,.5)'; ctx.fill();
       ctx.strokeStyle = 'rgba(240,179,90,.6)'; ctx.setLineDash([8, 8]); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(800, cam.cy); ctx.lineTo(800 + cam.R, cam.cy); ctx.stroke(); ctx.setLineDash([]); ctx.restore();
       S.text('noon', 800 + cam.R - 10, cam.cy - 22, 24, G, 'right', sunA); S.text('midnight', 800 - cam.R + 10, cam.cy - 22, 24, M, 'left', sunA); }
     ctx.strokeStyle = '#3b5f8a'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(800, cam.cy, cam.R, 0, 7); ctx.stroke();
     // the ships
-    const L2 = S.step === 0 ? -36 : S.step === 1 ? S.lerp(-36, -10, S.ease((age - 300) / 2500)) : -10;
-    const ships = [[L1, 'Ship 1', B], [L2, 'Ship 2', RED]];
-    if (S.step === 1 || S.step === 0) { const q1 = P(ll(50, L1)), q2 = P(ll(50, L2)); if (S.step === 1 && q1.z > 0 && q2.z > 0) { path(Array.from({ length: 30 }, (_, i) => ll(50, L1 + (L2 - L1) * i / 29)), RED, 5); const mi = Math.round((L2 - L1) * 44.46 / 10) * 10; S.text(`${mi.toLocaleString('en-US')} miles apart`, (q1.x + q2.x) / 2 + 40, Math.max(q1.y, q2.y) + 80, 30, RED); } }
-    ships.forEach(([lo, name, col], i) => { const q = P(ll(50, lo)); if (q.z < 0) return; ship(ctx, q.x, q.y, col);
-      if (S.step <= 1) S.text(`${name}: Polaris 50° up`, q.x + (i ? 24 : -24), i ? q.y - 44 : q.y + 34, 24, col, i ? 'left' : 'right', S.fade(now, 600));
+    const L2 = S.step === 0 ? -3 : S.step === 1 ? S.lerp(-3, -30, S.ease((age - 300) / 2500)) : -30;
+    const ships = [[L1, 'London', G], [L2, 'Ship', B]];
+    if (S.step === 1 || S.step === 0) { const q1 = P(ll(LAT, L1)), q2 = P(ll(LAT, L2)); if (S.step === 1 && q1.z > 0 && q2.z > 0) { path(Array.from({ length: 30 }, (_, i) => ll(LAT, L1 + (L2 - L1) * i / 29)), RED, 5); const mi = Math.round(Math.abs(L2 - L1) * 43.06 / 10) * 10; S.text(`${mi.toLocaleString('en-US')} miles apart`, (q1.x + q2.x) / 2 + 40, Math.max(q1.y, q2.y) + 80, 30, RED); } }
+    ships.forEach(([lo, name, col], i) => { const q = P(ll(LAT, lo)); if (q.z < 0) return; if (i) ship(ctx, q.x, q.y, col); else { ctx.fillStyle = col; ctx.fillRect(q.x - 9, q.y - 14, 18, 14); ctx.beginPath(); ctx.moveTo(q.x - 12, q.y - 14); ctx.lineTo(q.x, q.y - 26); ctx.lineTo(q.x + 12, q.y - 14); ctx.fill(); }
+      if (S.step <= 1) S.text(`${name}: Polaris 51.5° up`, q.x + (i ? -24 : 24), i ? q.y + 34 : q.y - 44, 24, col, i ? 'right' : 'left', S.fade(now, 600));
       else { const th = ((lo + cam.yaw + 540) % 360) - 180, hrs = 12 + th / 15, noon = Math.abs(th) < 2.2;
         if (noon && S.step === 3) { ctx.save(); ctx.strokeStyle = G; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(q.x, q.y, 34 + 6 * Math.sin(now / 90), 0, 7); ctx.stroke(); ctx.restore(); }
-        const lx = q.x + (i ? 26 : -26), ly = q.y + (i ? -30 : 34); S.text(`${name} · ${noon && S.step >= 3 ? 'NOON' : t12(hrs)}`, lx, ly, 26, noon && S.step >= 3 ? G : col, i ? 'left' : 'right', polar); } });
+        const lx = q.x + (i ? -26 : 26), ly = q.y + (i ? 34 : -30), shown = i === 0 && S.step === 4 ? '?' : noon && S.step >= 3 ? 'NOON' : t12(hrs); S.text(`${name} · ${shown}`, lx, ly, 26, noon && S.step >= 3 ? G : col, i ? 'right' : 'left', polar); } });
     // 30° = 2 hours, measured at the pole
     if (S.step >= 3) { const a1 = -(L1 + cam.yaw) * D, a2 = -(L2 + cam.yaw) * D, r = cam.R * .42, A = S.fade(now, 1000); ctx.save(); ctx.globalAlpha = A; ctx.strokeStyle = G; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(800, cam.cy, r, Math.min(a1, a2), Math.max(a1, a2)); ctx.stroke(); ctx.restore(); const am = (a1 + a2) / 2; S.text('30° = 2 hours', 800 + r * .55 * Math.cos(am), cam.cy + r * .55 * Math.sin(am), 28, G, 'center', A); }
     // London: on the globe, its time unknown to the ships
-    if (S.step === 4) { const q = P(ll(51.5, 0)); if (q.z > 0) { ctx.fillStyle = W; ctx.beginPath(); ctx.arc(q.x, q.y, 7, 0, 7); ctx.fill(); S.text('London', q.x - 14, q.y - 16, 24, W, 'right', S.fade(now, 1500)); }
-      S.card(40, 300, 330, 150, 'Ship 1’s clock', '12:00', 'set by its own noon', B, S.fade(now, 1800)); S.card(40, 490, 330, 150, 'London', '?', 'left behind', G, S.fade(now, 2400)); }
+    if (S.step === 4) {
+      S.card(40, 300, 330, 150, 'The ship’s clock', '12:00', 'set by its own noon', B, S.fade(now, 1800)); S.card(40, 490, 330, 150, 'London', '?', 'left behind', G, S.fade(now, 2400)); }
     S.words(now, ...WORDS[S.step]);
   });
 }, 0));
