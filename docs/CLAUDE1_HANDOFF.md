@@ -94,3 +94,10 @@ Miles, not km. Short plain copy. Quiz slides show no hint. Spell it Clowdesley. 
 
 `?talk=30` ends with 11 appendix slides: Decimal Places, The Star Day, Rømer, Null Island, Which System?, Errors Grow, The Date Line, The Pole Star Wanders, Your Hand Is a Protractor, Picard and the Meter, Was 1900 a Leap Year?
 Map scenes use Esri World Imagery tiles (`V3SAT` in course-slides-v3.js; no key). CARTO basemaps now need an API key, so don't go back to them.
+
+## Longitude concept slide: three standalone variations
+
+`public/claude1/longitude/index.html` (live at /claude1/longitude/?v=a, ?v=b, ?v=c), separate from v3. One 1600×1000 canvas page, → or a tap to step, A/B/C keys switch versions. Uses `../coast.js`.
+- A · Nature's Line, Our Line: the globe from the side; equator set by the spin, latitude as the Polaris angle, identical meridians, candidates for zero, the 1884 vote, then a 24-hour ring and 15° = 1 hour.
+- B · The Earth Is a Clock: looking down on the North Pole with the Sun on the right; a fixed 24-hour dial, the 15° wedge, London and New York clocks, which clock is zero, then the ship that cannot carry Greenwich time.
+- C · Two Questions, 2,000 Years Apart: latitude and longitude side by side (zero line, how you measure, the numbers), then a timeline with latitude solid since 325 BC and longitude at sea dashed until 1761.
