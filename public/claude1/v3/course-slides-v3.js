@@ -1115,7 +1115,7 @@ addEventListener('load', () => setTimeout(() => {
 NEW_SLIDES['Light needs time, again'] = { h1: 'Rømer: Light Needs Time', fig: '', init() {} }; // appendix copy, so Q&A can jump to it
 const romerScene = el => {
   const G = '#f0b35a', W = '#ece6da', M = '#c2bba9', B = '#6fb3ff', AU = 200, SX = 360, SY = 520, JX = SX + 5.2 * AU, C = AU / .6, MIN = 8.317; // to scale: 1 AU = 200 px; light: 1 AU every 0.6 s
-  const WORDS = [['An Aside · Paris, 1676 · Ole Rømer Times Io', 'Earth on Jupiter’s side of the Sun: the eclipse arrives on time.'], ['Io Is on Time. The Light Is Late.', 'Earth on the far side: the light crosses the whole orbit, about 16½ minutes more.']];
+  const WORDS = [['Rømer, 1676', ''], ['Io Is on Time. The Light Is Late.', '']];
   let ang = 0, rings = [], lastIo = 0, flash = 0;
   V3.scene(el, 2, (S, ctx, now) => { // two beats: near side on time; then the Earth travels to the far side and the eclipse runs late
     const k = S.step, age = Math.max(0, S.age(now));
@@ -1124,11 +1124,11 @@ const romerScene = el => {
     const ex = SX + AU * Math.cos(ang), ey = SY - AU * Math.sin(ang);
     S.stars(now, .55);
     // orbit and Sun
-    ctx.strokeStyle = 'rgba(111,179,255,.45)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(SX, SY, AU, 0, 7); ctx.stroke(); S.text('Earth’s orbit', SX, SY - AU - 18, 20, B, 'center', .8);
-    const sg = ctx.createRadialGradient(SX, SY, 0, SX, SY, 62); sg.addColorStop(0, '#fff3c4'); sg.addColorStop(.5, '#ffd66b'); sg.addColorStop(1, 'rgba(255,214,107,0)'); ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(SX, SY, 62, 0, 7); ctx.fill(); S.text('Sun', SX, SY + 86, 24, G);
+    ctx.strokeStyle = 'rgba(111,179,255,.45)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(SX, SY, AU, 0, 7); ctx.stroke();
+    const sg = ctx.createRadialGradient(SX, SY, 0, SX, SY, 62); sg.addColorStop(0, '#fff3c4'); sg.addColorStop(.5, '#ffd66b'); sg.addColorStop(1, 'rgba(255,214,107,0)'); ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(SX, SY, 62, 0, 7); ctx.fill(); S.text('Sun', SX, SY + 92, 32, G);
     // Jupiter, its shadow pointing away from the Sun, and Io going round
     ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.beginPath(); ctx.moveTo(JX, SY - 30); ctx.lineTo(JX + 150, SY - 24); ctx.lineTo(JX + 150, SY + 24); ctx.lineTo(JX, SY + 30); ctx.closePath(); ctx.fill();
-    const jg = ctx.createRadialGradient(JX - 8, SY - 8, 2, JX, SY, 30); jg.addColorStop(0, '#f6e2bd'); jg.addColorStop(1, '#b98a55'); ctx.fillStyle = jg; ctx.beginPath(); ctx.arc(JX, SY, 30, 0, 7); ctx.fill(); S.text('Jupiter', JX, SY + 76, 24, W);
+    const jg = ctx.createRadialGradient(JX - 8, SY - 8, 2, JX, SY, 30); jg.addColorStop(0, '#f6e2bd'); jg.addColorStop(1, '#b98a55'); ctx.fillStyle = jg; ctx.beginPath(); ctx.arc(JX, SY, 30, 0, 7); ctx.fill(); S.text('Jupiter', JX, SY + 84, 32, W);
     ctx.strokeStyle = 'rgba(236,230,218,.3)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(JX, SY, 64, 26, 0, 0, 7); ctx.stroke();
     const ia = (now / 1000) * (2 * Math.PI / 4.5), iox = JX + 64 * Math.cos(ia), ioy = SY + 26 * Math.sin(ia), dark = Math.cos(ia) > 0 && Math.abs(Math.sin(ia)) < .45;
     if (dark && !lastIo) rings.push({ t0: now, hit: false }); lastIo = dark;
@@ -1136,20 +1136,19 @@ const romerScene = el => {
     // the light-time line, Earth to Jupiter
     const dAU = Math.hypot(JX - ex, SY - ey) / AU;
     ctx.setLineDash([5, 7]); ctx.strokeStyle = 'rgba(236,230,218,.4)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(ex, ey); ctx.lineTo(JX, SY); ctx.stroke(); ctx.setLineDash([]);
-    S.text(`${dAU.toFixed(1)} AU · light takes ${Math.round(dAU * MIN)} min`, (ex + JX) / 2 + 40, (ey + SY) / 2 - 22, 24, '#cfc8ba');
+    S.text(`${Math.round(dAU * MIN)} min`, (ex + JX) / 2 + 40, (ey + SY) / 2 - 26, 34, '#cfc8ba');
     // light rings from Jupiter; the Earth lights up when one arrives
     rings = rings.filter(r => (now - r.t0) / 1000 * C < 1700);
     rings.forEach(r => { const rr = (now - r.t0) / 1000 * C; ctx.strokeStyle = `rgba(255,246,220,${Math.max(.15, 1 - rr / 1700)})`; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(JX, SY, rr, 0, 7); ctx.stroke(); if (!r.hit && rr >= dAU * AU) { r.hit = true; flash = now; } });
-    if (k >= 1 && ang > Math.PI - .05) { ctx.fillStyle = 'rgba(111,179,255,.35)'; ctx.beginPath(); ctx.arc(SX + AU, SY, 12, 0, 7); ctx.fill(); S.text('near side', SX + AU, SY + 40, 20, M);
+    if (k >= 1 && ang > Math.PI - .05) { ctx.fillStyle = 'rgba(111,179,255,.35)'; ctx.beginPath(); ctx.arc(SX + AU, SY, 12, 0, 7); ctx.fill();
       ctx.strokeStyle = G; ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(SX - AU, SY + 150); ctx.lineTo(SX + AU, SY + 150); ctx.stroke(); [SX - AU, SX + AU].forEach(x => { ctx.beginPath(); ctx.moveTo(x, SY + 136); ctx.lineTo(x, SY + 164); ctx.stroke(); });
-      S.text('the extra trip: 186 million miles', SX, SY + 200, 26, G, 'center', S.fade(now, 600)); }
+      S.text('186 million miles', SX, SY + 205, 36, G, 'center', S.fade(now, 600)); }
     const gl = Math.max(0, 1 - (now - flash) / 1500);
     if (gl > 0) { const g2 = ctx.createRadialGradient(ex, ey, 0, ex, ey, 60); g2.addColorStop(0, `rgba(111,179,255,${.9 * gl})`); g2.addColorStop(1, 'rgba(111,179,255,0)'); ctx.fillStyle = g2; ctx.beginPath(); ctx.arc(ex, ey, 60, 0, 7); ctx.fill(); }
-    ctx.fillStyle = B; ctx.beginPath(); ctx.arc(ex, ey, 16, 0, 7); ctx.fill(); S.text('Earth', ex, ey - 32, 26, B);
+    ctx.fillStyle = B; ctx.beginPath(); ctx.arc(ex, ey, 16, 0, 7); ctx.fill(); S.text('Earth', ex, ey - 36, 32, B);
     // the delay card
     const late = Math.max(0, (dAU - 4.2) * MIN);
-    S.card(1130, 150, 430, 150, 'Eclipse seen', late < .3 ? 'On time' : `${Math.floor(late)} min ${String(Math.round((late % 1) * 60) % 60).padStart(2, '0')} s`, late < .3 ? 'Earth on the near side' : 'late, compared with the near side', late < .3 ? W : G);
-    S.text('Distances and light time to scale · sizes not to scale', 1560, 330, 17, M, 'right');
+    S.card(1130, 160, 430, 150, '', late < .3 ? 'On time' : `+${Math.floor(late)} min ${String(Math.round((late % 1) * 60) % 60).padStart(2, '0')} s`, '', late < .3 ? W : G);
     S.words(now, ...WORDS[k]);
     ctx.save(); ctx.strokeStyle = G; ctx.lineWidth = 2; ctx.beginPath(); ctx.roundRect(40, 30, 170, 44, 10); ctx.stroke(); ctx.restore(); S.text('AN ASIDE', 125, 53, 22, G, 'center', 1, 600);
   });
