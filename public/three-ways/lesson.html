@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="/three-ways/three-ways.css">
+<section class="tw" aria-label="Interactive: one spot in three coordinate systems">
+  <div class="tw-intro"><p class="kicker">Three Ways To Say Where · Try It Yourself</p><h1>One Spot, Three Addresses</h1><p>Click either map, or type a latitude and longitude. The same spot is written as latitude and longitude, as UTM, and, inside the United States, as State Plane.</p></div>
+  <form id="tw-form" class="tw-form" autocomplete="off"><label for="tw-in">Latitude, longitude</label><input id="tw-in" type="text" inputmode="text" spellcheck="false" value="26.6400, -81.8722" aria-describedby="tw-hint"><button type="submit">Go</button><span id="tw-hint" class="tw-hint">Try <a href="#" data-ll="26.6400,-81.8722">Fort Myers</a> · <a href="#" data-ll="38.8950,-77.0398">Red Cross HQ</a> · <a href="#" data-ll="47.6062,-122.3321">Seattle</a> · <a href="#" data-ll="51.4779,-0.0015">Greenwich</a> · <a href="#" data-ll="-33.8568,151.2153">Sydney</a></span></form>
+  <p id="tw-err" class="tw-err" role="alert" hidden></p>
+  <div class="tw-read" aria-live="polite">
+    <div class="tw-col"><h2>1 · Latitude And Longitude</h2><dl><dt>Decimal degrees</dt><dd id="o-dd"></dd><dt>Degrees, minutes, seconds</dt><dd id="o-dms"></dd><dt>Signed, as a computer stores it</dt><dd id="o-signed"></dd></dl></div>
+    <div class="tw-col"><h2>2 · UTM</h2><dl><dt>Zone</dt><dd id="o-zone"></dd><dt>Easting · northing</dt><dd id="o-utm"></dd><dt>From the zone's center line</dt><dd id="o-cm"></dd><dt>MGRS / USNG grid reference</dt><dd id="o-mgrs"></dd></dl></div>
+    <div class="tw-col"><h2>3 · State Plane (NAD 83)</h2><dl><dt>Zone</dt><dd id="o-spz"></dd><dt>Easting · northing in meters</dt><dd id="o-spm"></dd><dt>In US survey feet</dt><dd id="o-spf"></dd><dt>Codes</dt><dd id="o-epsg"></dd></dl></div>
+  </div>
+  <figure class="tw-fig"><svg id="tw-world" role="img" aria-label="World map divided into 60 UTM zones; the zone holding the chosen spot is lit"></svg><figcaption>The 60 UTM zones, each 6° of longitude wide, numbered eastward from 180°. Lit: the zone holding your spot. Two zones bend around Norway and Svalbard; the readout uses the true rule. Land: Natural Earth, 1:110m.</figcaption></figure>
+  <figure class="tw-fig"><svg id="tw-us" role="img" aria-label="Map of the United States divided into State Plane zones; the zone holding the chosen spot is lit"></svg><figcaption>State Plane zones (NAD 83), simplified. Long north–south zones use transverse Mercator; wide east–west zones use Lambert conformal conic; the Alaska panhandle uses oblique Mercator. Alaska and Hawaii are moved and rescaled. Boundaries: Esri, USA State Plane Zones NAD83; definitions: EPSG, via PROJ.</figcaption></figure>
+  <p class="tw-note">The math runs in your browser with <a href="https://proj4js.org/">proj4js</a>, the same formulas GIS software uses. Latitude and longitude are taken as WGS 84; for State Plane they are treated as NAD 83, which differs by a meter or two in the United States.</p>
+  <p><a href="/topics/115-three-ways-to-say-where/">Read The Lesson</a> · <a href="/downloads/Three_Ways_to_Locate_a_Point_Lat_Long_UTM_State_Plane_Faria_2026-11-16.pdf">Lesson PDF</a></p>
+</section>
+<script src="/three-ways/vendor/d3.min.js"></script><script src="/three-ways/vendor/topojson-client.min.js"></script><script src="/three-ways/vendor/proj4.js"></script>
+<script type="module" src="/three-ways/three-ways.js"></script>

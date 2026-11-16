@@ -109,6 +109,7 @@ ${related.length ? `<section class="related"><h2>Related topics</h2><ul class="c
 }
 // The interactive shares Faria's navigation, theme, text-size controls and feedback.
 write("galileo", page("Galileo's Moon Mountains", fs.readFileSync("public/galileo/lesson.html", "utf8"), 1));
+write("three-ways", page("One Spot, Three Addresses", fs.readFileSync("public/three-ways/lesson.html", "utf8"), 1));
 const dayLabel = s => {
   const fresh = freshOn(s), again = revisitedOn(s);
   return again.length ? `${fresh.length} new · ${again.length} revisited` : `${fresh.length} topics`;

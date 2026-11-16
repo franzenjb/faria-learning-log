@@ -71,6 +71,10 @@ Printed lessons and plates, grouped with the topic each one belongs to. The comp
 
 - [The Furlong, the Mile, and the Acre: How English Land Was Measured](/topics/101-the-furlong-the-mile-and-the-acre/): [lesson PDF](/downloads/The_Furlong_the_Mile_and_the_Acre_How_English_Land_Was_Measured_Faria_2026-11-14.pdf). Three pages. The 660-foot furlong, the 1593 statute mile of 5,280 feet, Gunter's chain, and the acre as a furlong by a tenth of a furlong.
 
+## 16 November 2026
+
+- [Three Ways to Say Where: Latitude and Longitude, UTM, and State Plane](/topics/115-three-ways-to-say-where/): [lesson PDF](/downloads/Three_Ways_to_Locate_a_Point_Lat_Long_UTM_State_Plane_Faria_2026-11-16.pdf). One spot in Fort Myers in all three systems, the 60 UTM zones and the 0.9996 scale factor, MGRS and USNG, the State Plane zone map, feet versus meters, SPCS2022, and a comparison table. The [interactive map](/three-ways/) converts any spot you click.
+
 ## Complete binder
 
 [Complete lessons binder (PDF)](/downloads/Franzen_Complete_Lessons_Binder.pdf). 458 pages. 72 topics and 37 papers, assembled before the later 8 November lessons. Those later pages, including Picard, Tycho, the mathematics lessons, and the historical lessons added with them, are on the site and are not in this file. The binder has not been rebuilt. The separate lesson PDFs on this page stay as they are.

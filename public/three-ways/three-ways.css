@@ -1,0 +1,28 @@
+main:has(.tw){max-width:1100px}
+.tw{font-family:var(--sans)}
+.tw h1{font-family:var(--serif)}
+.tw-intro{max-width:46rem}
+.tw-form{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem .5rem;margin:.6rem 0 .2rem;font-size:13px;color:var(--muted)}
+.tw-form input{font:14px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:3px 6px;width:15rem;max-width:62vw}
+.tw-form button{font:12px var(--sans);color:var(--muted);background:none;border:1px solid var(--line);border-radius:4px;padding:2px 8px;cursor:pointer}
+.tw-form button:hover{color:var(--accent);border-color:var(--accent)}
+.tw-hint{font-size:12px}.tw-hint a{color:var(--muted)}.tw-hint a:hover{color:var(--accent)}
+.tw-err{color:var(--danger);font-size:13px;margin:.2rem 0}
+.tw-read{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.2rem;margin:1rem 0;border-top:1px solid var(--line);padding-top:.6rem}
+.tw-col h2{font:600 13px var(--sans);letter-spacing:.04em;color:var(--accent);margin:0 0 .3rem;text-transform:none}
+.tw dl{margin:0}.tw dt{font-size:11.5px;color:var(--muted);margin-top:.35rem}
+.tw dd{margin:0;font:15px/1.35 ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums;color:var(--ink)}
+.tw dd small{font:12px var(--sans);color:var(--muted)}
+.tw-fig{margin:1.2rem 0}.tw-fig svg{display:block;width:100%;height:auto;cursor:crosshair;touch-action:manipulation}
+.tw-fig figcaption{font-size:12.5px;color:var(--muted);margin-top:.3rem;max-width:46rem}
+.tw svg text{font-family:var(--sans);fill:var(--muted)}
+.tw .land{fill:var(--line)}
+.tw .zline{stroke:var(--muted);stroke-width:.5;stroke-opacity:.45;fill:none}
+.tw .equator{stroke:var(--muted);stroke-width:.8;stroke-dasharray:2 3}
+.tw .zone-lit{fill:var(--accent);fill-opacity:.16;stroke:var(--accent);stroke-width:1.2}
+.tw .sp{fill:var(--surface);stroke:var(--muted);stroke-width:.5;stroke-opacity:.7}
+.tw .sp.lit{fill:var(--accent);fill-opacity:.28;stroke:var(--accent);stroke-width:1.2;stroke-opacity:1}
+.tw .dot{fill:var(--accent);stroke:var(--bg);stroke-width:1.5}
+.tw .lab-lit{fill:var(--accent);font-weight:600}
+.tw-note{font-size:12.5px;color:var(--muted);max-width:46rem}
+@media (max-width:760px){.tw-read{grid-template-columns:1fr;gap:.6rem}.tw dd{font-size:14px}}
