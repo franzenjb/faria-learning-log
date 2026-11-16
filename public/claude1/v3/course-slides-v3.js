@@ -16,15 +16,21 @@ const v3DL = () => {
       [L0, null, null, '180°', camFor(15, -178, 1.1), '180°, Halfway Round From Greenwich. Cross It and the <b>Date Changes</b>.', 'The Date Line'],
       [L1, L0, [57.05, -135.33, 'Sitka · October 1867'], 'Alaska', camFor(57, -165, 1.6), 'Russia Sells Alaska to the U.S.: <b>Friday Happens Twice</b>.', 'Alaska, 1867'],
       [L2, L1, [1.87, 202.6, 'Kiritimati · January 1995'], 'Kiribati', camFor(-2, -168, 1.7), 'Kiribati Puts Its Islands on One Day: <b>December 31, 1994</b> Skipped.', 'Kiribati, 1995'],
-      [L3, L2, [-13.83, -171.77, 'Apia · December 2011'], 'Samoa', camFor(-14, -173, 2.6), 'Samoa Joins Australia’s Day: <b>Friday, December 30, 2011</b> Never Happens.', 'Samoa, 2011']
+      [L3, L2, [-13.83, -171.77, 'Apia · December 2011'], 'Samoa', camFor(-14.2, -171.3, 7), 'Samoa Jumps to Its Trading Partners’ Day. <b>Friday, Dec. 30, 2011</b> Never Happens.', 'Samoa, 2011']
     ];
 }
 const v3DLdraw = (g, d, dl, age, pulse) => { const [line, , at] = d, k = Math.min(1, age / 900);
         g.meridian(0, 'rgba(240,179,90,.5)', 2);
-        g.o.ctx.globalAlpha = k; g.path(line, '#ff7d6f', 4); g.o.ctx.globalAlpha = 1;
+        // Samoa plays in two beats: the old line with both Samoas on Friday, then the jump
+        const ph = dl === 3 ? (age < 3000 ? 0 : 1) : 1, kk = dl === 3 && ph ? Math.min(1, (age - 3000) / 900) : k;
+        g.o.ctx.globalAlpha = kk; g.path(dl === 3 && !ph ? d[1] : line, '#ff7d6f', 4); g.o.ctx.globalAlpha = 1;
         if (dl === 0) { const q = g.proj(ll(30, 180)); if (q.z > 0) g.label('180°', q.x + 14, q.y, '#ff7d6f', 32); }
-        if (dl === 3) { const q = g.dot(-14.28, -170.7, '#6fb3ff', 8); if (q) g.label('American Samoa', q.x + 16, q.y + 10, '#6fb3ff', 30); }
-        if (at) { const q = g.dot(at[0], at[1], '#f0b35a', 8 + 2 * pulse); if (q) g.label(at[2], q.x + (dl === 3 ? -16 : 16), q.y + 10, '#f0b35a', 30, dl === 3 ? 'right' : 'left'); }
+        if (dl === 3) { const a = g.dot(-13.83, -171.77, '#f0b35a', 8 + 2 * pulse), b = g.dot(-14.28, -170.7, '#6fb3ff', 8);
+          if (a) g.label(`Samoa · ${ph ? 'Saturday' : 'Friday'}`, a.x - 16, a.y - 22, '#f0b35a', 32, 'right');
+          if (b) g.label('American Samoa · Friday', b.x + 16, b.y + 44, '#6fb3ff', 32);
+          if (a) g.label(ph ? 'Since 2011: A Day Apart' : 'Before 2011: Same Day', a.x + 40, a.y + 170, '#ece6da', 34, 'center');
+          return; }
+        if (at) { const q = g.dot(at[0], at[1], '#f0b35a', 8 + 2 * pulse); if (q) g.label(at[2], q.x + 16, q.y + 10, '#f0b35a', 30, 'left'); }
 };
 
 const V3 = {
