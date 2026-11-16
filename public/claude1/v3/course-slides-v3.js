@@ -930,16 +930,16 @@ addEventListener('load', () => setTimeout(() => {
 addEventListener('load', () => setTimeout(() => {
   const el = v3Find('The Longitude Act, 1714'); if (!el) return;
   const G = '#f0b35a', W = '#ece6da', M = '#c2bba9';
-  const TIERS = [['£10,000', '60 miles'], ['£15,000', '40 miles'], ['£20,000', '30 miles']];
+  const TIERS = [['1°', '£10,000', '≈ $2.5M today'], ['⅔°', '£15,000', '≈ $4M today'], ['½°', '£20,000', '≈ $5M today']]; // 2025 value: £20,000 ≈ £3.97M ≈ $5M
   V3.scene(el, 2, (S, ctx, now) => {
     const k = S.step, up = S.ease(S.age(now) / 900);
     const ty = k === 0 ? 400 : S.lerp(400, 190, up); // the headline rises to make room for the prizes
     S.text('1714', 800, ty - 140, 60, M, 'center', 1);
     S.text('The Longitude Act', 800, ty - 40, 110, W, 'center', 1);
     S.text('£20,000 Prize', 800, ty + 90, 76, G, 'center', k === 0 ? 1 : 1 - up);
-    if (k === 1) TIERS.forEach(([amt, mi], i) => { const a = S.fade(now, 500 + i * 450, 600), x = 300 + i * 500;
+    if (k === 1) TIERS.forEach(([deg, amt, usd], i) => { const a = S.fade(now, 500 + i * 450, 600), x = 300 + i * 500;
       ctx.save(); ctx.globalAlpha = a; ctx.strokeStyle = i === 2 ? G : 'rgba(236,230,218,.25)'; ctx.lineWidth = i === 2 ? 2.5 : 1.5; ctx.beginPath(); ctx.moveTo(x - 220, 420); ctx.lineTo(x + 220, 420); ctx.stroke(); ctx.restore();
-      S.text(amt, x, 560, 120, i === 2 ? G : W, 'center', a); S.text(mi, x, 720, 84, W, 'center', a); });
+      S.text(deg, x, 560, 150, i === 2 ? G : W, 'center', a); S.text(amt, x, 700, 84, W, 'center', a); S.text(usd, x, 800, 44, M, 'center', a); });
   });
 }, 0));
 
