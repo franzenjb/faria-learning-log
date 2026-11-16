@@ -59,10 +59,10 @@ assert.match(await page.locator('.sc-card').innerText(), /longitude/i, 'the less
 await page.keyboard.press('ArrowRight'); await page.waitForTimeout(500);
 assert.equal(await page.evaluate(() => COURSE_LIVE[cur].t), 'Mental maps', 'fifth press moves on to the quiz');
 
-// Harrison: one line per press, ending on the twist
+// Harrison: one line per press, ending on the 5-second result
 await page.evaluate(() => go(COURSE_LIVE.findIndex(c => c.t === 'A clock that could travel'))); await page.waitForTimeout(600);
-for (let k = 0; k < 4; k++) { await page.keyboard.press('ArrowRight'); await page.waitForTimeout(150); }
-assert.match(await page.locator('#hv').textContent(), /carpenter beat Newton/, 'Harrison lands on the twist');
+for (let k = 0; k < 3; k++) { await page.keyboard.press('ArrowRight'); await page.waitForTimeout(150); }
+assert.match(await page.locator('#hv').textContent(), /5 seconds/, 'Harrison lands on the result');
 
 // the controls list opens by itself on slides that have controls (Jeff kept losing them)
 for (const [t, min] of [['Latitude &amp; Longitude', 4], ['Walk north', 5]]) {
