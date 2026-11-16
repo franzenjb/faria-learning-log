@@ -1,0 +1,1 @@
+Source Serif 4 (Adobe) and Inter (Rasmus Andersson) are licensed under the SIL Open Font License 1.1. Bundled via @fontsource and embedded in css/fonts.css.

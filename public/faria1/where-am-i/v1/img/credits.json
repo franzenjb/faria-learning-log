@@ -1,0 +1,83 @@
+{
+ "wreck": {
+  "url": "https://upload.wikimedia.org/wikipedia/commons/d/db/Sir_Cloudesley_Shovell%2C_in_the_Association%2C_with_the_Eagle%2C_Rum%C3%B1y%2C_and_the_Firebrand%2C_Lost_on_the_Rocks_of_Scilly%2C_October%2C_22%2C_1707_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+  "w": 1831,
+  "h": 1248,
+  "lic": "Public domain",
+  "artist": "William Rayner",
+  "credit": "https://www.charlesmillerltd.com/auction/lot/lot-106---englands-glory-a-set-of-four-engravings-c-1738/",
+  "date": "1739-01-01"
+ },
+ "shovell": {
+  "url": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Sir_Cloudesley_Shovell_1650-1707.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+  "w": 1036,
+  "h": 1280,
+  "lic": "Public domain",
+  "artist": "Michael Dahl",
+  "credit": "https://www.rmg.co.uk/collections/objects/rmgc-object-14498",
+  "date": "1702-03-01"
+ },
+ "harrison": {
+  "url": "https://upload.wikimedia.org/wikipedia/commons/d/dc/Thomas_King_%28d.c.1769%29_-_John_Harrison_%281693%E2%80%931776%29_-_1884-217_-_Science_Museum.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+  "w": 964,
+  "h": 1200,
+  "lic": "Public domain",
+  "artist": "Thomas King",
+  "credit": "Art UK\u00a0",
+  "date": "1767\u00a0"
+ },
+ "h4": {
+  "url": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Harrison_H4_chronometer.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+  "w": 1102,
+  "h": 1390,
+  "lic": "CC BY-SA 3.0",
+  "artist": "Colonel Warden at en.wikipedia",
+  "credit": "Transferred from en.wikipedia by SreeBot",
+  "date": "Taken in\u00a0August 2009"
+ },
+ "h4engr": {
+  "url": "https://upload.wikimedia.org/wikipedia/commons/9/91/Harrison_H4_clock_in_The_principles_of_Mr_Harrison%27s_time-keeper_1767.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+  "w": 595,
+  "h": 881,
+  "lic": "Public domain",
+  "artist": "Ferdinand Berthoud",
+  "credit": "[1]",
+  "date": "1802"
+ },
+ "galileo_ms": {
+  "url": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Galileo_Galilei_%281564_-_1642%29_-_Serenissimo_Principe_-_manuscript_with_observations_of_Jupiter_and_four_of_its_moons%2C_1610.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+  "w": 569,
+  "h": 813,
+  "lic": "Public domain",
+  "artist": "Galileo Galilei",
+  "credit": "apps.lib.umich.edu galileo_manuscript.png. Retrieved on 12 November 2020.",
+  "date": "circa 1610date QS:P,+1610-00-00T00:00:00Z/9,P1480,Q5727902"
+ },
+ "sidereus": {
+  "url": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Sidereus_Nuncius_Medicean_Stars.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+  "w": 334,
+  "h": 500,
+  "lic": "Public domain",
+  "artist": "Scan: History of Science Collections, University of Oklahoma Libraries\nOriginal: Galileo Galilei",
+  "credit": "Transferred from en.wikipedia to Commons.\nScan: http://hos.ou.edu/galleries/17thCentury/Galileo/1610/Galileo-1610-023r-image/\nOriginal: Sidereus Nuncius section on the Medicean stars",
+  "date": "Original work: 1610"
+ },
+ "carte": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/034_Carte_de_France_corrig%C3%A9e_de_l%27Acad%C3%A9mie_des_sciences_1682.JPG/1920px-034_Carte_de_France_corrig%C3%A9e_de_l%27Acad%C3%A9mie_des_sciences_1682.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "w": 2612,
+  "h": 1954,
+  "lic": "CC BY-SA 3.0",
+  "artist": "Moreau.henri",
+  "credit": "Own work",
+  "date": "2012-09-02 18:59:24"
+ },
+ "carte2": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/Carte_de_France_-_Corrigee_par_ordre_du_Roy_sur_les_observations_de_Mss._de_l%27Academie_des_Sciences_-_btv1b8593307n.jpg/1920px-Carte_de_France_-_Corrigee_par_ordre_du_Roy_sur_les_observations_de_Mss._de_l%27Academie_des_Sciences_-_btv1b8593307n.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "w": 6587,
+  "h": 5195,
+  "lic": "Public domain",
+  "artist": "\nAcad\u00e9mie des sciences (France). Fonction ind\u00e9termin\u00e9e",
+  "credit": "Biblioth\u00e8que nationale de France",
+  "date": "1693date QS:P571,+1693-00-00T00:00:00Z/9"
+ }
+}
