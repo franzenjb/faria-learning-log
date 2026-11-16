@@ -233,16 +233,14 @@ NEW_SLIDES['Was 1900 a leap year?'] = {
 /* ---------- Washington, 1884 ---------- */
 NEW_SLIDES['Washington, 1884'] = {
   h1: 'Where should zero be?', canvas: true,
-  ctl: `<div class="btns">${V3.btn('pm84-g', 'Greenwich')}${V3.btn('pm84-p', 'Paris')}${V3.btn('pm84-w', 'Washington')}${V3.btn('pm84-f', 'Ferro, Canaries')}</div><div class="btns">${V3.btn('pm84-vote', 'Count the votes', true)}${V3.btn('pm84-fr', 'And Today?')}</div><div class="btns">${V3.btn('dl84-0', 'The Date Line, 180°')}${V3.btn('dl84-1', 'Philippines, 1844')}${V3.btn('dl84-2', 'Alaska, 1867')}${V3.btn('dl84-3', 'Kiribati, 1995')}${V3.btn('dl84-4', 'Samoa, 2011')}</div><div class="readout" id="pm84-r"><strong>25 nations. Vote first.</strong></div>`,
+  ctl: `<div class="btns">${V3.btn('pm84-g', 'Greenwich')}${V3.btn('pm84-p', 'Paris')}${V3.btn('pm84-w', 'Washington')}${V3.btn('pm84-f', 'Ferro, Canaries')}</div><div class="btns">${V3.btn('pm84-vote', 'Count the votes', true)}${V3.btn('pm84-fr', 'And Today?')}</div><div class="btns">${V3.btn('dl84-0', 'The Date Line, 180°')}${V3.btn('dl84-1', 'Alaska, 1867')}${V3.btn('dl84-2', 'Kiribati, 1995')}${V3.btn('dl84-3', 'Samoa, 2011')}</div><div class="readout" id="pm84-r"><strong>25 nations. Vote first.</strong></div>`,
   init(el) {
     const C = [['pm84-g', 'Greenwich', 51.48, 0], ['pm84-p', 'Paris', 48.84, 2.34], ['pm84-w', 'Washington', 38.92, -77.07], ['pm84-f', 'Ferro', 27.75, -17.9]];
     let pick = null, stage = 0, t0 = 0;
     // the date line, then the bends that put whole countries on one day: [line, previous line, place, when, cam, hero, readout]
     const L0 = [[90, 180], [-90, 180]], L1 = [...IDL_N, ...IDL_S_OLD], L2 = [...IDL_N, ...IDL_KIR, [-11, 180], ...IDL_S_OLD], L3 = [...IDL_N, ...IDL_KIR, ...IDL_S];
-    const PHIL_OLD = [[40, 180], [30, 145], [21, 117], [5, 117], [0, 135], [-8, 180]];
     const DL = [
       [L0, null, null, '180°', camFor(15, -178, 1.1), '180°, Halfway Round From Greenwich. Cross It and the <b>Date Changes</b>.', 'The Date Line'],
-      [L0, PHIL_OLD, [14.6, 121, 'Manila · December 1844'], 'Philippines', camFor(18, 150, 1.5), 'The Philippines Switch Sides: <b>Tuesday, December 31, 1844</b> Never Happens.', 'Philippines, 1844'],
       [L1, L0, [57.05, -135.33, 'Sitka · October 1867'], 'Alaska', camFor(57, -165, 1.6), 'Russia Sells Alaska to the U.S.: <b>Friday Happens Twice</b>.', 'Alaska, 1867'],
       [L2, L1, [1.87, 202.6, 'Kiritimati · January 1995'], 'Kiribati', camFor(-2, -168, 1.7), 'Kiribati Puts Its Islands on One Day: <b>December 31, 1994</b> Skipped.', 'Kiribati, 1995'],
       [L3, L2, [-13.83, -171.77, 'Apia · December 2011'], 'Samoa', camFor(-14, -173, 2.6), 'Samoa Joins Australia’s Day: <b>Friday, December 30, 2011</b> Never Happens.', 'Samoa, 2011']
@@ -250,14 +248,12 @@ NEW_SLIDES['Washington, 1884'] = {
     let dl = -1, dlT = 0;
     const G = V3.globe(el, 'v3-1884', camFor(35, -30, 1), (g, t) => {
       const pulse = .5 + .5 * Math.sin(t / 300);
-      if (dl >= 0) { const [line, prev, at] = DL[dl], k = Math.min(1, (t - dlT) / 900);
+      if (dl >= 0) { const [line, , at] = DL[dl], k = Math.min(1, (t - dlT) / 900);
         g.meridian(0, 'rgba(240,179,90,.5)', 2);
-        if (prev) { g.o.ctx.globalAlpha = 1 - .6 * k; g.path(prev, 'rgba(255,125,111,.7)', 3, [8, 8]); g.o.ctx.globalAlpha = 1; }
-        g.o.ctx.globalAlpha = dl === 1 ? 1 : k; g.path(line, '#ff7d6f', 4); g.o.ctx.globalAlpha = 1;
+        g.o.ctx.globalAlpha = k; g.path(line, '#ff7d6f', 4); g.o.ctx.globalAlpha = 1;
         if (dl === 0) { const q = g.proj(ll(30, 180)); if (q.z > 0) g.label('180°', q.x + 14, q.y, '#ff7d6f', 32); }
-        if (dl === 1) { const q = g.proj(ll(21, 125)); if (q.z > 0) g.label('Before 1845', q.x, q.y - 40, 'rgba(255,125,111,.9)', 28, 'center'); }
-        if (dl === 4) { const q = g.dot(-14.28, -170.7, '#6fb3ff', 8); if (q) g.label('American Samoa', q.x + 16, q.y + 10, '#6fb3ff', 30); }
-        if (at) { const q = g.dot(at[0], at[1], '#f0b35a', 8 + 2 * pulse); if (q) g.label(at[2], q.x + (dl === 4 ? -16 : 16), q.y + 10, '#f0b35a', 30, dl === 4 ? 'right' : 'left'); }
+        if (dl === 3) { const q = g.dot(-14.28, -170.7, '#6fb3ff', 8); if (q) g.label('American Samoa', q.x + 16, q.y + 10, '#6fb3ff', 30); }
+        if (at) { const q = g.dot(at[0], at[1], '#f0b35a', 8 + 2 * pulse); if (q) g.label(at[2], q.x + (dl === 3 ? -16 : 16), q.y + 10, '#f0b35a', 30, dl === 3 ? 'right' : 'left'); }
         return; }
       C.forEach(([id, n, la, lo]) => {
         const win = stage >= 1 && n === 'Greenwich', fr = stage === 2 && n === 'Paris', dim = stage >= 1 && !win && !fr;
@@ -296,7 +292,7 @@ NEW_SLIDES['The date line'] = {
     });
     const set = m => { mode = m; t0 = performance.now(); ['dl-now', 'dl-2011', 'dl-kir'].forEach(b => CS.$(el, '#' + b).classList.toggle('on', b === 'dl-' + m));
       if (m === 'kir') fly(G.st, camFor(0, -170, 1.4), 1400); else fly(G.st, camFor(-12, -172, 2.2), 1400);
-      CS.$(el, '#dl-r').innerHTML = m === 'now' ? '<strong>About 100 miles apart. Same clock. A day apart.</strong>' : m === '2011' ? '<strong class="big">Samoa skipped Friday 30 December 2011</strong>' : '<strong class="big">The line moved east in 1995</strong>'; };
+      CS.$(el, '#dl-r').innerHTML = m === 'now' ? '<strong>About 80 miles apart. Same clock. A day apart.</strong>' : m === '2011' ? '<strong class="big">Samoa skipped Friday 30 December 2011</strong>' : '<strong class="big">The line moved east in 1995</strong>'; };
     CS.$(el, '#dl-now').onclick = () => set('now'); CS.$(el, '#dl-2011').onclick = () => set('2011'); CS.$(el, '#dl-kir').onclick = () => set('kir');
     set('now');
   }
