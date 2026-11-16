@@ -83,6 +83,7 @@ export const FACTS = {
  'Tobias Mayer\'s Moon tables, 1755: accurate enough at last. His widow received £3,000 from the Board in 1765; Leonhard Euler got £300 for the theory.',
  'Nevil Maskelyne tested lunars on his 1761 voyage to St Helena, published the British Mariner\'s Guide (1763), and as Astronomer Royal launched the Nautical Almanac (first edition for 1767).',
  'The arithmetic: up to about 4 hours before the Almanac, about 30 minutes for a skilled navigator after it, 30 to 60 minutes for most.',
+ 'The Sun gives latitude (noon height plus a declination table) and local time (noon, or a morning time sight), but never home time. Home time needs a clock everyone shares: Io (land only), the Moon, or a chronometer. After Harrison the standard method was a Sun time sight plus the chronometer; Thomas Sumner added the line of position in 1837.',
  'Sensitivity: 1′ of error in the Moon–star distance ≈ 2 minutes of time ≈ ½° of longitude ≈ 30 nautical miles at the equator.',
  'Limits: a clear sky, a sharp horizon and the Moon in view. Unusable for several days around each new moon. Between fixes, dead reckoning.',
  'Used for about 80 years after Harrison because chronometers were expensive: Cook (1772–75) used lunars and a chronometer to check each other; Lewis and Clark took lunars (1804–06).',
