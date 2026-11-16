@@ -975,8 +975,8 @@ addEventListener('load', () => setTimeout(() => {
     // the number, with the decimals you have so far
     const fmt = v => v.toFixed(d);
     ctx.save(); ctx.fillStyle = 'rgba(8,12,22,.82)'; ctx.beginPath(); ctx.roundRect(400, 30, 800, 150, 16); ctx.fill(); ctx.restore();
-    S.text(`${fmt(LAT)}, ${fmt(LON)}`, 800, 88, 60, '#ece6da', 'center', 1, 600);
-    S.text(`${d} decimal place${d === 1 ? '' : 's'}  ·  within about ${R[d][0]}`, 800, 148, 32, '#f0b35a');
+    S.text(`Within ${R[d][0]}`, 800, 92, 72, '#f0b35a', 'center', 1, 600); // the message
+    S.text(`${fmt(LAT)}, ${fmt(LON)}  ·  ${d} decimal place${d === 1 ? '' : 's'}`, 800, 150, 32, '#cfc8ba');
     ctx.save(); ctx.fillStyle = 'rgba(8,12,22,.82)'; ctx.beginPath(); ctx.roundRect(470, 860, 660, 70, 14); ctx.fill(); ctx.restore();
     S.text('↑ one more decimal  ·  ↓ one fewer', 800, 895, 28, '#cfc8ba');
     S.text('Rockefeller Center tree · imagery © Esri, Maxar, Earthstar Geographics', 1570, 215, 17, '#cfc8ba', 'right');
