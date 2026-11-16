@@ -1039,20 +1039,21 @@ NEW_SLIDES['Null Island'] = { h1: 'Null Island', fig: '', init() {} };
 NEW_SLIDES['Which system'] = { h1: 'Which System?', fig: '', init() {} };
 NEW_SLIDES['Errors grow'] = { h1: 'Errors Grow', fig: '', init() {} };
 
-/* ---------- Appendix: Null Island. One map, one red dot, one joke photo ---------- */
+/* ---------- Appendix: Null Island. The map first; → or a tap brings up the photo, as big as fits beside the dot ---------- */
 addEventListener('load', () => setTimeout(() => {
   const el = v3Find('Null Island'); if (!el) return;
   const photo = new Image(); photo.src = 'img/null-island.jpg';
-  V3.scene(el, 1, (S, ctx, now) => {
-    const P = V3SAT.draw(ctx, 0, 9, 5.4), [x, y] = P(0, 0), pu = .5 + .5 * Math.sin(now * .004);
-    ctx.fillStyle = '#ff5a4a'; ctx.beginPath(); ctx.arc(x, y, 12, 0, 7); ctx.fill();
-    ctx.strokeStyle = '#ff5a4a'; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(x, y, 28 + 14 * pu, 0, 7); ctx.stroke();
-    S.text('0°, 0°', x, y + 72, 30, '#ffffff', 'center', 1, 600);
-    if (photo.complete && photo.naturalWidth) { const w = 620, h = w * photo.naturalHeight / photo.naturalWidth, X = 900, Y = 500 - h / 2 + 20, a = S.fade(now, 300, 900);
-      ctx.save(); ctx.globalAlpha = a; ctx.shadowColor = 'rgba(0,0,0,.6)'; ctx.shadowBlur = 30; ctx.fillStyle = '#fff'; ctx.fillRect(X - 10, Y - 10, w + 20, h + 20); ctx.shadowBlur = 0; ctx.drawImage(photo, X, Y, w, h); ctx.restore(); }
-    V3SAT.bands(ctx); S.text(V3SAT.credit, 1540, 960, 17, '#c2bba9', 'right');
-    S.text('Null Island', 800, 70, 46, '#ece6da');
+  V3.scene(el, 2, (S, ctx, now) => {
+    const k = S.step, P = V3SAT.draw(ctx, 0, 14, 5.4), [x, y] = P(0, 0), pu = .5 + .5 * Math.sin(now * .004); // map centered east, so 0°, 0° sits at the left
+    ctx.fillStyle = '#ff5a4a'; ctx.beginPath(); ctx.arc(x, y, 14, 0, 7); ctx.fill();
+    ctx.strokeStyle = '#ff5a4a'; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(x, y, 34 + 12 * pu, 0, 7); ctx.stroke();
+    S.text('0°, 0°', x, y + 90, 44, '#ffffff', 'center', 1, 600);
+    V3SAT.bands(ctx); S.text(V3SAT.credit, 40, 965, 17, '#9a9382', 'left');
+    if (k === 1 && photo.complete && photo.naturalWidth) { const a = S.ease(S.age(now) / 600), left = x + 110, w = Math.min(1580 - left, 840 * photo.naturalWidth / photo.naturalHeight), h = w * photo.naturalHeight / photo.naturalWidth, X = 1580 - w, Y = 140 + (840 - h) / 2;
+      ctx.save(); ctx.globalAlpha = a; ctx.translate(X + w / 2, Y + h / 2); ctx.scale(.92 + .08 * a, .92 + .08 * a); ctx.shadowColor = 'rgba(0,0,0,.65)'; ctx.shadowBlur = 40; ctx.fillStyle = '#fff'; ctx.fillRect(-w / 2 - 12, -h / 2 - 12, w + 24, h + 24); ctx.shadowBlur = 0; ctx.drawImage(photo, -w / 2, -h / 2, w, h); ctx.restore(); }
+    S.text('Null Island', 800, 78, 60, '#ece6da');
   });
+  const cv = [...el.querySelectorAll('canvas')].pop(); if (cv) cv.addEventListener('click', () => document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true })));
 }, 0));
 
 /* ---------- Appendix: which system? One shelter, three sets of numbers ---------- */
