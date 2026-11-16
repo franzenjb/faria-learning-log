@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Where Am I? — How we learned to name any place on Earth with two numbers</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/world.css">
+</head>
+<body>
+<canvas id="gl"></canvas>
+<div id="labels"></div>
+<div id="figs"></div>
+<div id="type"></div>
+<div id="blank"></div>
+<div id="progbar"><div id="prog"></div></div>
+<div id="ui"></div>
+<div id="notes" class="hidden"></div>
+<div id="overview" class="hidden"></div>
+<div id="help" class="hidden"></div>
+<script src="vendor/three.full.min.js"></script>
+<script src="data/stars.js"></script>
+<script src="data/tex_milkyway.js"></script>
+<script src="data/tex_day.js"></script>
+<script src="data/tex_night.js"></script>
+<script src="data/tex_mask.js"></script>
+<script src="data/tex_clouds.js"></script>
+<script src="data/tex_flday.js"></script>
+<script src="data/tex_flnight.js"></script>
+<script src="data/tex_chday.js"></script>
+<script src="data/tex_moon.js"></script>
+<script src="data/tex_jupiter.js"></script>
+<script src="data/france50.js"></script>
+<script src="js/core.js"></script>
+<script src="js/noise.js"></script>
+<script src="js/sky.js"></script>
+<script src="js/overlay.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/script.js"></script>
+<script>
+  window.PRESENTER = location.hash.indexOf('presenter') >= 0;
+  if (!window.PRESENTER) World.init();
+</script>
+<script src="js/sea.js"></script>
+<script src="js/globe.js"></script>
+<script src="js/space.js"></script>
+<script src="js/longitude.js"></script>
+<script src="js/act4.js"></script>
+<script src="js/gps.js"></script>
+<script src="js/appx.js"></script>
+<script src="js/h4.js"></script>
+<script src="js/beats.js"></script>
+<script src="js/beats_act3.js"></script>
+<script src="js/beats_act4.js"></script>
+<script src="js/beats_act5.js"></script>
+<script src="js/beats_act6.js"></script>
+<script src="js/beats_appx.js"></script>
+<script>
+  if (window.PRESENTER) Presenter.start(); else World.start();
+</script>
+</body>
+</html>
