@@ -204,7 +204,7 @@ const TALK30 = [
   ['Decimal places', 1, [1, 2, 3], { label: 'Appendix: Decimal Places' }],
   ['Sidereal day', 1, [1, 2, 3], { label: 'Appendix: The Star Day' }],
   ['Light needs time, again', 1, ['Earth on Jupiter\'s side of the Sun: the eclipse is on time.', 'Earth on the far side: about 16 and a half minutes late. Io is on time; the light is late.']],
-  ['Null Island', 1, ['Zero degrees, zero degrees: open ocean off Africa, one weather buoy. But it is the busiest spot in our databases: every failed geocode, blank cell or GPS left off lands right here. A dot at Null Island is not a place. It is a failure. Filter it out.'], { label: 'Appendix: Null Island' }],
+  ['Null Island', 1, ['Tap or → for the photo. Zero degrees, zero degrees: open ocean off Africa, one weather buoy. But it is the busiest spot in our databases: every failed geocode, blank cell or GPS left off lands right here. A dot at Null Island is not a place. It is a failure. Filter it out.'], { label: 'Appendix: Null Island' }],
   ['Which system', 1, [1, 2, 3], { label: 'Appendix: Which System?' }],
   ['Errors grow', 1, [1, 2, 3], { label: 'Appendix: Errors Grow' }],
   ['The date line', 1, [1, 2, 3, 4, 5, 6], { ch: 'Appendix', label: 'Appendix: The Date Line' }],
