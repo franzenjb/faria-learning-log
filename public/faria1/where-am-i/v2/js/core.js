@@ -10,13 +10,16 @@ const EASE = { io: t => lerp(sineIO(t), smoother(t), .5), lin: t => clamp(t, 0, 
 const V = a => new THREE.Vector3(a[0], a[1], a[2]);
 const Q = new URLSearchParams(location.search);
 const CAPTURE = Q.has('capture');
+/* 2026-11-16: quicker fades and pans (~42% faster, 55–60% of original length). Revert: set to 1.
+   Original files: review/timings_backup_2026-11-16_original/ */
+const TRANS_SCALE = 0.58;
 
 const FSV = `varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0., 1.); }`;
 function fsMat(frag, uniforms, extra = {}){
   return new THREE.ShaderMaterial(Object.assign({ vertexShader: FSV, fragmentShader: frag, uniforms, depthTest: false, depthWrite: false }, extra)); }
 
 const World = {
-  RAD, clamp, lerp, smoother, EASE, V, CAPTURE,
+  RAD, clamp, lerp, smoother, EASE, V, CAPTURE, TRANS_SCALE,
   envs: {}, defs: {}, beats: [], k: -1, T: 0, bt: 0, P: {}, tw: {}, reduced: false, started: null,
   Q: { scale: +(Q.get('scale') || 1), clouds: +(Q.get('csteps') || (CAPTURE ? 96 : 64)), msaa: Q.get('msaa') ? +Q.get('msaa') : 4 },
   ok: false,
@@ -200,13 +203,13 @@ const World = {
     const instant = how === 'cut' || how === 'init' || this.reduced;
     const now = this.T;
     // snapshot crossfade for cuts and reduced motion
-    if (instant && how !== 'init' && this.ok){ this.presentTo(this.rtSnap); this.xf = { kind: 'snap', t0: now, dur: this.reduced ? 1.4 : .75, delay: 0 }; }
+    if (instant && how !== 'init' && this.ok){ this.presentTo(this.rtSnap); this.xf = { kind: 'snap', t0: now, dur: (this.reduced ? 1.4 : .75) * TRANS_SCALE, delay: 0 }; }
     // params
     const all = new Set([...Object.keys(this.defs)]);
     for (const key of all){
       const spec = key in b.R ? b.R[key] : this.defs[key];
       const to = this.specVal(spec);
-      const dur = Array.isArray(spec) && spec[1] != null ? spec[1] : (key.startsWith('o.') ? 1.6 : b.dur);
+      const dur = Array.isArray(spec) && spec[1] != null ? spec[1] : (key.startsWith('o.') ? 1.6 * TRANS_SCALE : b.dur);
       const delay = Array.isArray(spec) && spec[2] != null ? spec[2] : (key.startsWith('o.') ? (b.odelay != null ? b.odelay : Math.min(1.4, b.dur * .35)) : 0);
       const ease = Array.isArray(spec) && spec[3] ? spec[3] : 'io';
       const from = this.P[key] == null ? to : this.P[key];
@@ -222,11 +225,11 @@ const World = {
     else {
       let from = envChanged ? (b.fromCam ? this.camState(b.fromCam) : this.pushed(target, b.push == null ? .06 : b.push)) : (e.camCur || target);
       if (envChanged) e.camCur = from;
-      e.camTw = { from, to: target, t0: now + (b.camDelay || 0), dur: b.camDur || b.dur, ease: EASE[b.camEase || 'io'] };
+      e.camTw = { from, to: target, t0: now + (b.camDelay || 0), dur: b.camDur || (b.dur * TRANS_SCALE), ease: EASE[b.camEase || 'io'] };
     }
-    if (envChanged && prev && !instant && b.outCam){ const pe = this.envs[prev.env]; pe.camTw = { from: pe.camCur, to: this.camState(b.outCam), t0: now, dur: (b.xf || 2.2) + (b.xfDelay || 0) + .3, ease: EASE.in }; }
+    if (envChanged && prev && !instant && b.outCam){ const pe = this.envs[prev.env]; pe.camTw = { from: pe.camCur, to: this.camState(b.outCam), t0: now, dur: ((b.xf || 2.2) + .3) * TRANS_SCALE + (b.xfDelay || 0), ease: EASE.in }; }
     if (envChanged && prev && !instant && this.ok){
-      this.out = this.envs[prev.env]; this.xf = { kind: 'env', t0: now + (b.xfDelay || 0), dur: b.xf || 2.2, delay: 0 };
+      this.out = this.envs[prev.env]; this.xf = { kind: 'env', t0: now + (b.xfDelay || 0), dur: (b.xf || 2.2) * TRANS_SCALE, delay: 0 };
     } else if (envChanged) this.out = null;
     this.cur = e; this.k = k; this.bt = 0; this.dir = how === 'fly' ? 1 : 0;
     for (const en of Object.values(this.envs)) en.onBeat && en.onBeat(b, prev, { instant, active: en === e, fly: how === 'fly' && !this.reduced });
@@ -286,7 +289,7 @@ const World = {
     UI.init();
     const k0 = m ? (+m[1] - 1) : 0;
     this.go(k0, 'init');
-    if (!CAPTURE){ if (this.ok && k0 === 0){ this.P.fade = 0; this.tw.fade = { from: 0, to: 1, t0: .3, dur: 4, ease: EASE.io }; } this.loop(); }
+    if (!CAPTURE){ if (this.ok && k0 === 0){ this.P.fade = 0; this.tw.fade = { from: 0, to: 1, t0: .3, dur: 4 * TRANS_SCALE, ease: EASE.io }; } this.loop(); }
     window.__ready = true;
   }
 };

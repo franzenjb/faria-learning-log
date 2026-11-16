@@ -1,15 +1,16 @@
 /* overlay.js — spatial typography (headline + one line), world-anchored labels, floating archival plates, small figures */
 const Overlay = (() => {
+  const TF = (window.World && World.TRANS_SCALE) || 0.58; // keep in sync with core.js TRANS_SCALE
   const $ = id => document.getElementById(id);
   let cur = { h: null, l: null, el: null }, labs = [], plateEl = null, plateKey = null, figEl = null, figKey = null, kick = null;
   const TP = { l: 'tp-l', c: 'tp-c', r: 'tp-r', bl: 'tp-bl', tl: 'tp-tl', br: 'tp-br', b: 'tp-b', tr: 'tp-tr', cl: 'tp-cl' };
   function el(tag, cls, html, parent){ const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; if (parent) parent.appendChild(e); return e; }
-  function fadeOut(e, ms = 900){ if (!e) return; e.classList.remove('in'); e.classList.add('out'); setTimeout(() => e.remove(), ms); }
+  function fadeOut(e, ms = 900 * TF){ if (!e) return; e.classList.remove('in'); e.classList.add('out'); setTimeout(() => e.remove(), ms); }
   function show(b, instant){
     const root = $('type'); const sk = window.__capSkip || 0; const D = x => Math.max(20, (x - sk) * 1000);
     const key = (b.h || '') + '|' + (b.l || '') + '|' + (b.tpos || 'l');
     if (key !== cur.key){
-      fadeOut(cur.el, 1000);
+      fadeOut(cur.el, 1000 * TF);
       cur = { key, el: null };
       if (b.h || b.l){
         const box = el('div', 'tbox ' + (TP[b.tpos || 'l'] || 'tp-l') + (b.tcls ? ' ' + b.tcls : ''), null, root);
@@ -26,7 +27,7 @@ const Overlay = (() => {
     // labels
     const want = (b.labels || []).map(L => Object.assign({ key: (L.t || '') + '@' + (typeof L.a === 'string' ? L.a : L.id || '') }, L));
     const keep = [];
-    labs.forEach(L => { if (want.find(w => w.key === L.key)) keep.push(L); else { fadeOut(L.e, 900); } });
+    labs.forEach(L => { if (want.find(w => w.key === L.key)) keep.push(L); else { fadeOut(L.e, 900 * TF); } });
     labs = keep;
     want.forEach(w => { if (labs.find(L => L.key === w.key)) return;
       const e = el('div', 'lab ' + (w.cls || '') + ' side-' + (w.side || 'r'), `<i></i><span>${w.t}</span>`, $('labels'));
@@ -34,13 +35,13 @@ const Overlay = (() => {
       setTimeout(() => e.classList.add('in'), instant ? 20 : D(w.d != null ? w.d : (b.ldelay != null ? b.ldelay : 1.6))); });
     // archival plate
     const pk = b.plate ? b.plate.src : null;
-    if (pk !== plateKey){ fadeOut(plateEl, 1200); plateEl = null; plateKey = pk;
+    if (pk !== plateKey){ fadeOut(plateEl, 1200 * TF); plateEl = null; plateKey = pk;
       if (b.plate){ const p = b.plate; const f = el('figure', 'plate side-' + (p.side || 'r') + (p.cls ? ' ' + p.cls : ''), `<img src="${p.src}" alt=""><figcaption>${p.cap || ''}</figcaption>`, $('figs'));
         if (p.h) f.style.setProperty('--ph', p.h); plateEl = f; setTimeout(() => f.classList.add('in'), instant ? 20 : D(p.d != null ? p.d : 1.2)); } }
     // figure (small data graphic / diagram)
     const fk = b.fig ? b.id + ':' + b.fig.length : null;
     const same = b.fig && figEl && figEl._html === b.fig;
-    if (!same){ fadeOut(figEl, 900); figEl = null; figKey = fk;
+    if (!same){ fadeOut(figEl, 900 * TF); figEl = null; figKey = fk;
       if (b.fig){ const f = el('div', 'fig ' + (b.figpos || 'fp-r'), b.fig, $('figs')); f._html = b.fig; figEl = f; setTimeout(() => f.classList.add('in'), instant ? 20 : D(b.figd != null ? b.figd : 1.4)); } }
   }
   const v = new THREE.Vector3();

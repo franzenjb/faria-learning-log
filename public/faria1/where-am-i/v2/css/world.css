@@ -1,10 +1,10 @@
-:root{ --u: min(1vw, 1.7778vh); --ink:#F4F1EA; --dim:rgba(232,228,220,.78); --gold:#E9B860; --gold2:#F5D398; --steel:#9FB4CC; }
+:root{ --u: min(1vw, 1.7778vh); --ink:#F4F1EA; --dim:rgba(232,228,220,.78); --gold:#E9B860; --gold2:#F5D398; --steel:#9FB4CC; --tf: 0.58; } /* --tf: transition scale; revert to 1 to restore original fade lengths */
 *{ box-sizing:border-box; }
 html,body{ margin:0; height:100%; background:#000; overflow:hidden; color:var(--ink); cursor:default; }
-body.rm *{ transition-duration:.9s !important; }
+body.rm *{ transition-duration:calc(.9s * var(--tf)) !important; }
 #gl{ position:fixed; inset:0; width:100vw; height:100vh; display:block; }
 #labels,#figs,#type{ position:fixed; inset:0; pointer-events:none; }
-#blank{ position:fixed; inset:0; background:#000; opacity:0; pointer-events:none; transition:opacity .6s; z-index:50; }
+#blank{ position:fixed; inset:0; background:#000; opacity:0; pointer-events:none; transition:opacity calc(.6s * var(--tf)); z-index:50; }
 body.blank #blank{ opacity:1; }
 body.nogl{ background:radial-gradient(120% 90% at 70% 40%, #12223a 0%, #050a12 55%, #000 100%); }
 
@@ -20,10 +20,10 @@ body.nogl{ background:radial-gradient(120% 90% at 70% 40%, #12223a 0%, #050a12 5
 .tbox .l em{ color:var(--gold2); font-style:italic; }
 .tbox .kick{ font:500 calc(var(--u)*.92)/1 'Inter', system-ui, sans-serif; letter-spacing:.34em; text-transform:uppercase; color:rgba(233,184,96,.82); margin-bottom:calc(var(--u)*1.6); }
 .tbox .cred{ margin-top:calc(var(--u)*3.2); font:400 calc(var(--u)*.95)/1.4 'Inter', sans-serif; letter-spacing:.2em; text-transform:uppercase; color:rgba(230,226,218,.5); }
-.tbox > *{ opacity:0; transform:translate3d(0, calc(var(--u)*1.1), 0); filter:blur(9px); transition:opacity 2.2s cubic-bezier(.2,.65,.15,1), transform 2.8s cubic-bezier(.16,.8,.12,1), filter 2.2s ease-out; }
-.tbox .l{ transition-delay:.55s; } .tbox .cred{ transition-delay:1.1s; } .tbox .kick{ transition-delay:0s; }
+.tbox > *{ opacity:0; transform:translate3d(0, calc(var(--u)*1.1), 0); filter:blur(9px); transition:opacity calc(2.2s * var(--tf)) cubic-bezier(.2,.65,.15,1), transform calc(2.8s * var(--tf)) cubic-bezier(.16,.8,.12,1), filter calc(2.2s * var(--tf)) ease-out; }
+.tbox .l{ transition-delay:calc(.55s * var(--tf)); } .tbox .cred{ transition-delay:calc(1.1s * var(--tf)); } .tbox .kick{ transition-delay:0s; }
 .tbox.in > *{ opacity:1; transform:none; filter:none; }
-.tbox.out > *{ opacity:0 !important; filter:blur(4px); transition:opacity .9s ease, filter .9s ease !important; transition-delay:0s !important; }
+.tbox.out > *{ opacity:0 !important; filter:blur(4px); transition:opacity calc(.9s * var(--tf)) ease, filter calc(.9s * var(--tf)) ease !important; transition-delay:0s !important; }
 .tbox.noanim > *{ transition:none !important; }
 .tp-l{ left:calc(var(--u)*7); bottom:calc(var(--u)*9); } .tp-bl{ left:calc(var(--u)*6.5); bottom:calc(var(--u)*6.5); }
 .tp-tl{ left:calc(var(--u)*7); top:calc(var(--u)*7.5); } .tp-tr{ right:calc(var(--u)*7); top:calc(var(--u)*7.5); text-align:right; }
@@ -35,7 +35,7 @@ body.nogl{ background:radial-gradient(120% 90% at 70% 40%, #12223a 0%, #050a12 5
 
 /* ---------- world-anchored labels (direct labels, muted, one accent) ---------- */
 .lab{ position:absolute; left:0; top:0; white-space:nowrap; font:500 calc(var(--u)*.98)/1 'Inter', sans-serif; letter-spacing:.16em; text-transform:uppercase; color:rgba(226,232,240,.86);
-  opacity:0; transition:opacity 1.6s ease; will-change:transform; text-shadow:0 0 6px rgba(0,0,0,.8), 0 0 2px rgba(0,0,0,.9); }
+  opacity:0; transition:opacity calc(1.6s * var(--tf)) ease; will-change:transform; text-shadow:0 0 6px rgba(0,0,0,.8), 0 0 2px rgba(0,0,0,.9); }
 .lab.in{ opacity:calc(var(--lv, 1)); }
 .lab i{ position:absolute; left:-3px; top:-3px; width:6px; height:6px; border-radius:50%; background:currentColor; box-shadow:0 0 8px currentColor; }
 .lab.nodot i{ display:none; }
@@ -47,9 +47,9 @@ body.nogl{ background:radial-gradient(120% 90% at 70% 40%, #12223a 0%, #050a12 5
 
 /* ---------- archival plates ---------- */
 .plate{ position:absolute; margin:0; top:50%; --ph:62vh; height:var(--ph); opacity:0; transform:translate3d(0,-48%,0) scale(.985); filter:blur(6px);
-  transition:opacity 2.4s ease, transform 4s cubic-bezier(.16,.8,.12,1), filter 2.4s ease; }
+  transition:opacity calc(2.4s * var(--tf)) ease, transform calc(4s * var(--tf)) cubic-bezier(.16,.8,.12,1), filter calc(2.4s * var(--tf)) ease; }
 .plate.in{ opacity:1; transform:translate3d(0,-50%,0); filter:none; }
-.plate.out{ opacity:0 !important; transition:opacity 1.1s ease !important; }
+.plate.out{ opacity:0 !important; transition:opacity calc(1.1s * var(--tf)) ease !important; }
 .plate img{ height:calc(100% - 3.2em); width:auto; display:block; box-shadow:0 2.5vh 7vh rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.06); border-radius:1px; }
 .plate figcaption{ margin-top:1.1em; font:400 calc(var(--u)*.86)/1.45 'Inter', sans-serif; letter-spacing:.06em; color:rgba(225,222,214,.58); max-width:52ch; }
 .plate.side-r{ right:calc(var(--u)*7); } .plate.side-l{ left:calc(var(--u)*7); } .plate.side-c{ left:50%; margin-left:calc(var(--ph) * -.62); }
@@ -58,8 +58,8 @@ body:not(.rm) .plate.in img{ animation:drift 40s ease-in-out infinite alternate;
 @keyframes drift{ from{ transform:translate3d(0,0,0); } to{ transform:translate3d(0,-.6vh,0); } }
 
 /* ---------- small figures (Tufte: high data-ink, direct labels) ---------- */
-.fig{ position:absolute; opacity:0; transition:opacity 2s ease; }
-.fig.in{ opacity:1; } .fig.out{ opacity:0; transition:opacity .9s ease; }
+.fig{ position:absolute; opacity:0; transition:opacity calc(2s * var(--tf)) ease; }
+.fig.in{ opacity:1; } .fig.out{ opacity:0; transition:opacity calc(.9s * var(--tf)) ease; }
 .fig svg{ overflow:visible; }
 .fp-r{ right:calc(var(--u)*7); top:50%; transform:translateY(-50%); } .fp-c{ left:50%; top:50%; transform:translate(-50%,-50%); }
 .fp-b{ left:50%; bottom:calc(var(--u)*7); transform:translateX(-50%); } .fp-l{ left:calc(var(--u)*7); top:50%; transform:translateY(-50%); }
