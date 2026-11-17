@@ -36,7 +36,7 @@ const World = {
     } catch (e){ console.warn('WebGL unavailable', e); document.body.classList.add('nogl'); return false; }
     const r = this.r; r.autoClear = true; r.setClearColor(0x000000, 1); r.toneMapping = THREE.NoToneMapping;
     this.quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2)); this.qScene = new THREE.Scene(); this.qScene.add(this.quad); this.qCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    this.size(); addEventListener('resize', () => this.size());
+    this.size(); addEventListener('resize', () => { this.size(); if (this.cur) this.draw(); });
     return true;
   },
   pass(mat, target){ this.quad.material = mat; this.r.setRenderTarget(target || null); this.r.render(this.qScene, this.qCam); },
@@ -278,7 +278,7 @@ const World = {
       const t = performance.now(), dt = Math.min(.1, (t - last) / 1000); last = t;
       this.step(dt);
       acc.push(dt); if (acc.length >= 120){ const avg = acc.reduce((a, b) => a + b, 0) / acc.length; acc = [];
-        if (avg > 1 / 40 && tier < 3 && !Q.get('scale')){ tier++; this.Q.scale = [1, .85, .72, .6][tier]; this.Q.clouds = [64, 48, 34, 24][tier]; this.size(); console.info('quality tier', tier); } }
+        if (avg > 1 / 40 && tier < 3 && !Q.get('scale')){ tier++; this.Q.scale = [1, .85, .72, .6][tier]; this.Q.clouds = [64, 48, 34, 24][tier]; this.size(); if (this.ok && this.cur) this.draw(); console.info('quality tier', tier); } }   // redraw at once: a resized canvas is blank, and presenting it flashes a black frame
       requestAnimationFrame(tick); };
     requestAnimationFrame(tick);
   },
