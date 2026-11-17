@@ -758,14 +758,13 @@ addEventListener('load', () => setTimeout(() => {
   const G = '#f0b35a', W = '#ece6da', M = '#c2bba9', B = '#6fb3ff', RED = '#ff7d6f';
   // real places: Philadelphia 39.95 N 75.17 W, Memphis 35.15 N 90.05 W, Denver 39.74 N 104.99 W
   const CITY = [['Philadelphia', 39.95, -75.17, G], ['Memphis', 35.15, -90.05, B], ['Denver', 39.74, -104.99, B]];
-  const NOON = [-62, -75.17, -90.05, -104.99, -104.99, -104.99, -104.99]; // where the noon line stands at each step
+  const NOON = [-62, -75.17, -90.05, -104.99, -104.99, -104.99]; // 'If It Knew: 1 Hour = 15°' step cut // where the noon line stands at each step
   const WORDS = [
     ['Philadelphia, Memphis, Denver', ''], // just the three cities: no latitudes, no Polaris line
     ['Noon in Philadelphia', 'The Sun at its highest. Philadelphia sets its clock: 12:00.'],
     ['An Hour Later, Noon in Memphis', 'Noon slides west. Philadelphia is already at 1:00.'],
     ['Two Hours Later, Noon in Denver', 'Each city knows its own noon.'],
     ['Denver Knows Its Noon. What Time Is It in Philadelphia?', 'Without Philadelphia’s time, Denver cannot say how far west it is.'],
-    ['If It Knew: 1 Hour = 15°, 2 Hours = 30°', 'Longitude is a difference in time.'],
     ['Sound Familiar? Eastern, Central, Mountain', 'In 1883 the railroads drew U.S. time zones one hour, 15°, apart.']];
   const cam = { yaw: 7, pitch: 38 * Math.PI / 180, R: 1650, cx: 800, cy: 500 };
   const P = V3.orbitProj(cam);
@@ -781,8 +780,8 @@ addEventListener('load', () => setTimeout(() => {
     // the globe, close in on the United States
     const gr = ctx.createRadialGradient(800, cam.cy - cam.R * .2, 0, 800, cam.cy, cam.R); gr.addColorStop(0, '#244a78'); gr.addColorStop(1, '#0d1d36');
     ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(800, cam.cy, cam.R, 0, 7); ctx.fill();
-    // time zones (step 6): idealized bands 15° wide around 75, 90, 105, 120 W
-    if (k === 6) { const a = S.fade(now, 200, 900); [['Eastern', -75], ['Central', -90], ['Mountain', -105], ['Pacific', -120]].forEach(([n, c], i) => {
+    // time zones (step 5): idealized bands 15° wide around 75, 90, 105, 120 W
+    if (k === 5) { const a = S.fade(now, 200, 900); [['Eastern', -75], ['Central', -90], ['Mountain', -105], ['Pacific', -120]].forEach(([n, c], i) => {
         ctx.save(); ctx.globalAlpha = a * (i % 2 ? .13 : .11); ctx.fillStyle = i % 2 ? B : G; ctx.beginPath(); let first = true;
         for (const p of [...mer(c + 7.5), ...mer(c - 7.5).reverse()]) { const q = P(p); first ? ctx.moveTo(q.x, q.y) : ctx.lineTo(q.x, q.y); first = false; } ctx.closePath(); ctx.fill(); ctx.restore();
         const q = P(ll(28.5, c)); S.text(n, q.x, q.y, 38, i % 2 ? B : G, 'center', a, 600); S.text(`${-c}° W`, q.x, q.y + 42, 30, W, 'center', a); }); }
@@ -792,9 +791,6 @@ addEventListener('load', () => setTimeout(() => {
       ctx.save(); ctx.shadowColor = G; ctx.shadowBlur = 18; path(mer(noon, 22, 46.5), G, 5); ctx.restore();
       const sg = ctx.createRadialGradient(top.x, top.y - 40, 0, top.x, top.y - 40, 44); sg.addColorStop(0, '#ffe39a'); sg.addColorStop(.5, G); sg.addColorStop(1, 'rgba(240,179,90,0)'); ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(top.x, top.y - 40, 44, 0, 7); ctx.fill();
       S.text('Noon', top.x + 52, top.y - 32, 34, G, 'left', 1, 600); }
-    // the longitudes, revealed only at step 5
-    if (k === 5) { CITY.forEach(([n, la, lo, col], i) => { const a = S.fade(now, 300 + i * 500, 600); ctx.save(); ctx.globalAlpha = a; path(mer(lo, 25, 49), col, 3.5, [12, 8]); ctx.restore();
-        const q = P(ll(la, lo)); S.text(`${Math.round(-lo)}° W`, q.x, q.y + 62, 46, col, 'center', a, 600); if (i) S.text(`${i} hour${i > 1 ? 's' : ''} = ${i * 15}° west`, q.x, q.y + 112, 34, G, 'center', S.fade(now, 1700 + i * 400, 600)); }); }
     // the cities, and each one's clock (local solar time)
     CITY.forEach(([n, la, lo, col], i) => { const q = P(ll(la, lo)); const lit = k >= 1 && k <= 4 && Math.abs(lo - noon) < 1.2;
       if (lit) { ctx.save(); ctx.strokeStyle = G; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(q.x, q.y, 26 + 5 * Math.sin(now / 110), 0, 7); ctx.stroke(); ctx.restore(); }
