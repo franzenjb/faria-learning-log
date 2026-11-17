@@ -625,64 +625,68 @@ addEventListener('load', () => setTimeout(() => {
 }, 0));
 
 
-/* ---------- The Earth is a 24-hour clock: the globe, tip it to the pole, 24 hours, 15° slices, longitude, then the problem ---------- */
+/* ---------- The Earth is a 24-hour clock: two ideas, one at a time, then merge them. 360° in a circle, 24 hours in a day, one turn = one day, so 1 hour = 15° ---------- */
 addEventListener('load', () => setTimeout(() => {
-  const el = [...document.querySelectorAll('section')].find(x => x.dataset.title === 'Hours are slices'); if (!el || typeof drawCoast !== 'function') return;
-  const text = el.querySelector('.text'); if (text) text.style.display = 'none'; el.classList.add('wide');
-  const stage = el.querySelector('.stage'); stage.innerHTML = '<canvas class="hc-c" style="position:absolute;inset:0;width:100%;height:100%;display:block"></canvas>';
-  const c = stage.querySelector('canvas'), ctx = c.getContext('2d'), D = Math.PI / 180;
-  const G = '#f0b35a', W = '#ece6da', M = '#c2bba9';
-  const STEP = [
-    { top: 'The Earth', cap: 'It turns, all day, every day.' },
-    { top: 'Tip it over', cap: 'Look straight down on the North Pole.' },
-    { top: 'One turn every 24 hours', cap: '' },
-    { top: '360° ÷ 24 hours = 15° an hour', cap: 'Cut the Earth into 24 slices, one for each hour.' },
-    { top: 'Those slices are longitude', cap: 'How far east or west you are: 15° for every hour.' },
-    { top: 'So how do you measure it?', cap: 'Latitude had Polaris. Longitude has no star, and the sky never stops turning.' }
-  ];
-  let k = 0, pitch = 0.3, pT = 0.3, yaw = 0, t0 = performance.now(), last = performance.now();
-  const go = i => { k = i; pT = k === 0 ? 0.3 : Math.PI / 2; t0 = performance.now(); };
-  V3.steps(el, STEP.length - 1, go);
-  const font = (px, w = 400) => `${w} ${px}px Georgia,serif`;
-  const label = (s, x, y, px, col, align = 'center') => { ctx.font = font(px); const room = c.width / (devicePixelRatio || 1) * .92, tw = ctx.measureText(s).width; if (align === 'center' && tw > room) { px = px * room / tw; ctx.font = font(px); } ctx.textAlign = align; ctx.textBaseline = 'middle'; ctx.lineWidth = 6; ctx.strokeStyle = 'rgba(8,12,22,.85)'; ctx.strokeText(s, x, y); ctx.fillStyle = col; ctx.fillText(s, x, y); };
-  const frame = now => {
-    requestAnimationFrame(frame); if (!el.classList.contains('active')) { last = now; return; }
-    const r = stage.getBoundingClientRect(), dpr = devicePixelRatio || 1; if (!r.width) return;
-    if (c.width !== Math.round(r.width * dpr)) { c.width = Math.round(r.width * dpr); c.height = Math.round(r.height * dpr); }
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); const w = r.width, h = r.height; ctx.clearRect(0, 0, w, h);
-    const dt = Math.min(.05, (now - last) / 1000); last = now;
-    pitch += (pT - pitch) * Math.min(1, dt * 2.2); yaw += dt * (k >= 2 ? .35 : .12);
-    const cx = w / 2, cy = h * .53, R = Math.min(w, h) * .3;
-    const proj = v => { const cyw = Math.cos(yaw), syw = Math.sin(yaw), x1 = v[0] * cyw + v[2] * syw, z1 = v[2] * cyw - v[0] * syw, y1 = v[1];
-      const cp = Math.cos(pitch), sp = Math.sin(pitch), y2 = y1 * cp - z1 * sp, z2 = y1 * sp + z1 * cp; return { x: cx + R * x1, y: cy - R * y2, z: z2 }; };
-    const path = (pts, col, wd, dash) => { ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.setLineDash(dash || []); ctx.beginPath(); let pen = false; for (const p of pts) { const q = proj(p); if (q.z >= 0) { pen ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); pen = true; } else pen = false; } ctx.stroke(); ctx.setLineDash([]); };
-    // the globe
-    const g = ctx.createRadialGradient(cx - R * .35, cy - R * .35, R * .05, cx, cy, R); g.addColorStop(0, '#2f5a8c'); g.addColorStop(.7, '#15294a'); g.addColorStop(1, '#0b1526');
-    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fill();
-    path(Array.from({ length: 73 }, (_, i) => ll(0, i * 5)), 'rgba(240,179,90,.5)', 1.5);
+  const el = v3Find('Hours are slices'); if (!el || typeof drawCoast !== 'function') return;
+  const G = '#f0b35a', B = '#6fb3ff', W = '#ece6da', M = '#c2bba9', D = Math.PI / 180;
+  const TOP = ['The Earth Turns', 'Look Down on the North Pole', 'Idea 1: A Circle Has 360°', 'Idea 2: A Day Has 24 Hours', 'Put Them Together: One Turn = One Day', 'So 1 Hour = 15°', 'Those Slices Are Longitude', 'So How Do You Measure It?'];
+  const CX = 470, CY = 545, R = 245, RH = R + 42, RD = R + 112; // globe, hour ring, degree ring
+  let yaw = 20, pitch = .3, last = performance.now(), lastStep = -1, yaw4 = 0;
+  const arc = (r, a0, a1, col, wd) => { const c = S.ctx; /* angles in degrees, counterclockwise */ c.strokeStyle = col; c.lineWidth = wd; c.beginPath(); c.arc(CX, CY, r, -a0 * D, -a1 * D, a1 > a0); c.stroke(); };
+  const pt = (r, a) => [CX + r * Math.cos(a * D), CY - r * Math.sin(a * D)];
+  const S = V3.scene(el, TOP.length, (S, ctx, now) => {
+    const k = S.step, age = S.age(now), dt = Math.min(.05, (now - last) / 1000); last = now;
+    if (k !== lastStep) { if (k === 4) yaw4 = yaw; lastStep = k; }
+    pitch += ((k === 0 ? .3 : Math.PI / 2) - pitch) * Math.min(1, dt * 2.4);
+    if (k === 4) yaw = yaw4 + 360 * S.ease(Math.min(1, Math.max(0, age - 600) / 9000)); else yaw += dt * (k === 0 ? 8 : 4);
+    S.stars(now, .6);
+    const proj = V3.orbitProj({ yaw, pitch, cx: CX, cy: CY, R });
+    const path = (pts, col, wd) => { ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.beginPath(); let pen = false; for (const p of pts) { const q = proj(p); if (q.z >= 0) { pen ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); pen = true; } else pen = false; } ctx.stroke(); };
+    const mer = lon => Array.from({ length: 19 }, (_, j) => ll(-90 + j * 10, lon));
+    // globe
+    const g = ctx.createRadialGradient(CX - R * .35, CY - R * .35, R * .05, CX, CY, R); g.addColorStop(0, '#2f5a8c'); g.addColorStop(.7, '#15294a'); g.addColorStop(1, '#0b1526');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(CX, CY, R, 0, 7); ctx.fill();
     drawCoast(ctx, proj, 1, { color: 'rgba(236,230,218,.8)' });
-    // night: from above the pole, the half away from the Sun (the Sun is to the right)
-    if (k >= 2) { ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, R, Math.PI / 2, Math.PI * 1.5); ctx.closePath(); ctx.fillStyle = 'rgba(3,6,14,.55)'; ctx.fill(); ctx.restore();
-      ctx.fillStyle = G; ctx.beginPath(); ctx.arc(w - 70, cy, 26, 0, Math.PI * 2); ctx.fill(); for (let i = -2; i <= 2; i++) { ctx.strokeStyle = 'rgba(240,179,90,.5)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(w - 110, cy + i * R * .35); ctx.lineTo(cx + R + 30, cy + i * R * .35); ctx.stroke(); }
-      label('Sun', w - 70, cy + 50, 22, G); label('day', cx + R * .55, cy - R - 26, 22, W); label('night', cx - R * .55, cy - R - 26, 22, M); }
-    // the 24-hour dial around the globe
-    if (k >= 2) { for (let i = 0; i < 24; i++) { const a = i / 24 * Math.PI * 2, r1 = R + 8, r2 = R + (i % 6 ? 18 : 30); ctx.strokeStyle = i % 6 ? 'rgba(236,230,218,.45)' : W; ctx.lineWidth = i % 6 ? 1.5 : 3; ctx.beginPath(); ctx.moveTo(cx + r1 * Math.cos(a), cy + r1 * Math.sin(a)); ctx.lineTo(cx + r2 * Math.cos(a), cy + r2 * Math.sin(a)); ctx.stroke(); }
-      }
-    // 24 slices, one lit; they ride on the Earth
-    if (k >= 3) { const lit = i => k < 5 && (i === 18 || i === 19); for (let i = 0; i < 24; i++) path(Array.from({ length: 19 }, (_, j) => ll(-90 + j * 10, i * 15)), lit(i) ? G : 'rgba(236,230,218,.35)', lit(i) ? 3 : 1.2);
-      if (k < 5) { const qa = proj(ll(20, -82.5)); if (qa.z > 0) label('15°', qa.x, qa.y, 28, G); } }
-    if (k === 4) { const q = proj(ll(5, -150)); if (q.z > 0) label('longitude', q.x, q.y, 24, W); }
-    if (k === 5) { ctx.fillStyle = 'rgba(5,8,18,.45)'; ctx.fillRect(0, 0, w, h); label('?', cx, cy, R * .9, G); }
-    // words
-    const s = STEP[k], fade = Math.min(1, (now - t0) / 500); ctx.globalAlpha = fade;
-    label(s.top, cx, h * .08, Math.max(30, Math.min(54, w * .04)), W);
-    if (s.cap) label(s.cap, cx, h * .905, Math.max(22, Math.min(34, w * .026)), G);
-    ctx.globalAlpha = 1;
-  };
-  requestAnimationFrame(frame);
+    // night half and the Sun, once the day arrives (the Sun is to the right)
+    if (k >= 3) { ctx.fillStyle = 'rgba(3,6,14,.5)'; ctx.beginPath(); ctx.arc(CX, CY, R, Math.PI / 2, Math.PI * 1.5); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = G; ctx.beginPath(); ctx.arc(CX + RD + 70, CY, 26, 0, 7); ctx.fill(); S.text('Sun', CX + RD + 70, CY + 62, 30, G); }
+    // 24 slices ride on the Earth
+    if (k >= 5) { for (let i = 0; i < 24; i++) path(mer(i * 15), 'rgba(236,230,218,.3)', 1.3);
+ }
+    // one hour on the clock is one 15° wedge: pinned between 12 and 13 so both rings agree
+    if (k === 5) { const a = S.fade(now, 300, 700); ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(240,179,90,.28)'; ctx.strokeStyle = G; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.moveTo(CX, CY); ctx.arc(CX, CY, RD, 0, -15 * D, true); ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore();
+      const q = pt(RD + 48, 24); S.text('15°', q[0], q[1] + 14, 44, G, 'center', a, 600); const h = pt(R - 70, 7.5); S.text('1 Hour', h[0], h[1] + 10, 30, B, 'center', a, 600); }
+    if (k === 0) path(Array.from({ length: 73 }, (_, i) => ll(0, i * 5)), 'rgba(240,179,90,.5)', 1.5);
+    // Idea 1: the degree ring, swept in with a counter on its tip
+    if (k >= 2) { const sw = k === 2 ? 360 * S.ease(Math.min(1, age / 2600)) : 360, dim = k === 2 ? 1 : .55;
+      ctx.globalAlpha = dim; arc(RD, 90, 90 - sw, G, 3);
+      for (let a = 0; a < 360; a += 5) { if (a > sw + .01) continue; const big = a % 90 === 0, q1 = pt(RD - (big ? 16 : a % 15 ? 5 : 10), 90 - a), q2 = pt(RD + (big ? 16 : a % 15 ? 5 : 10), 90 - a); ctx.strokeStyle = G; ctx.lineWidth = big ? 3 : 1.5; ctx.beginPath(); ctx.moveTo(...q1); ctx.lineTo(...q2); ctx.stroke(); }
+      ctx.globalAlpha = 1;
+      if (k === 2) { const tip = pt(RD + 46, 90 - sw); S.text(`${Math.round(sw)}°`, tip[0], tip[1] + 12, 40, G, 'center', 1, 600); } }
+    // Idea 2: the hour ring, a 24-hour clock fixed to the Sun: noon faces the Sun, midnight faces away
+    if (k >= 3) { const sw = k === 3 ? 24 * S.ease(Math.min(1, age / 2600)) : 24;
+      arc(RH, 0, sw * 15, B, 3);
+      for (let i = 0; i < 24; i++) { const h = (12 + i) % 24 || 24; if (i > sw - .01) continue; const a = i * 15, big = h % 6 === 0, q1 = pt(RH - 10, a), q2 = pt(RH + (big ? 14 : 8), a); ctx.strokeStyle = B; ctx.lineWidth = big ? 3 : 1.5; ctx.beginPath(); ctx.moveTo(...q1); ctx.lineTo(...q2); ctx.stroke();
+        if (big || k >= 3) { const q = pt(RH + 34, a); S.text(String(h), q[0], q[1] + 10, big ? 32 : 24, big ? B : 'rgba(111,179,255,.75)', 'center', 1, big ? 600 : 400); } } }
+    // Put them together: Greenwich turns once; the sector shows how far it has turned, in degrees and in hours
+    if (k === 4) { const turned = yaw - yaw4, a0 = yaw4, snap = Math.floor(turned / 15 + 1e-6) * 15;
+      ctx.fillStyle = 'rgba(240,179,90,.16)'; ctx.beginPath(); ctx.moveTo(CX, CY); ctx.arc(CX, CY, RH - 12, -a0 * D, -(a0 + turned) * D, true); ctx.closePath(); ctx.fill();
+      path(mer(0), G, 4); const q = proj(ll(30, 0)); if (q.z > 0) S.text('Greenwich', q.x, q.y, 28, G, 'center', 1, 600);
+      S.text(`${snap}°`, 1260, 470, 120, G, 'center', 1, 600); S.text('=', 1260, 560, 70, W); S.text(`${snap / 15} hour${snap === 15 ? '' : 's'}`, 1260, 660, 100, B, 'center', 1, 600); }
+    // the right-hand column: the two ideas, then the division
+    const col = (txt, y, px, c, a = 1, wt = 600) => S.text(txt, 1260, y, px, c, 'center', a, wt, 600);
+    if (k === 0) col('It turns, all day, every day.', 520, 44, M, S.fade(now), 400);
+    if (k === 1) col('One full turn every day.', 520, 44, M, S.fade(now), 400);
+    if (k === 2) { col('360°', 470, 170, G, S.fade(now, 1800)); col('in every circle', 580, 46, M, S.fade(now, 2200), 400); }
+    if (k === 3) { col('360°', 330, 110, G, .5); col('in a circle', 400, 36, M, .5, 400); col('24 hours', 560, 120, B, S.fade(now, 1800)); col('in a day', 650, 46, M, S.fade(now, 2200), 400); }
+    if (k === 4 && age > 9800) col('360° = 24 hours', 830, 64, W, S.fade(now, 9800));
+    if (k === 5) { col('360° ÷ 24', 380, 96, W, S.fade(now)); col('= 15°', 500, 110, G, S.fade(now, 500)); col('1 hour = 15°', 680, 90, G, S.fade(now, 1100)); col('4 minutes = 1°', 790, 50, M, S.fade(now, 1700), 400); }
+    if (k === 6) { col('How far east or west', 430, 54, W, S.fade(now), 400); col('1 hour = 15°', 560, 96, G, S.fade(now, 400)); col('of longitude', 660, 54, W, S.fade(now, 600), 400); }
+    if (k === 7) { ctx.fillStyle = 'rgba(5,8,18,.45)'; ctx.fillRect(0, 0, 1600, 1000); S.text('?', CX, CY + 60, 300, G, 'center', 1, 600); col('Latitude had Polaris.', 470, 54, W, S.fade(now), 400); col('Longitude has no star.', 570, 54, G, S.fade(now, 500), 400); }
+    S.text(TOP[k], 800, 80, 64, W, 'center', S.fade(now, 0, 600), 400, 1540);
+  });
 }, 0));
-
-
 
 
 /* ---------- Scene engine: one canvas, a 1600×1000 virtual stage, steps on → / ← (and the on-screen arrows) ---------- */
