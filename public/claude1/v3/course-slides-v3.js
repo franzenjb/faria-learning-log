@@ -760,7 +760,7 @@ addEventListener('load', () => setTimeout(() => {
   const CITY = [['Philadelphia', 39.95, -75.17, G], ['Memphis', 35.15, -90.05, B], ['Denver', 39.74, -104.99, B]];
   const NOON = [-62, -75.17, -90.05, -104.99, -104.99, -104.99, -104.99]; // where the noon line stands at each step
   const WORDS = [
-    ['Philadelphia, Memphis, Denver', 'Polaris reads about 40° in both Philadelphia and Denver. Same latitude.'],
+    ['Philadelphia, Memphis, Denver', ''], // just the three cities: no latitudes, no Polaris line
     ['Noon in Philadelphia', 'The Sun at its highest. Philadelphia sets its clock: 12:00.'],
     ['An Hour Later, Noon in Memphis', 'Noon slides west. Philadelphia is already at 1:00.'],
     ['Two Hours Later, Noon in Denver', 'Each city knows its own noon.'],
@@ -803,7 +803,6 @@ addEventListener('load', () => setTimeout(() => {
       if (k >= 1 && k <= 4) { const h = 12 + (lo - noon) / 15, isNoon = Math.abs(h - 12) < .03, unknown = k === 4 && i === 0, shown = noon > lo - 0.01 || i === 0;
         if (!shown && k < 4) return;
         S.card(q.x - 150, q.y + 44, 300, 110, n, unknown ? '?' : isNoon ? '12:00 Noon' : t12(h), '', isNoon ? G : col, unknown ? S.fade(now, 600) : 1); } });
-    if (k === 0) { const a = S.fade(now, 600); CITY.forEach(([n, la, lo, col]) => { const q = P(ll(la, lo)); S.text(`${la.toFixed(0)}° N`, q.x, q.y + 46, 30, M, 'center', a); }); }
     S.words(now, WORDS[k][0], WORDS[k][1]);
   });
 }, 0));
