@@ -1015,9 +1015,9 @@ ctx.restore();
 
 // ---- what you see: the same angle from where you stand (only when toggled on)
 if(!view)return;
-const vx0=w*.6,vx1=w*.96,vy1=south?h*.72:h*.5,ox=(vx0+vx1)/2,Rs=Math.min((vx1-vx0)/2-10,h*(south?.42:.32));ctx.fillStyle='rgba(10,14,24,.6)';ctx.strokeStyle='#283048';ctx.lineWidth=1;ctx.beginPath();ctx.roundRect?ctx.roundRect(vx0-14,vy1-Rs-64,vx1-vx0+28,south?Rs+128:2*Rs+100,12):ctx.rect(vx0-14,vy1-Rs-64,vx1-vx0+28,south?Rs+128:2*Rs+100);ctx.fill();ctx.stroke();
+const vx0=w*.6,vx1=w*.96,vy1=h*.72,ox=(vx0+vx1)/2,Rs=Math.min((vx1-vx0)/2-10,h*.42);ctx.fillStyle='rgba(10,14,24,.6)';ctx.strokeStyle='#283048';ctx.lineWidth=1;ctx.beginPath();ctx.roundRect?ctx.roundRect(vx0-14,vy1-Rs-64,vx1-vx0+28,Rs+128,12):ctx.rect(vx0-14,vy1-Rs-64,vx1-vx0+28,Rs+128);ctx.fill();ctx.stroke();
 text(ctx,south?'What You See · Facing South':'What You See · Facing North',ox,vy1-Rs-38,{size:12,color:'#9a9382',align:'center'});
-if(south){ctx.strokeStyle='rgba(236,230,218,.12)';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(ox,vy1,Rs,1.5*Math.PI,TAU);ctx.stroke();ctx.strokeStyle='rgba(236,230,218,.4)';ctx.beginPath();ctx.arc(ox,vy1,Rs,Math.PI,1.5*Math.PI);ctx.stroke();
+ctx.strokeStyle='rgba(236,230,218,.12)';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(ox,vy1,Rs,1.5*Math.PI,TAU);ctx.stroke();ctx.strokeStyle='rgba(236,230,218,.4)';ctx.beginPath();ctx.arc(ox,vy1,Rs,Math.PI,1.5*Math.PI);ctx.stroke();
 for(let d=0;d<=90;d+=10){const q=d*DEG;const big=d%30===0;ctx.strokeStyle=big?'#ece6da':'rgba(236,230,218,.4)';ctx.lineWidth=big?2:1;ctx.beginPath();ctx.moveTo(ox-Rs*Math.cos(q),vy1-Rs*Math.sin(q));ctx.lineTo(ox-(Rs-(big?14:7))*Math.cos(q),vy1-(Rs-(big?14:7))*Math.sin(q));ctx.stroke();if(big)text(ctx,d===90?'90° · overhead':d+'°',ox-(Rs+18)*Math.cos(q),vy1-(Rs+18)*Math.sin(q)+4,{size:12,color:'#cfc8ba',align:'center',font:'mono'});}
 ctx.strokeStyle='#6fd48a';ctx.lineWidth=3.5;ctx.beginPath();ctx.moveTo(vx0,vy1);ctx.lineTo(vx1,vy1);ctx.stroke();text(ctx,south?'south horizon':'north horizon',vx0+4,vy1+20,{size:12,color:'#6fd48a'});text(ctx,south?'north':'south',vx1-4,vy1+20,{size:12,color:'#9a9382',align:'right'});
 const q=a,sx=ox-Rs*Math.cos(q),sy=vy1-Rs*Math.sin(q);ctx.strokeStyle='#6fb3ff';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(ox,vy1);ctx.lineTo(sx,sy);ctx.stroke();ctx.strokeStyle='#f0b35a';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(ox,vy1,Rs*.3,Math.PI,Math.PI+a);ctx.stroke();
@@ -1030,19 +1030,6 @@ ctx.setLineDash([5,6]);ctx.strokeStyle='rgba(240,179,90,.8)';ctx.lineWidth=2;ctx
 text(ctx,'Southern Cross',G[0]+16,G[1]-12,{size:18,color:'#dfe7ff'});}}
 else{const sgl=ctx.createRadialGradient(sx,sy,0,sx,sy,18);sgl.addColorStop(0,'rgba(190,220,255,.9)');sgl.addColorStop(1,'rgba(111,179,255,0)');ctx.fillStyle=sgl;ctx.beginPath();ctx.arc(sx,sy,18,0,TAU);ctx.fill();ctx.fillStyle='#ffffff';ctx.beginPath();ctx.arc(sx,sy,4,0,TAU);ctx.fill();text(ctx,'Polaris',sx+14,a>1.2?sy+30:sy-16,{size:13,color:'#dfe7ff'});}
 ctx.save();ctx.translate(ox,vy1);ctx.scale(1.1,1.1);ctx.fillStyle='#ece6da';ctx.fill(man);ctx.beginPath();ctx.arc(0,-50,6.5,0,TAU);ctx.fill();ctx.restore();
-}else{
-// facing north: Polaris stays put; your floor (and you) tilt away from it by your latitude (Jeff, 17 Nov)
-const c=Math.cos(a),s=Math.sin(a),P=(x,y)=>[ox+x*c+y*s,vy1-x*s+y*c],Lf=Rs+12;
-ctx.setLineDash([6,6]);ctx.strokeStyle='rgba(236,230,218,.45)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(vx0,vy1);ctx.lineTo(vx1,vy1);ctx.stroke();ctx.setLineDash([]);
-if(lat>=4)text(ctx,'floor at the equator',vx1-4,vy1+26,{size:15,color:'#cfc8ba',align:'right'});
-ctx.strokeStyle='rgba(236,230,218,.4)';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(ox,vy1,Rs,Math.PI-a,1.5*Math.PI-a);ctx.stroke();
-for(let d=0;d<=90;d+=10){const q=d*DEG,big=d%30===0,r=Rs-(big?14:7),A=P(-Rs*Math.cos(q),-Rs*Math.sin(q)),B=P(-r*Math.cos(q),-r*Math.sin(q));ctx.strokeStyle=big?'#ece6da':'rgba(236,230,218,.4)';ctx.lineWidth=big?2:1;ctx.beginPath();ctx.moveTo(A[0],A[1]);ctx.lineTo(B[0],B[1]);ctx.stroke();if(big&&d>0){const Q=P(-(Rs+20)*Math.cos(q),-(Rs+20)*Math.sin(q));text(ctx,d+'°',Q[0],Q[1]+4,{size:13,color:'#cfc8ba',align:'center',font:'mono'});}}
-{const A=P(-Lf,0),B=P(Lf,0);ctx.strokeStyle='#6fd48a';ctx.lineWidth=3.5;ctx.beginPath();ctx.moveTo(A[0],A[1]);ctx.lineTo(B[0],B[1]);ctx.stroke();const N=P(Lf*.75,-16);text(ctx,'your floor',N[0],N[1],{size:15,color:'#6fd48a',align:'right'});}
-const sx=ox-Rs,sy=vy1;ctx.strokeStyle='#6fb3ff';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(ox,vy1);ctx.lineTo(sx,sy);ctx.stroke();
-ctx.strokeStyle='#f0b35a';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(ox,vy1,Rs*.3,Math.PI-a,Math.PI);ctx.stroke();
-if(lat>=2){const b=Math.max(a/2,.22);text(ctx,fmt(lat)+'° '+H(),ox-Rs*.58*Math.cos(b),vy1+Rs*.58*Math.sin(b)+8,{size:20,color:'#f0b35a',font:'mono',align:'center',weight:600});}
-{const sgl=ctx.createRadialGradient(sx,sy,0,sx,sy,18);sgl.addColorStop(0,'rgba(190,220,255,.9)');sgl.addColorStop(1,'rgba(111,179,255,0)');ctx.fillStyle=sgl;ctx.beginPath();ctx.arc(sx,sy,18,0,TAU);ctx.fill();ctx.fillStyle='#ffffff';ctx.beginPath();ctx.arc(sx,sy,4,0,TAU);ctx.fill();text(ctx,'Polaris',sx+4,sy-16,{size:15,color:'#dfe7ff'});}
-ctx.save();ctx.translate(ox,vy1);ctx.rotate(-a);ctx.scale(1.1,1.1);ctx.fillStyle='#ece6da';ctx.fill(man);ctx.beginPath();ctx.arc(0,-50,6.5,0,TAU);ctx.fill();ctx.restore();}
 if(!why)text(ctx,'',w*.3,h-54,{size:12,color:'#9a9382',align:'center'});}});}
 
 /* ---------- 3 · Hours are slices ---------- */
