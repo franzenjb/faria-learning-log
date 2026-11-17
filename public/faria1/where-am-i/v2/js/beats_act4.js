@@ -108,7 +108,8 @@ B({ id: 'vote', act: A4, title: 'Vote: how much did it lose?', sec: 'h4', seg: 1
 B({ id: 'reveal', act: A4, title: 'About five seconds', sec: 'h4', seg: 2, min: .25, dur: 6.5, cam: wCam(14, 4, 7.6, { shift: [-.04, 0], c: [0, 1.12, 0] }), drift: { az: -.5 },
   plate: { src: 'img/h4.jpg', side: 'r', cap: 'H4, Royal Observatory Greenwich. Photo: Colonel Warden, CC BY-SA 3.0.', h: '60vh', d: 3.5 },
   h: 'About five seconds', hs: 1.75, l: 'Five seconds, in 81 days at sea.', tpos: 'tl', tdelay: 2.4,
-  cue: 'Reveal: about five seconds in 81 days. Photo of the real H4.' });
+  cue: 'Reveal: about five seconds in 81 days. Photo of the real H4.',
+  notes: `H4's 5-second error on the Jamaica voyage was 75″, about 1.25′ of longitude. That's roughly a nautical mile at the equator and a bit less on the way to Jamaica.` });
 const errFig = (() => { const X = m => 30 + m / 30 * 780; let s = `<svg width="900" height="230" viewBox="0 0 860 220">`;
   s += `<line x1="${X(0)}" y1="120" x2="${X(30)}" y2="120" stroke="rgba(232,228,220,.4)" stroke-width="1"/>`;
   [0, 10, 20, 30].forEach(m => { s += `<line x1="${X(m)}" y1="116" x2="${X(m)}" y2="124" stroke="rgba(232,228,220,.45)"/><text x="${X(m)}" y="146" text-anchor="middle" font-size="14" fill="rgba(232,228,220,.55)">${m}′</text>`; });
@@ -120,7 +121,15 @@ const errFig = (() => { const X = m => 30 + m / 30 * 780; let s = `<svg width="9
 B({ id: 'h4error', act: A4, title: 'Five seconds ≈ a mile', sec: 'h4', seg: 3, min: .35, dur: 5, cam: wCam(-30, 10, 7, { shift: [.25, 0], c: [0, -.3, 0] }), p: { h4bg: .6 },
   fig: errFig, figpos: 'fp-b', figd: 1.4,
   h: 'Five seconds ≈ a mile', hs: 1, l: 'The prize asked for half a degree.', tpos: 'tl', tdelay: 1,
-  cue: '5 s → 1¼′ of longitude ≈ a mile, against the 30′ allowed.' });
+  cue: '5 s → 1¼′ of longitude ≈ a mile, against the 30′ allowed.',
+  notes: `It all comes from one fact: Earth turns 360° in 24 hours.
+1 hour of time = 15° of longitude
+4 minutes of time = 1°
+1 minute of time = 15 arcminutes (15′)
+4 seconds of time = 1 arcminute (1′)
+1 second of time = 15 arcseconds (15″)
+At the equator, 1′ of longitude is 1 nautical mile. So 1 minute of clock error is about 15 nautical miles, and 1 second is about a quarter mile. Farther from the equator, the meridians squeeze together and the distances shrink. At Greenwich's latitude they're only about 62% as big.
+H4's 5-second error on the Jamaica voyage was 75″, about 1.25′ of longitude. That's roughly a nautical mile at the equator and a bit less on the way to Jamaica.` });
 const prizeFig = (() => { const X = v => 30 + v / 20000 * 780; let s = `<svg width="900" height="200" viewBox="0 0 860 190">`;
   s += `<rect x="${X(0)}" y="80" width="${X(10000) - X(0)}" height="26" fill="#F5D398"/><rect x="${X(10000) + 2}" y="80" width="${X(18750) - X(10000) - 2}" height="26" fill="#C9A86A"/>`;
   s += `<rect x="${X(18750) + 2}" y="80.5" width="${X(20000) - X(18750) - 3}" height="25" fill="none" stroke="rgba(232,228,220,.55)" stroke-dasharray="3 3"/>`;

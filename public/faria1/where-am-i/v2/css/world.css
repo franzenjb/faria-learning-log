@@ -81,7 +81,7 @@ body:not(.rm) .plate.in img{ animation:drift 40s ease-in-out infinite alternate;
 #notes{ position:fixed; left:0; right:0; bottom:0; max-height:42vh; overflow:auto; z-index:40; padding:18px 26px 22px; background:rgba(6,9,14,.93); border-top:1px solid rgba(255,255,255,.08);
   font:400 17px/1.55 'Newsreader', Georgia, serif; color:#E8E4DC; }
 #notes .nh{ font:500 14px/1.4 'Inter'; color:#AEB8C6; margin-bottom:8px; } #notes .nh b{ color:#fff; font-size:16px; } #notes .nh em{ display:block; font-style:normal; color:#E58A6E; font-size:11px; letter-spacing:.08em; margin-top:2px; }
-#notes .ns{ font-size:20px; } #notes .nc, #notes .nn{ margin-top:8px; font:500 13px/1.4 'Inter'; color:#E9B860; } #notes .nc{ color:#9fb0c4; }
+#notes .ns{ font-size:20px; } #notes .nnotes{ margin-top:10px; max-height:28vh; overflow:auto; white-space:pre-line; font-size:16px; line-height:1.5; color:#E8E4DC; } #notes .nc, #notes .nn{ margin-top:8px; font:500 13px/1.4 'Inter'; color:#E9B860; } #notes .nc{ color:#9fb0c4; }
 #help{ position:fixed; right:18px; bottom:34px; z-index:45; padding:16px 20px; background:rgba(6,9,14,.94); border:1px solid rgba(255,255,255,.08); border-radius:6px; font:400 13px/1.5 'Inter'; color:#D9DEE6; }
 #help h4{ margin:0 0 8px; font:600 12px 'Inter'; letter-spacing:.2em; text-transform:uppercase; color:#E9B860; } #help td:first-child{ color:#fff; padding-right:18px; font-family:'Geist Mono'; font-size:12px; }
 #overview{ position:fixed; inset:0; z-index:42; background:rgba(3,5,9,.92); display:flex; flex-direction:column; padding:3vh 3vw; }
@@ -104,6 +104,8 @@ body.presenter{ background:#0B0F15; overflow:auto; cursor:auto; }
 .pv .next{ margin-top:18px; font:600 17px 'Inter'; color:#E9B860; }
 .pv .full{ margin-top:22px; font:400 16px/1.6 'Newsreader'; color:#8994a3; max-width:70em; } .pv .full mark{ background:none; color:#E6E9EE; } .pv .full .lbl{ font:600 11px 'Inter'; letter-spacing:.2em; text-transform:uppercase; margin-bottom:4px; color:#5f6b7a; }
 .pv .clk{ color:#E9B860; }
+.pv .notes{ margin-top:18px; max-width:62em; max-height:42vh; overflow:auto; white-space:pre-line; font:400 17px/1.55 'Newsreader', Georgia, serif; color:#E8E4DC; padding:10px 0 4px; border-top:1px solid #1f2733; }
+.pv .notes .lbl{ font:600 11px 'Inter'; letter-spacing:.2em; text-transform:uppercase; margin-bottom:8px; color:#5f6b7a; white-space:normal; }
 .pv .keys{ margin-top:26px; font-size:12px; color:#5f6b7a; }
 .lab.tick i{ width:30px; height:1.5px; left:-15px; top:-.75px; }
 .lab.tick span{ left:24px; font-size:calc(var(--u)*1.2); }

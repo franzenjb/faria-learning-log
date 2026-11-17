@@ -6,6 +6,7 @@ const UI = (() => {
   function fmtMin(m){ const s = Math.round(m * 60); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
   function cum(k){ let t = 0; for (let i = 0; i <= k && i < W.beats.length; i++) if (!W.beats[i].appendix) t += W.beats[i].min || 0; return t; }
   function total(){ return mainBeats().reduce((a, b) => a + (b.min || 0), 0); }
+  const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   function scriptFor(b){ const n = window.NOTES && NOTES[b.sec]; if (!n) return { seg: b.say || '', full: '' };
     const parts = n.script.split(/\s*\[click\]\s*/); const seg = b.say || parts[Math.min(b.seg || 0, parts.length - 1)] || '';
     const full = parts.map((p, i) => i === (b.seg || 0) && !b.say ? `<mark>${p}</mark>` : p).join(' <span class="clk">▸</span> ');
@@ -13,7 +14,7 @@ const UI = (() => {
   function state(){ const b = W.beats[W.k] || {}, nx = W.beats[W.k + 1];
     const sc = scriptFor(b);
     return { type: 'state', k: W.k, n: mainBeats().length, id: b.id, title: b.title, act: b.act, min: b.min, cum: cum(W.k), total: total(), seg: sc.seg, full: sc.full,
-      cue: b.cue || '', next: nx ? (nx.cue || nx.title) : '(end)', nextTitle: nx ? nx.title : '', appendix: !!b.appendix, started: W.started }; }
+      cue: b.cue || '', notes: b.notes || '', next: nx ? (nx.cue || nx.title) : '(end)', nextTitle: nx ? nx.title : '', appendix: !!b.appendix, started: W.started }; }
   function init(){
     addEventListener('keydown', key, true);
     document.addEventListener('click', e => { if (e.target.closest('#ui, #notes, #overview, #help, button, a, input')) return; if (e.button === 0) W.next(); });
@@ -62,7 +63,7 @@ const UI = (() => {
   }
   function renderNotes(){ const n = $('notes'); if (n.classList.contains('hidden')) return; const st = state();
     n.innerHTML = `<div class="nh"><b>${st.k + 1}. ${st.title}</b> <span>${st.act || ''} · ${st.min ? fmtMin(st.min) : '—'} · finish by ${fmtMin(st.cum)} of ${fmtMin(st.total)}</span><em>visible to the audience if this window is shared — press P for a private presenter window</em></div>
-      <div class="ns">${st.seg}</div><div class="nc">On screen: ${st.cue}</div><div class="nn">Next click → ${st.next}</div>`; }
+      <div class="ns">${st.seg}</div>${st.notes ? `<div class="nnotes">${esc(st.notes)}</div>` : ''}<div class="nc">On screen: ${st.cue}</div><div class="nn">Next click → ${st.next}</div>`; }
   function broadcast(){ if (UI.pw && !UI.pw.closed) UI.pw.postMessage(state(), '*'); }
   function openPresenter(){ UI.pw = window.open(location.href.split('#')[0].replace(/\?.*$/, '') + '#presenter', 'whereami2_presenter', 'width=1180,height=820'); setTimeout(broadcast, 700); setTimeout(broadcast, 1600); }
   /* overview: the talk as a path through the world */
@@ -95,13 +96,16 @@ const Presenter = {
     if (window.opener) window.opener.postMessage({ type: 'hello' }, '*');
     setInterval(() => this.render(), 1000);
   },
+  esc(s){ return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); },
   render(){ const st = this.st; if (!st) return; const f = UI.fmtMin;
     const el = st.started ? (Date.now() - st.started) / 60000 : 0, diff = el - st.cum;
+    const notes = st.notes ? `<div class="notes"><div class="lbl">Speaker notes</div>${this.esc(st.notes)}</div>` : '';
     this.box.innerHTML = `<div class="top"><div><span class="clock">${f(el)}</span> <span class="tgt">elapsed · aim to finish this beat by ${f(st.cum)} of ${f(st.total)}</span>
       <span class="pace ${diff > .5 ? 'late' : ''}">${st.started ? (diff > .5 ? f(diff) + ' behind' : 'on time') : 'timer starts on first click'}</span></div>
       <div class="tgt">${st.appendix ? 'APPENDIX' : 'Beat ' + (st.k + 1) + ' of ' + st.n} · ${f(st.min || 0)}</div></div>
       <div class="act">${st.act || ''}</div><h1>${st.title}</h1>
       <div class="say">${st.seg}</div>
+      ${notes}
       <div class="next">Next click → ${st.next}</div>
       <div class="full"><div class="lbl">Whole section, for context</div>${st.full}</div>
       <div class="keys">Keys typed here drive the talk: → / Space next · ← back · G path · B black</div>`; }

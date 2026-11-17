@@ -46,7 +46,15 @@ B({ id: 'slices', act: A3, title: 'Twenty-four slices', sec: 'clockearth', seg: 
   h: 'Twenty-four slices', l: 'Divide the turn like a clock: each slice is one hour wide.', tpos: 'tl', tcls: 'col', tdelay: 1.6, cue: '24 one-hour slices.' });
 B({ id: 'fifteen', act: A3, title: 'One hour = 15°', sec: 'clockearth', seg: 3, min: .4, dur: 4.5, cam: polar(30, { d: 5.05 }),
   p: { slices: .45 }, show: ['wedge15'], labels: ring(30, 0),
-  h: '1 hour = 15°', hs: 2, l: '360 ÷ 24 = 15. Every hour of turning is fifteen degrees of longitude.', tpos: 'tl', tcls: 'col', tdelay: 1.2, cue: 'One slice: one hour = 15°.' });
+  h: '1 hour = 15°', hs: 2, l: '360 ÷ 24 = 15. Every hour of turning is fifteen degrees of longitude.', tpos: 'tl', tcls: 'col', tdelay: 1.2, cue: 'One slice: one hour = 15°.',
+  notes: `It all comes from one fact: Earth turns 360° in 24 hours.
+1 hour of time = 15° of longitude
+4 minutes of time = 1°
+1 minute of time = 15 arcminutes (15′)
+4 seconds of time = 1 arcminute (1′)
+1 second of time = 15 arcseconds (15″)
+At the equator, 1′ of longitude is 1 nautical mile. So 1 minute of clock error is about 15 nautical miles, and 1 second is about a quarter mile. Farther from the equator, the meridians squeeze together and the distances shrink. At Greenwich's latitude they're only about 62% as big.
+H4's 5-second error on the Jamaica voyage was 75″, about 1.25′ of longitude. That's roughly a nautical mile at the equator and a bit less on the way to Jamaica.` });
 B({ id: 'greenwichNoon', act: A3, title: 'Greenwich: zero', sec: 'clockearth', seg: 4, min: .35, dur: 4.5, cam: polar(30),
   p: { slices: .45, mer0: [1, 2], sunVis: 0 }, labels: ring(30, 0).concat([{ a: G.at(51.48, 0, 1.01), t: 'London · noon', cls: 'gold', side: 'r', d: 1.6 }]),
   h: 'Greenwich is zero', l: 'London’s home meridian. With the Sun on it, London sees noon.', tpos: 'tl', tcls: 'col', tdelay: 1.2, cue: 'Greenwich at zero; noon in London.' });
