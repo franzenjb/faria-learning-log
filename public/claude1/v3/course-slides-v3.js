@@ -109,7 +109,7 @@ const V3_TUNE = {
   'Galileo’s clock': { talk: { hide: ['[data-detour]', '#gs-steps [data-s="5"]'] } },
   'The lunar distance': { kicker: '1767 · Nevil Maskelyne’s Almanac' },
   'A clock that could travel': { h1: 'A Clock That Could Travel' },
-  'Washington, 1884': { kicker: 'Washington · October 1884', arrow: ['#pm84-g'], talk: { hide: ['#pm84-fr'] }, hide: ['#pm84-r'], hero: 'Nature Set the Equator. Where Is <b>Zero Longitude</b>?' },
+  'Washington, 1884': { kicker: 'Washington · October 1884', arrow: ['#pm84-q', '#pm84-g'], talk: { hide: ['#pm84-fr'] }, hide: ['#pm84-r'], hero: 'Nature Gives Us One Zero: the <b>Equator</b>, Latitude 0°.' },
   'Where am I, now': { kicker: 'GPS' } // the GPS close is a full V3 scene now (see the end of this file)
 };
 const v3Hero = (el, html) => { let h = el.querySelector('.v3-hero'); const st = el.querySelector('.stage'); if (!st) return; if (!h) { h = document.createElement('div'); h.className = 'v3-hero'; if (getComputedStyle(st).position === 'static') st.style.position = 'relative'; st.appendChild(h); } h.innerHTML = html || ''; };
@@ -257,25 +257,27 @@ NEW_SLIDES['Was 1900 a leap year?'] = {
 /* ---------- Washington, 1884 ---------- */
 NEW_SLIDES['Washington, 1884'] = {
   h1: 'Where should zero be?', canvas: true,
-  ctl: `<div class="btns">${V3.btn('pm84-g', 'Greenwich', true)}${V3.btn('pm84-fr', 'And Today?')}</div><div class="btns">${V3.btn('dl84-0', 'The Date Line, 180°')}${V3.btn('dl84-1', 'Alaska, 1867')}${V3.btn('dl84-2', 'Kiribati, 1995')}${V3.btn('dl84-3', 'Samoa, 2011')}</div><div class="readout" id="pm84-r"><strong>25 nations. Vote first.</strong></div>`,
+  ctl: `<div class="btns"><button id="pm84-q" style="display:none">Where Is Zero?</button>${V3.btn('pm84-g', 'Greenwich', true)}${V3.btn('pm84-fr', 'And Today?')}</div><div class="btns">${V3.btn('dl84-0', 'The Date Line, 180°')}${V3.btn('dl84-1', 'Alaska, 1867')}${V3.btn('dl84-2', 'Kiribati, 1995')}${V3.btn('dl84-3', 'Samoa, 2011')}</div><div class="readout" id="pm84-r"><strong>25 nations. Vote first.</strong></div>`,
   init(el) {
     const C = [['pm84-g', 'Greenwich', 51.48, 0], ['pm84-p', 'Paris', 48.84, 2.34], ['pm84-w', 'Washington', 38.92, -77.07], ['pm84-f', 'Ferro', 27.75, -17.9]];
     let pick = null, stage = 0, t0 = 0;
     const DL = v3DL();
-    let dl = -1, dlT = 0;
+    let dl = -1, dlT = 0, intro = true;
     const G = V3.globe(el, 'v3-1884', camFor(35, -30, 1), (g, t) => {
       const pulse = .5 + .5 * Math.sin(t / 300);
       if (dl >= 0) { v3DLdraw(g, DL[dl], dl, t - dlT, pulse); return; }
+      if (intro) { g.path(Array.from({ length: 73 }, (_, i) => [0, -180 + i * 5]), '#f0b35a', 4); const q = g.proj(ll(0, -35)); if (q.z > 0) g.label('Equator · Latitude 0°', q.x, q.y - 18, '#f0b35a', 34, 'center'); return; }
       C.forEach(([id, n, la, lo]) => {
         const win = stage >= 1 && n === 'Greenwich', fr = stage === 2 && n === 'Paris', dim = stage >= 1 && !win && !fr;
         g.meridian(lo, win ? '#f0b35a' : fr ? `rgba(143,176,216,${.5 + .5 * pulse})` : dim ? 'rgba(236,230,218,.12)' : (pick === id ? '#f0b35a' : 'rgba(143,176,216,.7)'), win || fr ? 3.5 : 2);
         const q = g.dot(la, lo, win ? '#f0b35a' : '#ece6da', win ? 7 : 5); if (q && !dim) g.label(win ? 'Greenwich · 0°' : n, q.x + 12, q.y + (n === 'Paris' ? 30 : 6), win ? '#f0b35a' : '#ece6da', win ? 22 : 18);
       });
     });
-    CS.$(el, '#pm84-g').onclick = () => { stage = 1; fly(G.st, camFor(45, -10, 1.5), 1600); CS.$(el, '#pm84-r').innerHTML = '<strong class="big">Greenwich, 22 to 1</strong>'; v3Hero(el, 'San Domingo Against. France and Brazil Abstain.'); };
+    CS.$(el, '#pm84-q').onclick = () => { intro = !intro; v3Hero(el, intro ? V3_TUNE['Washington, 1884'].hero : 'Nature Set the Equator. Where Is <b>Zero Longitude</b>?'); };
+    CS.$(el, '#pm84-g').onclick = () => { intro = false; stage = 1; fly(G.st, camFor(45, -10, 1.5), 1600); CS.$(el, '#pm84-r').innerHTML = '<strong class="big">Greenwich, 22 to 1</strong>'; v3Hero(el, 'San Domingo Against. France and Brazil Abstain.'); };
     const dlSync = () => DL.forEach((_, i) => CS.$(el, '#dl84-' + i).classList.toggle('on', i === dl));
     DL.forEach((d, i) => { CS.$(el, '#dl84-' + i).onclick = () => { dl = i; dlT = performance.now(); dlSync(); fly(G.st, d[4], 1600); CS.$(el, '#pm84-r').innerHTML = `<strong class="big">${d[6]}</strong>`; v3Hero(el, d[5]); }; });
-    CS.$(el, '#pm84-fr').onclick = () => { stage = 1; fly(G.st, camFor(51.48, 0, 6), 1600); CS.$(el, '#pm84-r').innerHTML = '<strong class="big">Power Decides Zero</strong>'; v3Hero(el, 'GPS Zero (WGS 84) Runs <b>335 Feet East</b> of the Greenwich Line.'); };
+    CS.$(el, '#pm84-fr').onclick = () => { intro = false; stage = 1; fly(G.st, camFor(51.48, 0, 6), 1600); CS.$(el, '#pm84-r').innerHTML = '<strong class="big">Power Decides Zero</strong>'; v3Hero(el, 'GPS Zero (WGS 84) Runs <b>335 Feet East</b> of the Greenwich Line.'); };
     ['pm84-g', 'pm84-fr'].forEach(id => { const b = CS.$(el, '#' + id), f = b.onclick; b.onclick = e => { dl = -1; dlSync(); f && f(e); }; });
   }
 };
