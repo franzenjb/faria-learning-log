@@ -102,8 +102,9 @@ Map scenes use Esri World Imagery tiles (`V3SAT` in course-slides-v3.js; no key)
 - B · The Earth Is a Clock: looking down on the North Pole with the Sun on the right; a fixed 24-hour dial, the 15° wedge, London and New York clocks, which clock is zero, then the ship that cannot carry Greenwich time.
 - C · Two Questions, 2,000 Years Apart: latitude and longitude side by side (zero line, how you measure, the numbers), then a timeline with latitude solid since 325 BC and longitude at sea dashed until 1761.
 
-## 17 Nov 2026 · Scilly cold open: waiting on Grok
+## 17 Nov 2026 · Scilly cold open: done
 
-- Done (PR #220): on the toll beat, "They knew their latitude, not their longitude." is now ~62px on the 1600 canvas.
-- Waiting on Grok Bot (owner of the film `public/faria1/where-am-i/v3/`): map as two clean beats ("They Believed They Were Here" set lower, then "But They Were Here", with no lines, dots or headline) and drifting wreckage (planks, spar, barrels) on the toll beat. Exact edits: `docs/GROK_FILM_EDITS_SCILLY_2026-11-17.md`.
-- Pick up here: once Grok's film edits are live, change `NEW_SLIDES['Scilly, 1707']` in `public/claude1/v3/course-slides-v3.js` to play `storm → believed → actual → toll`, and stop overriding the `actual` headline and labels.
+- Grok shipped the film edits (5c7968e): two clean map beats and drifting wreckage on the toll beat.
+- Claude's slide (PR #220, #222) plays storm → believed → actual → toll. Map words "Where They Thought", then "Where They Were" (gold) over the Scilly rocks, at the old headline size, with a slight push in. No "Not Where They Thought". The latitude line on the toll beat is ~62px. Text lands about 0.15s after the key press, and storm to map is a quick cut.
+- All of this is runtime overrides in `NEW_SLIDES['Scilly, 1707']` (`public/claude1/v3/course-slides-v3.js`). Grok's film files are untouched.
+- Test: `tests/claude1-v3-browser.mjs` expects four beats.
