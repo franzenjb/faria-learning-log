@@ -416,12 +416,13 @@ NEW_SLIDES['A clock that could travel'] = {
   fig: `<g id="hv"></g>`,
   init(el) {
     const ph = (k, x, y, w, h) => `<image href="img/harrison-h${k}.jpg" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="xMidYMid meet"/>`;
+    const face = (x, y, w, h) => `<image href="img/harrison-h4-front.jpg" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="xMidYMid meet"/>`; // H4's dial: it looks like a big pocket watch
     const big = (t, y, cls = '', size = 46) => `<text x="500" y="${y}" text-anchor="middle" class="${cls}" style="font-size:${size}px">${t}</text>`;
     const ST = [
       () => `<image href="img/harrison-portrait.jpg" x="360" y="30" width="280" height="350" preserveAspectRatio="xMidYMid meet"/>` + big('John Harrison, Village Carpenter', 450, '', 46) + big('Born 1693, Yorkshire. Never schooled in science.', 510, 'mu', 28),
       () => ph(1, 30, 60, 300, 330) + ph(2, 350, 60, 300, 330) + ph(3, 670, 60, 300, 330) + big('H1, 1735: it works', 440, '', 26).replace('x="500"', 'x="180"') + big('H2, 1741: sturdier', 440, '', 26) + big('H3, 1759: nineteen years', 440, '', 26).replace('x="500"', 'x="820"') + big('Thirty years. Three clocks. Still too big.', 530, 'mu', 30),
-      () => ph(4, 240, 20, 520, 420) + big('H4: 81 days at sea to Jamaica.', 490, '', 40) + big('How many seconds does it lose?', 548, 'rd', 44),
-      () => ph(4, 330, 10, 340, 280) + big('5 seconds', 420, 'rd', 120) + big('About 1¼ miles of longitude.', 510, '', 36)
+      () => face(300, 6, 400, 380) + big('Like a giant pocket watch: 5 inches across.', 432, 'mu', 30) + big('H4: 81 days at sea to Jamaica.', 492, '', 40) + big('How many seconds does it lose?', 550, 'rd', 44),
+      () => face(360, 6, 280, 268) + big('5 seconds', 420, 'rd', 120) + big('About 1¼ miles of longitude.', 510, '', 36)
     ];
     V3.steps(el, ST.length - 1, k => { CS.$(el, '#hv').innerHTML = ST[k](); });
   }
