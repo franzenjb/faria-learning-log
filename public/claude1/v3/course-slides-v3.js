@@ -821,7 +821,7 @@ addEventListener('load', () => setTimeout(() => {
       const sg = ctx.createRadialGradient(top.x, top.y - 40, 0, top.x, top.y - 40, 44); sg.addColorStop(0, '#ffe39a'); sg.addColorStop(.5, G); sg.addColorStop(1, 'rgba(240,179,90,0)'); ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(top.x, top.y - 40, 44, 0, 7); ctx.fill();
       S.text('Noon', top.x + 52, top.y - 32, 34, G, 'left', 1, 600); }
     // the cities, and each one's clock (local solar time)
-    if (k !== SWEEP) CITY.forEach(([n, la, lo, col], i) => { const q = P(ll(la, lo)); const lit = k >= 1 && k <= SWEEP && Math.abs(lo - noon) < 1.2;
+    if (k !== SWEEP) CITY.forEach(([n, la, lo, col], i) => { if (k === 4 && i === 1) return; /* Denver vs Philadelphia only (Jeff) */ const q = P(ll(la, lo)); const lit = k >= 1 && k <= SWEEP && Math.abs(lo - noon) < 1.2;
       if (lit) { ctx.save(); ctx.strokeStyle = G; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(q.x, q.y, 26 + 5 * Math.sin(now / 110), 0, 7); ctx.stroke(); ctx.restore(); }
       ctx.fillStyle = col; ctx.beginPath(); ctx.arc(q.x, q.y, 11, 0, 7); ctx.fill(); ctx.strokeStyle = '#0b1020'; ctx.lineWidth = 3; ctx.stroke();
       S.text(n, q.x, q.y - 28, 34, col, 'center', 1, 600);
