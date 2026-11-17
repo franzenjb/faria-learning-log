@@ -1003,7 +1003,11 @@ addEventListener('load', () => setTimeout(() => {
   const want = dd => Math.min(22.5, Math.log2(156543.03 * Math.cos(LAT * D) / (R[dd][1] / 300)));
   const tile = (zz, x, y) => { const k = zz + '/' + x + '/' + y; if (!tiles[k]) { const im = new Image(); im.crossOrigin = 'anonymous'; im.src = `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${zz}/${y}/${x}`; tiles[k] = im; } return tiles[k]; };
   const pre = dd => { const zz = Math.max(1, Math.min(20, Math.floor(want(dd)))), n = 2 ** zz, cx = Math.floor((LON + 180) / 360 * n), cy = Math.floor((1 - Math.log(Math.tan(LAT * D) + 1 / Math.cos(LAT * D)) / Math.PI) / 2 * n); for (let i = -3; i <= 3; i++) for (let j = -2; j <= 2; j++) tile(zz, cx + i, cy + j); };
-  const set = dd => { d = Math.max(0, Math.min(6, dd)); pressT = performance.now(); pre(d); pre(Math.min(6, d + 1)); };
+  // close-up (36 feet and finer): New York State's 2020 aerial, flown near midday with no tower shadow on the plaza, sharper than Esri here
+  const MX = LON * 20037508.34 / 180, MY = Math.log(Math.tan((90 + LAT) * D / 2)) * 6378137, HW = 60, HH = 40; // a 120 × 80 m window around the tree, in Web Mercator meters
+  const nys = new Image(); nys.crossOrigin = 'anonymous';
+  const loadNys = () => { if (!nys.src) nys.src = `https://orthos.its.ny.gov/arcgis/rest/services/wms/2020/MapServer/export?bbox=${MX - HW},${MY - HH},${MX + HW},${MY + HH}&bboxSR=3857&imageSR=3857&size=2400,1600&format=jpg&f=image`; };
+  const set = dd => { d = Math.max(0, Math.min(6, dd)); pressT = performance.now(); pre(d); pre(Math.min(6, d + 1)); if (d >= 3) loadNys(); };
   z = want(0);
   addEventListener('keydown', e => { if (!el.classList.contains('active') || (e.key !== 'ArrowUp' && e.key !== 'ArrowDown')) return; e.preventDefault(); e.stopImmediatePropagation(); set(d + (e.key === 'ArrowUp' ? 1 : -1)); }, true);
   V3.scene(el, 1, (S, ctx, now) => {
@@ -1015,6 +1019,8 @@ addEventListener('load', () => setTimeout(() => {
     for (let tx = x0; tx <= x1; tx++) for (let ty = y0; ty <= y1; ty++) { if (ty < 0 || ty >= n) continue; const im = tile(zi, ((tx % n) + n) % n, ty); const X = 800 + (tx * 256 - wx) * sc, Y = 500 + (ty * 256 - wy) * sc, xx = ((tx % n) + n) % n;
       if (im.complete && im.naturalWidth) ctx.drawImage(im, X, Y, ts + .5, ts + .5);
       else for (let up = 1; up <= 6 && zi - up >= 1; up++) { const f = 1 << up, p = tile(zi - up, xx >> up, ty >> up); if (p.complete && p.naturalWidth) { const w = 256 / f; ctx.drawImage(p, (xx % f) * w, (ty % f) * w, w, w, X, Y, ts + .5, ts + .5); break; } } }
+    const close = Math.max(0, Math.min(1, z - (want(4) - 1))); // fades in on the way to 36 feet
+    if (close > 0 && nys.complete && nys.naturalWidth) { const k = Math.pow(2, z) / 156543.03; ctx.save(); ctx.globalAlpha = close; ctx.drawImage(nys, 800 - HW * k, 500 - HH * k, 2 * HW * k, 2 * HH * k); ctx.restore(); }
     // the circle you could be anywhere inside
     const rp = R[d][1] / mpp(z), pulse = Math.max(0, 1 - (now - pressT) / 700);
     ctx.save(); ctx.fillStyle = 'rgba(240,179,90,.14)'; ctx.strokeStyle = '#f0b35a'; ctx.lineWidth = 4 + 4 * pulse; ctx.beginPath(); ctx.arc(800, 500, Math.max(10, rp), 0, 7); ctx.fill(); ctx.stroke();
@@ -1026,7 +1032,7 @@ addEventListener('load', () => setTimeout(() => {
     S.text(`${fmt(LAT)}, ${fmt(LON)}  ·  ${d} decimal place${d === 1 ? '' : 's'}`, 800, 150, 32, '#cfc8ba');
     ctx.save(); ctx.fillStyle = 'rgba(8,12,22,.82)'; ctx.beginPath(); ctx.roundRect(470, 860, 660, 70, 14); ctx.fill(); ctx.restore();
     S.text('↑ one more decimal  ·  ↓ one fewer', 800, 895, 28, '#cfc8ba');
-    S.text('Rockefeller Center tree · imagery © Esri, Maxar, Earthstar Geographics', 1570, 215, 17, '#cfc8ba', 'right');
+    S.text(close > .5 && nys.naturalWidth ? 'Rockefeller Center tree · imagery: NYS GIS Program Office, 2020' : 'Rockefeller Center tree · imagery © Esri, Maxar, Earthstar Geographics', 1570, 215, 17, '#cfc8ba', 'right');
   });
   const cv = el.querySelector('canvas'); if (cv) cv.addEventListener('click', e => { const r = cv.getBoundingClientRect(); set(d + (e.clientY - r.top < r.height / 2 ? 1 : -1)); });
 }, 0));
