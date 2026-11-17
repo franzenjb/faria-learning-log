@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Why Polaris Gives Your Latitude</title>
+<link rel="icon" href="data:,">
+<style>
+:root{
+  --bg:#0a0e18; --ink:#ece6da; --soft:#cfc8ba; --dim:#9a9382; --line:#283048;
+  --accent:#f0b35a; --muted:#7f93b8; --earth1:#2a5c8f; --earth2:#15294a; --star:#ffd66b; --sky:#6fb3ff;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidden;
+  -webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+#app{position:fixed;inset:0;display:flex;flex-direction:column;
+  padding:max(10px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(44px,calc(env(safe-area-inset-bottom) + 40px)) max(12px,env(safe-area-inset-left));
+  background:radial-gradient(ellipse at 60% 40%,#111a2e 0%,#0a0e18 70%)}
+#text{flex:0 0 auto;padding:4px 4px 6px}
+#kicker{font-size:clamp(12px,3.4vw,20px);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin:0 0 .25em}
+#title{font-size:clamp(24px,7vw,64px);line-height:1.08;margin:0 0 .3em;font-weight:700;color:var(--ink)}
+#caption{font-size:clamp(17px,4.6vw,38px);line-height:1.3;margin:0;color:var(--soft);min-height:3.9em}
+#caption b{color:var(--accent);font-weight:700}
+#caption i{color:var(--muted);font-style:normal;font-weight:700}
+#vid{display:inline-block;margin-top:.6em;font-size:clamp(12px,1.1vw,16px);color:var(--dim);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+#vid:hover{color:var(--accent);border-color:var(--accent)}
+body.video #vid,body.video #ctl,body.video #progress,body.video #walkBtn{display:none}
+body.video .el{transition:none}
+#stage{flex:1 1 auto;min-height:0;position:relative}
+#stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+@media (min-aspect-ratio:5/4){
+  #app{flex-direction:row;align-items:center;padding-bottom:max(48px,calc(env(safe-area-inset-bottom) + 44px))}
+  #text{flex:0 0 38%;padding:0 2vw 0 3vw}
+  #title{font-size:clamp(28px,3.9vw,72px)}
+  #caption{font-size:clamp(17px,2.45vw,44px);min-height:0}
+  #kicker{font-size:clamp(12px,1.25vw,24px)}
+  #stage{align-self:stretch}
+}
+/* tiny controls */
+#ctl{position:fixed;right:max(8px,env(safe-area-inset-right));bottom:max(6px,env(safe-area-inset-bottom));display:flex;gap:4px;align-items:center;z-index:10;opacity:.55;transition:opacity .2s}
+#ctl:hover,#ctl:focus-within{opacity:1}
+#ctl button{font:600 13px var(--sans);color:var(--soft);background:rgba(23,30,48,.85);border:1px solid var(--line);border-radius:6px;padding:6px 9px;min-width:34px;cursor:pointer}
+#ctl button:active{background:#22304d}
+#ctl button[aria-pressed="true"]{color:var(--bg);background:var(--accent);border-color:var(--accent)}
+#count{font:600 12px var(--sans);color:var(--dim);padding:0 6px;min-width:3.5em;text-align:center}
+#progress{position:fixed;left:0;bottom:0;height:3px;background:var(--accent);opacity:.6;width:0;transition:width .35s;z-index:9}
+/* walk panel */
+#walk{position:fixed;left:50%;transform:translateX(-50%);bottom:max(44px,calc(env(safe-area-inset-bottom) + 42px));z-index:8;
+  width:min(92vw,720px);background:rgba(17,23,39,.92);border:1px solid var(--line);border-radius:12px;padding:10px 14px 12px;
+  display:none;font-family:var(--sans)}
+#walk.on{display:block}
+#walk .row{display:flex;align-items:center;gap:10px}
+#walk input{flex:1;accent-color:var(--accent);height:32px}
+#walk button{font:700 clamp(13px,1.6vw,18px) var(--sans);color:var(--bg);background:var(--accent);border:0;border-radius:8px;padding:8px 14px;cursor:pointer;white-space:nowrap}
+#readout{font-size:clamp(15px,2.2vw,30px);color:var(--ink);margin-top:4px;text-align:center}
+#readout b{color:var(--accent)}
+@media (min-aspect-ratio:5/4){ #walk{left:max(2vw,env(safe-area-inset-left));transform:none;width:36vw;bottom:max(56px,8vh)} #walk .row{flex-direction:column;align-items:stretch} #walk input{width:100%} }
+/* svg pieces */
+.el{transition:opacity .6s ease}
+.off{opacity:0 !important;pointer-events:none}
+.lbl{font-family:var(--sans);font-weight:700;paint-order:stroke;stroke:#0a0e18;stroke-width:7px;stroke-linejoin:round}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="text">
+    <p id="kicker">Latitude From One Star</p>
+    <h1 id="title"></h1>
+    <p id="caption"></p>
+    <a id="vid" href="latitude_polaris_demo.mp4">▶ Watch the 90-second video</a>
+  </div>
+  <div id="stage">
+    <svg id="svg" viewBox="-222 -425 640 680" preserveAspectRatio="xMidYMid meet" aria-label="Diagram: Earth, your horizon, and Polaris">
+      <defs>
+        <radialGradient id="gEarth" cx="38%" cy="35%" r="75%">
+          <stop offset="0" stop-color="#3f7fbf"/><stop offset=".55" stop-color="#22507f"/><stop offset="1" stop-color="#0f2240"/>
+        </radialGradient>
+        <radialGradient id="gGlow" r="50%"><stop offset=".78" stop-color="#6fb3ff" stop-opacity=".22"/><stop offset="1" stop-color="#6fb3ff" stop-opacity="0"/></radialGradient>
+        <radialGradient id="gStar" r="50%"><stop offset="0" stop-color="#fff6d0"/><stop offset=".35" stop-color="#ffd66b" stop-opacity=".8"/><stop offset="1" stop-color="#ffd66b" stop-opacity="0"/></radialGradient>
+        <marker id="mStar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ffd66b"/></marker>
+        <marker id="mAxis" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#dfe7ff"/></marker>
+      </defs>
+      <g id="sky"></g>
+      <!-- Polaris -->
+      <g id="polaris" class="el">
+        <circle cx="70" cy="-395" r="26" fill="url(#gStar)"/>
+        <path id="starShape" fill="#fff3c4"/>
+        <text class="lbl" x="100" y="-385" font-size="30" fill="#ffd66b">Polaris</text>
+        <text class="lbl" x="100" y="-357" font-size="19" fill="#9a9382" font-weight="600">very far away</text>
+      </g>
+      <!-- Earth -->
+      <circle r="232" fill="url(#gGlow)"/>
+      <circle id="earth" r="200" fill="url(#gEarth)" stroke="#6fb3ff" stroke-opacity=".35" stroke-width="2"/>
+      <!-- equator & axis -->
+      <g id="equatorG" class="el">
+        <line x1="-240" y1="0" x2="240" y2="0" stroke="#dfe7ff" stroke-width="3" stroke-dasharray="10 7" opacity=".85"/>
+        <text class="lbl" x="-192" y="-12" font-size="26" fill="#dfe7ff">Equator</text>
+      </g>
+      <g id="axisG" class="el">
+        <line x1="0" y1="245" x2="0" y2="-335" stroke="#dfe7ff" stroke-width="3" marker-end="url(#mAxis)"/>
+        <text class="lbl" x="12" y="-312" font-size="26" fill="#dfe7ff">Axis</text>
+        <text class="lbl" x="-12" y="-208" font-size="22" fill="#cfc8ba" text-anchor="end">N</text>
+        <text class="lbl" x="-12" y="228" font-size="22" fill="#cfc8ba" text-anchor="end">S</text>
+      </g>
+      <!-- angles at center -->
+      <g id="arc50G" class="el">
+        <path id="arc50" fill="#7f93b8" fill-opacity=".18" stroke="#7f93b8" stroke-width="3"/>
+        <text id="arc50T" class="lbl" font-size="28" fill="#9fb0d0" text-anchor="middle" dominant-baseline="middle">50°</text>
+      </g>
+      <g id="arcEqG" class="el">
+        <path id="arcEq" fill="#f0b35a" fill-opacity=".25" stroke="#f0b35a" stroke-width="4"/>
+        <text id="arcEqT" class="lbl" font-size="32" fill="#f0b35a" text-anchor="middle" dominant-baseline="middle">40°</text>
+      </g>
+      <!-- up-line -->
+      <g id="upG" class="el">
+        <line id="upIn" stroke="#f0b35a" stroke-width="4"/>
+        <line id="upOut" stroke="#f0b35a" stroke-width="3" stroke-dasharray="8 7" opacity=".8"/>
+        <text id="upT" class="lbl" font-size="26" fill="#f0b35a">Up-line</text>
+      </g>
+      <!-- horizon -->
+      <g id="horG" class="el">
+        <line id="hor" stroke="#6fd48a" stroke-width="5" stroke-linecap="round"/>
+        <text id="horT" class="lbl" font-size="26" fill="#6fd48a">Horizon</text>
+        <path id="rightAng" fill="none" stroke="#cfc8ba" stroke-width="2.5"/>
+      </g>
+      <!-- Polaris ray from you -->
+      <g id="rayG" class="el">
+        <line id="ray" stroke="#ffd66b" stroke-width="3.5" marker-end="url(#mStar)"/>
+        <text id="rayT" class="lbl" font-size="22" fill="#ffd66b">to Polaris</text>
+        <g id="streaks" opacity=".5"></g>
+      </g>
+      <!-- angle at you -->
+      <g id="arcHzG" class="el">
+        <path id="arcHz" fill="#f0b35a" fill-opacity=".25" stroke="#f0b35a" stroke-width="4"/>
+        <text id="arcHzT" class="lbl" font-size="32" fill="#f0b35a" text-anchor="middle" dominant-baseline="middle">40°</text>
+      </g>
+      <!-- you -->
+      <g id="youG" class="el">
+        <g id="you">
+          <circle cx="0" cy="-30" r="7" fill="#ece6da"/>
+          <path d="M0,-23 L0,-8 M-8,-17 L8,-17 M0,-8 L-6,0 M0,-8 L6,0" stroke="#ece6da" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+        </g>
+        <circle id="youDot" r="5" fill="#ece6da"/>
+        <text id="youT" class="lbl" font-size="26" fill="#ece6da">You</text>
+      </g>
+      <!-- inset: your own view -->
+      <g id="insetG" class="el off">
+        <rect x="-216" y="-422" width="162" height="146" rx="12" fill="#111727" fill-opacity=".92" stroke="#283048" stroke-width="2"/>
+        <text class="lbl" x="-204" y="-398" font-size="20" fill="#cfc8ba">Your View</text>
+        <path id="inArc" fill="#f0b35a" fill-opacity=".25" stroke="#f0b35a" stroke-width="3"/>
+        <line id="inSight" stroke="#ffd66b" stroke-width="2.5" stroke-dasharray="5 5"/>
+        <line x1="-208" y1="-294" x2="-62" y2="-294" stroke="#6fd48a" stroke-width="4" stroke-linecap="round"/>
+        <g transform="translate(-194,-294) scale(.8)"><circle cx="0" cy="-30" r="7" fill="#ece6da"/><path d="M0,-23 L0,-8 M-8,-17 L8,-17 M0,-8 L-6,0 M0,-8 L6,0" stroke="#ece6da" stroke-width="3.2" stroke-linecap="round" fill="none"/></g>
+        <path id="inStar" fill="#fff3c4"/>
+        <text id="inT" class="lbl" font-size="22" fill="#f0b35a">40°</text>
+      </g>
+      <!-- quarter-turn wedge -->
+      <g id="wedgeG" class="el off">
+        <g id="wedge">
+          <path id="wArc" fill="#f0b35a" fill-opacity=".35" stroke="#f0b35a" stroke-width="4"/>
+          <line id="wR1" x1="0" y1="0" x2="150" y2="0" stroke="#dfe7ff" stroke-width="5" stroke-linecap="round"/>
+          <line id="wR2" x1="0" y1="0" stroke="#f0b35a" stroke-width="5" stroke-linecap="round"/>
+        </g>
+        <text id="wT" class="lbl" font-size="32" fill="#f0b35a" text-anchor="middle" dominant-baseline="middle">40°</text>
+        <text id="wL1a" class="lbl" font-size="24" fill="#dfe7ff">equator</text>
+        <text id="wL1b" class="lbl" font-size="24" fill="#dfe7ff">axis</text>
+        <text id="wL2a" class="lbl" font-size="24" fill="#f0b35a">up-line</text>
+        <text id="wL2b" class="lbl" font-size="24" fill="#6fd48a">horizon</text>
+      </g>
+    </svg>
+  </div>
+</div>
+<div id="walk" aria-label="Latitude walk">
+  <div class="row">
+    <button id="walkBtn" type="button">Walk 0° → 90°</button>
+    <input id="lat" type="range" min="0" max="90" step="1" value="40" aria-label="Latitude">
+  </div>
+  <div id="readout"></div>
+</div>
+<div id="progress"></div>
+<div id="ctl">
+  <button id="auto" type="button" aria-pressed="false" title="Autoplay (A)">▶</button>
+  <button id="back" type="button" title="Back (←)">‹</button>
+  <span id="count"></span>
+  <button id="next" type="button" title="Next (→)">›</button>
+</div>
+<script>
+(function(){
+"use strict";
+var D2R=Math.PI/180, R=200;
+var $=function(id){return document.getElementById(id)};
+var STEPS=[
+ {t:"Earth, Seen From the Side", c:"The <b>axis</b> runs pole to pole and points at Polaris. The <b>equator</b> circles the middle.", show:["equatorG","axisG","polaris"]},
+ {t:"You Stand at 40° North", c:"Draw your <b>up&#8209;line</b> from Earth's center out through your feet. Its angle above the equator is your latitude: <b>40°</b>.", show:["equatorG","axisG","polaris","youG","upG","arcEqG"]},
+ {t:"Your Horizon", c:"Your horizon is a rubber band stretched tight. It touches Earth only at your feet, at a right angle to your up&#8209;line.", show:["equatorG","axisG","polaris","youG","upG","arcEqG","horG"]},
+ {t:"Polaris Is Very Far Away", c:"Its light arrives in parallel lines. From where you stand, Polaris lies in the same direction as the axis.", show:["equatorG","axisG","polaris","youG","upG","arcEqG","horG","rayG"]},
+ {t:"Up-Line to Axis: 50°", c:"Equator to axis is 90°. The up&#8209;line takes 40° of that, so up&#8209;line to axis is <i>50°</i>.", show:["equatorG","axisG","polaris","youG","upG","arcEqG","horG","rayG","arc50G"]},
+ {t:"A Quarter Turn", c:"Turn the <b>40°</b> angle a quarter turn. The equator becomes the axis direction. The up&#8209;line becomes your horizon. The angle stays <b>40°</b>.", show:["equatorG","axisG","polaris","youG","upG","arcEqG","horG","rayG","arc50G","wedgeG"], anim:true},
+ {t:"Polaris Stands 40° Up", c:"Horizon to Polaris is <b>40°</b>, the same as equator to you. The height of Polaris is your latitude.", show:["equatorG","axisG","polaris","youG","upG","arcEqG","horG","rayG","arc50G","arcHzG"]},
+ {t:"Walk North: The Floor Tilts", c:"The star never moves. Your floor tilts exactly as much as you've walked around the ball, so the star seems to climb exactly as much.", show:["equatorG","axisG","polaris","youG","upG","arcEqG","horG","rayG","arc50G","arcHzG","insetG"], walk:true}
+];
+var ALL=["equatorG","axisG","polaris","youG","upG","arcEqG","horG","rayG","arc50G","arcHzG","wedgeG","insetG"];
+var VIDEO=/[?&]video=1/.test(location.search); if(VIDEO) document.body.classList.add("video");
+var step=0, lat=40, anim=null, walkAnim=null, autoOn=false, autoTimer=null;
+
+// star field (seeded)
+(function(){var s=7,g=$("sky"),h="";function r(){s=(s*16807)%2147483647;return s/2147483647}
+ for(var i=0;i<90;i++){var x=-222+r()*640,y=-425+r()*680; if(x*x+y*y<240*240) continue;
+  h+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+(0.6+r()*1.6).toFixed(2)+'" fill="#dfe7ff" opacity="'+(0.25+r()*0.5).toFixed(2)+'"/>';}
+ g.innerHTML=h;
+ // 5-point star
+ var p="";for(var k=0;k<10;k++){var a=-Math.PI/2+k*Math.PI/5,rr=k%2?5:13;p+=(k?"L":"M")+(70+rr*Math.cos(a)).toFixed(1)+","+(-395+rr*Math.sin(a)).toFixed(1);} $("starShape").setAttribute("d",p+"Z");
+})();
+
+function P(cx,cy,r,a){return [cx+r*Math.cos(a*D2R), cy-r*Math.sin(a*D2R)]} // math degrees -> svg
+function sector(cx,cy,r,a0,a1){ // math degrees, CCW a0->a1
+  var p0=P(cx,cy,r,a0),p1=P(cx,cy,r,a1),large=(a1-a0)>180?1:0;
+  return "M"+cx+","+cy+" L"+p0[0].toFixed(2)+","+p0[1].toFixed(2)+" A"+r+","+r+" 0 "+large+" 0 "+p1[0].toFixed(2)+","+p1[1].toFixed(2)+" Z";
+}
+function set(el,o){for(var k in o) el.setAttribute(k,o[k]);}
+function fmt(v){return Math.round(v)+"°"}
+
+function draw(){
+  var you=P(0,0,R,lat), ux=Math.cos(lat*D2R), uy=-Math.sin(lat*D2R); // svg unit up
+  var tx=-Math.sin(lat*D2R), ty=-Math.cos(lat*D2R); // svg unit horizon toward north
+  // you
+  $("you").setAttribute("transform","translate("+you[0].toFixed(2)+","+you[1].toFixed(2)+") rotate("+(90-lat).toFixed(2)+")");
+  set($("youDot"),{cx:you[0],cy:you[1]});
+  var yl=[you[0]+ux*58+(lat>60?14:4), you[1]+uy*58+(lat>60?0:18)];
+  set($("youT"),{x:yl[0],y:yl[1]});
+  // up-line
+  set($("upIn"),{x1:0,y1:0,x2:you[0],y2:you[1]});
+  var ue=[you[0]+ux*125,you[1]+uy*125];
+  set($("upOut"),{x1:you[0],y1:you[1],x2:ue[0],y2:ue[1]});
+  set($("upT"),{x:ue[0]+(lat>70?12:6),y:ue[1]+(lat>70?10:-4),opacity:lat>78?0:1});
+  // horizon
+  var L=190, h1=[you[0]+tx*L,you[1]+ty*L], h2=[you[0]-tx*L,you[1]-ty*L];
+  set($("hor"),{x1:h1[0],y1:h1[1],x2:h2[0],y2:h2[1]});
+  set($("horT"),{x:h2[0]+(lat<30?-100:6),y:h2[1]+(lat<30?28:22)});
+  var q=16; // right-angle mark between up and horizon (toward south side of horizon)
+  var a=[you[0]-tx*q,you[1]-ty*q], b=[a[0]+ux*q,a[1]+uy*q], c=[you[0]+ux*q,you[1]+uy*q];
+  $("rightAng").setAttribute("d","M"+a[0]+","+a[1]+" L"+b[0]+","+b[1]+" L"+c[0]+","+c[1]);
+  // ray to Polaris (parallel to axis)
+  set($("ray"),{x1:you[0],y1:you[1],x2:you[0],y2:-335});
+  set($("rayT"),{x:you[0]+10,y:-250, opacity: (!STEPS[step].walk&&you[0]>40?1:0)});
+  var s="";[ -150,-75,240,300 ].forEach(function(x){s+='<line x1="'+x+'" y1="-330" x2="'+x+'" y2="-250" stroke="#ffd66b" stroke-width="2" stroke-dasharray="4 8"/>';});
+  $("streaks").innerHTML=s;
+  // angles
+  $("arcEq").setAttribute("d",lat>0.5?sector(0,0,80,0,lat):"");
+  var e=P(0,0,112,lat/2); set($("arcEqT"),{x:e[0],y:e[1]}); $("arcEqT").textContent=fmt(lat);
+  $("arcEqT").style.opacity=lat>6?1:0;
+  var m=90-lat;
+  $("arc50").setAttribute("d",m>0.5?sector(0,0,56,lat,90):"");
+  var f=P(0,0,86,(lat+90)/2); set($("arc50T"),{x:f[0]+(m<20?14:0),y:f[1]}); $("arc50T").textContent=fmt(m);
+  $("arc50T").style.opacity=m>6?1:0;
+  $("arcHz").setAttribute("d",lat>0.5?sector(you[0],you[1],78,90,90+lat):"");
+  var g=P(you[0],you[1],lat>70?100:112,Math.min(90+lat/2,112)); set($("arcHzT"),{x:g[0],y:g[1]}); $("arcHzT").textContent=fmt(lat);
+  $("arcHzT").style.opacity=lat>6?1:0;
+  // wedge rays (relative to own vertex)
+  set($("wR2"),{x2:150*ux,y2:150*uy});
+  $("wArc").setAttribute("d",sector(0,0,80,0,lat));
+  // readout
+  $("readout").innerHTML="Latitude <b>"+fmt(lat)+"</b> &nbsp;·&nbsp; Floor tilted <b>"+fmt(lat)+"</b>";
+  drawInset();
+  $("lat").value=Math.round(lat);
+}
+
+function drawInset(){
+  var ex=-186, ey=-294, Ls=84, a=lat;
+  var sx=ex+Ls*Math.cos(a*D2R), sy=ey-Ls*Math.sin(a*D2R);
+  // keep star inside the box
+  set($("inSight"),{x1:ex,y1:ey,x2:sx,y2:sy});
+  $("inArc").setAttribute("d",a>0.5?sector(ex,ey,46,0,a):"");
+  var p="";for(var k=0;k<10;k++){var t=-Math.PI/2+k*Math.PI/5,rr=k%2?4:10;p+=(k?"L":"M")+(sx+rr*Math.cos(t)).toFixed(1)+","+(sy+rr*Math.sin(t)).toFixed(1);}
+  $("inStar").setAttribute("d",p+"Z");
+  var m=P(ex,ey,58,Math.max(a/2,8)); set($("inT"),{x:m[0]+2,y:m[1]+8}); $("inT").textContent=fmt(a);
+}
+function ease(x){return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2}
+function drawWedge(s){ // s: 0..1 quarter-turn progress
+  var you=P(0,0,R,lat), vx=you[0]*s, vy=you[1]*s, rot=-90*s;
+  $("wedge").setAttribute("transform","translate("+vx.toFixed(2)+","+vy.toFixed(2)+") rotate("+rot.toFixed(2)+")");
+  function tp(x,y){var r=rot*D2R;return [vx+x*Math.cos(r)-y*Math.sin(r), vy+x*Math.sin(r)+y*Math.cos(r)]}
+  var mid=tp(112*Math.cos(lat/2*D2R),-112*Math.sin(lat/2*D2R)); set($("wT"),{x:mid[0],y:mid[1]});
+  var e1=tp(160,0), e2=tp(160*Math.cos(lat*D2R),-160*Math.sin(lat*D2R));
+  var a1=Math.max(0,Math.min(1,(0.5-s)/0.15)), b1=Math.max(0,Math.min(1,(s-0.5)/0.15));
+  set($("wL1a"),{x:e1[0]+6,y:e1[1]+24,opacity:a1}); set($("wL1b"),{x:e1[0]+10,y:e1[1]+6,opacity:b1});
+  set($("wL2a"),{x:e2[0]+6,y:e2[1]-6,opacity:a1}); set($("wL2b"),{x:e2[0]-110,y:e2[1]-4,opacity:b1});
+}
+function stopAnim(){ if(anim){cancelAnimationFrame(anim.raf);anim=null;} }
+function runQuarterTurn(){
+  stopAnim(); drawWedge(0); $("arcHzG").classList.add("off");
+  var t0=null, hold=700, dur=3600;
+  anim={raf:0};
+  function f(t){ if(!anim) return; if(t0===null) t0=t; var x=(t-t0-hold)/dur; x=Math.max(0,Math.min(1,x));
+    drawWedge(ease(x));
+    if(x<1){anim.raf=requestAnimationFrame(f);} else {anim=null; $("arcHzG").classList.remove("off"); document.body.dataset.animDone="1";}
+  }
+  document.body.dataset.animDone="0";
+  anim.raf=requestAnimationFrame(f);
+}
+function stopWalk(){ if(walkAnim){cancelAnimationFrame(walkAnim);walkAnim=null;} }
+function runWalk(done){
+  stopWalk(); var t0=null, dur=8000;
+  function f(t){ if(t0===null) t0=t; var x=Math.min(1,(t-t0)/dur); lat=90*x; draw();
+    if(x<1) walkAnim=requestAnimationFrame(f); else {walkAnim=null; if(done) done();} }
+  walkAnim=requestAnimationFrame(f);
+}
+
+function go(n){
+  n=Math.max(0,Math.min(STEPS.length-1,n));
+  stopAnim(); stopWalk();
+  step=n; var S=STEPS[n];
+  if(!S.walk) lat=40;
+  $("title").textContent=S.t; $("caption").innerHTML=S.c;
+  ALL.forEach(function(id){ $(id).classList.toggle("off", S.show.indexOf(id)<0); });
+  $("walk").classList.toggle("on",!!S.walk);
+  $("count").textContent=(n+1)+" / "+STEPS.length;
+  $("progress").style.width=((n+1)/STEPS.length*100)+"%";
+  $("back").disabled=n===0; $("next").disabled=n===STEPS.length-1;
+  draw();
+  if(S.anim && !VIDEO) runQuarterTurn(); else if(S.anim){ drawWedge(0); $("arcHzG").classList.add("off"); } else document.body.dataset.animDone="1";
+  document.body.dataset.step=n;
+  try{history.replaceState(null,"","#"+(n+1));}catch(e){}
+  scheduleAuto();
+}
+function next(){ if(step<STEPS.length-1) go(step+1); }
+function back(){ if(step>0) go(step-1); }
+
+// autoplay
+function scheduleAuto(){
+  clearTimeout(autoTimer); if(!autoOn) return;
+  var S=STEPS[step];
+  if(S.walk){ autoTimer=setTimeout(function(){ runWalk(function(){ setAuto(false); }); },1500); return; }
+  autoTimer=setTimeout(next, S.anim?9000:6500);
+}
+function setAuto(on){ autoOn=on; $("auto").setAttribute("aria-pressed",on?"true":"false"); $("auto").textContent=on?"❚❚":"▶"; scheduleAuto(); }
+
+// input
+$("next").addEventListener("click",function(e){e.stopPropagation();next();});
+$("back").addEventListener("click",function(e){e.stopPropagation();back();});
+$("auto").addEventListener("click",function(e){e.stopPropagation();setAuto(!autoOn);});
+$("walk").addEventListener("click",function(e){e.stopPropagation();});
+$("vid").addEventListener("click",function(e){e.stopPropagation();});
+$("walkBtn").addEventListener("click",function(){ setAuto(false); runWalk(); });
+$("lat").addEventListener("input",function(){ stopWalk(); setAuto(false); lat=+this.value; draw(); });
+var swiped=false, tx0=0, ty0=0;
+$("app").addEventListener("touchstart",function(e){var t=e.changedTouches[0];tx0=t.clientX;ty0=t.clientY;swiped=false;},{passive:true});
+$("app").addEventListener("touchend",function(e){var t=e.changedTouches[0],dx=t.clientX-tx0,dy=t.clientY-ty0;
+  if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.3){swiped=true; setAuto(false); if(dx<0) next(); else back();}},{passive:true});
+$("app").addEventListener("click",function(){ if(swiped){swiped=false;return;} setAuto(false);
+  if(STEPS[step].anim && anim){ stopAnim(); drawWedge(1); $("arcHzG").classList.remove("off"); document.body.dataset.animDone="1"; return; }
+  next(); });
+document.addEventListener("keydown",function(e){
+  if(e.target&&e.target.id==="lat"&&(e.key==="ArrowLeft"||e.key==="ArrowRight")) return;
+  var k=e.key;
+  if(k==="ArrowRight"||k==="ArrowDown"||k==="PageDown"||k===" "||k==="Enter"){e.preventDefault(); setAuto(false); next();}
+  else if(k==="ArrowLeft"||k==="ArrowUp"||k==="PageUp"||k==="Backspace"){e.preventDefault(); setAuto(false); back();}
+  else if(k==="Home"){setAuto(false);go(0);} else if(k==="End"){setAuto(false);go(STEPS.length-1);}
+  else if(k==="a"||k==="A"){setAuto(!autoOn);}
+  else if((k==="r"||k==="R")&&STEPS[step].anim){runQuarterTurn();}
+  else if((k==="w"||k==="W")&&STEPS[step].walk){runWalk();}
+});
+window.LP={frame:function(n,s,la){ if(step!==n) go(n); if(la!=null){lat=la;draw();} if(STEPS[n].anim){ drawWedge(s); $("arcHzG").classList.toggle("off", s<1); } },stop:function(){stopAnim();},go:go,setLat:function(v){stopWalk();lat=v;draw();},finishTurn:function(){stopAnim();drawWedge(1);$("arcHzG").classList.remove("off");},wedge:drawWedge,steps:STEPS.length};
+var h=parseInt((location.hash||"").slice(1),10);
+go(isFinite(h)?h-1:0);
+})();
+</script>
+</body>
+</html>
