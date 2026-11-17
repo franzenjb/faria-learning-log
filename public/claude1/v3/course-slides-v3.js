@@ -847,7 +847,7 @@ addEventListener('load', () => setTimeout(() => {
     if (S.step === 2) { const a = S.fade(now, 200, 600); ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = '#efe4c8'; ctx.beginPath(); ctx.roundRect(60, 150, 470, 470, 10); ctx.fill(); ctx.restore();
       const ink = '#3a2f22'; S.text('The Nautical Almanac, 1767', 295, 195, 28, ink, 'center', a, 600, 440, true); S.text('Moon from Regulus, at London', 295, 234, 21, '#6b5a40', 'center', a, 400, 440, true);
       [[6, 44.1], [9, 42.3], [12, 40.5]].forEach(([h, d], i) => { const y = 300 + i * 90, on = h === 9; if (on) { ctx.save(); ctx.globalAlpha = a * S.fade(now, 1200, 400); ctx.fillStyle = 'rgba(240,179,90,.55)'; ctx.fillRect(80, y - 34, 430, 68); ctx.restore(); } S.text(t12(h + 12), 110, y, 32, ink, 'left', a, 400, 300, true); S.text(dm(d), 480, y, 32, ink, 'right', a, 400, 300, true); });
-      S.card(1020, 560, 260, 140, 'London', '9:00 PM', 'from the table', G, S.fade(now, 1700)); S.card(1300, 560, 260, 140, 'Your clock', '7:00 PM', 'set by your noon', '#6fb3ff', S.fade(now, 2300)); S.text('2 hours = 30° West', 1290, 750, 40, G, 'center', S.fade(now, 2900)); }
+      S.card(1300, 560, 260, 140, 'London', '9:00 PM', 'from the table', G, S.fade(now, 1700)); S.card(1020, 560, 260, 140, 'Your clock', '7:00 PM', 'set by your noon', '#6fb3ff', S.fade(now, 2300)); S.text('2 hours = 30° West', 1290, 750, 40, G, 'center', S.fade(now, 2900)); }
     if (S.step === 3) { S.text('±1′ in the sighting  =  ±30 miles', 1170, 620, 34, RED, 'center', S.fade(now, 1200)); S.text('+ refraction, parallax, the almanac every 3 hours…', 1170, 670, 24, M, 'center', S.fade(now, 2000)); }
     S.words(now, ...WORDS[S.step]);
   });
@@ -944,7 +944,7 @@ addEventListener('load', () => setTimeout(() => {
       S.text('1 flat · 2 tilted · 3 Io only · ↑↓ zoom', 40, 962, 17, M, 'left', .4); }
     // Galileo's own record of those nights: a page of Sidereus Nuncius, Venice, March 1610 (public domain)
     if (k === 2 && sn.complete && sn.naturalWidth) { const a = S.fade(now, 200, 800), h = 660, w = h * sn.naturalWidth / sn.naturalHeight; ctx.save(); ctx.globalAlpha = a; ctx.drawImage(sn, 70, 150, w, h); ctx.strokeStyle = 'rgba(240,179,90,.5)'; ctx.lineWidth = 2; ctx.strokeRect(70, 150, w, h); ctx.restore(); S.text('Galileo’s own record · Sidereus Nuncius, 1610', 70 + w / 2, 840, 20, M, 'center', a); }
-    if (k === 5) { S.card(40, 300, 340, 150, 'London', '9:00 PM', 'Io vanishes', G, S.fade(now, 400)); S.card(1220, 300, 340, 150, 'New York', '4:04 PM', 'the same instant', B, S.fade(now, 1000)); S.text('4 h 56 min = 74° West', 800, 845, 44, G, 'center', S.fade(now, 1700)); }
+    if (k === 5) { S.card(1220, 300, 340, 150, 'Paris', '9:00 PM', 'Io vanishes', G, S.fade(now, 400)); S.card(40, 300, 340, 150, 'Chicago', '3:00 PM', 'the same instant', B, S.fade(now, 1000)); S.text('6 hours = 90° West', 800, 845, 44, G, 'center', S.fade(now, 1700)); }
     // Scilly: the bill for longitude at sea
     if (k === 9) { const a = S.fade(now, 0, 800); ctx.save(); ctx.globalAlpha = a * .5; if (scilly.complete && scilly.naturalWidth) { const s = Math.max(1600 / scilly.naturalWidth, 1000 / scilly.naturalHeight); ctx.filter = 'grayscale(1)'; ctx.drawImage(scilly, 800 - scilly.naturalWidth * s / 2, 500 - scilly.naturalHeight * s / 2, scilly.naturalWidth * s, scilly.naturalHeight * s); ctx.filter = 'none'; } ctx.restore();
       ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(5,8,18,.72)'; ctx.fillRect(0, 300, 1600, 400); ctx.restore();
