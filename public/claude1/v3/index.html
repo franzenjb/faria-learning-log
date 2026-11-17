@@ -970,7 +970,7 @@ walkB.onclick=()=>{walk={t0:performance.now()};};
 // the globe alone sits in the middle; 'What you see' slides it left to make room for the sky view
 const geom=()=>{const{w,h}=o;return view?{cx:w*.27,cy:h*(south?.4:.58),R:Math.min(w*.155,h*.27)}:{cx:w*.5,cy:h*(south?.38:.62),R:Math.min(w*.18,h*.24)};};
 {const P=e=>{const r=o.c.getBoundingClientRect();return{x:(e.clientX-r.left)*(o.w/r.width||1),y:(e.clientY-r.top)*(o.h/r.height||1)};};
-const aim=e=>{const{x,y}=P(e);const{cx,cy}=geom();set(Math.atan2(cy-y,Math.max(1,x-cx))/DEG);};
+const aim=e=>{const{x,y}=P(e);const{cx,cy}=geom();const v=Math.atan2(cy-y,Math.max(0,x-cx))/DEG;set(v>89.5?90:v);};// drag all the way up reaches the pole: 90°
 o.c.addEventListener('pointerdown',e=>{const{x,y}=P(e);const{cx,cy,R}=geom();const d=Math.hypot(x-cx,y-cy);if(x<cx-10||d<R*.6||d>R*1.7)return;drag=true;walk=null;o.c.setPointerCapture(e.pointerId);aim(e);});
 o.c.addEventListener('pointermove',e=>{if(drag)aim(e);});const end=()=>drag=false;o.c.addEventListener('pointerup',end);o.c.addEventListener('pointercancel',end);}
 update();
