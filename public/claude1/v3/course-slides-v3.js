@@ -69,7 +69,7 @@ const V3 = {
 // move through `n` steps before leaving the slide. onStep(k) draws step k (0 = nothing yet).
 V3.steps = (el, n, onStep) => {
   const api = { k: 0 };
-  api.go = k => { api.k = Math.max(0, Math.min(n, k)); onStep(api.k); };
+  api.go = (k, entering) => { api.k = Math.max(0, Math.min(n, k)); onStep(api.k, entering); };
   const fwd = () => api.k < n ? (api.go(api.k + 1), true) : false, back = () => api.k > 0 ? (api.go(api.k - 1), true) : false;
   addEventListener('keydown', e => { if (!el.classList.contains('active') || e.target.matches('input,textarea,select')) return;
     const f = e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ', b = e.key === 'ArrowLeft' || e.key === 'PageUp';
@@ -77,7 +77,7 @@ V3.steps = (el, n, onStep) => {
   const nx = document.getElementById('next'), pv = document.getElementById('prev');
   if (nx) nx.addEventListener('click', e => { if (el.classList.contains('active') && fwd()) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);
   if (pv) pv.addEventListener('click', e => { if (el.classList.contains('active') && back()) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);
-  let was = false; const watch = () => { const on = el.classList.contains('active'); if (on && !was) api.go(0); was = on; requestAnimationFrame(watch); }; watch();
+  let was = false; const watch = () => { const on = el.classList.contains('active'); if (on && !was) api.go(0, true); was = on; requestAnimationFrame(watch); }; watch();
   api.fwd = fwd; api.back = back; return api;
 };
 // A reveal's answer belongs on the stage, not in the side panel: mirror any `.readout .big` onto the stage, large.
@@ -100,7 +100,7 @@ const V3_TUNE = {
   'Latitude &amp; Longitude': { kicker: '325 BC · Pytheas of Marseille', // just the grid and the bingo card here: Polaris and the Southern Cross wait for Walk North; the Date Line and Null Island come later
     keep: ['[data-k="lat"]', '[data-k="lon"]', '[data-k="grid"]', '#bingo-open', '#g-spin'], noTap: true, arrow: ['#bingo-open'], hide: ['a[href="/polaris/"]'],
     clickOnLoad: ['#globe-toggles [data-k="lat"].on', '#globe-toggles [data-k="lon"].on', '#globe-toggles [data-k="grid"].on', '#globe-toggles [data-k="polaris"].on', '#globe-toggles [data-k="cities"].on'], hero: '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.', on: { '#bingo-open': '<b>Latitude</b> Calls the Row, <b>Longitude</b> Calls the Column.', '#fly-nm': '1 Arcminute of <b>Latitude</b> = 1 Nautical Mile', '#fly-north': '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.' } },
-  'Walk north': { arrow: ['#wn-l-you', '#wn-walk', '#wn-view'], hide: ['#wn-places', '#wn-south'], clickOnLoad: ['#wn-l-ang', '#wn-l-par'], setRange: { '#wn-lat': 0 }, // opens on the equator with 1 and 2 on; ↑ walks north
+  'Walk north': { arrow: ['#wn-l-you', '#wn-walk', '#wn-view'], hide: ['#wn-places', '#wn-south'], clickOnLoad: ['#wn-l-ang', '#wn-l-par'], setRange: { '#wn-lat': 0 }, onEnter: () => window.wnReset && wnReset(), // opens on the equator with 1 and 2 on; ↑ walks north
     hideText: ['Why They Match', 'North Pole'], hero: '<b>Latitude</b> Is an Angle From the Equator.', on: { '#wn-l-you': 'One Star, One Angle. <b>Latitude</b> Needs No Clock.', '#wn-south': 'In the South, <b>the Southern Cross</b> Points to the Pole.' } },
   'Eratosthenes': { kicker: '240 BC · Eratosthenes of Alexandria' },
   'Hours are slices': {},
@@ -127,7 +127,7 @@ addEventListener('load', () => setTimeout(() => {
     if (cfg.coverSub) { const sub = el.querySelector('.sub'); if (sub) sub.textContent = cfg.coverSub; }
     (cfg.clickOnLoad || []).forEach(sel => { const b = el.querySelector(sel); if (b) b.click(); });
     // → walks these builds in order before leaving the slide; ← clicks the last one again to undo it
-    if (cfg.arrow) { let prev = 0; const click = sel => { const b = el.querySelector(sel); if (b) b.click(); }; V3.steps(el, cfg.arrow.length, k => { if (k > prev) click(cfg.arrow[k - 1]); else if (k < prev) click(cfg.arrow[prev - 1]); prev = k; }); }
+    if (cfg.arrow) { let prev = 0; const click = sel => { const b = el.querySelector(sel); if (b) b.click(); }; V3.steps(el, cfg.arrow.length, (k, entering) => { if (entering && cfg.onEnter) { prev = 0; cfg.onEnter(); return; } if (k > prev) click(cfg.arrow[k - 1]); else if (k < prev) click(cfg.arrow[prev - 1]); prev = k; }); }
     for (const [sel, v] of Object.entries(cfg.setRange || {})) el.querySelectorAll(sel).forEach(r => { r.value = v; r.dispatchEvent(new Event('input')); });
     if (cfg.hero) v3Hero(el, cfg.hero);
     for (const [sel, html] of Object.entries(cfg.on || {})) el.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => v3Hero(el, html)));
