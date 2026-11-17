@@ -383,10 +383,10 @@ NEW_SLIDES['Scilly, 1707'] = {
       // the map: two words at headline size, no other headline. Beat 1 "Where They Thought", beat 2 "Where They Were" with a slight push in on the Scilly rocks
       { const bel = W.beats.find(x => x.id === 'believed'), act = W.beats.find(x => x.id === 'actual'), H = W.BH;
         if (bel && act && H && H.gLook) { const anc = (b, re) => ((b.labels || []).find(l => re.test(l.t)) || {}).a, dims = b => (b.labels || []).filter(l => /dim/.test(l.cls || ''));
-          const A = H.G.at(49.3, -4.15), S = anc(act, /^but/i); // Thought: centered in the mouth of the English Channel, east of the Lizard
+          const A = H.G.at(49.25, -5.0), S = anc(act, /^but/i); // Thought: centered on the mouth of the English Channel, between the Lizard and Ushant (about 5° W); beat 1 camera centers on it
           if (A && S) { const thought = d => ({ a: A, t: 'Where They Thought', cls: 'ser hl nodot', side: 'b', d }); // centered on the spot
             bel.labels = [thought(.15)].concat(dims(bel)); bel.h = bel.l = ''; bel.xf = 1.2; // quick fade from the storm to the map
-            bel.cam = H.gLook(49.55, -5.1, .08, 12, H.SPIN0, { fov: 34, ahead: .004 }); // both spots in frame, centered between them
+            bel.cam = H.gLook(49.3, -5.0, .08, 12, H.SPIN0, { fov: 34, ahead: .004 }); // both spots in frame, centered between them
             act.labels = [thought(0), { a: S, t: 'Where They Were', cls: 'ser hl gold nodot', side: 't', d: .15 }].concat(dims(act)); act.h = act.l = '';
             act.cam = H.gLook(49.58, -5.15, .074, 12, H.SPIN0, { fov: 34, ahead: .004 }); } } } // slight push in toward the Scilly rocks
       // the fleet: 14 more ships of the line, cloned from the film deck's own, riding the same swell (Shovell had 21)
