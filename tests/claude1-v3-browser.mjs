@@ -51,13 +51,13 @@ assert.equal(await page.locator('#jf-title').innerText(), 'Eratosthenes', 'Erato
 await page.keyboard.press('ArrowRight'); await page.waitForTimeout(500);
 assert.equal(await page.locator('#jf-title').innerText(), await page.evaluate(() => COURSE_LIVE[COURSE_LIVE.findIndex(c => c.t === 'Eratosthenes') + 1].label), 'arrow key advances');
 
-// Scilly: three presses step through the four film beats (storm, believed, actual, toll), the fourth leaves it
+// Scilly: four presses step through the five beats (storm, believed, actual, toll, lesson), the fifth leaves it
 await page.evaluate(() => go(COURSE_LIVE.findIndex(c => c.t === 'Scilly, 1707'))); await page.waitForTimeout(600);
-for (let k = 0; k < 3; k++) { await page.keyboard.press('ArrowRight'); await page.waitForTimeout(600); }
-assert.equal(await page.evaluate(() => COURSE_LIVE[cur].t), 'Scilly, 1707', 'Scilly holds for three steps');
-assert.equal(await page.evaluate(() => document.querySelector('section.active .stage').dataset.beat), 'toll', 'the toll is the last beat');
+for (let k = 0; k < 4; k++) { await page.keyboard.press('ArrowRight'); await page.waitForTimeout(600); }
+assert.equal(await page.evaluate(() => COURSE_LIVE[cur].t), 'Scilly, 1707', 'Scilly holds for four steps');
+assert.equal(await page.evaluate(() => document.querySelector('section.active .stage').dataset.beat), 'lesson', 'the lesson is the last beat');
 await page.keyboard.press('ArrowRight'); await page.waitForTimeout(500);
-assert.equal(await page.evaluate(() => COURSE_LIVE[cur].t), 'Mental maps', 'fourth press moves on to the quiz');
+assert.equal(await page.evaluate(() => COURSE_LIVE[cur].t), 'Mental maps', 'fifth press moves on to the quiz');
 
 // Harrison: one line per press, ending on the 5-second result
 await page.evaluate(() => go(COURSE_LIVE.findIndex(c => c.t === 'A clock that could travel'))); await page.waitForTimeout(600);
