@@ -355,10 +355,9 @@ NEW_SLIDES['Scilly, 1707'] = {
     // The cold open runs the WebGL storm from the v3 film deck (/faria1/where-am-i/v3/) inside this slide:
     // storm (the fleet) → believed vs. really, on one map → the toll. Our → drives its beats.
     el.classList.add('wide'); el.querySelector('.text').style.display = 'none';
-    const IDS = ['storm', 'actual', 'toll']; // 'believed' folded into 'actual'; 'rocks' cut
+    const IDS = ['storm', 'believed', 'actual', 'toll']; // 'rocks' cut. believed/actual keep the film's own words: "They Believed They Were Here", then "But They Were Here"
     const TXT = {
       storm: ['22 October 1707', 'Admiral Shovell brings the fleet home. Days of storm and cloud: no Sun, no stars.'],
-      actual: ['Not Where They Thought', ''],
       toll: ['Four Ships.<br>Almost 2,000 Men Lost.', '<span style="color:#f0b35a">They knew their latitude, not their longitude.</span>'] };
     const stage = el.querySelector('.stage');
     stage.innerHTML = `<div class="sc-wrap" style="position:absolute;inset:0;overflow:hidden;background:#05070d">
@@ -372,11 +371,22 @@ NEW_SLIDES['Scilly, 1707'] = {
       W = w.World;
       // Teams-size type, Title Case headlines, none of the film deck's own controls
       const css = w.document.createElement('style');
-      css.textContent = '#ui,#progbar,#notes,#overview,#help{display:none!important} .tbox .l{font-size:calc(var(--u)*3)!important;max-width:calc(var(--u)*70)!important;color:#e8e4dc!important} .lab{font-size:calc(var(--u)*1.7)!important} .lab.big{font-size:calc(var(--u)*2.1)!important} .tbox.bigl .l{font-size:calc(var(--u)*3.9)!important;max-width:calc(var(--u)*84)!important;line-height:1.15!important}';
+      css.textContent = '#ui,#progbar,#notes,#overview,#help{display:none!important} .tbox .l{font-size:calc(var(--u)*3)!important;max-width:calc(var(--u)*70)!important;color:#e8e4dc!important} .lab{font-size:calc(var(--u)*1.7)!important} .lab.big{font-size:calc(var(--u)*2.1)!important} .tbox.bigl .l{font-size:calc(var(--u)*3.9)!important;max-width:calc(var(--u)*84)!important;line-height:1.15!important}'
+        + ' .tbox>*{transition-duration:.45s!important} .tbox .l{transition-delay:.12s!important} .lab{transition:opacity .4s ease!important}'
+        + " .lab.hl{font-size:calc(var(--u)*6.4)!important;letter-spacing:-.012em!important} .lab.hl.side-l span{top:-.55em!important;right:.3em!important} .lab.hl.side-t span{top:-1.35em!important}"; // map words as big as the old headline // words land on the key press, not seconds later
       w.document.head.appendChild(css);
-      IDS.forEach(id => { const b = W.beats.find(x => x.id === id); if (!b) return; b.h = TXT[id][0]; b.l = TXT[id][1];
-        // short map labels: no repeating the headline
-        (b.labels || []).forEach(l => { if (/^believed$/i.test(l.t)) { l.t = 'Believed: English Channel'; l.side = 'l'; } if (/^really/i.test(l.t)) l.t = 'Really: Isles of Scilly'; }); if (id === 'actual') b.tpos = 'bl'; if (id === 'toll') b.tcls = 'bigl'; }); // toll: the latitude line at headline size (62px on the 1600 canvas)
+      IDS.forEach(id => { const b = W.beats.find(x => x.id === id); if (!b) return; if (TXT[id]) { b.h = TXT[id][0]; b.l = TXT[id][1]; }
+        b.tdelay = .15; b.ldelay = .15; (b.labels || []).forEach(l => { l.d = id === 'believed' ? .9 : Math.min(l.d == null ? .15 : l.d, .15); }); // believed waits only for the map to fade in
+        if (id === 'toll') b.tcls = 'bigl'; }); // toll: the latitude line at headline size (62px on the 1600 canvas)
+      // the map: two words at headline size, no other headline. Beat 1 "Where They Thought", beat 2 "Where They Were" with a slight push in on the Scilly rocks
+      { const bel = W.beats.find(x => x.id === 'believed'), act = W.beats.find(x => x.id === 'actual'), H = W.BH;
+        if (bel && act && H && H.gLook) { const anc = (b, re) => ((b.labels || []).find(l => re.test(l.t)) || {}).a, dims = b => (b.labels || []).filter(l => /dim/.test(l.cls || ''));
+          const A = anc(bel, /believed/i), S = anc(act, /^but/i);
+          if (A && S) { const thought = d => ({ a: A, t: 'Where They Thought', cls: 'ser hl nodot', side: 'l', d }); // text ends at the believed spot, so it never runs off the right edge
+            bel.labels = [thought(.15)].concat(dims(bel)); bel.h = bel.l = ''; bel.xf = 1.2; // quick fade from the storm to the map
+            bel.cam = H.gLook(49.5, -5.3, .075, 30, H.SPIN0, { fov: 34, ahead: .004 }); // both spots in frame, centered between them
+            act.labels = [thought(0), { a: S, t: 'Where They Were', cls: 'ser hl gold nodot', side: 't', d: .15 }].concat(dims(act)); act.h = act.l = '';
+            act.cam = H.gLook(49.62, -5.55, .062, 30, H.SPIN0, { fov: 34, ahead: .004 }); } } } // slight push in toward the Scilly rocks
       // the fleet: 14 more ships of the line, cloned from the film deck's own, riding the same swell (Shovell had 21)
       try { const sea = W.envs && W.envs.sea; if (sea && sea.ships && sea.heightAt && sea.at) {
         const src = sea.ships[1], ud = src.userData; src.userData = {};
@@ -392,7 +402,7 @@ NEW_SLIDES['Scilly, 1707'] = {
       run = el.classList.contains('active'); go(k, 'init'); f.style.opacity = 1; };
       hook(); });
     new MutationObserver(() => { run = el.classList.contains('active'); }).observe(el, { attributes: true, attributeFilter: ['class'] });
-    V3.steps(el, IDS.length - 1, i => { const how = i > k ? 'fly' : 'cut'; k = i; go(i, how); });
+    V3.steps(el, IDS.length - 1, i => { const how = i > k && IDS[i] !== 'believed' ? 'fly' : 'cut'; k = i; go(i, how); }); // the map arrives on the key press, no slow flight
     stage.dataset.beat = IDS[0];
   }
 };
