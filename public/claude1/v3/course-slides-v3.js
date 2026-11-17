@@ -815,11 +815,10 @@ addEventListener('load', () => setTimeout(() => {
   const WORDS = [
     ['Way 2: The Moon Is a Clock Hand', 'An idea from 1514. It finally worked at sea in the 1760s.'],
     ['Measure the Moon–Star Distance', 'With a sextant: from the Moon’s edge to the bright star Regulus.'],
-    ['Look It Up in the Almanac', '42° 18′ means 9:00 PM in London. Your own clock says 7:00 PM: 2 hours = 30° West.'],
     ['Now Do It on a Rolling Deck', 'One arcminute wrong = about 30 miles. Then an hour of arithmetic by candlelight.']];
   let H = 6;
-  V3.scene(el, 4, (S, ctx, now) => {
-    const age = S.age(now), roll = S.step === 3 ? S.clamp(age / 900) : 0;
+  V3.scene(el, 3, (S, ctx, now) => { // 'Look It Up in the Almanac' step cut
+    const age = S.age(now), roll = S.step === 2 ? S.clamp(age / 900) : 0;
     // the Moon's hour: a time-lapse on the first step, parked at 9 PM after that
     if (S.step === 0) H = 6 + ((age / 1000) * .9) % 6; else H = S.lerp(H, 9, Math.min(1, .06));
     const sky = ctx.createLinearGradient(0, 0, 0, 1000); sky.addColorStop(0, '#060912'); sky.addColorStop(.75, '#0f1a33'); sky.addColorStop(1, '#14223d'); ctx.fillStyle = sky; ctx.fillRect(0, 0, 1600, 1000);
@@ -843,12 +842,7 @@ addEventListener('load', () => setTimeout(() => {
     ctx.restore();
     // a clock for the time-lapse: the Moon's place among the stars is London time
     if (S.step === 0) S.card(60, 160, 340, 150, 'London time', t12(H + 12), 'read from the Moon’s place', G, S.fade(now, 300));
-    // the almanac page
-    if (S.step === 2) { const a = S.fade(now, 200, 600); ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = '#efe4c8'; ctx.beginPath(); ctx.roundRect(60, 150, 470, 470, 10); ctx.fill(); ctx.restore();
-      const ink = '#3a2f22'; S.text('The Nautical Almanac, 1767', 295, 195, 28, ink, 'center', a, 600, 440, true); S.text('Moon from Regulus, at London', 295, 234, 21, '#6b5a40', 'center', a, 400, 440, true);
-      [[6, 44.1], [9, 42.3], [12, 40.5]].forEach(([h, d], i) => { const y = 300 + i * 90, on = h === 9; if (on) { ctx.save(); ctx.globalAlpha = a * S.fade(now, 1200, 400); ctx.fillStyle = 'rgba(240,179,90,.55)'; ctx.fillRect(80, y - 34, 430, 68); ctx.restore(); } S.text(t12(h + 12), 110, y, 32, ink, 'left', a, 400, 300, true); S.text(dm(d), 480, y, 32, ink, 'right', a, 400, 300, true); });
-      S.card(1300, 560, 260, 140, 'London', '9:00 PM', 'from the table', G, S.fade(now, 1700)); S.card(1020, 560, 260, 140, 'Your clock', '7:00 PM', 'set by your noon', '#6fb3ff', S.fade(now, 2300)); S.text('2 hours = 30° West', 1290, 750, 40, G, 'center', S.fade(now, 2900)); }
-    if (S.step === 3) { S.text('±1′ in the sighting  =  ±30 miles', 1170, 620, 34, RED, 'center', S.fade(now, 1200)); S.text('+ refraction, parallax, the almanac every 3 hours…', 1170, 670, 24, M, 'center', S.fade(now, 2000)); }
+    if (S.step === 2) { S.text('±1′ in the sighting  =  ±30 miles', 1170, 620, 34, RED, 'center', S.fade(now, 1200)); S.text('+ refraction, parallax, the almanac every 3 hours…', 1170, 670, 24, M, 'center', S.fade(now, 2000)); }
     S.words(now, ...WORDS[S.step]);
   });
 }, 0));
