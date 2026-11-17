@@ -295,3 +295,9 @@ body.v3-touch .nav .arrows button{opacity:.9;font-size:20px;padding:.5rem 1.1rem
 /* keep the presenter's key list short: six lines, the rest on hover */
 #visual #v3-keys{font-size:12px}
 #visual #v3-keys:not(:hover)>*:nth-child(n+11){display:none}
+
+/* Washington, 1884: the delegates photo, full screen (Jeff, 17 Nov) */
+.pm84-photo{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .5s;background:#0a0e18}
+.pm84-photo.on{opacity:1}
+.pm84-photo img{width:100%;height:100%;object-fit:cover;object-position:center 45%;display:block}
+.pm84-photo span{position:absolute;right:1.2%;top:1.2%;font:14px Georgia,serif;color:rgba(255,255,255,.75);text-shadow:0 1px 3px #000}

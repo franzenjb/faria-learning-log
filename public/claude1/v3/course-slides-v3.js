@@ -109,7 +109,7 @@ const V3_TUNE = {
   'Galileo’s clock': { talk: { hide: ['[data-detour]', '#gs-steps [data-s="5"]'] } },
   'The lunar distance': { kicker: '1767 · Nevil Maskelyne’s Almanac' },
   'A clock that could travel': { h1: 'A Clock That Could Travel' },
-  'Washington, 1884': { kicker: 'Washington · October 1884', arrow: ['#pm84-ns', '#pm84-q', '#pm84-g', '#pm84-ew'], talk: { hide: ['#pm84-fr'] }, hide: ['#pm84-r'], hero: 'Nature Gives Us One Zero: the <b>Equator</b>, Latitude 0°.' },
+  'Washington, 1884': { kicker: 'Washington · October 1884', arrow: ['#pm84-ns', '#pm84-q', '#pm84-ph', '#pm84-g', '#pm84-ew'], talk: { hide: ['#pm84-fr'] }, hide: ['#pm84-r'], hero: 'Nature Gives Us One Zero: the <b>Equator</b>, Latitude 0°.' },
   'Where am I, now': { kicker: 'GPS' } // the GPS close is a full V3 scene now (see the end of this file)
 };
 const v3Hero = (el, html) => { let h = el.querySelector('.v3-hero'); const st = el.querySelector('.stage'); if (!st) return; if (!h) { h = document.createElement('div'); h.className = 'v3-hero'; if (getComputedStyle(st).position === 'static') st.style.position = 'relative'; st.appendChild(h); } h.innerHTML = html || ''; };
@@ -257,7 +257,7 @@ NEW_SLIDES['Was 1900 a leap year?'] = {
 /* ---------- Washington, 1884 ---------- */
 NEW_SLIDES['Washington, 1884'] = {
   h1: 'Where should zero be?', canvas: true,
-  ctl: `<div class="btns"><button id="pm84-q" style="display:none">Where Is Zero?</button>${V3.btn('pm84-ns', 'North | South')}${V3.btn('pm84-g', 'Greenwich', true)}${V3.btn('pm84-ew', 'East | West')}${V3.btn('pm84-fr', 'And Today?')}</div><div class="btns">${V3.btn('dl84-0', 'The Date Line, 180°')}${V3.btn('dl84-1', 'Alaska, 1867')}${V3.btn('dl84-2', 'Kiribati, 1995')}${V3.btn('dl84-3', 'Samoa, 2011')}</div><div class="readout" id="pm84-r"><strong>25 nations. Vote first.</strong></div>`,
+  ctl: `<div class="btns"><button id="pm84-q" style="display:none">Where Is Zero?</button>${V3.btn('pm84-ns', 'North | South')}${V3.btn('pm84-ph', 'The Delegates')}${V3.btn('pm84-g', 'Greenwich', true)}${V3.btn('pm84-ew', 'East | West')}${V3.btn('pm84-fr', 'And Today?')}</div><div class="btns">${V3.btn('dl84-0', 'The Date Line, 180°')}${V3.btn('dl84-1', 'Alaska, 1867')}${V3.btn('dl84-2', 'Kiribati, 1995')}${V3.btn('dl84-3', 'Samoa, 2011')}</div><div class="readout" id="pm84-r"><strong>25 nations. Vote first.</strong></div>`,
   init(el) {
     const C = [['pm84-g', 'Greenwich', 51.48, 0], ['pm84-p', 'Paris', 48.84, 2.34], ['pm84-w', 'Washington', 38.92, -77.07], ['pm84-f', 'Ferro', 27.75, -17.9]];
     let pick = null, stage = 0, t0 = 0;
@@ -288,7 +288,11 @@ NEW_SLIDES['Washington, 1884'] = {
     CS.$(el, '#pm84-fr').onclick = () => { intro = false; stage = 1; fly(G.st, camFor(51.48, 0, 6), 1600); CS.$(el, '#pm84-r').innerHTML = '<strong class="big">Power Decides Zero</strong>'; v3Hero(el, 'GPS Zero (WGS 84) Runs <b>335 Feet East</b> of the Greenwich Line.'); };
     CS.$(el, '#pm84-ns').onclick = () => { intro = true; fly(G.st, camFor(0, -30, 1), 1200); sp = 'ns'; spT = performance.now() + 1200; CS.$(el, '#pm84-r').innerHTML = '<strong class="big">North +, South −</strong>'; v3Hero(el, 'Nature Splits North From South: the <b>Equator</b>.'); };
     CS.$(el, '#pm84-ew').onclick = () => { intro = false; stage = 1; fly(G.st, camFor(0, 0, 1), 1200); sp = 'ew'; spT = performance.now() + 1200; CS.$(el, '#pm84-r').innerHTML = '<strong class="big">East +, West −</strong>'; v3Hero(el, 'People Split East From West: <b>Greenwich</b> + 180°.'); };
-    ['pm84-q', 'pm84-g', 'pm84-fr', ...DL.map((_, i) => 'dl84-' + i)].forEach(id => { const b = CS.$(el, '#' + id), f = b.onclick; b.onclick = e => { sp = null; f && f(e); }; });
+    // Jeff, 17 Nov: the delegates on the steps, full screen, right before the vote
+    const ph = document.createElement('div'); ph.className = 'pm84-photo'; ph.innerHTML = '<img src="img/delegates1884.jpg" alt="Delegates of the International Meridian Conference, Washington, October 1884"><span>Public domain</span>'; el.querySelector('.stage').insertBefore(ph, el.querySelector('.stage .v3-hero'));
+    CS.$(el, '#pm84-ph').onclick = () => { ph.classList.add('on'); CS.$(el, '#pm84-r').innerHTML = '<strong class="big">25 Nations, 41 Delegates</strong>'; v3Hero(el, 'Washington, October 1884: <b>25 Nations</b> Pick Zero.'); };
+    ['pm84-q', 'pm84-g', 'pm84-fr', 'pm84-ns', 'pm84-ew', ...DL.map((_, i) => 'dl84-' + i)].forEach(id => { const b = CS.$(el, '#' + id), f = b.onclick; b.onclick = e => { ph.classList.remove('on'); f && f(e); }; });
+    ['pm84-q', 'pm84-g', 'pm84-fr', 'pm84-ph', ...DL.map((_, i) => 'dl84-' + i)].forEach(id => { const b = CS.$(el, '#' + id), f = b.onclick; b.onclick = e => { sp = null; f && f(e); }; });
     ['pm84-g', 'pm84-fr', 'pm84-ns', 'pm84-ew'].forEach(id => { const b = CS.$(el, '#' + id), f = b.onclick; b.onclick = e => { dl = -1; dlSync(); f && f(e); }; });
   }
 };
