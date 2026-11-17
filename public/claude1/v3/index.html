@@ -967,6 +967,8 @@ document.querySelectorAll('#wn-places button').forEach(b=>b.onclick=()=>{walk=nu
 southB.onclick=()=>{south=!south;if(south){lay.ang=lay.par=lay.you=true;syncLay();}if(south&&!view)viewB.onclick();southB.classList.toggle('on',south);why=false;whyB.classList.remove('on');walk=null;set(south?33.9:43.7);};
 whyB.onclick=()=>{why=!why;whyB.classList.toggle('on',why);update();};
 walkB.onclick=()=>{walk={t0:performance.now()};};
+// every time the slide opens (Jeff): 1 and 2 on, at the equator, nothing else
+window.wnReset=()=>{walk=null;drag=false;why=false;whyB.classList.remove('on');south=false;southB.classList.remove('on');view=false;viewB.classList.remove('on');lay.ang=lay.par=true;lay.you=false;syncLay();set(0);};
 // the globe alone sits in the middle; 'What you see' slides it left to make room for the sky view
 const geom=()=>{const{w,h}=o;return view?{cx:w*.27,cy:h*(south?.4:.58),R:Math.min(w*.155,h*.27)}:{cx:w*.5,cy:h*(south?.38:.62),R:Math.min(w*.18,h*.24)};};
 {const P=e=>{const r=o.c.getBoundingClientRect();return{x:(e.clientX-r.left)*(o.w/r.width||1),y:(e.clientY-r.top)*(o.h/r.height||1)};};
