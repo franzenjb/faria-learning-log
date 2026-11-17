@@ -372,11 +372,11 @@ NEW_SLIDES['Scilly, 1707'] = {
       W = w.World;
       // Teams-size type, Title Case headlines, none of the film deck's own controls
       const css = w.document.createElement('style');
-      css.textContent = '#ui,#progbar,#notes,#overview,#help{display:none!important} .tbox .l{font-size:calc(var(--u)*3)!important;max-width:calc(var(--u)*70)!important;color:#e8e4dc!important} .lab{font-size:calc(var(--u)*1.7)!important} .lab.big{font-size:calc(var(--u)*2.1)!important}';
+      css.textContent = '#ui,#progbar,#notes,#overview,#help{display:none!important} .tbox .l{font-size:calc(var(--u)*3)!important;max-width:calc(var(--u)*70)!important;color:#e8e4dc!important} .lab{font-size:calc(var(--u)*1.7)!important} .lab.big{font-size:calc(var(--u)*2.1)!important} .tbox.bigl .l{font-size:calc(var(--u)*3.9)!important;max-width:calc(var(--u)*84)!important;line-height:1.15!important}';
       w.document.head.appendChild(css);
       IDS.forEach(id => { const b = W.beats.find(x => x.id === id); if (!b) return; b.h = TXT[id][0]; b.l = TXT[id][1];
         // short map labels: no repeating the headline
-        (b.labels || []).forEach(l => { if (/^believed$/i.test(l.t)) { l.t = 'Believed: English Channel'; l.side = 'l'; } if (/^really/i.test(l.t)) l.t = 'Really: Isles of Scilly'; }); if (id === 'actual') b.tpos = 'bl'; });
+        (b.labels || []).forEach(l => { if (/^believed$/i.test(l.t)) { l.t = 'Believed: English Channel'; l.side = 'l'; } if (/^really/i.test(l.t)) l.t = 'Really: Isles of Scilly'; }); if (id === 'actual') b.tpos = 'bl'; if (id === 'toll') b.tcls = 'bigl'; }); // toll: the latitude line at headline size (62px on the 1600 canvas)
       // the fleet: 14 more ships of the line, cloned from the film deck's own, riding the same swell (Shovell had 21)
       try { const sea = W.envs && W.envs.sea; if (sea && sea.ships && sea.heightAt && sea.at) {
         const src = sea.ships[1], ud = src.userData; src.userData = {};
