@@ -144,16 +144,27 @@ cine('storm', { act: A1, min: .6,
   say: 'October 1707. Admiral Sir Cloudesley Shovell is bringing the British fleet home from the Mediterranean, after the failed siege of Toulon. Days of storm and cloud. No Sun, no stars: no way to check where they are.',
   notes: 'Toulon, summer 1707: Prince Eugene of Savoy attacked by land, Shovell supported from the sea. The siege failed in August, but the French scuttled much of their own fleet in the harbour to protect it.\nShovell left about 15 ships at Gibraltar and sailed for England in late September with about 21.\nNobody ashore knew where the fleet was day to day: news travelled only by dispatch boats and post riders.' });
 cine('believed', { act: A1, min: .5,
-  l: 'The navigators’ reckoning: safely west of Ushant, off Brittany.',
-  say: 'On the twenty-second, the navigators compare their reckonings. Most agree: they are safely west of Ushant, the island off Brittany, with open water ahead into the Channel.',
-  notes: 'Dead reckoning: speed × time × heading, from the last known position. After days of storm, small errors pile up.\nThe ghost (dashed) fleet is where they believed they were.' });
+  show: [], dropO: true, h: '', l: '',                 // no tracks, no dots, no headline
+  cam: OLD.actual.cam,                                  // same framing as the next beat, so only the words change
+  labels: [
+    { a: G.at(49.45, -4.2), t: 'They Believed They Were Here', cls: 'ser nodot', side: 'b', d: 2.4 },
+    { a: G.at(50.35, -4.9), t: 'Cornwall', cls: 'dim nodot', side: 'r' },
+    { a: G.at(48.45, -4.1), t: 'Brittany', cls: 'dim nodot', side: 'r' } ],
+  say: 'On the twenty-second, the navigators compare their reckonings. They believed they were here: safely west of Brittany, heading into the Channel.',
+  notes: 'Dead reckoning: speed × time × heading, from the last known position. After days of storm, small errors pile up.' });
 cine('actual', { act: A1, min: .5,
-  say: 'They were wrong. They were farther north and west, heading straight for the Isles of Scilly, off the tip of Cornwall.',
-  notes: 'Gold: where they really were. Historians also blame charts that put Scilly in the wrong place, and poor latitude after days without a sight. But the problem no one at sea could solve was longitude.' });
+  show: [], dropO: true, h: '', l: '',
+  labels: [
+    { a: G.at(49.45, -4.2), t: 'They Believed They Were Here', cls: 'ser nodot', side: 'b', d: 0 },
+    { a: G.at(49.872, -6.43), t: 'But They Were Here', cls: 'ser gold nodot', side: 't', d: 1.2 },
+    { a: G.at(50.35, -4.9), t: 'Cornwall', cls: 'dim nodot', side: 'r' },
+    { a: G.at(48.45, -4.1), t: 'Brittany', cls: 'dim nodot', side: 'r' } ],
+  say: 'But they were here: farther north and west, heading straight for the Isles of Scilly, off the tip of Cornwall.',
+  notes: 'Historians also blame charts that put Scilly in the wrong place, and poor latitude after days without a sight. But the problem no one at sea could solve was longitude.' });
 cine('rocks', { act: A1, min: .45,
   say: 'About eight at night, in the dark and the rain, the flagship Association hits the Western Rocks. Three more ships follow her.',
   notes: 'Lost: Association (flagship), Eagle, Romney and Firebrand. The Phoenix also struck but survived.' });
-cine('toll', { act: A1, min: .55,
+cine('toll', { act: A1, min: .55, show: ['debris'], p: { 'o.debris': [1, 2.4, .4] },   // wreckage fades up as the camera settles
   h: 'Four ships.<br>About 1,400 to 2,000 men.', l: 'Shovell among them: one of the worst disasters in Royal Navy history.',
   say: 'Four ships. Somewhere between fourteen hundred and two thousand men. Shovell himself among them. All because they did not know where they were.',
   notes: 'Estimates of the dead range from about 1,400 to 2,000. Shovell’s body washed ashore at Porthellick Cove on St Mary’s.' });

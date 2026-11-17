@@ -44,6 +44,9 @@ body.nogl{ background:radial-gradient(120% 90% at 70% 40%, #12223a 0%, #050a12 5
 .lab.gold{ color:var(--gold2); } .lab.big{ font-size:calc(var(--u)*1.25); } .lab.ser{ font-family:'Instrument Serif'; text-transform:none; letter-spacing:0; font-size:calc(var(--u)*2.1); }
 .lab.mono span{ font-family:'Geist Mono', monospace; letter-spacing:.04em; text-transform:none; }
 .lab.dim{ color:rgba(200,210,222,.6); }
+/* Scilly map labels (believed / actual beats): big serif, readable in a small Teams window */
+.lab.ser{ font-size:calc(var(--u)*3.8); }
+.lab.ser.side-b span{ top:2.4em; transform:translateX(-60%); }   /* sits a little west of centre so it clears the right edge on an iPad */
 
 /* ---------- archival plates ---------- */
 .plate{ position:absolute; margin:0; top:50%; --ph:62vh; height:var(--ph); opacity:0; transform:translate3d(0,-48%,0) scale(.985); filter:blur(6px);

@@ -231,6 +231,20 @@ const rocks = [], rockDefs = [[2740, -40, 34, 17, 20, 1], [2700, 60, 14, 9, 11, 
 rockDefs.forEach(([a, b, sx, sy, sz, seed], i) => { const m = new THREE.Mesh(rockGeo(seed * 3.1, sx, sy, sz), rockM); const p = at(a, b); m.position.set(p[0], -sy * .25, p[2]); m.rotation.y = seed; scene.add(m); rocks.push(m);
   OU.uRocks.value[i].set(p[0], p[2], Math.max(sx, sz) * .8, 1); });
 
+/* ---------------- wreckage: planks, a broken spar, barrels (toll beat only, o.debris) ---------------- */
+const debrisM = new THREE.MeshStandardMaterial({ color: 0x5c4532, emissive: 0x0e0a07, roughness: .78, metalness: 0, transparent: true, opacity: 0 });   // fades in with o.debris
+const debris = [];
+{ const C0 = [2330, 460], DV = [.715, -.699], NV = [.699, .715];   // toll camera position, view direction and its right, in (a, b)
+  // [kind, metres ahead of the camera, metres to the right]: kept right of centre so the headline (bottom left) stays clear
+  [['plank', 85, 22], ['plank', 95, 40], ['spar', 120, 30], ['barrel', 100, 55], ['plank', 140, 18], ['plank', 150, 62],
+   ['barrel', 165, 38], ['plank', 180, 80], ['plank', 110, 70], ['plank', 130, 48], ['barrel', 78, 31]].forEach(([k, s, l], i) => {
+    const g = k === 'spar' ? new THREE.CylinderGeometry(.45, .65, 17, 9).rotateZ(Math.PI / 2)   // a broken topmast
+            : k === 'barrel' ? new THREE.CylinderGeometry(.85, .85, 2.1, 14).rotateZ(Math.PI / 2)
+            : new THREE.BoxGeometry(6.5 + (i % 3) * 1.5, .45, 1.1);
+    const m = new THREE.Mesh(g, debrisM), p = at(C0[0] + DV[0] * s + NV[0] * l, C0[1] + DV[1] * s + NV[1] * l);
+    m.userData = { x: p[0], z: p[2], yaw: i * 1.7, ph: i * 2.3 }; m.visible = false; scene.add(m); debris.push(m); }); }
+W.param('o.debris', 0);
+
 /* ---------------- lightning ---------------- */
 const boltMat = new THREE.LineMaterial({ color: new THREE.Color(3.2, 3.6, 5.4), linewidth: 1.6, transparent: true, opacity: 0, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending, fog: false });
 const post = sea.post = new THREE.Scene(); const boltGrp = new THREE.Group(); post.add(boltGrp);
@@ -384,6 +398,13 @@ sea.update = (T, dt, P) => {
     const lv = P['lant' + i]; u.lant.forEach(l => { l.material.opacity = lv * (.92 + .08 * Math.sin(T * 9 + i * 3)); l.visible = lv > .01; });
     u.wm.material.color.setRGB(1.1 * lv, .52 * lv, .17 * lv); u.pl.intensity = 30 * lv;
   });
+  // wreckage rides the swell and drifts a little
+  const dv = P['o.debris'] || 0; debrisM.opacity = dv;
+  debris.forEach(d => { d.visible = dv > .01; if (!d.visible) return;
+    const u = d.userData, x = u.x + Math.sin(T * .07 + u.ph) * 3, z = u.z + Math.cos(T * .05 + u.ph) * 3, e = 1.2;
+    const h0 = heightAt(x, z, T), hx = heightAt(x + e, z, T), hz = heightAt(x, z + e, T);
+    d.position.set(x, h0 - .1, z);
+    d.rotation.set(Math.atan2(hz - h0, e), u.yaw + T * .03, -Math.atan2(hx - h0, e), 'YXZ'); });
 };
 sea.breathe = (c, T) => { // gentle boat-borne motion near the water; still air higher up
   const y = c.position.y; if (y > 60) return;
