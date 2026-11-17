@@ -353,15 +353,13 @@ NEW_SLIDES['Scilly, 1707'] = {
   fig: '',
   init(el) {
     // The cold open runs the WebGL storm from the v3 film deck (/faria1/where-am-i/v3/) inside this slide:
-    // storm → where they believed they were → where they really were → the rocks → the toll. Our → drives its beats.
+    // storm (the fleet) → believed vs. really, on one map → the toll. Our → drives its beats.
     el.classList.add('wide'); el.querySelector('.text').style.display = 'none';
-    const IDS = ['storm', 'believed', 'actual', 'rocks', 'toll'];
+    const IDS = ['storm', 'actual', 'toll']; // 'believed' folded into 'actual'; 'rocks' cut
     const TXT = {
       storm: ['22 October 1707', 'Admiral Shovell brings the fleet home. Days of storm and cloud: no Sun, no stars.'],
-      believed: ['Where They Believed They Were', 'The navigators agree: safely west of Ushant, off Brittany.'],
-      actual: ['Where They Really Were', 'Farther north, heading straight for the Isles of Scilly.'],
-      rocks: ['About Eight at Night', 'In the dark, the flagship and three more ships strike the Western Rocks.'],
-      toll: ['Four Ships.<br>About 1,400 to 2,000 Men.', 'They knew their latitude. Not their longitude.'] };
+      actual: ['Not Where They Thought', ''],
+      toll: ['Four Ships.<br>Almost 2,000 Men Lost.', '<span style="color:#f0b35a">They knew their latitude, not their longitude.</span>'] };
     const stage = el.querySelector('.stage');
     stage.innerHTML = `<div class="sc-wrap" style="position:absolute;inset:0;overflow:hidden;background:#05070d">
       <img src="v3/img/scilly.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.55)">
@@ -376,7 +374,20 @@ NEW_SLIDES['Scilly, 1707'] = {
       const css = w.document.createElement('style');
       css.textContent = '#ui,#progbar,#notes,#overview,#help{display:none!important} .tbox .l{font-size:calc(var(--u)*3)!important;max-width:calc(var(--u)*70)!important;color:#e8e4dc!important} .lab{font-size:calc(var(--u)*1.7)!important} .lab.big{font-size:calc(var(--u)*2.1)!important}';
       w.document.head.appendChild(css);
-      IDS.forEach(id => { const b = W.beats.find(x => x.id === id); if (b) { b.h = TXT[id][0]; b.l = TXT[id][1]; if (id === 'actual') b.tpos = 'bl'; } });
+      IDS.forEach(id => { const b = W.beats.find(x => x.id === id); if (!b) return; b.h = TXT[id][0]; b.l = TXT[id][1];
+        // short map labels: no repeating the headline
+        (b.labels || []).forEach(l => { if (/^believed$/i.test(l.t)) { l.t = 'Believed: English Channel'; l.side = 'l'; } if (/^really/i.test(l.t)) l.t = 'Really: Isles of Scilly'; }); if (id === 'actual') b.tpos = 'bl'; });
+      // the fleet: 14 more ships of the line, cloned from the film deck's own, riding the same swell (Shovell had 21)
+      try { const sea = W.envs && W.envs.sea; if (sea && sea.ships && sea.heightAt && sea.at) {
+        const src = sea.ships[1], ud = src.userData; src.userData = {};
+        const SPOTS = [[400, -457, -3], [820, -230, 5], [635, -594, 2], [964, -451, -4], [645, -954, 6], [1032, -730, 0], [1472, -524, 3], [904, -1219, -2], [1507, -902, 4], [836, -1733, 1], [1432, -1383, -5], [2084, -980, 2], [1411, -1881, 3], [2092, -1519, -1]]; // spread through the flagship shot, out into the rain
+        const fleet = SPOTS.map(([a, b, r]) => { const c = src.clone(), lights = []; c.traverse(o => { if (o.isLight) lights.push(o); }); lights.forEach(o => o.parent.remove(o));
+          const q = sea.at(a, b); c.userData = { x: q[0], z: q[2], yaw: -sea.HEAD + Math.PI / 2 + r * Math.PI / 180, L: ud.L, B: ud.B }; c.visible = false; sea.scene.add(c); return c; });
+        src.userData = ud;
+        const upd = sea.update; sea.update = (T, dt, P) => { upd(T, dt, P); const on = W.beats[W.k] && W.beats[W.k].id === 'storm', h = sea.heightAt;
+          fleet.forEach(s => { s.visible = on; if (!on) return; const u = s.userData, cy = Math.cos(u.yaw), sy = Math.sin(u.yaw), fx = cy * u.L * .4, fz = -sy * u.L * .4, px = sy * u.B * .5, pz = cy * u.B * .5;
+            const hb = h(u.x + fx, u.z + fz, T), hs = h(u.x - fx, u.z - fz, T), hp = h(u.x + px, u.z + pz, T), hq = h(u.x - px, u.z - pz, T);
+            s.position.set(u.x, (hb + hs + hp + hq) / 4 * .85 - .4, u.z); s.rotation.order = 'YZX'; s.rotation.set(0, 0, 0); s.rotation.y = u.yaw; s.rotation.z = Math.atan2(hb - hs, u.L * .8) * .8; s.rotation.x = -Math.atan2(hp - hq, u.B) * .8; }); }; } } catch (e) { console.warn('fleet', e); }
       const step = W.step.bind(W); W.step = dt => { if (run) step(dt); }; // rest the GPU while the slide is not showing
       run = el.classList.contains('active'); go(k, 'init'); f.style.opacity = 1; };
       hook(); });
