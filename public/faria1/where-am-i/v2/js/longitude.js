@@ -19,3 +19,14 @@ function wedge(key, lonA, lonB){
   m.userData.k = .17; const mesh = new THREE.Mesh(g, m); mesh.renderOrder = 4; S.reg(key, mesh, [m]); S.spinGrp.add(mesh); }
 wedge('wedge15', -15, 0); wedge('wedge30', -30, 0);
 })();
+/* 2026-11-16 eureka sequence: noon walks west across the US (NY, Memphis, Denver, LA), then a lone ship in the Pacific */
+(function(){
+const W = World, S = W.envs.space;
+const city = (key, lon, lat) => { const d = S.dots([[lon, lat]], { color: [3.6, 2.5, 1.25], size: 13, r: 1.012 }); S.reg(key, d, [d.material]); S.spinGrp.add(d); };
+city('cNY', -74.01, 40.71); city('cMEM', -90.05, 35.15); city('cDEN', -104.99, 39.74); city('cLA', -118.24, 34.05); city('cPHL', -75.17, 39.95); city('cPIT', -80.0, 40.44); city('cBNA', -86.78, 36.16);
+const grp = new THREE.Group(), mats = [];
+[-75, -90, -105, -120].forEach(lon => { const pts = []; for (let lat = 8; lat <= 62; lat += 1) pts.push([lon, lat]);
+  const l = S.geoLine(pts, { color: 0xE8E4DC, w: 1, dash: [.008, .008], r: 1.0125 }); l.material.userData.k = .5; mats.push(l.material); grp.add(l); });
+S.reg('usMer', grp, mats); S.spinGrp.add(grp);
+const ship = S.dots([[-149, 32]], { color: [3.6, 2.5, 1.25], size: 13, r: 1.012 }); S.reg('loneShip', ship, [ship.material]); S.spinGrp.add(ship);
+})();

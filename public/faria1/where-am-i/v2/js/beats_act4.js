@@ -10,7 +10,7 @@ const jDir = [Math.sin(35 * RAD) * Math.cos(8 * RAD), Math.sin(8 * RAD), Math.co
 const jCam = (d, o = {}) => Object.assign({ p: JC.map((v, i) => v + jDir[i] * d), t: JC, fov: 30, shift: [.17, -.01] }, o);
 const jupP = { sunAz: -40, sunEl: 5, mwS: .3, starsS: 1, expoS: 1.1, bloomS: 0, jt: 0, 'o.ships2': 0, slices: 0, mer0: 0, mer3: 0, even: 0 };
 const ioLab = { a: 'io', t: 'Io', cls: 'gold nodot', side: 't', d: 2.2 };
-B({ id: 'galileo', act: A4, title: 'Galileo’s four moons', sec: 'jupiter', seg: 0, min: .4, env: 'space', dur: 7, xf: 2.8,
+B({ id: 'galileo', act: A4, title: 'Galileo’s four moons', sec: 'jupiter', seg: 0, min: 0.35, env: 'space', dur: 7, xf: 2.8,
   fromCam: jCam(470, { shift: [.17, .065] }), cam: jCam(360, { shift: [.17, .065] }), p: Object.assign({}, jupP), drift: { p: [0, 0, 0] },
   plate: { src: 'img/galileo_ms.jpg', side: 'l', cap: 'Galileo’s own notes, 1610: Jupiter and four moons, night after night. Public domain.', h: '66vh', d: 2.4 },
   labels: [{ a: 'jupiter', t: 'Jupiter', cls: 'dim nodot', side: 't', d: 3.4 }],
@@ -19,7 +19,7 @@ B({ id: 'iolap', act: A4, title: 'Io laps every 42½ hours', sec: 'jupiter', seg
   p: { jt: [52.35, 7, 0, 'io'] }, labels: [ioLab],
   h: 'Hands on a clock', l: 'The innermost moon, Io, laps Jupiter every 42½ hours.', tpos: 'tl', tcls: 'col', tdelay: 2,
   cue: 'The moons orbit like clock hands; Io laps every 42.5 hours.' });
-B({ id: 'eclipse', act: A4, title: 'Io blinks out', sec: 'jupiter', seg: 2, min: .35, dur: 6.5, cam: jCam(285, { shift: [.25, -.04] }),
+B({ id: 'eclipse', act: A4, title: 'Io blinks out', sec: 'jupiter', seg: 2, min: 0.3, dur: 6.5, cam: jCam(285, { shift: [.25, -.04] }),
   p: { jt: [62.97, 7.5, .6, 'lin'] }, labels: [ioLab, { a: () => G.JC.clone().add(new THREE.Vector3(.64, -.087, -.763).multiplyScalar(120)), t: 'Jupiter’s shadow', cls: 'dim nodot', side: 'b', d: 3 }],
   h: 'The same instant for everyone', l: 'Io slips into Jupiter’s shadow and blinks out. Anyone watching, anywhere, sees it at once.', tpos: 'tl', tcls: 'col', tdelay: 2.4,
   cue: 'Io slips into Jupiter’s shadow: the same instant for every observer.' });
@@ -34,11 +34,11 @@ const ioFig = (() => { // Tufte: one time axis, two marks, the difference labell
   s += `<text x="${x(b)}" y="58" text-anchor="end" font-size="14" letter-spacing="1.5" fill="#F5D398">TABLE · 10:00 PARIS</text>`;
   s += `<path d="M${x(a)} 150 L${x(b)} 150" stroke="#F5D398" stroke-width="1.2"/><path d="M${x(a)} 144 v12 M${x(b)} 144 v12" stroke="#F5D398" stroke-width="1.2"/>`;
   s += `<text x="${(x(a) + x(b)) / 2}" y="180" text-anchor="middle" class="ser" font-size="27" fill="#F5D398">27 minutes ≈ 7° west of Paris</text></svg>`; return s; })();
-B({ id: 'iotables', act: A4, title: 'Tables of Io', sec: 'jupiter', seg: 3, min: 0.35, dur: 5, cam: jCam(370, { shift: [-.24, -.1] }),
+B({ id: 'iotables', act: A4, title: 'Tables of Io', sec: 'jupiter', seg: 3, min: 0.3, dur: 5, cam: jCam(370, { shift: [-.24, -.1] }),
   p: { jt: 62.97 }, fig: ioFig, figpos: 'fp-r', figd: 1.6,
   h: 'A clock everybody can read', l: 'Astronomers printed tables of Io’s eclipses in Paris time. Compare with your own clock.', tpos: 'tl', tdelay: 1.2,
   cue: 'Tables: you see it at 9:33 local, the table says 10:00 Paris → 27 min ≈ 7° west.' });
-B({ id: 'notatsea', act: A4, title: 'Not on a rolling ship', sec: 'jupiter', seg: 4, min: .3, env: 'sea', ships: 'title', dur: 6.5, xf: 2.6,
+B({ id: 'notatsea', act: A4, title: 'Not on a rolling ship', sec: 'jupiter', seg: 4, min: 0.25, env: 'sea', ships: 'title', dur: 6.5, xf: 2.6,
   fromCam: look(at(60, 22, 30), at(430, -180, 220), { fov: 46 }), cam: look(at(60, 22, 7.5), at(430, -180, 140), { fov: 52 }),
   p: { storm: .75, rain: 0, cov: .72, cbase: 520, ctop: 1600, stars: .8, mw: .3, fogD: .0008, glow: 1, moonAz: 44, moonEl: 14, hole: .75, lant0: 1, lant1: 1, lant2: 1, lant3: 1, sink: 0, foam: .7, 'o.con': 0 },
   h: 'On land, beautiful', l: 'On a rolling deck, holding a long telescope on a tiny moon was nearly impossible.', tpos: 'bl', tdelay: 2.4,
@@ -47,7 +47,7 @@ B({ id: 'notatsea', act: A4, title: 'Not on a rolling ship', sec: 'jupiter', seg
 /* ---------------- France remeasured ---------------- */
 const frP = { spin: 0, sunAz: -38, sunEl: 22, night: 0, clouds: .12, dim: 0, atmo: 1, det: 0, moonlit: 0, fr: 0, mwS: .3, expoS: 1, even: 0, slices: 0 };
 const frCam = (o = {}) => gLook(46.4, 1.0, .3, 18, 0, Object.assign({ fov: 34, shift: [.2, 0] }, o));
-B({ id: 'france', act: A4, title: 'France remeasured', sec: 'france', seg: 0, min: .45, env: 'space', dur: 7, xf: 2.6,
+B({ id: 'france', act: A4, title: 'France remeasured', sec: 'france', seg: 0, min: 0.4, env: 'space', dur: 7, xf: 2.6,
   fromCam: gLook(46.4, 1.0, 1.2, 10, 0, { fov: 34, shift: [.2, 0] }), cam: frCam(), p: Object.assign({}, frP), show: ['frTrue', 'frOld'],
   plate: { src: 'img/carte2.jpg', side: 'l', cap: 'Carte de France corrigée, 1693: the old outline, and the coast measured by Picard and La Hire. Public domain.', h: '36vh', d: 3.2, cls: 'low' },
   labels: [{ a: G.at(47.9, -6.6), t: 'Old map', cls: 'gold', side: 't', d: 3 }, { a: G.at(46.6, -1.6), t: 'Measured', side: 'r', d: 3.6 }],
@@ -58,7 +58,7 @@ B({ id: 'shrink', act: A4, title: 'France got smaller', sec: 'france', seg: 1, m
   labels: [{ a: G.at(48.2, -3.6), t: 'Brittany moves east ~1½°', cls: 'gold', side: 't', d: 4.6 }],
   h: 'France got smaller', l: 'The west coast slides east, by about a degree and a half in places.', tpos: 'tl', tcls: 'scrim col', tdelay: 4,
   cue: 'The old west coast slides east onto the measured one.' });
-B({ id: 'louis', act: A4, title: 'As the story goes', sec: 'france', seg: 2, min: 0.35, dur: 5, cam: frCam({ fov: 30 }),
+B({ id: 'louis', act: A4, title: 'As the story goes', sec: 'france', seg: 2, min: 0.3, dur: 5, cam: frCam({ fov: 30 }),
   p: { fr: 1 }, show: ['frTrue'], 
   h: '“More of France than my enemies”', hs: 1, l: 'As the story goes, Louis XIV complained his astronomers had taken more land than any enemy. It may be legend; the error was real.', tpos: 'tl', tcls: 'scrim col', tdelay: 1.4,
   cue: 'Louis XIV’s complaint — told as a story, not a quotation.' });
@@ -96,7 +96,7 @@ B({ id: 'h1h3', act: A4, title: 'Three big sea clocks', sec: 'moonact', seg: 3, 
   cue: 'Harrison’s H1, H2 and H3 (photos).' });
 const wCam = (az, el, d, o = {}) => Object.assign({ orb: true, c: [0, .12, 0], d, az, el, fov: 30 }, o);
 const h4P = { h4open: 0, h4spin: 0, h4bg: 1, blur: 0 };
-B({ id: 'h4', act: A4, title: 'H4', sec: 'h4', seg: 0, min: .4, env: 'studio', dur: 8, xf: 3,
+B({ id: 'h4', act: A4, title: 'H4', sec: 'h4', seg: 0, min: 0.35, env: 'studio', dur: 8, xf: 3,
   fromCam: wCam(-38, 12, 8.5, { shift: [.2, 0] }), cam: wCam(-16, 6, 6.0, { shift: [.2, 0], c: [0, .2, 0] }), p: Object.assign({}, h4P), drift: { az: .9, el: 0 }, driftFor: 120,
   kick: 'John Harrison · 1759', h: 'H4', hs: 3, l: 'About five inches across. It ticks five times a second. In 1761 it sailed from Portsmouth to Jamaica: 81 days at sea.', tpos: 'bl', tdelay: 3.2,
   cue: 'H4 in 3D, turning slowly: the dial, the blued hands. 81 days to Jamaica.' });

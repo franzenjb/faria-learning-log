@@ -26,7 +26,7 @@ B({ id: 'title', act: 'Opening', title: 'Where Am I?', sec: 'title', seg: 0, min
   kick: 'Latitude &amp; longitude', h: 'Where Am I?', hs: 2, l: 'How we learned to name any place on Earth with two numbers.', cred: 'Jeff Franzen &ensp;·&ensp; Disaster GIS &ensp;·&ensp; American Red Cross', tdelay: 2.2,
   cue: 'Night, a storm at sea. Ships in the rain; distant lightning. Title settles.' });
 
-B({ id: 'storm', act: A1, title: '22 October 1707', sec: 'scilly', seg: 0, min: .6, dur: 6.5,
+B({ id: 'storm', act: A1, title: '22 October 1707', sec: 'scilly', seg: 0, min: 0.55, dur: 6.5,
   cam: look(at(205, 72, 10.5), at(330, -62, 13), { fov: 46, via: at(110, 40, 11) }), drift: { p: [.25, 0, .1] },
   strikes: [{ t: 5.2, p: .7, a: 2400, b: -900 }], strikeEvery: 30,
   h: '22 October 1707', l: 'Admiral Shovell brings the fleet home through days of storm and cloud.', tpos: 'bl', tdelay: 2.6,

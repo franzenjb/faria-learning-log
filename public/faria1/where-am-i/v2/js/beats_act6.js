@@ -4,7 +4,7 @@ const W = World, B = b => W.beat(b), H = W.BH, G = H.G, RAD = H.RAD, A6 = H.A6;
 const { gOrb, gLook, llw } = H;
 const gpsP = { spin: 0, sunAz: -55, sunEl: 12, night: 1, clouds: .6, dim: 0, atmo: 1, det: 0, detSel: 1, moonlit: 0, mwS: .45, starsS: 1, expoS: 1, even: 0, slices: 0, unroll: 0, blur: 0,
   merAll: 0, eq: 0, mer0: 0, mer1: 0, mer2: 0, mer3: 0, bloomS: 0, gpsT: 0, hopT: 0, clkErr: 0, grow: 1, fixSnap: 0, h4bg: 1, shellA: 1, rayA: 1, moonV: 0 };
-B({ id: 'navstar', act: A6, title: 'Navstar 1, 1978', sec: 'gps', seg: 0, min: .45, dur: 8, camEase: 'io',
+B({ id: 'navstar', act: A6, title: 'Navstar 1, 1978', sec: 'gps', seg: 0, min: 0.4, dur: 8, camEase: 'io',
   cam: gOrb(18, -70, 23, 0, { fov: 32, shift: [.2, 0] }), p: Object.assign({}, gpsP, { gpsT: [1.6, 30, 0, 'lin'] }), show: ['navOrbit', 'sat1'], odelay: 4,
   plate: { src: 'img/navstar1.jpg', side: 'l', cap: 'A Navstar Block I GPS satellite, late 1970s. US Air Force, public domain.', h: '40vh', d: 4.6 },
   labels: [{ a: 'navstar', t: 'Navstar 1 · Feb 1978', cls: 'gold', side: 'r', d: 5.4 }, { a: () => new THREE.Vector3(0, 1.25, 0), t: 'Earth', cls: 'dim nodot', side: 't', d: 6 }],
@@ -23,7 +23,7 @@ B({ id: 'clocks', act: A6, title: 'A sky full of clocks', sec: 'gps', seg: 2, mi
 const FM = [26.6406, -81.8723];
 const fixCam = (o = {}) => Object.assign({ orb: true, c: llw(26.6, -81.9, 0, 1.0), d: 3.5, az: -86, el: 6, fov: 38, shift: [.25, 0] }, o);
 const fmLab = { a: 'fix', t: 'Fort Myers', cls: 'gold pill', side: 'r', d: 2, id: 'fm' };
-B({ id: 'ring1', act: A6, title: 'One satellite: a ring', sec: 'fix', seg: 0, min: .45, dur: 7, cam: fixCam(), p: { gpsT: 7, grow: [1, 4.5, 1.6], shellA: [0, 2.2, 5.6], rayA: [0, 2, 6] }, show: ['fs0', 'fixDot'], odelay: .8,
+B({ id: 'ring1', act: A6, title: 'One satellite: a ring', sec: 'fix', seg: 0, min: 0.4, dur: 7, cam: fixCam(), p: { gpsT: 7, grow: [1, 4.5, 1.6], shellA: [0, 2.2, 5.6], rayA: [0, 2, 6] }, show: ['fs0', 'fixDot'], odelay: .8,
   h: 'One satellite, one ring', hs: 1, l: 'The signal takes about seven hundredths of a second to arrive. At the speed of light, that’s about 21,000 km. You are somewhere on this ring.', tpos: 'tl', tcls: 'col', tdelay: 3,
   cue: 'One satellite: delay → distance → a light-sphere, and a ring on the ground.' });
 B({ id: 'ring2', act: A6, title: 'Two rings cross twice', sec: 'fix', seg: 1, min: .3, dur: 5, cam: fixCam({ az: -84, d: 3.45 }), p: { grow: 1, shellA: 0, rayA: 0 }, show: ['fs0', 'fs1', 'fixDot'],

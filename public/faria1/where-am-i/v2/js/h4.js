@@ -6,7 +6,7 @@ const W = World, P = W.P, RAD = Math.PI / 180;
 const st = W.env('studio', { clear: 0x000000 });
 const scene = st.scene = new THREE.Scene();
 const cam = st.cam = new THREE.PerspectiveCamera(30, 16 / 9, .01, 200);
-W.param('h4open', 0); W.param('h4spin', 0); W.param('h4bg', 1);
+W.param('h4open', 0); W.param('h4spin', 0); W.param('h4bg', 1); W.param('h4glow', 0); W.param('h4hr', -1); // h4hr >= 0: hands held at that hour (home time)
 if (W.r){ const pm = new THREE.PMREMGenerator(W.r); scene.environment = pm.fromScene(new THREE.RoomEnvironment(), .03).texture; scene.environmentIntensity = .45; }
 
 /* backdrop: a soft graded sphere, like a dark photo studio sweep */
@@ -20,6 +20,11 @@ const rim = new THREE.DirectionalLight(0xbfd4ff, .9); rim.position.set(-4, 2, -3
 scene.add(new THREE.AmbientLight(0x202530, .4));
 
 const watch = new THREE.Group(); scene.add(watch);
+/* warm halo behind the watch (eureka beat: 'carry home's time with you') */
+const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: (() => { const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d'); const g = x.createRadialGradient(128, 128, 0, 128, 128, 128);
+  g.addColorStop(0, 'rgba(255,214,150,.22)'); g.addColorStop(.3, 'rgba(240,170,90,.12)'); g.addColorStop(.6, 'rgba(220,140,60,.04)'); g.addColorStop(1, 'rgba(200,120,50,0)'); x.fillStyle = g; x.fillRect(0, 0, 256, 256); return new THREE.CanvasTexture(c); })(),
+  transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
+halo.position.set(0, 0, -.9); halo.scale.set(6.2, 6.2, 1); halo.visible = false; watch.add(halo);
 const silver = new THREE.MeshPhysicalMaterial({ color: 0xe3e3e6, metalness: 1, roughness: .16, clearcoat: .4, clearcoatRoughness: .2 });
 const gilt = new THREE.MeshStandardMaterial({ color: 0xd9ad5b, metalness: 1, roughness: .32 });
 const giltDark = new THREE.MeshStandardMaterial({ color: 0xb48a3f, metalness: 1, roughness: .42 });
@@ -114,12 +119,15 @@ st.update = (T, dt, P) => {
   bg.material.uniforms.uA.value = P.h4bg;
   watch.rotation.y = P.h4spin * RAD;
   const t = T; // the watch runs on real time; seconds hand steps five times a second (H4 beats at 5 per second)
-  const sec = Math.floor(t * 5) / 5 + 25, min = 10 + sec / 60, hr = 10 + min / 60;
+  let sec = Math.floor(t * 5) / 5 + 25, min = 10 + sec / 60, hr = 10 + min / 60;
+  if (P.h4hr >= 0){ sec = Math.floor(t * 5) / 5 % 60; min = sec / 60; hr = P.h4hr + min / 60; }
+  halo.material.opacity = P.h4glow; halo.visible = P.h4glow > .01;
+  dial.material.emissive.setRGB(1, .85, .62); dial.material.emissiveIntensity = .04 * P.h4glow;
   hS.rotation.z = -sec / 60 * Math.PI * 2; hM.rotation.z = -min / 60 * Math.PI * 2; hH.rotation.z = -hr / 12 * Math.PI * 2;
   bal.rotation.z = Math.sin(t * Math.PI * 2 * 2.5) * 2.1;   // 2.5 Hz oscillation = 5 beats per second
   gears.forEach(g => { const step = g.rate < -1 ? Math.floor(t * 5) / 5 + Math.min(1, (t * 5 % 1) * 6) / 5 : t; g.m.rotation.z = step * g.rate; });
 };
-st.bloom = () => [.22, .35, .9];
+st.bloom = () => [.22 + .12 * P.h4glow, .35 + .1 * P.h4glow, .9];
 st.grade = () => ({ expo: .8, sat: .96, con: 1.06 });
 st.vig = () => .5;
 st.aper = () => 0;

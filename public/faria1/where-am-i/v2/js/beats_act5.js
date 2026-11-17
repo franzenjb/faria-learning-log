@@ -45,13 +45,13 @@ const tally = (hl) => { // 25 votes as 25 marks: 22 for, 1 against, 2 abstention
   s += `<text x="${10 + 23 * 21 + 28 + 18}" y="132" font-size="13" letter-spacing="1.2" fill="#E8E4DC" text-anchor="middle">2 ABSTAIN</text>`;
   return s + '</svg>'; };
 const vCam = gOrb(28, -40, 4.6, 0, { fov: 34, shift: [.16, -.02] });
-B({ id: 'conference', act: A5, title: 'Washington, October 1884', sec: 'vote1884', seg: 0, min: 0.5, dur: 6.5, cam: vCam,
+B({ id: 'conference', act: A5, title: 'Washington, October 1884', sec: 'vote1884', seg: 0, min: 0.45, dur: 6.5, cam: vCam,
   p: { mer0: .35, merAll: 0, eq: 0, clouds: .45, sunAz: -40, sunEl: 15 }, show: ['nations'], drift: { az: -.5 }, driftFor: 200,
   plate: { src: 'img/delegates1884.jpg', side: 'l', cap: 'Delegates of the International Meridian Conference, Washington, October 1884. Public domain.', h: '34vh', d: 3 },
   labels: [{ a: G.at(38.9, -77.04, 1.006), t: 'Washington', side: 'r', d: 3.4 }],
   h: 'One zero for the world', hs: 1, l: 'Twenty-five nations, from Hawaii to Japan, meet in Washington to choose.', tpos: 'bl', tcls: 'col', tdelay: 3,
   cue: 'October 1884, Washington: the 25 voting nations.' });
-B({ id: 'gwins', act: A5, title: 'Greenwich wins: 22 votes', sec: 'vote1884', seg: 1, min: .5, dur: 6, cam: gOrb(36, -25, 4.9, 0, { fov: 34, shift: [-.14, -.02] }),
+B({ id: 'gwins', act: A5, title: 'Greenwich wins: 22 votes', sec: 'vote1884', seg: 1, min: 0.45, dur: 6, cam: gOrb(36, -25, 4.9, 0, { fov: 34, shift: [-.14, -.02] }),
   p: { mer0: [1, 2.5, 1.5] }, show: ['nations', 'yes', 'yesLines'], drift: { az: -.4 }, driftFor: 200,
   fig: tally(), figpos: 'fp-tr', figd: 2.6,
   labels: [{ a: G.at(51.4779, 0, 1.006), t: 'Greenwich', cls: 'gold', side: 'r', d: 3.2 }],
@@ -62,7 +62,7 @@ B({ id: 'abstain', act: A5, title: 'One against, two abstain', sec: 'vote1884', 
   labels: [{ a: G.at(18.47, -69.9, 1.006), t: 'San Domingo · against', cls: 'coral', side: 'l', d: 1.6 }, { a: G.at(48.86, 2.35, 1.006), t: 'France · abstained', side: 'r', d: 2.2 }, { a: G.at(-22.9, -43.2, 1.006), t: 'Brazil · abstained', side: 'l', d: 2.6 }],
   h: 'One against. Two abstain.', hs: 1, l: 'San Domingo, today’s Dominican Republic, voted no. France and Brazil abstained.', tpos: 'br', tcls: 'col', tdelay: 1.4,
   cue: '1 against (San Domingo); France and Brazil abstain.' });
-B({ id: 'grads', act: A5, title: 'Paris, in grads, until 1999', sec: 'vote1884', seg: 3, min: 0.5, dur: 6, cam: gLook(47.2, 2.2, .55, 20, 0, { fov: 34, shift: [.16, 0] }),
+B({ id: 'grads', act: A5, title: 'Paris, in grads, until 1999', sec: 'vote1884', seg: 3, min: 0.45, dur: 6, cam: gLook(47.2, 2.2, .55, 20, 0, { fov: 34, shift: [.16, 0] }),
   p: { mer0: .5, mer2: [1, 2, .8] }, show: [],
   labels: [{ a: G.at(48.836, 2.336, 1.006), t: 'Paris meridian', cls: 'gold', side: 'r', d: 2 }, { a: G.at(51.4779, 0, 1.006), t: 'Greenwich', side: 'l', d: 2.4 }],
   h: 'France didn’t give up easily', hs: 1, l: 'Its survey kept Paris as zero, often in grads (400 to a circle), until 31 December 1999.', tpos: 'bl', tcls: 'scrim', tdelay: 2,
