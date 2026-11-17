@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ \"$CLAUDE_CODE_REMOTE\" = \"true\" ]; then echo 'CLOUD SESSION DETECTED. Jeff never wants to work in the cloud. Before anything else, reply with exactly: YOU ARE IN THE CLOUD. DO NOT PROCEED. DO NOT PROCEED. YOU ARE IN THE CLOUD. Then stop and wait.'; fi"
+          }
+        ]
+      }
+    ]
+  }
+}

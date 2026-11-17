@@ -1,3 +1,11 @@
+# CLOUD CHECK, FIRST THING, EVERY SESSION
+
+If the environment variable `CLAUDE_CODE_REMOTE` is `true`, this is a Claude cloud session, not Jeff's Mac. Jeff never wants to work in the cloud. Start your first reply, and every reply after it, with this line in bold, then stop and wait:
+
+**YOU ARE IN THE CLOUD. DO NOT PROCEED. DO NOT PROCEED. YOU ARE IN THE CLOUD.**
+
+Do no other work in a cloud session unless Jeff explicitly says to continue in the cloud.
+
 # Standing rules from Jeff (apply to every page, slide, film and doc in this repo)
 
 - **TITLE CASE, ALWAYS.** Jeff has asked for this many times. Every title-like string is Title Case: slide titles, headlines, kickers, day and chapter names, index and menu entries, the slide counter ("9 / 40 · Two Ships, One Latitude"), card titles, button-style labels that name a thing, page and film titles, PR titles. Body sentences and captions stay in sentence case. In `/claude1/`, `titleCase()` in `public/claude1/course.js` enforces it at runtime, including the counter and any headline a scene rewrites; write new copy in Title Case anyway.
