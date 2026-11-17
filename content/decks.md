@@ -11,6 +11,6 @@ These are live models you can run in a browser, not the downloadable PDFs on [Pa
 - [GIS Day 2026](/gisday/). A 30-minute presenter deck, *Where Am I?*, added 14 November 2026. Paper and ink, for a live room. It is a separate copy and does not replace the course at [claude1](/claude1/).
 - [How Far Is It?](/followup/). A GIS Day follow-up to *Where Am I?*: parallax, from a thumb to the transits of Venus, Cook, the Bounty, Lewis and Clark, the Harvard Computers, and Gaia. Added 14 November 2026.
 - [Where Am I? (v2)](/faria1/where-am-i/v2/). An immersive three.js talk on latitude and longitude, added 16 November 2026. A short [preview video](/faria1/where-am-i/v2/video/) is also on this site.
-- [Longitude (v3)](/faria1/where-am-i/v3/). A 30-minute hybrid talk, cinematic moments mixed with calm slides, on how a clock told sailors where they were. Added 17 November 2026.
+- [Longitude (v3)](/faria1/where-am-i/v3/). A 30-minute hybrid talk, cinematic moments mixed with calm slides, on how a clock told sailors where they were. Added 17 November 2026. A short [preview video](/faria1/where-am-i/v3/video/) is also on this site.
 
 The GIS master presentation, *Measurement, Mapping, and Disaster Decisions*, is a PowerPoint in the Franzen Lessons folder on Jeff's Mac, not a page on this site.
