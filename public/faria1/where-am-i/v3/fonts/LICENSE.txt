@@ -1,0 +1,6 @@
+Fonts embedded in css/fonts.css (subset to Latin, WOFF2):
+- Instrument Serif (Rodrigo Fuenzalida, Jordan Egstad) - SIL Open Font License 1.1
+- Newsreader (Production Type) - SIL Open Font License 1.1
+- Inter (Rasmus Andersson) - SIL Open Font License 1.1
+- Geist Mono (Vercel) - SIL Open Font License 1.1
+Full license text: https://openfontlicense.org

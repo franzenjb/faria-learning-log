@@ -116,6 +116,7 @@ China keeps one clock for a country that spans about five hour-zones. In the far
 
 ## See Also
 
+- [Longitude talk (v3)](/faria1/where-am-i/v3/). A 30-minute hybrid talk of this story. Script and stills: [script PDF](/downloads/Longitude_Talk_v3_Script_and_Timings_Faria_2026-11-16.pdf), [stills preview](/downloads/Longitude_Talk_v3_Stills_Preview_Faria_2026-11-16.pdf). The earlier immersive talk remains at [Where Am I? (v2)](/faria1/where-am-i/v2/).
 - [Time to longitude](../70-time-to-longitude/)
 - [Harrison's chronometer](../84-harrison-and-the-marine-chronometer/)
 - [Scilly, 1707](../102-scilly-1707/)
