@@ -2585,6 +2585,7 @@ window.FX_PICK=()=>null;
 window.classSet=function(i){target=i;initialized=false;originalGo(i);initialized=true;};
 go=function(i){if(!initialized)return originalGo(i);if(i!==cur){parent.postMessage({type:'class-nav',dir:i>cur?1:-1},'*');return;}originalGo(i);};
 window.classKey=function(key){document.body.dispatchEvent(new KeyboardEvent('keydown',{key,bubbles:true}));};
+addEventListener('message',e=>{const m=e.data||{};if(m.type==='to-claude-set')classSet(m.i);else if(m.type==='to-claude-key')classKey(m.key);});
 addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(['p','n','g','h','a','b','f','escape','home','end'].includes(k)){e.preventDefault();e.stopImmediatePropagation();parent.postMessage({type:'class-key',key:e.key},'*');}},true);
 let down=null;addEventListener('pointerdown',e=>down=[e.clientX,e.clientY],true);
 addEventListener('click',e=>{if(e.target.closest('button,input,a,select,.term,.card,.chips,.modes'))return;if(down&&Math.hypot(e.clientX-down[0],e.clientY-down[1])>8)return;e.preventDefault();e.stopImmediatePropagation();classKey(e.shiftKey?'ArrowLeft':'ArrowRight');},true);
