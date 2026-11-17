@@ -1249,14 +1249,15 @@ addEventListener('load', () => setTimeout(() => {
   const CITIES = [['Tampa', 27.95, -82.46], ['Portland, Maine', 43.66, -70.26], ['Houston', 29.76, -95.37], ['Denver', 39.74, -104.99], ['Seattle', 47.61, -122.33], ['Chicago', 41.88, -87.63]];
   const CAM = [{ yaw: 5, pitch: .45, R: 108, cy: 540, rs: 4.17 }, { yaw: 5, pitch: .45, R: 108, cy: 540, rs: 4.17 }, { yaw: 5, pitch: -.2, R: 640, cy: 1180, rs: 1.6 }, { yaw: 5, pitch: -.2, R: 640, cy: 1180, rs: 1.6 }, { yaw: 5, pitch: -.2, R: 640, cy: 1180, rs: 1.6 }];
   const WORDS = ['Today: GPS, a Sky Full of Clocks', 'Each Satellite Carries an Atomic Clock', 'Travel Time = Distance', 'Four Satellites, One Spot', 'Anywhere: Four Satellites, Every Time'];
+  const STEPS = [0, 1, 4]; // the talk shows Today, Atomic Clock, then ends on Anywhere; 'Travel Time' and 'Four Satellites' cut
   const add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]], sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]], mul = (a, k) => [a[0] * k, a[1] * k, a[2] * k], dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2], len = a => Math.hypot(...a);
   let cam = { ...CAM[0] }, from = { ...CAM[0] }, last = 0;
   const satGlyph = (ctx, x, y, sc, on) => { ctx.save(); ctx.translate(x, y); ctx.scale(sc, sc);
     if (on) { const g = ctx.createRadialGradient(0, 0, 0, 0, 0, 26); g.addColorStop(0, 'rgba(240,179,90,.55)'); g.addColorStop(1, 'rgba(240,179,90,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, 26, 0, 7); ctx.fill(); }
     ctx.fillStyle = '#3d7fd9'; ctx.fillRect(-19, -3.5, 12, 7); ctx.fillRect(7, -3.5, 12, 7); ctx.strokeStyle = '#a9c8ff'; ctx.lineWidth = .8; ctx.strokeRect(-19, -3.5, 12, 7); ctx.strokeRect(7, -3.5, 12, 7);
     ctx.fillStyle = on ? '#ffd27a' : '#d9b46a'; ctx.fillRect(-5, -5, 10, 10); ctx.restore(); };
-  V3.scene(el, 5, (S, ctx, now) => {
-    const k = S.step, age = S.age(now);
+  V3.scene(el, 3, (S, ctx, now) => {
+    const k = STEPS[S.step], age = S.age(now);
     if (S.t0 !== last) { from = { ...cam }; last = S.t0; }
     const e = S.ease(age / 2200), T = CAM[k]; cam = {}; for (const q of ['yaw', 'pitch', 'R', 'cy', 'rs']) cam[q] = S.lerp(from[q], T[q], e);
     const P = V3.orbitProj({ yaw: cam.yaw, pitch: cam.pitch, R: cam.R, cx: 800, cy: cam.cy }), t = now;
