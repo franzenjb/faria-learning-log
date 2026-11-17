@@ -674,7 +674,7 @@ addEventListener('load', () => setTimeout(() => {
 addEventListener('load', () => setTimeout(() => {
   const el = v3Find('Hours are slices'); if (!el || typeof drawCoast !== 'function') return;
   const G = '#f0b35a', B = '#6fb3ff', W = '#ece6da', M = '#c2bba9', D = Math.PI / 180;
-  const TOP = ['The Earth Turns', 'Look Down on the North Pole', 'Idea 1: A Circle Has 360°', 'Idea 2: A Day Has 24 Hours', 'Put Them Together: One Turn = One Day', 'So 1 Hour = 15°', 'Those Slices Are Longitude', 'So How Do You Measure It?'];
+  const TOP = ['The Earth Turns', 'Look Down on the North Pole', 'Idea 1: A Circle Has 360°', 'Idea 2: A Day Has 24 Hours', 'Put Them Together: One Turn = One Day', 'So 1 Hour = 15°', 'So How Do You Measure It?']; // 'Those Slices Are Longitude' cut (Jeff, 17 Nov)
   const CX = 470, CY = 545, R = 245, RH = R + 42, RD = R + 112; // globe, hour ring, degree ring
   let yaw = 20, pitch = .3, last = performance.now(), lastStep = -1, yaw4 = 0;
   const arc = (r, a0, a1, col, wd) => { const c = S.ctx; /* angles in degrees, counterclockwise */ c.strokeStyle = col; c.lineWidth = wd; c.beginPath(); c.arc(CX, CY, r, -a0 * D, -a1 * D, a1 > a0); c.stroke(); };
@@ -727,8 +727,7 @@ addEventListener('load', () => setTimeout(() => {
     if (k === 3) { col('360°', 330, 110, G, .5); col('in a circle', 400, 36, M, .5, 400); col('24 hours', 560, 120, B, S.fade(now, 1800)); col('in a day', 650, 46, M, S.fade(now, 2200), 400); }
     if (k === 4 && age > 9800) col('360° = 24 hours', 830, 64, W, S.fade(now, 9800));
     if (k === 5) { col('360° ÷ 24', 380, 96, W, S.fade(now)); col('= 15°', 500, 110, G, S.fade(now, 500)); col('1 hour = 15°', 680, 90, G, S.fade(now, 1100)); col('4 minutes = 1°', 790, 50, M, S.fade(now, 1700), 400); }
-    if (k === 6) { col('How far east or west', 430, 54, W, S.fade(now), 400); col('1 hour = 15°', 560, 96, G, S.fade(now, 400)); col('of longitude', 660, 54, W, S.fade(now, 600), 400); }
-    if (k === 7) { ctx.fillStyle = 'rgba(5,8,18,.45)'; ctx.fillRect(0, 0, 1600, 1000); S.text('?', CX, CY + 60, 300, G, 'center', 1, 600); col('Latitude had Polaris.', 470, 54, W, S.fade(now), 400); col('Longitude has no star.', 570, 54, G, S.fade(now, 500), 400); }
+    if (k === 6) { ctx.fillStyle = 'rgba(5,8,18,.45)'; ctx.fillRect(0, 0, 1600, 1000); S.text('?', CX, CY + 60, 300, G, 'center', 1, 600); col('Latitude had Polaris.', 470, 54, W, S.fade(now), 400); col('Longitude has no star.', 570, 54, G, S.fade(now, 500), 400); }
     S.text(TOP[k], 800, 80, 64, W, 'center', S.fade(now, 0, 600), 400, 1540);
   });
 }, 0));
@@ -776,7 +775,7 @@ addEventListener('load', () => setTimeout(() => {
   const NOON = [-62, -75.17, -90.05, -104.99, -104.99, -104.99]; // 'If It Knew: 1 Hour = 15°' step cut // where the noon line stands at each step
   const WORDS = [
     ['Philadelphia, Memphis, Denver', ''], // just the three cities: no latitudes, no Polaris line
-    ['Noon in Philadelphia', 'The Sun at its highest. Philadelphia sets its clock: 12:00.'],
+    ['Noon in Philadelphia', ''], // bottom line cut (Jeff, 17 Nov)
     ['An Hour Later, Noon in Memphis', 'Noon slides west. Philadelphia is already at 1:00.'],
     ['Two Hours Later, Noon in Denver', 'Each city knows its own noon.'],
     ['Denver Knows Its Noon. What Time Is It in Philadelphia?', 'Without Philadelphia’s time, Denver cannot say how far west it is.'],
