@@ -1235,9 +1235,8 @@ addEventListener('load', () => setTimeout(() => {
       const a = S.fade(now, 0, 800); ctx.save(); ctx.globalAlpha = a * .5;
       if (scilly.complete && scilly.naturalWidth) { const s = Math.max(1600 / scilly.naturalWidth, 1000 / scilly.naturalHeight); ctx.filter = 'grayscale(1)'; ctx.drawImage(scilly, 800 - scilly.naturalWidth * s / 2, 500 - scilly.naturalHeight * s / 2, scilly.naturalWidth * s, scilly.naturalHeight * s); ctx.filter = 'none'; }
       ctx.restore(); ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(5,8,18,.72)'; ctx.fillRect(0, 300, 1600, 400); ctx.restore();
-      S.text('So in 1707, at sea, longitude was still a guess', 800, 400, 50, W, 'center', a);
-      S.text('Scilly: four ships, 1,400 to 2,000 men', 800, 500, 64, G, 'center', S.fade(now, 700, 700));
-      S.text('Seven years later, Parliament offers a prize.', 800, 610, 44, W, 'center', S.fade(now, 1500, 700));
+      S.text('So in 1707, at sea, longitude was still a guess', 800, 445, 50, W, 'center', a);
+      S.text('Scilly: four ships, almost 2,000 men lost', 800, 560, 64, G, 'center', S.fade(now, 700, 700));
     }
   });
 }, 0));
