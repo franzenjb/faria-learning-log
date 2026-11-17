@@ -888,7 +888,7 @@ addEventListener('load', () => setTimeout(() => {
     const east = [[2.9, 50.7], [3.6, 50.5], [4.2, 50.3], [4.8, 50.15], [4.85, 49.8], [5.8, 49.55], [6.4, 49.45], [7.0, 49.15], [7.6, 49.05], [8.2, 48.95], [7.6, 47.6], [7.0, 47.5], [6.1, 46.6], [6.1, 46.15], [6.8, 46.0], [7.0, 45.6], [6.6, 45.1], [7.0, 44.7], [7.6, 44.1]];
     const pyr = [[2.6, 42.35], [1.7, 42.5], [0.7, 42.7], [-0.3, 42.8], [-1.4, 43.05]];
     return [...atl.slice(a0, a1 + 1), ...east, ...med.slice(m0, m1 + 1), ...pyr]; };
-  const GMAP = TALK ? [0, 1, 2, 3, 5, 6, 7] : [0, 1, 2, 3, 5, 6, 7, 8, 9]; // the talk ends on France; at sea and Scilly come after Rømer, on their own slide // beat 4 (Io slips into the shadow) is cut; its line folds into the clock beat
+  const GMAP = TALK ? [0, 2, 3, 5, 6, 7] : [0, 2, 3, 5, 6, 7, 8, 9]; // beat 1 (the Moon is not smooth) is cut // the talk ends on France; at sea and Scilly come after Rømer, on their own slide // beat 4 (Io slips into the shadow) is cut; its line folds into the clock beat
   V3.scene(el, GMAP.length, (S, ctx, now) => {
     if (S.t0 !== last) { from = { ...eye }; last = S.t0; }
     const age = S.age(now), k = GMAP[S.step], e = S.ease(age / 1500), T = EYE[k];
