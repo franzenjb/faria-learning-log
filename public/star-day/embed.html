@@ -1,0 +1,14 @@
+<link rel="stylesheet" href="/star-day/star-day.css">
+<figure class="sd" id="star-day" aria-label="Interactive: why a solar day is four minutes longer than a star day">
+  <div class="sd-board">
+    <canvas width="960" height="520" role="img" aria-label="Earth orbits the Sun. A noon mark turns with Earth. After one full turn the mark points at a distant star, and a rust arc shows the extra turn still needed to face the Sun. The orbital step is drawn large on purpose."></canvas>
+  </div>
+  <div class="sd-controls">
+    <button type="button" class="sd-play">Play</button>
+    <button type="button" class="sd-turn">Turn once</button>
+    <button type="button" class="sd-reset">Reset</button>
+    <span class="sd-readout" aria-live="polite">Start. Noon faces the Sun and the distant star.</span>
+  </div>
+  <figcaption>Press Play, or Turn once. The noon mark comes back to the same distant star after 360°. A rust arc then shows the extra turn, about 1° in reality, still needed to face the Sun. The orbit is exaggerated: one day moves Earth 20° here, only about 1° in the sky.</figcaption>
+</figure>
+<script src="/star-day/star-day.js" defer></script>

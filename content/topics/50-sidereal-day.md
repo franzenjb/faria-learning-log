@@ -33,6 +33,9 @@ Two different "days":
 - "Why only 56 minutes?" — because 24 h minus ~4 minutes is **23 h 56 m**. The precise figure is **23 h 56 m 4.091 s**.
 - "366 sidereal days per year?" — yes, almost: in one **mean solar year** (~365.2422 mean solar days) Earth turns once extra relative to the stars, so there are about **366.2422 sidereal days** in a year. Roughly: **365 Sun-days, 366 star-days**.
 
+
+**A moving picture.** The extra turn is easier to see than to describe. [Every Town Its Own Noon](../116-every-town-its-own-noon/#an-extra-turn-for-the-sun) has a short animation: Earth walks its orbit, a noon mark turns 360° back to a distant star, and a rust arc shows the extra degree still needed to face the Sun. The same motion is in the lecture, on [Deck v2, Kepler to Halley](/deck/v2/#10): choose **Star day vs Sun day**, then **Turn the Earth once**.
+
 ## 3. Stars rise ~4 minutes earlier each night
 
 Because the sidereal day is shorter, the starry sky runs **about 4 minutes ahead** of civil clocks each night. Consequences Jeff already uses without naming them:

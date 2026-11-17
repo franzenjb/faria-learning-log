@@ -7,7 +7,7 @@ tags: [history-of-science, longitude, geography, navigation, history]
 ---
 One fact does almost all the work. Earth turns 360° in 24 hours, so **one hour of time is 15° of longitude**. Everything else in this lesson — the noon that walks west across the United States, the railroad time zones, the fight over Greenwich — is that fact, lived out on land and at sea.
 
-A printable sheet: [lesson PDF](/downloads/Every_Town_Its_Own_Noon_Longitude_Railroad_Time_and_Time_Zones_Faria_2026-11-16.pdf).
+A printable sheet: [lesson PDF](/downloads/Every_Town_Its_Own_Noon_Longitude_Railroad_Time_and_Time_Zones_Faria_2026-11-17.pdf). The 16 November sheet is unchanged.
 
 ## One Hour, 15 Degrees
 
@@ -20,6 +20,22 @@ The arithmetic is a set of paired scales, the same ones as in [time to longitude
 - 1 second = 15″
 
 At the equator, 1′ of longitude is about 1 nautical mile. The distance shrinks as the cosine of latitude. At Greenwich, about 51.5° N, a minute of longitude is only about 62 percent of that, a little over half a nautical mile. [Harrison's](../84-harrison-and-the-marine-chronometer/) H4 was about 5 seconds off on its first sea trial. Five seconds is 75″, or 1.25′ of longitude: about a mile and a quarter at the equator, and less as you go north or south.
+
+## An Extra Turn for the Sun
+
+The same 4 minutes that equal 1° of longitude have a second life. They are also the little extra turn Earth needs each day to face the Sun again.
+
+A day measured by the stars — a [sidereal day](../50-sidereal-day/) — is **23 hours 56 minutes**. A day measured by the Sun is **24 hours**. While Earth spins, it also moves along its orbit, about **1° per day** (360° / 365). After a full **360°** turn, a distant star is back over the same meridian, but the Sun is not. Earth must turn about **one more degree**, to **361°**, before noon comes back. One degree at 15° an hour is **4 minutes**.
+
+{{widget:star-day}}
+
+The drawing exaggerates the orbit. One day moves Earth 20° here; in reality it is only about 1°. Press **Play** or **Turn once** and watch the noon mark: it comes back to the same distant star, then still needs the rust arc to face the Sun.
+
+The same animation is already in the lecture, as the last mode of the Kepler to Halley slide. Open [Deck v2, slide Kepler to Halley](/deck/v2/#10), choose **Star day vs Sun day**, and press **Turn the Earth once**. It is also on the living [Measuring the Sky](/deck/#12) deck, and as a stepped appendix slide, [One Degree More](/gisday/#28), in the GIS Day talk.
+
+Why this matters for longitude: astronomers kept **sidereal clocks** set by star transits — the moment a star crossed the meridian — because the stars keep a steadier beat than the Sun. Then they converted that star time to solar time, the time a sailor uses at noon. The conversion is this extra turn.
+
+In one year the same arithmetic shows itself again: about **366 sidereal days**, but only **365** solar days, because after a full lap Earth has spun once more relative to the stars than relative to the Sun.
 
 ## Noon Walks West
 
@@ -117,6 +133,7 @@ China keeps one clock for a country that spans about five hour-zones. In the far
 ## See Also
 
 - [Longitude talk (v3)](/faria1/where-am-i/v3/). A 30-minute hybrid talk of this story. Script and stills: [script PDF](/downloads/Longitude_Talk_v3_Script_and_Timings_Faria_2026-11-16.pdf), [stills preview](/downloads/Longitude_Talk_v3_Stills_Preview_Faria_2026-11-16.pdf). The earlier immersive talk remains at [Where Am I? (v2)](/faria1/where-am-i/v2/).
+- [The sidereal day and latitude sailing](../50-sidereal-day/)
 - [Time to longitude](../70-time-to-longitude/)
 - [Harrison's chronometer](../84-harrison-and-the-marine-chronometer/)
 - [Scilly, 1707](../102-scilly-1707/)
@@ -138,6 +155,11 @@ China keeps one clock for a country that spans about five hour-zones. In the far
 ## Key facts
 
 - Earth turns 360° in 24 hours: 1 hour = 15°, 4 minutes = 1°, 1 minute = 15′, 4 seconds = 1′, 1 second = 15″.
+
+- A sidereal day, measured by the stars, is 23 hours 56 minutes; a solar day is 24 hours.
+- Earth moves about 1° along its orbit each day, so it must turn about 361° to bring the Sun back to noon. One degree at 15° per hour is 4 minutes.
+- In one year there are about 366 sidereal days and 365 solar days.
+- Astronomers kept sidereal clocks by star transits and converted that star time to the solar time a sailor uses at noon.
 - At the equator, 1′ of longitude is about 1 nautical mile; at Greenwich's latitude that distance is about 62 percent as long.
 - H4's 5-second error is 75″, or 1.25′, of longitude.
 - Solar noon walks west from New York (74.01° W) to Philadelphia in about 5 minutes, Pittsburgh in 24, Nashville in 51, Memphis in 64, Denver in about 2 hours, and Los Angeles or Fresno in about 3 hours.
