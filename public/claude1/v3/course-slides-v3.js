@@ -772,41 +772,56 @@ addEventListener('load', () => setTimeout(() => {
   const G = '#f0b35a', W = '#ece6da', M = '#c2bba9', B = '#6fb3ff', RED = '#ff7d6f';
   // real places: Philadelphia 39.95 N 75.17 W, Memphis 35.15 N 90.05 W, Denver 39.74 N 104.99 W
   const CITY = [['Philadelphia', 39.95, -75.17, G], ['Memphis', 35.15, -90.05, B], ['Denver', 39.74, -104.99, B]];
-  const NOON = [-62, -75.17, -90.05, -104.99, -104.99, -104.99]; // 'If It Knew: 1 Hour = 15°' step cut // where the noon line stands at each step
+  const NOON = [-62, -75.17, -90.05, -104.99, -104.99, -124, -104.99]; // 'If It Knew: 1 Hour = 15°' step cut // where the noon line stands at each step
+  // Before 1883 (Jeff, 17 Nov): hundreds of towns, each flashing its own noon as the line sweeps over. Clusters follow where people lived in 1880:
+  // dense in the Northeast and Ohio Valley, thinning past the Missouri, a few in the West. Not real towns; seeded so it looks the same every time.
+  const SWEEP = 5, S0 = -66, S1 = -124.5, SMS = 10000, ORDER = [5, 0, 1, 2, 3, 4, 6]; // shown first (Jeff): the towns, then the three cities
+  const TOWNS = (() => { let s = 1880; const rnd = () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }, gau = () => Math.sqrt(-2 * Math.log(rnd() + 1e-9)) * Math.cos(2 * Math.PI * rnd());
+    const CL = [[40.9, -74.2, 30, .45], [40.1, -75.4, 20, .45], [42.3, -71.6, 18, .4], [43.2, -72.6, 25, .9], [42.8, -75.6, 30, 1.2], [40.7, -77.9, 35, 1.2], [40.4, -80.0, 10, .35], [39.2, -77.0, 15, .45],
+      [40.3, -82.8, 40, 1.2], [40.0, -86.2, 30, 1.1], [40.4, -89.1, 35, 1.4], [41.8, -87.9, 10, .3], [42.6, -84.6, 20, .9], [43.2, -89.1, 15, .9], [41.8, -93.0, 25, 1.3], [38.6, -92.6, 25, 1.3], [38.6, -90.4, 8, .3],
+      [36.6, -86.0, 35, 1.4], [36.6, -79.2, 35, 1.4], [33.6, -82.6, 25, 1.3], [32.8, -88.0, 20, 1.3], [31.0, -91.6, 10, .9], [32.0, -96.6, 15, 1.4], [35.0, -92.6, 10, 1.1], [39.3, -96.8, 18, 1.5], [44.7, -93.5, 12, 1.0],
+      [29.9, -82.6, 4, .5], [39.8, -105.0, 4, .5], [40.7, -111.9, 4, .45], [37.8, -121.8, 8, .35], [38.6, -121.2, 6, .5], [45.1, -122.8, 4, .45]];
+    const out = []; CL.forEach(([la, lo, n, sd]) => { for (let i = 0; i < n; i++) { const a = la + gau() * sd * .8, b = lo + gau() * sd; if (b > -70.2 || a < 29 || a > 47.5) continue; out.push([a, b]); } }); return out; })();
   const WORDS = [
     ['Philadelphia, Memphis, Denver', ''], // just the three cities: no latitudes, no Polaris line
     ['Noon in Philadelphia', ''], // bottom line cut (Jeff, 17 Nov)
     ['An Hour Later, Noon in Memphis', 'Noon slides west. Philadelphia is already at 1:00.'],
     ['Two Hours Later, Noon in Denver', 'Each city knows its own noon.'],
     ['Denver Knows Its Noon. What Time Is It in Philadelphia?', 'Without Philadelphia’s time, Denver cannot say how far west it is.'],
+    ['Before 1883: Every Town Its Own Noon', ''],
     ['Sound Familiar? Eastern, Central, Mountain', 'In 1883 the railroads drew U.S. time zones one hour, 15°, apart.']];
   const cam = { yaw: 7, pitch: 38 * Math.PI / 180, R: 1650, cx: 800, cy: 500 };
   const P = V3.orbitProj(cam);
   const t12 = h => { h = ((h % 24) + 24) % 24; let hh = Math.floor(h), mm = Math.round((h - hh) * 12) * 5; if (mm === 60) { hh = (hh + 1) % 24; mm = 0; } return `${hh % 12 || 12}:${String(mm).padStart(2, '0')} ${hh < 12 ? 'AM' : 'PM'}`; };
   let noon = NOON[0], from = NOON[0], last = 0;
   V3.scene(el, WORDS.length, (S, ctx, now) => {
-    const k = S.step, age = S.age(now);
+    const k = ORDER[S.step], age = S.age(now);
     if (S.t0 !== last) { from = noon; last = S.t0; }
-    noon = S.lerp(from, NOON[k], S.ease(Math.max(0, age - 300) / 2600));
+    noon = k === SWEEP ? S.lerp(S0, S1, Math.min(1, Math.max(0, age - 500) / SMS)) : S.lerp(from, NOON[k], S.ease(Math.max(0, age - 300) / 2600));
     S.stars(now, .7);
     const path = (pts, col, wd, dash) => { ctx.strokeStyle = col; ctx.lineWidth = wd; ctx.setLineDash(dash || []); ctx.beginPath(); let pen = false; for (const p of pts) { const q = P(p); if (q.z >= 0) { pen ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); pen = true; } else pen = false; } ctx.stroke(); ctx.setLineDash([]); };
     const mer = (lon, a = 24, b = 50) => Array.from({ length: 27 }, (_, i) => ll(a + (b - a) * i / 26, lon));
     // the globe, close in on the United States
     const gr = ctx.createRadialGradient(800, cam.cy - cam.R * .2, 0, 800, cam.cy, cam.R); gr.addColorStop(0, '#244a78'); gr.addColorStop(1, '#0d1d36');
     ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(800, cam.cy, cam.R, 0, 7); ctx.fill();
-    // time zones (step 5): idealized bands 15° wide around 75, 90, 105, 120 W
-    if (k === 5) { const a = S.fade(now, 200, 900); [['Eastern', -75], ['Central', -90], ['Mountain', -105], ['Pacific', -120]].forEach(([n, c], i) => {
+    // time zones (step 6): idealized bands 15° wide around 75, 90, 105, 120 W
+    if (k === 6) { const a = S.fade(now, 200, 900); [['Eastern', -75], ['Central', -90], ['Mountain', -105], ['Pacific', -120]].forEach(([n, c], i) => {
         ctx.save(); ctx.globalAlpha = a * (i % 2 ? .13 : .11); ctx.fillStyle = i % 2 ? B : G; ctx.beginPath(); let first = true;
         for (const p of [...mer(c + 7.5), ...mer(c - 7.5).reverse()]) { const q = P(p); first ? ctx.moveTo(q.x, q.y) : ctx.lineTo(q.x, q.y); first = false; } ctx.closePath(); ctx.fill(); ctx.restore();
         const q = P(ll(28.5, c)); S.text(n, q.x, q.y, 38, i % 2 ? B : G, 'center', a, 600); S.text(`${-c}° W`, q.x, q.y + 42, 30, W, 'center', a); }); }
     drawCoast(ctx, P, 4, { color: 'rgba(236,230,218,.8)', hi: true, borders: true, width: 1.4 });
+    // every town flashes its own noon as the line passes, then keeps its own clock
+    if (k === SWEEP) TOWNS.forEach(([la, lo]) => { const q = P(ll(la, lo)), since = (lo - noon) / (S0 - S1) * SMS;
+      if (since < 0) { ctx.fillStyle = 'rgba(236,230,218,.35)'; ctx.beginPath(); ctx.arc(q.x, q.y, 3, 0, 7); ctx.fill(); return; }
+      const f = Math.max(0, 1 - since / 900); if (f > 0) { ctx.fillStyle = `rgba(255,227,154,${.45 * f})`; ctx.beginPath(); ctx.arc(q.x, q.y, 6 + 16 * f, 0, 7); ctx.fill(); }
+      ctx.fillStyle = G; ctx.beginPath(); ctx.arc(q.x, q.y, 4 + 3 * f, 0, 7); ctx.fill(); });
     // the noon line and the Sun above it
-    if (k >= 1 && k <= 4) { const top = P(ll(47.5, noon));
+    if (k >= 1 && k <= SWEEP) { const top = P(ll(47.5, noon));
       ctx.save(); ctx.shadowColor = G; ctx.shadowBlur = 18; path(mer(noon, 22, 46.5), G, 5); ctx.restore();
       const sg = ctx.createRadialGradient(top.x, top.y - 40, 0, top.x, top.y - 40, 44); sg.addColorStop(0, '#ffe39a'); sg.addColorStop(.5, G); sg.addColorStop(1, 'rgba(240,179,90,0)'); ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(top.x, top.y - 40, 44, 0, 7); ctx.fill();
       S.text('Noon', top.x + 52, top.y - 32, 34, G, 'left', 1, 600); }
     // the cities, and each one's clock (local solar time)
-    CITY.forEach(([n, la, lo, col], i) => { const q = P(ll(la, lo)); const lit = k >= 1 && k <= 4 && Math.abs(lo - noon) < 1.2;
+    if (k !== SWEEP) CITY.forEach(([n, la, lo, col], i) => { const q = P(ll(la, lo)); const lit = k >= 1 && k <= SWEEP && Math.abs(lo - noon) < 1.2;
       if (lit) { ctx.save(); ctx.strokeStyle = G; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(q.x, q.y, 26 + 5 * Math.sin(now / 110), 0, 7); ctx.stroke(); ctx.restore(); }
       ctx.fillStyle = col; ctx.beginPath(); ctx.arc(q.x, q.y, 11, 0, 7); ctx.fill(); ctx.strokeStyle = '#0b1020'; ctx.lineWidth = 3; ctx.stroke();
       S.text(n, q.x, q.y - 28, 34, col, 'center', 1, 600);
