@@ -182,6 +182,7 @@ function titleCase(str) {
    Chosen by a review panel (presentation design, story, GIS teaching) for a 30-minute Teams talk.
    Each row: [slide t, minutes, script lines to keep (1-based, in order; strings are added lines)]. */
 // talk only: Galileo's last two beats, moved after Rømer
+if (/[?&]talk=30\b/.test(location.search)) COURSE.push({ day: 0, t: 'The end', label: 'The End: Stop Here', script: ['Stop here. Thank you. Questions?'] }); // a copy of the cover marks the end of the talk; the appendix follows
 if (/[?&]talk=30\b/.test(location.search)) COURSE.push({ day: 1, ch: 'Longitude', t: 'At sea, it fails', label: 'At Sea, It Fails', topics: ['64-galileo-jupiters-moons'], script: ['At sea it fails.', 'Scilly, 1707.'] });
 const TALK30 = [
   ['Cover', .5, ['Every pin you drop on a Red Cross map is two numbers. Tonight is the story of how many people had to die, and one stubborn carpenter had to prove a genius wrong, before anyone could say where they were.']],
@@ -198,7 +199,8 @@ const TALK30 = [
   ['The lunar distance', 1.5, ['Remember: the Sun tells you what time it is here. Longitude needs London\'s time too, a second clock that everyone shares. Io was one; it failed at sea. Way two, the astronomers\' bet: the Moon is a clock hand. Against the stars it moves about its own width every hour, and everyone on Earth sees the same thing. The idea was old, 1514, but it only worked at sea after the prize: Hadley\'s octant in 1731, good Moon tables in 1755.', 'With a sextant you measure the Moon to a bright star, here Regulus. From 1767 Nevil Maskelyne\'s Nautical Almanac turned that angle into London time.', 'Now do it on a rolling deck. One arcminute wrong in the sighting is about thirty miles. Then an hour of arithmetic by candlelight.'], { label: 'Way 2: The Moon', h1: 'Way 2: Read Home Time off the Moon' }],
   ['A clock that could travel', 3, [2, 'H1, 1735: about 75 pounds of brass, and on a trial to Lisbon it works. Harrison is not satisfied. H2 and H3 take him thirty years in all; they give us the bimetal strip and the caged ball bearing, both still in use. Still too big.', 5, 'Five seconds. About a mile and a quarter of longitude. Then the Board keeps moving the finish line; in 1773, at 80, with the King on his side, Harrison is finally paid. Remember: nobody ever collected the full £20,000. Harrison got about £18,750, in pieces. Mayer\'s Moon tables earned his widow £3,000.']],
   ['Washington, 1884', 2, ['Ask the room. Latitude has a zero that nature gives us: the equator, halfway between the poles the Earth spins on. Longitude has no natural zero. Every meridian is as good as any other. So where would you put zero longitude? Take a few answers.', 2, 3, 4, 'Twist: nature picks the equator. Power picks zero. France abstained, and its national survey kept counting longitude from Paris until the end of 1999.', 'Keys 2 to 5, the Date Line. 2: 180°, halfway round from Greenwich; cross it and the date changes. 3: Alaska, October 1867, sold to the U.S., switches to America\'s date; Friday happens twice. 4: Kiribati, January 1995, puts all its islands on one day; December 31, 1994 is skipped in the east. 5: Samoa, December 2011, joins Australia and New Zealand\'s day; Friday the 30th never happens. American Samoa, a separate U.S. territory about 80 miles away, chose to stay. Same hour on the clock, a full day apart. The line is not a meridian; it is a negotiation: Alaska moved for a sale, Kiribati for unity, Samoa for trade.']],
-  ['Where am I, now', 2.5, ['Today: GPS. The first test satellite went up in 1978; the full system was declared ready in 1995. About 31 satellites, 12,550 miles up, each going round twice a day.', 'Each one carries an atomic clock and broadcasts: this is the time, this is where I am.', 'Your phone times how long each signal took to arrive, about 70 thousandths of a second. Travel time times the speed of light is a distance.', 'Three distances pin you down; the fourth fixes your phone\'s cheap clock. Light travels about a foot in a billionth of a second, so these clocks must agree to billionths. Harrison needed seconds.', 'Anywhere, any time, four satellites. So the next time Field Maps drops a pin on a family that needs a cot tonight, remember: the stars gave us latitude, Harrison\'s clock gave us longitude, and a sky full of clocks answered Admiral Shovell\'s question in under a second.']],
+  ['Where am I, now', 2.5, ['Today: GPS. The first test satellite went up in 1978; the full system was declared ready in 1995. About 31 satellites, 12,550 miles up, each going round twice a day.', 'Each one carries an atomic clock and broadcasts: this is the time, this is where I am.', 'Anywhere, any time, four satellites. So the next time Field Maps drops a pin on a family that needs a cot tonight, remember: the stars gave us latitude, Harrison\'s clock gave us longitude, and a sky full of clocks answered Admiral Shovell\'s question in under a second.']],
+  ['The end', 0, ['Stop here. Thank you. Questions? Everything after this is the appendix, only if asked.']],
   // appendix: only if asked
   ['Eratosthenes', 2, ['One continuous camera move, → for each beat: the well at Syene; pull back to Alexandria on the curved Earth; push in on the stick and its 7.2°; pull back to the center of the Earth (eureka); out to the whole globe, 360 ÷ 7.2 = 50; fifty slices, 25,000 miles. Then the class guesses today\'s figure before → reveals it.', 2, 3, 4, 5, 6, 'A century later Hipparchus laid a grid of numbered lines over the world. Around AD 150 Ptolemy\'s Geography listed thousands of places by two numbers, with zero longitude out in the Canary Islands. Remember the Canaries.'], { ch: 'Appendix', label: 'Appendix: Eratosthenes' }],
   ['Decimal places', 1, [1, 2, 3], { label: 'Appendix: Decimal Places' }],
@@ -243,6 +245,10 @@ if (/[?&]talk=30\b/.test(location.search)) {
     deck.appendChild(s); def._el = s;
   }
 
+  /* ---- talk: a copy of the cover closes the talk, before the appendix ---- */
+  const endSlide = COURSE.some(c => c.t === 'The end') && find('Cover') ? find('Cover').cloneNode(true) : null;
+  if (endSlide) { endSlide.dataset.title = 'The end'; const cv = endSlide.querySelector('canvas'); if (cv) cv.removeAttribute('id'); deck.appendChild(endSlide); }
+
   /* ---- put every slide in course order; drop what the course does not use ---- */
   const used = [];
   COURSE.forEach((c, i) => {
@@ -261,6 +267,13 @@ if (/[?&]talk=30\b/.test(location.search)) {
 
   /* ---- cover ---- */
   const cov = find('Cover'); if (cov) { const q = s => cov.querySelector(s); if (q('.kicker')) q('.kicker').textContent = /[?&]talk=30\b/.test(location.search) ? 'American Red Cross · GIS' : 'American Red Cross · a two-day GIS course'; if (q('.sub')) q('.sub').textContent = 'Measurement, mapping and disaster decisions'; if (q('.vlink')) q('.vlink').remove(); }
+
+  if (endSlide && cov) { const src = cov.querySelector('.cover-text'), dst = endSlide.querySelector('.cover-text'); if (src && dst) { dst.innerHTML = src.innerHTML; const g = dst.querySelector('.go'); if (g) g.textContent = 'Questions?'; const v = dst.querySelector('.vlink'); if (v) v.remove(); }
+    // the deck animates only the canvas on the showing slide: give the copy its own scene that runs the cover's globe and copies it across
+    const from = cov.querySelector('canvas'), to = endSlide.querySelector('canvas');
+    if (from && to) addEventListener('load', () => { if (typeof scenes === 'undefined' || typeof setup !== 'function') return; const cs = scenes.find(x => x.o.c === from); // scenes and setup are defined by the deck script after this file
+      if (cs) { to.id = 'c00-end'; const eo = setup('c00-end');
+        scenes.push({ o: eo, draw(t) { if (!cs.o.w) cs.o.w = eo.w, cs.o.h = eo.h; cs.draw(t); if (!eo.w || !from.width) return; const x = eo.ctx; x.save(); x.setTransform(1, 0, 0, 1, 0, 0); x.clearRect(0, 0, to.width, to.height); x.drawImage(from, 0, 0, to.width, to.height); x.restore(); } }); } }); }
 
   /* ---- shell: index | Jeff's script | visuals | topics ---- */
   const nav = document.querySelector('nav.nav'), shell = document.createElement('div'); shell.id = 'shell';
