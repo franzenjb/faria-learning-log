@@ -352,33 +352,37 @@ NEW_SLIDES['Scilly, 1707'] = {
   h1: 'Scilly, 22 October 1707',
   fig: '',
   init(el) {
+    // The cold open runs the WebGL storm from the v3 film deck (/faria1/where-am-i/v3/) inside this slide:
+    // storm → where they believed they were → where they really were → the rocks → the toll. Our → drives its beats.
     el.classList.add('wide'); el.querySelector('.text').style.display = 'none';
-    // Four presses. Each replaces the screen; the story gets shorter and bigger as it lands.
-    // Built for screen-share: Georgia, no letter-spacing, near-solid dark band behind the type.
-    const L = 'font-size:clamp(28px,3.2vw,52px);line-height:1.55';
-    const SCREENS = [
-      `<div style="${L}">22 October 1707.<br>Fog and gales. No sun for days.<br>Admiral Shovell’s fleet sails for home.<br>Twenty-one ships.</div>`,
-      `<div style="${L}"><span style="color:#f0b35a">Latitude</span>, north or south: they can read it from the sky.<br><span style="color:#f0b35a">Longitude</span>, east or west: only a guess.<br>The officers compare their guesses.<br>All agree: safe in the Channel.</div>`,
-      `<style>.sc-in{opacity:0;animation:scIn 1s ease forwards}@keyframes scIn{to{opacity:1}}</style>
-       <div class="sc-in" style="font-size:clamp(56px,6.8vw,112px);line-height:1.05">They were wrong.</div>
-       <div class="sc-in" style="animation-delay:1.1s;margin-top:.15em;font-size:clamp(64px,8vw,132px);line-height:1.05;color:#f0b35a">2,000 died.</div>
-       <div class="sc-in" style="animation-delay:2.2s;margin-top:.45em;font-size:clamp(30px,3.4vw,56px);line-height:1.3">They knew their <span style="color:#f0b35a">latitude</span>, not their <span style="color:#f0b35a">longitude</span>.</div>`
-    ];
-    const LOOK = [[1, 1], [1.015, .95], [1.03, .9], [1.05, .82]];
+    const IDS = ['storm', 'believed', 'actual', 'rocks', 'toll'];
+    const TXT = {
+      storm: ['22 October 1707', 'Admiral Shovell brings the fleet home. Days of storm and cloud: no Sun, no stars.'],
+      believed: ['Where They Believed They Were', 'The navigators agree: safely west of Ushant, off Brittany.'],
+      actual: ['Where They Really Were', 'Farther north, heading straight for the Isles of Scilly.'],
+      rocks: ['About Eight at Night', 'In the dark, the flagship and three more ships strike the Western Rocks.'],
+      toll: ['Four Ships.<br>About 1,400 to 2,000 Men.', 'They knew their latitude. Not their longitude.'] };
     const stage = el.querySelector('.stage');
-    stage.innerHTML = `<div class="sc-wrap" style="position:absolute;inset:0;overflow:hidden;background:#05070d;cursor:pointer">
-      <img src="v3/img/scilly.jpg" alt="Engraving of Admiral Shovell's fleet wrecked on the rocks of Scilly, 1707" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(1) contrast(1.1);transform-origin:60% 60%">
-      <div style="position:absolute;inset:0;background:#1a2f5c;mix-blend-mode:multiply;opacity:.35"></div>
-      <div class="sc-band" style="position:absolute;left:0;right:0;top:50%;height:56%;transform:translateY(-50%);background:radial-gradient(ellipse 50% 46% at 50% 50%,rgba(5,8,18,.78) 0%,rgba(5,8,18,.55) 55%,rgba(5,8,18,0) 100%);opacity:0;transition:opacity .6s ease"></div>
-      <div class="sc-card" style="position:absolute;left:5%;right:5%;top:50%;transform:translateY(-50%);text-align:center;font-family:Georgia,serif;color:#ffffff;text-shadow:0 2px 14px rgba(0,0,0,.9);opacity:0;transition:opacity .5s ease"></div>
-      <div style="position:absolute;left:18px;top:12px;font:13px Georgia,serif;color:rgba(236,230,218,.5)">Shovell’s fleet on the rocks of Scilly, 1707 · engraving, public domain</div></div>`;
-    const img = stage.querySelector('img'), card = stage.querySelector('.sc-card'), band = stage.querySelector('.sc-band');
-    let swap = null;
-    const S = V3.steps(el, SCREENS.length, k => { clearTimeout(swap); const [z, b] = LOOK[k];
-      img.style.transition = k ? 'transform 8s ease-out, filter 1.2s ease' : 'none'; img.style.transform = `scale(${z})`; img.style.filter = `grayscale(1) brightness(${b}) contrast(1.1)`;
-      band.style.opacity = k ? 1 : 0; card.style.opacity = 0;
-      if (k) swap = setTimeout(() => { card.innerHTML = SCREENS[k - 1]; card.style.opacity = 1; }, card.innerHTML ? 380 : 0); else card.innerHTML = ''; });
-    stage.querySelector('.sc-wrap').onclick = () => S.fwd();
+    stage.innerHTML = `<div class="sc-wrap" style="position:absolute;inset:0;overflow:hidden;background:#05070d">
+      <img src="v3/img/scilly.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.55)">
+      <iframe title="The wreck of Shovell’s fleet, 1707" src="../../faria1/where-am-i/v3/" style="position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none;opacity:0;transition:opacity .8s"></iframe></div>`;
+    const f = stage.querySelector('iframe');
+    let W = null, k = 0, run = false;
+    const go = (i, how) => { stage.dataset.beat = IDS[i]; if (!W) return; const j = W.beats.findIndex(b => b.id === IDS[i]); if (j >= 0) W.go(j, how); };
+    f.addEventListener('load', () => { let tries = 0; const hook = () => { let w; try { w = f.contentWindow; } catch (e) { return; }
+      if (!(w && w.World && w.World.beats && w.World.beats.length && w.World.go)) { if (tries++ < 100) setTimeout(hook, 150); return; }
+      W = w.World;
+      // Teams-size type, Title Case headlines, none of the film deck's own controls
+      const css = w.document.createElement('style');
+      css.textContent = '#ui,#progbar,#notes,#overview,#help{display:none!important} .tbox .l{font-size:calc(var(--u)*3)!important;max-width:calc(var(--u)*70)!important;color:#e8e4dc!important} .lab{font-size:calc(var(--u)*1.7)!important} .lab.big{font-size:calc(var(--u)*2.1)!important}';
+      w.document.head.appendChild(css);
+      IDS.forEach(id => { const b = W.beats.find(x => x.id === id); if (b) { b.h = TXT[id][0]; b.l = TXT[id][1]; if (id === 'actual') b.tpos = 'bl'; } });
+      const step = W.step.bind(W); W.step = dt => { if (run) step(dt); }; // rest the GPU while the slide is not showing
+      run = el.classList.contains('active'); go(k, 'init'); f.style.opacity = 1; };
+      hook(); });
+    new MutationObserver(() => { run = el.classList.contains('active'); }).observe(el, { attributes: true, attributeFilter: ['class'] });
+    V3.steps(el, IDS.length - 1, i => { const how = i > k ? 'fly' : 'cut'; k = i; go(i, how); });
+    stage.dataset.beat = IDS[0];
   }
 };
 
