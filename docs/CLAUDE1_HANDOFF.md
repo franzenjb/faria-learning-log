@@ -105,6 +105,6 @@ Map scenes use Esri World Imagery tiles (`V3SAT` in course-slides-v3.js; no key)
 ## 17 Nov 2026 · Scilly cold open: done
 
 - Grok shipped the film edits (5c7968e): two clean map beats and drifting wreckage on the toll beat.
-- Claude's slide (PR #220, #222) plays storm → believed → actual → toll. Map words "Where They Thought", then "Where They Were" (gold) over the Scilly rocks, at the old headline size, with a slight push in. No "Not Where They Thought". The latitude line on the toll beat is ~62px. Text lands about 0.15s after the key press, and storm to map is a quick cut.
+- Claude's slide (PR #220, #222, #225) plays storm → believed → actual → toll → lesson. "Where They Thought" is centered in the Channel mouth; gold "Where They Were" sits under the Scilly rocks. The toll is white only; the next beat (a clone of the toll beat) shows the gold "They Knew Their Latitude, / Not Their Longitude." at headline size. Map words "Where They Thought", then "Where They Were" (gold) over the Scilly rocks, at the old headline size, with a slight push in. No "Not Where They Thought". The latitude line on the toll beat is ~62px. Text lands about 0.15s after the key press, and storm to map is a quick cut.
 - All of this is runtime overrides in `NEW_SLIDES['Scilly, 1707']` (`public/claude1/v3/course-slides-v3.js`). Grok's film files are untouched.
-- Test: `tests/claude1-v3-browser.mjs` expects four beats.
+- Test: `tests/claude1-v3-browser.mjs` expects five beats.
