@@ -35,6 +35,7 @@ function md(src) {
   for (const raw of src.split("\n")) {
     const l = raw.trimEnd(); let m;
     if (!l.trim()) { flush(); continue; }
+    if ((m = l.match(/^{{widget:([a-z0-9-]+)}}$/))) { flush(); out.push(fs.readFileSync(path.join("public", m[1], "embed.html"), "utf8")); continue; }
     if ((m = l.match(/^(#{2,4})\s+(.*)/))) { flush(); const n = m[1].length; const id = m[2].toLowerCase().replace(/[^a-z0-9]+/g, "-"); out.push(`<h${n} id="${id}">${inline(m[2])}</h${n}>`); continue; }
     if (/^\|.*\|$/.test(l.trim())) { if (!table.length) flush(); table.push(l.trim()); continue; }
     if (table.length) flush();
@@ -110,6 +111,7 @@ ${related.length ? `<section class="related"><h2>Related topics</h2><ul class="c
 // The interactive shares Faria's navigation, theme, text-size controls and feedback.
 write("galileo", page("Galileo's Moon Mountains", fs.readFileSync("public/galileo/lesson.html", "utf8"), 1));
 write("three-ways", page("One Spot, Three Addresses", fs.readFileSync("public/three-ways/lesson.html", "utf8"), 1));
+write("noon-walk", page("Noon Walks West", fs.readFileSync("public/noon-walk/lesson.html", "utf8"), 1));
 const dayLabel = s => {
   const fresh = freshOn(s), again = revisitedOn(s);
   return again.length ? `${fresh.length} new · ${again.length} revisited` : `${fresh.length} topics`;

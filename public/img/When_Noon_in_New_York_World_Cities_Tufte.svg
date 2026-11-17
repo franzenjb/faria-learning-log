@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="230" viewBox="0 0 960 230" role="img" aria-labelledby="title desc">
+  <title id="title">When it is solar noon in New York, clocks to the east already read afternoon</title>
+  <desc id="desc">A longitude strip from 65° W to 35° E. When it is solar noon in New York, Barbados is about 1 p.m., Rio about 2 p.m., the Azores about 3 p.m., London about 5 p.m., Rome and Berlin about 6 p.m., and Istanbul about 7 p.m.</desc>
+  <rect width="960" height="230" fill="#fcfbf7"/>
+  <g font-family="DejaVu Sans, Liberation Sans, Noto Sans, sans-serif" font-size="12" fill="#26363b">
+    <text x="48" y="28" font-size="14" font-weight="700">When it is noon in New York</text>
+    <text x="48" y="48" font-size="11" fill="#637177">Every meridian has its own noon. Places to the east have already had theirs, so their local solar time is later.</text>
+    <line x1="48" y1="120" x2="932" y2="120" stroke="#b8c0c0" stroke-width="1.4"/>
+    <line x1="622.6" y1="104" x2="622.6" y2="136" stroke="#637177" stroke-width="1.2" stroke-dasharray="3 3"/>
+    <text x="622.6" y="200" text-anchor="middle" font-size="10" fill="#637177">Greenwich 0°</text>
+    <line x1="92.2" y1="115" x2="92.2" y2="125" stroke="#c8c0b4" stroke-width="1"/>
+    <line x1="224.8" y1="115" x2="224.8" y2="125" stroke="#c8c0b4" stroke-width="1"/>
+    <line x1="357.4" y1="115" x2="357.4" y2="125" stroke="#c8c0b4" stroke-width="1"/>
+    <line x1="490.0" y1="115" x2="490.0" y2="125" stroke="#c8c0b4" stroke-width="1"/>
+    <line x1="622.6" y1="115" x2="622.6" y2="125" stroke="#c8c0b4" stroke-width="1"/>
+    <line x1="755.2" y1="115" x2="755.2" y2="125" stroke="#c8c0b4" stroke-width="1"/>
+    <line x1="887.8" y1="115" x2="887.8" y2="125" stroke="#c8c0b4" stroke-width="1"/>
+    <line x1="95.6" y1="104" x2="95.6" y2="136" stroke="#26363b" stroke-width="1.5"/>
+    <text x="95.6" y="70" text-anchor="middle" font-size="12" font-weight="700">Barbados</text>
+    <text x="95.6" y="86" text-anchor="middle" font-size="11" fill="#a95039">~1 p.m.</text>
+    <text x="95.6" y="102" text-anchor="middle" font-size="10" fill="#637177">12:58 p.m.</text>
+    <line x1="241.0" y1="104" x2="241.0" y2="136" stroke="#26363b" stroke-width="1.5"/>
+    <text x="241.0" y="156" text-anchor="middle" font-size="12" font-weight="700">Rio</text>
+    <text x="241.0" y="170" text-anchor="middle" font-size="11" fill="#a95039">~2 p.m.</text>
+    <text x="241.0" y="184" text-anchor="middle" font-size="10" fill="#637177">2:03 p.m.</text>
+    <line x1="395.7" y1="104" x2="395.7" y2="136" stroke="#26363b" stroke-width="1.5"/>
+    <text x="395.7" y="70" text-anchor="middle" font-size="12" font-weight="700">Azores</text>
+    <text x="395.7" y="86" text-anchor="middle" font-size="11" fill="#a95039">~3 p.m.</text>
+    <text x="395.7" y="102" text-anchor="middle" font-size="10" fill="#637177">3:13 p.m.</text>
+    <line x1="622.6" y1="104" x2="622.6" y2="136" stroke="#26363b" stroke-width="1.5"/>
+    <text x="622.6" y="156" text-anchor="middle" font-size="12" font-weight="700">London</text>
+    <text x="622.6" y="170" text-anchor="middle" font-size="11" fill="#a95039">~5 p.m.</text>
+    <text x="622.6" y="184" text-anchor="middle" font-size="10" fill="#637177">4:56 p.m.</text>
+    <line x1="733.1" y1="104" x2="733.1" y2="136" stroke="#26363b" stroke-width="1.5"/>
+    <text x="743.1" y="70" text-anchor="start" font-size="12" font-weight="700">Rome</text>
+    <text x="743.1" y="86" text-anchor="start" font-size="11" fill="#a95039">~6 p.m.</text>
+    <text x="743.1" y="102" text-anchor="start" font-size="10" fill="#637177">5:46 p.m.</text>
+    <line x1="741.1" y1="104" x2="741.1" y2="136" stroke="#26363b" stroke-width="1.5"/>
+    <text x="731.1" y="156" text-anchor="end" font-size="12" font-weight="700">Berlin</text>
+    <text x="731.1" y="170" text-anchor="end" font-size="11" fill="#a95039">~6 p.m.</text>
+    <text x="731.1" y="184" text-anchor="end" font-size="10" fill="#637177">5:50 p.m.</text>
+    <line x1="878.8" y1="104" x2="878.8" y2="136" stroke="#26363b" stroke-width="1.5"/>
+    <text x="878.8" y="70" text-anchor="middle" font-size="12" font-weight="700">Istanbul</text>
+    <text x="878.8" y="86" text-anchor="middle" font-size="11" fill="#a95039">~7 p.m.</text>
+    <text x="878.8" y="102" text-anchor="middle" font-size="10" fill="#637177">6:52 p.m.</text>
+    <text x="48" y="218" font-size="10.5" fill="#637177">New York, at 74.01° W, is off the left edge. Exact solar times: Barbados 12:58, Rio 2:03, Azores 3:13, London 4:56, Rome 5:46, Berlin 5:50, Istanbul 6:52 p.m.</text>
+  </g>
+</svg>

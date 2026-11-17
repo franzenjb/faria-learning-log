@@ -74,6 +74,7 @@ Printed lessons and plates, grouped with the topic each one belongs to. The comp
 ## 16 November 2026
 
 - [Three Ways to Say Where: Latitude and Longitude, UTM, and State Plane](/topics/115-three-ways-to-say-where/): [lesson PDF](/downloads/Three_Ways_to_Locate_a_Point_Lat_Long_UTM_State_Plane_Faria_2026-11-16.pdf). One spot in Fort Myers in all three systems, the 60 UTM zones and the 0.9996 scale factor, MGRS and USNG, the State Plane zone map, feet versus meters, SPCS2022, and a comparison table. The [interactive map](/three-ways/) converts any spot you click.
+- [Every Town Its Own Noon: Longitude, Railroad Time, and Time Zones](/topics/116-every-town-its-own-noon/): [lesson PDF](/downloads/Every_Town_Its_Own_Noon_Longitude_Railroad_Time_and_Time_Zones_Faria_2026-11-16.pdf). The 15° fact, solar noon walking west from New York at about 790 mph, railroad time and the Day of Two Noons, Greenwich in 1884, and Fleming's world zones. The [noon-walk interactive](/noon-walk/) lets you drag noon across the United States.
 
 ## Complete binder
 
