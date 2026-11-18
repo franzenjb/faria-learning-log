@@ -1350,7 +1350,7 @@ NEW_SLIDES['Image gallery'] = {
     const PD = 'Public domain';
     const IMG = [
       ['scilly-wreck', 'The Scilly Wreck, 1707', 'Four ships lost on the rocks, October 22, 1707.', 'Unknown artist, about 1710. ' + PD + ', Royal Museums Greenwich'],
-      ['shovell', 'Admiral Sir Cloudesley Shovell', 'Commander of the fleet lost at Scilly.', 'Michael Dahl, 1702. ' + PD + ', Royal Museums Greenwich'],
+      ['shovell-monument', 'Shovell’s Tomb, Westminster Abbey', 'His tomb effigy, by Grinling Gibbons. Commander of the fleet lost at Scilly.', '14GTR, CC BY-SA 4.0, via Wikimedia Commons'],
       ['greenwich-1696', 'The Royal Observatory, About 1696', 'Founded in 1675 to find longitude at sea.', 'Unknown artist. ' + PD + ', Royal Museums Greenwich'],
       ['paris-observatory', 'The Paris Observatory, About 1680', 'France’s observatory, founded 1667.', 'Published by N. Langlois. ' + PD],
       ['ptolemy-1482', 'Ptolemy’s World Map, 1482', 'Printed in Ulm, with lines of latitude and longitude.', PD],
