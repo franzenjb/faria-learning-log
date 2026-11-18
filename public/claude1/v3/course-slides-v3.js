@@ -676,7 +676,7 @@ addEventListener('load', () => setTimeout(() => {
 addEventListener('load', () => setTimeout(() => {
   const el = v3Find('Hours are slices'); if (!el || typeof drawCoast !== 'function') return;
   const G = '#f0b35a', B = '#6fb3ff', W = '#ece6da', M = '#c2bba9', D = Math.PI / 180;
-  const TOP = ['The Earth Turns', 'Look Down on the North Pole', 'Idea 1: A Circle Has 360°', 'Idea 2: A Day Has 24 Hours', 'Put Them Together: One Turn = One Day', 'So 1 Hour = 15°', 'So How Do You Measure It?']; // 'Those Slices Are Longitude' cut (Jeff, 17 Nov)
+  const TOP = ['The Earth Turns', 'Look Down on the North Pole', 'Idea 1: A Circle Has 360°', 'Idea 2: A Day Has 24 Hours', 'Put Them Together: One Turn = One Day', 'So 1 Hour = 15°']; // 'So How Do You Measure It?' cut (Jeff, 18 Nov); 'Those Slices Are Longitude' cut (Jeff, 17 Nov)
   const CX = 470, CY = 545, R = 245, RH = R + 42, RD = R + 112; // globe, hour ring, degree ring
   let yaw = 20, pitch = .3, last = performance.now(), lastStep = -1, yaw4 = 0;
   const arc = (r, a0, a1, col, wd) => { const c = S.ctx; /* angles in degrees, counterclockwise */ c.strokeStyle = col; c.lineWidth = wd; c.beginPath(); c.arc(CX, CY, r, -a0 * D, -a1 * D, a1 > a0); c.stroke(); };
@@ -785,7 +785,7 @@ addEventListener('load', () => setTimeout(() => {
       [29.9, -82.6, 4, .5], [39.8, -105.0, 4, .5], [40.7, -111.9, 4, .45], [37.8, -121.8, 8, .35], [38.6, -121.2, 6, .5], [45.1, -122.8, 4, .45]];
     const out = []; CL.forEach(([la, lo, n, sd]) => { for (let i = 0; i < n; i++) { const a = la + gau() * sd * .8, b = lo + gau() * sd; if (b > -70.2 || a < 29 || a > 47.5) continue; out.push([a, b]); } }); return out; })();
   const WORDS = [
-    ['Philadelphia, Memphis, Denver', ''], // just the three cities: no latitudes, no Polaris line
+    ['Denver, Memphis, Philadelphia', ''], // left to right as on the map (Jeff, 18 Nov); just the three cities: no latitudes, no Polaris line
     ['Noon in Philadelphia', ''], // bottom line cut (Jeff, 17 Nov)
     ['An Hour Later, Noon in Memphis', 'Noon slides west. Philadelphia is already at 1:00.'],
     ['Two Hours Later, Noon in Denver', 'Each city knows its own noon.'],
