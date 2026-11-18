@@ -1387,3 +1387,17 @@ NEW_SLIDES['Image gallery'] = {
     let was = false; const watch = () => { const on = el.classList.contains('active'); if (!on && was) close(); was = on; requestAnimationFrame(watch); }; watch();
   }
 };
+
+/* ---------- Talk: Ptolemy's world map, right after Latitude Is the Easy One (Jeff, 18 Nov). Image: img/gallery/ptolemy-1482.jpg ---------- */
+NEW_SLIDES['Ptolemy'] = { h1: 'Ptolemy: The World in Two Numbers', fig: '', init() {} };
+addEventListener('load', () => setTimeout(() => {
+  const el = v3Find('Ptolemy'); if (!el) return;
+  const map = new Image(); map.src = 'img/gallery/ptolemy-1482.jpg';
+  const WORDS = [['Ptolemy: The World in Two Numbers', 'About AD 150 · 8,000 places by latitude and longitude'], ['Ptolemy: The World in Two Numbers', 'Latitude: Close. Longitude: Guessed.']];
+  V3.scene(el, WORDS.length, (S, ctx, now) => {
+    ctx.fillStyle = '#05070f'; ctx.fillRect(0, 0, 1600, 1000);
+    if (map.complete && map.naturalWidth) { const s = Math.min(1500 / map.naturalWidth, 720 / map.naturalHeight), w = map.naturalWidth * s, h = map.naturalHeight * s; ctx.drawImage(map, 800 - w / 2, 485 - h / 2, w, h); }
+    S.words(now, ...WORDS[S.step]);
+    S.text('Printed in Ulm, 1482. Public domain.', 800, 948, 22, '#9aa3b5', 'center', .8);
+  });
+}, 0));
