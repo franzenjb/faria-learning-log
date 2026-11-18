@@ -100,7 +100,7 @@ const V3_TUNE = {
   'Latitude &amp; Longitude': { kicker: '325 BC · Pytheas of Marseille', // just the grid and the bingo card here: Polaris and the Southern Cross wait for Walk North; the Date Line and Null Island come later
     keep: ['[data-k="lat"]', '[data-k="lon"]', '[data-k="grid"]', '#bingo-open', '#g-spin'], noTap: true, hide: ['a[href="/polaris/"]'],
     clickOnLoad: ['#globe-toggles [data-k="lat"].on', '#globe-toggles [data-k="lon"].on', '#globe-toggles [data-k="grid"].on', '#globe-toggles [data-k="polaris"].on', '#globe-toggles [data-k="cities"].on'], hero: '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.', on: { '#bingo-open': '<b>Latitude</b> Calls the Row, <b>Longitude</b> Calls the Column.', '#fly-nm': '1 Arcminute of <b>Latitude</b> = 1 Nautical Mile', '#fly-north': '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.' } },
-  'Walk north': { arrow: ['#wn-pause-none', '#wn-l-you', '#wn-walk', '#wn-view'], hide: ['#wn-places', '#wn-south'], clickOnLoad: ['#wn-l-ang', '#wn-l-par'], setRange: { '#wn-lat': 0 }, onEnter: () => window.wnReset && wnReset(), // opens on the equator with 1 and 2 on; ↑ walks north
+  'Walk north': { arrow: ['#wn-l-ang', '#wn-l-par', '#wn-l-you', '#wn-walk', '#wn-view'], hide: ['#wn-places', '#wn-south'], setRange: { '#wn-lat': 0 }, onEnter: () => { if (window.wnReset) wnReset(); if (window.wnBare) wnBare(); }, // → and keys 1–5 match: 1 equator angle, 2 parallel, 3 you, 4 walk, 5 view (Jeff, 18 Nov) // opens on the equator with 1 and 2 on; ↑ walks north
     hideText: ['Why They Match', 'North Pole'], hero: '<b>Latitude</b> Is an Angle From the Equator.', on: { '#wn-l-you': 'One Star, One Angle. <b>Latitude</b> Needs No Clock.', '#wn-south': 'In the South, <b>the Southern Cross</b> Points to the Pole.' } },
   'Eratosthenes': { kicker: '240 BC · Eratosthenes of Alexandria' },
   'Hours are slices': {},
@@ -791,7 +791,7 @@ addEventListener('load', () => setTimeout(() => {
     ['Two Hours Later, Noon in Denver', 'Each city knows its own noon.'],
     ['Denver Knows Its Noon. What Time Is It in Philadelphia?', 'Without Philadelphia’s time, Denver cannot say how far west it is.'],
     ['Before 1883: Every Town Its Own Noon', ''],
-    ['Sound Familiar? Eastern, Central, Mountain', 'In 1883 the railroads drew U.S. time zones one hour, 15°, apart.']];
+    ['Pacific, Mountain, Central, Eastern', 'In 1883 the railroads drew U.S. time zones one hour, 15°, apart.']];
   const cam = { yaw: 7, pitch: 38 * Math.PI / 180, R: 1650, cx: 800, cy: 500 };
   const P = V3.orbitProj(cam);
   const t12 = h => { h = ((h % 24) + 24) % 24; let hh = Math.floor(h), mm = Math.round((h - hh) * 12) * 5; if (mm === 60) { hh = (hh + 1) % 24; mm = 0; } return `${hh % 12 || 12}:${String(mm).padStart(2, '0')} ${hh < 12 ? 'AM' : 'PM'}`; };
