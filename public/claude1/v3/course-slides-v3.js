@@ -395,7 +395,7 @@ NEW_SLIDES['Scilly, 1707'] = {
         }); 
       // beat 5: same storm shot, the white toll gives way to the lesson in gold, two lines at headline size
       { const t = W.beats.find(x => x.id === 'toll'); if (t) W.beats.push(Object.assign({}, t, { id: 'lesson', h: 'They Knew Their Latitude,<br>Not Their Longitude.', l: '', tcls: 'goldh' })); }
-      // the map: two words at headline size, no other headline. Beat 1 "Where They Thought", beat 2 "Where They Were" with a slight push in on the Scilly rocks
+      // the map: two words at headline size, no other headline. Beat 1 "Where They Thought", beat 2 "Where They Were" on the same framing
       { const bel = W.beats.find(x => x.id === 'believed'), act = W.beats.find(x => x.id === 'actual'), H = W.BH;
         if (bel && act && H && H.gLook) { const anc = (b, re) => ((b.labels || []).find(l => re.test(l.t)) || {}).a, dims = b => (b.labels || []).filter(l => /dim/.test(l.cls || ''));
           const A = H.G.at(49.25, -5.0), S = anc(act, /^but/i); // Thought: centered on the mouth of the English Channel, between the Lizard and Ushant (about 5° W); beat 1 camera centers on it
@@ -403,7 +403,7 @@ NEW_SLIDES['Scilly, 1707'] = {
             bel.labels = [thought(.15)].concat(dims(bel)); bel.h = bel.l = ''; bel.xf = 1.2; // quick fade from the storm to the map
             bel.cam = H.gLook(49.3, -5.0, .08, 12, H.SPIN0, { fov: 34, ahead: .004 }); // both spots in frame, centered between them
             act.labels = [thought(0), { a: S, t: 'Where They Were', cls: 'ser hl gold nodot', side: 't', d: .15 }].concat(dims(act)); act.h = act.l = '';
-            act.cam = H.gLook(49.58, -5.15, .074, 12, H.SPIN0, { fov: 34, ahead: .004 }); } } } // slight push in toward the Scilly rocks
+            act.cam = bel.cam; } } } // same camera as beat 1: no push in (the zoom flashed a black box), only the gold words fade in
       // the fleet: 14 more ships of the line, cloned from the film deck's own, riding the same swell (Shovell had 21)
       try { const sea = W.envs && W.envs.sea; if (sea && sea.ships && sea.heightAt && sea.at) {
         const src = sea.ships[1], ud = src.userData; src.userData = {};
