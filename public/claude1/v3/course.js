@@ -127,6 +127,8 @@ const COURSE = [
     script: ['If someone asks why their points landed in the wrong place: here is one shelter in Tampa. Latitude and longitude, in degrees.', 'The same shelter in UTM zone 17 is in meters. In Florida West State Plane it is in feet. Same place, three sets of numbers.', 'Now read the UTM numbers as zone 16 instead of 17. Same digits, and the shelter lands about 365 miles west, in the Gulf. Always ask: which system?'] },
   { day: 1, ch: 'Appendix', t: 'Errors grow', label: 'Appendix: Errors Grow', topics: ['84-harrison-and-the-marine-chronometer'],
     script: ['If someone asks how careful navigators still got lost: start from the last sure position. Each day the compass is good to about 2 degrees and the speed to about 8 percent.', 'Here are 160 ships, every one steered and logged with care. After five days the doubt has grown.', 'After twelve days it is a circle well over a hundred miles across. Nobody made a mistake. Small errors, carried forward, grow. That was the fleet off Scilly, and it is every chain of measurements you inherit.'] },
+  { day: 1, ch: 'Appendix', t: 'Image gallery', label: 'Appendix: Image Gallery', topics: [],
+    script: ['Pictures to pull up if a question needs one. Click any picture to fill the screen; the arrows step through them; Esc or a click closes it.'] },
   { day: 1, ch: 'Appendix', t: 'Light needs time, again', label: 'Appendix: Rømer, Light Needs Time', topics: ['96-jupiters-moons-as-a-measuring-stick'],
     script: ['Same scene as in the talk, for questions. Earth near Jupiter: the eclipse is on time.', 'Months later the Earth is on the far side of the Sun.', 'The eclipse is about 16 and a half minutes late: the light crosses the whole orbit.', 'Io is on time. The light is late.'] },
   
@@ -202,6 +204,7 @@ const TALK30 = [
   ['Where am I, now', 2.5, ['Today: GPS. The first test satellite went up in 1978; the full system was declared ready in 1995. About 31 satellites, 12,550 miles up, each going round twice a day.', 'Each one carries an atomic clock and broadcasts: this is the time, this is where I am.', 'Anywhere, any time, four satellites. So the next time Field Maps drops a pin on a family that needs a cot tonight, remember: the stars gave us latitude, Harrison\'s clock gave us longitude, and a sky full of clocks answered Admiral Shovell\'s question in under a second.']],
   ['The end', 0, ['Stop here. Thank you. Questions? Everything after this is the appendix, only if asked.']],
   // appendix: only if asked
+  ['Image gallery', 0, [1], { label: 'Appendix: Image Gallery' }],
   ['Eratosthenes', 2, ['One continuous camera move, → for each beat: the well at Syene; pull back to Alexandria on the curved Earth; push in on the stick and its 7.2°; pull back to the center of the Earth (eureka); out to the whole globe, 360 ÷ 7.2 = 50; fifty slices, 25,000 miles. Then the class guesses today\'s figure before → reveals it.', 2, 3, 4, 5, 6, 'A century later Hipparchus laid a grid of numbered lines over the world. Around AD 150 Ptolemy\'s Geography listed thousands of places by two numbers, with zero longitude out in the Canary Islands. Remember the Canaries.'], { ch: 'Appendix', label: 'Appendix: Eratosthenes' }],
   ['Decimal places', 1, [1, 2, 3], { label: 'Appendix: Decimal Places' }],
   ['Sidereal day', 1, [1, 2, 3], { label: 'Appendix: The Star Day' }],

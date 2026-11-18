@@ -1341,3 +1341,50 @@ addEventListener('load', () => setTimeout(() => {
     S.text(WORDS[k], 800, 78, 60, W, 'center', S.fade(now, 0, 600));
   });
 }, 0));
+
+/* ---------- Appendix: image gallery (Jeff, 18 Nov). Pictures to pull up if a question needs one.
+   Click a thumbnail: it fills the stage. ← / → step through, Esc or a click closes. Files and credits: img/gallery, img/README.md ---------- */
+NEW_SLIDES['Image gallery'] = {
+  h1: 'Image Gallery', fig: '',
+  init(el) {
+    const PD = 'Public domain';
+    const IMG = [
+      ['scilly-wreck', 'The Scilly Wreck, 1707', 'Four ships lost on the rocks, October 22, 1707.', 'Unknown artist, about 1710. ' + PD + ', Royal Museums Greenwich'],
+      ['shovell', 'Admiral Sir Cloudesley Shovell', 'Commander of the fleet lost at Scilly.', 'Michael Dahl, 1702. ' + PD + ', Royal Museums Greenwich'],
+      ['greenwich-1696', 'The Royal Observatory, About 1696', 'Founded in 1675 to find longitude at sea.', 'Unknown artist. ' + PD + ', Royal Museums Greenwich'],
+      ['paris-observatory', 'The Paris Observatory, About 1680', 'France’s observatory, founded 1667.', 'Published by N. Langlois. ' + PD],
+      ['ptolemy-1482', 'Ptolemy’s World Map, 1482', 'Printed in Ulm, with lines of latitude and longitude.', PD],
+      ['tycho-quadrant', 'Tycho Brahe’s Mural Quadrant, 1598', 'Measuring how high the stars stand.', 'Astronomiae Instauratae Mechanica. ' + PD],
+      ['shadow-clock', 'Egyptian Shadow Clock', 'Telling time by the Sun, 305–30 BCE.', 'The Metropolitan Museum of Art. ' + PD],
+      ['moon', 'The Moon', 'The clock hand of the lunar distance.', 'Via Wikimedia Commons, CC0'],
+      ['jupiter', 'Jupiter', 'Its moons were Galileo’s clock.', 'NASA/JPL/Space Science Institute, Cassini, 2000. ' + PD],
+      ['harrison', 'John Harrison', 'Carpenter and clockmaker, 1693–1776.', PD],
+      ['h1', 'H1, 1730–35', 'His first sea clock.', 'Tatters ❀ on Flickr, CC BY-SA 2.0, via Wikimedia Commons'],
+      ['h2', 'H2, 1737–39', 'Sturdier, never sent to sea.', 'Tatters ❀ on Flickr, Creative Commons, via Wikimedia Commons'],
+      ['h3', 'H3, 1740–59', 'Nineteen years of work.', 'Tatters ❀ on Flickr, Creative Commons, via Wikimedia Commons'],
+      ['h4-dial', 'H4, 1759', 'About 5 inches across.', 'Colonel Warden, CC BY-SA 3.0, via Wikimedia Commons'],
+      ['h4-movement', 'Inside H4', 'Gears in layers, ruby bearings, a diamond.', 'Mike Peel (mikepeel.net), CC BY-SA 4.0, via Wikimedia Commons'],
+      ['h4-plan-1767', 'H4’s Plan, 1767', 'From The Principles of Mr Harrison’s Time-Keeper.', PD],
+      ['time-ball', 'The Time Ball, Greenwich', 'Since 1833 it drops at 1:00 PM so ships can set their clocks.', 'Garry Knight, CC BY 2.0, via Wikimedia Commons'],
+      ['shepherd-gate-clock', 'The Shepherd Gate Clock, 1852', 'The first clock to show the public Greenwich time. A 24-hour dial.', 'Alvesgaspar, CC BY-SA 3.0, via Wikimedia Commons'],
+      ['prime-meridian', 'The Prime Meridian, Greenwich', 'One foot east, one foot west.', 'Perituss, CC0, via Wikimedia Commons'],
+      ['sandford-fleming', 'Sandford Fleming, 1883', 'Missed a train in 1876 and campaigned for standard time.', 'Sheldon & Davis, Ottawa. ' + PD + ', Bibliothèque nationale de France'],
+      ['delegates-1884', 'The Meridian Conference, 1884', '41 delegates, 25 nations.', 'Unknown photographer. ' + PD],
+      ['gps-satellite', 'A GPS Satellite', 'Navstar, late 1970s. Each one carries atomic clocks.', 'U.S. Air Force. ' + PD]];
+    const text = el.querySelector('.text'); if (text) text.style.display = 'none'; el.classList.add('wide');
+    const st = el.querySelector('.stage'); [...st.children].forEach(c => { c.style.display = 'none'; }); if (getComputedStyle(st).position === 'static') st.style.position = 'relative';
+    const grid = document.createElement('div'); grid.className = 'gal';
+    grid.innerHTML = '<h2>Image Gallery</h2><div class="gal-grid">' + IMG.map(([f, t], i) => `<button data-i="${i}"><img loading="lazy" src="img/gallery/${f}-t.jpg" alt=""><span>${t}</span></button>`).join('') + '</div>';
+    const full = document.createElement('div'); full.className = 'gal-full'; full.hidden = true; full.innerHTML = '<img alt=""><div class="gal-cap"><b></b><span></span></div><small></small>';
+    st.append(grid, full);
+    let cur = -1;
+    const show = i => { cur = (i + IMG.length) % IMG.length; const [f, t, c, cr] = IMG[cur]; full.querySelector('img').src = `img/gallery/${f}.jpg`; full.querySelector('img').alt = t; full.querySelector('b').textContent = t; full.querySelector('.gal-cap span').textContent = c; full.querySelector('small').textContent = cr; full.hidden = false; };
+    const close = () => { cur = -1; full.hidden = true; };
+    grid.querySelectorAll('button').forEach(b => b.onclick = () => show(+b.dataset.i)); full.onclick = close;
+    addEventListener('keydown', e => { if (cur < 0 || !el.classList.contains('active')) return;
+      const m = { ArrowRight: 1, ArrowLeft: -1, PageDown: 1, PageUp: -1, ' ': 1 }[e.key];
+      if (m) show(cur + m); else if (e.key === 'Escape') close(); else return;
+      e.preventDefault(); e.stopImmediatePropagation(); }, true);
+    let was = false; const watch = () => { const on = el.classList.contains('active'); if (!on && was) close(); was = on; requestAnimationFrame(watch); }; watch();
+  }
+};
