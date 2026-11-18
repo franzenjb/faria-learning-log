@@ -109,7 +109,7 @@ const V3_TUNE = {
   'Galileo’s clock': { talk: { hide: ['[data-detour]', '#gs-steps [data-s="5"]'] } },
   'The lunar distance': { kicker: '1767 · Nevil Maskelyne’s Almanac' },
   'A clock that could travel': { h1: 'A Clock That Could Travel' },
-  'Washington, 1884': { kicker: 'Washington · October 1884', arrow: ['#pm84-ns', '#pm84-q', '#pm84-ph', '#pm84-g', '#pm84-ew'], talk: { hide: ['#pm84-fr'] }, hide: ['#pm84-r'], hero: 'Nature Gives Us One Zero: the <b>Equator</b>, Latitude 0°.' },
+  'Washington, 1884': { kicker: 'Washington · October 1884', arrow: ['#pm84-ph', '#pm84-g', '#pm84-ew'], talk: { hide: ['#pm84-fr'] }, hide: ['#pm84-r'], hero: 'Washington, 1884: Where Is <b>Zero Longitude</b>?' },
   'Where am I, now': { kicker: 'GPS' } // the GPS close is a full V3 scene now (see the end of this file)
 };
 const v3Hero = (el, html) => { let h = el.querySelector('.v3-hero'); const st = el.querySelector('.stage'); if (!st) return; if (!h) { h = document.createElement('div'); h.className = 'v3-hero'; if (getComputedStyle(st).position === 'static') st.style.position = 'relative'; st.appendChild(h); } h.innerHTML = html || ''; };
