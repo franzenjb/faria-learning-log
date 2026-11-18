@@ -109,7 +109,7 @@ const V3_TUNE = {
   'Galileo’s clock': { talk: { hide: ['[data-detour]', '#gs-steps [data-s="5"]'] } },
   'The lunar distance': { kicker: '1767 · Nevil Maskelyne’s Almanac' },
   'A clock that could travel': { h1: 'A Clock That Could Travel' },
-  'Washington, 1884': { kicker: 'Washington · October 1884', arrow: ['#pm84-ph', '#pm84-g', '#pm84-ew'], talk: { hide: ['#pm84-fr'] }, hide: ['#pm84-r'], hero: 'Washington, 1884: Where Is <b>Zero Longitude</b>?' },
+  'Washington, 1884': { kicker: 'Washington · October 1884', arrow: ['#pm84-ph', '#pm84-g'], talk: { hide: ['#pm84-fr'] }, hide: ['#pm84-r'], hero: 'Washington, 1884: Where Is <b>Zero Longitude</b>?' },
   'Where am I, now': { kicker: 'GPS' } // the GPS close is a full V3 scene now (see the end of this file)
 };
 const v3Hero = (el, html) => { let h = el.querySelector('.v3-hero'); const st = el.querySelector('.stage'); if (!st) return; if (!h) { h = document.createElement('div'); h.className = 'v3-hero'; if (getComputedStyle(st).position === 'static') st.style.position = 'relative'; st.appendChild(h); } h.innerHTML = html || ''; };
@@ -257,7 +257,7 @@ NEW_SLIDES['Was 1900 a leap year?'] = {
 /* ---------- Washington, 1884 ---------- */
 NEW_SLIDES['Washington, 1884'] = {
   h1: 'Where should zero be?', canvas: true,
-  ctl: `<div class="btns"><button id="pm84-q" style="display:none">Where Is Zero?</button>${V3.btn('pm84-ns', 'North | South')}${V3.btn('pm84-ph', 'The Delegates')}${V3.btn('pm84-g', 'Greenwich', true)}${V3.btn('pm84-ew', 'East | West')}${V3.btn('pm84-fr', 'And Today?')}</div><div class="btns">${V3.btn('dl84-0', 'The Date Line, 180°')}${V3.btn('dl84-1', 'Alaska, 1867')}${V3.btn('dl84-2', 'Kiribati, 1995')}${V3.btn('dl84-3', 'Samoa, 2011')}</div><div class="readout" id="pm84-r"><strong>25 nations. Vote first.</strong></div>`,
+  ctl: `<div class="btns"><button id="pm84-q" style="display:none">Where Is Zero?</button>${V3.btn('pm84-ns', 'The Equator')}${V3.btn('pm84-ph', 'The Delegates')}${V3.btn('pm84-g', 'Greenwich', true)}${V3.btn('pm84-ew', 'East | West')}${V3.btn('pm84-fr', 'And Today?')}</div><div class="btns">${V3.btn('dl84-0', 'The Date Line, 180°')}${V3.btn('dl84-1', 'Alaska, 1867')}${V3.btn('dl84-2', 'Kiribati, 1995')}${V3.btn('dl84-3', 'Samoa, 2011')}</div><div class="readout" id="pm84-r"><strong>25 nations. Vote first.</strong></div>`,
   init(el) {
     const C = [['pm84-g', 'Greenwich', 51.48, 0], ['pm84-p', 'Paris', 48.84, 2.34], ['pm84-w', 'Washington', 38.92, -77.07], ['pm84-f', 'Ferro', 27.75, -17.9]];
     let pick = null, stage = 0, t0 = 0;
@@ -286,7 +286,7 @@ NEW_SLIDES['Washington, 1884'] = {
     const dlSync = () => DL.forEach((_, i) => CS.$(el, '#dl84-' + i).classList.toggle('on', i === dl));
     DL.forEach((d, i) => { CS.$(el, '#dl84-' + i).onclick = () => { dl = i; dlT = performance.now(); dlSync(); fly(G.st, d[4], 1600); CS.$(el, '#pm84-r').innerHTML = `<strong class="big">${d[6]}</strong>`; v3Hero(el, d[5]); }; });
     CS.$(el, '#pm84-fr').onclick = () => { intro = false; stage = 1; fly(G.st, camFor(51.48, 0, 6), 1600); CS.$(el, '#pm84-r').innerHTML = '<strong class="big">Power Decides Zero</strong>'; v3Hero(el, 'GPS Zero (WGS 84) Runs <b>335 Feet East</b> of the Greenwich Line.'); };
-    CS.$(el, '#pm84-ns').onclick = () => { intro = true; fly(G.st, camFor(0, -30, 1), 1200); sp = 'ns'; spT = performance.now() + 1200; CS.$(el, '#pm84-r').innerHTML = '<strong class="big">North +, South −</strong>'; v3Hero(el, 'Nature Splits North From South: the <b>Equator</b>.'); };
+    CS.$(el, '#pm84-ns').onclick = () => { intro = true; fly(G.st, camFor(0, -30, 1), 1200); stage = 0; sp = null; CS.$(el, '#pm84-r').innerHTML = '<strong class="big">Latitude 0°</strong>'; v3Hero(el, V3_TUNE['Washington, 1884'].hero); }; // Jeff, 18 Nov: beat 1 is the equator alone, no split
     CS.$(el, '#pm84-ew').onclick = () => { intro = false; stage = 1; fly(G.st, camFor(0, 0, 1), 1200); sp = 'ew'; spT = performance.now() + 1200; CS.$(el, '#pm84-r').innerHTML = '<strong class="big">East +, West −</strong>'; v3Hero(el, 'People Split East From West: <b>Greenwich</b> + 180°.'); };
     // Jeff, 17 Nov: the delegates on the steps, full screen, right before the vote
     const ph = document.createElement('div'); ph.className = 'pm84-photo'; ph.innerHTML = '<img src="img/delegates1884.jpg" alt="Delegates of the International Meridian Conference, Washington, October 1884"><span>Public domain</span>'; el.querySelector('.stage').insertBefore(ph, el.querySelector('.stage .v3-hero'));
@@ -436,9 +436,9 @@ NEW_SLIDES['A clock that could travel'] = {
     const ST = [
       () => `<image href="img/harrison-portrait.jpg" x="360" y="30" width="280" height="350" preserveAspectRatio="xMidYMid meet"/>` + big('John Harrison, Village Carpenter', 450, '', 46) + big('Born 1693, Yorkshire. Never schooled in science.', 510, 'mu', 28),
       () => ph(1, 30, 60, 300, 330) + ph(2, 350, 60, 300, 330) + ph(3, 670, 60, 300, 330) + big('H1, 1735: it works', 440, '', 26).replace('x="500"', 'x="180"') + big('H2, 1741: sturdier', 440, '', 26) + big('H3, 1759: nineteen years', 440, '', 26).replace('x="500"', 'x="820"') + big('Thirty years. Three clocks. Still too big.', 530, 'mu', 30),
-      () => face(300, 6, 400, 380) + big('Like a giant pocket watch: 5 inches across.', 432, 'mu', 30) + big('H4: 81 days at sea to Jamaica.', 492, '', 40) + big('How many seconds does it lose?', 550, 'rd', 44),
       // Jeff, 18 Nov: the dial looks too simple, so show what is inside it
-      () => `<image href="img/harrison-h4-movement.jpg" x="10" y="6" width="560" height="410" preserveAspectRatio="xMidYMid meet"/><image href="img/harrison-h4-plan-1767.jpg" x="590" y="6" width="400" height="410" preserveAspectRatio="xMidYMid meet"/>` + big('Inside: layers of gears, rubies, a diamond.', 470, '', 38) + big('Six years to build, 1755 to 1759.', 530, 'mu', 30),
+      // Jeff, 18 Nov: the dial and its gears on one slide; the "how many seconds" slide is gone
+      () => face(30, 6, 440, 400) + `<image href="img/harrison-h4-movement.jpg" x="530" y="6" width="440" height="400" preserveAspectRatio="xMidYMid meet"/>` + big('H4, 1759: like a giant pocket watch, 5 inches across.', 466, 'mu', 30) + big('81 days at sea to Jamaica.', 530, '', 40),
       () => face(360, 6, 280, 268) + big('5 seconds', 420, 'rd', 120) + big('About 1¼ miles of longitude.', 510, '', 36)
     ];
     V3.steps(el, ST.length - 1, k => { CS.$(el, '#hv').innerHTML = ST[k](); });
@@ -845,11 +845,10 @@ addEventListener('load', () => setTimeout(() => {
   const FIELD = Array.from({ length: 18 }, (_, i) => [300 + ((i * 397) % 1000), 260 + ((i * 211) % 260), 1 + (i % 3) * .6]);
   const WORDS = [
     ['Way 2: The Moon Is a Clock Hand', 'An idea from 1514. It finally worked at sea in the 1760s.'],
-    ['Measure the Moon–Star Distance', 'With a sextant: from the Moon’s edge to the bright star Regulus.'],
     ['Now Do It on a Rolling Deck', 'One arcminute wrong = about 30 miles. Then an hour of arithmetic by candlelight.']];
   let H = 6;
-  V3.scene(el, 3, (S, ctx, now) => { // 'Look It Up in the Almanac' step cut
-    const age = S.age(now), roll = S.step === 2 ? S.clamp(age / 900) : 0;
+  V3.scene(el, 2, (S, ctx, now) => { // 'Look It Up in the Almanac' and 'Measure the Moon–Star Distance' steps cut (Jeff, 18 Nov)
+    const age = S.age(now), roll = S.step === 1 ? S.clamp(age / 900) : 0;
     // the Moon's hour: a time-lapse on the first step, parked at 9 PM after that
     if (S.step === 0) H = 6 + ((age / 1000) * .9) % 6; else H = S.lerp(H, 9, Math.min(1, .06));
     const sky = ctx.createLinearGradient(0, 0, 0, 1000); sky.addColorStop(0, '#060912'); sky.addColorStop(.75, '#0f1a33'); sky.addColorStop(1, '#14223d'); ctx.fillStyle = sky; ctx.fillRect(0, 0, 1600, 1000);
@@ -873,7 +872,7 @@ addEventListener('load', () => setTimeout(() => {
     ctx.restore();
     // a clock for the time-lapse: the Moon's place among the stars is London time
     if (S.step === 0) S.card(60, 160, 340, 150, 'London time', t12(H + 12), 'read from the Moon’s place', G, S.fade(now, 300));
-    if (S.step === 2) { S.text('±1′ in the sighting  =  ±30 miles', 1170, 620, 34, RED, 'center', S.fade(now, 1200)); S.text('+ refraction, parallax, the almanac every 3 hours…', 1170, 670, 24, M, 'center', S.fade(now, 2000)); }
+    if (S.step === 1) { S.text('±1′ in the sighting  =  ±30 miles', 1170, 620, 34, RED, 'center', S.fade(now, 1200)); S.text('+ refraction, parallax, the almanac every 3 hours…', 1170, 670, 24, M, 'center', S.fade(now, 2000)); }
     S.words(now, ...WORDS[S.step]);
   });
 }, 0));
