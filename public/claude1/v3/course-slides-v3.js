@@ -1394,3 +1394,59 @@ addEventListener('load', () => setTimeout(() => {
     S.text('Ulm, 1482 · Public Domain', 1580, 990, 17, '#9aa3b5', 'right', .7);
   });
 }, 0));
+
+/* ---------- Walk north: two star-finder pop-outs (Jeff, 18 Nov): the Big Dipper to Polaris, the Southern Cross to the south pole ---------- */
+addEventListener('load', () => setTimeout(() => {
+  const el = v3Find('Walk north'); if (!el) return; const row = el.querySelector('#wn-walk') && el.querySelector('#wn-walk').parentElement; if (!row) return;
+  const css = document.createElement('style'); css.textContent = `#sf-modal{position:fixed;inset:0;z-index:9999;background:rgba(3,6,14,.86);display:none;align-items:center;justify-content:center}#sf-modal.on{display:flex}#sf-modal .box{background:#070b16;border:1px solid rgba(240,179,90,.35);border-radius:14px;padding:18px 26px 14px;width:min(1180px,94vw);max-height:94vh;box-shadow:0 20px 80px rgba(0,0,0,.6)}#sf-modal h2{margin:0;font:600 34px Georgia,serif;color:#ece6da}#sf-modal p{margin:4px 0 0;font:22px Georgia,serif;color:#c2bba9}#sf-modal svg{width:100%;height:auto;max-height:70vh;display:block}#sf-modal .x{float:right;background:none;border:1px solid #555;color:#ccc;border-radius:8px;font-size:18px;padding:4px 12px;cursor:pointer}`; document.head.appendChild(css);
+  const M = document.createElement('div'); M.id = 'sf-modal'; M.innerHTML = '<div class="box"><button class="x">Close (Esc)</button><h2></h2><p></p><svg viewBox="0 0 1000 620"></svg></div>'; document.body.appendChild(M);
+  const close = () => M.classList.remove('on'); M.onclick = e => { if (e.target === M || e.target.classList.contains('x')) close(); }; addEventListener('keydown', e => { if (e.key === 'Escape' && M.classList.contains('on')) { e.stopImmediatePropagation(); close(); } }, true);
+  const G = '#f0b35a', W = '#ece6da', MU = '#8f887a';
+  // stars as [name, RA hours, Dec degrees, magnitude]; polar projection, 1 degree = k px
+  const proj = (ra, dec, cx, cy, k, rot, south) => { const r = (south ? 90 + dec : 90 - dec) * k, a = (ra * 15 + rot) * Math.PI / 180 * (south ? -1 : 1); return [cx + r * Math.cos(a), cy - r * Math.sin(a)]; };
+  const dot = ([x, y], m, c = W) => `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${Math.max(2.2, 7.5 - 1.6 * m).toFixed(1)}" fill="${c}"/>`;
+  const lab = ([x, y], t, dx = 12, dy = -10, c = MU, s = 20, anc = 'start') => `<text x="${(x + dx).toFixed(1)}" y="${(y + dy).toFixed(1)}" fill="${c}" font-family="Georgia,serif" font-size="${s}" text-anchor="${anc}">${t}</text>`;
+  const ln = (a, b, c = 'rgba(236,230,218,.35)', w = 2, dash = '') => `<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" stroke="${c}" stroke-width="${w}" ${dash ? `stroke-dasharray="${dash}"` : ''}/>`;
+  // scale a set of raw points to fill a box, keeping the shape
+  const fitter = (pts, x0, y0, x1, y1) => { const xs = pts.map(q => q[0]), ys = pts.map(q => q[1]), mnx = Math.min(...xs), mxx = Math.max(...xs), mny = Math.min(...ys), mxy = Math.max(...ys), k = Math.min((x1 - x0) / (mxx - mnx), (y1 - y0) / (mxy - mny)), ox = x0 + ((x1 - x0) - (mxx - mnx) * k) / 2, oy = y0 + ((y1 - y0) - (mxy - mny) * k) / 2; return q => [ox + (q[0] - mnx) * k, oy + (q[1] - mny) * k]; };
+  const ext = (a, b, f) => [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f];
+  const north = () => {
+    const R = (ra, dec) => proj(ra, dec, 0, 0, 1, 0, false);
+    const BD = [['Dubhe', 11.06, 61.75, 1.8], ['Merak', 11.03, 56.38, 2.3], ['Phecda', 11.90, 53.69, 2.4], ['Megrez', 12.26, 57.03, 3.3], ['Alioth', 12.90, 55.96, 1.8], ['Mizar', 13.40, 54.93, 2.2], ['Alkaid', 13.79, 49.31, 1.9]];
+    const LD = [['Polaris', 2.53, 89.26, 2.0], ['Yildun', 17.54, 86.59, 4.4], ['', 16.77, 82.04, 4.2], ['', 15.73, 77.79, 4.3], ['', 16.29, 75.76, 5.0], ['Kochab', 14.85, 74.16, 2.1], ['Pherkad', 15.35, 71.83, 3.0]];
+    const F = fitter([...BD, ...LD].map(q => R(q[1], q[2])), 110, 70, 740, 510), P = (ra, dec) => F(R(ra, dec));
+    const b = BD.map(s => P(s[1], s[2])), l = LD.map(s => P(s[1], s[2])), pol = l[0];
+    let s = '';
+    [[0, 1], [1, 2], [2, 3], [3, 0], [3, 4], [4, 5], [5, 6]].forEach(([i, j]) => s += ln(b[i], b[j]));
+    [[0, 1], [1, 2], [2, 3], [3, 4], [4, 6], [6, 5], [5, 3]].forEach(([i, j]) => s += ln(l[i], l[j]));
+    s += ln(b[1], ext(b[1], b[0], 0.97 * Math.hypot(pol[0] - b[1][0], pol[1] - b[1][1]) / Math.hypot(b[0][0] - b[1][0], b[0][1] - b[1][1])), G, 2.5, '9 7');
+    b.forEach((p, i) => s += dot(p, BD[i][3])); l.forEach((p, i) => s += dot(p, LD[i][3], i ? W : G));
+    s += lab(b[0], 'Dubhe', 10, 30, G, 22) + lab(b[1], 'Merak', -12, -10, G, 22, 'end') + lab(pol, 'Polaris', 18, 8, G, 32) + lab(pol, 'the North Star', 18, 34, G, 20) + lab(l[5], 'Kochab', 12, 24) + lab(b[6], 'Alkaid', -12, 28, MU, 20, 'end');
+    s += lab([(b[2][0] + b[5][0]) / 2, Math.max(b[2][1], b[5][1])], 'BIG DIPPER', 0, 60, W, 22, 'middle') + lab(l[3], 'LITTLE DIPPER', 30, 46, W, 22);
+    s += lab(ext(b[0], pol, .45), 'pointers: go about 5 times their gap', -10, 62, G, 21, 'middle');
+    s += `<text x="40" y="590" fill="${MU}" font-family="Georgia,serif" font-size="20">Polaris’s height above your horizon = your latitude, within a degree. Positions to scale.</text>`;
+    return ['Find the North Star', 'Follow the two stars at the end of the Big Dipper’s bowl. Polaris is the end of the Little Dipper’s handle.', s];
+  };
+  const southC = () => {
+    const R = (ra, dec) => proj(ra, dec, 0, 0, 1, 84, true);
+    const CR = [['Acrux', 12.44, -63.10, 0.8], ['Mimosa', 12.80, -59.69, 1.3], ['Gacrux', 12.52, -57.11, 1.6], ['', 12.25, -58.75, 2.8], ['', 12.36, -60.40, 3.6]];
+    const PT = [['Alpha Centauri', 14.66, -60.83, -0.3], ['Beta Centauri', 14.06, -60.37, 0.6]];
+    const F = fitter([...CR, ...PT, ['', 0, -90]].map(q => R(q[1], q[2])), 200, 95, 740, 500), P = (ra, dec) => F(R(ra, dec));
+    const c = CR.map(s => P(s[1], s[2])), p = PT.map(s => P(s[1], s[2])), pole = P(0, -90);
+    let s = ln(c[2], c[0]) + ln(c[1], c[3]);
+    s += ln(c[0], ext(c[2], c[0], Math.hypot(pole[0] - c[2][0], pole[1] - c[2][1]) / Math.hypot(c[0][0] - c[2][0], c[0][1] - c[2][1])), G, 2.5, '9 7');
+    const mid = [(p[0][0] + p[1][0]) / 2, (p[0][1] + p[1][1]) / 2], dx = p[1][0] - p[0][0], dy = p[1][1] - p[0][1], nrm = [-dy, dx], t = ((pole[0] - mid[0]) * nrm[0] + (pole[1] - mid[1]) * nrm[1]) / (nrm[0] ** 2 + nrm[1] ** 2);
+    s += ln(p[0], p[1], 'rgba(236,230,218,.25)', 1.5) + ln(mid, [mid[0] + nrm[0] * t, mid[1] + nrm[1] * t], G, 2.5, '3 7');
+    c.forEach((q, i) => s += dot(q, CR[i][3])); p.forEach((q, i) => s += dot(q, PT[i][3]));
+    s += `<circle cx="${pole[0].toFixed(1)}" cy="${pole[1].toFixed(1)}" r="14" fill="none" stroke="${G}" stroke-width="2.5"/>` + lab(pole, 'South celestial pole', 22, 8, G, 26) + lab(pole, 'no bright star; the lines meet within a few degrees', 22, 34, MU, 19);
+    s += lab(c[0], 'Acrux', 12, 26, W, 22) + lab(c[2], 'Gacrux', 12, -10, W, 22) + lab(c[1], 'Mimosa', 14, -4) + lab(c[2], 'SOUTHERN CROSS', -14, -38, W, 22, 'end');
+    s += lab(p[0], 'Alpha Centauri', 14, 28, W, 22) + lab(p[1], 'Beta Centauri', 14, -14, W, 22) + lab(p[0], 'THE POINTERS', 14, 56, MU, 20);
+    s += `<text x="40" y="590" fill="${MU}" font-family="Georgia,serif" font-size="20">Where the two lines meet is the pole. Its height above your horizon = your latitude south. Star positions to scale.</text>`;
+    return ['Find the South Pole of the Sky', 'Run the Cross’s long bar about 4½ times. Draw the line that splits the pointers. Where they meet is the pole.', s];
+  };
+  const open = f => { const [h, p, svg] = f(); M.querySelector('h2').textContent = h; M.querySelector('p').textContent = p; M.querySelector('svg').innerHTML = svg; M.classList.add('on'); };
+  const mk = (id, t, f) => { const b = document.createElement('button'); b.id = id; b.textContent = t; b.onclick = () => open(f); row.appendChild(b); };
+  mk('wn-sf-n', 'North Star Finder', north); mk('wn-sf-s', 'Southern Cross Finder', southC);
+  // leaving the slide closes the pop-out
+  addEventListener('hashchange', close);
+}, 0));
