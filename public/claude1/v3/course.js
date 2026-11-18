@@ -225,7 +225,6 @@ const TALK30 = [
   ['The pole star wanders', 1, [1, 2, 3, 4, 5], { ch: 'Appendix', label: 'Appendix: The Pole Star Wanders' }],
   ['Fist and knuckle', 1, [1, 2, 3, 4], { ch: 'Appendix', label: 'Appendix: Your Hand Is a Protractor' }],
   ['Picard and the meter', 1, [1, 2, 3, 4, 5], { ch: 'Appendix', label: 'Appendix: Picard and the Meter' }],
-  ['Was 1900 a leap year?', 1, [1, 2, 3, 4, 5, 6, 7], { ch: 'Appendix', label: 'Appendix: Was 1900 a Leap Year?' }],
 ];
 if (/[?&]talk=30\b/.test(location.search)) {
   const keep = [];
