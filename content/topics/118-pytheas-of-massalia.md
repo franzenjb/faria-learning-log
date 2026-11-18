@@ -38,7 +38,7 @@ Six days' sail north of Britain, he said, lay **Thule** (*THOO-lee*), near a fro
 
 He seems also to have reached a coast of **amber**. The exact itinerary on the North Sea or Baltic side is, again, debated.
 
-Two firsts, among the Greeks, sit on firmer ground. He described the **midnight sun** and the very long summer days of high latitude, and he related the length of the day to how far north you stand. And he linked the **tides** to the Moon, a connection the nearly tideless Mediterranean had not forced on his predecessors.
+Two firsts, among the Greeks, sit on firmer ground. He described the **midnight sun** and the very long summer days of high latitude, and he related the length of the day to how far north you stand. And he linked the **tides** to the Moon, a connection the nearly tideless Mediterranean had not forced on his predecessors. How long the polar day and night really last, latitude by latitude, is on [From Unequal Hours to Equal Ones](../119-from-unequal-hours-to-equal-ones/).
 
 ## The Empty Pole
 

@@ -33,7 +33,7 @@ Claudius Ptolemy worked in Alexandria, in Egypt, around AD 150. He is best known
 - Instructions for map projections, ways to draw a round Earth on a flat sheet.
 - A long list of places with a latitude and a longitude for each. The usual figure is **about 8,000** places, though counts differ with what is counted: towns, river mouths, capes, mountains.
 
-Latitude was counted from the equator, as now. Longitude needed a starting line, a **prime meridian**. Ptolemy chose the **Fortunate Isles**, the westernmost land he knew, generally identified with the **Canary Islands**. Everything else was so many degrees east of them. His world ran about 180° of longitude, from the Canaries to China.
+Latitude was counted from the equator, as now. Longitude needed a starting line, a **prime meridian**. Ptolemy chose the **Fortunate Isles**, the westernmost land he knew, generally identified with the **Canary Islands**. Everything else was so many degrees east of them. His world ran about 180° of longitude, from the Canaries to China. In his catalogue the island of Canaria itself sits at 1° east; see [Ptolemy's zero](../119-from-unequal-hours-to-equal-ones/#ptolemy-s-zero-is-not-quite-at-the-canaries).
 
 Only a small share of those coordinates came from real sky measurements. Most were worked out from itineraries, sailing times and earlier maps, especially the lost work of Marinus of Tyre. They look precise. Many are not.
 

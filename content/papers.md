@@ -87,6 +87,7 @@ Printed lessons and plates, grouped with the topic each one belongs to. The comp
 
 - [Before Time Zones: Every Town Its Own Noon](/topics/117-before-time-zones-every-town-its-own-noon/). This lesson is the web page. It has no separate PDF.
 - [Pytheas of Massalia: Tin, Latitude, and the Round Earth](/topics/118-pytheas-of-massalia/): [lesson PDF](/downloads/Pytheas_of_Massalia_Tin_Latitude_and_the_Round_Earth_Faria_2026-11-18.pdf). The gnomon ratio at Massalia, the tin voyage, Thule, the empty pole, a round Earth, declination and latitude, and the Moon's two months.
+- [From Unequal Hours to Equal Ones: How We Divided the Day and the Year](/topics/119-from-unequal-hours-to-equal-ones/): [lesson PDF](/downloads/Timekeeping_from_Unequal_Hours_to_24_Equal_Hours_Skim_Notes_Faria_2026-11-18.pdf). A skim sheet: seasonal hours to 24 equal hours, Egypt and Babylon, calendar drift and leap years, Kepler's equal areas, polar light, decimal time, and Ptolemy's 1° Canaria.
 
 ## Complete binder
 

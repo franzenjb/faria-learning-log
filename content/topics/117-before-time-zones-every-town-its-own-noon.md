@@ -21,6 +21,8 @@ The night hours swap. A summer night hour is about 45 minutes; a winter night ho
 ![Two 24-hour bars for Rome. In summer, daylight lasts 15 hours 6 minutes and each of the 12 day hours is about 75 minutes. In winter, daylight lasts 8 hours 54 minutes and each day hour is about 45 minutes. Night hours swap length with the day hours.](../../img/Roman_Hours_Summer_and_Winter_at_Rome_Tufte.svg)
 *The two bars are the same 24 hours long. What the day gains, the night loses.*
 
+The Roman hour month by month, where the twelve and the sixty came from, and how equal hours replaced it, are on [From Unequal Hours to Equal Ones](../119-from-unequal-hours-to-equal-ones/).
+
 ## Time Changes as You Go East or West
 
 The Greeks also worked out that clock time itself shifts as you travel east or west. [Hipparchus](../104-hipparchus-ptolemy-and-the-grid/), working on Rhodes around 150 BC, argued that the way to measure how far apart two cities were in longitude was to time the same **lunar eclipse** from both. A lunar eclipse begins at one instant for everyone who can see it. But the local hour is different in each city, because local time follows the Sun. Earth turns **15° every hour**. If the eclipse starts at the third hour of the night in one city and the fifth hour in another, the second city is two hours, or 30°, farther east.
