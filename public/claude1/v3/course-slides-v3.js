@@ -1353,6 +1353,7 @@ NEW_SLIDES['Image gallery'] = {
       ['shovell-monument', 'Shovell’s Tomb, Westminster Abbey', 'His tomb effigy, by Grinling Gibbons. Commander of the fleet lost at Scilly.', '14GTR, CC BY-SA 4.0, via Wikimedia Commons'],
       ['paris-observatory', 'The Paris Observatory, About 1680', 'France’s observatory, founded 1667.', 'Published by N. Langlois. ' + PD],
       ['ptolemy-1482', 'Ptolemy’s World Map, 1482', 'Printed in Ulm, with lines of latitude and longitude.', PD],
+      ['toscanelli-1474', 'Toscanelli’s Chart, 1474', 'How Columbus pictured the world: Japan in the mid-Atlantic, zero longitude at the Canaries.', 'Original lost. Reconstruction by J. G. Bartholomew; light blue shows the real Americas. ' + PD + ', via Wikimedia Commons'],
       ['tycho-quadrant', 'Tycho Brahe’s Mural Quadrant, 1598', 'Measuring how high the stars stand.', 'Astronomiae Instauratae Mechanica. ' + PD],
       ['shadow-clock', 'Egyptian Shadow Clock', 'Telling time by the Sun, 305–30 BCE.', 'The Metropolitan Museum of Art. ' + PD],
       ['moon', 'The Moon', 'The clock hand of the lunar distance.', 'Via Wikimedia Commons, CC0'],
