@@ -936,10 +936,10 @@ addEventListener('load', () => setTimeout(() => {
     const east = [[2.9, 50.7], [3.6, 50.5], [4.2, 50.3], [4.8, 50.15], [4.85, 49.8], [5.8, 49.55], [6.4, 49.45], [7.0, 49.15], [7.6, 49.05], [8.2, 48.95], [7.6, 47.6], [7.0, 47.5], [6.1, 46.6], [6.1, 46.15], [6.8, 46.0], [7.0, 45.6], [6.6, 45.1], [7.0, 44.7], [7.6, 44.1]];
     const pyr = [[2.6, 42.35], [1.7, 42.5], [0.7, 42.7], [-0.3, 42.8], [-1.4, 43.05]];
     return [...atl.slice(a0, a1 + 1), ...east, ...med.slice(m0, m1 + 1), ...pyr]; };
-  const GMAP = TALK ? [0, 2, 3, 5, 6, 7] : [0, 2, 3, 5, 6, 7, 8, 9]; // beat 1 (the Moon is not smooth) is cut // the talk ends on France; at sea and Scilly come after Rømer, on their own slide // beat 4 (Io slips into the shadow) is cut; its line folds into the clock beat
+  const GMAP = TALK ? [0, 2, 3, 5, 5, 6, 7] : [0, 2, 3, 5, 6, 7, 8, 9]; // beat 1 (the Moon is not smooth) is cut // the talk ends on France; at sea and Scilly come after Rømer, on their own slide // beat 4 (Io slips into the shadow) is cut; its line folds into the clock beat
   V3.scene(el, GMAP.length, (S, ctx, now) => {
     if (S.t0 !== last) { from = { ...eye }; last = S.t0; }
-    const age = S.age(now), k = GMAP[S.step], e = S.ease(age / 1500), T = EYE[k];
+    const age = S.age(now), k = GMAP[S.step], ans = k === 5 && GMAP.indexOf(5) !== S.step, e = S.ease(age / 1500), T = EYE[k];
     if (k !== curK) { curK = k; zoom = 1; tiltT = .03; ioOnly = false; }
     eye = { x: S.lerp(from.x, T.x, e), y: S.lerp(from.y, T.y, e), r: S.lerp(from.r, T.r, e) };
     tilt = S.lerp(tilt, k === 3 ? tiltT : k >= 4 && k <= 5 ? .5 : .03, k === 3 ? .12 : .05);
@@ -971,7 +971,7 @@ addEventListener('load', () => setTimeout(() => {
       S.text('1 flat · 2 tilted · 3 Io only · ↑↓ zoom', 40, 962, 17, M, 'left', .4); }
     // Galileo's own record of those nights: a page of Sidereus Nuncius, Venice, March 1610 (public domain)
     if (k === 2 && sn.complete && sn.naturalWidth) { const a = S.fade(now, 200, 800), h = 660, w = h * sn.naturalWidth / sn.naturalHeight; ctx.save(); ctx.globalAlpha = a; ctx.drawImage(sn, 70, 150, w, h); ctx.strokeStyle = 'rgba(240,179,90,.5)'; ctx.lineWidth = 2; ctx.strokeRect(70, 150, w, h); ctx.restore(); S.text('Galileo’s own record · Sidereus Nuncius, 1610', 70 + w / 2, 840, 20, M, 'center', a); }
-    if (k === 5) { S.card(1220, 300, 340, 150, 'Paris', '9:00 PM', 'Io vanishes', G, S.fade(now, 400)); S.card(40, 300, 340, 150, 'Chicago', '3:00 PM', 'the same instant', B, S.fade(now, 1000)); S.text('6 hours = 90° West', 800, 845, 44, G, 'center', S.fade(now, 1700)); }
+    if (k === 5) { S.card(1220, 300, 340, 150, 'Paris', '9:00 PM', 'Io vanishes', G, ans ? 1 : S.fade(now, 400)); S.card(40, 300, 340, 150, 'Chicago', '3:00 PM', 'the same instant', B, ans ? 1 : S.fade(now, 1000)); if (ans) S.text('6 hours = 90° West', 800, 845, 44, G, 'center', S.fade(now, 200)); } // answer hidden until the next press (Jeff, 18 Nov)
     // Scilly: the bill for longitude at sea
     if (k === 9) { const a = S.fade(now, 0, 800); ctx.save(); ctx.globalAlpha = a * .5; if (scilly.complete && scilly.naturalWidth) { const s = Math.max(1600 / scilly.naturalWidth, 1000 / scilly.naturalHeight); ctx.filter = 'grayscale(1)'; ctx.drawImage(scilly, 800 - scilly.naturalWidth * s / 2, 500 - scilly.naturalHeight * s / 2, scilly.naturalWidth * s, scilly.naturalHeight * s); ctx.filter = 'none'; } ctx.restore();
       ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(5,8,18,.72)'; ctx.fillRect(0, 300, 1600, 400); ctx.restore();
