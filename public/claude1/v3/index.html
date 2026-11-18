@@ -840,7 +840,7 @@ showCard(`${north?'Polaris':'The south celestial pole'} ${fmt(a)}° above the ho
 orbit(o,st,tap);
 // Spin: a slow, steady turn of the globe that Jeff can toggle; it pauses while a fly-to is running
 let spin=false;{const sb=document.getElementById('g-spin');sb.onclick=()=>{spin=!spin;sb.textContent='Spin · '+(spin?'On':'Off');sb.classList.toggle('on',spin);};}
-scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);if(mode==='globe'){stepAnim(st,t);if(spin&&!st.anim)st.yaw+=.0035;drawGlobe(t);}else drawLon(t);}});
+scenes.push({o,draw(t){const{ctx,w,h}=o;ctx.clearRect(0,0,w,h);drawStars(o,t);if(mode==='globe'){stepAnim(st,t);if(spin&&!st.anim)st.yaw+=.0016;drawGlobe(t);}else drawLon(t);}});
 function drawGlobe(t){const{ctx,w,h}=o;const{cx,cy,R}=geom();
 // axis to Polaris / SCP
 const N=proj([0,1.9,0]),S=proj([0,-1.9,0]),np=proj([0,1,0]),sp=proj([0,-1,0]);
