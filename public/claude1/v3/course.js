@@ -217,7 +217,6 @@ const TALK30 = [
   ['Eratosthenes', 2, ['One continuous camera move, → for each beat: the well at Syene; pull back to Alexandria on the curved Earth; push in on the stick and its 7.2°; pull back to the center of the Earth (eureka); out to the whole globe, 360 ÷ 7.2 = 50; fifty slices, 25,000 miles. Then the class guesses today\'s figure before → reveals it.', 2, 3, 4, 5, 6, 'A century later Hipparchus laid a grid of numbered lines over the world. Around AD 150 Ptolemy\'s Geography listed thousands of places by two numbers, with zero longitude out in the Canary Islands. Remember the Canaries.'], { ch: 'Appendix', label: 'Appendix: Eratosthenes' }],
   ['Decimal places', 1, [1, 2, 3], { label: 'Appendix: Decimal Places' }],
   ['Sidereal day', 1, [1, 2, 3], { label: 'Appendix: The Star Day' }],
-  ['Light needs time, again', 1, ['Earth on Jupiter\'s side of the Sun: the eclipse is on time.', 'Earth on the far side: about 16 and a half minutes late. Io is on time; the light is late.']],
   ['Null Island', 1, ['Tap or → for the photo. Zero degrees, zero degrees: open ocean off Africa, one weather buoy. But it is the busiest spot in our databases: every failed geocode, blank cell or GPS left off lands right here. A dot at Null Island is not a place. It is a failure. Filter it out.'], { label: 'Appendix: Null Island' }],
   ['The date line', 1, [1, 2, 3, 4, 5, 6], { ch: 'Appendix', label: 'Appendix: The Date Line' }],
 ];
