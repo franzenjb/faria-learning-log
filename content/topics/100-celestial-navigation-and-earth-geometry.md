@@ -11,7 +11,7 @@ The North Star has not always been a good pole star. How far Polaris sits from t
 
 Earth's spin axis slowly wobbles, like a top running down. One full wobble, called **precession**, takes about 26,000 years (more precisely about 25,770). The point in the sky the axis aims at, the **north celestial pole**, therefore creeps among the stars.
 
-Around **100 BC**, Polaris was about **12°** from that true pole, a little more than the width of your fist at arm's length. It was not a pole star yet. The Greek astronomer Hipparchus, and the earlier explorer Pytheas, both described the pole as an empty patch of sky, with no bright star sitting on it. Kochab, in the Little Dipper, was then the nearer bright star, but still many degrees off.
+Around **100 BC**, Polaris was about **12°** from that true pole, a little more than the width of your fist at arm's length. It was not a pole star yet. The Greek astronomer Hipparchus, and the earlier explorer [Pytheas](../118-pytheas-of-massalia/), both described the pole as an empty patch of sky, with no bright star sitting on it. Kochab, in the Little Dipper, was then the nearer bright star, but still many degrees off.
 
 By **1492**, when Columbus sailed, the gap had closed to about **3.5°**, roughly seven Moon widths. Today, in 2026, Polaris is about **0.63°** from the pole, a little under two-thirds of a degree. It will come closest around **2100**, at about **0.45°**, just under half a degree. Then it will drift away again. In about 12,000 years, **Vega** will be the north star, though it will stay about 5° or 6° from the pole, a much coarser guide than Polaris is now.
 

@@ -13,7 +13,7 @@ tags: [mathematics, astronomy, geography, history-of-science, pronunciation, ety
 **Bematist**: **BEE-muh-tist** (from Greek *bēma*, a step).
 
 ## Who he was
-Eratosthenes of Cyrene (about 276–194 BC) was the chief librarian of the great **Library of Alexandria** in Egypt. He coined the word **geography** (*geo*, earth + *graphia*, writing or drawing), which is why he is called the father of geography. Rivals nicknamed him "Beta," second best at everything, because he worked in so many fields.
+Eratosthenes of Cyrene (about 276–194 BC) was the chief librarian of the great **Library of Alexandria** in Egypt. He coined the word **geography** (*geo*, earth + *graphia*, writing or drawing), which is why he is called the father of geography. Rivals nicknamed him "Beta," second best at everything, because he worked in so many fields. He also knew, and used, the northern measurements of [Pytheas of Massalia](../118-pytheas-of-massalia/); Strabo, who did not approve, still reports the fact.
 
 ## The clue
 He heard that at **Syene** (modern Aswan), far up the Nile, at noon on the summer solstice the sun shone straight down a deep well, lighting the water at the bottom. An upright stick cast no shadow. The sun was directly overhead.

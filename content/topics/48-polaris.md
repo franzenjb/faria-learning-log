@@ -60,7 +60,7 @@ Key stops on that circle:
 |---|---|
 | ~**2750 BC** | **Thuban** (α Draconis), in Draco; near the pole when the pyramids were rising |
 | Classical antiquity | Closer to **Kochab** (β UMi) than to Polaris, though still ~10° from either |
-| ~**320 BC** | The Greek navigator **Pytheas** described the pole as **devoid of stars** |
+| ~**320 BC** | The Greek navigator [**Pytheas**](../118-pytheas-of-massalia/) described the pole as **devoid of stars** |
 | 5th century AD | **Stobaeus** called Polaris ἀεί φανής (*aei phanēs*), **"always visible"** |
 | ~**2100 AD** | Polaris's closest approach (~0.45° / 27′) |
 | ~**4000 AD** | **Gamma Cephei** (Errai) |

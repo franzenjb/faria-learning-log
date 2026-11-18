@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="740" height="236" viewBox="0 0 740 236" role="img" aria-labelledby="title desc">
+  <title id="title">Latitude from the Sun's noon altitude and declination</title>
+  <desc id="desc">In the northern hemisphere, when the Sun is south of the zenith at noon, latitude equals 90 degrees minus the noon altitude plus the Sun's declination.</desc>
+  <rect width="740" height="236" fill="#fcfbf7"/>
+  <g font-family="DejaVu Sans, Noto Sans, sans-serif" fill="#26363b">
+    <text x="28" y="24" font-size="13" font-weight="700">From a Noon Sun to a Latitude</text>
+    <text x="28" y="42" font-size="11" fill="#637177">Northern hemisphere, Sun south of the zenith. Declination is where the Sun stands relative to the equator that day.</text>
+
+    <text x="28" y="80" font-size="20" font-weight="700" fill="#a95039">latitude  =  90°  −  noon altitude  +  declination</text>
+    <text x="28" y="106" font-size="12" fill="#637177">or, equivalently,  latitude  =  zenith distance  +  declination</text>
+
+    <text x="28" y="138" font-size="11">At the equinox, declination is 0°, so latitude is simply 90° minus the noon altitude.</text>
+    <text x="28" y="156" font-size="11">At the summer solstice, add about 23.44° (the tilt was about 23.7° in Pytheas's century).</text>
+    <text x="28" y="174" font-size="11">At the winter solstice, subtract the same amount. The ±23.44° swing is the sky's expression of Earth's axial tilt,</text>
+    <text x="28" y="190" font-size="11">which is also why we have seasons.</text>
+    <text x="28" y="210" font-size="11" fill="#637177">Polaris is simpler: its height is nearly your latitude, and you do not need a declination table.</text>
+    <text x="28" y="226" font-size="11" fill="#637177">In Pytheas's day, no bright star sat on the pole.</text>
+  </g>
+</svg>

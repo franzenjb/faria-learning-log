@@ -82,6 +82,12 @@ Printed lessons and plates, grouped with the topic each one belongs to. The comp
 
 - [Every Town Its Own Noon: Longitude, Railroad Time, and Time Zones](/topics/116-every-town-its-own-noon/): [updated lesson PDF](/downloads/Every_Town_Its_Own_Noon_Longitude_Railroad_Time_and_Time_Zones_Faria_2026-11-17.pdf). Adds the extra turn that makes a solar day four minutes longer than a sidereal day, with an interactive adapted from the [Deck v2](/deck/v2/#10) *Star day vs Sun day* animation. The [16 November PDF](/downloads/Every_Town_Its_Own_Noon_Longitude_Railroad_Time_and_Time_Zones_Faria_2026-11-16.pdf) is unchanged.
 
+
+## 18 November 2026
+
+- [Before Time Zones: Every Town Its Own Noon](/topics/117-before-time-zones-every-town-its-own-noon/). This lesson is the web page. It has no separate PDF.
+- [Pytheas of Massalia: Tin, Latitude, and the Round Earth](/topics/118-pytheas-of-massalia/): [lesson PDF](/downloads/Pytheas_of_Massalia_Tin_Latitude_and_the_Round_Earth_Faria_2026-11-18.pdf). The gnomon ratio at Massalia, the tin voyage, Thule, the empty pole, a round Earth, declination and latitude, and the Moon's two months.
+
 ## Complete binder
 
 [Complete lessons binder (PDF)](/downloads/Franzen_Complete_Lessons_Binder.pdf). 458 pages. 72 topics and 37 papers, assembled before the later 8 November lessons. Those later pages, including Picard, Tycho, the mathematics lessons, and the historical lessons added with them, are on the site and are not in this file. The binder has not been rebuilt. The separate lesson PDFs on this page stay as they are.
