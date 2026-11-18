@@ -100,7 +100,7 @@ const V3_TUNE = {
   'Latitude &amp; Longitude': { kicker: '325 BC · Pytheas of Marseille', // just the grid and the bingo card here: Polaris and the Southern Cross wait for Walk North; the Date Line and Null Island come later
     keep: ['[data-k="lat"]', '[data-k="lon"]', '[data-k="grid"]', '#bingo-open', '#g-spin'], noTap: true, hide: ['a[href="/polaris/"]'],
     clickOnLoad: ['#globe-toggles [data-k="lat"].on', '#globe-toggles [data-k="lon"].on', '#globe-toggles [data-k="grid"].on', '#globe-toggles [data-k="polaris"].on', '#globe-toggles [data-k="cities"].on'], hero: '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.', on: { '#bingo-open': '<b>Latitude</b> Calls the Row, <b>Longitude</b> Calls the Column.', '#fly-nm': '1 Arcminute of <b>Latitude</b> = 1 Nautical Mile', '#fly-north': '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.' } },
-  'Walk north': { arrow: ['#wn-l-you', '#wn-walk', '#wn-view'], hide: ['#wn-places', '#wn-south'], clickOnLoad: ['#wn-l-ang', '#wn-l-par'], setRange: { '#wn-lat': 0 }, onEnter: () => window.wnReset && wnReset(), // opens on the equator with 1 and 2 on; ↑ walks north
+  'Walk north': { arrow: ['#wn-pause-none', '#wn-l-you', '#wn-walk', '#wn-view'], hide: ['#wn-places', '#wn-south'], clickOnLoad: ['#wn-l-ang', '#wn-l-par'], setRange: { '#wn-lat': 0 }, onEnter: () => window.wnReset && wnReset(), // opens on the equator with 1 and 2 on; ↑ walks north
     hideText: ['Why They Match', 'North Pole'], hero: '<b>Latitude</b> Is an Angle From the Equator.', on: { '#wn-l-you': 'One Star, One Angle. <b>Latitude</b> Needs No Clock.', '#wn-south': 'In the South, <b>the Southern Cross</b> Points to the Pole.' } },
   'Eratosthenes': { kicker: '240 BC · Eratosthenes of Alexandria' },
   'Hours are slices': {},
@@ -1425,7 +1425,7 @@ addEventListener('load', () => setTimeout(() => {
     s += lab([(b[2][0] + b[5][0]) / 2, Math.max(b[2][1], b[5][1])], 'BIG DIPPER', 0, 60, W, 22, 'middle') + lab(l[3], 'LITTLE DIPPER', 30, 46, W, 22);
     s += lab(ext(b[0], pol, .45), 'pointers: go about 5 times their gap', -10, 62, G, 21, 'middle');
     s += `<text x="40" y="590" fill="${MU}" font-family="Georgia,serif" font-size="20">Polaris’s height above your horizon = your latitude, within a degree. Positions to scale.</text>`;
-    return ['Find the North Star', 'Follow the two stars at the end of the Big Dipper’s bowl. Polaris is the end of the Little Dipper’s handle.', s];
+    return ['Find the North Star', 'Dubhe and Merak point the way: extend that line about five times their gap to reach Polaris.', s];
   };
   const southC = () => {
     const R = (ra, dec) => proj(ra, dec, 0, 0, 1, 84, true);
