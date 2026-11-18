@@ -777,7 +777,7 @@ addEventListener('load', () => setTimeout(() => {
   const NOON = [-62, -75.17, -90.05, -104.99, -104.99, -124, -104.99]; // 'If It Knew: 1 Hour = 15°' step cut // where the noon line stands at each step
   // Before 1883 (Jeff, 17 Nov): hundreds of towns, each flashing its own noon as the line sweeps over. Clusters follow where people lived in 1880:
   // dense in the Northeast and Ohio Valley, thinning past the Missouri, a few in the West. Not real towns; seeded so it looks the same every time.
-  const SWEEP = 5, S0 = -66, S1 = -124.5, SMS = 10000, ORDER = [5, 0, 1, 2, 3, 4, 6]; // shown first (Jeff): the towns, then the three cities
+  const SWEEP = 5, S0 = -66, S1 = -124.5, SMS = 10000, ORDER = [5, 0, 1, 4, 6]; // Memphis and Denver 'hour later' steps cut (Jeff, 18 Nov); shown first (Jeff): the towns, then the three cities
   const TOWNS = (() => { let s = 1880; const rnd = () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }, gau = () => Math.sqrt(-2 * Math.log(rnd() + 1e-9)) * Math.cos(2 * Math.PI * rnd());
     const CL = [[40.9, -74.2, 30, .45], [40.1, -75.4, 20, .45], [42.3, -71.6, 18, .4], [43.2, -72.6, 25, .9], [42.8, -75.6, 30, 1.2], [40.7, -77.9, 35, 1.2], [40.4, -80.0, 10, .35], [39.2, -77.0, 15, .45],
       [40.3, -82.8, 40, 1.2], [40.0, -86.2, 30, 1.1], [40.4, -89.1, 35, 1.4], [41.8, -87.9, 10, .3], [42.6, -84.6, 20, .9], [43.2, -89.1, 15, .9], [41.8, -93.0, 25, 1.3], [38.6, -92.6, 25, 1.3], [38.6, -90.4, 8, .3],
@@ -796,7 +796,7 @@ addEventListener('load', () => setTimeout(() => {
   const P = V3.orbitProj(cam);
   const t12 = h => { h = ((h % 24) + 24) % 24; let hh = Math.floor(h), mm = Math.round((h - hh) * 12) * 5; if (mm === 60) { hh = (hh + 1) % 24; mm = 0; } return `${hh % 12 || 12}:${String(mm).padStart(2, '0')} ${hh < 12 ? 'AM' : 'PM'}`; };
   let noon = NOON[0], from = NOON[0], last = 0;
-  V3.scene(el, WORDS.length, (S, ctx, now) => {
+  V3.scene(el, ORDER.length, (S, ctx, now) => {
     const k = ORDER[S.step], age = S.age(now);
     if (S.t0 !== last) { from = noon; last = S.t0; }
     noon = k === SWEEP ? S.lerp(S0, S1, Math.min(1, Math.max(0, age - 500) / SMS)) : S.lerp(from, NOON[k], S.ease(Math.max(0, age - 300) / 2600));
