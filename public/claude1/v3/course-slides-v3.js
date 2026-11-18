@@ -773,7 +773,7 @@ addEventListener('load', () => setTimeout(() => {
   el.dataset.counter = 'Noon Moves West';
   const G = '#f0b35a', W = '#ece6da', M = '#c2bba9', B = '#6fb3ff', RED = '#ff7d6f';
   // real places: Philadelphia 39.95 N 75.17 W, Memphis 35.15 N 90.05 W, Denver 39.74 N 104.99 W
-  const CITY = [['Philadelphia', 39.95, -75.17, G], ['Memphis', 35.15, -90.05, B], ['Denver', 39.74, -104.99, B]];
+  const CITY = [['Philadelphia', 39.95, -75.17, G], ['Memphis', 35.15, -90.05, B], ['Denver', 39.74, -104.99, B], ['Fresno', 36.74, -119.79, B]]; // Fresno: Pacific, near 120° W (Jeff, 18 Nov)
   const NOON = [-62, -75.17, -90.05, -104.99, -104.99, -124, -104.99]; // 'If It Knew: 1 Hour = 15°' step cut // where the noon line stands at each step
   // Before 1883 (Jeff, 17 Nov): hundreds of towns, each flashing its own noon as the line sweeps over. Clusters follow where people lived in 1880:
   // dense in the Northeast and Ohio Valley, thinning past the Missouri, a few in the West. Not real towns; seeded so it looks the same every time.
@@ -785,13 +785,13 @@ addEventListener('load', () => setTimeout(() => {
       [29.9, -82.6, 4, .5], [39.8, -105.0, 4, .5], [40.7, -111.9, 4, .45], [37.8, -121.8, 8, .35], [38.6, -121.2, 6, .5], [45.1, -122.8, 4, .45]];
     const out = []; CL.forEach(([la, lo, n, sd]) => { for (let i = 0; i < n; i++) { const a = la + gau() * sd * .8, b = lo + gau() * sd; if (b > -70.2 || a < 29 || a > 47.5) continue; out.push([a, b]); } }); return out; })();
   const WORDS = [
-    ['Denver, Memphis, Philadelphia', ''], // left to right as on the map (Jeff, 18 Nov); just the three cities: no latitudes, no Polaris line
+    ['Fresno, Denver, Memphis, Philadelphia', ''], // left to right as on the map (Jeff, 18 Nov); just the three cities: no latitudes, no Polaris line
     ['Noon in Philadelphia', ''], // bottom line cut (Jeff, 17 Nov)
     ['An Hour Later, Noon in Memphis', 'Noon slides west. Philadelphia is already at 1:00.'],
     ['Two Hours Later, Noon in Denver', 'Each city knows its own noon.'],
     ['Denver Knows Its Noon. What Time Is It in Philadelphia?', 'Without Philadelphia’s time, Denver cannot say how far west it is.'],
     ['Before 1883: Every Town Its Own Noon', ''],
-    ['Pacific, Mountain, Central, Eastern', 'In 1883 the railroads drew U.S. time zones one hour, 15°, apart.']];
+    ['', '']]; // step 6 heading drawn big below (Jeff, 18 Nov);
   const cam = { yaw: 7, pitch: 38 * Math.PI / 180, R: 1650, cx: 800, cy: 500 };
   const P = V3.orbitProj(cam);
   const t12 = h => { h = ((h % 24) + 24) % 24; let hh = Math.floor(h), mm = Math.round((h - hh) * 12) * 5; if (mm === 60) { hh = (hh + 1) % 24; mm = 0; } return `${hh % 12 || 12}:${String(mm).padStart(2, '0')} ${hh < 12 ? 'AM' : 'PM'}`; };
@@ -823,14 +823,15 @@ addEventListener('load', () => setTimeout(() => {
       const sg = ctx.createRadialGradient(top.x, top.y - 40, 0, top.x, top.y - 40, 44); sg.addColorStop(0, '#ffe39a'); sg.addColorStop(.5, G); sg.addColorStop(1, 'rgba(240,179,90,0)'); ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(top.x, top.y - 40, 44, 0, 7); ctx.fill();
       S.text('Noon', top.x + 52, top.y - 32, 34, G, 'left', 1, 600); }
     // the cities, and each one's clock (local solar time)
-    if (k !== SWEEP) CITY.forEach(([n, la, lo, col], i) => { if (k === 4 && i === 1) return; /* Denver vs Philadelphia only (Jeff) */ const q = P(ll(la, lo)); const lit = k >= 1 && k <= SWEEP && Math.abs(lo - noon) < 1.2;
+    if (k !== SWEEP) CITY.forEach(([n, la, lo, col], i) => { if (k === 4 && (i === 1 || i === 3)) return; /* Denver vs Philadelphia only (Jeff) */ const q = P(ll(la, lo)); const lit = k >= 1 && k <= SWEEP && Math.abs(lo - noon) < 1.2;
       if (lit) { ctx.save(); ctx.strokeStyle = G; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(q.x, q.y, 26 + 5 * Math.sin(now / 110), 0, 7); ctx.stroke(); ctx.restore(); }
       ctx.fillStyle = col; ctx.beginPath(); ctx.arc(q.x, q.y, 11, 0, 7); ctx.fill(); ctx.strokeStyle = '#0b1020'; ctx.lineWidth = 3; ctx.stroke();
       S.text(n, q.x, q.y - 28, 34, col, 'center', 1, 600);
       if (k >= 1 && k <= 4) { const h = 12 + (lo - noon) / 15, isNoon = Math.abs(h - 12) < .03, unknown = k === 4 && i === 0, shown = noon > lo - 0.01 || i === 0;
         if (!shown && k < 4) return;
         S.card(q.x - 150, q.y + 44, 300, 110, n, unknown ? '?' : isNoon ? '12:00 Noon' : t12(h), '', isNoon ? G : col, unknown ? S.fade(now, 600) : 1); } });
-    S.words(now, WORDS[k][0], WORDS[k][1]);
+    if (k === 6) { const a = S.fade(now, 0, 600); S.text('The Railroads Drew the Time Zones', 800, 92, 72, W, 'center', a, 600); S.text('One Hour, 15° Apart', 800, 180, 72, G, 'center', a, 600); }
+    else S.words(now, WORDS[k][0], WORDS[k][1]);
   });
 }, 0));
 
