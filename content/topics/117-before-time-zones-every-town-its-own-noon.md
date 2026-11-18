@@ -27,6 +27,16 @@ The Greeks also worked out that clock time itself shifts as you travel east or w
 
 It was the right idea. It was almost never carried out. You needed two careful observers, far apart, both watching the same eclipse and both keeping good local time.
 
+## 360 Days, 360 Degrees, and the Moon
+
+Sumerian and Babylonian scribes kept a tidy year for the account books: **12 months of 30 days**, which is **360 days**. It was a schematic, administrative year, used for wages, rations, and later for astronomical schemes. It was not the calendar of daily life. That calendar followed the Moon, with months of 29 or 30 days and an extra month every few years to stay with the seasons.
+
+Babylonian astronomy counted in sixties, a sexagesimal system. By the later first millennium BC, astronomers had divided the Sun's path, the ecliptic, into 12 signs of 30 parts, **360 parts** in all. Those parts are our degrees.
+
+The first surviving Greek text to divide the zodiac into 360 degrees is Hypsicles of Alexandria, in his *Anaphorikos* (*On the Ascensions*), from the first half of the second century BC. The division was almost certainly borrowed from Babylonian practice. [Hipparchus](../104-hipparchus-ptolemy-and-the-grid/), a little later in the same century, took it up and used it in his astronomy. A commonly given reason for the number 360 is that schematic year of 360 days, so that the Sun appears to move about one degree a day. That is a likely explanation, but it is not proven. No surviving text says, in so many words, that this is why the circle was divided that way. The fuller calendar story is on [Was 1900 a Leap Year?](../110-leap-years-and-the-calendar/).
+
+The real Moon does not keep to 12 months of 30 days. A trip around the sky against the stars — a **sidereal month** — takes **27.32 days**, so the Moon completes about **13.4** such orbits in a year. The cycle of the phases — a **synodic month**, from new Moon to new Moon — takes **29.53 days**, so there are about **12.4** phase cycles in a year, not a neat 12. The phase month is longer because, while the Moon is orbiting Earth, Earth is moving along its orbit around the Sun. After the Moon has lined up with the same stars again, it still needs about **2.2 extra days** to catch up with the Sun and show the same phase. It is the same kind of extra turn that makes a solar day longer than a [sidereal day](../50-sidereal-day/).
+
 ## Hours East or West of Alexandria
 
 [Ptolemy](../104-hipparchus-ptolemy-and-the-grid/), writing in Alexandria around AD 150, put that idea into a book. Most of his *Geography* lists places in degrees, counted east of the Fortunate Isles, usually identified with the Canary Islands. Book 8 does it another way. For about **360 noteworthy cities**, the *poleis episemoi*, he gives the difference in hours east or west of Alexandria, and the length of the longest day there. Those hours are equinoctial hours, the even 60-minute kind, not the stretching seasonal hours of a sundial. One hour still means 15°.
@@ -46,6 +56,11 @@ On **18 November 1883**, the "Day of Two Noons," U.S. railroads adopted standard
 - Smithsonian National Museum of American History, "Synchronizing Time": https://americanhistory.si.edu/ontime/synchronizing/zones.html
 - Library of Congress, "The Day of Two Noons": https://guides.loc.gov/this-month-in-business-history/november/day-of-two-noons
 - Official proceedings of the 1884 International Meridian Conference (Project Gutenberg): https://www.gutenberg.org/ebooks/17759
+- Lis Brack-Bernsen, "The 360-Day Year in Mesopotamia," in J. M. Steele, ed., *Calendars and Years: Astronomy and Time in the Ancient Near East* (Oxbow, 2007): https://epub.uni-regensburg.de/58013/1/31.the%20360%20day%20year.pdf
+- Robert K. Englund, "Administrative Timekeeping in Ancient Mesopotamia," *Journal of the Economic and Social History of the Orient* 31 (1988)
+- Mark Ronan, "Why a Circle Has 360 Degrees," *History Today* 70, no. 4 (April 2020): https://www.historytoday.com/archive/history-matters/why-circle-has-360-degrees
+- Ivor Bulmer-Thomas, "Hypsicles of Alexandria," *Dictionary of Scientific Biography*; text also at MacTutor: https://mathshistory.st-andrews.ac.uk/DSB/Hypsicles.pdf
+- NASA Goddard, "Eclipses and the Moon's Orbit," for the sidereal month of 27.32166 days and the synodic month of 29.53059 days: https://eclipse.gsfc.nasa.gov/help/moonorbit.html
 
 ## Key facts
 - Every Greek and Roman town kept its own sun time. Noon was when the Sun stood highest there.
@@ -57,3 +72,9 @@ On **18 November 1883**, the "Day of Two Noons," U.S. railroads adopted standard
 - The idea of time zones is old, but shared clocks waited for the railroad and the telegraph.
 - U.S. railroads adopted standard time zones on 18 November 1883, the "Day of Two Noons." Federal law followed in 1918.
 - The International Meridian Conference of 1884 recommended Greenwich as zero longitude.
+- Sumerian and Babylonian scribes used a schematic administrative year of 12 months of 30 days, or 360 days. The civil calendar was lunisolar.
+- Babylonian astronomy was sexagesimal. The ecliptic was divided into 12 signs of 30 parts, 360 in all: our degrees.
+- Hypsicles, in the *Anaphorikos* in the early second century BC, is the first surviving Greek author to divide the zodiac into 360 degrees, almost certainly from Babylonian practice. Hipparchus, later in that century, adopted the same division.
+- That 360 degrees come from the 360-day schematic year is a commonly given and likely reason, but it is not proven.
+- A sidereal month is 27.32 days, about 13.4 orbits per year against the stars. A synodic month, the cycle of the phases, is 29.53 days, about 12.4 phase cycles per year, not a neat 12.
+- The extra 2.2 days are needed because Earth has moved along its orbit, and the Moon must catch up with the Sun to show the same phase.
