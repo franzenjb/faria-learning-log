@@ -37,6 +37,8 @@ Latitude was counted from the equator, as now. Longitude needed a starting line,
 
 Only a small share of those coordinates came from real sky measurements. Most were worked out from itineraries, sailing times and earlier maps, especially the lost work of Marinus of Tyre. They look precise. Many are not.
 
+Book 8 also lists about 360 noteworthy cities another way: as hours east or west of Alexandria, in even equinoctial hours. That telling, and the Roman hours that came with local sun time, is on [Before Time Zones: Every Town Its Own Noon](../117-before-time-zones-every-town-its-own-noon/).
+
 ## Ptolemy's Too-Small Earth
 
 Eratosthenes had found the Earth to be about 252,000 stadia around, or 700 stadia to a degree. Ptolemy instead used 500 stadia to a degree, so 180,000 stadia around, a figure usually traced back to Posidonius. That is roughly 30% smaller than Eratosthenes. Because ancient stadia were not all the same length, the exact size of the error in miles is still argued.

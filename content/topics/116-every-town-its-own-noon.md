@@ -83,7 +83,7 @@ One early answer was a clock in the sky: the eclipses of [Jupiter's moon Io](../
 
 ## Every Town Its Own Noon, Until the Railroads
 
-If every meridian has its own noon, then every town did too. For most of history that was fine. A railroad timetable is not.
+If every meridian has its own noon, then every town did too. For most of history that was fine. The older story — local sun time, Roman hours, and Ptolemy's hours east or west of Alexandria — is on [Before Time Zones: Every Town Its Own Noon](../117-before-time-zones-every-town-its-own-noon/). A railroad timetable is not.
 
 Britain got there first, but with one time for the whole country rather than zones. The Great Western Railway adopted London time in 1840, and by 1847 most British railways ran on "railway time," which was Greenwich time. By 1855 most public clocks in Britain matched it. It did not become law until 1880.
 
