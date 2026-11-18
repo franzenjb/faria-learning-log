@@ -1003,17 +1003,18 @@ addEventListener('load', () => setTimeout(() => {
   const TIERS = [['1°', '£10,000', '≈ $2.5M today'], ['⅔°', '£15,000', '≈ $4M today'], ['½°', '£20,000', '≈ $5M today']]; // 2025 value: £20,000 ≈ £3.97M ≈ $5M
   const BOARD = [['Sir Isaac Newton', 'President of the Royal Society · advised Parliament, 1714'], ['Edmond Halley', 'Astronomer Royal, 1720–42'], ['James Bradley', 'Astronomer Royal, 1742–62'], ['Nevil Maskelyne', 'Astronomer Royal from 1765']];
   const HARRISON = ['Carpenter from Lincolnshire', 'Self-taught clockmaker', 'No university, no Royal Society,', 'no credentials'];
-  V3.scene(el, 3, (S, ctx, now) => {
+  V3.scene(el, 4, (S, ctx, now) => {
     const k = S.step, up = S.ease(S.age(now) / 900);
-    if (k === 2) { // last beat: the judges vs the challenger (Jeff, 18 Nov)
+    if (k >= 2) { // last beats: the judges (k=2), then the challenger joins (k=3) (Jeff, 18 Nov)
       S.words(now, 'The Board vs the Carpenter', '');
-      const a0 = S.fade(now, 200, 600), a1 = S.fade(now, 900, 600);
-      ctx.save(); ctx.globalAlpha = Math.min(a0, a1) * .5; ctx.strokeStyle = 'rgba(236,230,218,.35)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(800, 190); ctx.lineTo(800, 900); ctx.stroke(); ctx.restore();
-      S.text('The Board of Longitude', 400, 200, 50, W, 'center', a0, 400, 700);
+      const a0 = S.fade(now, 200, 600), a1 = k === 3 ? S.fade(now, 200, 600) : 0;
+      if (k === 3) { const A = 1; S.text('The Board of Longitude', 400, 200, 50, W, 'center', A, 400, 700); BOARD.forEach(([n, t], i) => { S.text(n, 400, 315 + i * 135, 46, W, 'center', A, 400, 700); S.text(t, 400, 362 + i * 135, 28, M, 'center', A, 400, 720); }); S.text('Professors, admirals, the Speaker of the Commons', 400, 870, 28, M, 'center', A, 400, 720); }
+      ctx.save(); ctx.globalAlpha = a1 * .5; ctx.strokeStyle = 'rgba(236,230,218,.35)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(800, 190); ctx.lineTo(800, 900); ctx.stroke(); ctx.restore();
+      if (k === 2) { S.text('The Board of Longitude', 400, 200, 50, W, 'center', a0, 400, 700);
       BOARD.forEach(([n, t], i) => { const a = S.fade(now, 300 + i * 150, 600); S.text(n, 400, 315 + i * 135, 46, W, 'center', a, 400, 700); S.text(t, 400, 362 + i * 135, 28, M, 'center', a, 400, 720); });
-      S.text('Professors, admirals, the Speaker of the Commons', 400, 870, 28, M, 'center', S.fade(now, 900, 600), 400, 720);
-      S.text('John Harrison', 1200, 200, 50, G, 'center', a1, 400, 700);
-      HARRISON.forEach((t, i) => S.text(t, 1200, [330, 470, 610, 670][i], 44, i >= 2 ? G : W, 'center', S.fade(now, 1100 + Math.min(i, 2) * 250, 600), 400, 700));
+      S.text('Professors, admirals, the Speaker of the Commons', 400, 870, 28, M, 'center', S.fade(now, 900, 600), 400, 720); }
+      if (k === 3) { S.text('John Harrison', 1200, 200, 50, G, 'center', a1, 400, 700);
+      HARRISON.forEach((t, i) => S.text(t, 1200, [330, 470, 610, 670][i], 44, i >= 2 ? G : W, 'center', S.fade(now, 400 + Math.min(i, 2) * 250, 600), 400, 700)); }
       return;
     }
     const ty = k === 0 ? 400 : S.lerp(400, 190, up); // the headline rises to make room for the prizes
