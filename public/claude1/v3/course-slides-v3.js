@@ -1367,6 +1367,8 @@ NEW_SLIDES['Image gallery'] = {
       ['h4-plan-1767', 'H4’s Plan, 1767', 'From The Principles of Mr Harrison’s Time-Keeper.', PD],
       ['time-ball', 'The Time Ball, Greenwich', 'Since 1833 it drops at 1:00 PM so ships can set their clocks.', 'Garry Knight, CC BY 2.0, via Wikimedia Commons'],
       ['shepherd-gate-clock', 'The Shepherd Gate Clock, 1852', 'The first clock to show the public Greenwich time. A 24-hour dial.', 'Alvesgaspar, CC BY-SA 3.0, via Wikimedia Commons'],
+      ['airy', 'George Biddell Airy', 'Astronomer Royal, 1835–81. His telescope set the line.', 'John Collier, 1883. ' + PD + ', Royal Museums Greenwich'],
+      ['airy-transit-circle', 'The Airy Transit Circle, 1851', 'Its crosshair is the Prime Meridian chosen in 1884.', 'Andres Rueda, CC BY 2.0, via Wikimedia Commons'],
       ['prime-meridian', 'The Prime Meridian, Greenwich', 'One foot east, one foot west.', 'Perituss, CC0, via Wikimedia Commons'],
       ['sandford-fleming', 'Sandford Fleming, 1883', 'Missed a train in 1876 and campaigned for standard time.', 'Sheldon & Davis, Ottawa. ' + PD + ', Bibliothèque nationale de France'],
       ['delegates-1884', 'The Meridian Conference, 1884', '41 delegates, 25 nations.', 'Unknown photographer. ' + PD],
