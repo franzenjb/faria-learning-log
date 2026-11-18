@@ -493,7 +493,7 @@ NEW_SLIDES['A clock that could travel'] = {
     const ST = [
       ['The Experts Said: Trust the Moon', null, ['1714. Parliament asks Isaac Newton:', 'could a clock find longitude at sea?', 'Newton: a ship rolls, heats and cools.', '“Such a watch hath not yet been made.”', 'The astronomers backed the Moon.']],
       ['A Carpenter Says: I Can Build It', null, ['John Harrison, Yorkshire, born 1693.', 'A carpenter, never schooled in science.', 'His first clocks were made of wood', 'and hardly ever needed oil.', 'In 1730 he walks to London with a plan.']],
-      ['H1, 1735', 1, ['About 75 pounds of brass.', 'Two balances swing against each other,', 'so the ship’s rolling cancels out.', 'Sea trial to Lisbon, 1736: it worked.', 'Harrison was not satisfied.']],
+      ['H1, 1735', 1, ['About 72 pounds of brass.', 'Two balances swing against each other,', 'so the ship’s rolling cancels out.', 'Sea trial to Lisbon, 1736: it worked.', 'Harrison was not satisfied.']],
       ['H2, 1739', 2, ['Bigger and stiffer.', 'He found a flaw before it ever sailed,', 'so he started again.']],
       ['H3, 1759', 3, ['Nineteen years of work.', 'Two inventions still in use today:', 'the bimetal strip and', 'the caged ball bearing.', 'Still too big. Still not good enough.']],
       ['H4, 1759: It Fits in Two Hands', 4, ['A surprise: a big pocket watch.', 'About 5 inches across, 3 pounds.', '1761: to Jamaica, 81 days at sea.', 'It lost just 5 seconds:', 'about 1¼ miles of longitude.']],

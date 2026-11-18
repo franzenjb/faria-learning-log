@@ -1001,8 +1001,21 @@ addEventListener('load', () => setTimeout(() => {
   const el = v3Find('The Longitude Act, 1714'); if (!el) return;
   const G = '#f0b35a', W = '#ece6da', M = '#c2bba9';
   const TIERS = [['1°', '£10,000', '≈ $2.5M today'], ['⅔°', '£15,000', '≈ $4M today'], ['½°', '£20,000', '≈ $5M today']]; // 2025 value: £20,000 ≈ £3.97M ≈ $5M
-  V3.scene(el, 2, (S, ctx, now) => {
+  const BOARD = [['Sir Isaac Newton', 'President of the Royal Society · advised Parliament, 1714'], ['Edmond Halley', 'Astronomer Royal, 1720–42'], ['James Bradley', 'Astronomer Royal, 1742–62'], ['Nevil Maskelyne', 'Astronomer Royal from 1765']];
+  const HARRISON = ['Carpenter from Lincolnshire', 'Self-taught clockmaker', 'No university, no Royal Society,', 'no credentials'];
+  V3.scene(el, 3, (S, ctx, now) => {
     const k = S.step, up = S.ease(S.age(now) / 900);
+    if (k === 2) { // last beat: the judges vs the challenger (Jeff, 18 Nov)
+      S.words(now, 'The Board vs the Carpenter', '');
+      const a0 = S.fade(now, 200, 600), a1 = S.fade(now, 900, 600);
+      ctx.save(); ctx.globalAlpha = Math.min(a0, a1) * .5; ctx.strokeStyle = 'rgba(236,230,218,.35)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(800, 190); ctx.lineTo(800, 900); ctx.stroke(); ctx.restore();
+      S.text('The Board of Longitude', 400, 200, 50, W, 'center', a0, 400, 700);
+      BOARD.forEach(([n, t], i) => { const a = S.fade(now, 300 + i * 150, 600); S.text(n, 400, 315 + i * 135, 46, W, 'center', a, 400, 700); S.text(t, 400, 362 + i * 135, 28, M, 'center', a, 400, 720); });
+      S.text('Professors, admirals, the Speaker of the Commons', 400, 870, 28, M, 'center', S.fade(now, 900, 600), 400, 720);
+      S.text('John Harrison', 1200, 200, 50, G, 'center', a1, 400, 700);
+      HARRISON.forEach((t, i) => S.text(t, 1200, [330, 470, 610, 670][i], 44, i >= 2 ? G : W, 'center', S.fade(now, 1100 + Math.min(i, 2) * 250, 600), 400, 700));
+      return;
+    }
     const ty = k === 0 ? 400 : S.lerp(400, 190, up); // the headline rises to make room for the prizes
     S.text('1714', 800, ty - 140, 60, M, 'center', 1);
     S.text('The Longitude Act', 800, ty - 40, 110, W, 'center', 1);
@@ -1426,9 +1439,7 @@ addEventListener('load', () => setTimeout(() => {
     b.forEach((p, i) => s += dot(p, BD[i][3])); l.forEach((p, i) => s += dot(p, LD[i][3], i ? W : G));
     s += lab(b[0], 'Dubhe', 10, 30, G, 22) + lab(b[1], 'Merak', -12, -10, G, 22, 'end') + lab(pol, 'Polaris', 18, 8, G, 32) + lab(pol, 'the North Star', 18, 34, G, 20) + lab(l[5], 'Kochab', 12, 24) + lab(b[6], 'Alkaid', -12, 28, MU, 20, 'end');
     s += lab([(b[2][0] + b[5][0]) / 2, Math.max(b[2][1], b[5][1])], 'BIG DIPPER', 0, 60, W, 22, 'middle') + lab(l[3], 'LITTLE DIPPER', 30, 46, W, 22);
-    s += lab(ext(b[0], pol, .45), 'pointers: go about 5 times their gap', -10, 62, G, 21, 'middle');
-    s += `<text x="40" y="590" fill="${MU}" font-family="Georgia,serif" font-size="20">Polaris’s height above your horizon = your latitude, within a degree. Positions to scale.</text>`;
-    return ['Find the North Star', 'Dubhe and Merak point the way: extend that line about five times their gap to reach Polaris.', s];
+    return ['', 'Dubhe and Merak point the way: extend that line about five times their gap to reach Polaris.', s];
   };
   const southC = () => {
     const R = (ra, dec) => proj(ra, dec, 0, 0, 1, 84, true);
@@ -1447,7 +1458,7 @@ addEventListener('load', () => setTimeout(() => {
     s += `<text x="40" y="590" fill="${MU}" font-family="Georgia,serif" font-size="20">Where the two lines meet is the pole. Its height above your horizon = your latitude south. Star positions to scale.</text>`;
     return ['Find the South Pole of the Sky', 'Run the Cross’s long bar about 4½ times. Draw the line that splits the pointers. Where they meet is the pole.', s];
   };
-  const open = f => { const [h, p, svg] = f(); M.querySelector('h2').textContent = h; M.querySelector('p').textContent = p; M.querySelector('svg').innerHTML = svg; M.classList.add('on'); };
+  const open = f => { const [h, p, svg] = f(); M.querySelector('h2').textContent = h; M.querySelector('h2').style.display = h ? '' : 'none'; M.querySelector('p').textContent = p; M.querySelector('svg').innerHTML = svg; M.classList.add('on'); };
   const mk = (id, t, f) => { const b = document.createElement('button'); b.id = id; b.textContent = t; b.onclick = () => open(f); row.appendChild(b); };
   mk('wn-sf-n', 'North Star Finder', north); mk('wn-sf-s', 'Southern Cross Finder', southC);
   // leaving the slide closes the pop-out
