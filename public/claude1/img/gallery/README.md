@@ -13,3 +13,4 @@ New downloads (Wikimedia Commons, 18 Nov 2026):
 Copied from Grok's film folder (public/faria1/where-am-i/v3/img, credits.json there): scilly-wreck (wreck_rmg), paris-observatory (obs_paris), ptolemy-1482, moon (CC0), jupiter (NASA), harrison, prime-meridian (meridian_photo, Perituss, CC0), delegates-1884, gps-satellite (navstar1, U.S. Air Force).
 
 Copied from public/claude1/img (credits in ../README.md): h1, h2, h3, h4-dial (harrison-h4-front), tycho-quadrant, shadow-clock.
+- toscanelli-1474.jpg (added 18 Nov 2026 by Abbé Faria at Jeff's request): Bartholomew reconstruction of Toscanelli's 1474 chart, Wikimedia Commons, public domain. Same picture as the talk's Columbus chart slide.
