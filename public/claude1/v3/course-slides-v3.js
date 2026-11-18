@@ -1394,11 +1394,13 @@ NEW_SLIDES['Ptolemy'] = { h1: 'Ptolemy: The World in Two Numbers', fig: '', init
 addEventListener('load', () => setTimeout(() => {
   const el = v3Find('Ptolemy'); if (!el) return;
   const map = new Image(); map.src = 'img/gallery/ptolemy-1482.jpg';
-  const WORDS = [['Ptolemy: The World in Two Numbers', 'About AD 150 · 8,000 places by latitude and longitude'], ['Ptolemy: The World in Two Numbers', 'Latitude: Close. Longitude: Guessed.']];
+  // map as big as the screen allows; one short caption in a dark band along the bottom edge, no headline (Jeff, 18 Nov)
+  const WORDS = ['About AD 150 · 8,000 Places by Two Numbers', 'Latitude: Close. Longitude: Estimated.'];
   V3.scene(el, WORDS.length, (S, ctx, now) => {
     ctx.fillStyle = '#05070f'; ctx.fillRect(0, 0, 1600, 1000);
-    if (map.complete && map.naturalWidth) { const s = Math.min(1500 / map.naturalWidth, 720 / map.naturalHeight), w = map.naturalWidth * s, h = map.naturalHeight * s; ctx.drawImage(map, 800 - w / 2, 485 - h / 2, w, h); }
-    S.words(now, ...WORDS[S.step]);
-    S.text('Printed in Ulm, 1482. Public domain.', 800, 948, 22, '#9aa3b5', 'center', .8);
+    if (map.complete && map.naturalWidth) { const s = Math.min(1600 / map.naturalWidth, 1000 / map.naturalHeight), w = map.naturalWidth * s, h = map.naturalHeight * s; ctx.drawImage(map, 800 - w / 2, 500 - h / 2, w, h); }
+    const g = ctx.createLinearGradient(0, 860, 0, 1000); g.addColorStop(0, 'rgba(5,7,15,0)'); g.addColorStop(.45, 'rgba(5,7,15,.82)'); g.addColorStop(1, 'rgba(5,7,15,.92)'); ctx.fillStyle = g; ctx.fillRect(0, 860, 1600, 140);
+    S.text(WORDS[S.step], 800, 960, 40, '#f0b35a', 'center', S.fade(now, 0, 500));
+    S.text('Ulm, 1482 · Public Domain', 1580, 990, 17, '#9aa3b5', 'right', .7);
   });
 }, 0));
