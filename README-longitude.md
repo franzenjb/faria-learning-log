@@ -48,3 +48,18 @@ cd longitude && node build.mjs     # prints warnings for rewrites that no longer
 ```
 
 Links: https://longitude.jbf.com/ · talk version https://longitude.jbf.com/?talk=30 · deep link https://longitude.jbf.com/?talk=30#19
+
+## Status on 19 Nov 2026 (interim)
+
+The domain `longitude.jbf.com` is still attached to **faria-learning-log** (the
+Vercel tools available here can add a domain but not remove one). Until it is
+moved, the root `vercel.json` has a host-conditioned redirect that sends
+**every** path on longitude.jbf.com to the longitude-talk production address
+(`longitude-talk-jbf-2539-e1ec6bfb.vercel.app`), so nothing from the private
+site is served on that host.
+
+To finish the move:
+1. Vercel → faria-learning-log → Settings → Domains → remove `longitude.jbf.com`.
+2. Add `longitude.jbf.com` to **longitude-talk** (same team, same DNS: CNAME
+   `longitude` → `3471b06cd0b5518e.vercel-dns-016.com`, proxy off).
+3. Delete the `redirects` block for `longitude.jbf.com` from the root `vercel.json`.
