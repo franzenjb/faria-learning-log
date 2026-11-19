@@ -18,16 +18,23 @@
       'The navigators compare their reckonings. They agree they are safe, heading into the English Channel. They believed they were here.',
       'They were wrong. They were farther north, heading straight for the Isles of Scilly — that name is pronounced Silly — off the tip of Cornwall.',
       'That night, in the dark and the rain, the flagship Association hits the Western Rocks. Eagle, Romney, and Firebrand follow her. Four ships go down. About fourteen hundred to two thousand men are lost, Shovell among them. They knew their latitude. They did not know their longitude.',
-      'Every pin we drop at a disaster is those same two numbers. Tonight is the story of how we learned to get both of them right.'
+      'Every pin we drop at a disaster is those same two numbers. This is the story of how we learned to get both of them right.'
     ],
     'Mental maps': [
       'Before the history, a quick test of the map in your head. Vote, then we will reveal the real places on the globe. Hold on to that feeling if you are surprised. The rest of the course is how we learned to know where things really are.'
     ],
     'Latitude & Longitude': [
-      'Latitude and longitude are the two numbers that name a place. Latitude is the easy one: zero at the Equator, ninety at the Pole. Longitude lines run pole to pole. Later we will lay a bingo card on the globe: latitude calls the row, longitude calls the column. Two calls, one square. Drag the globe to turn it. The numbered buttons at the lower left switch layers on and off.'
+      'Latitude is the easy one. Zero at the Equator, ninety at the Poles. The parallels run east and west, like the rungs of a ladder around the Earth.',
+      'Longitude lines run pole to pole. They are called meridians. Zero is at Greenwich. That zero was a choice, not a fact of nature.',
+      'Put both together and you have a grid. Two numbers name any place on Earth: how far north or south, and how far east or west.',
+      'Now lay a bingo card on the globe. Latitude calls the row. Longitude calls the column. Two calls, one square, and everyone finds the same place.'
     ],
     'Walk north': [
-      'Your latitude is the angle of the pole star above the horizon. Walk north, and Polaris climbs. At the Equator it sits on the horizon, at zero degrees. At the North Pole it stands straight overhead, at ninety. That is why the altitude of Polaris equals your latitude, after a small correction, because Polaris is not exactly on the pole. By day, sailors used the noon Sun and a printed table. South of the Equator there is no pole star; they used the Southern Cross. Polaris itself is not exactly on the pole: about 12 degrees away two thousand years ago, and about seven-tenths of a degree today, so navigators applied a small correction.'
+      'Here you are, on the Earth. The star over the north pole is Polaris. Your latitude is the angle of that star above the horizon.',
+      'Walk north, and Polaris climbs. At the Equator it sits on the horizon, at zero degrees. At the North Pole it stands straight overhead, at ninety.',
+      'Look at the sky in front of you. The altitude of Polaris is your latitude. Polaris is not exactly on the pole: about 12 degrees away two thousand years ago, and about seven-tenths of a degree today, so navigators applied a small correction.',
+      'On a clear night you can find it. Dubhe and Merak, the two stars at the end of the Big Dipper\'s bowl, point the way. Extend that line about five times their gap, and you reach Polaris.',
+      'South of the Equator there is no pole star. Sailors used the Southern Cross instead. Its long arm points toward the south celestial pole, an empty place in the sky. The height of that point above the horizon is your latitude south.'
     ],
     'Fist and knuckle': [
       'You already have a protractor: your hand. Held out at arm\'s length, a fist is about ten degrees of sky, and a knuckle is about two. To find Washington, about thirty-nine degrees north, you would stack about four fists under Polaris. It is rough, but it is how a sailor could check a number in the dark.'
@@ -353,6 +360,8 @@
     speakBtn.title = state.ccOff ? 'Captions off. Click to show.' : 'Captions on. Click to hide.';
     speakBtn.setAttribute('aria-pressed', state.ccOff ? 'false' : 'true');
     cc.classList.toggle('cc-off', state.ccOff);
+    document.body.classList.toggle('v3-cc-off', state.ccOff || TALK);
+    document.body.classList.toggle('v3-cc-on', !state.ccOff && !TALK);
 
     const off = state.muted || TALK;
     railIcon.textContent = off ? '🔇' : '🔊';
@@ -395,6 +404,8 @@
     cc.classList.toggle('talk-off', TALK);
     cc.classList.toggle('cc-off', state.ccOff);
     cc.classList.toggle('no-text', !text);
+    document.body.classList.toggle('v3-cc-off', state.ccOff || TALK);
+    document.body.classList.toggle('v3-cc-on', !state.ccOff && !TALK);
   };
 
   const unlock = () => { state.unlocked = true; };

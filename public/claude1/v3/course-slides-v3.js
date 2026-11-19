@@ -97,11 +97,11 @@ const TALK = /[?&]talk=30\b/.test(location.search);
 const V3_TUNE = {
   'Cover': { talk: { coverSub: 'A 30-Minute Talk' } },
   'Mental maps': { h1: 'Mental Maps', talk: { hide: ['#m1q [data-q="1"]', '#m1q [data-q="3"]'] } },
-  'Latitude &amp; Longitude': { kicker: '325 BC · Pytheas of Marseille', // just the grid and the bingo card here: Polaris and the Southern Cross wait for Walk North; the Date Line and Null Island come later
-    keep: ['[data-k="lat"]', '[data-k="lon"]', '[data-k="grid"]', '#bingo-open', '#g-spin'], noTap: true, hide: ['a[href="/polaris/"]'],
-    clickOnLoad: [ // opens with 1 Latitude + 2 Longitude on so the globe is never bare (Jeff, 18 Nov)
-      '#globe-toggles [data-k="polaris"].on', '#globe-toggles [data-k="cities"].on', '#g-spin'], /* spin starts on its own, about half speed (Jeff, 18 Nov) */ hero: '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.', on: { '#bingo-open': '<b>Latitude</b> Calls the Row, <b>Longitude</b> Calls the Column.', '#fly-nm': '1 Arcminute of <b>Latitude</b> = 1 Nautical Mile', '#fly-north': '<b>Latitude</b>: 0° at the Equator, 90° at the Pole.' } },
-  'Walk north': { arrow: [], hide: ['#wn-places', '#wn-south'], setRange: { '#wn-lat': 0 }, onEnter: () => window.wnReset && wnReset(), // opens with 1 and 2 on; → goes straight to the next slide; keys 3–7 are manual (Jeff, 18 Nov) // opens on the equator with 1 and 2 on; ↑ walks north
+  'Latitude &amp; Longitude': { kicker: '325 BC · Pytheas of Marseille', // talk: four press-to-advance beats; layer chips stay visible at lower left (Jeff, 19 Nov)
+    keep: ['[data-k="lat"]', '[data-k="lon"]', '[data-k="grid"]', '#bingo-open'], noTap: true, hide: ['a[href="/polaris/"]'],
+    clickOnLoad: [
+      '#globe-toggles [data-k="polaris"].on', '#globe-toggles [data-k="cities"].on', '#g-spin'], /* spin starts on its own, about half speed (Jeff, 18 Nov) */ hero: '<b>Latitude</b>: 0° at the Equator, 90° at the Poles. The parallels run east and west.' },
+  'Walk north': { hide: ['#wn-places', '#wn-south'], setRange: { '#wn-lat': 0 }, // talk: five press-to-advance beats; keys 3 to 7 still click the same controls (Jeff, 19 Nov)
     hideText: ['Why They Match', 'North Pole'], hero: '<b>Latitude</b> Is an Angle From the Equator.', on: { '#wn-l-you': 'One Star, One Angle. <b>Latitude</b> Needs No Clock.', '#wn-south': 'In the South, <b>the Southern Cross</b> Points to the Pole.' } },
   'Eratosthenes': { kicker: '240 BC · Eratosthenes of Alexandria' },
   'Hours are slices': {},
@@ -135,6 +135,42 @@ addEventListener('load', () => setTimeout(() => {
   }
   if (TALK) document.querySelectorAll('.kicker').forEach(k => { k.textContent = k.textContent.replace(/^Day \d+ · /, ''); });
 }, 0));
+
+/* ---------- Latitude & Longitude: four press-to-advance beats on the existing globe (Jeff, 19 Nov) ---------- */
+addEventListener('load', () => setTimeout(() => {
+  if (!TALK) return;
+  const el = [...document.querySelectorAll('section')].find(s => s.dataset.title === 'Latitude & Longitude' || s.dataset.title === 'Latitude &amp; Longitude');
+  if (!el || typeof V3 === 'undefined' || typeof V3.steps !== 'function') return;
+  const HEROS = [
+    '<b>Latitude</b>: 0° at the Equator, 90° at the Poles. The parallels run east and west.',
+    '<b>Longitude</b> lines run pole to pole. Zero is at Greenwich.',
+    'Two numbers name any place: <b>latitude</b> and <b>longitude</b>.',
+    '<b>Latitude</b> calls the row, <b>longitude</b> calls the column. Two calls, one square.'
+  ];
+  const poleAlpha = () => {
+    const P = window.v3PoleCallouts;
+    if (!P) return 0;
+    const k = Math.min(1, Math.max(0, (performance.now() - P.t0) / 700));
+    return P.from + (P.target - P.from) * k;
+  };
+  const setPoles = on => {
+    window.v3PoleCallouts = { from: poleAlpha(), target: on ? 1 : 0, t0: performance.now() };
+  };
+  const apply = k => {
+    const G = window.v3LatLonGlobe;
+    if (G && G.ensureSpin) G.ensureSpin();
+    if (!G) return;
+    if (k === 0) { G.setBingo(false); G.setLayers(true, false); G.look(0, -20, 0.82); setPoles(true); }
+    else if (k === 1) { G.setBingo(false); G.setLayers(false, true); G.look(15, 0, 0.9); setPoles(false); }
+    else if (k === 2) { G.setBingo(false); G.setLayers(true, true); G.look(10, -30, 0.85); setPoles(false); }
+    else if (k === 3) { setPoles(false); G.setLayers(true, true); G.setBingo(true); }
+    if (typeof v3Hero === 'function') v3Hero(el, HEROS[k] || '');
+    const HI = [['#globe-toggles [data-k="lat"]'], ['#globe-toggles [data-k="lon"]'], ['#globe-toggles [data-k="grid"]'], ['#bingo-open']];
+    if (window.v3SetActiveControls) window.v3SetActiveControls(HI[k] || []);
+  };
+  V3.steps(el, 3, (k) => apply(k));
+}, 80));
+
 
 /* ---------- Power decides the measure ---------- */
 NEW_SLIDES['Power decides the measure'] = {
@@ -456,7 +492,10 @@ addEventListener('load', () => setTimeout(() => {
   const slider = el => { const t = el && el.querySelector('.text'); return t && t.style.display !== 'none' ? [...t.querySelectorAll('input[type=range]')].find(x => !x.closest('[hidden]') && x.style.display !== 'none') : null; };
   const label = b => { const L = b.querySelector('.label'), ltr = b.querySelector('.letter'); const t = L ? (ltr ? ltr.textContent + ' ' : '') + L.textContent : b.textContent; return t.replace(/\s+/g, ' ').trim().replace(/^\d+ · /, '').slice(0, 26); };
   const draw = () => { const el = active(); const cs = controls(el).slice(0, KEYS.length), sl = slider(el);
-    if (window.v3AutoKeys) setTimeout(() => window.v3AutoKeys(cs.length + (sl ? 1 : 0)), 0); legend.innerHTML = cs.map((b, i) => `<span data-i="${i}"><b>${KEYS[i].toUpperCase()}</b>${label(b)}</span>`).join('') + (sl ? `<span><b>↑↓</b>${(sl.closest('label') && sl.closest('label').querySelector('.row') ? sl.closest('label').querySelector('.row').childNodes[0].textContent.trim() : 'Slider')}</span>` : ''); };
+    if (window.v3AutoKeys) setTimeout(() => window.v3AutoKeys(cs.length + (sl ? 1 : 0)), 0); const hi = window.v3ActiveControls || [];
+    legend.innerHTML = cs.map((b, i) => `<span data-i="${i}" class="${hi.some(sel => { try { return b.matches(sel); } catch (e) { return false; } }) ? 'on' : ''}"><b>${KEYS[i].toUpperCase()}</b>${label(b)}</span>`).join('') + (sl ? `<span><b>↑↓</b>${(sl.closest('label') && sl.closest('label').querySelector('.row') ? sl.closest('label').querySelector('.row').childNodes[0].textContent.trim() : 'Slider')}</span>` : ''); };
+  window.v3DrawKeys = draw;
+  window.v3SetActiveControls = sels => { window.v3ActiveControls = sels || []; draw(); };
   addEventListener('keydown', e => { if (e.target.matches('input[type=text],textarea') || e.metaKey || e.ctrlKey || e.altKey) return; const k = e.key.toLowerCase(), el = active(); if (!el) return;
     if (k === 'c') { document.body.classList.toggle('v3-panel'); dispatchEvent(new Event('resize')); return; }
     if (k === 'k') { if (window.v3SetKeys) document.getElementById('v3-ctl').click(); else document.body.classList.toggle('v3-keys-on'); return; }
@@ -1002,7 +1041,7 @@ addEventListener('load', () => setTimeout(() => {
   const el = v3Find('The Longitude Act, 1714'); if (!el) return;
   const G = '#f0b35a', W = '#ece6da', M = '#c2bba9';
   const TIERS = [['1°', '£10,000', '≈ $2.5M today'], ['⅔°', '£15,000', '≈ $4M today'], ['½°', '£20,000', '≈ $5M today']]; // 2025 value: £20,000 ≈ £3.97M ≈ $5M
-  const BOARD = [['Sir Isaac Newton', 'President of the Royal Society · advised Parliament, 1714'], ['Edmond Halley', 'Astronomer Royal, 1720–42'], ['James Bradley', 'Astronomer Royal, 1742–62'], ['Nevil Maskelyne', 'Astronomer Royal from 1765']];
+  const BOARD = [['Sir Isaac Newton', 'President of the Royal Society · advised Parliament, 1714'], ['Edmond Halley', 'Astronomer Royal, 1720 to 1742'], ['James Bradley', 'Astronomer Royal, 1742 to 1762'], ['Nevil Maskelyne', 'Astronomer Royal from 1765']];
   const HARRISON = ['Carpenter from Lincolnshire', 'Self-taught clockmaker', 'No university, no Royal Society,', 'no credentials'];
   V3.scene(el, 4, (S, ctx, now) => {
     const k = S.step, up = S.ease(S.age(now) / 900);
@@ -1374,12 +1413,12 @@ NEW_SLIDES['Image gallery'] = {
       ['shovell-monument', 'Shovell’s Tomb, Westminster Abbey', 'The tomb effigy of Admiral Sir Cloudesley Shovell, by Grinling Gibbons. He commanded the fleet lost at Scilly, and was among the dead.', '14GTR, CC BY-SA 4.0, via Wikimedia Commons'],
       ['ptolemy-1482', 'Ptolemy’s World Map, 1482', 'Printed at Ulm, with a grid of latitude and longitude already drawn. About AD 150, Ptolemy’s Geography had listed thousands of places by two numbers. Latitude is close; longitude is estimated.', PD + ', via Wikimedia Commons'],
       ['toscanelli-1474', 'Toscanelli’s Chart, 1474', 'How Columbus pictured the world: Japan in the mid-Atlantic, and zero longitude at the Canaries, the western edge of the known world. The original chart is lost.', 'Reconstruction by J. G. Bartholomew; light blue shows the real Americas. ' + PD + ', via Wikimedia Commons'],
-      ['shadow-clock', 'An Egyptian Shadow Clock', 'A shadow on a marked face is one of the oldest ways to tell time from the Sun — the same noon Sun sailors later used for latitude.', 'Egypt, 305–30 BCE. The Metropolitan Museum of Art, Open Access, ' + PD],
+      ['shadow-clock', 'An Egyptian Shadow Clock', 'A shadow on a marked face is one of the oldest ways to tell time from the Sun — the same noon Sun sailors later used for latitude.', 'Egypt, 305 to 30 BCE. The Metropolitan Museum of Art, Open Access, ' + PD],
       ['tycho-quadrant', 'Tycho’s Wall Quadrant, 1598', 'On the island of Hven, Tycho Brahe built a quadrant with a radius of more than six feet, so one arcminute became a mark you could read by eye, a generation before the telescope.', 'Hand-colored engraving from Astronomiae Instauratae Mechanica, 1598. ' + PD + ', via Wikimedia Commons'],
-      ['harrison', 'John Harrison, 1693–1776', 'A village carpenter from Lincolnshire, never schooled in science. He built the sea clock that finally carried home time across an ocean.', 'Thomas King, about 1767. ' + PD],
-      ['h1', 'H1, 1730–35', 'Harrison’s first sea clock: about 72 pounds of brass, with two balances that swing against each other so the roll of the ship cancels out. On a trial to Lisbon in 1736, it works.', 'Tatters ❀ on Flickr, CC BY-SA 2.0, via Wikimedia Commons'],
-      ['h2', 'H2, 1737–39', 'Sturdier than H1, and never sent to sea. Harrison was not satisfied, and kept going.', 'Tatters ❀ on Flickr, Creative Commons, via Wikimedia Commons'],
-      ['h3', 'H3, 1740–59', 'Nineteen years of work. H3 gives us the bimetal strip and the caged ball bearing, both still in use. Still too big for a ship’s cabin.', 'Tatters ❀ on Flickr, Creative Commons, via Wikimedia Commons'],
+      ['harrison', 'John Harrison, 1693 to 1776', 'A village carpenter from Lincolnshire, never schooled in science. He built the sea clock that finally carried home time across an ocean.', 'Thomas King, about 1767. ' + PD],
+      ['h1', 'H1, 1730 to 1735', 'Harrison’s first sea clock: about 72 pounds of brass, with two balances that swing against each other so the roll of the ship cancels out. On a trial to Lisbon in 1736, it works.', 'Tatters ❀ on Flickr, CC BY-SA 2.0, via Wikimedia Commons'],
+      ['h2', 'H2, 1737 to 1739', 'Sturdier than H1, and never sent to sea. Harrison was not satisfied, and kept going.', 'Tatters ❀ on Flickr, Creative Commons, via Wikimedia Commons'],
+      ['h3', 'H3, 1740 to 1759', 'Nineteen years of work. H3 gives us the bimetal strip and the caged ball bearing, both still in use. Still too big for a ship’s cabin.', 'Tatters ❀ on Flickr, Creative Commons, via Wikimedia Commons'],
       ['h4-dial', 'H4, 1759', 'A large pocket watch, about five inches across. In 1761 it sailed to Jamaica, 81 days at sea, and was about five seconds off — roughly 1.25 miles, about 24 times better than the half-degree prize.', 'Colonel Warden, CC BY-SA 3.0, via Wikimedia Commons'],
       ['h4-movement', 'Inside H4', 'Gears in layers, ruby bearings, a diamond. This is the machine that carried London’s time across the Atlantic.', 'Mike Peel (mikepeel.net), CC BY-SA 4.0, via Wikimedia Commons'],
       ['h4-plan-1767', 'H4’s Gear Train, 1767', 'A plate from The Principles of Mr Harrison’s Time-Keeper, published in London in 1767 so others could build what he had invented.', PD + ', via Wikimedia Commons'],
@@ -1488,6 +1527,61 @@ addEventListener('load', () => setTimeout(() => {
   const open = f => { const [h, p, svg] = f(); M.querySelector('h2').textContent = h; M.querySelector('h2').style.display = h ? '' : 'none'; M.querySelector('p').textContent = p; M.querySelector('svg').innerHTML = svg; M.classList.add('on'); };
   const mk = (id, t, f) => { const b = document.createElement('button'); b.id = id; b.textContent = t; b.onclick = () => open(f); row.appendChild(b); };
   mk('wn-sf-n', 'North Star Finder', north); mk('wn-sf-s', 'Southern Cross Finder', southC);
+  // talk beat 4: only the Dubhe/Merak pointer line and the Big Dipper chart
+  const northSimple = () => ['', 'Dubhe and Merak point the way: extend that line about five times their gap to reach Polaris.', northChartSimple()];
+  const northChartSimple = () => {
+    const R = (ra, dec) => proj(ra, dec, 0, 0, 1, 0, false);
+    const BD = [['Dubhe', 11.06, 61.75, 1.8], ['Merak', 11.03, 56.38, 2.3], ['Phecda', 11.90, 53.69, 2.4], ['Megrez', 12.26, 57.03, 3.3], ['Alioth', 12.90, 55.96, 1.8], ['Mizar', 13.40, 54.93, 2.2], ['Alkaid', 13.79, 49.31, 1.9]];
+    const polR = [2.53, 89.26];
+    const F = fitter([...BD.map(q => R(q[1], q[2])), R(polR[0], polR[1])], 140, 80, 820, 520), P = (ra, dec) => F(R(ra, dec));
+    const b = BD.map(s => P(s[1], s[2])), pol = P(polR[0], polR[1]);
+    let s = '';
+    [[0, 1], [1, 2], [2, 3], [3, 0], [3, 4], [4, 5], [5, 6]].forEach(([i, j]) => s += ln(b[i], b[j]));
+    s += ln(b[1], ext(b[1], b[0], 0.97 * Math.hypot(pol[0] - b[1][0], pol[1] - b[1][1]) / Math.hypot(b[0][0] - b[1][0], b[0][1] - b[1][1])), G, 2.5, '9 7');
+    b.forEach((q, i) => s += dot(q, BD[i][3]));
+    s += dot(pol, 2.0, G);
+    s += lab(b[0], 'Dubhe', 10, 30, G, 24) + lab(b[1], 'Merak', -12, -10, G, 24, 'end') + lab(pol, 'Polaris', 18, 8, G, 32) + lab(pol, 'the North Star', 18, 36, G, 20);
+    s += lab([(b[2][0] + b[5][0]) / 2, Math.max(b[2][1], b[5][1])], 'BIG DIPPER', 0, 60, W, 22, 'middle');
+    return s;
+  };
+  window.wnOpenFinder = kind => open(kind === 's' ? southC : northSimple);
+  window.wnCloseFinder = close;
   // leaving the slide closes the pop-out
   addEventListener('hashchange', close);
 }, 0));
+
+
+/* ---------- Walk north: five press-to-advance beats (Jeff, 19 Nov). Keys 3 to 7 still click the same controls. ---------- */
+addEventListener('load', () => setTimeout(() => {
+  if (!TALK) return;
+  const el = v3Find('Walk north'); if (!el || typeof V3 === 'undefined' || typeof V3.steps !== 'function') return;
+  const HEROS = [
+    'Here you are, on the Earth. The star over the north pole is <b>Polaris</b>.',
+    'Walk north, and <b>Polaris</b> climbs.',
+    'The altitude of <b>Polaris</b> is your latitude.',
+    'Dubhe and Merak, in the Big Dipper, point to <b>Polaris</b>.',
+    'South of the Equator, the <b>Southern Cross</b> points to the pole.'
+  ];
+  const HI = [
+    ['#wn-l-you'],
+    ['#wn-walk'],
+    ['#wn-view'],
+    ['#wn-sf-n'],
+    ['#wn-sf-s']
+  ];
+  const click = sel => { const b = el.querySelector(sel); if (b) b.click(); };
+  const closeF = () => { if (window.wnCloseFinder) window.wnCloseFinder(); };
+  const apply = k => {
+    closeF();
+    if (window.wnReset) window.wnReset();
+    if (k >= 0) click('#wn-l-you');
+    if (k === 1) click('#wn-walk');
+    if (k >= 2) { const sl = el.querySelector('#wn-lat'); if (sl) { sl.value = 39; sl.dispatchEvent(new Event('input', { bubbles: true })); } }
+    if (k === 2) click('#wn-view');
+    if (k === 3 && window.wnOpenFinder) window.wnOpenFinder('n');
+    if (k === 4) { click('#wn-south'); if (window.wnOpenFinder) window.wnOpenFinder('s'); }
+    if (typeof v3Hero === 'function') v3Hero(el, HEROS[k] || '');
+    if (window.v3SetActiveControls) window.v3SetActiveControls(HI[k] || []);
+  };
+  V3.steps(el, 4, k => apply(k));
+}, 90));
