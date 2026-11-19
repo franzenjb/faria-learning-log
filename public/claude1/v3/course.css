@@ -338,16 +338,31 @@ body.v3-touch .nav .arrows button{opacity:.9;font-size:20px;padding:.5rem 1.1rem
 #v3-help-ok{display:block;margin:1.15rem 0 0 auto;border:0;cursor:pointer;background:var(--accent);color:#1a1206;font:600 1rem var(--serif);padding:.55rem 1.15rem;border-radius:.4rem}
 #v3-help-ok:hover,#v3-help-ok:focus{filter:brightness(1.08)}
 
-/* Narration captions and speaker control */
+/* Narration captions and CC toggle */
 #v3-cc{position:absolute;left:0;right:0;bottom:3.15rem;z-index:36;display:flex;align-items:flex-end;gap:.6rem;padding:0 1rem .35rem 4.2rem;pointer-events:none;background:linear-gradient(0deg,rgba(8,11,20,.88),rgba(8,11,20,0));}
-#v3-cc.talk-off,#v3-cc:empty{display:none}
+#v3-cc.talk-off{display:none}
+#v3-cc.cc-off,#v3-cc.no-text{background:none;padding-bottom:.15rem}
+#v3-cc.cc-off .v3-cc-text,#v3-cc.no-text .v3-cc-text{display:none}
 #v3-cc .v3-cc-text{flex:1;min-width:0;font:400 1.02rem/1.35 var(--serif);color:#ece6da;text-shadow:0 1px 8px rgba(0,0,0,.85);max-height:4.6rem;overflow:hidden}
-#v3-speak-btn{pointer-events:auto;flex:none;width:2.1rem;height:2.1rem;border-radius:50%;border:1px solid var(--line);background:rgba(17,23,39,.9);color:var(--ink);cursor:pointer;display:grid;place-items:center;font:600 .95rem/1 var(--sans);opacity:.85}
-#v3-speak-btn:hover,#v3-speak-btn:focus{opacity:1;border-color:var(--accent);color:var(--accent)}
-#v3-speak-btn[data-state="muted"]{color:var(--muted)}
-#v3-speak-btn[data-state="paused"]{color:var(--accent)}
+#v3-cc-btn{pointer-events:auto;flex:none;width:2.1rem;height:2.1rem;border-radius:.35rem;border:1px solid var(--line);background:rgba(17,23,39,.9);color:var(--ink);cursor:pointer;display:grid;place-items:center;font:700 .72rem/1 var(--sans);letter-spacing:.04em;opacity:.9}
+#v3-cc-btn:hover,#v3-cc-btn:focus{opacity:1;border-color:var(--accent);color:var(--accent)}
+#v3-cc-btn[data-state="on"]{color:var(--accent);border-color:var(--accent)}
+#v3-cc-btn[data-state="off"]{color:var(--muted)}
 #v3-help-btn{right:.7rem}
-body.v3-talk #v3-cc,body.v3-talk #v3-speak-btn{display:none}
+body.v3-talk #v3-cc,body.v3-talk #v3-cc-btn,body.v3-talk #audio-tog,body.v3-talk #audio-pause,body.v3-talk #audio-hint{display:none}
+
+/* Left-rail Audio button, matching Contents and Speaker notes */
+#audio-tog,#audio-pause{all:unset;cursor:pointer;width:2.6rem;height:2.6rem;display:grid;place-items:center;position:absolute;left:0;color:var(--muted);font-size:1.1rem}
+#audio-tog{top:5.2rem}
+#audio-pause{top:7.8rem;font-size:1rem}
+#audio-tog .rail-icon,#audio-pause .rail-icon{line-height:1}
+#audio-tog:hover,#audio-pause:hover,#audio-tog:focus,#audio-pause:focus{color:var(--accent)}
+#audio-tog[data-state="on"],#audio-tog[data-state="paused"],#audio-pause[data-state="paused"]{color:var(--accent)}
+#audio-tog[data-state="off"]{color:var(--muted)}
+#shell.ls-open #audio-tog,#shell.ls-open #audio-pause,#shell.ls-open #audio-hint{display:none}
+#audio-hint{position:absolute;left:calc(2.6rem + 5px);top:5.35rem;z-index:36;border:0;cursor:pointer;background:var(--accent);color:#1a1206;font:600 12px/1.2 var(--sans,system-ui);padding:.4rem .65rem;border-radius:.3rem;box-shadow:0 4px 14px rgba(0,0,0,.45);white-space:nowrap}
+#audio-hint:hover,#audio-hint:focus{filter:brightness(1.08)}
+#audio-hint[hidden]{display:none}
 
 /* Appendix: projection chips + Greenland replay, and Moon-mountain controls / width card */
 .mw-bar,.mm-ctl{position:absolute;z-index:9;display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;pointer-events:auto;font:500 12px/1.2 var(--sans,system-ui)}

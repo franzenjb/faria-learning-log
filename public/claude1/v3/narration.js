@@ -280,20 +280,49 @@
   cc.id = 'v3-cc';
   cc.setAttribute('aria-live', 'polite');
   const speakBtn = document.createElement('button');
-  speakBtn.id = 'v3-speak-btn';
+  speakBtn.id = 'v3-cc-btn';
   speakBtn.type = 'button';
-  speakBtn.title = 'Narration, mute or unmute (M). Pause or resume with B.';
-  speakBtn.setAttribute('aria-label', 'Mute or unmute narration');
+  speakBtn.title = 'Captions on or off';
+  speakBtn.setAttribute('aria-label', 'Closed captions');
+  speakBtn.id = 'v3-cc-btn';
+  speakBtn.title = 'Captions on or off';
+  speakBtn.setAttribute('aria-label', 'Closed captions');
+  speakBtn.textContent = 'CC';
   const cap = document.createElement('div');
   cap.className = 'v3-cc-text';
   cc.appendChild(speakBtn);
   cc.appendChild(cap);
 
+  const railBtn = document.createElement('button');
+  railBtn.id = 'audio-tog';
+  railBtn.type = 'button';
+  const railIcon = document.createElement('span');
+  railIcon.className = 'rail-icon';
+  const railLabel = document.createElement('span');
+  railLabel.className = 'rail-label';
+  railBtn.append(railIcon, railLabel);
+
+  const pauseBtn = document.createElement('button');
+  pauseBtn.id = 'audio-pause';
+  pauseBtn.type = 'button';
+  const pauseIcon = document.createElement('span');
+  pauseIcon.className = 'rail-icon';
+  const pauseLabel = document.createElement('span');
+  pauseLabel.className = 'rail-label';
+  pauseBtn.append(pauseIcon, pauseLabel);
+
+  const audioHint = document.createElement('button');
+  audioHint.id = 'audio-hint';
+  audioHint.type = 'button';
+  audioHint.hidden = true;
+  audioHint.textContent = 'Turn on audio';
+
   const state = {
     title: '', beat: 0, text: '', muted: false, paused: false,
-    unlocked: false, mode: 'idle', speaking: false
+    unlocked: false, mode: 'idle', speaking: false, blocked: false, ccOff: false
   };
   try { state.muted = localStorage.getItem('v3-narrate-mute') === '1'; } catch (e) {}
+  try { state.ccOff = localStorage.getItem('v3-cc-off') === '1'; } catch (e) {}
   if (TALK) state.muted = true; // presenting URL stays silent
 
   // Incremented on every play/stop so a stale play() promise cannot start a second clip.
@@ -313,10 +342,37 @@
     state.speaking = false;
   };
 
+  const showAudioHint = on => {
+    state.blocked = !!on;
+    audioHint.hidden = !on || TALK || state.muted;
+  };
+
   const setBtn = () => {
-    if (state.muted) { speakBtn.textContent = '✕'; speakBtn.dataset.state = 'muted'; speakBtn.title = 'Narration muted (M to unmute)'; }
-    else if (state.paused) { speakBtn.textContent = '▶'; speakBtn.dataset.state = 'paused'; speakBtn.title = 'Narration paused (B to resume)'; }
-    else { speakBtn.textContent = '🔊'; speakBtn.dataset.state = 'on'; speakBtn.title = 'Narration on (M to mute, B to pause)'; }
+    speakBtn.textContent = 'CC';
+    speakBtn.dataset.state = state.ccOff ? 'off' : 'on';
+    speakBtn.title = state.ccOff ? 'Captions off. Click to show.' : 'Captions on. Click to hide.';
+    speakBtn.setAttribute('aria-pressed', state.ccOff ? 'false' : 'true');
+    cc.classList.toggle('cc-off', state.ccOff);
+
+    const off = state.muted || TALK;
+    railIcon.textContent = off ? '🔇' : '🔊';
+    railLabel.textContent = off ? 'Audio off' : 'Audio on';
+    railBtn.dataset.state = off ? 'off' : (state.paused ? 'paused' : 'on');
+    railBtn.title = off
+      ? 'Audio off. Click to turn on (M).'
+      : 'Audio on. Click to turn off (M). Long-press, or use Pause (B), to pause.';
+    railBtn.setAttribute('aria-label', off ? 'Audio off' : 'Audio on');
+    railBtn.setAttribute('aria-pressed', off ? 'false' : 'true');
+
+    pauseBtn.hidden = off;
+    pauseBtn.dataset.state = state.paused ? 'paused' : 'playing';
+    pauseIcon.textContent = state.paused ? '▶' : '⏸';
+    pauseLabel.textContent = state.paused ? 'Play' : 'Pause';
+    pauseBtn.title = state.paused ? 'Play narration (B)' : 'Pause narration (B)';
+    pauseBtn.setAttribute('aria-label', pauseBtn.title);
+
+    if (off) audioHint.hidden = true;
+    else if (state.blocked) audioHint.hidden = false;
   };
   setBtn();
 
@@ -329,14 +385,16 @@
   // window.V3_NARRATION_MP3 by v3/audio/manifest.js. Missing clips stay silent.
   const findMp3 = (title, beat) => {
     const urls = mp3For(title, beat);
-    const listed = (window.V3_NARRATION_MP3 || []);
+    const listed = (window.V3_NARRATION_MP3 || []).map(x => typeof x === 'string' ? x : (x && (x.file || x.src))).filter(Boolean);
     const hit = urls.find(u => listed.includes(u));
     return hit || null;
   };
 
   const showCaption = text => {
     cap.textContent = text || '';
-    cc.classList.toggle('talk-off', TALK || !text);
+    cc.classList.toggle('talk-off', TALK);
+    cc.classList.toggle('cc-off', state.ccOff);
+    cc.classList.toggle('no-text', !text);
   };
 
   const unlock = () => { state.unlocked = true; };
@@ -387,9 +445,15 @@
         if (gen !== playGen) return;
         state.speaking = true;
         expectEnd = true;
-      }).catch(() => {
-        // Autoplay blocked or this start was aborted by a newer play(). Stay silent.
-        if (gen === playGen) { state.speaking = false; expectEnd = false; }
+      }).catch(err => {
+        // Autoplay blocked, or this start was aborted by a newer play(). Stay silent.
+        if (gen !== playGen) return;
+        state.speaking = false;
+        expectEnd = false;
+        const name = (err && err.name) || '';
+        const msg = (err && err.message) || '';
+        if (name === 'NotAllowedError' || /not allowed|autoplay/i.test(msg)) showAudioHint(true);
+        setBtn();
       });
     }
     setBtn();
@@ -399,6 +463,8 @@
     if (String(audio.dataset.gen || '') !== String(playGen)) return;
     state.speaking = true;
     expectEnd = true;
+    showAudioHint(false);
+    setBtn();
   });
   audio.addEventListener('ended', () => {
     if (!expectEnd) return;
@@ -436,7 +502,44 @@
     return el ? el.dataset.title : '';
   };
 
-  speakBtn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); unlock(); toggleMute(); });
+  const toggleCaptions = () => {
+    state.ccOff = !state.ccOff;
+    try { localStorage.setItem('v3-cc-off', state.ccOff ? '1' : '0'); } catch (e) {}
+    showCaption(state.text);
+    setBtn();
+  };
+
+  speakBtn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); toggleCaptions(); });
+  railBtn.addEventListener('click', e => {
+    if (railBtn._skipClick) { railBtn._skipClick = false; e.preventDefault(); return; }
+    e.preventDefault(); e.stopPropagation();
+    unlock();
+    showAudioHint(false);
+    toggleMute();
+  });
+  let pressTimer = 0;
+  railBtn.addEventListener('pointerdown', e => {
+    if (e.button && e.button !== 0) return;
+    clearTimeout(pressTimer);
+    pressTimer = setTimeout(() => {
+      pressTimer = 0;
+      if (state.muted || TALK) return;
+      railBtn._skipClick = true;
+      togglePause();
+    }, 550);
+  });
+  const clearPress = () => { if (pressTimer) { clearTimeout(pressTimer); pressTimer = 0; } };
+  railBtn.addEventListener('pointerup', clearPress);
+  railBtn.addEventListener('pointerleave', clearPress);
+  railBtn.addEventListener('pointercancel', clearPress);
+  pauseBtn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); unlock(); togglePause(); });
+  audioHint.addEventListener('click', e => {
+    e.preventDefault(); e.stopPropagation();
+    unlock();
+    showAudioHint(false);
+    if (state.muted) toggleMute();
+    else play(state.title || currentTitle(), state.beat || 0, 'hint');
+  });
 
   addEventListener('keydown', e => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
@@ -488,8 +591,33 @@
     }, 60);
   };
 
+  const patchHelp = () => {
+    document.querySelectorAll('#v3-help .v3-help-card p').forEach(p => {
+      const t = p.textContent || '';
+      if (/Contents/.test(t) && /Speaker notes/.test(t) && !/Audio/.test(t)) {
+        p.innerHTML = 'On the left edge, <b>☰ Contents</b> opens the table of contents (or press <b>I</b>). <b>✎ Speaker notes</b> opens the speaking notes (or press <b>N</b>). <b>🔊 Audio</b> turns the narrator on or off (or press <b>M</b>). When audio is on, use <b>Pause</b>, or press <b>B</b>, to pause or resume.';
+      }
+      if (/narrator will read/.test(t) && !/Audio button/.test(t)) {
+        p.innerHTML = 'After you press Start, a narrator will read each step. Use the <b>Audio</b> button on the left, or press <b>M</b>, to turn it off or on, and <b>Pause</b> or <b>B</b> to pause or resume. Press <b>?</b> anytime to see this again.';
+      }
+    });
+  };
+
+  const mountRail = () => {
+    const lside = document.getElementById('lside');
+    if (!lside || railBtn.isConnected) return;
+    const notes = document.getElementById('notes-tog');
+    if (notes && notes.parentNode === lside) notes.after(railBtn);
+    else lside.appendChild(railBtn);
+    railBtn.after(pauseBtn);
+    const visual = document.getElementById('visual') || document.body;
+    visual.appendChild(audioHint);
+  };
+
   addEventListener('load', () => {
     hookSteps();
+    mountRail();
+    patchHelp();
     const visual = document.getElementById('visual') || document.body;
     visual.appendChild(cc);
     const deck = document.getElementById('deck');
