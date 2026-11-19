@@ -330,10 +330,12 @@
 
   const state = {
     title: '', beat: 0, text: '', muted: false, paused: false,
-    unlocked: false, mode: 'idle', speaking: false, blocked: false, ccOff: false
+    unlocked: false, mode: 'idle', speaking: false, blocked: false, ccOff: false,
+    voice: 'george'
   };
   try { state.muted = localStorage.getItem('v3-narrate-mute') === '1'; } catch (e) {}
   try { state.ccOff = localStorage.getItem('v3-cc-off') === '1'; } catch (e) {}
+  try { if (localStorage.getItem('v3-voice') === 'jeff') state.voice = 'jeff'; } catch (e) {}
   if (TALK) state.muted = true; // presenting URL stays silent
 
   // Incremented on every play/stop so a stale play() promise cannot start a second clip.
@@ -403,6 +405,20 @@
     return hit || null;
   };
 
+  // Jeff's recorded takes, listed in v3/audio/jeff/manifest.js. Same clip ids as George.
+  // If Jeff is selected but a clip is missing, fall back to George. Captions stay the script text.
+  const findJeffMp3 = (title, beat) => {
+    const name = slug(title) + '_b' + beat + '.mp3';
+    const listed = (window.V3_NARRATION_JEFF || []).map(x => (x && (x.id || x.file)) || x).filter(Boolean);
+    const hit = listed.some(x => String(x).replace(/^.*\//, '') === name);
+    return hit ? 'v3/audio/jeff/' + name : null;
+  };
+
+  const pickMp3 = (title, beat) => {
+    if (state.voice === 'jeff') return findJeffMp3(title, beat) || findMp3(title, beat);
+    return findMp3(title, beat);
+  };
+
   const showCaption = text => {
     cap.textContent = text || '';
     cc.classList.toggle('talk-off', TALK);
@@ -437,7 +453,7 @@
       return;
     }
 
-    const url = findMp3(t, beat);
+    const url = pickMp3(t, beat);
     const gen = ++playGen;
     if (!url) {
       try { audio.removeAttribute('src'); audio.removeAttribute('data-gen'); audio.load(); } catch (e) {}
@@ -618,6 +634,43 @@
     });
   };
 
+  const voiceBox = document.createElement('div');
+  voiceBox.id = 'voice-tog';
+  voiceBox.setAttribute('role', 'radiogroup');
+  voiceBox.setAttribute('aria-label', 'Narrator voice');
+  const mkVoice = (id, label) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.dataset.voice = id;
+    b.textContent = label;
+    b.setAttribute('role', 'radio');
+    return b;
+  };
+  const voiceGeorge = mkVoice('george', 'George');
+  const voiceJeff = mkVoice('jeff', 'Jeff');
+  voiceBox.append(voiceGeorge, voiceJeff);
+  const setVoiceBtn = () => {
+    [voiceGeorge, voiceJeff].forEach(b => {
+      const on = b.dataset.voice === state.voice;
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      b.setAttribute('aria-checked', on ? 'true' : 'false');
+      b.classList.toggle('on', on);
+    });
+    document.body.dataset.v3Voice = state.voice;
+  };
+  const setVoice = v => {
+    state.voice = v === 'jeff' ? 'jeff' : 'george';
+    try { localStorage.setItem('v3-voice', state.voice); } catch (e) {}
+    setVoiceBtn();
+    if (state.unlocked && !TALK) play(state.title || currentTitle(), state.beat || 0, 'voice');
+  };
+  voiceBox.addEventListener('click', e => {
+    const b = e.target.closest('button[data-voice]');
+    if (!b) return;
+    setVoice(b.dataset.voice);
+  });
+  setVoiceBtn();
+
   const mountRail = () => {
     const lside = document.getElementById('lside');
     if (!lside || railBtn.isConnected) return;
@@ -627,6 +680,7 @@
     railBtn.after(pauseBtn);
     const visual = document.getElementById('visual') || document.body;
     visual.appendChild(audioHint);
+    if (!voiceBox.isConnected) visual.appendChild(voiceBox);
   };
 
   addEventListener('load', () => {

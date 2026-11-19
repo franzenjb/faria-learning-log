@@ -349,7 +349,7 @@ body.v3-touch .nav .arrows button{opacity:.9;font-size:20px;padding:.5rem 1.1rem
 #v3-cc-btn[data-state="on"]{color:var(--accent);border-color:var(--accent)}
 #v3-cc-btn[data-state="off"]{color:var(--muted)}
 #v3-help-btn{right:.7rem}
-body.v3-talk #v3-cc,body.v3-talk #v3-cc-btn,body.v3-talk #audio-tog,body.v3-talk #audio-pause,body.v3-talk #audio-hint{display:none}
+body.v3-talk #v3-cc,body.v3-talk #v3-cc-btn,body.v3-talk #audio-tog,body.v3-talk #audio-pause,body.v3-talk #audio-hint,body.v3-talk #voice-tog{display:none}
 
 /* Left-rail Audio button, matching Contents and Speaker notes */
 #audio-tog,#audio-pause{all:unset;cursor:pointer;width:2.6rem;height:2.6rem;display:grid;place-items:center;position:absolute;left:0;color:var(--muted);font-size:1.1rem}
@@ -359,7 +359,13 @@ body.v3-talk #v3-cc,body.v3-talk #v3-cc-btn,body.v3-talk #audio-tog,body.v3-talk
 #audio-tog:hover,#audio-pause:hover,#audio-tog:focus,#audio-pause:focus{color:var(--accent)}
 #audio-tog[data-state="on"],#audio-tog[data-state="paused"],#audio-pause[data-state="paused"]{color:var(--accent)}
 #audio-tog[data-state="off"]{color:var(--muted)}
-#shell.ls-open #audio-tog,#shell.ls-open #audio-pause,#shell.ls-open #audio-hint{display:none}
+#shell.ls-open #audio-tog,#shell.ls-open #audio-pause,#shell.ls-open #audio-hint,#shell.ls-open #voice-tog{display:none}
+
+/* Voice switch (George | Jeff), sits beside the Audio button */
+#voice-tog{position:absolute;left:8px;top:5.4rem;z-index:36;display:flex;border:1px solid var(--line);border-radius:999px;background:rgba(17,23,39,.92);overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.35)}
+#voice-tog button{all:unset;cursor:pointer;font:600 11px/1 var(--sans,system-ui);letter-spacing:.04em;padding:.42rem .7rem;color:var(--muted)}
+#voice-tog button:hover,#voice-tog button:focus-visible{color:var(--accent)}
+#voice-tog button.on,#voice-tog button[aria-pressed="true"]{background:var(--accent);color:#0b1a2e}
 #audio-hint{position:absolute;left:calc(2.6rem + 5px);top:5.35rem;z-index:36;border:0;cursor:pointer;background:var(--accent);color:#1a1206;font:600 12px/1.2 var(--sans,system-ui);padding:.4rem .65rem;border-radius:.3rem;box-shadow:0 4px 14px rgba(0,0,0,.45);white-space:nowrap}
 #audio-hint:hover,#audio-hint:focus{filter:brightness(1.08)}
 #audio-hint[hidden]{display:none}
@@ -416,6 +422,7 @@ body.v3-talk #v3-cc,body.v3-talk #v3-cc-btn,body.v3-talk #audio-tog,body.v3-talk
   #ls-panel{top:40px}
   .rail-label{display:none!important}
   #audio-hint{left:calc(var(--rail) + 4px);top:84px}
+  #voice-tog{left:6px;top:84px}
   /* on-picture type sized for a short screen */
   #v3-help-btn{top:.4rem;right:calc(.4rem + env(safe-area-inset-right,0px));width:28px;height:28px}
   .v3-appx-ctx{display:none!important}
