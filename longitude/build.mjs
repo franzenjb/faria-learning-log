@@ -44,6 +44,8 @@ edit("index.html", [
   ["location.href=(op&&!op.closed)?'about:blank':'/deck/'", "location.href=(op&&!op.closed)?'about:blank':'/'"],
   ["location.href='/deck/#'+li.dataset.i", "location.href='#'+li.dataset.i"],
   ["'faria-presenter'", "'talk-presenter'"],
+  // public build: the 34-slide talk order is the default on the plain URL (Jeff 2026-11-19); ?course opts back to the full course
+  [/<\/head>/, "<script>window.TALK_DEFAULT=!/[?&]course\\b/.test(location.search);</script>\n</head>"],
   ["</head>", "<style>/* public build: no private topic pages or lesson PDFs */#rside,#topicview,#more-btn,#more-panel{display:none!important}</style>\n</head>"],
 ]);
 edit("v3/course.js", [
@@ -53,11 +55,14 @@ edit("v3/course.js", [
   [/const TOPICS = \{[\s\S]*?\n\};/, "const TOPICS = {};"],
   ["`/topics/${slug}/`", "'about:blank'"],
   ["/claude1/v3/?talk=30", "/?talk=30"],
+  // talk layout (order, cuts) follows TALK_DEFAULT; presenter mode (?talk=: no modal, silent narration) stays query-only
+  ["/[?&]talk=30\\b/.test(location.search)", "(window.TALK_DEFAULT||/[?&]talk=30\\b/.test(location.search))"],
   [/lesson PDFs in \/downloads\//, "lesson PDFs"],
 ]);
 edit("v3/course-slides-v3.js", [
   ['src="../../faria1/where-am-i/v3/"', 'src="film/"'],
   ["(/faria1/where-am-i/v3/)", "(film/)"],
+  ["/[?&]talk=30\\b/.test(location.search)", "(window.TALK_DEFAULT||/[?&]talk=30\\b/.test(location.search))"],
   ['a[href="/polaris/"]', 'a[href="#nolink"]'],
 ]);
 edit("v3/course-slides-v3-appx.js", [["'/faria1/where-am-i/v2/img/carte2.jpg'", "'assets/carte2.jpg'"]]);
