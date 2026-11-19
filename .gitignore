@@ -2,3 +2,5 @@ dist/
 node_modules/
 .vercel/
 narrator-out/
+
+.env.local

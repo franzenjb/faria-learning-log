@@ -1207,11 +1207,15 @@ addEventListener('load', () => setTimeout(() => {
 NEW_SLIDES['Light needs time, again'] = { h1: 'Rømer: Light Needs Time', fig: '', init() {} }; // appendix copy, so Q&A can jump to it
 const romerScene = el => {
   const G = '#f0b35a', W = '#ece6da', M = '#c2bba9', B = '#6fb3ff', AU = 200, SX = 360, SY = 520, JX = SX + 5.2 * AU, C = AU / .6, MIN = 8.317; // to scale: 1 AU = 200 px; light: 1 AU every 0.6 s
-  const WORDS = [['Rømer, 1676', ''], ['Io Is on Time. The Light Is Late.', '']];
+  const WORDS = [
+    ['Rømer, 1676', 'He times Io and sees that light takes time.'],
+    ['Io Is on Time. The Light Is Late.', 'Rømer’s figure: about 22 minutes to cross the orbit.'],
+    ['It Took Two People', 'Huygens, 1690: about 212,000 km a second. The first number for the speed of light.']
+  ];
   let ang = 0, rings = [], lastIo = 0, flash = 0;
-  V3.scene(el, 2, (S, ctx, now) => { // two beats: near side on time; then the Earth travels to the far side and the eclipse runs late
+  V3.scene(el, 3, (S, ctx, now) => { // three beats: near side on time; far side late; Huygens names the speed
     const k = S.step, age = Math.max(0, S.age(now));
-    // the Earth: near Jupiter (angle 0), then round the top of its orbit to the far side
+    // the Earth: near Jupiter (angle 0), then round the top of its orbit to the far side, and stays there for Huygens
     const target = k >= 1 ? Math.PI : 0; ang += (target - ang) * (k === 1 ? .022 : .25); if (Math.abs(target - ang) < .002) ang = target;
     const ex = SX + AU * Math.cos(ang), ey = SY - AU * Math.sin(ang);
     S.stars(now, .55);
@@ -1366,19 +1370,28 @@ NEW_SLIDES['Image gallery'] = {
   init(el) {
     const PD = 'Public domain';
     const IMG = [
-      ['scilly-wreck', 'The Scilly Wreck, 1707', 'Four ships lost on the rocks, October 22, 1707.', 'Unknown artist, about 1710. ' + PD + ', Royal Museums Greenwich'],
-      ['shovell-monument', 'Shovell’s Tomb, Westminster Abbey', 'His tomb effigy, by Grinling Gibbons. Commander of the fleet lost at Scilly.', '14GTR, CC BY-SA 4.0, via Wikimedia Commons'],
-      ['ptolemy-1482', 'Ptolemy’s World Map, 1482', 'Printed in Ulm, with lines of latitude and longitude.', PD],
-      ['toscanelli-1474', 'Toscanelli’s Chart, 1474', 'How Columbus pictured the world: Japan in the mid-Atlantic, zero longitude at the Canaries.', 'Original lost. Reconstruction by J. G. Bartholomew; light blue shows the real Americas. ' + PD + ', via Wikimedia Commons'],
-      ['harrison', 'John Harrison', 'Carpenter and clockmaker, 1693–1776.', PD],
-      ['h1', 'H1, 1730–35', 'His first sea clock.', 'Tatters ❀ on Flickr, CC BY-SA 2.0, via Wikimedia Commons'],
-      ['h2', 'H2, 1737–39', 'Sturdier, never sent to sea.', 'Tatters ❀ on Flickr, Creative Commons, via Wikimedia Commons'],
-      ['h3', 'H3, 1740–59', 'Nineteen years of work.', 'Tatters ❀ on Flickr, Creative Commons, via Wikimedia Commons'],
-      ['h4-dial', 'H4, 1759', 'About 5 inches across.', 'Colonel Warden, CC BY-SA 3.0, via Wikimedia Commons'],
-      ['h4-movement', 'Inside H4', 'Gears in layers, ruby bearings, a diamond.', 'Mike Peel (mikepeel.net), CC BY-SA 4.0, via Wikimedia Commons'],
-      ['time-ball', 'The Time Ball, Greenwich', 'Since 1833 it drops at 1:00 PM so ships can set their clocks.', 'Garry Knight, CC BY 2.0, via Wikimedia Commons'],
-      ['shepherd-gate-clock', 'The Shepherd Gate Clock, 1852', 'The first clock to show the public Greenwich time. A 24-hour dial.', 'Alvesgaspar, CC BY-SA 3.0, via Wikimedia Commons'],
-      ['delegates-1884', 'The Meridian Conference, 1884', '41 delegates, 25 nations.', 'Unknown photographer. ' + PD]];
+      ['scilly-wreck', 'The Scilly Wreck, 1707', 'Four ships of Shovell’s fleet strike the Western Rocks on 22 October 1707. Counts of the dead run from about 1,400 to 2,000. They knew their latitude, roughly; they did not know their longitude.', 'Unknown artist, about 1710. ' + PD + ', Royal Museums Greenwich'],
+      ['shovell-monument', 'Shovell’s Tomb, Westminster Abbey', 'The tomb effigy of Admiral Sir Cloudesley Shovell, by Grinling Gibbons. He commanded the fleet lost at Scilly, and was among the dead.', '14GTR, CC BY-SA 4.0, via Wikimedia Commons'],
+      ['ptolemy-1482', 'Ptolemy’s World Map, 1482', 'Printed at Ulm, with a grid of latitude and longitude already drawn. About AD 150, Ptolemy’s Geography had listed thousands of places by two numbers. Latitude is close; longitude is estimated.', PD + ', via Wikimedia Commons'],
+      ['toscanelli-1474', 'Toscanelli’s Chart, 1474', 'How Columbus pictured the world: Japan in the mid-Atlantic, and zero longitude at the Canaries, the western edge of the known world. The original chart is lost.', 'Reconstruction by J. G. Bartholomew; light blue shows the real Americas. ' + PD + ', via Wikimedia Commons'],
+      ['shadow-clock', 'An Egyptian Shadow Clock', 'A shadow on a marked face is one of the oldest ways to tell time from the Sun — the same noon Sun sailors later used for latitude.', 'Egypt, 305–30 BCE. The Metropolitan Museum of Art, Open Access, ' + PD],
+      ['tycho-quadrant', 'Tycho’s Wall Quadrant, 1598', 'On the island of Hven, Tycho Brahe built a quadrant with a radius of more than six feet, so one arcminute became a mark you could read by eye, a generation before the telescope.', 'Hand-colored engraving from Astronomiae Instauratae Mechanica, 1598. ' + PD + ', via Wikimedia Commons'],
+      ['harrison', 'John Harrison, 1693–1776', 'A village carpenter from Lincolnshire, never schooled in science. He built the sea clock that finally carried home time across an ocean.', 'Thomas King, about 1767. ' + PD],
+      ['h1', 'H1, 1730–35', 'Harrison’s first sea clock: about 72 pounds of brass, with two balances that swing against each other so the roll of the ship cancels out. On a trial to Lisbon in 1736, it works.', 'Tatters ❀ on Flickr, CC BY-SA 2.0, via Wikimedia Commons'],
+      ['h2', 'H2, 1737–39', 'Sturdier than H1, and never sent to sea. Harrison was not satisfied, and kept going.', 'Tatters ❀ on Flickr, Creative Commons, via Wikimedia Commons'],
+      ['h3', 'H3, 1740–59', 'Nineteen years of work. H3 gives us the bimetal strip and the caged ball bearing, both still in use. Still too big for a ship’s cabin.', 'Tatters ❀ on Flickr, Creative Commons, via Wikimedia Commons'],
+      ['h4-dial', 'H4, 1759', 'A large pocket watch, about five inches across. In 1761 it sailed to Jamaica, 81 days at sea, and was about five seconds off — roughly 1.25 miles, about 24 times better than the half-degree prize.', 'Colonel Warden, CC BY-SA 3.0, via Wikimedia Commons'],
+      ['h4-movement', 'Inside H4', 'Gears in layers, ruby bearings, a diamond. This is the machine that carried London’s time across the Atlantic.', 'Mike Peel (mikepeel.net), CC BY-SA 4.0, via Wikimedia Commons'],
+      ['h4-plan-1767', 'H4’s Gear Train, 1767', 'A plate from The Principles of Mr Harrison’s Time-Keeper, published in London in 1767 so others could build what he had invented.', PD + ', via Wikimedia Commons'],
+      ['time-ball', 'The Time Ball, Greenwich', 'The Greenwich time ball, in use since 1833. Every day it is raised halfway at 12:55 and to the top at 12:58, then drops at exactly 1:00 PM, so ships’ captains on the Thames could set their chronometers to Greenwich time before sailing, and at sea compare it with local noon to find longitude. Why 1 PM? At noon the astronomers were busy timing the Sun.', 'Garry Knight, CC BY 2.0, via Wikimedia Commons'],
+      ['shepherd-gate-clock', 'The Shepherd Gate Clock, 1852', 'The first clock to show the public Greenwich time, set in the wall at the observatory gate. The dial is 24 hours, so there is no mistaking a.m. for p.m.', 'Alvesgaspar, CC BY-SA 3.0, via Wikimedia Commons'],
+      ['prime-meridian', 'The Prime Meridian, Greenwich', 'The brass line in the courtyard of the Royal Observatory, the zero of longitude chosen at Washington in 1884. The zero in a modern GPS, on WGS 84, runs about 102 meters, 335 feet, east of this old line.', 'Perituss, 2011, CC0, via Wikimedia Commons'],
+      ['paris-observatory', 'The Paris Observatory, about 1680', 'Cassini’s tables of Io were made here, and from 1679 Picard and La Hire used those eclipses to fix the longitudes of the French coast. Zero for French maps stayed at Paris long after Greenwich won the vote.', 'Engraving, circa 1680, chez N. Langlois. ' + PD + ', via Wikimedia Commons'],
+      ['sandford-fleming', 'Sandford Fleming, 1883', 'The Canadian engineer who spent eight years campaigning for standard time after missing a train because a timetable said p.m. instead of a.m. He was among the delegates at Washington in 1884.', 'Sheldon & Davis, Ottawa, 1883. ' + PD + ', Bibliothèque nationale de France'],
+      ['delegates-1884', 'The Meridian Conference, 1884', 'Forty-one delegates from twenty-five nations, on the steps in Washington. They chose Greenwich, 22 to 1. France and Brazil abstained. Nature picks the equator; power picks zero.', 'Unknown photographer, October 1884. ' + PD],
+      ['jupiter', 'Jupiter, from Cassini', 'The clock in the sky. Io slips into Jupiter’s shadow every 42 and a half hours, and everyone on Earth who is looking sees it vanish at the same instant — if the deck will hold still.', 'NASA / Cassini, 2003. ' + PD],
+      ['moon', 'The Moon', 'Way two: the Moon as a clock hand. Against the stars it moves about its own width every hour. One arcminute wrong in a lunar-distance sighting is about 30 nautical miles of longitude — not the same as one arcminute of latitude, which is one nautical mile.', 'Joselodos, 2021, CC0, via Wikimedia Commons'],
+      ['gps-satellite', 'A GPS Satellite', 'Each satellite carries an atomic clock and broadcasts: this is the time, this is where I am. Light travels about one foot in a billionth of a second. Four distances pin you down.', 'U.S. Air Force, NAVSTAR, late 1970s. ' + PD]];
     const text = el.querySelector('.text'); if (text) text.style.display = 'none'; el.classList.add('wide');
     const st = el.querySelector('.stage'); [...st.children].forEach(c => { c.style.display = 'none'; }); if (getComputedStyle(st).position === 'static') st.style.position = 'relative';
     const grid = document.createElement('div'); grid.className = 'gal';
@@ -1403,12 +1416,24 @@ addEventListener('load', () => setTimeout(() => {
   const el = v3Find('Ptolemy'); if (!el) return;
   const map = new Image(); map.src = 'img/gallery/ptolemy-1482.jpg';
   // map as big as the screen allows; one short caption in a dark band along the bottom edge, no headline (Jeff, 18 Nov)
-  const WORDS = ['About AD 150 · 8,000 Places by Two Numbers', 'Latitude: Close. Longitude: Estimated.'];
+  const WORDS = ['About AD 150 · 8,000 Places by Two Numbers', 'Latitude: Close. Longitude: Estimated.', 'Zero: the Fortunate Isles, the Canaries'];
   V3.scene(el, WORDS.length, (S, ctx, now) => {
+    const k = S.step, a = S.fade(now, 0, 500);
     ctx.fillStyle = '#05070f'; ctx.fillRect(0, 0, 1600, 1000);
-    if (map.complete && map.naturalWidth) { const s = Math.min(1600 / map.naturalWidth, 1000 / map.naturalHeight), w = map.naturalWidth * s, h = map.naturalHeight * s; ctx.drawImage(map, 800 - w / 2, 500 - h / 2, w, h); }
+    let dx = 0, dy = 0, dw = 1600, dh = 1000;
+    if (map.complete && map.naturalWidth) { const s = Math.min(1600 / map.naturalWidth, 1000 / map.naturalHeight); dw = map.naturalWidth * s; dh = map.naturalHeight * s; dx = 800 - dw / 2; dy = 500 - dh / 2; ctx.drawImage(map, dx, dy, dw, dh); }
+    if (k >= 2) {
+      // Fortunate Isles sit at the far west of the 1482 Ulm map, mid-left
+      const x = dx + dw * .065, y = dy + dh * .63, fa = a;
+      ctx.save(); ctx.globalAlpha = fa;
+      ctx.strokeStyle = '#f0b35a'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(x, y, 28, 0, 7); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x + 28, y); ctx.lineTo(x + 70, y - 8); ctx.stroke();
+      ctx.restore();
+      S.text('0° · the Fortunate Isles', x + 80, y - 6, 28, '#f0b35a', 'left', fa);
+      S.text('today’s Canaries', x + 80, y + 28, 22, '#c2bba9', 'left', fa);
+    }
     const g = ctx.createLinearGradient(0, 860, 0, 1000); g.addColorStop(0, 'rgba(5,7,15,0)'); g.addColorStop(.45, 'rgba(5,7,15,.82)'); g.addColorStop(1, 'rgba(5,7,15,.92)'); ctx.fillStyle = g; ctx.fillRect(0, 860, 1600, 140);
-    S.text(WORDS[S.step], 800, 960, 40, '#f0b35a', 'center', S.fade(now, 0, 500));
+    S.text(WORDS[S.step], 800, 960, 40, '#f0b35a', 'center', a);
     S.text('Ulm, 1482 · Public Domain', 1580, 990, 17, '#9aa3b5', 'right', .7);
   });
 }, 0));

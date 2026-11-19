@@ -28,7 +28,7 @@
       'Latitude and longitude are the two numbers that name a place. Latitude is the easy one: zero at the Equator, ninety at the Pole. Longitude lines run pole to pole. Later we will lay a bingo card on the globe: latitude calls the row, longitude calls the column. Two calls, one square. Drag the globe to turn it. The numbered buttons at the lower left switch layers on and off.'
     ],
     'Walk north': [
-      'Your latitude is the angle of the pole star above the horizon. Walk north, and Polaris climbs. At the Equator it sits on the horizon, at zero degrees. At the North Pole it stands straight overhead, at ninety. That is why the altitude of Polaris equals your latitude, after a small correction, because Polaris is not exactly on the pole. By day, sailors used the noon Sun and a printed table. South of the Equator there is no pole star; they used the Southern Cross.'
+      'Your latitude is the angle of the pole star above the horizon. Walk north, and Polaris climbs. At the Equator it sits on the horizon, at zero degrees. At the North Pole it stands straight overhead, at ninety. That is why the altitude of Polaris equals your latitude, after a small correction, because Polaris is not exactly on the pole. By day, sailors used the noon Sun and a printed table. South of the Equator there is no pole star; they used the Southern Cross. Polaris itself is not exactly on the pole: about 12 degrees away two thousand years ago, and about seven-tenths of a degree today, so navigators applied a small correction.'
     ],
     'Fist and knuckle': [
       'You already have a protractor: your hand. Held out at arm\'s length, a fist is about ten degrees of sky, and a knuckle is about two. To find Washington, about thirty-nine degrees north, you would stack about four fists under Polaris. It is rough, but it is how a sailor could check a number in the dark.'
@@ -85,7 +85,8 @@
     ],
     'Light needs time': [
       'An aside, because it surprised everyone. Paris, 1676. Ole Rømer, say it ROH-mer, times Io against Cassini\'s table. With the Earth on Jupiter\'s side of the Sun, the eclipse arrives on time.',
-      'Months later the Earth is on the far side, and the eclipse runs late. Io is on time. The light is late: it has to cross the whole orbit. Rømer\'s own figure was about 22 minutes to cross Earth\'s orbit. The modern value is about 16.7 minutes, or about 8 minutes 19 seconds from the Sun to us. It took two people. Christiaan Huygens, say it HIGH-genz, turned Rømer\'s delay into the first number for the speed of light, about 212,000 kilometers per second, in his 1690 Treatise on Light. That is about two-thirds of the true value.'
+      'Months later the Earth is on the far side, and the eclipse runs late. Io is on time. The light is late: it has to cross the whole orbit. Rømer\'s own figure was about 22 minutes to cross Earth\'s orbit. The modern value is about 16.7 minutes, or about 8 minutes 19 seconds from the Sun to us.',
+      'It took two people. Christiaan Huygens, say it HIGH-genz, turned Rømer\'s delay into the first number for the speed of light, about 212,000 kilometers per second, in his 1690 Treatise on Light. That is about two-thirds of the true value.'
     ],
     'The lunar distance': [
       'Way two, the astronomers\' bet: the Moon is a clock hand. Against the stars it moves about its own width every hour, and everyone on Earth sees the same thing. The idea was old, from 1514, but it only worked at sea after the prize: Hadley\'s octant in 1731, and good Moon tables in 1755 from Mayer, published in Maskelyne\'s Almanac. Maskelyne is pronounced MASK-uh-lin.',
@@ -103,7 +104,7 @@
     'Washington, 1884': [
       'October 1884, Washington. Forty-one delegates from twenty-five nations meet to choose a single zero of longitude. Nature picks the Equator. Power picks zero.',
       'Here they are on the steps. The photograph is the room where the world agreed, or tried to agree, on a starting line.',
-      'They choose Greenwich. East is plus, west is minus. It takes two meridians to cut the world east from west: Greenwich, and the 180 degree line behind it, because one meridian is only half a circle. France abstains, and its maps kept counting from Paris for a long time. Civil time in France is a different story: in 1911 France adopted Greenwich-based time, written as Paris mean time minus 9 minutes 21 seconds.'
+      'They choose Greenwich. East is plus, west is minus. It takes two meridians to cut the world east from west: Greenwich, and the 180 degree line behind it, because one meridian is only half a circle. France abstains. Civil time in France is one story: in 1911 France adopted Greenwich-based time, written as Paris mean time minus 9 minutes 21 seconds. The national survey is another: French maps kept counting longitude from Paris until about the end of 1999.'
     ],
     'The date line': [
       'The date line is not a perfect meridian. It is a negotiation. Cross 180 degrees and the date changes, but the line bends so whole countries can share a day. Alaska, sold to the United States in 1867, switches to America\'s date, and Friday happens twice. Kiribati, in 1995, puts all its islands on one day. Samoa, in 2011, jumps to its trading partners\' day, and Friday the 30th never happens. American Samoa, about 80 miles away, stays put. Same hour on the clock, a full day apart.'
@@ -139,11 +140,35 @@
       'Today a billionth of a second is about one foot of light-travel. The lesson is the same: if time is your measuring stick, a tiny time error is a place error, and it grows as you go.'
     ],
     'Image gallery': [
-      'This gallery is a set of pictures behind the stories: the clocks, the observatory, the maps, and the people. Tap an image to open it. One of them is the red time ball at the Royal Observatory, Greenwich, in use since 1833. Every day it is raised just before one, and it drops at exactly 1 PM, so captains on the Thames could set their chronometers to Greenwich time before sailing, and at sea compare that home time with local noon to find longitude. Why 1 PM? At noon the astronomers were busy timing the Sun.'
+      'This gallery is a set of pictures behind the stories: the clocks, the observatory, the maps, and the people. Tap an image to open it. Arrows step through them; Escape or a click closes.',
+      'One to linger on is the red time ball at the Royal Observatory, Greenwich, in use since 1833. Every day it is raised halfway at 12:55, to the top at 12:58, and it drops at exactly 1 PM, so captains on the Thames could set their chronometers to Greenwich time before sailing, and at sea compare that home time with local noon to find longitude. Why 1 PM? At noon the astronomers were busy timing the Sun.'
     ],
     'Light needs time, again': [
       'Back to Paris, 1676. Ole Rømer is timing the eclipses of Io. On the near side of Earth\'s orbit, the eclipse arrives on time.',
-      'On the far side, the news is late. Io is on time; the light is late. Rømer\'s own figure was about 22 minutes to cross the orbit. The modern value is about 16.7 minutes. Huygens, in 1690, turned that delay into about 212,000 kilometers per second, around two-thirds of the true speed of light.'
+      'On the far side, the news is late. Io is on time; the light is late. Rømer\'s own figure was about 22 minutes to cross the orbit. The modern value is about 16.7 minutes, or about 8 minutes 19 seconds from the Sun to us.',
+      'It took two people. Huygens, in 1690, turned that delay into about 212,000 kilometers per second, around two-thirds of the true speed of light.'
+    ],
+    'Many ways to draw the globe': [
+      'Every flat map is a deal with the globe. First, the simplest flat map: plate carrée, or equirectangular. Longitude is x, latitude is y. Easy to draw, and it stretches the land toward the poles.',
+      'Now the globe itself, an orthographic view. This is the only drawing that does not stretch the land. Drag it to turn it. What you see is what is really there, in outline.',
+      'Peel the globe into twelve slices, called gores, the way a mapmaker would cut paper to glue onto a sphere. Laid side by side they are almost flat, with only small gaps.',
+      'Mercator, in 1569, made a map sailors loved: compass courses stay straight. The cost is size. The high latitudes inflate, and Greenland swells toward the size of Africa.',
+      'Keep Greenland\'s true size, in miles, and slide it down to the equator next to Africa. Africa is about 11.7 million square miles. Greenland is about 0.84 million. Africa is about 14 times larger. The wall map hid that.'
+    ],
+    'Vector or raster': [
+      'Two ways to record the world. The same coastline, held two ways. Vector on the left, raster on the right.',
+      'Vector stores coordinates: points, lines, and polygons. Zoom in, and the line stays sharp, because the file is a list of places, not a picture.',
+      'Raster stores one number per cell, land or water. Zoom in, and the coast turns into stairs. The file you open in GIS is one or the other. Always ask which.'
+    ],
+    'The nautical mile': [
+      'A degree of latitude is 60 arcminutes, anywhere on Earth.',
+      'One arcminute of latitude is one nautical mile, fixed at 1,852 meters, about 6,076 feet. On a chart, the latitude scale is a mileage scale.',
+      'A degree of longitude is 60 nautical miles only at the equator. At 60 degrees north it is about 30, and it shrinks to nothing at the poles. Latitude miles stay the same. Longitude miles shrink. That is not the same as a lunar-distance error, where one arcminute wrong in a Moon sight is about 30 nautical miles of longitude.'
+    ],
+    'The decision brief': [
+      'A useful brief starts with a decision, not a map. In this example, open Lincoln High gym as a shelter: it is dry, it has a generator, 200 cots, and it sits on high ground.',
+      'Then say the next check, and when. Look at the roads and the river at 6 PM. If the river is still rising, move the overflow to the civic center.',
+      'Then the expiry. This recommendation is valid until 10 PM, or the next official forecast, whichever comes first. After that, decide again. A map that cannot say when it expires is not ready for a decision.'
     ],
     "Jupiter's moons": [
       'Day two begins in January 1610. Galileo turns a telescope on Jupiter and sees three small stars in a line. The next night they have moved. Soon there are four. They are not stars. They are moons, going around Jupiter, each keeping strict time. That makes Jupiter a clock that anyone on Earth can read, if the deck will hold still.'
@@ -187,12 +212,31 @@
     'Columbus chart': [
       'Ptolemy, about AD 150, put zero longitude in the Fortunate Isles, the Canaries, at the western edge of the known world. In 1474, Toscanelli draws a chart on which Japan sits in the middle of the Atlantic. In 1492 Columbus sails west from the Canaries, from that zero. Zero was a choice. People put it at the edge of what they knew.'
     ],
+    'France got smaller': [
+      'The sky clock worked on land, so France used it to remeasure itself. From 1679, Jean Picard and Philippe de La Hire travelled the coasts, timing Io against observations in Paris.',
+      'Watch the west coast. The old outline is gray. The 1693 survey is gold. Brittany slides east, by about a degree and a half at Brest. France got smaller — about 60,000 square miles smaller than the old maps, roughly a fifth.',
+      'As the story goes, Louis the Fourteenth complained that his astronomers had taken more of France than his enemies ever had. It is a famous story. I cannot promise he said those exact words. But the error was real.'
+    ],
+    'GPS zero is 102 m east': [
+      'One plot twist, for the GIS people. Stand on the famous brass line at Greenwich with your phone, and it will not say zero.',
+      'GPS zero, the WGS 84 meridian, runs about 102 meters, 335 feet, east of the brass line. That is a little longer than a football field, drawn here to the same scale. The figure is from Malys and colleagues, in the Journal of Geodesy, 2015.',
+      'Nobody moved anything. The old line was set by a telescope aimed using local gravity, which tilts very slightly at Greenwich. GPS measures from the center of the Earth. Two good answers, 102 meters apart.'
+    ],
+    'Four satellites, one spot': [
+      'How does a phone turn time signals into a place? One satellite: the signal arrives about seven hundredths of a second late. Times the speed of light, that is about 21,000 kilometers. You are somewhere on this ring.',
+      'A second satellite gives a second ring. Two rings cross in two places.',
+      'A third ring picks one of them. That is your spot. Here, Fort Myers.',
+      'But your phone clock is cheap. Off by one thousandth of a second, and every distance is off by 300 kilometers. The rings no longer meet.',
+      'A fourth satellite lets the receiver solve for the place and its own clock error at the same time. The rings snap together. Four satellites: one spot, and the exact time. Three for where, one for when.',
+      'And here is the Harrison problem, three hundred years later. Light travels about 30 centimeters, about one foot, in a billionth of a second — a nanosecond. A clock error of one nanosecond is a foot of error on the ground. Harrison fought for seconds. GPS fights for billionths. It is still just clocks.'
+    ],
     'The end': [
       'Stop here. Thank you. Questions are welcome. Everything after this is the appendix, only if you want to go further.'
     ],
     'Ptolemy': [
-      'About AD 150, Ptolemy\'s Geography lists about 8,000 places by two numbers. Latitude is close. Longitude is estimated, with zero out in the Canary Islands. Remember the Canaries: they will return when the world has to pick a zero again.',
-      'The grid is an idea as much as a measurement. Once you name a place with two numbers, anyone else can find it, even if the numbers are still a little wrong.'
+      'About AD 150, Ptolemy\'s Geography lists about 8,000 places by two numbers. This is the Ulm printing of 1482, with the grid already drawn. Latitude is close. Longitude is estimated.',
+      'The grid is an idea as much as a measurement. Once you name a place with two numbers, anyone else can find it, even if the numbers are still a little wrong.',
+      'He put zero longitude in the Fortunate Isles, the Canaries, the western edge of the known world. A map rebuilt from a table of two numbers: geocoding, 1,800 years early. Remember the Canaries. They will return when Columbus sails west, and when the world has to pick a zero again.'
     ],
     'At sea, it fails': [
       'At sea, the Jupiter-moon method fails. You cannot hold a moon of Jupiter in the eyepiece on a rolling deck, and a pendulum clock cannot keep time on the waves.',
@@ -202,10 +246,10 @@
 
   // speech-only pronunciation, captions keep the original script
   const SAY = [
-    [/Rømer/g, 'Rer-mer'],
-    [/Huygens/g, 'High-genz'],
-    [/Maskelyne/g, 'MAS-kuh-lin'],
-    [/Eratosthenes/g, 'Era-TOSS-thuh-neez'],
+    [/Rømer/g, 'Rohmer'],
+    [/Huygens/g, 'Highgenz'],
+    [/Maskelyne/g, 'Maskelin'],
+    [/Eratosthenes/g, 'Eratostheneez'],
     [/Scilly/g, 'Silly'],
     [/Io([\'s]|\b)/g, 'Eye-oh$1'],
     [/Ptolemy/g, 'TOLL-uh-mee'],
@@ -271,8 +315,9 @@
     return [`v3/audio/${s}_b${beat}.mp3`, `v3/audio/s_${s}_${beat}.mp3`];
   };
 
-  // No pre-generated MP3s are shipped (no TTS API key). If files are added later
-  // at v3/audio/{slug}_b{beat}.mp3, list them in window.V3_NARRATION_MP3.
+  // Pre-generated MP3s (ElevenLabs George, multilingual v2) are listed in
+  // window.V3_NARRATION_MP3 by v3/audio/manifest.js. Missing clips fall back
+  // to speechSynthesis.
   const findMp3 = (title, beat) => {
     const urls = mp3For(title, beat);
     const listed = (window.V3_NARRATION_MP3 || []);
@@ -326,6 +371,7 @@
         audio.src = url;
         document.body.dataset.v3Src = url;
         document.body.dataset.v3Mode = 'mp3';
+        audio.onerror = () => { if (state.title === t && state.beat === beat) playSpeech(text); };
         audio.play().catch(() => playSpeech(text));
       } else {
         document.body.dataset.v3Src = '';
