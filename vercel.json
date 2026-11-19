@@ -16,14 +16,14 @@
   ],
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/(.*)",
       "has": [
         {
           "type": "host",
           "value": "longitude.jbf.com"
         }
       ],
-      "destination": "https://longitude-talk-jbf-2539-e1ec6bfb.vercel.app/:path*",
+      "destination": "https://longitude-talk-jbf-2539-e1ec6bfb.vercel.app/$1",
       "permanent": false
     }
   ]
