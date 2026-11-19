@@ -49,12 +49,11 @@
       'Even a mile is a human choice. Different countries once used different miles, and the nautical mile was later tied to the Earth itself: one minute of latitude, one sixtieth of a degree, is one nautical mile, about six thousand seventy-six feet. Who decides the measure? The people who need to agree.'
     ],
     'Eratosthenes': [
-      'Syene, about 240 BC, on the longest day of the year. At noon the Sun shines straight down a well. There is no shadow.',
-      'Five hundred miles north, at the same noon, a stick in Alexandria casts a shadow. The sunlight comes in 7.2 degrees from straight up.',
-      'Eureka: because the Sun\'s rays are parallel, that 7.2 degrees is also the angle at the center of the Earth between the two cities. Five hundred miles of ground is 7.2 degrees of the whole circle.',
-      'A full circle is 360 degrees. 360 divided by 7.2 is fifty. So the path between the cities is one fiftieth of the whole Earth.',
-      'Fifty times five hundred miles is his estimate: about 250,000 stadia, roughly 24,000 to 29,000 miles, depending on the length of a stadion.',
-      'That is the size of the Earth from one shadow and a paced distance. Pause here, and guess today\'s figure.',
+      'Eratosthenes ran the great Library of Alexandria, around 240 BC.',
+      'Syene, on the longest day of the year. At noon the Sun shines straight down a well. There is no shadow.',
+      'The same noon in Alexandria, a shadow of about 7 degrees: one-fiftieth of a circle.',
+      'Fifty times the distance between the two cities gives the size of the Earth.',
+      'His estimate: about 250,000 stadia, roughly 24,000 to 29,000 miles, depending on the length of a stadion.',
       'Today, from satellites, the meridians measure 24,901 miles. With a stick, a shadow, and a paced distance, he was already almost there.'
     ],
     'Hours are slices': [
@@ -94,7 +93,7 @@
       'It took two people. Christiaan Huygens turned Rømer\'s delay into the first number for the speed of light, about 212,000 kilometers per second, in his 1690 Treatise on Light. That is about two-thirds of the true value.'
     ],
     'The lunar distance': [
-      'This was the Board\'s favorite. It trusted a human mind: a trained navigator, a sextant, Maskelyne\'s printed tables, and about four hours of arithmetic. Harrison bet the other way, on a machine that simply carries the time.',
+      'This was the Board\'s favorite. It trusted a human mind: a trained navigator, a sextant, and the Nautical Almanac of Nevil Maskelyne, Astronomer Royal, plus about four hours of arithmetic. Harrison bet the other way, on a machine that simply carries the time.',
       'Now do it on a rolling deck. The Moon moves about 30 minutes of arc in an hour, and one hour is 15 degrees of longitude, or 900 nautical miles at the Equator. So one minute of arc wrong in the sighting is about 30 nautical miles of longitude. Then you still have an hour of arithmetic by candlelight. That 30 miles is not the same as one minute of latitude, which is one nautical mile.'
     ],
     'Pendulum at sea': [

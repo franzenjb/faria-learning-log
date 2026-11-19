@@ -123,45 +123,39 @@ window.V3_NARRATION_MP3 = [
   },
   {
     "file": "v3/audio/eratosthenes_b0.mp3",
-    "textHash": "cbfaa9e57f2f5c46fe554ca3e45d52d6c7775bb948a485ddae1f3c13bdd66736",
+    "textHash": "025fb514e5b92e7f4e327ba0a3b5435b54440d20267cdcfe4978209b895c777a",
     "title": "Eratosthenes",
     "beat": 0
   },
   {
     "file": "v3/audio/eratosthenes_b1.mp3",
-    "textHash": "7e1bfa272e725da580bc2128be31ef6108b146c0543e3cf95fd41cac5d1dbb9b",
+    "textHash": "f709798a52350fb159db7f4b01f6340c4806b457b5574cec378609a960a52208",
     "title": "Eratosthenes",
     "beat": 1
   },
   {
     "file": "v3/audio/eratosthenes_b2.mp3",
-    "textHash": "8f1c30d49b7849e7b40e02eb70e83b92b355b2643ec47ceec2238cbf916becdf",
+    "textHash": "e10a878c3d206148d11cf4060a3b9da7bd5682d6312c726a659896802eca976d",
     "title": "Eratosthenes",
     "beat": 2
   },
   {
     "file": "v3/audio/eratosthenes_b3.mp3",
-    "textHash": "d78c50b6adf1488cf9532cc1559e976eafb74aaafde857a2dc285666fcdafd31",
+    "textHash": "5be9d3c74a76ce926ae3275d97692a96a6f4dea00e8b271ec9b06d9e6dca148d",
     "title": "Eratosthenes",
     "beat": 3
   },
   {
     "file": "v3/audio/eratosthenes_b4.mp3",
-    "textHash": "ceebe55182880186a744a58fc73b61abdafaa68e8dbfb020a7f0eb2d5e95b048",
+    "textHash": "d46aa073200fa970803b80b02ebe27f61764d19ec9fe04826376ce9d0c4f1f43",
     "title": "Eratosthenes",
     "beat": 4
   },
   {
     "file": "v3/audio/eratosthenes_b5.mp3",
-    "textHash": "d980e801d374bfe17694d3c3d546c8de301c9ade0ba400743247a430867d33b6",
-    "title": "Eratosthenes",
-    "beat": 5
-  },
-  {
-    "file": "v3/audio/eratosthenes_b6.mp3",
     "textHash": "593f3a5345e57b4bcfc86dc00c0c58041cca4849628faa60cc17f81fb7a2b10a",
     "title": "Eratosthenes",
-    "beat": 6
+    "beat": 5
   },
   {
     "file": "v3/audio/hours-are-slices_b0.mp3",
@@ -321,7 +315,7 @@ window.V3_NARRATION_MP3 = [
   },
   {
     "file": "v3/audio/the-lunar-distance_b0.mp3",
-    "textHash": "aa6183151dbddf2e8fa7cc4c31d2663baf2ceb9e066fd14e31658006285a8068",
+    "textHash": "96c368ebf6ba02fe9c2618fc86f7ad0283530e437ac8012717dba5c57aba2fec",
     "title": "The lunar distance",
     "beat": 0
   },

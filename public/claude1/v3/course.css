@@ -551,17 +551,17 @@ body.v3-talk #v3-cc,body.v3-talk #v3-cc-btn,body.v3-talk #audio-tog,body.v3-talk
 
 
 /* Decimal places: clickable 0–6 chips (Jeff, 19 Nov) */
-.dec-bar{position:absolute;left:50%;bottom:calc(var(--nav-h-desk,3.15rem) + var(--cc-h-desk,4.9rem) + 10px);transform:translateX(-50%);z-index:28;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:94%;pointer-events:auto}
-.dec-bar button{cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:4.4rem;padding:.35rem .45rem .4rem;background:rgba(10,14,24,.9);border:1px solid #3a4460;border-radius:.45rem;color:#cfc8ba;font:500 .78rem/1.2 var(--sans,system-ui)}
-.dec-bar button b{font:700 1.15rem/1 Georgia,serif;color:#ece6da}
-.dec-bar button span{font:400 .68rem/1.2 var(--sans,system-ui);color:#9a9382;white-space:nowrap}
+.dec-bar{position:absolute;left:50%;bottom:56px;transform:translateX(-50%);z-index:28;display:flex;gap:6px;flex-wrap:nowrap;justify-content:center;align-items:stretch;width:min(96%, 1080px);max-width:96%;pointer-events:auto;box-sizing:border-box}
+.dec-bar button{cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex:1 1 0;min-width:0;padding:.3rem .25rem .32rem;background:rgba(10,14,24,.9);border:1px solid #3a4460;border-radius:.45rem;color:#cfc8ba;font:500 .72rem/1.15 var(--sans,system-ui)}
+.dec-bar button b{font:700 1.05rem/1 Georgia,serif;color:#ece6da}
+.dec-bar button span{font:400 .6rem/1.15 var(--sans,system-ui);color:#9a9382;white-space:normal;text-align:center}
 .dec-bar button.on{border-color:var(--accent,#f0b35a);box-shadow:0 0 0 1px var(--accent,#f0b35a);color:#ece6da}
 .dec-bar button.on b{color:#f0b35a}
 .dec-bar button:hover,.dec-bar button:focus-visible{border-color:var(--accent,#f0b35a)}
-body.v3-cc-off .dec-bar,body.v3-talk .dec-bar{bottom:calc(var(--nav-h-desk,3.15rem) + 10px)}
+body.v3-cc-off .dec-bar,body.v3-talk .dec-bar{bottom:56px}
 @media (max-width:860px),(max-height:500px){
-  .dec-bar{bottom:calc(var(--nav-h,38px) + var(--cc-h,36px) + 6px);gap:5px}
-  .dec-bar button{min-width:3.2rem;padding:.28rem .3rem}
+  .dec-bar{bottom:44px;gap:4px;flex-wrap:wrap;width:96%}
+  .dec-bar button{min-width:3.2rem;flex:1 1 auto;padding:.28rem .3rem}
   .dec-bar button b{font-size:1rem}
   .dec-bar button span{font-size:.58rem}
 }

@@ -618,15 +618,17 @@ addEventListener('load', () => setTimeout(() => {
     { w: AX, f: [.5, .76], vh: 0.05, sym: 1.6, rot: A7 },                // the stick, close, its ground level
     { w: [-400, -R * .5], f: [.5, .55], vh: R * 1.45, sym: .45, rot: 0 }, // the slice down to the centre (low, so the stick and well have room above)
     { w: [0, 0], f: [.5, .53], vh: R * 2.45, sym: .35, rot: 0 },         // the whole Earth
-    { w: [0, 0], f: [.5, .53], vh: R * 2.45, sym: .35, rot: 0 }          // 50 slices
+    { w: [0, 0], f: [.5, .53], vh: R * 2.45, sym: .35, rot: 0 },         // 50 slices
+    { w: [0, 0], f: [.5, .53], vh: R * 2.45, sym: .35, rot: 0 }          // intro: the Library, same wide Earth
   ];
   const WORDS = [
-    ['Syene, about 240 BC: noon on the longest day of the year', 'The Sun shines straight down the well.'],
-    ['Same Noon, 500 Miles North: Alexandria', 'Here a stick’s shadow shows the sunlight 7.2° from straight up.'],
-    ['Measure the shadow', 'The sunlight comes in 7.2° from straight up.'],
-    ['Eureka: the angle at the center is also 7.2°', 'Parallel sunlight, so the two angles match. 500 miles of ground is 7.2° of the circle.'],
-    ['360° ÷ 7.2° = 50', '7.2° is one fiftieth of the whole circle.'],
-    ['50 × 500 miles = 25,000 miles', 'The size of the Earth, from one shadow.']
+    ['Syene, noon on the longest day', 'The Sun shines straight down a well. There is no shadow.'],
+    ['Alexandria, the same noon', 'A shadow of about 7°: one-fiftieth of a circle.'],
+    ['Measure the shadow', 'The sunlight comes in about 7° from straight up.'],
+    ['Eureka: the angle at the center is also about 7°', 'Parallel sunlight, so the two angles match.'],
+    ['360° ÷ 7.2° = 50', 'About 7° is one-fiftieth of the whole circle.'],
+    ['Fifty times the distance', 'That gives the size of the Earth.'],
+    ['Eratosthenes of Alexandria', 'He ran the great Library, around 240 BC.']
   ];
   const NC = KEY.length; let from = KEY[0], to = KEY[0], t0 = 0, step = 0, stepT = 0, cam = { ...KEY[0] };
   const lerp = (a, b, t) => a + (b - a) * t, ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -726,7 +728,7 @@ addEventListener('load', () => setTimeout(() => {
     label(cap, w / 2, h * .92, Math.max(20, Math.min(32, w * .024)), '#f0b35a', 'center', wa);
   };
   requestAnimationFrame(frame);
-  const EMAP = [0, 1, 3, 4, 5], EN = EMAP.length; // the stick close-up (camera beat 2) is cut; its 7.2° now shows on the both-cities view
+  const EMAP = [6, 0, 1, 5], EN = EMAP.length; // intro (Library), Syene well, Alexandria ~7° / one-fiftieth, then fifty times the distance; estimate + reveal follow (Jeff, 19 Nov)
   V3.steps(el, EN + S.length - 1, k => { if (k < EN) { cv.style.display = 'block'; svgEl.style.display = 'none'; goCam(EMAP[k]); } else { cv.style.display = 'none'; svgEl.style.display = 'block'; shown = false; g.innerHTML = `<g class="er-in">${S[k - EN]()}</g>`; } });
   const st = document.createElement('style'); st.textContent = '.er-fig{padding:1rem 1.5rem!important}.er-in{animation:erIn .5s ease}@keyframes erIn{from{opacity:0}to{opacity:1}}'; document.head.appendChild(st);
 }, 0));
@@ -1108,16 +1110,15 @@ addEventListener('load', () => setTimeout(() => {
   const MX = LON * 20037508.34 / 180, MY = Math.log(Math.tan((90 + LAT) * D / 2)) * 6378137, HW = 60, HH = 40; // a 120 × 80 m window around the tree, in Web Mercator meters
   const nys = new Image(); nys.crossOrigin = 'anonymous';
   const loadNys = () => { if (!nys.src) nys.src = `https://orthos.its.ny.gov/arcgis/rest/services/wms/2020/MapServer/export?bbox=${MX - HW},${MY - HH},${MX + HW},${MY + HH}&bboxSR=3857&imageSR=3857&size=2400,1600&format=jpg&f=image`; };
-  const CELL = ['about 111 km', 'about 11 km', 'about 1.1 km', 'about 110 m', 'about 11 m', 'about 1.1 m', 'about 11 cm'];
+  const CELL = ['111 km', '11 km', '1.1 km', '110 m', '11 m', '1.1 m', '11 cm'];
   const EVERY = ['a state', 'a city', 'a neighborhood', 'a block', 'a house', 'a person', 'a fingertip'];
   const st = el.querySelector('.stage'); if (st && getComputedStyle(st).position === 'static') st.style.position = 'relative';
   const bar = document.createElement('div'); bar.className = 'dec-bar'; bar.setAttribute('role', 'tablist'); bar.setAttribute('aria-label', 'Decimal places');
   bar.innerHTML = [0,1,2,3,4,5,6].map(i => `<button type="button" data-d="${i}" aria-pressed="false"><b>${i}</b><span>${CELL[i]} · ${EVERY[i]}</span></button>`).join('');
-  if (st) st.appendChild(bar);
   const paintBtns = () => bar.querySelectorAll('button').forEach(b => { const on = +b.dataset.d === d; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
   const set = dd => { d = Math.max(0, Math.min(6, dd)); pressT = performance.now(); pre(d); pre(Math.min(6, d + 1)); if (d >= 3) loadNys(); paintBtns(); };
   bar.addEventListener('click', e => { const b = e.target.closest('button[data-d]'); if (b) set(+b.dataset.d); });
-  z = want(0); paintBtns();
+  z = want(0);
   addEventListener('keydown', e => { if (!el.classList.contains('active') || (e.key !== 'ArrowUp' && e.key !== 'ArrowDown')) return; e.preventDefault(); e.stopImmediatePropagation(); set(d + (e.key === 'ArrowUp' ? 1 : -1)); }, true);
   V3.scene(el, 1, (S, ctx, now) => {
     z += (want(d) - z) * .06;
@@ -1138,10 +1139,12 @@ addEventListener('load', () => setTimeout(() => {
     const fmt = v => v.toFixed(d);
     ctx.save(); ctx.fillStyle = 'rgba(8,12,22,.82)'; ctx.beginPath(); ctx.roundRect(400, 30, 800, 150, 16); ctx.fill(); ctx.restore();
     S.text(`${fmt(LAT)}, ${fmt(LON)}`, 800, 82, 56, '#f0b35a', 'center', 1, 600);
-    S.text(`${d} decimal place${d === 1 ? '' : 's'}  ·  ${CELL[d]}  ·  ${EVERY[d]}`, 800, 148, 30, '#cfc8ba');
+    S.text(`${d} decimal place${d === 1 ? '' : 's'}  ·  about ${CELL[d]}  ·  ${EVERY[d]}`, 800, 148, 30, '#cfc8ba');
     S.text(close > .5 && nys.naturalWidth ? 'Rockefeller Center tree · imagery: NYS GIS Program Office, 2020' : 'Rockefeller Center tree · imagery © Esri, Maxar, Earthstar Geographics', 1570, 215, 17, '#cfc8ba', 'right');
   });
   const cv = el.querySelector('canvas'); if (cv) cv.addEventListener('click', e => { const r = cv.getBoundingClientRect(); set(d + (e.clientY - r.top < r.height / 2 ? 1 : -1)); });
+  if (st) { bar.style.display = 'flex'; st.appendChild(bar); }
+  paintBtns();
 }, 0));
 
 /* ---------- Appendix: the star day (23 h 56 m) and the Sun day (24 h) ---------- */
