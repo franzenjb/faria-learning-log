@@ -466,7 +466,7 @@ addEventListener('load', () => setTimeout(() => {
   // the Controls button lives in the left rail; the list opens in the left panel, which pushes the slide over instead of covering it
   document.body.classList.add('v3-touch');
   const shell = document.getElementById('shell'), lside = document.getElementById('lside'), lsTog = document.getElementById('ls-tog');
-  const tg = document.createElement('button'); tg.id = 'v3-ctl'; tg.title = 'Controls (K)'; tg.setAttribute('aria-label', 'Controls'); tg.textContent = '1·2';
+  const tg = document.createElement('button'); tg.id = 'v3-ctl'; tg.title = 'Controls (K)'; tg.setAttribute('aria-label', 'Controls'); tg.innerHTML = '1·2<span class="rail-label">Controls</span>';
   let opened = false; const setKeys = on => { document.body.classList.toggle('v3-keys-on', on); tg.classList.toggle('on', on);
     };
   let manualOff = false; try { manualOff = localStorage.getItem('v3-keys-off') === '1'; } catch (e) {}

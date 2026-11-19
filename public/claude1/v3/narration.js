@@ -1,0 +1,444 @@
+// Spoken narration + matching captions for every beat.
+// There is no ElevenLabs/OpenAI key on this machine, so playback uses
+// the browser's speechSynthesis. If an MP3 later appears at
+// audio/s{slide}_{beat}.mp3 (or audio/{slug}_b{beat}.mp3), that file is used instead.
+(function () {
+  const TALK = /[?&]talk=30\b/.test(location.search) || /[?&]talk=/.test(location.search);
+  if (TALK) document.body.classList.add('v3-talk');
+
+  const norm = t => (t || '').replace(/&amp;/g, '&').replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim();
+
+  // Scripts keyed by normalized slide title. Each string is one beat, 2–4 spoken sentences.
+  // Written for the ear: no URLs or symbols, numbers in words or natural speech.
+  const SCRIPTS = {
+    'Cover': [
+      'Welcome. This is a course in measurement, mapping, and disaster decisions for the American Red Cross. Every pin you drop on a map is two numbers: latitude and longitude. These stories are how we learned to get both of them right.'
+    ],
+    'Scilly, 1707': [
+      'October 22nd, 1707. Admiral Sir Cloudesley Shovell is bringing the British fleet home from the Mediterranean. Days of storm and cloud have hidden the Sun and the stars, so the ships cannot check where they are.',
+      'The navigators compare their reckonings. They agree they are safe, heading into the English Channel. They believed they were here.',
+      'They were wrong. They were farther north, heading straight for the Isles of Scilly — that name is pronounced Silly — off the tip of Cornwall.',
+      'That night, in the dark and the rain, the flagship Association hits the Western Rocks. Eagle, Romney, and Firebrand follow her. Four ships go down. About fourteen hundred to two thousand men are lost, Shovell among them. They knew their latitude. They did not know their longitude.',
+      'Every pin we drop at a disaster is those same two numbers. Tonight is the story of how we learned to get both of them right.'
+    ],
+    'Mental maps': [
+      'Before the history, a quick test of the map in your head. Vote, then we will reveal the real places on the globe. Hold on to that feeling if you are surprised. The rest of the course is how we learned to know where things really are.'
+    ],
+    'Latitude & Longitude': [
+      'Latitude and longitude are the two numbers that name a place. Latitude is the easy one: zero at the Equator, ninety at the Pole. Longitude lines run pole to pole. Later we will lay a bingo card on the globe: latitude calls the row, longitude calls the column. Two calls, one square. Drag the globe to turn it. The numbered buttons at the lower left switch layers on and off.'
+    ],
+    'Walk north': [
+      'Your latitude is the angle of the pole star above the horizon. Walk north, and Polaris climbs. At the Equator it sits on the horizon, at zero degrees. At the North Pole it stands straight overhead, at ninety. That is why the altitude of Polaris equals your latitude, after a small correction, because Polaris is not exactly on the pole. By day, sailors used the noon Sun and a printed table. South of the Equator there is no pole star; they used the Southern Cross.'
+    ],
+    'Fist and knuckle': [
+      'You already have a protractor: your hand. Held out at arm\'s length, a fist is about ten degrees of sky, and a knuckle is about two. To find Washington, about thirty-nine degrees north, you would stack about four fists under Polaris. It is rough, but it is how a sailor could check a number in the dark.'
+    ],
+    'The pole star wanders': [
+      'The pole star was not always Polaris. The Earth\'s axis slowly wobbles, a motion called precession, once around in about twenty-six thousand years. Two thousand years ago, the pole star sat about twelve degrees from the true pole. In our century the offset is only about seven-tenths of a degree. Navigators applied a correction. The sky is not a fixed ceiling.'
+    ],
+    'The quadrant': [
+      'To measure that angle, sailors and astronomers used a quadrant, a quarter-circle marked in degrees, and later a sextant, a sixth of a circle. From Ptolemy to Tycho Brahe to Hadley, the tool changes, but the idea is the same: measure the height of a star or the Sun, and you have your latitude.'
+    ],
+    'Power decides the measure': [
+      'Even a mile is a human choice. Different countries once used different miles, and the nautical mile was later tied to the Earth itself: one minute of latitude, one sixtieth of a degree, is one nautical mile, about six thousand seventy-six feet. Who decides the measure? The people who need to agree.'
+    ],
+    'Eratosthenes': [
+      'Syene, about 240 BC, on the longest day of the year. At noon the Sun shines straight down a well. There is no shadow.',
+      'Five hundred miles north, at the same noon, a stick in Alexandria casts a shadow. The sunlight comes in 7.2 degrees from straight up.',
+      'Eureka: because the Sun\'s rays are parallel, that 7.2 degrees is also the angle at the center of the Earth between the two cities. Five hundred miles of ground is 7.2 degrees of the whole circle.',
+      'A full circle is 360 degrees. 360 divided by 7.2 is fifty. So the path between the cities is one fiftieth of the whole Earth.',
+      'Fifty times five hundred miles is twenty-five thousand miles. The size of the Earth, from one shadow and a paced distance.',
+      'How close did he get? Make a guess at today\'s figure before we reveal it.',
+      'Today, from satellites, the meridians measure about twenty-four thousand nine hundred and one miles. With a stick, a shadow, and a paced distance, he was already almost there.'
+    ],
+    'Hours are slices': [
+      'Here is the Earth, turning. The ground under your feet is riding a sphere that spins once a day.',
+      'Look straight down on the North Pole. The whole world is a clock face, turning underneath you.',
+      'Idea one: every circle has 360 degrees. Watch the gold ring count them.',
+      'Idea two: every day has 24 hours. The blue ring is a clock. Noon faces the Sun. Midnight faces away.',
+      'Now put them together. Watch Greenwich go once around. One turn of the Earth is one day, so 360 degrees takes 24 hours. Read them off together: 90 degrees is 6 hours; 180 degrees is 12 hours.',
+      'Divide 360 by 24, and you get 15. One hour of time is 15 degrees of longitude. That single fact is the bridge from a clock to a place on the map.'
+    ],
+    'Two ships, one latitude': [
+      'Before 1883, every town kept its own time. Watch the noon line cross the country: every flash is a town setting its clocks to its own noon. Hundreds of towns, hundreds of different times.',
+      'Four American cities, west to east: Fresno, Denver, Memphis, Philadelphia. Fresno sits near 120 degrees west.',
+      'Noon in Philadelphia: the Sun is at its highest, and Philadelphia sets its clock to 12.',
+      'Same moment, now in degrees. Philadelphia is 75 west, Memphis 90, Denver 105, Fresno 120. Each hour earlier is 15 degrees farther west. Press D to flip between clock times and degrees.',
+      'But stand in Denver. You know your own noon. What time is it in Philadelphia right now? Without that, you cannot say how far west you are.',
+      'In 1883 the railroads drew United States time zones on exactly these lines: 120, 105, 90, and 75 west. Pacific, Mountain, Central, Eastern. A sailor has the same problem as Denver: he knows his own noon, and he needs home time.'
+    ],
+    'The Longitude Act, 1714': [
+      'Seven years after the wreck at Scilly, Parliament acts. The Longitude Act of 1714 offers twenty thousand pounds — about five million dollars today — to anyone who can find longitude at sea.',
+      'Three prizes, by accuracy. Within one degree, about sixty nautical miles at the Equator: ten thousand pounds. Within two-thirds of a degree: fifteen thousand. Within half a degree, about thirty nautical miles: the full twenty thousand. The test is a voyage to the West Indies, about six weeks, and you must say where you are.',
+      'Two rivals chase the prize. The astronomers bet on the Moon. A country carpenter, John Harrison, bets on a clock.',
+      'The judges are Newton, Halley, and the Astronomers Royal. The challenger is a self-taught carpenter with no university, no Royal Society, and no credentials.'
+    ],
+    "Galileo's clock": [
+      '1609. Galileo hears of a Dutch spyglass, builds his own, about twenty times, and turns it on the night sky.',
+      'January 1610, Jupiter. Little stars beside it change places night by night. Watch his notebook fill in. They are moons going round Jupiter, the first ever found beyond our own.',
+      'So not everything circles the Earth. Moons around another world are evidence for Copernicus, and they get Galileo into trouble with the Church.',
+      'And they keep time. Io, pronounced Eye-oh, slips into Jupiter\'s shadow every 42 and a half hours, and everyone on Earth who is looking sees it vanish at the same instant. A clock in the sky.',
+      'On land it works: a long telescope on a stand, a pendulum clock beside it. By 1668, Cassini\'s tables let map makers redraw whole countries.',
+      'Watch France. From 1679, Picard and La Hire fix longitudes along the coast by timing Io. The west coast moves east by about one and a half degrees. The real France is smaller. Louis the Fourteenth is said to have complained that his astronomers took more of France than his enemies ever did.',
+      'At sea, it fails. You cannot hold a moon of Jupiter in the eyepiece on a rolling deck, and a pendulum clock cannot keep time on the waves.',
+      'So in 1707, longitude at sea is still a guess. Remember Scilly.'
+    ],
+    'Light needs time': [
+      'An aside, because it surprised everyone. Paris, 1676. Ole Rømer, say it ROH-mer, times Io against Cassini\'s table. With the Earth on Jupiter\'s side of the Sun, the eclipse arrives on time.',
+      'Months later the Earth is on the far side, and the eclipse runs late. Io is on time. The light is late: it has to cross the whole orbit. Rømer\'s own figure was about 22 minutes to cross Earth\'s orbit. The modern value is about 16.7 minutes, or about 8 minutes 19 seconds from the Sun to us. It took two people. Christiaan Huygens, say it HIGH-genz, turned Rømer\'s delay into the first number for the speed of light, about 212,000 kilometers per second, in his 1690 Treatise on Light. That is about two-thirds of the true value.'
+    ],
+    'The lunar distance': [
+      'Way two, the astronomers\' bet: the Moon is a clock hand. Against the stars it moves about its own width every hour, and everyone on Earth sees the same thing. The idea was old, from 1514, but it only worked at sea after the prize: Hadley\'s octant in 1731, and good Moon tables in 1755 from Mayer, published in Maskelyne\'s Almanac. Maskelyne is pronounced MASK-uh-lin.',
+      'Now do it on a rolling deck. The Moon moves about 30 minutes of arc in an hour, and one hour is 15 degrees of longitude, or 900 nautical miles at the Equator. So one minute of arc wrong in the sighting is about 30 nautical miles of longitude. Then you still have an hour of arithmetic by candlelight. That 30 miles is not the same as one minute of latitude, which is one nautical mile.'
+    ],
+    'Pendulum at sea': [
+      '1656, The Hague. Christiaan Huygens invents the pendulum clock, the best timekeeper on Earth, good to seconds a day. In the 1660s his clocks go to sea on English ships. The ship rolls, and the roll throws the swing off, fast, then slow. The error piles up. A few minutes of error is hundreds of miles. The best clock on land is useless on water. A pendulum needs a still room, and a ship is never still.'
+    ],
+    'A clock that could travel': [
+      'John Harrison, born 1693 in Yorkshire, a village carpenter, never schooled in science. His first clocks are made of wood. He says he can build a clock that will keep time at sea.',
+      'H1, in 1735, is about 72 pounds of brass. On a trial to Lisbon it works. Harrison is not satisfied. H2 and H3 take him many more years; H3 alone takes about 19 years. They give us the bimetal strip and the caged ball bearing, both still in use. Still too big.',
+      'H4, in 1759, looks like a giant pocket watch, five inches across. Here is the dial, and here is the movement inside it. In 1761 it sails to Jamaica, 81 days at sea.',
+      'It is off by about five seconds. That is about a mile and a quarter of longitude, or about 0.0208 of a degree. The prize asked for half a degree. Half a degree divided by 0.0208 is about 24, so H4 was about 24 times better than required. The Board keeps moving the finish line. In 1773, at 80, with the King on his side, Harrison is finally paid. Nobody ever collected the full 20,000 pounds. Harrison got about 18,750, in pieces.'
+    ],
+    'Washington, 1884': [
+      'October 1884, Washington. Forty-one delegates from twenty-five nations meet to choose a single zero of longitude. Nature picks the Equator. Power picks zero.',
+      'Here they are on the steps. The photograph is the room where the world agreed, or tried to agree, on a starting line.',
+      'They choose Greenwich. East is plus, west is minus. It takes two meridians to cut the world east from west: Greenwich, and the 180 degree line behind it, because one meridian is only half a circle. France abstains, and its maps kept counting from Paris for a long time. Civil time in France is a different story: in 1911 France adopted Greenwich-based time, written as Paris mean time minus 9 minutes 21 seconds.'
+    ],
+    'The date line': [
+      'The date line is not a perfect meridian. It is a negotiation. Cross 180 degrees and the date changes, but the line bends so whole countries can share a day. Alaska, sold to the United States in 1867, switches to America\'s date, and Friday happens twice. Kiribati, in 1995, puts all its islands on one day. Samoa, in 2011, jumps to its trading partners\' day, and Friday the 30th never happens. American Samoa, about 80 miles away, stays put. Same hour on the clock, a full day apart.'
+    ],
+    'Was 1900 a leap year?': [
+      'The calendar itself has a longitude problem. A Gregorian leap year is every four years, except most century years. 1900 was not a leap year; 2000 was, because it is divisible by 400. Get the calendar wrong, and a clock that is perfect will still read the wrong day. Dates, like meridians, are rules people agreed to follow.'
+    ],
+    'Where am I, now': [
+      'Today: GPS, a sky full of clocks. The first test satellite went up in 1978. The full system was declared ready in 1995. About 31 satellites, 12,550 miles up, each going around twice a day.',
+      'Each satellite carries an atomic clock and broadcasts: this is the time, this is where I am. Your phone times how long each signal took to arrive. Travel time times the speed of light is a distance. Light travels about one foot in a billionth of a second.',
+      'Anywhere, any time, four satellites pin you down. The next time Field Maps drops a pin on a family that needs a cot tonight, remember: the stars gave us latitude, Harrison\'s clock gave us longitude, and a sky full of clocks answered Admiral Shovell\'s question in under a second.'
+    ],
+    'Decimal places': [
+      'On a digital map, every extra decimal place in a latitude or longitude buys you a smaller patch of ground. The first decimal is about 11 kilometers. Two decimals, about a kilometer. Three, about a hundred meters. Four, about 11 meters. Five, about a meter. Six, about 11 centimeters. How many you keep should match the decision you are making, not the number of digits the GPS is willing to print.'
+    ],
+    'Sidereal day': [
+      'Noon: the Sun is straight overhead, and a far star lines up with it.',
+      'One full turn later, 360 degrees, the star is back overhead. That takes 23 hours and 56 minutes. That is a sidereal day, a day by the stars. The Sun is not back yet.',
+      'The Earth has also moved along its orbit, so it must turn about one more degree, about four minutes, before the Sun is overhead again. Noon to noon is 24 hours. The star day and the Sun day are not the same length, and that extra four minutes is why we have a calendar of seasons as well as a clock.'
+    ],
+    'Null Island': [
+      'Zero degrees latitude, zero degrees longitude: open ocean in the Gulf of Guinea, off Africa, and one weather buoy. There is no island here.',
+      'But it is the busiest spot in our databases. Every failed geocode, every blank cell, every GPS left off, lands right here at 0, 0. A dot at Null Island is not a place. It is a failure that looks like a location. Filter it out before you trust the map.'
+    ],
+    'Which system': [
+      'One shelter in Tampa, written 27.9506 degrees north, 82.4572 degrees west.',
+      'The same place can be written in different systems: degrees minutes seconds, decimal degrees, or a grid like UTM. Same ground, different numbers.',
+      'Use the right numbers in the wrong system and you miss. Read a UTM coordinate in zone 17 as if it were zone 16, and the point jumps about 365 miles west, into the Gulf. Always name the system with the numbers.'
+    ],
+    'Errors grow': [
+      'A small error at the start of a voyage grows with distance. A compass off by a few degrees, or a clock off by a few minutes, puts you miles from where you think you are.',
+      'Harrison needed four seconds to equal about one nautical mile of longitude at the Equator, because 15 degrees in 24 hours is 15 times 3,600 seconds, or 54,000 seconds for 900 nautical miles, which is four seconds per mile.',
+      'Today a billionth of a second is about one foot of light-travel. The lesson is the same: if time is your measuring stick, a tiny time error is a place error, and it grows as you go.'
+    ],
+    'Image gallery': [
+      'This gallery is a set of pictures behind the stories: the clocks, the observatory, the maps, and the people. Tap an image to open it. One of them is the red time ball at the Royal Observatory, Greenwich, in use since 1833. Every day it is raised just before one, and it drops at exactly 1 PM, so captains on the Thames could set their chronometers to Greenwich time before sailing, and at sea compare that home time with local noon to find longitude. Why 1 PM? At noon the astronomers were busy timing the Sun.'
+    ],
+    'Light needs time, again': [
+      'Back to Paris, 1676. Ole Rømer is timing the eclipses of Io. On the near side of Earth\'s orbit, the eclipse arrives on time.',
+      'On the far side, the news is late. Io is on time; the light is late. Rømer\'s own figure was about 22 minutes to cross the orbit. The modern value is about 16.7 minutes. Huygens, in 1690, turned that delay into about 212,000 kilometers per second, around two-thirds of the true speed of light.'
+    ],
+    "Jupiter's moons": [
+      'Day two begins in January 1610. Galileo turns a telescope on Jupiter and sees three small stars in a line. The next night they have moved. Soon there are four. They are not stars. They are moons, going around Jupiter, each keeping strict time. That makes Jupiter a clock that anyone on Earth can read, if the deck will hold still.'
+    ],
+    'Thumb to the Moon': [
+      'Hold out your thumb, and you can measure the Moon. The idea is a simple angle: the Moon\'s apparent size in the sky, times its distance, gives its diameter. A small angle, a large distance, a surprising size. This is the same ladder of sine and tangent we still use on a map.'
+    ],
+    'Moon mountains': [
+      'Galileo also pointed the telescope at the Moon. It is not a perfect sphere. Mountains and craters throw long shadows near the terminator, the line between day and night. By timing those shadows he estimated the height of lunar mountains. The heavens were not a polished crystal after all.'
+    ],
+    'Baselines': [
+      'To measure the Earth carefully, you start with a baseline you can actually pace or rod out, then build triangles from it. The thumb trick is the same idea at arm\'s length: one known length, two angles, and the far side is fixed. From a courtyard to a kingdom, triangulation is how a short stick becomes a long map.'
+    ],
+    'Picard measures France': [
+      'In 1669, Jean Picard measures a baseline with wooden rods, laid end to end along the road from Villejuif to Juvisy, about seven miles. Then he stops measuring distances. From each end he sights a church tower and measures the angle. One side and two angles fix the triangle, and the far side becomes the next baseline. Thirteen triangles later, he gets one degree of latitude: 57,060 toises, about 69 miles.'
+    ],
+    'Picard and the meter': [
+      'Picard\'s degree was a seed of the metric system. A century later, the meter was meant to be one ten-millionth of the distance from the Equator to the Pole, along a meridian. To fix that length, surveyors had to measure a meridian the way Picard had, with baselines and triangles. A unit of length, born from the size of the Earth.'
+    ],
+    'Kepler to Halley': [
+      'Kepler gives us the shape of a planet\'s path, but not its true size. Horrocks, and later Halley, see that a transit of Venus — when Venus crosses the Sun\'s face — can be timed from far-apart places on Earth. The difference in timing is a parallax, and that parallax can turn Kepler\'s scale into miles. Halley, in 1716, writes the invitation. The whole world is asked to watch.'
+    ],
+    'Transit of Venus': [
+      'The transits of 1761 and 1769 are a global campaign. Observers sail to the edges of the map to time Venus on the Sun. The numbers are messy, the weather is cruel, and still a solar-system scale comes into view. Captain Cook\'s first voyage is, among other things, a trip to time that crossing at Tahiti.'
+    ],
+    'Cook': [
+      'Harrison\'s clock also goes to sea with Cook. A copy, K1, built by Larcum Kendall, sails on the second voyage. Cook praises it as his faithful guide. The carpenter\'s idea, in a navigator\'s hands, turns a prize problem into a daily practice: carry home time, compare it with local noon, and read your longitude.'
+    ],
+    'Mason & Dixon': [
+      'Charles Mason and Jeremiah Dixon are sent to America to survey a line of latitude, the boundary between Pennsylvania and Maryland. They bring the best instruments of their age, and they run a line that later becomes famous as the Mason-Dixon line. It is a reminder that latitude is an angle you can actually cut into the ground, if you are careful enough.'
+    ],
+    'Gaia galaxy': [
+      'The same two questions — what is the angle, and how far away is it — now reach across the Galaxy. The European Space Agency\'s Gaia mission measures tiny angles to more than a billion stars, again and again, and turns those angles into a three-dimensional map. The ladder that began with a stick and a well now reaches the Milky Way.'
+    ],
+    'Flat maps lie': [
+      'Every flat map is a compromise. You cannot peel an orange and lay the skin down without stretching or tearing it. That is why Greenland looks huge on a Mercator map, and why a globe still tells the truth about size and direction. In a later appendix we will watch that idea up close: a flat map, a globe, gores, Mercator, and Greenland sliding down to the Equator.'
+    ],
+    'One degree more': [
+      'One extra degree of turning is about four minutes of time, the difference between the star day and the Sun day. It is a small number that adds up over a year, and it is why the seasons keep pace with the calendar. A degree is not only a mark on a protractor. It is a slice of a turning world.'
+    ],
+    'Columbus chart': [
+      'Ptolemy, about AD 150, put zero longitude in the Fortunate Isles, the Canaries, at the western edge of the known world. In 1474, Toscanelli draws a chart on which Japan sits in the middle of the Atlantic. In 1492 Columbus sails west from the Canaries, from that zero. Zero was a choice. People put it at the edge of what they knew.'
+    ],
+    'The end': [
+      'Stop here. Thank you. Questions are welcome. Everything after this is the appendix, only if you want to go further.'
+    ],
+    'Ptolemy': [
+      'About AD 150, Ptolemy\'s Geography lists about 8,000 places by two numbers. Latitude is close. Longitude is estimated, with zero out in the Canary Islands. Remember the Canaries: they will return when the world has to pick a zero again.',
+      'The grid is an idea as much as a measurement. Once you name a place with two numbers, anyone else can find it, even if the numbers are still a little wrong.'
+    ],
+    'At sea, it fails': [
+      'At sea, the Jupiter-moon method fails. You cannot hold a moon of Jupiter in the eyepiece on a rolling deck, and a pendulum clock cannot keep time on the waves.',
+      'So in 1707, longitude at sea is still a guess. Remember Scilly. Seven years later, Parliament offers a prize for solving it.'
+    ]
+  };
+
+  // speech-only pronunciation, captions keep the original script
+  const SAY = [
+    [/Rømer/g, 'Rer-mer'],
+    [/Huygens/g, 'High-genz'],
+    [/Maskelyne/g, 'MAS-kuh-lin'],
+    [/Eratosthenes/g, 'Era-TOSS-thuh-neez'],
+    [/Scilly/g, 'Silly'],
+    [/Io([\'s]|\b)/g, 'Eye-oh$1'],
+    [/Ptolemy/g, 'TOLL-uh-mee'],
+    [/Pytheas/g, 'PITH-ee-us'],
+    [/Kiribati/g, 'Keer-ih-bass'],
+    [/Gaia/g, 'GUY-uh'],
+    [/Picard/g, 'Pih-CAR'],
+    [/Hipparchus/g, 'Hip-PAR-kus'],
+    [/Cloudesley/g, 'CLOUDS-lee'],
+    [/Shovell/g, 'SHOV-ul'],
+    [/Toscanelli/g, 'Tos-kah-NELL-ee']
+  ];
+  const spoken = s => SAY.reduce((t, [a, b]) => t.replace(a, b), s);
+
+  const slug = t => norm(t).toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+  const audio = document.createElement('audio');
+  audio.id = 'v3-audio';
+  audio.preload = 'none';
+  document.documentElement.appendChild(audio);
+
+  const cc = document.createElement('div');
+  cc.id = 'v3-cc';
+  cc.setAttribute('aria-live', 'polite');
+  const speakBtn = document.createElement('button');
+  speakBtn.id = 'v3-speak-btn';
+  speakBtn.type = 'button';
+  speakBtn.title = 'Narration, mute or unmute (M). Pause or resume with B.';
+  speakBtn.setAttribute('aria-label', 'Mute or unmute narration');
+  const cap = document.createElement('div');
+  cap.className = 'v3-cc-text';
+  cc.appendChild(speakBtn);
+  cc.appendChild(cap);
+
+  const state = {
+    title: '', beat: 0, text: '', muted: false, paused: false,
+    unlocked: false, mode: 'speech', speaking: false
+  };
+  try { state.muted = localStorage.getItem('v3-narrate-mute') === '1'; } catch (e) {}
+  if (TALK) state.muted = true; // presenting URL stays silent
+
+  let utt = null;
+  const stopVoice = () => { try { speechSynthesis.cancel(); } catch (e) {} utt = null; state.speaking = false; };
+  const stopAudio = () => { try { audio.pause(); audio.removeAttribute('src'); audio.load(); } catch (e) {} };
+
+  const setBtn = () => {
+    if (state.muted) { speakBtn.textContent = '✕'; speakBtn.dataset.state = 'muted'; speakBtn.title = 'Narration muted (M to unmute)'; }
+    else if (state.paused) { speakBtn.textContent = '▶'; speakBtn.dataset.state = 'paused'; speakBtn.title = 'Narration paused (B to resume)'; }
+    else { speakBtn.textContent = '🔊'; speakBtn.dataset.state = 'on'; speakBtn.title = 'Narration on (M to mute, B to pause)'; }
+  };
+  setBtn();
+
+  const pickVoice = () => {
+    const vs = speechSynthesis.getVoices() || [];
+    return vs.find(v => /en-US/i.test(v.lang) && /Google|Natural|Jenny|Samantha|Aria|Guy|neural/i.test(v.name))
+      || vs.find(v => /en-US/i.test(v.lang))
+      || vs.find(v => /^en/i.test(v.lang))
+      || null;
+  };
+
+  const mp3For = (title, beat) => {
+    const s = slug(title);
+    return [`v3/audio/${s}_b${beat}.mp3`, `v3/audio/s_${s}_${beat}.mp3`];
+  };
+
+  // No pre-generated MP3s are shipped (no TTS API key). If files are added later
+  // at v3/audio/{slug}_b{beat}.mp3, list them in window.V3_NARRATION_MP3.
+  const findMp3 = (title, beat) => {
+    const urls = mp3For(title, beat);
+    const listed = (window.V3_NARRATION_MP3 || []);
+    const hit = urls.find(u => listed.includes(u));
+    return Promise.resolve(hit || null);
+  };
+
+  const showCaption = text => {
+    cap.textContent = text || '';
+    cc.classList.toggle('talk-off', TALK || !text);
+  };
+
+  const playSpeech = text => {
+    stopVoice();
+    const u = new SpeechSynthesisUtterance(spoken(text));
+    u.rate = 0.98; u.pitch = 1; u.lang = 'en-US';
+    const v = pickVoice(); if (v) u.voice = v;
+    u.onend = () => { if (utt === u) { state.speaking = false; utt = null; } };
+    u.onerror = () => { if (utt === u) { state.speaking = false; utt = null; } };
+    utt = u; state.speaking = true; state.mode = 'speech';
+    speechSynthesis.speak(u);
+  };
+
+  const unlock = () => {
+    if (state.unlocked) return;
+    state.unlocked = true;
+    try {
+      const warm = new SpeechSynthesisUtterance(' ');
+      warm.volume = 0; speechSynthesis.speak(warm); speechSynthesis.cancel();
+    } catch (e) {}
+    try { audio.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA='; audio.play().catch(() => {}); } catch (e) {}
+  };
+
+  const play = (title, beat, reason) => {
+    const t = norm(title);
+    const lines = SCRIPTS[t] || SCRIPTS[t.replace("'", '’')] || SCRIPTS[t.replace('’', "'")] || [];
+    const text = lines[Math.min(beat, Math.max(0, lines.length - 1))] || lines[0] || '';
+    state.title = t; state.beat = beat; state.text = text; state.paused = false;
+    showCaption(TALK ? '' : text);
+    window.v3Narration = state;
+    document.body.dataset.v3Title = t;
+    document.body.dataset.v3Beat = String(beat);
+    document.body.dataset.v3Mode = state.mode;
+    if (!text) { stopVoice(); stopAudio(); return; }
+    if (TALK || state.muted || !state.unlocked) { stopVoice(); stopAudio(); setBtn(); return; }
+    findMp3(t, beat).then(url => {
+      if (state.title !== t || state.beat !== beat) return;
+      stopVoice(); stopAudio();
+      if (url) {
+        state.mode = 'mp3';
+        audio.src = url;
+        document.body.dataset.v3Src = url;
+        document.body.dataset.v3Mode = 'mp3';
+        audio.play().catch(() => playSpeech(text));
+      } else {
+        document.body.dataset.v3Src = '';
+        document.body.dataset.v3Mode = 'speech';
+        playSpeech(text);
+      }
+      setBtn();
+    });
+    setBtn();
+  };
+
+  const toggleMute = () => {
+    if (TALK) return;
+    unlock();
+    state.muted = !state.muted;
+    try { localStorage.setItem('v3-narrate-mute', state.muted ? '1' : '0'); } catch (e) {}
+    if (state.muted) { stopVoice(); stopAudio(); state.paused = false; }
+    else play(state.title || currentTitle(), state.beat || 0, 'unmute');
+    setBtn();
+  };
+
+  const togglePause = () => {
+    if (TALK || state.muted) return;
+    unlock();
+    if (state.mode === 'mp3' && audio.src) {
+      if (audio.paused) { audio.play().catch(() => {}); state.paused = false; }
+      else { audio.pause(); state.paused = true; }
+    } else if (state.paused) {
+      // speechSynthesis resume is flaky; replay the beat
+      state.paused = false; play(state.title, state.beat, 'resume');
+    } else if (state.speaking) {
+      try { speechSynthesis.cancel(); } catch (e) {}
+      state.paused = true; state.speaking = false;
+    }
+    setBtn();
+  };
+
+  const currentTitle = () => {
+    const el = document.querySelector('#deck .slide.active') || document.querySelector('.slide.active');
+    return el ? el.dataset.title : '';
+  };
+
+  speakBtn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); unlock(); toggleMute(); });
+
+  addEventListener('keydown', e => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.target && e.target.matches && e.target.matches('input,textarea')) return;
+    const help = document.getElementById('v3-help');
+    if (help && !help.hidden) return; // the modal handles its own keys
+    const k = e.key.toLowerCase();
+    if (k === 'm') { e.preventDefault(); e.stopImmediatePropagation(); toggleMute(); }
+    else if (k === 'b') { e.preventDefault(); e.stopImmediatePropagation(); togglePause(); }
+  }, true);
+
+  // Hook V3.steps before slide inits run on load, so every beat fires a play().
+  const hookSteps = () => {
+    if (typeof V3 === 'undefined' || typeof V3.steps !== 'function' || V3.steps._narrHooked) return false;
+    const orig = V3.steps;
+    V3.steps = function (el, n, onStep) {
+      return orig.call(this, el, n, function (k, entering) {
+        onStep(k, entering);
+        const title = (el && el.dataset && el.dataset.title) || currentTitle();
+        play(title, k, entering ? 'enter' : 'step');
+      });
+    };
+    V3.steps._narrHooked = true;
+    return true;
+  };
+  hookSteps();
+
+  // Fallback: if a slide has no step engine, narrate beat 0 when it becomes active.
+  const last = { title: '', t: 0 };
+  const onSlide = () => {
+    const title = currentTitle();
+    if (!title) return;
+    const n = norm(title);
+    if (n === last.title && (performance.now() - last.t) < 400) return;
+    // if a steps hook just fired, skip the duplicate enter
+    if (norm(state.title) === n && (performance.now() - last.t) < 400) { last.title = n; return; }
+    last.title = n; last.t = performance.now();
+    // wait a tick so V3.steps enter (k=0) can win
+    setTimeout(() => {
+      if (norm(state.title) === n && (performance.now() - last.t) < 50) return;
+      if (norm(currentTitle()) !== n) return;
+      if (norm(state.title) === n && state.beat !== 0 && document.querySelector('.slide.active')) {
+        // a steps hook already set a beat for this slide
+        return;
+      }
+      if (norm(state.title) !== n) play(n, 0, 'slide');
+    }, 60);
+  };
+
+  addEventListener('load', () => {
+    hookSteps();
+    const visual = document.getElementById('visual') || document.body;
+    visual.appendChild(cc);
+    const deck = document.getElementById('deck');
+    if (deck) new MutationObserver(onSlide).observe(deck, { attributes: true, attributeFilter: ['class'], subtree: true });
+    speechSynthesis.getVoices();
+    speechSynthesis.addEventListener('voiceschanged', () => {});
+    const ok = document.getElementById('v3-help-ok');
+    if (ok) ok.addEventListener('click', () => { unlock(); const t = currentTitle(); play(t, state.title === norm(t) ? state.beat : 0, 'start'); }, true);
+    const help = document.getElementById('v3-help');
+    if (help && help.hidden && !TALK) {
+      // returning visitor: unlock on first gesture, then play
+      const once = () => { unlock(); play(currentTitle(), state.beat || 0, 'gesture'); };
+      addEventListener('pointerdown', once, { once: true, capture: true });
+      addEventListener('keydown', once, { once: true, capture: true });
+    }
+    onSlide();
+  });
+
+  window.v3Narration = state;
+  window.v3NarrationPlay = play;
+  window.v3NarrationScripts = SCRIPTS;
+})();

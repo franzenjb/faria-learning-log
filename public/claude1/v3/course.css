@@ -316,3 +316,33 @@ body.v3-touch .nav .arrows button{opacity:.9;font-size:20px;padding:.5rem 1.1rem
 .gal-cap b{font-weight:400;font-size:clamp(24px,3vw,48px);color:#f0b35a}
 .gal-cap span{font-size:clamp(18px,2vw,32px)}
 .gal-full small{position:absolute;right:1%;top:1%;max-width:60%;text-align:right;font:13px Georgia,serif;color:rgba(236,230,218,.7)}
+
+/* Left-rail labels: always visible, unobtrusive, sit just to the right of the icons */
+#shell:not(.ls-open) #lside{overflow:visible;z-index:35}
+#ls-tog{position:relative}
+.rail-label{position:absolute;left:calc(2.6rem + 5px);top:50%;transform:translateY(-50%);background:rgba(17,23,39,.94);color:#cfc8ba;border:1px solid var(--line);font:500 11px/1 var(--sans,system-ui);letter-spacing:.01em;padding:.28rem .48rem;border-radius:.25rem;white-space:nowrap;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,.4);opacity:.9}
+#shell.ls-open .rail-label{display:none}
+#v3-ctl{position:absolute}
+
+/* First-visit help modal + corner ? button */
+#v3-help-btn{position:absolute;right:.7rem;top:.7rem;z-index:45;width:2rem;height:2rem;border-radius:50%;border:1px solid var(--line);background:rgba(17,23,39,.88);color:var(--muted);font:600 1rem/1 var(--serif);cursor:pointer;display:grid;place-items:center;box-shadow:0 2px 10px rgba(0,0,0,.35);opacity:.7}
+#v3-help-btn:hover,#v3-help-btn:focus{opacity:1;color:var(--accent);border-color:var(--accent)}
+#v3-help{position:fixed;inset:0;z-index:80;background:rgba(6,8,14,.72);display:grid;place-items:center;padding:1.5rem}
+#v3-help[hidden]{display:none}
+.v3-help-card{width:min(34rem,100%);background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:.6rem;padding:1.5rem 1.7rem 1.4rem;box-shadow:0 18px 50px rgba(0,0,0,.55);font-family:var(--sans)}
+.v3-help-card h2{margin:0 0 1rem;font:600 1.45rem/1.2 var(--serif);color:var(--ink)}
+.v3-help-card p{margin:0 0 .85rem;font-size:1.02rem;line-height:1.5;color:#d8d1c3}
+.v3-help-card p b{color:var(--ink);font-weight:600}
+#v3-help-ok{display:block;margin:1.15rem 0 0 auto;border:0;cursor:pointer;background:var(--accent);color:#1a1206;font:600 1rem var(--serif);padding:.55rem 1.15rem;border-radius:.4rem}
+#v3-help-ok:hover,#v3-help-ok:focus{filter:brightness(1.08)}
+
+/* Narration captions and speaker control */
+#v3-cc{position:absolute;left:0;right:0;bottom:3.15rem;z-index:36;display:flex;align-items:flex-end;gap:.6rem;padding:0 1rem .35rem 4.2rem;pointer-events:none;background:linear-gradient(0deg,rgba(8,11,20,.88),rgba(8,11,20,0));}
+#v3-cc.talk-off,#v3-cc:empty{display:none}
+#v3-cc .v3-cc-text{flex:1;min-width:0;font:400 1.02rem/1.35 var(--serif);color:#ece6da;text-shadow:0 1px 8px rgba(0,0,0,.85);max-height:4.6rem;overflow:hidden}
+#v3-speak-btn{pointer-events:auto;flex:none;width:2.1rem;height:2.1rem;border-radius:50%;border:1px solid var(--line);background:rgba(17,23,39,.9);color:var(--ink);cursor:pointer;display:grid;place-items:center;font:600 .95rem/1 var(--sans);opacity:.85}
+#v3-speak-btn:hover,#v3-speak-btn:focus{opacity:1;border-color:var(--accent);color:var(--accent)}
+#v3-speak-btn[data-state="muted"]{color:var(--muted)}
+#v3-speak-btn[data-state="paused"]{color:var(--accent)}
+#v3-help-btn{right:.7rem}
+body.v3-talk #v3-cc,body.v3-talk #v3-speak-btn{display:none}
