@@ -348,3 +348,15 @@ body.v3-touch .nav .arrows button{opacity:.9;font-size:20px;padding:.5rem 1.1rem
 #v3-speak-btn[data-state="paused"]{color:var(--accent)}
 #v3-help-btn{right:.7rem}
 body.v3-talk #v3-cc,body.v3-talk #v3-speak-btn{display:none}
+
+/* Appendix: projection chips + Greenland replay, and Moon-mountain controls / width card */
+.mw-bar,.mm-ctl{position:absolute;z-index:9;display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;pointer-events:auto;font:500 12px/1.2 var(--sans,system-ui)}
+.mw-bar{left:5.5rem;right:5.5rem;top:7.45rem;max-width:none;justify-content:center}
+.mw-bar button,.mm-ctl button{border:1px solid var(--line,#283048);background:rgba(17,23,39,.88);color:#cfc8ba;border-radius:999px;padding:.28rem .7rem;cursor:pointer;font:inherit;text-transform:none}
+.mw-bar button.on,.mm-ctl button.on,.mw-bar button:hover,.mm-ctl button:hover{border-color:var(--accent,#f0b35a);color:#ece6da;background:rgba(42,51,80,.95)}
+.mw-bar button.mw-replay{border-radius:.3rem;color:#f0b35a}
+.mm-ctl{left:1.1rem;bottom:9.2rem;right:auto;flex-direction:column;align-items:flex-start;gap:.45rem;max-width:20rem;color:#cfc8ba;background:rgba(8,12,22,.92);border:1px solid rgba(40,48,72,.95);border-radius:10px;padding:.55rem .7rem .65rem}
+.mm-ctl label{display:block;width:18rem;font:500 12px/1.3 var(--sans,system-ui)}
+.mm-ctl label span{display:flex;justify-content:space-between;gap:.6rem;margin-bottom:.15rem}
+.mm-ctl input[type=range]{width:100%;accent-color:#f0b35a}
+.slide.v3-scene .card.gloss.mm-width{left:50%;right:auto;bottom:auto;top:52%;transform:translate(-50%,-50%);width:min(720px,86%);max-height:calc(100% - 8rem);z-index:12}
