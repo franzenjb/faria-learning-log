@@ -25,7 +25,7 @@
     ],
     'Latitude & Longitude': [
       'Latitude is the easy one. Zero at the Equator, ninety at the Poles. The parallels run east and west, like the rungs of a ladder around the Earth.',
-      'Longitude lines run pole to pole. They are called meridians. Zero is at Greenwich. That zero was a choice, not a fact of nature.',
+      'Longitude lines run pole to pole. They are called meridians. Zero is at Greenwich. That zero was a choice, not a fact of nature. The paradox: meridians run north to south, but they tell you how far east or west you are. Parallels run east to west, but they tell you how far north or south.',
       'Put both together and you have a grid. Two numbers name any place on Earth: how far north or south, and how far east or west.',
       'Now lay a bingo card on the globe. Latitude calls the row. Longitude calls the column. Two calls, one square, and everyone finds the same place. Same place, two ways to write it: sailors used degrees, minutes, and seconds; computers and GPS use decimals, and the minus sign stands in for south and west.'
     ],
@@ -260,6 +260,8 @@
 
   // speech-only pronunciation, captions keep the original script
   const SAY = [
+    [/\brows\b/g, 'roes'],
+    [/\brow\b/g, 'roe'],
     [/Rømer/g, 'Rohmer'],
     [/Huygens/g, 'Highgenz'],
     [/Maskelyne/g, 'Maskelin'],

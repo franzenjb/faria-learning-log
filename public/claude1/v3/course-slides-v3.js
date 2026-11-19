@@ -143,7 +143,7 @@ addEventListener('load', () => setTimeout(() => {
   if (!el || typeof V3 === 'undefined' || typeof V3.steps !== 'function') return;
   const HEROS = [
     '<b>Latitude</b>: 0° at the Equator, 90° at the Poles. The parallels run east and west.',
-    '<b>Longitude</b> lines run pole to pole. Zero is at Greenwich.',
+    '<b>The paradox:</b> meridians run north to south, but they tell you how far east or west you are. Parallels run east to west, but they tell you how far north or south.',
     'Two numbers name any place: <b>latitude</b> and <b>longitude</b>.',
     '<b>Latitude</b> calls the row, <b>longitude</b> calls the column. Two calls, one square.'
   ];
@@ -441,7 +441,7 @@ NEW_SLIDES['Scilly, 1707'] = {
       W = w.World;
       // Teams-size type, Title Case headlines, none of the film deck's own controls
       const css = w.document.createElement('style');
-      css.textContent = '#ui,#progbar,#notes,#overview,#help{display:none!important} .tbox .l{font-size:calc(var(--u)*3)!important;max-width:calc(var(--u)*70)!important;color:#e8e4dc!important} .lab{font-size:calc(var(--u)*1.7)!important} .lab.big{font-size:calc(var(--u)*2.1)!important} .tbox.bigl .l{font-size:calc(var(--u)*3.9)!important;max-width:calc(var(--u)*84)!important;line-height:1.15!important}'
+      css.textContent = '#ui,#progbar,#notes,#overview,#help{display:none!important} .tbox .l{font-size:calc(var(--u)*3)!important;max-width:calc(var(--u)*70)!important;color:#e8e4dc!important} .lab{font-size:calc(var(--u)*1.7)!important} .lab.big{font-size:calc(var(--u)*2.1)!important} .tbox.bigl .l{font-size:calc(var(--u)*3.9)!important;max-width:calc(var(--u)*84)!important;line-height:1.15!important}' + ' html,body,#gl,#blank{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important}'
         + ' .tbox>*{transition-duration:.45s!important} .tbox .l{transition-delay:.12s!important} .lab{transition:opacity .4s ease!important}'
         + " .tbox.goldh .h{color:#f0b35a!important} .lab.hl{font-size:calc(var(--u)*6.4)!important;letter-spacing:-.012em!important} .lab.hl.side-b span{top:-.55em!important} .lab.hl.side-t span{top:.15em!important}"; // map words as big as the old headline // words land on the key press, not seconds later
       w.document.head.appendChild(css);
@@ -471,7 +471,10 @@ NEW_SLIDES['Scilly, 1707'] = {
             const hb = h(u.x + fx, u.z + fz, T), hs = h(u.x - fx, u.z - fz, T), hp = h(u.x + px, u.z + pz, T), hq = h(u.x - px, u.z - pz, T);
             s.position.set(u.x, (hb + hs + hp + hq) / 4 * .85 - .4, u.z); s.rotation.order = 'YZX'; s.rotation.set(0, 0, 0); s.rotation.y = u.yaw; s.rotation.z = Math.atan2(hb - hs, u.L * .8) * .8; s.rotation.x = -Math.atan2(hp - hq, u.B) * .8; }); }; } } catch (e) { console.warn('fleet', e); }
       const step = W.step.bind(W); W.step = dt => { if (run) step(dt); }; // rest the GPU while the slide is not showing
-      run = el.classList.contains('active'); go(k, 'init'); f.style.opacity = 1; };
+      run = el.classList.contains('active'); go(k, 'init'); f.style.opacity = 1;
+      const fit = () => { try { W.size(); if (W.cur && W.draw) W.draw(); } catch (e) {} };
+      try { if (w.ResizeObserver) new w.ResizeObserver(fit).observe(w.document.documentElement); } catch (e) {}
+      requestAnimationFrame(fit); };
       hook(); });
     new MutationObserver(() => { run = el.classList.contains('active'); }).observe(el, { attributes: true, attributeFilter: ['class'] });
     V3.steps(el, IDS.length - 1, i => { const how = i > k && IDS[i] !== 'believed' ? 'fly' : 'cut'; k = i; go(i, how); }); // the map arrives on the key press, no slow flight

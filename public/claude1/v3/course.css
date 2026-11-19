@@ -391,7 +391,11 @@ body.v3-talk #v3-cc,body.v3-talk #v3-cc-btn,body.v3-talk #audio-tog,body.v3-talk
   #visual{height:100%!important;overflow:hidden!important;border:0!important}
   #visual .deck{position:absolute!important;left:0;right:0;top:0;bottom:calc(var(--nav-h) + var(--cc-h));height:auto!important}
   body.v3-talk #visual .deck{bottom:var(--nav-h)}
-  #visual .slide{position:absolute!important;inset:0;display:grid;grid-template-rows:minmax(0,1fr)!important;grid-template-columns:1fr!important;padding-bottom:0!important;height:auto!important;min-height:0!important}
+  /* Inactive slides must not stay in the layer tree: iOS Safari can composite a
+     stacked opacity:0 slide (the gallery's solid #0a0e18 panel, a dark canvas)
+     as a black rectangle over the visible slide. (Jeff, 19 Nov, iPhone portrait) */
+  #visual .slide{position:absolute!important;inset:0;display:none!important;visibility:hidden;grid-template-rows:minmax(0,1fr)!important;grid-template-columns:1fr!important;padding-bottom:0!important;height:auto!important;min-height:0!important}
+  #visual .slide.active{display:grid!important;visibility:visible}
   body.v3-panel #visual .slide:not(.cover):not(.wide){grid-template-columns:minmax(150px,12rem) 1fr!important}
   #visual .slide .stage{position:relative;height:100%;min-height:0!important}
   #visual .stage svg.fig,#visual .stage canvas.fig{position:absolute!important;inset:0;height:100%!important}
@@ -437,6 +441,8 @@ body.v3-talk #v3-cc,body.v3-talk #v3-cc-btn,body.v3-talk #audio-tog,body.v3-talk
 /* upright phones: room for more caption lines; the projection chips run along the bottom instead */
 @media (orientation:portrait) and (max-width:500px){
   :root{--cc-h:72px}
+  /* sit above the numbered layer chips, not under them */
+  .v3-hero{padding:.35em .9rem;text-align:center;font-size:15px;line-height:1.25;bottom:7.4rem}
   #v3-cc .v3-cc-text{max-height:5.2em!important}
   #visual .nav{gap:.4rem}
   #visual .nav .arrows{display:flex;flex-wrap:nowrap;flex:none}

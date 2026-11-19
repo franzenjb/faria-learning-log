@@ -51,7 +51,7 @@ window.V3_NARRATION_MP3 = [
   },
   {
     "file": "v3/audio/latitude-and-longitude_b1.mp3",
-    "textHash": "982baf4db4b7972b3251d1f6a5bc0b9235f417041d3a1574831e028715d98fd7",
+    "textHash": "da94b896572f7e3ddf386798d810a95111160714cd1f5d399e6a7f88ff773898",
     "title": "Latitude & Longitude",
     "beat": 1
   },
@@ -63,7 +63,7 @@ window.V3_NARRATION_MP3 = [
   },
   {
     "file": "v3/audio/latitude-and-longitude_b3.mp3",
-    "textHash": "1d8d15c4bb0895af98a8e024a3e1861a05553d6fb8566320c39d00b7dd8059cf",
+    "textHash": "af70080dcc7bcc7cbda3e027e5678fb2e323bed14caaf0b91652d0af3d8a448a",
     "title": "Latitude & Longitude",
     "beat": 3
   },
