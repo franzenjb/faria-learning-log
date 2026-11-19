@@ -328,7 +328,7 @@ NEW_SLIDES['Three ways'] = {
     const W = [['1', 'The Moon', 'an hour of math, easy to get wrong', '#ff7d6f', '✗', 'The lunar distance'], ['2', 'Jupiter’s Moon Io', 'fine on land, useless at sea', '#ff7d6f', '✗', 'Galileo’s clock'], ['3', 'The Chronometer', 'carries home time across the ocean', '#6fd48a', '✓', 'A clock that could travel']];
     const say = ['Every place has its own noon.', 'Your noon is easy: the Sun is highest.', 'What time is it back home right now?', 'The gap is your longitude.', 'Three ways to carry home time out to sea:', '', '', ''];
     const sub = ['', 'Anywhere, any day.', 'Nobody on the ship can see it.', 'Each hour is 15 degrees.', '', '', '', ''];
-    const pts = ['Each place has its own noon', 'Your noon: easy', 'Home time: the hard part', 'The gap is your longitude', 'Way 1: the Moon', 'Way 2: Jupiter’s moon Io', 'Way 3: the chronometer'];
+    const pts = ['Each place has its own noon', 'Your noon: easy', 'Home time: the hard part', 'The gap is your longitude', 'The Moon', 'Jupiter’s moon Io', 'The chronometer'];
     let step = 0, t0 = 0;
     let tk = ''; for (let i = 0; i < 24; i++) { const a = i * 15 * Math.PI / 180; tk += `<line x1="${300 + 140 * Math.cos(a)}" y1="${230 + 140 * Math.sin(a)}" x2="${300 + 150 * Math.cos(a)}" y2="${230 + 150 * Math.sin(a)}" stroke="#cfc8ba" stroke-width="${i % 6 ? 1.5 : 3}"/>`; } CS.$(el, '#tw-ticks').innerHTML = tk;
     const show = () => {
@@ -361,7 +361,7 @@ NEW_SLIDES['Galileo’s clock'] = {
   ctl: `<div class="chips" id="gs-steps">${['Two Clocks', 'Galileo', 'Io’s Eclipses', 'Set by Noon', 'Eureka', 'The Table'].map((s, i) => `<button data-s="${i}">${i + 1} · ${s}</button>`).join('')}</div>
   <div class="btns"><button id="gs-back">Back</button><button class="primary" id="gs-next">Next Step</button></div>
   <div class="readout" id="gc-r"></div>
-  <div class="btns"><button id="gc-ship">Now Try It from a Ship</button><button class="detour" data-detour="Jupiter's moons" data-label="Way 2: Jupiter’s Moon Io">Detour: Who Was Galileo?</button></div>`,
+  <div class="btns"><button id="gc-ship">Now Try It from a Ship</button><button class="detour" data-detour="Jupiter's moons" data-label="Jupiter’s Moon Io">Detour: Who Was Galileo?</button></div>`,
   fig: `<g id="gs-all">
   <text id="gs-h" x="500" y="54" text-anchor="middle" class="lg"></text>
   <text id="gs-s" x="500" y="92" text-anchor="middle" class="sm mu"></text>

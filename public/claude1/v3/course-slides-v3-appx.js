@@ -34,14 +34,8 @@ const V3_APPX_CTX = {
 };
 
 addEventListener('load', () => setTimeout(() => {
-  for (const [t, line] of Object.entries(V3_APPX_CTX)) {
-    const el = (typeof v3Find === 'function') ? v3Find(t) : [...document.querySelectorAll('section')].find(s => s.dataset.title === t);
-    if (!el) continue;
-    const st = el.querySelector('.stage'); if (!st) continue;
-    if (getComputedStyle(st).position === 'static') st.style.position = 'relative';
-    if (el.querySelector('.v3-appx-ctx')) continue;
-    const d = document.createElement('div'); d.className = 'v3-appx-ctx'; d.textContent = line; st.appendChild(d);
-  }
+  // EDIT 24 (Jeff, 19 Nov): do not draw the small 'Appendix · …' context line; it overlapped headlines.
+  document.querySelectorAll('.v3-appx-ctx').forEach(el => el.remove());
   const gal = (typeof v3Find === 'function') ? v3Find('Image gallery') : null;
   if (gal) {
     const h2 = gal.querySelector('.gal h2');

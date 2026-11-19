@@ -16,7 +16,7 @@
     'Scilly, 1707': [
       'October 22nd, 1707. Admiral Sir Cloudesley Shovell is bringing the British fleet home from the Mediterranean. Days of storm and cloud have hidden the Sun and the stars, so the ships cannot check where they are.',
       'The navigators compare their reckonings. They agree they are safe, heading into the English Channel. They believed they were here.',
-      'They were wrong. They were farther north, heading straight for the Isles of Scilly — that name is pronounced Silly — off the tip of Cornwall.',
+      'They were wrong. They were farther north, heading straight for the Isles of Scilly, off the tip of Cornwall.',
       'That night, in the dark and the rain, the flagship Association hits the Western Rocks. Eagle, Romney, and Firebrand follow her. Four ships go down. About fourteen hundred to two thousand men are lost, Shovell among them. They knew their latitude. They did not know their longitude.',
       'Every pin we drop at a disaster is those same two numbers. This is the story of how we learned to get both of them right.'
     ],
@@ -27,7 +27,7 @@
       'Latitude is the easy one. Zero at the Equator, ninety at the Poles. The parallels run east and west, like the rungs of a ladder around the Earth.',
       'Longitude lines run pole to pole. They are called meridians. Zero is at Greenwich. That zero was a choice, not a fact of nature.',
       'Put both together and you have a grid. Two numbers name any place on Earth: how far north or south, and how far east or west.',
-      'Now lay a bingo card on the globe. Latitude calls the row. Longitude calls the column. Two calls, one square, and everyone finds the same place.'
+      'Now lay a bingo card on the globe. Latitude calls the row. Longitude calls the column. Two calls, one square, and everyone finds the same place. Same place, two ways to write it: sailors used degrees, minutes, and seconds; computers and GPS use decimals, and the minus sign stands in for south and west.'
     ],
     'Walk north': [
       'Here you are, on the Earth. The star over the north pole is Polaris. Your latitude is the angle of that star above the horizon.',
@@ -53,14 +53,14 @@
       'Five hundred miles north, at the same noon, a stick in Alexandria casts a shadow. The sunlight comes in 7.2 degrees from straight up.',
       'Eureka: because the Sun\'s rays are parallel, that 7.2 degrees is also the angle at the center of the Earth between the two cities. Five hundred miles of ground is 7.2 degrees of the whole circle.',
       'A full circle is 360 degrees. 360 divided by 7.2 is fifty. So the path between the cities is one fiftieth of the whole Earth.',
-      'Fifty times five hundred miles is twenty-five thousand miles. The size of the Earth, from one shadow and a paced distance.',
-      'How close did he get? Make a guess at today\'s figure before we reveal it.',
-      'Today, from satellites, the meridians measure about twenty-four thousand nine hundred and one miles. With a stick, a shadow, and a paced distance, he was already almost there.'
+      'Fifty times five hundred miles is his estimate: about 250,000 stadia, roughly 24,000 to 29,000 miles, depending on the length of a stadion.',
+      'That is the size of the Earth from one shadow and a paced distance. Pause here, and guess today\'s figure.',
+      'Today, from satellites, the meridians measure 24,901 miles. With a stick, a shadow, and a paced distance, he was already almost there.'
     ],
     'Hours are slices': [
       'Here is the Earth, turning. The ground under your feet is riding a sphere that spins once a day.',
       'Look straight down on the North Pole. The whole world is a clock face, turning underneath you.',
-      'Idea one: every circle has 360 degrees. Watch the gold ring count them.',
+      'Idea one: every circle has 360 degrees.',
       'Idea two: every day has 24 hours. The blue ring is a clock. Noon faces the Sun. Midnight faces away.',
       'Now put them together. Watch Greenwich go once around. One turn of the Earth is one day, so 360 degrees takes 24 hours. Read them off together: 90 degrees is 6 hours; 180 degrees is 12 hours.',
       'Divide 360 by 24, and you get 15. One hour of time is 15 degrees of longitude. That single fact is the bridge from a clock to a place on the map.'
@@ -69,13 +69,13 @@
       'Before 1883, every town kept its own time. Watch the noon line cross the country: every flash is a town setting its clocks to its own noon. Hundreds of towns, hundreds of different times.',
       'Four American cities, west to east: Fresno, Denver, Memphis, Philadelphia. Fresno sits near 120 degrees west.',
       'Noon in Philadelphia: the Sun is at its highest, and Philadelphia sets its clock to 12.',
-      'Same moment, now in degrees. Philadelphia is 75 west, Memphis 90, Denver 105, Fresno 120. Each hour earlier is 15 degrees farther west. Press D to flip between clock times and degrees.',
+      'Same moment, now in degrees. Philadelphia is 75 west, Memphis 90, Denver 105, Fresno 120. Each hour earlier is 15 degrees farther west.',
       'But stand in Denver. You know your own noon. What time is it in Philadelphia right now? Without that, you cannot say how far west you are.',
       'In 1883 the railroads drew United States time zones on exactly these lines: 120, 105, 90, and 75 west. Pacific, Mountain, Central, Eastern. A sailor has the same problem as Denver: he knows his own noon, and he needs home time.'
     ],
     'The Longitude Act, 1714': [
       'Seven years after the wreck at Scilly, Parliament acts. The Longitude Act of 1714 offers twenty thousand pounds — about five million dollars today — to anyone who can find longitude at sea.',
-      'Three prizes, by accuracy. Within one degree, about sixty nautical miles at the Equator: ten thousand pounds. Within two-thirds of a degree: fifteen thousand. Within half a degree, about thirty nautical miles: the full twenty thousand. The test is a voyage to the West Indies, about six weeks, and you must say where you are.',
+      'The closer you got, the bigger the prize, up to twenty thousand pounds. The test is a voyage to the West Indies, about six weeks, and you must say where you are.',
       'Two rivals chase the prize. The astronomers bet on the Moon. A country carpenter, John Harrison, bets on a clock.',
       'The judges are Newton, Halley, and the Astronomers Royal. The challenger is a self-taught carpenter with no university, no Royal Society, and no credentials.'
     ],
@@ -83,19 +83,18 @@
       '1609. Galileo hears of a Dutch spyglass, builds his own, about twenty times, and turns it on the night sky.',
       'January 1610, Jupiter. Little stars beside it change places night by night. Watch his notebook fill in. They are moons going round Jupiter, the first ever found beyond our own.',
       'So not everything circles the Earth. Moons around another world are evidence for Copernicus, and they get Galileo into trouble with the Church.',
-      'And they keep time. Io, pronounced Eye-oh, slips into Jupiter\'s shadow every 42 and a half hours, and everyone on Earth who is looking sees it vanish at the same instant. A clock in the sky.',
+      'And they keep time. Io slips into Jupiter\'s shadow every 42 and a half hours, and everyone on Earth who is looking sees it vanish at the same instant. A clock in the sky. Paris, where Cassini made the tables, writes down 9 PM. Chicago, far to the west, writes down 3 PM.',
+      'Six hours: 90 degrees west. Same instant, two clocks, and the difference is longitude.',
       'On land it works: a long telescope on a stand, a pendulum clock beside it. By 1668, Cassini\'s tables let map makers redraw whole countries.',
-      'Watch France. From 1679, Picard and La Hire fix longitudes along the coast by timing Io. The west coast moves east by about one and a half degrees. The real France is smaller. Louis the Fourteenth is said to have complained that his astronomers took more of France than his enemies ever did.',
-      'At sea, it fails. You cannot hold a moon of Jupiter in the eyepiece on a rolling deck, and a pendulum clock cannot keep time on the waves.',
-      'So in 1707, longitude at sea is still a guess. Remember Scilly.'
+      'Watch France. From 1679, Picard and La Hire fix longitudes along the coast by timing Io. The west coast moves east by about one and a half degrees. The real France is smaller. Louis the Fourteenth is said to have complained that his astronomers took more of France than his enemies ever did.'
     ],
     'Light needs time': [
-      'An aside, because it surprised everyone. Paris, 1676. Ole Rømer, say it ROH-mer, times Io against Cassini\'s table. With the Earth on Jupiter\'s side of the Sun, the eclipse arrives on time.',
+      'An aside, because it surprised everyone. Paris, 1676. Ole Rømer times Io against Cassini\'s table. With the Earth on Jupiter\'s side of the Sun, the eclipse arrives on time.',
       'Months later the Earth is on the far side, and the eclipse runs late. Io is on time. The light is late: it has to cross the whole orbit. Rømer\'s own figure was about 22 minutes to cross Earth\'s orbit. The modern value is about 16.7 minutes, or about 8 minutes 19 seconds from the Sun to us.',
-      'It took two people. Christiaan Huygens, say it HIGH-genz, turned Rømer\'s delay into the first number for the speed of light, about 212,000 kilometers per second, in his 1690 Treatise on Light. That is about two-thirds of the true value.'
+      'It took two people. Christiaan Huygens turned Rømer\'s delay into the first number for the speed of light, about 212,000 kilometers per second, in his 1690 Treatise on Light. That is about two-thirds of the true value.'
     ],
     'The lunar distance': [
-      'Way two, the astronomers\' bet: the Moon is a clock hand. Against the stars it moves about its own width every hour, and everyone on Earth sees the same thing. The idea was old, from 1514, but it only worked at sea after the prize: Hadley\'s octant in 1731, and good Moon tables in 1755 from Mayer, published in Maskelyne\'s Almanac. Maskelyne is pronounced MASK-uh-lin.',
+      'This was the Board\'s favorite. It trusted a human mind: a trained navigator, a sextant, Maskelyne\'s printed tables, and about four hours of arithmetic. Harrison bet the other way, on a machine that simply carries the time.',
       'Now do it on a rolling deck. The Moon moves about 30 minutes of arc in an hour, and one hour is 15 degrees of longitude, or 900 nautical miles at the Equator. So one minute of arc wrong in the sighting is about 30 nautical miles of longitude. Then you still have an hour of arithmetic by candlelight. That 30 miles is not the same as one minute of latitude, which is one nautical mile.'
     ],
     'Pendulum at sea': [
@@ -104,16 +103,20 @@
     'A clock that could travel': [
       'John Harrison, born 1693 in Yorkshire, a village carpenter, never schooled in science. His first clocks are made of wood. He says he can build a clock that will keep time at sea.',
       'H1, in 1735, is about 72 pounds of brass. On a trial to Lisbon it works. Harrison is not satisfied. H2 and H3 take him many more years; H3 alone takes about 19 years. They give us the bimetal strip and the caged ball bearing, both still in use. Still too big.',
-      'H4, in 1759, looks like a giant pocket watch, five inches across. Here is the dial, and here is the movement inside it. In 1761 it sails to Jamaica, 81 days at sea.',
-      'It is off by about five seconds. That is about a mile and a quarter of longitude, or about 0.0208 of a degree. The prize asked for half a degree. Half a degree divided by 0.0208 is about 24, so H4 was about 24 times better than required. The Board keeps moving the finish line. In 1773, at 80, with the King on his side, Harrison is finally paid. Nobody ever collected the full 20,000 pounds. Harrison got about 18,750, in pieces.'
+      'H4, in 1759, looks like a giant pocket watch, five inches across. Here is the dial, and here is the movement inside it. In 1761 to 1762 it sails to Jamaica, eighty-one days at sea.',
+      'It looks like a big pocket watch, but inside it is a precision machine, built to beat the sea: temperature compensation for heat and cold, a fast, heavy balance that ignores the ship\'s rolling, and a spring that keeps it running while you wind it. Five seconds lost in eighty-one days at sea.'
     ],
     'Washington, 1884': [
-      'October 1884, Washington. Forty-one delegates from twenty-five nations meet to choose a single zero of longitude. Nature picks the Equator. Power picks zero.',
-      'Here they are on the steps. The photograph is the room where the world agreed, or tried to agree, on a starting line.',
-      'They choose Greenwich. East is plus, west is minus. It takes two meridians to cut the world east from west: Greenwich, and the 180 degree line behind it, because one meridian is only half a circle. France abstains. Civil time in France is one story: in 1911 France adopted Greenwich-based time, written as Paris mean time minus 9 minutes 21 seconds. The national survey is another: French maps kept counting longitude from Paris until about the end of 1999.'
+      'Before 1884, every great power had its own zero. A French chart and a British chart could give the same island different longitudes. Trade, telegraphs and railroads needed one shared answer.',
+      'October 1884, Washington. Forty-one delegates from twenty-five nations meet to choose a single zero of longitude. Here they are on the steps.',
+      'They choose Greenwich, 22 to 1. San Domingo votes against. France and Brazil abstain. About seven in ten of the world\'s ships already used Greenwich charts.',
+      'The agreement did two jobs. It gave maps and charts one shared zero of longitude. And it named Greenwich as the reference for a universal day, the starting line that time zones would later be built on. The conference did not invent time zones: American railroads had already drawn theirs in 1883, and countries adopted Greenwich-based zones over the following decades. France kept Paris time until 1911.'
     ],
     'The date line': [
-      'The date line is not a perfect meridian. It is a negotiation. Cross 180 degrees and the date changes, but the line bends so whole countries can share a day. Alaska, sold to the United States in 1867, switches to America\'s date, and Friday happens twice. Kiribati, in 1995, puts all its islands on one day. Samoa, in 2011, jumps to its trading partners\' day, and Friday the 30th never happens. American Samoa, about 80 miles away, stays put. Same hour on the clock, a full day apart.'
+      'The date line, in theory, is a straight meridian: 180 degrees, halfway around from Greenwich. Cross it, and the date changes.',
+      'In 1867 Alaska was sold to the United States and moved to America\'s date, so the line bends around the Aleutians. All of Alaska shares one day, and Friday happened twice.',
+      'In 1995 Kiribati jogged the line far to the east, so the whole country could share one day. December 31, 1994 was skipped in the islands that moved.',
+      'In December 2011, Samoa and Tokelau jumped the line to line up with Australia and New Zealand. Samoa skipped December 30. American Samoa, about 80 miles away, stayed put: same hour on the clock, a full day apart.'
     ],
     'Was 1900 a leap year?': [
       'The calendar itself has a longitude problem. A Gregorian leap year is every four years, except most century years. 1900 was not a leap year; 2000 was, because it is divisible by 400. Get the calendar wrong, and a clock that is perfect will still read the wrong day. Dates, like meridians, are rules people agreed to follow.'
@@ -124,7 +127,7 @@
       'Anywhere, any time, four satellites pin you down. The next time Field Maps drops a pin on a family that needs a cot tonight, remember: the stars gave us latitude, Harrison\'s clock gave us longitude, and a sky full of clocks answered Admiral Shovell\'s question in under a second.'
     ],
     'Decimal places': [
-      'On a digital map, every extra decimal place in a latitude or longitude buys you a smaller patch of ground. The first decimal is about 11 kilometers. Two decimals, about a kilometer. Three, about a hundred meters. Four, about 11 meters. Five, about a meter. Six, about 11 centimeters. How many you keep should match the decision you are making, not the number of digits the GPS is willing to print.'
+      'Each decimal place zooms you in ten times. Try it.'
     ],
     'Sidereal day': [
       'Noon: the Sun is straight overhead, and a far star lines up with it.',
@@ -243,7 +246,7 @@
       'And here is the Harrison problem, three hundred years later. Light travels about 30 centimeters, about one foot, in a billionth of a second — a nanosecond. A clock error of one nanosecond is a foot of error on the ground. Harrison fought for seconds. GPS fights for billionths. It is still just clocks.'
     ],
     'The end': [
-      'Stop here. Thank you. Questions are welcome. Everything after this is the appendix, only if you want to go further.'
+      'Thank you for coming along. I welcome your questions. My email is on the screen. And if you\'d like to keep exploring, the appendix continues the journey.'
     ],
     'Ptolemy': [
       'About AD 150, Ptolemy\'s Geography lists about 8,000 places by two numbers. This is the Ulm printing of 1482, with the grid already drawn. Latitude is close. Longitude is estimated.',

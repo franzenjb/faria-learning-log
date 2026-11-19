@@ -317,7 +317,7 @@ body.v3-touch .nav .arrows button{opacity:.9;font-size:20px;padding:.5rem 1.1rem
 .gal-cap b{font-weight:400;font-size:clamp(20px,2.4vw,40px);color:#f0b35a;margin-bottom:.15em}
 .gal-cap span{font-size:clamp(14px,1.55vw,24px);line-height:1.35;max-width:90%}
 .gal-full small{position:absolute;right:1%;top:1%;max-width:60%;text-align:right;font:13px Georgia,serif;color:rgba(236,230,218,.7)}
-.v3-appx-ctx{position:absolute;top:48px;right:70px;left:auto;z-index:8;max-width:40%;text-align:right;font:16px/1.3 Georgia,serif;color:#9a9382;pointer-events:none;letter-spacing:.01em;text-shadow:0 1px 2px rgba(6,9,18,.9)}
+.v3-appx-ctx{display:none!important}
 
 /* Left-rail labels: always visible, unobtrusive, sit just to the right of the icons */
 #shell:not(.ls-open) #lside{overflow:visible;z-index:35}
@@ -414,7 +414,7 @@ body.v3-talk #v3-cc,body.v3-talk #v3-cc-btn,body.v3-talk #audio-tog,body.v3-talk
   #audio-hint{left:calc(var(--rail) + 4px);top:84px}
   /* on-picture type sized for a short screen */
   #v3-help-btn{top:.4rem;right:calc(.4rem + env(safe-area-inset-right,0px));width:28px;height:28px}
-  .v3-appx-ctx{top:6px;right:40px;max-width:24%;font-size:10px;line-height:1.25}
+  .v3-appx-ctx{display:none!important}
   .v3-hero{font-size:clamp(14px,2.3vw,20px)!important;bottom:2%;padding:.3em 8% .35em}
   .v3-payoff{font-size:clamp(16px,2.6vw,24px)!important}
   #visual #v3-keys{left:8px;bottom:6px;font-size:11px}
@@ -443,7 +443,7 @@ body.v3-talk #v3-cc,body.v3-talk #v3-cc-btn,body.v3-talk #audio-tog,body.v3-talk
   body.v3-touch #visual .nav .arrows button,#visual .nav .arrows button{font-size:14px;padding:.15rem .6rem}
   #more-btn.in-nav{font-size:11px;padding:.15rem .4rem;overflow:hidden;text-overflow:ellipsis;max-width:7.5rem}
   .mw-bar{top:auto;bottom:.4rem;left:.3rem;right:.3rem;flex-direction:row;flex-wrap:wrap;justify-content:center}
-  .v3-appx-ctx{max-width:60%}
+  .v3-appx-ctx{display:none!important}
   .mm-ctl{transform:scale(.62)}
 }
 
@@ -503,4 +503,65 @@ body.v3-talk #v3-cc,body.v3-talk #v3-cc-btn,body.v3-talk #audio-tog,body.v3-talk
   #visual #v3-keys{left:8px;bottom:calc(var(--nav-h) + var(--cc-h) + 4px)!important;max-width:58%;font-size:11px;gap:3px}
   #visual #v3-keys span{padding:.15rem .45rem .15rem .3rem}
   #visual #v3-keys:not(:hover)>*:nth-child(n+7){display:none}
+}
+
+
+/* Bingo square readout: small Tufte panel, clear of the headline and caption strip (Jeff, 19 Nov) */
+#bingo-readout{position:absolute;top:3.4rem;right:16px;z-index:28;width:min(22rem,38%);padding:.7rem .85rem .8rem;background:rgba(10,14,24,.94);border:0;border-top:1px solid var(--accent,#f0b35a);color:#ece6da;pointer-events:none;text-align:left;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+#bingo-readout[hidden]{display:none!important}
+#bingo-readout .br-dms{font:600 1.05rem/1.35 Georgia,serif;color:#f0b35a}
+#bingo-readout .br-dec{font:500 1rem/1.4 ui-monospace,Menlo,monospace;color:#ece6da;margin-top:.2rem}
+#bingo-readout .br-formula{font:400 .82rem/1.4 var(--sans,system-ui);color:#9a9382;margin-top:.55rem}
+#bingo-readout .br-note{font:400 .78rem/1.35 var(--sans,system-ui);color:#cfc8ba;margin:.5rem 0 0}
+@media (min-width:861px) and (min-height:501px){
+  #bingo-readout{top:3.4rem;right:16px}
+}
+@media (max-width:860px),(max-height:500px){
+  #bingo-readout{top:2.1rem;right:8px;width:min(18rem,48%);padding:.45rem .55rem}
+  #bingo-readout .br-dms{font-size:.9rem}
+  #bingo-readout .br-dec{font-size:.82rem}
+  #bingo-readout .br-formula,#bingo-readout .br-note{font-size:.7rem}
+}
+
+
+/* End slide: questions + mailto + appendix advance (Jeff, 19 Nov) */
+.slide[data-title="The end"] .end-close{margin-top:2.2rem;display:flex;flex-direction:column;align-items:center;gap:.55rem;pointer-events:auto}
+.slide[data-title="The end"] .end-welcome{margin:0;font:500 1.35rem/1.3 var(--serif);color:#ece6da;letter-spacing:.02em;text-transform:none}
+.slide[data-title="The end"] .end-mail{margin:0}
+.slide[data-title="The end"] .end-mail a{color:var(--accent,#f0b35a);font:500 1.15rem/1.3 var(--sans);letter-spacing:.02em;text-decoration:underline;text-underline-offset:4px}
+.slide[data-title="The end"] .end-mail a:hover,.slide[data-title="The end"] .end-mail a:focus-visible{color:var(--sun,#ffd27a)}
+.slide[data-title="The end"] .end-explore{margin:.35rem 0 0;font:400 1.05rem/1.4 var(--serif);color:#cfc8ba;text-transform:none;letter-spacing:0;max-width:28rem;text-align:center}
+.slide[data-title="The end"] .appendix-btn{pointer-events:auto;cursor:pointer;font:600 1rem var(--sans);letter-spacing:.12em;text-transform:uppercase;color:#0b1a2e;background:var(--accent,#f0b35a);border:0;border-radius:999px;padding:.75em 1.7em;box-shadow:0 4px 18px rgba(0,0,0,.35)}
+.slide[data-title="The end"] .appendix-btn:hover,.slide[data-title="The end"] .appendix-btn:focus-visible{background:var(--sun,#ffd27a);outline:2px solid #fff;outline-offset:3px}
+@media (max-width:860px),(max-height:500px){
+  .slide[data-title="The end"] .end-welcome{font-size:1.05rem}
+  .slide[data-title="The end"] .end-mail a{font-size:.95rem}
+  .slide[data-title="The end"] .end-explore{font-size:.88rem}
+  .slide[data-title="The end"] .appendix-btn{font-size:.85rem;padding:.6em 1.2em;letter-spacing:.1em}
+}
+
+
+/* EDIT 23 (Jeff, 19 Nov): Moon mountains — no slider panel; beats drive Galileo then modern figures */
+.slide[data-title="Moon mountains"] .text label,
+.slide[data-title="Moon mountains"] #mtn-galileo,
+.slide[data-title="Moon mountains"] #mtn-modern,
+.slide[data-title="Moon mountains"] #mtn-width,
+.slide[data-title="Moon mountains"] #mtn-side,
+.slide[data-title="Moon mountains"] #mtn-face{display:none!important}
+
+
+/* Decimal places: clickable 0–6 chips (Jeff, 19 Nov) */
+.dec-bar{position:absolute;left:50%;bottom:calc(var(--nav-h-desk,3.15rem) + var(--cc-h-desk,4.9rem) + 10px);transform:translateX(-50%);z-index:28;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:94%;pointer-events:auto}
+.dec-bar button{cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:4.4rem;padding:.35rem .45rem .4rem;background:rgba(10,14,24,.9);border:1px solid #3a4460;border-radius:.45rem;color:#cfc8ba;font:500 .78rem/1.2 var(--sans,system-ui)}
+.dec-bar button b{font:700 1.15rem/1 Georgia,serif;color:#ece6da}
+.dec-bar button span{font:400 .68rem/1.2 var(--sans,system-ui);color:#9a9382;white-space:nowrap}
+.dec-bar button.on{border-color:var(--accent,#f0b35a);box-shadow:0 0 0 1px var(--accent,#f0b35a);color:#ece6da}
+.dec-bar button.on b{color:#f0b35a}
+.dec-bar button:hover,.dec-bar button:focus-visible{border-color:var(--accent,#f0b35a)}
+body.v3-cc-off .dec-bar,body.v3-talk .dec-bar{bottom:calc(var(--nav-h-desk,3.15rem) + 10px)}
+@media (max-width:860px),(max-height:500px){
+  .dec-bar{bottom:calc(var(--nav-h,38px) + var(--cc-h,36px) + 6px);gap:5px}
+  .dec-bar button{min-width:3.2rem;padding:.28rem .3rem}
+  .dec-bar button b{font-size:1rem}
+  .dec-bar button span{font-size:.58rem}
 }

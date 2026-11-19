@@ -110,7 +110,7 @@ const V3_TUNE = {
   'Galileo’s clock': { talk: { hide: ['[data-detour]', '#gs-steps [data-s="5"]'] } },
   'The lunar distance': { kicker: '1767 · Nevil Maskelyne’s Almanac' },
   'A clock that could travel': { h1: 'A Clock That Could Travel' },
-  'Washington, 1884': { kicker: 'Washington · October 1884', arrow: ['#pm84-ph', '#pm84-g'], talk: { hide: ['#pm84-fr'] }, hide: ['#pm84-r'], hero: 'Washington, 1884: Where Is <b>Zero Longitude</b>?' },
+  'Washington, 1884': { kicker: 'Washington · October 1884', arrow: ['#pm84-ph', '#pm84-g'], talk: { hide: ['#pm84-fr'], arrow: null }, hide: ['#pm84-r'], hero: 'Washington, 1884: Where Is <b>Zero Longitude</b>?' },
   'Where am I, now': { kicker: 'GPS' } // the GPS close is a full V3 scene now (see the end of this file)
 };
 const v3Hero = (el, html) => { let h = el.querySelector('.v3-hero'); const st = el.querySelector('.stage'); if (!st) return; if (!h) { h = document.createElement('div'); h.className = 'v3-hero'; if (getComputedStyle(st).position === 'static') st.style.position = 'relative'; st.appendChild(h); } h.innerHTML = html || ''; };
@@ -158,12 +158,11 @@ addEventListener('load', () => setTimeout(() => {
   };
   const apply = k => {
     const G = window.v3LatLonGlobe;
-    if (G && G.ensureSpin) G.ensureSpin();
     if (!G) return;
-    if (k === 0) { G.setBingo(false); G.setLayers(true, false); G.look(0, -20, 0.82); setPoles(true); }
-    else if (k === 1) { G.setBingo(false); G.setLayers(false, true); G.look(15, 0, 0.9); setPoles(false); }
-    else if (k === 2) { G.setBingo(false); G.setLayers(true, true); G.look(10, -30, 0.85); setPoles(false); }
-    else if (k === 3) { setPoles(false); G.setLayers(true, true); G.setBingo(true); }
+    if (k === 0) { G.setBingo(false); G.setLayers(true, false); G.look(0, -20, 0.82); setPoles(true); if (G.ensureSpin) G.ensureSpin(); }
+    else if (k === 1) { G.setBingo(false); G.setLayers(false, true); G.look(15, 0, 0.9); setPoles(false); if (G.ensureSpin) G.ensureSpin(); }
+    else if (k === 2) { G.setBingo(false); G.setLayers(true, true); G.look(10, -30, 0.85); setPoles(false); if (G.ensureSpin) G.ensureSpin(); }
+    else if (k === 3) { setPoles(false); G.setLayers(true, true); if (G.setSpin) G.setSpin(false); G.setBingo(true); if (G.pickBingo) G.pickBingo(2, 3); }
     if (typeof v3Hero === 'function') v3Hero(el, HEROS[k] || '');
     const HI = [['#globe-toggles [data-k="lat"]'], ['#globe-toggles [data-k="lon"]'], ['#globe-toggles [data-k="grid"]'], ['#bingo-open']];
     if (window.v3SetActiveControls) window.v3SetActiveControls(HI[k] || []);
@@ -296,7 +295,7 @@ NEW_SLIDES['Washington, 1884'] = {
   h1: 'Where should zero be?', canvas: true,
   ctl: `<div class="btns"><button id="pm84-q" style="display:none">Where Is Zero?</button>${V3.btn('pm84-ns', 'The Equator')}${V3.btn('pm84-ph', 'The Delegates')}${V3.btn('pm84-g', 'Greenwich', true)}${V3.btn('pm84-ew', 'East | West')}${V3.btn('pm84-fr', 'And Today?')}</div><div class="btns">${V3.btn('dl84-0', 'The Date Line, 180°')}${V3.btn('dl84-1', 'Alaska, 1867')}${V3.btn('dl84-2', 'Kiribati, 1995')}${V3.btn('dl84-3', 'Samoa, 2011')}</div><div class="readout" id="pm84-r"><strong>25 nations. Vote first.</strong></div>`,
   init(el) {
-    const C = [['pm84-g', 'Greenwich', 51.48, 0], ['pm84-p', 'Paris', 48.84, 2.34], ['pm84-w', 'Washington', 38.92, -77.07], ['pm84-f', 'Ferro', 27.75, -17.9]];
+    const C = [['pm84-g', 'Greenwich', 51.48, 0], ['pm84-p', 'Paris', 48.84, 2.34], ['pm84-w', 'Washington', 38.92, -77.07], ['pm84-f', 'Ferro', 27.75, -17.9], ['pm84-cadiz', 'Cádiz', 36.46, -6.21], ['pm84-pulkovo', 'Pulkovo', 59.77, 30.33]];
     let pick = null, stage = 0, t0 = 0;
     const DL = v3DL();
     let dl = -1, dlT = 0, intro = true, sp = null, spT = 0, tmp = null;
@@ -315,7 +314,7 @@ NEW_SLIDES['Washington, 1884'] = {
       C.forEach(([id, n, la, lo]) => {
         const win = stage >= 1 && n === 'Greenwich', fr = stage === 2 && n === 'Paris', dim = stage >= 1 && !win && !fr;
         g.meridian(lo, win ? '#f0b35a' : fr ? `rgba(143,176,216,${.5 + .5 * pulse})` : dim ? 'rgba(236,230,218,.12)' : (pick === id ? '#f0b35a' : 'rgba(143,176,216,.7)'), win || fr ? 3.5 : 2);
-        const q = g.dot(la, lo, win ? '#f0b35a' : '#ece6da', win ? 7 : 5); if (q && !dim && !sp) g.label(win ? 'Greenwich · 0°' : n, q.x + 12, q.y + (n === 'Paris' ? 30 : 6), win ? '#f0b35a' : '#ece6da', win ? 22 : 18);
+        const dy = { Paris: 30, Greenwich: -8, Cádiz: 22, Ferro: -14, Pulkovo: -8, Washington: 10 }; const q = g.dot(la, lo, win ? '#f0b35a' : '#ece6da', win ? 7 : 5); if (q && !dim && !sp) g.label(win ? 'Greenwich · 0°' : n, q.x + 12, q.y + (dy[n] || 6), win ? '#f0b35a' : '#ece6da', win ? 22 : 18);
       });
     }
     CS.$(el, '#pm84-q').onclick = () => { intro = !intro; v3Hero(el, intro ? V3_TUNE['Washington, 1884'].hero : 'Nature Set the Equator. Where Is <b>Zero Longitude</b>?'); };
@@ -331,6 +330,23 @@ NEW_SLIDES['Washington, 1884'] = {
     ['pm84-q', 'pm84-g', 'pm84-fr', 'pm84-ns', 'pm84-ew', ...DL.map((_, i) => 'dl84-' + i)].forEach(id => { const b = CS.$(el, '#' + id), f = b.onclick; b.onclick = e => { ph.classList.remove('on'); f && f(e); }; });
     ['pm84-q', 'pm84-g', 'pm84-fr', 'pm84-ph', ...DL.map((_, i) => 'dl84-' + i)].forEach(id => { const b = CS.$(el, '#' + id), f = b.onclick; b.onclick = e => { sp = null; f && f(e); }; });
     ['pm84-g', 'pm84-fr', 'pm84-ns', 'pm84-ew'].forEach(id => { const b = CS.$(el, '#' + id), f = b.onclick; b.onclick = e => { dl = -1; dlSync(); f && f(e); }; });
+    // EDIT 18 / 18b (Jeff, 19 Nov): first beat shows rival zeros in real use before 1884; a later beat states the two jobs of the agreement (maps, and a time reference — not the invention of time zones).
+    const ensureBtn = id => { let b = CS.$(el, '#' + id); if (!b) { b = document.createElement('button'); b.id = id; b.style.display = 'none'; (el.querySelector('.text') || el).appendChild(b); } return b; };
+    const rivalsBtn = ensureBtn('pm84-rivals'), twoBtn = ensureBtn('pm84-two');
+    const showRivals = () => { intro = false; stage = 0; sp = null; dl = -1; dlSync(); ph.classList.remove('on'); fly(G.st, camFor(40, -15, 0.78), 1200); CS.$(el, '#pm84-r').innerHTML = '<strong class="big">Many zeros</strong>'; v3Hero(el, 'Before 1884, Every Great Power Had Its Own <b>Zero</b>.'); };
+    const showTwo = () => { intro = false; stage = 1; sp = null; dl = -1; dlSync(); ph.classList.remove('on'); fly(G.st, camFor(30, 0, 0.95), 1400); CS.$(el, '#pm84-r').innerHTML = '<strong class="big">Maps, and a day</strong>'; v3Hero(el, 'One zero for maps. One reference for <b>world time</b>.'); };
+    rivalsBtn.onclick = showRivals; twoBtn.onclick = showTwo;
+    ['pm84-rivals', 'pm84-two'].forEach(id => { const b = CS.$(el, '#' + id), f = b.onclick; b.onclick = e => { ph.classList.remove('on'); sp = null; dl = -1; dlSync(); f && f(e); }; });
+    if (typeof TALK !== 'undefined' && TALK && typeof V3 !== 'undefined' && V3.steps) {
+      intro = false;
+      fly(G.st, camFor(40, -15, 0.78), 0);
+      V3.steps(el, 3, k => {
+        if (k === 0) showRivals();
+        else if (k === 1) CS.$(el, '#pm84-ph').click();
+        else if (k === 2) CS.$(el, '#pm84-g').click();
+        else if (k === 3) showTwo();
+      });
+    }
   }
 };
 
@@ -344,6 +360,8 @@ NEW_SLIDES['The date line'] = {
     const set = i => { dl = i; dlT = performance.now(); DL.forEach((_, n) => CS.$(el, '#dl-' + n).classList.toggle('on', n === i)); fly(G.st, DL[i][4], 1400); CS.$(el, '#dl-r').innerHTML = `<strong class="big">${DL[i][6]}</strong>`; v3Hero(el, DL[i][5]); };
     DL.forEach((_, i) => { CS.$(el, '#dl-' + i).onclick = () => set(i); });
     set(0);
+    // EDIT 25 (Jeff, 19 Nov): each press shows the next bend; the line is not left straight at 180° while later stories play.
+    if (typeof V3 !== 'undefined' && V3.steps) V3.steps(el, 3, k => set(k));
   }
 };
 
@@ -577,13 +595,15 @@ addEventListener('load', () => setTimeout(() => {
   const S = [
     // 5 · his answer, then the class guesses today's, then → shows it
     ...[false, true].map(show => () => { const bar = (y, w, col) => `<rect x="160" y="${y}" width="${w}" height="56" rx="8" fill="${col}"/>`, k = 500 / 25000;
-      return T('How close did he get?', 500, 70, 40) +
-        T('Eratosthenes, 240 BC', 160, 190, 30, W, 'start') + bar(210, 25000 * k, G) + T('about 25,000 miles', 160 + 25000 * k + 16, 250, 30, G, 'start') +
-        T('Today, from satellites', 160, 360, 30, W, 'start') +
+      return T(show ? 'How close did he get?' : 'His estimate', 500, 70, 40) +
+        T('Eratosthenes, 240 BC', 160, 160, 26, W, 'start') +
+        T('About 250,000 stadia', 160, 198, 34, G, 'start') +
+        bar(210, 25000 * k, G) + T('roughly 24,000 to 29,000 miles, depending on the stadion', 160, 290, 22, M, 'start') +
+        T('Today, from satellites', 160, 360, 26, W, 'start') +
         (show ? `<g class="er-in">${bar(380, 24901 * k, B)}${T('24,901 miles', 160 + 24901 * k + 16, 420, 30, B, 'start')}</g>` +
-          T('With a stick, a shadow and a paced distance.', 500, 540, 34)
-        : T('?', 160, 424, 48, B, 'start') +
-          T('Your guess?', 500, 540, 40, G)); })
+          T('With a stick, a shadow, and a paced distance, he was already almost there.', 500, 540, 28)
+        : T('—', 160, 424, 48, B, 'start') +
+          T('A pause for the guess, then the next press reveals it.', 500, 540, 28, G)); })
   ];
   const g = el.querySelector('#er');
   // ---- one continuous camera over a true-scale Earth: well → both cities → the stick's angle → the centre → the whole globe → 50 slices
@@ -877,7 +897,7 @@ addEventListener('load', () => setTimeout(() => {
   });
 }, 0));
 
-/* ---------- 10 · Way 2: the Moon is a clock hand. Time-lapse, measure, look it up, then the rolling deck ---------- */
+/* ---------- 10 · The Moon is a clock hand. Time-lapse, measure, look it up, then the rolling deck ---------- */
 addEventListener('load', () => setTimeout(() => {
   const el = v3Find('The lunar distance'); if (!el) return;
   const G = '#f0b35a', W = '#ece6da', M = '#c2bba9', RED = '#ff7d6f';
@@ -887,7 +907,7 @@ addEventListener('load', () => setTimeout(() => {
   const t12 = h => { const hh = Math.floor(((h % 24) + 24) % 24), mm = Math.round((h - Math.floor(h)) * 60) % 60; return `${hh % 12 || 12}:${String(mm).padStart(2, '0')} ${hh < 12 ? 'AM' : 'PM'}`; };
   const FIELD = Array.from({ length: 18 }, (_, i) => [300 + ((i * 397) % 1000), 260 + ((i * 211) % 260), 1 + (i % 3) * .6]);
   const WORDS = [
-    ['Way 2: The Moon Is a Clock Hand', 'An idea from 1514. It finally worked at sea in the 1760s.'],
+    ['The Moon Is a Clock Hand', 'An idea from 1514. It finally worked at sea in the 1760s.'],
     ['Now Do It on a Rolling Deck', 'One arcminute wrong = about 30 miles. Then an hour of arithmetic by candlelight.']];
   let H = 6;
   V3.scene(el, 2, (S, ctx, now) => { // 'Look It Up in the Almanac' and 'Measure the Moon–Star Distance' steps cut (Jeff, 18 Nov)
@@ -920,7 +940,7 @@ addEventListener('load', () => setTimeout(() => {
   });
 }, 0));
 
-/* ---------- 8 · Way 1: Galileo, through the eyepiece. Moon, Jupiter's moons, the eclipse clock, land vs sea, Scilly ---------- */
+/* ---------- 8 · Galileo, through the eyepiece. Moon, Jupiter's moons, the eclipse clock, land vs sea, Scilly ---------- */
 addEventListener('load', () => setTimeout(() => {
   const el = v3Find('Galileo’s clock'); if (!el) return;
   const G = '#f0b35a', W = '#ece6da', M = '#c2bba9', B = '#6fb3ff', RED = '#ff7d6f';
@@ -963,7 +983,7 @@ addEventListener('load', () => setTimeout(() => {
     if (ti > .1) MOONS.forEach(([, d], mi) => { if (opts.only != null && mi !== opts.only) return; ctx.strokeStyle = `rgba(236,230,218,${.25 * Math.min(1, ti * 2)})`; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(cx, cy, d * sc, d * sc * ti, 0, 0, 7); ctx.stroke(); });
     if (opts.shadow) { ctx.fillStyle = 'rgba(0,0,0,.55)'; ctx.fillRect(cx, cy - rJ * Math.max(ti, .15), sc * 14, 2 * rJ * Math.max(ti, .15)); }
     const pos = MOONS.map(([n, d, P, ph], i) => { const a = (opts.io != null && i === 0) ? opts.io : 2 * Math.PI * t / P + ph; return { n, x: cx + d * sc * Math.cos(a), y: cy + d * sc * Math.sin(a) * ti, behind: Math.sin(a) < 0, inSh: Math.cos(a) > 0 && Math.abs(d * Math.sin(a)) < 1, i }; });
-    const dot = p => { if (p.i >= 4 || (opts.only != null && p.i !== opts.only)) return; const dark = opts.shadow && p.inSh; ctx.fillStyle = dark ? '#262a33' : '#ffe9b0'; ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(4.5, sc * .24), 0, 7); ctx.fill(); if (opts.names) S.text(p.n, p.x, p.y - Math.max(20, sc * .24 + 14), opts.lab || 18, dark ? M : W); };
+    const dot = p => { if (p.i >= 4 || (opts.only != null && p.i !== opts.only)) return; const dark = opts.shadow && p.inSh; if (dark && opts.hideEclipsed) return; ctx.fillStyle = dark ? '#262a33' : '#ffe9b0'; ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(4.5, sc * .24), 0, 7); ctx.fill(); if (opts.names) S.text(p.n, p.x, p.y - Math.max(20, sc * .24 + 14), opts.lab || 18, dark ? M : W); };
     pos.filter(p => p.behind).forEach(p => { if (Math.abs(p.x - cx) > rJ) dot(p); });
     const jg = ctx.createRadialGradient(cx - rJ * .3, cy - rJ * .3, 0, cx, cy, rJ); jg.addColorStop(0, '#f1d7a8'); jg.addColorStop(1, '#b8925a'); ctx.fillStyle = jg; ctx.beginPath(); ctx.arc(cx, cy, rJ, 0, 7); ctx.fill();
     ctx.strokeStyle = 'rgba(138,106,61,.7)'; ctx.lineWidth = Math.max(1, rJ * .12); [-.35, .1, .45].forEach(f => { ctx.beginPath(); ctx.moveTo(cx - rJ * Math.sqrt(1 - f * f), cy + rJ * f); ctx.lineTo(cx + rJ * Math.sqrt(1 - f * f), cy + rJ * f); ctx.stroke(); });
@@ -999,11 +1019,15 @@ addEventListener('load', () => setTimeout(() => {
       const sh = sea ? [eye.r * .9 * Math.sin(now / 410), eye.r * .7 * Math.sin(now / 290 + 1)] : [0, 0], cx = eye.x + sh[0], cy = eye.y + sh[1];
       if (k <= 1) { if (moonImg.complete && moonImg.naturalWidth) { const s = eye.r * 2.3 / Math.max(moonImg.naturalWidth, moonImg.naturalHeight); ctx.globalAlpha = S.fade(now, 300, 900); ctx.drawImage(moonImg, eye.x - moonImg.naturalWidth * s / 2, eye.y - moonImg.naturalHeight * s / 2, moonImg.naturalWidth * s, moonImg.naturalHeight * s); ctx.globalAlpha = 1; } }
       else if (k === 2) { tj = age / 1400; const n = Math.min(NT.length - 1, Math.floor(tj)); system(ctx, S, now, cx, cy, 24 * eye.r / 340, { t: NT[n] + (tj - n) * (n < NT.length - 1 ? NT[n + 1] - NT[n] : 1), tilt }); }
-      else if (k === 4 || k === 5) { const zs = 30 * S.lerp(1, 1.6, S.ease(age / 1500)) * (k === 5 ? 1 : 1); const sc = k === 5 ? 48 : zs;
+      else if (k === 4 || k === 5) { const zs = 30 * S.lerp(1, 1.6, S.ease(age / 1500)); const sc = k === 5 ? 56 : zs;
         const sg = ctx.createRadialGradient(eye.x - eye.r - 60, eye.y, 0, eye.x - eye.r - 60, eye.y, 260); sg.addColorStop(0, 'rgba(255,214,107,.7)'); sg.addColorStop(1, 'rgba(255,214,107,0)'); ctx.fillStyle = sg; ctx.fillRect(eye.x - eye.r, eye.y - eye.r, eye.r * 2, eye.r * 2);
-        const io = k === 5 ? 0 : -1.15 + .17 * Math.max(0, age - 1500) / 1000;
-        const pos = system(ctx, S, now, eye.x - 60, eye.y, sc, { t: 6, tilt, shadow: true, io, names: false });
-        const p = pos[0]; S.text(p.inSh ? 'Io vanishes!' : 'Io', p.x, p.y - 30, p.inSh ? 30 : 22, p.inSh ? G : W); S.text('Sunlight →', eye.x - eye.r + 90, eye.y - eye.r * .62, 22, G, 'left'); S.text('Jupiter’s shadow', eye.x + eye.r - 30, eye.y + 70, 20, M, 'right'); }
+        // k===5: loop Io into Jupiter's shadow and out again (Jeff, 19 Nov). k===4 keeps the one-shot approach.
+        const io = k === 5 ? (-2.2 + ((now / 8000) % 1) * Math.PI * 2) : (-1.15 + .17 * Math.max(0, age - 1500) / 1000);
+        const pos = system(ctx, S, now, eye.x - 40, eye.y, sc, { t: 6, tilt: k === 5 ? .48 : tilt, shadow: true, io, names: false, only: k === 5 ? 0 : null, hideEclipsed: k === 5 });
+        const p = pos[0];
+        if (p && p.inSh) S.text('Io vanishes!', Math.max(eye.x - eye.r + 80, Math.min(eye.x + eye.r - 80, p.x)), Math.max(eye.y - eye.r + 36, p.y - 32), 28, G);
+        else if (p) S.text('Io', p.x, p.y - 30, 22, W);
+        S.text('Sunlight →', eye.x - eye.r + 90, eye.y - eye.r * .62, 22, G, 'left'); S.text('Jupiter’s shadow', eye.x + eye.r - 30, eye.y + 70, 20, M, 'right'); }
       else if (k === 6 || k === 8) system(ctx, S, now, cx, cy, 11 * eye.r / 230, { t: age / 3000 + 6, tilt });
       ctx.restore(); ctx.strokeStyle = '#6b5a40'; ctx.lineWidth = 10; ctx.beginPath(); ctx.arc(eye.x, eye.y, eye.r, 0, 7); ctx.stroke(); }
     // full width: Jupiter and its four moons, zoomable
@@ -1084,8 +1108,16 @@ addEventListener('load', () => setTimeout(() => {
   const MX = LON * 20037508.34 / 180, MY = Math.log(Math.tan((90 + LAT) * D / 2)) * 6378137, HW = 60, HH = 40; // a 120 × 80 m window around the tree, in Web Mercator meters
   const nys = new Image(); nys.crossOrigin = 'anonymous';
   const loadNys = () => { if (!nys.src) nys.src = `https://orthos.its.ny.gov/arcgis/rest/services/wms/2020/MapServer/export?bbox=${MX - HW},${MY - HH},${MX + HW},${MY + HH}&bboxSR=3857&imageSR=3857&size=2400,1600&format=jpg&f=image`; };
-  const set = dd => { d = Math.max(0, Math.min(6, dd)); pressT = performance.now(); pre(d); pre(Math.min(6, d + 1)); if (d >= 3) loadNys(); };
-  z = want(0);
+  const CELL = ['about 111 km', 'about 11 km', 'about 1.1 km', 'about 110 m', 'about 11 m', 'about 1.1 m', 'about 11 cm'];
+  const EVERY = ['a state', 'a city', 'a neighborhood', 'a block', 'a house', 'a person', 'a fingertip'];
+  const st = el.querySelector('.stage'); if (st && getComputedStyle(st).position === 'static') st.style.position = 'relative';
+  const bar = document.createElement('div'); bar.className = 'dec-bar'; bar.setAttribute('role', 'tablist'); bar.setAttribute('aria-label', 'Decimal places');
+  bar.innerHTML = [0,1,2,3,4,5,6].map(i => `<button type="button" data-d="${i}" aria-pressed="false"><b>${i}</b><span>${CELL[i]} · ${EVERY[i]}</span></button>`).join('');
+  if (st) st.appendChild(bar);
+  const paintBtns = () => bar.querySelectorAll('button').forEach(b => { const on = +b.dataset.d === d; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+  const set = dd => { d = Math.max(0, Math.min(6, dd)); pressT = performance.now(); pre(d); pre(Math.min(6, d + 1)); if (d >= 3) loadNys(); paintBtns(); };
+  bar.addEventListener('click', e => { const b = e.target.closest('button[data-d]'); if (b) set(+b.dataset.d); });
+  z = want(0); paintBtns();
   addEventListener('keydown', e => { if (!el.classList.contains('active') || (e.key !== 'ArrowUp' && e.key !== 'ArrowDown')) return; e.preventDefault(); e.stopImmediatePropagation(); set(d + (e.key === 'ArrowUp' ? 1 : -1)); }, true);
   V3.scene(el, 1, (S, ctx, now) => {
     z += (want(d) - z) * .06;
@@ -1105,10 +1137,8 @@ addEventListener('load', () => setTimeout(() => {
     // the number, with the decimals you have so far
     const fmt = v => v.toFixed(d);
     ctx.save(); ctx.fillStyle = 'rgba(8,12,22,.82)'; ctx.beginPath(); ctx.roundRect(400, 30, 800, 150, 16); ctx.fill(); ctx.restore();
-    S.text(`Within ${R[d][0]}`, 800, 92, 72, '#f0b35a', 'center', 1, 600); // the message
-    S.text(`${fmt(LAT)}, ${fmt(LON)}  ·  ${d} decimal place${d === 1 ? '' : 's'}`, 800, 150, 32, '#cfc8ba');
-    ctx.save(); ctx.fillStyle = 'rgba(8,12,22,.82)'; ctx.beginPath(); ctx.roundRect(470, 860, 660, 70, 14); ctx.fill(); ctx.restore();
-    S.text('↑ one more decimal  ·  ↓ one fewer', 800, 895, 28, '#cfc8ba');
+    S.text(`${fmt(LAT)}, ${fmt(LON)}`, 800, 82, 56, '#f0b35a', 'center', 1, 600);
+    S.text(`${d} decimal place${d === 1 ? '' : 's'}  ·  ${CELL[d]}  ·  ${EVERY[d]}`, 800, 148, 30, '#cfc8ba');
     S.text(close > .5 && nys.naturalWidth ? 'Rockefeller Center tree · imagery: NYS GIS Program Office, 2020' : 'Rockefeller Center tree · imagery © Esri, Maxar, Earthstar Geographics', 1570, 215, 17, '#cfc8ba', 'right');
   });
   const cv = el.querySelector('canvas'); if (cv) cv.addEventListener('click', e => { const r = cv.getBoundingClientRect(); set(d + (e.clientY - r.top < r.height / 2 ? 1 : -1)); });
@@ -1429,7 +1459,7 @@ NEW_SLIDES['Image gallery'] = {
       ['sandford-fleming', 'Sandford Fleming, 1883', 'The Canadian engineer who spent eight years campaigning for standard time after missing a train because a timetable said p.m. instead of a.m. He was among the delegates at Washington in 1884.', 'Sheldon & Davis, Ottawa, 1883. ' + PD + ', Bibliothèque nationale de France'],
       ['delegates-1884', 'The Meridian Conference, 1884', 'Forty-one delegates from twenty-five nations, on the steps in Washington. They chose Greenwich, 22 to 1. France and Brazil abstained. Nature picks the equator; power picks zero.', 'Unknown photographer, October 1884. ' + PD],
       ['jupiter', 'Jupiter, from Cassini', 'The clock in the sky. Io slips into Jupiter’s shadow every 42 and a half hours, and everyone on Earth who is looking sees it vanish at the same instant — if the deck will hold still.', 'NASA / Cassini, 2003. ' + PD],
-      ['moon', 'The Moon', 'Way two: the Moon as a clock hand. Against the stars it moves about its own width every hour. One arcminute wrong in a lunar-distance sighting is about 30 nautical miles of longitude — not the same as one arcminute of latitude, which is one nautical mile.', 'Joselodos, 2021, CC0, via Wikimedia Commons'],
+      ['moon', 'The Moon', 'The Moon as a clock hand. Against the stars it moves about its own width every hour. One arcminute wrong in a lunar-distance sighting is about 30 nautical miles of longitude — not the same as one arcminute of latitude, which is one nautical mile.', 'Joselodos, 2021, CC0, via Wikimedia Commons'],
       ['gps-satellite', 'A GPS Satellite', 'Each satellite carries an atomic clock and broadcasts: this is the time, this is where I am. Light travels about one foot in a billionth of a second. Four distances pin you down.', 'U.S. Air Force, NAVSTAR, late 1970s. ' + PD]];
     const text = el.querySelector('.text'); if (text) text.style.display = 'none'; el.classList.add('wide');
     const st = el.querySelector('.stage'); [...st.children].forEach(c => { c.style.display = 'none'; }); if (getComputedStyle(st).position === 'static') st.style.position = 'relative';
@@ -1585,3 +1615,19 @@ addEventListener('load', () => setTimeout(() => {
   };
   V3.steps(el, 4, k => apply(k));
 }, 90));
+
+
+/* EDIT 23 (Jeff, 19 Nov): Moon mountains — press-to-advance shows Galileo's numbers, then the modern diameter. No sliders. */
+addEventListener('load', () => setTimeout(() => {
+  const el = (typeof v3Find === 'function') ? v3Find('Moon mountains') : document.querySelector('section[data-title="Moon mountains"]');
+  if (!el || typeof V3 === 'undefined' || !V3.steps) return;
+  const gal = el.querySelector('#mtn-galileo'), mod = el.querySelector('#mtn-modern');
+  if (!gal || !mod) return;
+  if (typeof v3Hero === 'function') v3Hero(el, 'Galileo Measures a Mountain From Its <b>Shadow</b>.');
+  V3.steps(el, 3, k => {
+    if (k <= 1) { gal.click(); if (typeof v3Hero === 'function' && k === 0) v3Hero(el, 'Galileo Measures a Mountain From Its <b>Shadow</b>.');
+      if (typeof v3Hero === 'function' && k === 1) v3Hero(el, 'A Right Triangle: the Peak, the Terminator, and the <b>Radius</b>.'); }
+    else if (k === 2) { mod.click(); if (typeof v3Hero === 'function') v3Hero(el, 'Today’s Diameter, 2,159 Miles: at Least <b>5.4 Miles</b> High.'); }
+    else if (k === 3) { mod.click(); if (typeof v3Hero === 'function') v3Hero(el, 'The Moon Is About <b>2,100 Miles</b> Across. His Mountain Is a Speck on It.'); }
+  });
+}, 80));
