@@ -14,7 +14,7 @@
       ]
     }
   ],
-  "rewrites": [
+  "redirects": [
     {
       "source": "/",
       "has": [
@@ -23,7 +23,8 @@
           "value": "longitude.jbf.com"
         }
       ],
-      "destination": "/claude1/v3/"
+      "destination": "/claude1/v3/",
+      "permanent": false
     }
   ]
 }
