@@ -16,6 +16,9 @@ const cp = (src, dst, filter = () => true) => fs.cpSync(src, path.join(OUT, dst)
 // 1. the deck and the assets it loads (paths resolve against <base href="/">)
 cp(V3, "v3", s => s !== path.join(V3, "index.html"));      // v3/*.js, course.css, img/, audio/
 cp(path.join(C1, "img"), "img");                              // img/… used by older scenes and the gallery
+// the Gaia sky map the older Gaia scene loads as img/… (on the private site it lives in /img/)
+fs.copyFileSync(path.join(PUB, "img", "Gaia_EDR3_All_Sky_Colour_Map_ESA_Gaia_DPAC.jpg"), path.join(OUT, "img", "Gaia_EDR3_All_Sky_Colour_Map_ESA_Gaia_DPAC.jpg"));
+// (img/ck-1.jpg, md-1.jpg, sw-1.jpg are optional photo probes: a 404 there is expected and harmless)
 for (const f of ["coast.js", "coast2.js"]) cp(path.join(C1, f), f);
 // the WebGL storm film used inside the cold open (slide 0), minus its preview video
 cp(FILM, "film", s => !/\.mp4$/i.test(s) && !s.startsWith(path.join(FILM, "video")));
