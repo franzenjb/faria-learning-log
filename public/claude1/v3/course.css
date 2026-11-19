@@ -543,11 +543,15 @@ body.v3-talk #v3-cc,body.v3-talk #v3-cc-btn,body.v3-talk #audio-tog,body.v3-talk
 
 /* EDIT 23 (Jeff, 19 Nov): Moon mountains — no slider panel; beats drive Galileo then modern figures */
 .slide[data-title="Moon mountains"] .text label,
+.slide[data-title="Moon mountains"] .text .controls,
+.slide[data-title="Moon mountains"] .text .btns,
 .slide[data-title="Moon mountains"] #mtn-galileo,
 .slide[data-title="Moon mountains"] #mtn-modern,
 .slide[data-title="Moon mountains"] #mtn-width,
 .slide[data-title="Moon mountains"] #mtn-side,
-.slide[data-title="Moon mountains"] #mtn-face{display:none!important}
+.slide[data-title="Moon mountains"] #mtn-face,
+.slide[data-title="Moon mountains"] .mm-ctl,
+.slide[data-title="Moon mountains"] .mm-width{display:none!important}
 
 
 /* Decimal places: clickable 0–6 chips (Jeff, 19 Nov) */
