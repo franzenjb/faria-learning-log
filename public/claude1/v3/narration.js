@@ -1,7 +1,6 @@
 // Spoken narration + matching captions for every beat.
-// There is no ElevenLabs/OpenAI key on this machine, so playback uses
-// the browser's speechSynthesis. If an MP3 later appears at
-// audio/s{slide}_{beat}.mp3 (or audio/{slug}_b{beat}.mp3), that file is used instead.
+// Playback uses pre-generated MP3s listed in audio/manifest.js (ElevenLabs George).
+// A beat with no MP3 stays silent and shows captions only. There is no computer-voice fallback.
 (function () {
   const TALK = /[?&]talk=30\b/.test(location.search) || /[?&]talk=/.test(location.search);
   if (TALK) document.body.classList.add('v3-talk');
@@ -149,11 +148,14 @@
       'It took two people. Huygens, in 1690, turned that delay into about 212,000 kilometers per second, around two-thirds of the true speed of light.'
     ],
     'Many ways to draw the globe': [
-      'Every flat map is a deal with the globe. First, the simplest flat map: plate carrée, or equirectangular. Longitude is x, latitude is y. Easy to draw, and it stretches the land toward the poles.',
-      'Now the globe itself, an orthographic view. This is the only drawing that does not stretch the land. Drag it to turn it. What you see is what is really there, in outline.',
-      'Peel the globe into twelve slices, called gores, the way a mapmaker would cut paper to glue onto a sphere. Laid side by side they are almost flat, with only small gaps.',
-      'Mercator, in 1569, made a map sailors loved: compass courses stay straight. The cost is size. The high latitudes inflate, and Greenland swells toward the size of Africa.',
-      'Keep Greenland\'s true size, in miles, and slide it down to the equator next to Africa. Africa is about 11.7 million square miles. Greenland is about 0.84 million. Africa is about 14 times larger. The wall map hid that.'
+      'Every flat map is a deal with the globe. First, the simplest flat map: plate carrée, or equirectangular. Longitude is x, latitude is y. Easy to draw. It keeps a simple grid, and it stretches the land toward the poles.',
+      'Now the globe itself, an orthographic view. This is the only drawing that does not stretch the land. It keeps everything, because it is the Earth. It gives up flatness: it will not fit on a page. Drag it to turn it.',
+      'Peel the globe into twelve slices, called gores, the way a mapmaker would cut paper to glue onto a sphere. Laid side by side they are almost flat. Each slice keeps nearly true shape and size. You give up a single continuous sheet.',
+      'Mercator, in 1569, made a conformal map sailors loved: local angles stay true, and compass courses stay straight. The cost is size. The high latitudes inflate, and Greenland swells toward the size of Africa.',
+      'Gall–Peters is a cylindrical equal-area map. James Gall published it in 1855. Arno Peters popularized a similar one in 1973, and the name Gall–Peters stuck. It keeps area true everywhere. It gives up shape: the tropics look stretched tall, and the high latitudes look squashed.',
+      'Goode\'s homolosine, in 1923, is an interrupted equal-area map. It keeps area true, and the cuts fall in the oceans, not the land, so the continents keep their shape better. What you give up is a map you can fold back up, or measure straight across.',
+      'Winkel tripel, in 1921, is a compromise: nothing is exactly true, and nothing is too badly wrong. National Geographic adopted it for world maps in 1998, and many atlases followed.',
+      'Now the trap. Keep Greenland\'s true size, in miles, and slide it down to the equator next to Africa. Africa is about 11.7 million square miles. Greenland is about 0.84 million. Africa is about 14 times larger. The wall map hid that.'
     ],
     'Vector or raster': [
       'Two ways to record the world. The same coastline, held two ways. Vector on the left, raster on the right.',
@@ -177,7 +179,10 @@
       'Hold out your thumb, and you can measure the Moon. The idea is a simple angle: the Moon\'s apparent size in the sky, times its distance, gives its diameter. A small angle, a large distance, a surprising size. This is the same ladder of sine and tangent we still use on a map.'
     ],
     'Moon mountains': [
-      'Galileo also pointed the telescope at the Moon. It is not a perfect sphere. Mountains and craters throw long shadows near the terminator, the line between day and night. By timing those shadows he estimated the height of lunar mountains. The heavens were not a polished crystal after all.'
+      'The same winter as the Jupiter moons, 1610, Galileo turns his telescope on the Moon, and that March he publishes what he sees in Sidereus Nuncius, the Starry Messenger. Along the terminator — the line between day and night — he sees bright points out in the dark. They are mountain tops, catching the sunrise before the ground below them.',
+      'He measures how far a lit peak sits past that line: about one twentieth of the Moon\'s width. That distance is one leg of a right triangle. The Moon\'s radius is the other. The long side, the hypotenuse, is the radius plus the mountain\'s height. A little Pythagoras, and the height comes out.',
+      'Galileo assumed a Moon about 2,000 miles across, and concluded the mountains stood more than four miles high: a mountain he could never climb, measured from a garden in Padua. With today\'s diameter, 2,159 miles, the same one-twentieth gives at least 5.4 miles. Real lunar peaks rise about three to four miles above their surroundings. His method gives an upper-end figure. The Moon was not a perfect crystal sphere.',
+      'How wide is the Moon? Distance first, width second. It is about 240,000 miles away, and it covers half a degree of sky: one 720th of a full circle. A circle of radius 240,000 miles is about 1,508,000 miles around. One 720th of that is about 2,100 miles. Laid on the United States, a circle that wide, centered on Illinois, reaches from Denver almost to Boston. Galileo\'s four-mile mountain is a speck on it.'
     ],
     'Baselines': [
       'To measure the Earth carefully, you start with a baseline you can actually pace or rod out, then build triangles from it. The thumb trick is the same idea at arm\'s length: one known length, two angles, and the far side is fixed. From a courtyard to a kingdom, triangulation is how a short stick becomes a long map.'
@@ -268,7 +273,7 @@
 
   const audio = document.createElement('audio');
   audio.id = 'v3-audio';
-  audio.preload = 'none';
+  audio.preload = 'auto';
   document.documentElement.appendChild(audio);
 
   const cc = document.createElement('div');
@@ -286,14 +291,27 @@
 
   const state = {
     title: '', beat: 0, text: '', muted: false, paused: false,
-    unlocked: false, mode: 'speech', speaking: false
+    unlocked: false, mode: 'idle', speaking: false
   };
   try { state.muted = localStorage.getItem('v3-narrate-mute') === '1'; } catch (e) {}
   if (TALK) state.muted = true; // presenting URL stays silent
 
-  let utt = null;
-  const stopVoice = () => { try { speechSynthesis.cancel(); } catch (e) {} utt = null; state.speaking = false; };
-  const stopAudio = () => { try { audio.pause(); audio.removeAttribute('src'); audio.load(); } catch (e) {} };
+  // Incremented on every play/stop so a stale play() promise cannot start a second clip.
+  let playGen = 0;
+  // True only while the current clip is actually playing, so a reset cannot look like "ended".
+  let expectEnd = false;
+
+  const stopAudio = () => {
+    expectEnd = false;
+    playGen += 1; // invalidate in-flight play() callbacks
+    try {
+      audio.pause();
+      audio.removeAttribute('src');
+      audio.removeAttribute('data-gen');
+      audio.load();
+    } catch (e) {}
+    state.speaking = false;
+  };
 
   const setBtn = () => {
     if (state.muted) { speakBtn.textContent = '✕'; speakBtn.dataset.state = 'muted'; speakBtn.title = 'Narration muted (M to unmute)'; }
@@ -302,27 +320,18 @@
   };
   setBtn();
 
-  const pickVoice = () => {
-    const vs = speechSynthesis.getVoices() || [];
-    return vs.find(v => /en-US/i.test(v.lang) && /Google|Natural|Jenny|Samantha|Aria|Guy|neural/i.test(v.name))
-      || vs.find(v => /en-US/i.test(v.lang))
-      || vs.find(v => /^en/i.test(v.lang))
-      || null;
-  };
-
   const mp3For = (title, beat) => {
     const s = slug(title);
     return [`v3/audio/${s}_b${beat}.mp3`, `v3/audio/s_${s}_${beat}.mp3`];
   };
 
   // Pre-generated MP3s (ElevenLabs George, multilingual v2) are listed in
-  // window.V3_NARRATION_MP3 by v3/audio/manifest.js. Missing clips fall back
-  // to speechSynthesis.
+  // window.V3_NARRATION_MP3 by v3/audio/manifest.js. Missing clips stay silent.
   const findMp3 = (title, beat) => {
     const urls = mp3For(title, beat);
     const listed = (window.V3_NARRATION_MP3 || []);
     const hit = urls.find(u => listed.includes(u));
-    return Promise.resolve(hit || null);
+    return hit || null;
   };
 
   const showCaption = text => {
@@ -330,26 +339,7 @@
     cc.classList.toggle('talk-off', TALK || !text);
   };
 
-  const playSpeech = text => {
-    stopVoice();
-    const u = new SpeechSynthesisUtterance(spoken(text));
-    u.rate = 0.98; u.pitch = 1; u.lang = 'en-US';
-    const v = pickVoice(); if (v) u.voice = v;
-    u.onend = () => { if (utt === u) { state.speaking = false; utt = null; } };
-    u.onerror = () => { if (utt === u) { state.speaking = false; utt = null; } };
-    utt = u; state.speaking = true; state.mode = 'speech';
-    speechSynthesis.speak(u);
-  };
-
-  const unlock = () => {
-    if (state.unlocked) return;
-    state.unlocked = true;
-    try {
-      const warm = new SpeechSynthesisUtterance(' ');
-      warm.volume = 0; speechSynthesis.speak(warm); speechSynthesis.cancel();
-    } catch (e) {}
-    try { audio.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA='; audio.play().catch(() => {}); } catch (e) {}
-  };
+  const unlock = () => { state.unlocked = true; };
 
   const play = (title, beat, reason) => {
     const t = norm(title);
@@ -360,35 +350,73 @@
     window.v3Narration = state;
     document.body.dataset.v3Title = t;
     document.body.dataset.v3Beat = String(beat);
-    document.body.dataset.v3Mode = state.mode;
-    if (!text) { stopVoice(); stopAudio(); return; }
-    if (TALK || state.muted || !state.unlocked) { stopVoice(); stopAudio(); setBtn(); return; }
-    findMp3(t, beat).then(url => {
-      if (state.title !== t || state.beat !== beat) return;
-      stopVoice(); stopAudio();
-      if (url) {
-        state.mode = 'mp3';
-        audio.src = url;
-        document.body.dataset.v3Src = url;
-        document.body.dataset.v3Mode = 'mp3';
-        audio.onerror = () => { if (state.title === t && state.beat === beat) playSpeech(text); };
-        audio.play().catch(() => playSpeech(text));
-      } else {
-        document.body.dataset.v3Src = '';
-        document.body.dataset.v3Mode = 'speech';
-        playSpeech(text);
-      }
+
+    // Always stop the previous clip first, even if the new beat will be silent.
+    expectEnd = false;
+    try { audio.pause(); } catch (e) {}
+
+    if (!text || TALK || state.muted || !state.unlocked) {
+      stopAudio();
+      state.mode = (!text || TALK || state.muted || !state.unlocked) ? (state.muted ? 'muted' : 'idle') : 'idle';
+      document.body.dataset.v3Mode = state.mode;
+      document.body.dataset.v3Src = '';
       setBtn();
-    });
+      return;
+    }
+
+    const url = findMp3(t, beat);
+    const gen = ++playGen;
+    if (!url) {
+      try { audio.removeAttribute('src'); audio.removeAttribute('data-gen'); audio.load(); } catch (e) {}
+      state.speaking = false;
+      state.mode = 'caption';
+      document.body.dataset.v3Mode = 'caption';
+      document.body.dataset.v3Src = '';
+      setBtn();
+      return;
+    }
+
+    state.mode = 'mp3';
+    document.body.dataset.v3Mode = 'mp3';
+    document.body.dataset.v3Src = url;
+    audio.dataset.gen = String(gen);
+    audio.src = url;
+    const start = audio.play();
+    if (start && start.then) {
+      start.then(() => {
+        if (gen !== playGen) return;
+        state.speaking = true;
+        expectEnd = true;
+      }).catch(() => {
+        // Autoplay blocked or this start was aborted by a newer play(). Stay silent.
+        if (gen === playGen) { state.speaking = false; expectEnd = false; }
+      });
+    }
     setBtn();
   };
+
+  audio.addEventListener('playing', () => {
+    if (String(audio.dataset.gen || '') !== String(playGen)) return;
+    state.speaking = true;
+    expectEnd = true;
+  });
+  audio.addEventListener('ended', () => {
+    if (!expectEnd) return;
+    if (String(audio.dataset.gen || '') !== String(playGen)) return;
+    expectEnd = false;
+    state.speaking = false;
+    if (state.muted || state.paused || TALK || !state.unlocked) return;
+    const el = document.querySelector('#deck .slide.active') || document.querySelector('.slide.active');
+    const api = el && el._v3StepApi;
+    if (api && typeof api.fwd === 'function') api.fwd();
+  });
 
   const toggleMute = () => {
     if (TALK) return;
     unlock();
     state.muted = !state.muted;
     try { localStorage.setItem('v3-narrate-mute', state.muted ? '1' : '0'); } catch (e) {}
-    if (state.muted) { stopVoice(); stopAudio(); state.paused = false; }
+    if (state.muted) { stopAudio(); state.paused = false; }
     else play(state.title || currentTitle(), state.beat || 0, 'unmute');
     setBtn();
   };
@@ -397,14 +425,8 @@
     if (TALK || state.muted) return;
     unlock();
     if (state.mode === 'mp3' && audio.src) {
-      if (audio.paused) { audio.play().catch(() => {}); state.paused = false; }
-      else { audio.pause(); state.paused = true; }
-    } else if (state.paused) {
-      // speechSynthesis resume is flaky; replay the beat
-      state.paused = false; play(state.title, state.beat, 'resume');
-    } else if (state.speaking) {
-      try { speechSynthesis.cancel(); } catch (e) {}
-      state.paused = true; state.speaking = false;
+      if (audio.paused) { audio.play().catch(() => {}); state.paused = false; expectEnd = true; }
+      else { expectEnd = false; audio.pause(); state.paused = true; }
     }
     setBtn();
   };
@@ -431,11 +453,13 @@
     if (typeof V3 === 'undefined' || typeof V3.steps !== 'function' || V3.steps._narrHooked) return false;
     const orig = V3.steps;
     V3.steps = function (el, n, onStep) {
-      return orig.call(this, el, n, function (k, entering) {
+      const api = orig.call(this, el, n, function (k, entering) {
         onStep(k, entering);
         const title = (el && el.dataset && el.dataset.title) || currentTitle();
         play(title, k, entering ? 'enter' : 'step');
       });
+      if (el) el._v3StepApi = api;
+      return api;
     };
     V3.steps._narrHooked = true;
     return true;
@@ -470,14 +494,20 @@
     visual.appendChild(cc);
     const deck = document.getElementById('deck');
     if (deck) new MutationObserver(onSlide).observe(deck, { attributes: true, attributeFilter: ['class'], subtree: true });
-    speechSynthesis.getVoices();
-    speechSynthesis.addEventListener('voiceschanged', () => {});
     const ok = document.getElementById('v3-help-ok');
-    if (ok) ok.addEventListener('click', () => { unlock(); const t = currentTitle(); play(t, state.title === norm(t) ? state.beat : 0, 'start'); }, true);
+    if (ok) ok.addEventListener('click', () => {
+      unlock();
+      const t = currentTitle();
+      play(t, state.title === norm(t) ? state.beat : 0, 'start');
+    }, true);
     const help = document.getElementById('v3-help');
     if (help && help.hidden && !TALK) {
       // returning visitor: unlock on first gesture, then play
-      const once = () => { unlock(); play(currentTitle(), state.beat || 0, 'gesture'); };
+      const once = ev => {
+        if (ev && ev.target && ev.target.closest && ev.target.closest('#v3-help, #v3-help-ok, #v3-help-btn')) return;
+        unlock();
+        play(currentTitle(), state.beat || 0, 'gesture');
+      };
       addEventListener('pointerdown', once, { once: true, capture: true });
       addEventListener('keydown', once, { once: true, capture: true });
     }
