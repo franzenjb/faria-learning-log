@@ -47,6 +47,10 @@ Everyday examples, and any link to disaster response, wait until an idea has bee
 
 Still open from 8 November: is the immediate answer the one to trust?
 
+## Later
+
+On 20 November 2026 the conversation reached a later idea of Kahneman's, the peak-end rule: [The Peak-End Rule: How People Remember Talks and Shelter Stays](../120-peak-end-rule/).
+
 ## Sources
 - [Nobel Prize facts for Daniel Kahneman](https://www.nobelprize.org/prizes/economic-sciences/2002/kahneman/facts/): born 5 March 1934 in Tel Aviv, died 27 March 2024, and the prize citation.
 - [Kahneman's own Nobel biographical](https://www.nobelprize.org/prizes/economic-sciences/2002/kahneman/biographical/): the collaboration with Tversky began in 1969.
@@ -65,3 +69,4 @@ Still open from 8 November: is the immediate answer the one to trust?
 - The bat-and-ball puzzle is Shane Frederick's Cognitive Reflection Test (2005), not a Kahneman and Tversky invention.
 - Whether the immediate answer is the one to trust was asked and not answered. A fast answer is not always wrong.
 - The friendship, the shared questions, the heuristics, base rates, prospect theory, and confidence have not been studied yet.
+- On 20 November 2026 the thread continued with the peak-end rule.

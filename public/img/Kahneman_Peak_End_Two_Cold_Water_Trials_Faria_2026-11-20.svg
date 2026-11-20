@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="500" viewBox="0 0 720 500" role="img" aria-labelledby="title desc">
+<title id="title">Two trials of cold water</title>
+<desc id="desc">A teaching sketch of two discomfort curves over time. Both trials follow the same course for 60 seconds in water at 14 degrees Celsius. The short trial ends there, still high. The long trial continues 30 seconds more as the water warms to about 15 degrees, and ends lower, though still painful. Most people later chose to repeat the longer trial. This is not a plot of the published ratings.</desc>
+<rect width="720" height="500" fill="#fbf8f2"/>
+<text x="48" y="42" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="24" font-weight="700" fill="#22201c">Two trials of cold water</text>
+<text x="48" y="70" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#6b645a">The longer trial adds a milder ending. Most people later chose to repeat it.</text>
+
+<path d="M80 110 V360 H650" fill="none" stroke="#22201c" stroke-width="1.2" stroke-linecap="round"/>
+<text x="70" y="364" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="14" text-anchor="end" fill="#6b645a">low</text>
+<text x="70" y="118" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="14" text-anchor="end" fill="#6b645a">high</text>
+<text x="28" y="250" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#22201c" transform="rotate(-90 28 250)" text-anchor="middle">discomfort</text>
+
+<path d="M80 360 V366" fill="none" stroke="#22201c" stroke-width="1"/>
+<text x="80" y="384" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="14" text-anchor="middle" fill="#6b645a">0</text>
+<path d="M270 360 V366" fill="none" stroke="#22201c" stroke-width="1"/>
+<text x="270" y="384" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="14" text-anchor="middle" fill="#6b645a">30</text>
+<path d="M460 360 V366" fill="none" stroke="#22201c" stroke-width="1"/>
+<text x="460" y="384" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="14" text-anchor="middle" fill="#6b645a">60</text>
+<path d="M650 360 V366" fill="none" stroke="#22201c" stroke-width="1"/>
+<text x="650" y="384" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="14" text-anchor="middle" fill="#6b645a">90</text>
+<text x="365" y="408" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" text-anchor="middle" fill="#22201c">time, seconds</text>
+
+<path d="M460 168 V360" fill="none" stroke="#e6dfd2" stroke-width="1"/>
+
+<!-- Both trials share the first 60 s. The rust line is the long trial, which then falls. -->
+<path d="M80 345.6 C110 210, 130 198, 130.7 192 S160 176, 181.3 172.8 S240 170, 270 168 S320 155, 346 148.8 S390 158, 409.3 160.8 S440 168, 460 168 S500 190, 523.3 201.6 S560 220, 586.7 230.4 S630 248, 650 254.4" fill="none" stroke="#7a4b1e" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+
+<circle cx="346" cy="148.8" r="4" fill="#7a4b1e"/>
+<circle cx="460" cy="168" r="4.4" fill="#fbf8f2" stroke="#6b645a" stroke-width="2"/>
+<circle cx="650" cy="254.4" r="4.5" fill="#7a4b1e"/>
+
+<text x="346" y="134" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="14" font-weight="700" text-anchor="middle" fill="#7a4b1e">peak</text>
+<text x="448" y="198" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="14" text-anchor="end" fill="#6b645a">short trial ends</text>
+<text x="650" y="278" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="14" font-weight="700" text-anchor="end" fill="#7a4b1e">long trial ends</text>
+<text x="650" y="294" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" text-anchor="end" fill="#6b645a">still painful, but lower</text>
+<text x="555" y="196" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" text-anchor="middle" fill="#7a4b1e">water warms, 60–90 s</text>
+
+<text x="48" y="440" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" fill="#22201c">Short trial: 60 s at 14 °C. Long trial: the same 60 s, then 30 s as the water warms to about 15 °C.</text>
+<text x="48" y="460" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" fill="#6b645a">A teaching sketch of Kahneman, Fredrickson, Schreiber, and Redelmeier, 1993.</text>
+<text x="48" y="478" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="13" fill="#6b645a">Not a plot of the published ratings.  Faria • November 20, 2026</text>
+</svg>
