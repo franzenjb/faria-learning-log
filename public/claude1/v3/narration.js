@@ -328,6 +328,10 @@
   audioHint.hidden = true;
   audioHint.textContent = 'Turn on audio';
 
+  // Flip to true when Jeff's recording is complete. Until then the Voice switch
+  // stays hidden and everyone hears George, even if localStorage still says jeff.
+  const JEFF_VOICE = false;
+
   const state = {
     title: '', beat: 0, text: '', muted: false, paused: false,
     unlocked: false, mode: 'idle', speaking: false, blocked: false, ccOff: false,
@@ -335,7 +339,12 @@
   };
   try { state.muted = localStorage.getItem('v3-narrate-mute') === '1'; } catch (e) {}
   try { state.ccOff = localStorage.getItem('v3-cc-off') === '1'; } catch (e) {}
-  try { if (localStorage.getItem('v3-voice') === 'jeff') state.voice = 'jeff'; } catch (e) {}
+  if (JEFF_VOICE) {
+    try { if (localStorage.getItem('v3-voice') === 'jeff') state.voice = 'jeff'; } catch (e) {}
+  } else {
+    state.voice = 'george';
+    try { if (localStorage.getItem('v3-voice') === 'jeff') localStorage.removeItem('v3-voice'); } catch (e) {}
+  }
   if (TALK) state.muted = true; // presenting URL stays silent
 
   // Incremented on every play/stop so a stale play() promise cannot start a second clip.
@@ -415,7 +424,7 @@
   };
 
   const pickMp3 = (title, beat) => {
-    if (state.voice === 'jeff') return findJeffMp3(title, beat) || findMp3(title, beat);
+    if (JEFF_VOICE && state.voice === 'jeff') return findJeffMp3(title, beat) || findMp3(title, beat);
     return findMp3(title, beat);
   };
 
@@ -659,6 +668,7 @@
     document.body.dataset.v3Voice = state.voice;
   };
   const setVoice = v => {
+    if (!JEFF_VOICE) { state.voice = 'george'; setVoiceBtn(); return; }
     state.voice = v === 'jeff' ? 'jeff' : 'george';
     try { localStorage.setItem('v3-voice', state.voice); } catch (e) {}
     setVoiceBtn();
@@ -680,7 +690,7 @@
     railBtn.after(pauseBtn);
     const visual = document.getElementById('visual') || document.body;
     visual.appendChild(audioHint);
-    if (!voiceBox.isConnected) visual.appendChild(voiceBox);
+    if (JEFF_VOICE && !voiceBox.isConnected) visual.appendChild(voiceBox);
   };
 
   addEventListener('load', () => {
