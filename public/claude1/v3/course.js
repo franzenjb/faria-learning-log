@@ -234,6 +234,8 @@ const TALK30 = [
   ]],
   ['Hours are slices', 2, ['→ steps: the globe, look down on the pole, Idea 1 (360°), Idea 2 (24 hours), put them together, 15°.', 'Here is the Earth, turning. Look straight down on the North Pole.', 'Two ideas, one at a time. Idea one: every circle has 360 degrees.', 'Idea two: every day has 24 hours. The blue ring is a clock. Noon faces the Sun, midnight faces away.', 'Now put them together. Watch Greenwich go once around. One turn of the Earth is one day. So 360 degrees takes 24 hours. Read them off together: 90 degrees, 6 hours; 180 degrees, 12 hours.', 'One hour of time is 15 degrees of distance.']],
   ['Two ships, one latitude', 2.5, ['Before 1883, every town kept its own time. Watch the noon line cross the country: every flash is a town setting its clocks to its own noon. Hundreds of towns, hundreds of different times.', 'Four American cities, west to east: Fresno, Denver, Memphis, Philadelphia. Fresno sits near 120 degrees west.', 'Noon in Philadelphia: the Sun at its highest. Philadelphia sets its clock to 12. Presenter: D toggles clock times and degrees on this beat and the next.', 'Same moment, in degrees: Philadelphia 75, Memphis 90, Denver 105, Fresno 120. Each hour earlier is 15 degrees farther west. Presenter: D toggles clock times and degrees on this beat and the previous one.', 'But stand in Denver. You know your own noon. What time is it in Philadelphia right now? Without that, you cannot say how far west you are.', 'In 1883 the railroads drew U.S. time zones on exactly these lines: 120, 105, 90 and 75 west. Pacific, Mountain, Central, Eastern. A sailor has the same problem as Denver: he knows his own noon, and he needs home time.']],
+  // Jeff, 21 Nov: the projections slide moved out of the appendix into the talk as slide 7, after Noon Moves West
+  ['Many ways to draw the globe', 2, [1, 2, 3, 4, 5, 6, 7, 8], { ch: 'The Map', label: 'Many Ways to Draw the Globe' }],
   ['Galileo’s clock', 2, ['1609. Galileo hears of a Dutch spyglass, builds his own, about twenty times, and turns it on the sky.', 'January 1610, Jupiter. Little stars beside it that change places night by night. Watch his notebook fill in. They are moons going round Jupiter, the first ever found beyond our own.', 'So not everything circles the Earth, which gets him into trouble with the Church.', 'And they keep perfect time. Io slips into Jupiter\'s shadow every 42 and a half hours, and everyone on Earth who is looking sees it vanish at the same instant. A clock in the sky, for two cities on land. Paris, where Cassini made the tables, writes down 9 PM. Chicago, far to the west, writes down 3 PM.', 'Six hours: 90 degrees west. Same instant, two clocks, and the difference is longitude.', 'On land it works: a long telescope on a stand, a pendulum clock beside it. By 1668 Cassini\'s tables let map makers redraw whole countries.', 'Watch France. From 1679 Picard and La Hire fix longitudes along the coast by timing Io. The west coast moves east by about one and a half degrees; the real France is smaller. Louis XIV is said to have complained that his astronomers took more of France than his enemies ever did.'], { label: 'Jupiter\u2019s Moon Io', h1: 'Jupiter\u2019s Moon Io' }],
   ['Light needs time', 1, ['An aside, because it surprised everyone. Paris, 1676. Ole Rømer times Io against Cassini\'s table. With the Earth on Jupiter\'s side of the Sun, the eclipse arrives on time.', 'Months later the Earth is on the far side of the Sun, and the eclipse runs late. Io is on time. The light is late: it has to cross the whole orbit. Rømer\'s own figure was about 22 minutes to cross Earth\'s orbit; the modern value is about 16.7 minutes, or about 8 minutes 19 seconds from the Sun to us.', 'It took two people. In 1676 Ole Rømer timed the eclipses of Jupiter\'s moon Io and saw they ran late when Earth was far from Jupiter, so light takes time. Christiaan Huygens turned Rømer\'s delay into the first number for the speed of light, about 212,000 km per second, in his 1690 Treatise on Light. That\'s about two-thirds of the true value.'], { label: 'Aside: Rømer, Light Needs Time' }],
   ['At sea, it fails', 1, ['At sea it fails. You cannot hold a moon of Jupiter in the eyepiece on a rolling deck, and a pendulum clock cannot keep time on the waves.', 'So in 1707 longitude at sea is still a guess. Remember Scilly. Seven years later, Parliament offers a prize for solving it.'], { label: 'At Sea, It Fails' }],
@@ -250,7 +252,6 @@ const TALK30 = [
   ['The end', 0, ['Thank you for coming along. I welcome your questions. My email is on the screen. And if you would like to keep exploring, the appendix continues the journey.']],
   // appendix: only if asked
   ['Image gallery', 0, [1], { label: 'Appendix: Image Gallery' }],
-  ['Many ways to draw the globe', 0, [1, 2, 3, 4, 5, 6, 7, 8], { label: 'Appendix: Many Ways to Draw the Globe' }],
   ['Decimal places', 1, ['Each decimal place zooms you in ten times. Try the buttons labeled 0 to 6. The sizes stay on the buttons and the readout, not in the spoken line.'], { label: 'Appendix: Decimal Places' }],
   ['Eratosthenes', 2, [
     'Eratosthenes ran the great Library of Alexandria, around 240 BC.',
@@ -348,11 +349,12 @@ if (/[?&]talk=30\b/.test(location.search)) {
   deck.parentNode.insertBefore(shell, deck); const visual = shell.querySelector('#visual'); visual.appendChild(deck); if (nav) visual.appendChild(nav);
   const tv = document.createElement('div'); tv.id = 'topicview'; tv.hidden = true; tv.innerHTML = `<iframe title="Faria topic page"></iframe><button id="tv-back">← Back to the slide</button>`; document.body.appendChild(tv);
 
-  // index list: days, chapters, slides
+  // index list: days, chapters, slides (talk: no day headers, so a day change does not repeat a chapter heading)
   let h = '', lastDay = -1, lastCh = null;
-  live.forEach((c, i) => { if (c.day !== lastDay) { h += c.day && !/[?&]talk=30\b/.test(location.search) ? `<li class="day" data-i="${i}">Day ${c.day} · ${DAYS[c.day].name}</li>` : ''; lastDay = c.day; lastCh = null; } if (c.ch && c.ch !== lastCh) { h += `<li class="ch" data-i="${i}">${c.ch}</li>`; lastCh = c.ch; } h += `<li class="sl" data-i="${i}"><span>${i}</span>${c.label}</li>`; });
+  live.forEach((c, i) => { if (c.day !== lastDay) { h += c.day && !/[?&]talk=30\b/.test(location.search) ? `<li class="day" data-i="${i}">Day ${c.day} · ${DAYS[c.day].name}</li>` : ''; lastDay = c.day; if (!/[?&]talk=30\b/.test(location.search)) lastCh = null; } if (c.ch && c.ch !== lastCh) { h += `<li class="ch" data-i="${i}">${c.ch}</li>`; lastCh = c.ch; } h += `<li class="sl" data-i="${i}"><span>${i}</span>${c.label}</li>`; });
   const list = shell.querySelector('#ls-list'); list.innerHTML = h;
-  const jump = i => { if (typeof go === 'function') go(i); };
+  let viaJump = false; // set while the contents list (or a Back button) moves the deck, so the appendix exit below does not treat it as →
+  const jump = i => { if (typeof go !== 'function') return; viaJump = true; try { go(i); } finally { viaJump = false; } };
   list.onclick = e => { const li = e.target.closest('li'); if (li) jump(+li.dataset.i); };
   idx.querySelectorAll('.ci-day').forEach(b => b.onclick = () => jump(live.findIndex(c => c.t === b.dataset.first)));
   const relayout = () => { dispatchEvent(new Event('resize')); };
@@ -413,6 +415,49 @@ if (/[?&]talk=30\b/.test(location.search)) {
   back.onclick = () => { if (detourFrom !== null) jump(detourFrom); detourFrom = null; detourTo = null; back.hidden = true; };
   // leaving the side trip any other way (arrows, index) drops the Back button; the next slide after the detour target still counts as the side trip
   new MutationObserver(() => { if (detourTo === null) return; const i = live.findIndex(c => c.el.classList.contains('active')); if (i !== detourTo && i !== detourTo + 1) { detourFrom = null; detourTo = null; back.hidden = true; } }).observe(deck, { attributes: true, attributeFilter: ['class'], subtree: true });
+  /* ---- appendix exit (Jeff, 21 Nov): an appendix entry no longer runs straight on into the next one.
+     Reaching the last beat of an appendix entry (or, on entries without counted beats, the → after the last step) opens the
+     contents and shows one large "Back to slide N" button (N = the talk slide you came from; slide 1 if you
+     arrived straight on an appendix link). Press → for the next appendix entry, Enter for Back.
+     Choosing another appendix entry closes the contents again. ---- */
+  const isAppx = i => i >= 0 && !!live[i] && /^Appendix\b/i.test(live[i].label || '');
+  const activeIdx = () => live.findIndex(c => c.el.classList.contains('active'));
+  const ax = document.createElement('div'); ax.id = 'appx-exit'; ax.hidden = true;
+  ax.innerHTML = '<button type="button" id="appx-back"><span class="ab-main"></span><span class="ab-sub"></span></button><p class="ab-hint">or choose another appendix entry · → for the next one</p>';
+  visual.appendChild(ax);
+  let appxFrom = null, lastMain = null, axAt = -1, axOpened = false, seenAt = -1;
+  const backTo = () => (appxFrom !== null && live[appxFrom]) ? appxFrom : Math.min(1, live.length - 1);
+  const hideExit = () => { if (ax.hidden && axAt < 0) return; ax.hidden = true; axAt = -1; if (axOpened) { axOpened = false; setL(false); } };
+  const showExit = i => {
+    const n = backTo(); ax.querySelector('.ab-main').textContent = `← Back to Slide ${n}`; ax.querySelector('.ab-sub').textContent = live[n].label;
+    ax.querySelector('.ab-hint').textContent = i < live.length - 1 ? 'or choose another appendix entry · → for the next one' : 'or choose another appendix entry';
+    ax.hidden = false; axAt = i;
+    if (!shell.classList.contains('ls-open')) { axOpened = true; setL(true); }
+    const on = list.querySelector('li.on'); const pn = shell.querySelector('#ls-panel'); if (on && pn) setTimeout(() => { pn.scrollTop = Math.max(0, on.offsetTop - pn.clientHeight / 2); }, 280);
+  };
+  ax.querySelector('#appx-back').onclick = ev => { ev.stopPropagation(); const n = backTo(); hideExit(); jump(n); };
+  // where did the viewer come from? the last talk (non-appendix) slide shown before the appendix
+  new MutationObserver(() => { const i = activeIdx(); if (i < 0 || i === seenAt) return; const was = seenAt; seenAt = i;
+    if (!isAppx(i)) { lastMain = i; appxFrom = null; } else if (!isAppx(was)) appxFrom = lastMain;
+    if (i !== axAt) { hideExit(); if (isAppx(i)) setL(false); }
+    // entries without counted beats (gallery, decimal places, Null Island's photo) offer the exit on the → after their last step (go() wrapper below)
+  }).observe(deck, { attributes: true, attributeFilter: ['class'], subtree: true });
+  deck.addEventListener('deck-beat', e => { const i = activeIdx(); if (!isAppx(i) || e.target !== live[i].el || !e.detail.last) return; // zero-beat entries use the → path
+    if (e.detail.index === e.detail.last) showExit(i); else if (axAt === i) hideExit();
+  });
+  addEventListener('keydown', e => { if (ax.hidden || e.metaKey || e.ctrlKey || e.altKey) return; if (e.key === 'Enter') { e.preventDefault(); e.stopImmediatePropagation(); ax.querySelector('#appx-back').click(); } }, true);
+  // the deck's own go() is defined after this file; wrap it once the page has loaded. Slide beats consume →
+  // before go() is ever called, so reaching go(cur + 1) on an appendix slide means its last beat is showing.
+  addEventListener('load', () => { const og = window.go; if (typeof og !== 'function' || og._appx) return;
+    const wrapped = function (t) { const i = activeIdx(), k = t | 0;
+      if (!viaJump && isAppx(i) && (k === i + 1 || (i === live.length - 1 && k >= i))) {
+        if (axAt !== i) { showExit(i); return; }          // first press past the last beat: offer the way back
+        if (i === live.length - 1) { ax.querySelector('#appx-back').click(); return; } // last entry: → again goes back
+        hideExit();                                        // second press: on to the next appendix entry
+      }
+      return og.apply(this, arguments); };
+    wrapped._appx = true; window.go = wrapped; });
+
   new MutationObserver(sync).observe(deck, { attributes: true, attributeFilter: ['class'], subtree: true });
   addEventListener('load', () => { for (const def of Object.values(NEW_SLIDES)) { try { def.init(def._el); } catch (e) { console.error('course slide failed', def.h1, e); } } sync(); relayout(); });
   // occasional fun: the warp (stars rush outward, slide racks into focus) plays only
@@ -427,11 +472,12 @@ if (/[?&]talk=30\b/.test(location.search)) {
   help.hidden = true;
   help.innerHTML = `<div class="v3-help-card" role="dialog" aria-modal="true" aria-labelledby="v3-help-t">
     <h2 id="v3-help-t">How to use this presentation</h2>
-    <p>Use the <b>left</b> and <b>right arrow keys</b>, or the <b>←</b> and <b>→</b> buttons at the bottom right, to move back and forward. Many slides build up step by step, so press the right arrow again to reveal the next part.</p>
+    <div class="hl-short"><p><b>← →</b> to move.</p><p><b>☰ Contents</b> for the slide list.</p><p>Press <b>?</b> for all controls.</p></div>
+    <div class="hl-full"><p>Use the <b>left</b> and <b>right arrow keys</b>, or the <b>←</b> and <b>→</b> buttons at the bottom right, to move back and forward. Many slides build up step by step, so press the right arrow again to reveal the next part.</p>
     <p>Many screens have a short list of <b>numbered buttons in the bottom-left corner</b>. Click them, or press those number keys, to switch different layers or views on and off. After 9, the list continues with letter keys.</p>
     <p>On the left edge, <b>☰ Contents</b> opens the table of contents (or press <b>I</b>). <b>✎ Speaker notes</b> opens the speaking notes (or press <b>N</b>).</p>
     <p>On a globe, drag to turn it. On the noon map, press <b>D</b> to flip between clock times and degrees. Press <b>F</b> for full screen.</p>
-    <p>After you press Start, a narrator will read each step. Press <b>M</b> to mute or unmute, and <b>B</b> to pause or resume. Press <b>?</b> anytime to see this again.</p>
+    <p>After you press Start, a narrator will read each step. Press <b>M</b> to mute or unmute, and <b>B</b> to pause or resume. Press <b>?</b> anytime to see this again.</p></div>
     <button type="button" id="v3-help-ok">Start</button>
   </div>`;
   document.body.appendChild(help);
@@ -442,7 +488,7 @@ if (/[?&]talk=30\b/.test(location.search)) {
   helpBtn.setAttribute('aria-label', 'How to use this presentation');
   helpBtn.textContent = '?';
   (document.getElementById('visual') || document.body).appendChild(helpBtn);
-  const helpOpen = () => { help.hidden = false; const ok = help.querySelector('#v3-help-ok'); if (ok) ok.focus(); };
+  const helpOpen = (short) => { help.classList.toggle('short', short === true); help.hidden = false; const ok = help.querySelector('#v3-help-ok'); if (ok) ok.focus(); };
   const helpClose = () => { help.hidden = true; try { localStorage.setItem('v3-help-seen', '1'); } catch (e) {} };
   helpBtn.onclick = () => { if (help.hidden) helpOpen(); else helpClose(); };
   help.querySelector('#v3-help-ok').onclick = helpClose;
@@ -462,5 +508,5 @@ if (/[?&]talk=30\b/.test(location.search)) {
   const qs = new URLSearchParams(location.search);
   const suppressHelp = qs.has('talk') || qs.has('nohelp');
   let seen = null; try { seen = localStorage.getItem('v3-help-seen'); } catch (e) {}
-  if (!suppressHelp && seen !== '1') setTimeout(helpOpen, 80);
+  if (!suppressHelp && seen !== '1') setTimeout(() => helpOpen(true), 80); // Jeff, 21 Nov: three short lines on arrival; ? shows every control
 })();

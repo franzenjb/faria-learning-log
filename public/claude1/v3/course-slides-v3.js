@@ -69,7 +69,7 @@ const V3 = {
 // move through `n` steps before leaving the slide. onStep(k) draws step k (0 = nothing yet).
 V3.steps = (el, n, onStep) => {
   const api = { k: 0 };
-  api.go = (k, entering) => { api.k = Math.max(0, Math.min(n, k)); onStep(api.k, entering); };
+  api.go = (k, entering) => { api.k = Math.max(0, Math.min(n, k)); onStep(api.k, entering); el.dataset.beatIndex = api.k; el.dataset.beatLast = n; el.dispatchEvent(new CustomEvent('deck-beat', { bubbles: true, detail: { index: api.k, last: n, entering: !!entering } })); };
   const fwd = () => api.k < n ? (api.go(api.k + 1), true) : false, back = () => api.k > 0 ? (api.go(api.k - 1), true) : false;
   addEventListener('keydown', e => { if (!el.classList.contains('active') || e.target.matches('input,textarea,select')) return;
     const f = e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ', b = e.key === 'ArrowLeft' || e.key === 'PageUp';
