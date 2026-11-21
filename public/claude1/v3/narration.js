@@ -50,9 +50,12 @@
     ],
     'Eratosthenes': [
       'Eratosthenes ran the great Library of Alexandria, around 240 BC.',
-      'Syene, on the longest day of the year. At noon the Sun shines straight down a well. There is no shadow.',
-      'The same noon in Alexandria, a shadow of about 7 degrees: one-fiftieth of a circle.',
-      'Fifty times the distance between the two cities gives the size of the Earth.',
+      'Here is the story, as Cleomedes wrote it centuries later. Syene, on the longest day of the year. At noon the Sun shines straight down a well. There is no shadow.',
+      'The same noon in Alexandria, a stick casts a short shadow. The sunlight comes in tilted 7.2 degrees, about one-fiftieth of a circle.',
+      'Why does that tell us anything? The Sun is so far away that its rays arrive side by side, in parallel lines. And a line straight down from each city points to the center of the Earth.',
+      'Here is the trick, from Euclid. When one straight line crosses two parallel lines, it makes the same angle at both crossings. So the 7.2 degrees at the top of the stick is the same 7.2 degrees at the center of the Earth, between the two cities.',
+      'A full circle is 360 degrees. How many slices of 7.2 degrees fit in it? Fifty. So the two cities are one-fiftieth of the way around the Earth.',
+      'The distance between the cities was about 5,000 stadia, as the story comes down to us. Fifty of those slices make the whole circle: about 250,000 stadia all the way around.',
       'His estimate: about 250,000 stadia, roughly 24,000 to 29,000 miles, depending on the length of a stadion.',
       'Today, from satellites, the meridians measure 24,901 miles. With a stick, a shadow, and a paced distance, he was already almost there.'
     ],

@@ -595,7 +595,69 @@ addEventListener('load', () => setTimeout(() => {
       `<line x1="${x}" y1="${base}" x2="${x}" y2="${base - h}" stroke="${W}" stroke-width="7" stroke-linecap="round"/>` +
       `<line x1="${x - sh + sh * f}" y1="${base - h * f}" x2="${x - sh}" y2="${base}" stroke="${G}" stroke-width="3" opacity=".9"/>` +
       `<text x="${x - sh - 14}" y="${base - 12}" text-anchor="end" style="font-size:24px;fill:#b8bfd4">shadow</text>`; };
+  // ---- Jeff, 21 Nov: the reasoning, one idea per press, as plain drawings (angles drawn larger than life so you can see them)
+  const DEGX = Math.PI / 180, EXA = 18 * DEGX, EC = [560, 520], ER = 345;
+  const ep = (th, r = ER) => [EC[0] - r * Math.sin(th), EC[1] - r * Math.cos(th)];
+  const f1 = v => v.toFixed(1);
+  const arcD = (cx, cy, r, a0, a1) => `M${f1(cx + r * Math.cos(a0 * DEGX))},${f1(cy + r * Math.sin(a0 * DEGX))} A${r},${r} 0 0 1 ${f1(cx + r * Math.cos(a1 * DEGX))},${f1(cy + r * Math.sin(a1 * DEGX))}`;
+  const wedgeD = (cx, cy, r, a0, a1) => `M${cx},${cy} L${f1(cx + r * Math.cos(a0 * DEGX))},${f1(cy + r * Math.sin(a0 * DEGX))} A${r},${r} 0 0 1 ${f1(cx + r * Math.cos(a1 * DEGX))},${f1(cy + r * Math.sin(a1 * DEGX))} Z`;
+  const dl = (ms, cls = 'er-fade') => `class="${cls}" style="animation-delay:${ms}ms"`;
+  const head = (top, cap, note) => { const c = [].concat(cap); return `<rect x="0" y="${c.length > 1 ? 552 : 578}" width="1000" height="90" fill="#0a0e18" opacity=".82"/>` + T(top, 500, 52, 38) + c.map((l, i) => T(l, 500, (c.length > 1 ? 580 : 600) + i * 28, 22, G)).join('') + (note ? T(note, 500, 634, 14, '#8a93a8') : ''); };
+  const SYE = ep(0), ALX = ep(EXA), TIP = ep(EXA, ER + 80), SHX = TIP[0], SHY = EC[1] - Math.sqrt(ER * ER - (EC[0] - SHX) ** 2);
+  const earthScene = (anim, euclid) => {
+    const d = ms => anim ? dl(ms) : '', dd = ms => anim ? dl(ms, 'er-draw') : '';
+    let s = `<circle cx="${EC[0]}" cy="${EC[1]}" r="${ER}" fill="#13223d" stroke="#a08a5c" stroke-width="3"/>`;
+    // sunlight: thin parallel lines across the sky, flowing down
+    for (let x = 140; x <= 900; x += 38) { const end = Math.abs(x - EC[0]) < ER ? EC[1] - Math.sqrt(ER * ER - (x - EC[0]) ** 2) : 640; s += `<line x1="${x}" y1="84" x2="${x}" y2="${f1(end)}" stroke="${G}" stroke-width="1.5" opacity=".22" class="er-flow"/>`; }
+    // the two rays that matter
+    s += `<line x1="${SYE[0]}" y1="84" x2="${SYE[0]}" y2="${SYE[1] + 40}" stroke="${G}" stroke-width="4" pathLength="1" ${dd(200)}/>`;
+    s += `<line x1="${f1(SHX)}" y1="84" x2="${f1(SHX)}" y2="${f1(SHY)}" stroke="${G}" stroke-width="4" pathLength="1" ${dd(500)}/>`;
+    // parallel marks: matching arrowheads on both rays
+    [SYE[0], SHX].forEach(x => { s += `<path d="M${f1(x - 9)},118 L${f1(x)},132 L${f1(x + 9)},118" fill="none" stroke="${G}" stroke-width="3" ${d(900)}/>`; });
+    // the well at Syene (lit at the bottom) and the stick at Alexandria with its shadow
+    s += `<g transform="translate(${SYE[0]},${SYE[1]})"><rect x="-13" y="0" width="26" height="44" fill="#05080f" stroke="#d9c08a" stroke-width="3"/><rect x="-10" y="34" width="20" height="8" fill="#ffd66b"/></g>`;
+    s += `<line x1="${f1(ALX[0])}" y1="${f1(ALX[1])}" x2="${f1(SHX)}" y2="${f1(SHY)}" stroke="#8a93b0" stroke-width="8" stroke-linecap="round"/>`;
+    s += `<line x1="${f1(ALX[0])}" y1="${f1(ALX[1])}" x2="${f1(TIP[0])}" y2="${f1(TIP[1])}" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>`;
+    s += T('Syene', SYE[0] + 24, SYE[1] - 12, 22, M, 'start') + T('Alexandria', ALX[0] - 26, ALX[1] + 6, 22, M, 'end');
+    s += T('sunlight', SHX + 14, 104, 20, G, 'start', anim ? dl(900) : '') + T('stick', TIP[0] - 12, TIP[1] + 4, 20, W, 'end') + T('shadow', SHX - 10, SHY + 30, 18, '#b8bfd4', 'end');
+    // straight down from each city: both lines meet at the center of the Earth
+    const crossCol = euclid ? '#ffffff' : 'rgba(236,230,218,.8)', crossW = euclid ? 4 : 2.5;
+    s += `<line x1="${SYE[0]}" y1="${SYE[1] + 44}" x2="${EC[0]}" y2="${EC[1]}" stroke="rgba(236,230,218,.8)" stroke-width="2.5" stroke-dasharray="9 7" ${d(1300)}/>`;
+    s += `<line x1="${f1(TIP[0])}" y1="${f1(TIP[1])}" x2="${EC[0]}" y2="${EC[1]}" stroke="${crossCol}" stroke-width="${crossW}" stroke-dasharray="${euclid ? '0' : '9 7'}" ${d(1600)}/>`;
+    s += `<circle cx="${EC[0]}" cy="${EC[1]}" r="6" fill="${W}" ${d(1600)}/>` + T('center of the Earth', EC[0] + 16, EC[1] - 22, 20, M, 'start', anim ? dl(1900) : '');
+    if (euclid) {
+      // the two matching angles: at the stick (sunlight vs stick) and at the center (Syene vs Alexandria)
+      s += `<path d="${wedgeD(TIP[0], TIP[1], 62, 72, 90)}" fill="${G}" fill-opacity=".5" ${dl(300, 'er-fade er-pulse')}/><path d="${arcD(TIP[0], TIP[1], 62, 72, 90)}" fill="none" stroke="${G}" stroke-width="4" ${dl(300)}/>`;
+      s += `<path d="${wedgeD(EC[0], EC[1], 120, -108, -90)}" fill="${G}" fill-opacity=".5" ${dl(1100, 'er-fade er-pulse')}/><path d="${arcD(EC[0], EC[1], 120, -108, -90)}" fill="none" stroke="${G}" stroke-width="4" ${dl(1100)}/>`;
+      s += T('7.2°', TIP[0] + 34, TIP[1] + 58, 34, G, 'start', dl(300)) + T('7.2°', EC[0] - 14, EC[1] - 130, 34, G, 'end', dl(1100));
+      s += T('same angle', 760, 300, 26, G, 'start', dl(1700)) + `<path d="M752,292 C640,270 520,210 ${f1(TIP[0] + 70)},${f1(TIP[1] + 70)}" fill="none" stroke="${G}" stroke-width="1.5" opacity=".7" ${dl(1700)}/><path d="M752,304 C680,360 600,420 ${EC[0] - 20},${EC[1] - 110}" fill="none" stroke="${G}" stroke-width="1.5" opacity=".7" ${dl(1700)}/>`;
+    }
+    return s;
+  };
+  const CC5 = [500, 330], CR5 = 215;
+  const slices = (anim, hiDist) => { let s = `<circle cx="${CC5[0]}" cy="${CC5[1]}" r="${CR5}" fill="#13223d" stroke="#a08a5c" stroke-width="3"/>`;
+    for (let i = 0; i < 50; i++) { const a0 = -90 - 7.2 * (i + 1), a1 = -90 - 7.2 * i, hi = i === 0;
+      s += `<path d="${wedgeD(CC5[0], CC5[1], CR5, a0, a1)}" fill="${hi ? G : (i % 2 ? 'rgba(240,179,90,.10)' : 'rgba(240,179,90,.20)')}" opacity="${hi ? .9 : 1}" stroke="rgba(236,230,218,.45)" stroke-width="1" ${anim ? dl(300 + i * 45) : ''}/>`; }
+    return s; };
+  const SN = [
+    // 3 · parallel sunlight, and straight down from each city to the center
+    () => earthScene(true, false) + head('Sunlight Arrives in Parallel Lines', ['The Sun is so far away that its rays come in side by side.', 'Straight down from each city points to the center of the Earth.'], 'angles drawn larger than life so you can see them'),
+    // 4 · Euclid: one straight line across two parallel lines makes matching angles
+    () => earthScene(false, true) + head('Euclid: Matching Angles', ['A straight line crossing two parallel lines makes the same angle at both crossings.', 'So the 7.2° at the stick is the same 7.2° at the center of the Earth.'], 'angles drawn larger than life so you can see them'),
+    // 5 · fifty slices of 7.2° make the whole circle
+    () => slices(true) + `<line x1="${CC5[0] - 14}" y1="${CC5[1] - CR5 + 30}" x2="300" y2="96" stroke="${G}" stroke-width="1.5"/>` + T('one slice: 7.2°', 290, 100, 26, G, 'end') +
+      T('the gap between the two cities', 290, 128, 18, M, 'end') +
+      `<g ${dl(2700)}><circle cx="${CC5[0]}" cy="${CC5[1]}" r="74" fill="#0b1222" opacity=".92"/>${T('50', CC5[0], CC5[1] + 16, 64, G)}${T('slices', CC5[0], CC5[1] + 44, 20, W)}</g>` +
+      head('Fifty Slices Make the Whole Circle', ['A full circle is 360 degrees. 360 divided by 7.2 is 50.', 'So the two cities are one-fiftieth of the way around the Earth.']),
+    // 6 · fifty times the walked distance
+    () => slices(false) + `<path d="${arcD(CC5[0], CC5[1], CR5 + 10, -97.2, -90)}" fill="none" stroke="#ffffff" stroke-width="6"/>` +
+      `<circle cx="${CC5[0]}" cy="${CC5[1]}" r="${CR5 + 10}" fill="none" stroke="${G}" stroke-width="5" pathLength="1" transform="rotate(-90 ${CC5[0]} ${CC5[1]})" ${dl(900, 'er-draw er-draw-slow')}/>` +
+      T('Syene to Alexandria', 640, 92, 24, W, 'start') + T('about 5,000 stadia', 640, 120, 24, G, 'start') + `<line x1="632" y1="100" x2="${CC5[0] + 8}" y2="${CC5[1] - CR5 - 14}" stroke="${W}" stroke-width="1.5"/>` +
+      `<g ${dl(3300)}><circle cx="${CC5[0]}" cy="${CC5[1]}" r="120" fill="#0b1222" opacity=".92"/>${T('50 slices × 5,000', CC5[0], CC5[1] - 20, 22, W)}${T('about 250,000', CC5[0], CC5[1] + 22, 38, G)}${T('stadia around', CC5[0], CC5[1] + 52, 20, W)}</g>` +
+      head('Fifty Times the Distance', ['Walked between the cities: about 5,000 stadia.', 'Fifty of those: about 250,000 stadia, all the way around the Earth.'], 'as Cleomedes reported it centuries later · the exact length of a stadion is uncertain')
+  ];
   const S = [
+    ...SN,
     // 5 · his answer, then the class guesses today's, then → shows it
     ...[false, true].map(show => () => { const bar = (y, w, col) => `<rect x="160" y="${y}" width="${w}" height="56" rx="8" fill="${col}"/>`, k = 500 / 25000;
       return T(show ? 'How close did he get?' : 'His estimate', 500, 70, 40) +
@@ -625,8 +687,8 @@ addEventListener('load', () => setTimeout(() => {
     { w: [0, 0], f: [.5, .53], vh: R * 2.45, sym: .35, rot: 0 }          // intro: the Library, same wide Earth
   ];
   const WORDS = [
-    ['Syene, noon on the longest day', 'The Sun shines straight down a well. There is no shadow.'],
-    ['Alexandria, the same noon', 'A shadow of about 7°: one-fiftieth of a circle.'],
+    ['Syene, Noon on the Longest Day', 'As Cleomedes tells it: the Sun is straight overhead. Light reaches the bottom of a well; no shadow.'],
+    ['Alexandria, the Same Noon', 'A stick casts a short shadow. The sunlight is tilted 7.2°, about one-fiftieth of a circle.'],
     ['Measure the shadow', 'The sunlight comes in about 7° from straight up.'],
     ['Eureka: the angle at the center is also about 7°', 'Parallel sunlight, so the two angles match.'],
     ['360° ÷ 7.2° = 50', 'About 7° is one-fiftieth of the whole circle.'],
@@ -693,7 +755,7 @@ addEventListener('load', () => setTimeout(() => {
     if (step === 0) label('Syene', sy[0] + wellW, sy[1] + wellD + 34, 24, '#c2bba9', 'left', Math.min(1, (now - stepT) / 500));
     label('Syene', sy[0] + 14, sy[1] - 26, 22, '#cfc8ba', 'left', cityA); label('Alexandria', axp[0] - 14, axp[1] - 26, 22, '#cfc8ba', 'right', cityA);
     // 500 miles along the ground
-    const milesA = Math.max(vis(1, now), vis(3, now));
+    const milesA = vis(3, now); // the walked distance now has its own beat, in stadia
     if (milesA > 0) { ctx.globalAlpha = milesA; const off = step === 1 ? 40 : 22; ctx.strokeStyle = '#f0b35a'; ctx.lineWidth = 3; ctx.setLineDash([8, 7]); ctx.beginPath(); for (let i = 0; i <= 40; i++) { const q = S(P(A7 * i / 40, R + off / sc)); i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1]); } ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
       const m = step === 3 ? S(P(A7 / 2, R - 120 / sc)) : S(P(A7 / 2, R + (off + 30) / sc)); label('500 miles', m[0], m[1], 26, '#f0b35a', step === 3 ? 'left' : 'center', milesA); }
     // the angle at the top of the stick: between straight up (dashed) and the sunlight
@@ -731,9 +793,9 @@ addEventListener('load', () => setTimeout(() => {
     label(cap, w / 2, h * .92, Math.max(20, Math.min(32, w * .024)), '#f0b35a', 'center', wa);
   };
   requestAnimationFrame(frame);
-  const EMAP = [6, 0, 1, 5], EN = EMAP.length; // intro (Library), Syene well, Alexandria ~7° / one-fiftieth, then fifty times the distance; estimate + reveal follow (Jeff, 19 Nov)
+  const EMAP = [6, 0, 1], EN = EMAP.length; // Jeff, 21 Nov: the reasoning (parallel light, Euclid, 50 slices, 50 × distance) now follows as drawings (SN); // intro (Library), Syene well, Alexandria ~7° / one-fiftieth, then fifty times the distance; estimate + reveal follow (Jeff, 19 Nov)
   V3.steps(el, EN + S.length - 1, k => { if (k < EN) { cv.style.display = 'block'; svgEl.style.display = 'none'; goCam(EMAP[k]); } else { cv.style.display = 'none'; svgEl.style.display = 'block'; shown = false; g.innerHTML = `<g class="er-in">${S[k - EN]()}</g>`; } });
-  const st = document.createElement('style'); st.textContent = '.er-fig{padding:1rem 1.5rem!important}.er-in{animation:erIn .5s ease}@keyframes erIn{from{opacity:0}to{opacity:1}}'; document.head.appendChild(st);
+  const st = document.createElement('style'); st.textContent = '.er-fig{padding:1rem 1.5rem!important}.er-in{animation:erIn .5s ease}@keyframes erIn{from{opacity:0}to{opacity:1}}.er-fig text{font-family:Georgia,serif}.er-fade{opacity:0;animation:erIn .6s ease forwards}.er-draw{stroke-dasharray:1;stroke-dashoffset:1;animation:erDraw 1.1s ease forwards}.er-draw-slow{animation-duration:2.2s}@keyframes erDraw{to{stroke-dashoffset:0}}.er-flow{stroke-dasharray:14 10;animation:erFlow 1.2s linear infinite}@keyframes erFlow{to{stroke-dashoffset:-24}}.er-pulse{animation:erIn .6s ease forwards,erPulse 2.4s ease-in-out 1.4s infinite}@keyframes erPulse{50%{opacity:.18}}'; document.head.appendChild(st);
 }, 0));
 
 

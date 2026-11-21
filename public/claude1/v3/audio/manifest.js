@@ -2,6 +2,60 @@
 // textHash is sha256 of the spoken script (pronunciation substitutions applied).
 window.V3_NARRATION_MP3 = [
   {
+    "file": "v3/audio/eratosthenes_b0.mp3",
+    "textHash": "025fb514e5b92e7f4e327ba0a3b5435b54440d20267cdcfe4978209b895c777a",
+    "title": "Eratosthenes",
+    "beat": 0
+  },
+{
+    "file": "v3/audio/eratosthenes_b1.mp3",
+    "textHash": "ad00cd19c126b18a3ade8d9b070d5e0226fbea6e3ee395f17c182ebf5d746e61",
+    "title": "Eratosthenes",
+    "beat": 1
+  },
+{
+    "file": "v3/audio/eratosthenes_b2.mp3",
+    "textHash": "b8d1ddcce4cf7a5b8c8f1daf90d59ac79aad710af7a45826b5f71967b60ecaff",
+    "title": "Eratosthenes",
+    "beat": 2
+  },
+{
+    "file": "v3/audio/eratosthenes_b3.mp3",
+    "textHash": "ffabb53058efc76389dba5fb82563f88551d5caaa4d517c4c5268de9d1d917aa",
+    "title": "Eratosthenes",
+    "beat": 3
+  },
+{
+    "file": "v3/audio/eratosthenes_b4.mp3",
+    "textHash": "531e9ba609b067e14892e45e03e5991eda636f6691575afa8e2ac5ed63db453a",
+    "title": "Eratosthenes",
+    "beat": 4
+  },
+{
+    "file": "v3/audio/eratosthenes_b5.mp3",
+    "textHash": "e932978a17e205dbcfe2065c9a12aff38bea54f1573e14ce572c40eaa9f3d641",
+    "title": "Eratosthenes",
+    "beat": 5
+  },
+{
+    "file": "v3/audio/eratosthenes_b6.mp3",
+    "textHash": "0230736e6a05ea4a6ee96c1cdc3e7415034f19ed88a3abb5a18926095917716e",
+    "title": "Eratosthenes",
+    "beat": 6
+  },
+{
+    "file": "v3/audio/eratosthenes_b7.mp3",
+    "textHash": "d46aa073200fa970803b80b02ebe27f61764d19ec9fe04826376ce9d0c4f1f43",
+    "title": "Eratosthenes",
+    "beat": 7
+  },
+{
+    "file": "v3/audio/eratosthenes_b8.mp3",
+    "textHash": "593f3a5345e57b4bcfc86dc00c0c58041cca4849628faa60cc17f81fb7a2b10a",
+    "title": "Eratosthenes",
+    "beat": 8
+  },
+  {
     "file": "v3/audio/cover_b0.mp3",
     "textHash": "6b4a5d3fce8052e53c2d0598dcbed311309b88b19b0eb2c48f1fbdd943d323a2",
     "title": "Cover",
@@ -120,42 +174,6 @@ window.V3_NARRATION_MP3 = [
     "textHash": "3b8a5b3484ccc35796d26e67d11fa6ea5da36f686aefbd0cb2d4bae761ac2ded",
     "title": "Power decides the measure",
     "beat": 0
-  },
-  {
-    "file": "v3/audio/eratosthenes_b0.mp3",
-    "textHash": "025fb514e5b92e7f4e327ba0a3b5435b54440d20267cdcfe4978209b895c777a",
-    "title": "Eratosthenes",
-    "beat": 0
-  },
-  {
-    "file": "v3/audio/eratosthenes_b1.mp3",
-    "textHash": "f709798a52350fb159db7f4b01f6340c4806b457b5574cec378609a960a52208",
-    "title": "Eratosthenes",
-    "beat": 1
-  },
-  {
-    "file": "v3/audio/eratosthenes_b2.mp3",
-    "textHash": "e10a878c3d206148d11cf4060a3b9da7bd5682d6312c726a659896802eca976d",
-    "title": "Eratosthenes",
-    "beat": 2
-  },
-  {
-    "file": "v3/audio/eratosthenes_b3.mp3",
-    "textHash": "5be9d3c74a76ce926ae3275d97692a96a6f4dea00e8b271ec9b06d9e6dca148d",
-    "title": "Eratosthenes",
-    "beat": 3
-  },
-  {
-    "file": "v3/audio/eratosthenes_b4.mp3",
-    "textHash": "d46aa073200fa970803b80b02ebe27f61764d19ec9fe04826376ce9d0c4f1f43",
-    "title": "Eratosthenes",
-    "beat": 4
-  },
-  {
-    "file": "v3/audio/eratosthenes_b5.mp3",
-    "textHash": "593f3a5345e57b4bcfc86dc00c0c58041cca4849628faa60cc17f81fb7a2b10a",
-    "title": "Eratosthenes",
-    "beat": 5
   },
   {
     "file": "v3/audio/hours-are-slices_b0.mp3",

@@ -253,11 +253,14 @@ const TALK30 = [
   // appendix: only if asked
   ['Image gallery', 0, [1], { label: 'Appendix: Image Gallery' }],
   ['Decimal places', 1, ['Each decimal place zooms you in ten times. Try the buttons labeled 0 to 6. The sizes stay on the buttons and the readout, not in the spoken line.'], { label: 'Appendix: Decimal Places' }],
-  ['Eratosthenes', 2, [
+  ['Eratosthenes', 3, [
     'Eratosthenes ran the great Library of Alexandria, around 240 BC.',
-    'Syene, on the longest day of the year. At noon the Sun shines straight down a well. There is no shadow.',
-    'The same noon in Alexandria, a shadow of about 7 degrees: one-fiftieth of a circle.',
-    'Fifty times the distance between the two cities gives the size of the Earth.',
+    'Here is the story, as Cleomedes wrote it centuries later. Syene, on the longest day of the year. At noon the Sun shines straight down a well. There is no shadow.',
+    'The same noon in Alexandria, a stick casts a short shadow. The sunlight comes in tilted 7.2 degrees, about one-fiftieth of a circle.',
+    'Why does that tell us anything? The Sun is so far away that its rays arrive side by side, in parallel lines. And a line straight down from each city points to the center of the Earth.',
+    'Here is the trick, from Euclid. When one straight line crosses two parallel lines, it makes the same angle at both crossings. So the 7.2 degrees at the top of the stick is the same 7.2 degrees at the center of the Earth, between the two cities.',
+    'A full circle is 360 degrees. How many slices of 7.2 degrees fit in it? Fifty. So the two cities are one-fiftieth of the way around the Earth.',
+    'The distance between the cities was about 5,000 stadia, as the story comes down to us. Fifty of those slices make the whole circle: about 250,000 stadia all the way around.',
     'His estimate: about 250,000 stadia, roughly 24,000 to 29,000 miles, depending on the length of a stadion. Pause for the guess.',
     'Today, from satellites, the meridians measure 24,901 miles. With a stick, a shadow, and a paced distance, he was already almost there.'
   ], { ch: 'Appendix', label: 'Appendix: Eratosthenes' }],
@@ -433,7 +436,8 @@ if (/[?&]talk=30\b/.test(location.search)) {
     const n = backTo(); ax.querySelector('.ab-main').textContent = `← Back to Slide ${n}`; ax.querySelector('.ab-sub').textContent = live[n].label;
     ax.querySelector('#appx-back').title = `Back to Slide ${n}: ${live[n].label} (Enter)` + (i < live.length - 1 ? ' · → for the next appendix entry' : '');
     ax.hidden = false; document.body.classList.add('appx-exit-on'); axAt = i;
-    if (!shell.classList.contains('ls-open')) { axOpened = true; setL(true); }
+    const phone = matchMedia('(max-width: 600px)').matches; // Jeff, 21 Nov: on a phone the contents would cover the slide; the bar button is enough
+    if (!phone && !shell.classList.contains('ls-open')) { axOpened = true; setL(true); }
     const on = list.querySelector('li.on'); const pn = shell.querySelector('#ls-panel'); if (on && pn) setTimeout(() => { pn.scrollTop = Math.max(0, on.offsetTop - pn.clientHeight / 2); }, 280);
   };
   ax.querySelector('#appx-back').onclick = ev => { ev.stopPropagation(); const n = backTo(); hideExit(); jump(n); };
