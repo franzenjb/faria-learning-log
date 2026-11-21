@@ -3,7 +3,7 @@ project: faria-learning-log
 url: https://faria.jbf.com
 repo: https://github.com/franzenjb/faria-learning-log
 vercel_project: faria-learning-log
-verified: 2026-11-11
+verified: 2026-11-21
 ---
 # Faria Owner's Manual
 
@@ -51,7 +51,7 @@ Last source verification: November 8, 2026. Geometry tests passed, including ind
 {
   "project": "faria-learning-log",
   "live_url": "https://faria.jbf.com",
-  "verified": "2026-11-11",
+  "verified": "2026-11-21",
   "vercel_project": "faria-learning-log"
 }
 ```
@@ -69,3 +69,5 @@ Jeff authorized password protection after the Faria address appeared in a Teams 
 The production Vercel environment holds sensitive `FARIA_PASSWORD_SHA256` and `FARIA_SESSION_SECRET` variables. Never put the password or signing secret in source, docs, or client assets. Missing configuration refuses access. Successful sign-in sets an eight-hour, host-only, Secure, HttpOnly, SameSite=Lax signed cookie. Password changes require updating the hash and rotating the session secret, then redeploying. This invalidates existing sessions. Access responses must remain private/no-store.
 
 Maintainers run `node --test tests/site-access.test.mjs`, `npm run build`, then deploy to the existing Faria Vercel project. Verify anonymous requests to the home page, a lesson and an asset are refused, incorrect passwords fail, correct sign-in succeeds, and the recorded presentation URL lands on Longitude with the slide fragment preserved. This change protects the live Faria deployment. The existing GitHub repository is public, and previously published material may remain in that repository, old deployments, search caches, or recordings.
+
+Live verification on November 21 passed five anonymous-path denials, incorrect-password rejection, correct sign-in, private/no-store headers, and the exact recorded URL redirect in Chrome to https://longitude.jbf.com/?talk=30#2. Longitude home remained public and /topics/ returned 404. Release PR #254, merge d0cd2d8. The source repo remains public and is the outstanding privacy limitation if Jeff wants the learning log contents private beyond the website.

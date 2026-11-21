@@ -1,4 +1,4 @@
-GIT_OWNER: Codex
+GIT_OWNER: none
 
 On November 12, Jeff retired the Codex classroom. For the Faria course decks, Codex is limited to suggestions on the Kimi and Claude editions.
 
@@ -33,4 +33,4 @@ Codex added authentic manuscript watercolors and an attributed modern first-quar
 
 ## November 21, 2026 — Personal Site Access
 
-Codex is implementing Jeff's explicitly requested Faria password gate and redirect of the Teams-exposed /claude1/v3/ URL to https://longitude.jbf.com. Root middleware owns access before all personal pages/assets. Password hash and cookie signing secret are sensitive production Vercel variables. Local five-case access regression suite and static build passed. Live verification and release commit pending. Source repository remains historically public. No deck content was changed.
+Codex published Jeff's requested Faria password gate and redirect of the Teams-exposed /claude1/v3/ URL to https://longitude.jbf.com. Root middleware owns access before all personal pages/assets. Password hash and cookie signing secret are sensitive production Vercel variables. Local five-case access regression suite and static build passed. Live Chrome verified wrong-password rejection, successful sign-in, and redirect to longitude.jbf.com/?talk=30#2. Anonymous checks denied five personal paths, authenticated home returned 200 with private/no-store, and Longitude remained public with /topics/ returning 404. Release PR #254 merged as d0cd2d8. Vercel production deployment dpl_429nFYLixbx4gon4S9CwQpFZT86m is live. No remaining implementation step. Source repository remains historically public. No deck content was changed.
