@@ -61,3 +61,11 @@ Jeff rejected the first release's missing geometry. The revised default view inc
 
 ## Observation Images
 The lesson now serves Galileo’s 1609 manuscript studies and Astrobond’s 2019 first-quarter photograph locally, with full-size links and visible credits. Keep the photograph unchanged and retain its CC BY-SA 4.0 attribution. Source URLs and rights are in `docs/GALILEO_IMAGE_SOURCES.md`. The older image filename says ink wash, but its corrected caption identifies printed 1610 illustrations. Browser checks also decode every gallery image and check mobile layouts.
+
+## Personal Site Access — November 21, 2026
+
+Jeff authorized password protection after the Faria address appeared in a Teams recording. All Faria paths now pass through root `middleware.js`, including static files and direct lesson links. The old `/claude1/v3/` presentation prefix redirects to the matching path on https://longitude.jbf.com, preserving query parameters. Browsers carry the original fragment through the redirect. Longitude is a separate public presentation deployment.
+
+The production Vercel environment holds sensitive `FARIA_PASSWORD_SHA256` and `FARIA_SESSION_SECRET` variables. Never put the password or signing secret in source, docs, or client assets. Missing configuration refuses access. Successful sign-in sets an eight-hour, host-only, Secure, HttpOnly, SameSite=Lax signed cookie. Password changes require updating the hash and rotating the session secret, then redeploying. This invalidates existing sessions. Access responses must remain private/no-store.
+
+Maintainers run `node --test tests/site-access.test.mjs`, `npm run build`, then deploy to the existing Faria Vercel project. Verify anonymous requests to the home page, a lesson and an asset are refused, incorrect passwords fail, correct sign-in succeeds, and the recorded presentation URL lands on Longitude with the slide fragment preserved. This change protects the live Faria deployment. The existing GitHub repository is public, and previously published material may remain in that repository, old deployments, search caches, or recordings.
