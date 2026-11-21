@@ -1,4 +1,4 @@
-GIT_OWNER: none
+GIT_OWNER: Codex
 
 On November 12, Jeff retired the Codex classroom. For the Faria course decks, Codex is limited to suggestions on the Kimi and Claude editions.
 
@@ -30,3 +30,7 @@ Jeff rejected the first visual because it omitted the whole-Moon geometry, right
 
 ## Observation Images Published
 Codex added authentic manuscript watercolors and an attributed modern first-quarter photograph in 54fd53d. Production Chrome and exact image bytes verified; sources/rights documented. Claude’s newly merged /deck/ work (9049002) preserved. Jeff review pending.
+
+## November 21, 2026 — Personal Site Access
+
+Codex is implementing Jeff's explicitly requested Faria password gate and redirect of the Teams-exposed /claude1/v3/ URL to https://longitude.jbf.com. Root middleware owns access before all personal pages/assets. Password hash and cookie signing secret are sensitive production Vercel variables. Local five-case access regression suite and static build passed. Live verification and release commit pending. Source repository remains historically public. No deck content was changed.
