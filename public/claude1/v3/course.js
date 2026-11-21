@@ -423,15 +423,16 @@ if (/[?&]talk=30\b/.test(location.search)) {
   const isAppx = i => i >= 0 && !!live[i] && /^Appendix\b/i.test(live[i].label || '');
   const activeIdx = () => live.findIndex(c => c.el.classList.contains('active'));
   const ax = document.createElement('div'); ax.id = 'appx-exit'; ax.hidden = true;
-  ax.innerHTML = '<button type="button" id="appx-back"><span class="ab-main"></span><span class="ab-sub"></span></button><p class="ab-hint">or choose another appendix entry · → for the next one</p>';
-  visual.appendChild(ax);
+  ax.innerHTML = '<button type="button" id="appx-back"><span class="ab-main"></span><span class="ab-sub"></span></button>';
+  // Jeff, 21 Nov (iPad): the button lives in the bottom control bar, left side, never over the picture or captions
+  { const cnt = nav && nav.querySelector('#counter'); if (cnt) cnt.after(ax); else if (nav) nav.prepend(ax); else visual.appendChild(ax); }
   let appxFrom = null, lastMain = null, axAt = -1, axOpened = false, seenAt = -1;
-  const backTo = () => (appxFrom !== null && live[appxFrom]) ? appxFrom : Math.min(1, live.length - 1);
-  const hideExit = () => { if (ax.hidden && axAt < 0) return; ax.hidden = true; axAt = -1; if (axOpened) { axOpened = false; setL(false); } };
+  const backTo = () => (appxFrom !== null && appxFrom >= 1 && live[appxFrom]) ? appxFrom : Math.min(1, live.length - 1); // never the cover (0)
+  const hideExit = () => { if (ax.hidden && axAt < 0) return; ax.hidden = true; document.body.classList.remove('appx-exit-on'); axAt = -1; if (axOpened) { axOpened = false; setL(false); } };
   const showExit = i => {
     const n = backTo(); ax.querySelector('.ab-main').textContent = `← Back to Slide ${n}`; ax.querySelector('.ab-sub').textContent = live[n].label;
-    ax.querySelector('.ab-hint').textContent = i < live.length - 1 ? 'or choose another appendix entry · → for the next one' : 'or choose another appendix entry';
-    ax.hidden = false; axAt = i;
+    ax.querySelector('#appx-back').title = `Back to Slide ${n}: ${live[n].label} (Enter)` + (i < live.length - 1 ? ' · → for the next appendix entry' : '');
+    ax.hidden = false; document.body.classList.add('appx-exit-on'); axAt = i;
     if (!shell.classList.contains('ls-open')) { axOpened = true; setL(true); }
     const on = list.querySelector('li.on'); const pn = shell.querySelector('#ls-panel'); if (on && pn) setTimeout(() => { pn.scrollTop = Math.max(0, on.offsetTop - pn.clientHeight / 2); }, 280);
   };
