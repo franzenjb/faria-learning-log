@@ -89,6 +89,10 @@ Printed lessons and plates, grouped with the topic each one belongs to. The comp
 - [Pytheas of Massalia: Tin, Latitude, and the Round Earth](/topics/118-pytheas-of-massalia/): [lesson PDF](/downloads/Pytheas_of_Massalia_Tin_Latitude_and_the_Round_Earth_Faria_2026-11-18.pdf). The gnomon ratio at Massalia, the tin voyage, Thule, the empty pole, a round Earth, declination and latitude, and the Moon's two months.
 - [From Unequal Hours to Equal Ones: How We Divided the Day and the Year](/topics/119-from-unequal-hours-to-equal-ones/): [lesson PDF](/downloads/Timekeeping_from_Unequal_Hours_to_24_Equal_Hours_Skim_Notes_Faria_2026-11-18.pdf). A skim sheet: seasonal hours to 24 equal hours, Egypt and Babylon, calendar drift and leap years, Kepler's equal areas, polar light, decimal time, and Ptolemy's 1° Canaria.
 
+## 22 November 2026
+
+- [Notes from Underground: Dostoevsky's Man Who Refused to Be a Piano Key](/topics/121-notes-from-underground/): [lesson PDF](/downloads/Notes_from_Underground_Dostoevsky_1864_Faria_Lesson_2026-11-22.pdf). The sick, spiteful narrator, twice two makes five, the Crystal Palace and Chernyshevsky, the officer, Zverkov's dinner and Liza, and cross-references to Kafka, Chekhov, Shakespeare, Dumas and Kahneman.
+
 ## Complete binder
 
 [Complete lessons binder (PDF)](/downloads/Franzen_Complete_Lessons_Binder.pdf). 458 pages. 72 topics and 37 papers, assembled before the later 8 November lessons. Those later pages, including Picard, Tycho, the mathematics lessons, and the historical lessons added with them, are on the site and are not in this file. The binder has not been rebuilt. The separate lesson PDFs on this page stay as they are.
