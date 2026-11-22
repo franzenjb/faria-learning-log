@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="430" viewBox="0 0 760 430" role="img" aria-labelledby="t2 d2">
+<title id="t2">Who carries the household, before and after</title>
+<desc id="d2">A two-column slope chart. On the morning of the change: Gregor is the sole earner, paying off his father's debt; the father has not worked for five years; the mother has asthma and stays home; Grete is seventeen and plays the violin. By the last morning: Gregor is called it; the father is a bank messenger who keeps his uniform on; the mother sews underwear for a fashion shop; Grete has a sales job and studies shorthand and French. Lines cross: Gregor falls from top to bottom while the others rise.</desc>
+<rect width="760" height="430" fill="#fbf8f2"/>
+<text x="40" y="38" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="22" fill="#22201c" text-anchor="start" font-weight="700" font-style="normal">Who carries the household</text>
+<text x="40" y="62" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="14" fill="#6b645a" text-anchor="start" font-weight="400" font-style="normal">A picture of roles, not a measurement. Gregor falls; the others take up the load.</text>
+<text x="260" y="100" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12" fill="#7a4b1e" text-anchor="end" font-weight="700" font-style="normal">THE MORNING OF THE CHANGE</text>
+<text x="500" y="100" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12" fill="#7a4b1e" text-anchor="start" font-weight="700" font-style="normal">THE LAST MORNING</text>
+<line x1="275" y1="145" x2="485" y2="355" stroke="#7a4b1e" stroke-width="2.2"/>
+<text x="260" y="142" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#7a4b1e" text-anchor="end" font-weight="700" font-style="normal">Gregor</text>
+<text x="260" y="160" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12.5" fill="#6b645a" text-anchor="end" font-weight="400" font-style="normal">sole earner, paying his father’s debt</text>
+<line x1="275" y1="215" x2="485" y2="145" stroke="#6b645a" stroke-width="1.2"/>
+<text x="260" y="212" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#22201c" text-anchor="end" font-weight="400" font-style="normal">Father</text>
+<text x="260" y="230" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12.5" fill="#6b645a" text-anchor="end" font-weight="400" font-style="normal">no work for five years, debtor</text>
+<line x1="275" y1="285" x2="485" y2="285" stroke="#6b645a" stroke-width="1.2"/>
+<text x="260" y="282" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#22201c" text-anchor="end" font-weight="400" font-style="normal">Mother</text>
+<text x="260" y="300" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12.5" fill="#6b645a" text-anchor="end" font-weight="400" font-style="normal">asthma, at home</text>
+<line x1="275" y1="355" x2="485" y2="215" stroke="#6b645a" stroke-width="1.2"/>
+<text x="260" y="352" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#22201c" text-anchor="end" font-weight="400" font-style="normal">Grete</text>
+<text x="260" y="370" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12.5" fill="#6b645a" text-anchor="end" font-weight="400" font-style="normal">17, violin, sleeps late</text>
+<text x="500" y="142" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#22201c" text-anchor="start" font-weight="400" font-style="normal">Father</text>
+<text x="500" y="160" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12.5" fill="#6b645a" text-anchor="start" font-weight="400" font-style="normal">bank messenger, uniform always on</text>
+<text x="500" y="212" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#22201c" text-anchor="start" font-weight="400" font-style="normal">Grete</text>
+<text x="500" y="230" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12.5" fill="#6b645a" text-anchor="start" font-weight="400" font-style="normal">sales job, shorthand and French</text>
+<text x="500" y="282" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#22201c" text-anchor="start" font-weight="400" font-style="normal">Mother</text>
+<text x="500" y="300" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12.5" fill="#6b645a" text-anchor="start" font-weight="400" font-style="normal">sews underwear for a fashion shop</text>
+<text x="500" y="352" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="15" fill="#7a4b1e" text-anchor="start" font-weight="700" font-style="normal">Gregor</text>
+<text x="500" y="370" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-size="12.5" fill="#6b645a" text-anchor="start" font-weight="400" font-style="normal">“it”; dead, disposed of by the charwoman</text>
+</svg>
