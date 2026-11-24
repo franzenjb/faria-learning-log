@@ -100,7 +100,7 @@ Printed lessons and plates, grouped with the topic each one belongs to. The comp
 
 ## 24 November 2026
 
-- [Ancient Parallels: How Mesopotamian Cultures Shaped the Old Testament](/topics/123-ancient-parallels-mesopotamia-old-testament/): [full lesson PDF](/downloads/Ancient_Parallels_Mesopotamia_Old_Testament_Faria_Lesson_2026-11-24.pdf). The web page is a summary; the PDF is the full lesson: the flood, creation, law, and wisdom parallels, the timeline and charts, six questions, and a coda on Omar Khayyam and FitzGerald's *Rubáiyát*.
+- [Ancient Parallels: How Mesopotamian Cultures Shaped the Old Testament](/topics/123-ancient-parallels-mesopotamia-old-testament/): [full lesson PDF](/downloads/Ancient_Parallels_Mesopotamia_Old_Testament_Faria_Lesson_2026-11-24.pdf). The web page is a summary; the PDF is the full lesson: the flood, creation, law, and wisdom parallels, a Babylonian field problem leading to Khayyam's cubics, the timeline and charts, six questions, and a coda on Omar Khayyam and FitzGerald's *Rubáiyát*.
 
 ## Complete binder
 
