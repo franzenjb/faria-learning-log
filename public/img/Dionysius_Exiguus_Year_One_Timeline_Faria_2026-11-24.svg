@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="310" viewBox="0 0 760 310" role="img" aria-labelledby="tt td">
+<title id="tt">How a monk's year became the world's</title>
+<desc id="td">A linear timeline from about 4 BC to 1614. Marks: the usual date of Herod the Great's death, about 4 BC; Dionysius Exiguus setting year one in 525; Bede spreading the count in 725 and 731; Charlemagne requiring computus in schools in 789; and Laurentius Suslyga and Johannes Kepler pinning down the error in 1605 to 1614.</desc>
+<rect width="760" height="310" fill="#fbf8f2"/>
+<text x="36.00" y="32" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="20" fill="#22201c" text-anchor="start" font-weight="700">How a monk's year became the world's</text>
+<text x="36.00" y="54" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="12.5" fill="#6b645a" text-anchor="start">A linear scale, from about 4 BC to 1614. There is no year zero, so the span is 1,617 years.</text>
+<line x1="36" y1="168" x2="724" y2="168" stroke="#7a4b1e" stroke-width="1.6"/>
+<line x1="40.22" y1="164" x2="40.22" y2="172" stroke="#d9cfbf" stroke-width="1"/>
+<text x="40.22" y="188" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="9.5" fill="#8a8278" text-anchor="middle">1</text>
+<line x1="462.15" y1="164" x2="462.15" y2="172" stroke="#d9cfbf" stroke-width="1"/>
+<text x="462.15" y="188" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="9.5" fill="#8a8278" text-anchor="middle">1000</text>
+<line x1="673.32" y1="164" x2="673.32" y2="172" stroke="#d9cfbf" stroke-width="1"/>
+<text x="673.32" y="188" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="9.5" fill="#8a8278" text-anchor="middle">1500</text>
+<line x1="38.53" y1="168" x2="38.53" y2="150" stroke="#7a4b1e" stroke-width="1.4"/>
+<circle cx="38.53" cy="168" r="3.2" fill="#7a4b1e"/>
+<text x="38.53" y="106" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="10.5" fill="#7a4b1e" text-anchor="start" font-weight="700">c. 4 BC</text>
+<text x="38.53" y="122" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="start">Herod dies</text>
+<text x="38.53" y="138" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="start">(usual date)</text>
+<line x1="261.53" y1="168" x2="261.53" y2="186" stroke="#7a4b1e" stroke-width="1.4"/>
+<circle cx="261.53" cy="168" r="3.2" fill="#7a4b1e"/>
+<text x="261.53" y="202" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="10.5" fill="#7a4b1e" text-anchor="middle" font-weight="700">525</text>
+<text x="261.53" y="218" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="middle">Dionysius</text>
+<text x="261.53" y="234" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="middle">sets year one</text>
+<line x1="347.27" y1="168" x2="347.27" y2="150" stroke="#7a4b1e" stroke-width="1.4"/>
+<circle cx="347.27" cy="168" r="3.2" fill="#7a4b1e"/>
+<text x="347.27" y="106" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="10.5" fill="#7a4b1e" text-anchor="middle" font-weight="700">725 / 731</text>
+<text x="347.27" y="122" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="middle">Bede spreads</text>
+<text x="347.27" y="138" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="middle">the count</text>
+<line x1="373.03" y1="168" x2="373.03" y2="186" stroke="#7a4b1e" stroke-width="1.4"/>
+<circle cx="373.03" cy="168" r="3.2" fill="#7a4b1e"/>
+<text x="373.03" y="202" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="10.5" fill="#7a4b1e" text-anchor="middle" font-weight="700">789</text>
+<text x="373.03" y="218" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="middle">Carolingian</text>
+<text x="373.03" y="234" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="middle">schools</text>
+<line x1="719.78" y1="168" x2="719.78" y2="150" stroke="#7a4b1e" stroke-width="1.4"/>
+<circle cx="719.78" cy="168" r="3.2" fill="#7a4b1e"/>
+<text x="719.78" y="106" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="10.5" fill="#7a4b1e" text-anchor="end" font-weight="700">1605–1614</text>
+<text x="719.78" y="122" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="end">Suslyga and</text>
+<text x="719.78" y="138" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="end">Kepler</text>
+<text x="36.00" y="292" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="12" fill="#6b645a" text-anchor="start" font-style="italic">The numbering stuck for centuries before anyone nailed down how far off year one was.</text>
+</svg>
