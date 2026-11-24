@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="248" viewBox="0 0 760 248" role="img" aria-labelledby="tt td">
+<title id="tt">A Virtue Between Two Vices</title>
+<desc id="td">Three rows of Aristotle's golden mean from the Nicomachean Ethics, in W. D. Ross's wording. Each virtue sits between a deficiency and an excess: cowardice, courage, rashness; meanness, liberality, prodigality; insensibility, temperance, self-indulgence.</desc>
+<rect width="760" height="248" fill="#fbf8f2"/>
+<text x="36" y="32" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="20" fill="#22201c" text-anchor="start" font-weight="700">A Virtue Between Two Vices</text>
+<text x="36" y="54" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="12.5" fill="#6b645a" text-anchor="start">The mean is relative to us, not a bland average. The names follow W. D. Ross’s translation of the Nicomachean Ethics.</text>
+<text x="120" y="80" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="11" fill="#6b645a" text-anchor="middle">Deficiency</text>
+<text x="380" y="80" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="11" fill="#7a4b1e" text-anchor="middle" font-weight="700">The Mean (a Virtue)</text>
+<text x="640" y="80" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="11" fill="#6b645a" text-anchor="middle">Excess</text>
+<line x1="56" y1="120" x2="704" y2="120" stroke="#d9cfbf" stroke-width="0.7"/>
+<line x1="182" y1="120" x2="318" y2="120" stroke="#7a4b1e" stroke-width="1.15"/>
+<line x1="442" y1="120" x2="562" y2="120" stroke="#7a4b1e" stroke-width="1.15"/>
+<circle cx="120" cy="120" r="2.6" fill="#8a8278"/>
+<circle cx="380" cy="120" r="3.3" fill="#7a4b1e"/>
+<circle cx="640" cy="120" r="2.6" fill="#8a8278"/>
+<text x="120" y="110" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="14" fill="#22201c" text-anchor="middle">Cowardice</text>
+<text x="380" y="110" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="15" fill="#7a4b1e" text-anchor="middle" font-weight="700">Courage</text>
+<text x="640" y="110" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="14" fill="#22201c" text-anchor="middle">Rashness</text>
+<line x1="56" y1="158" x2="704" y2="158" stroke="#d9cfbf" stroke-width="0.7"/>
+<line x1="182" y1="158" x2="318" y2="158" stroke="#7a4b1e" stroke-width="1.15"/>
+<line x1="442" y1="158" x2="562" y2="158" stroke="#7a4b1e" stroke-width="1.15"/>
+<circle cx="120" cy="158" r="2.6" fill="#8a8278"/>
+<circle cx="380" cy="158" r="3.3" fill="#7a4b1e"/>
+<circle cx="640" cy="158" r="2.6" fill="#8a8278"/>
+<text x="120" y="148" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="14" fill="#22201c" text-anchor="middle">Meanness</text>
+<text x="380" y="148" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="15" fill="#7a4b1e" text-anchor="middle" font-weight="700">Liberality</text>
+<text x="640" y="148" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="14" fill="#22201c" text-anchor="middle">Prodigality</text>
+<line x1="56" y1="196" x2="704" y2="196" stroke="#d9cfbf" stroke-width="0.7"/>
+<line x1="182" y1="196" x2="318" y2="196" stroke="#7a4b1e" stroke-width="1.15"/>
+<line x1="442" y1="196" x2="562" y2="196" stroke="#7a4b1e" stroke-width="1.15"/>
+<circle cx="120" cy="196" r="2.6" fill="#8a8278"/>
+<circle cx="380" cy="196" r="3.3" fill="#7a4b1e"/>
+<circle cx="640" cy="196" r="2.6" fill="#8a8278"/>
+<text x="120" y="186" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="14" fill="#22201c" text-anchor="middle">Insensibility</text>
+<text x="380" y="186" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="15" fill="#7a4b1e" text-anchor="middle" font-weight="700">Temperance</text>
+<text x="640" y="186" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="14" fill="#22201c" text-anchor="middle">Self-indulgence</text>
+</svg>
