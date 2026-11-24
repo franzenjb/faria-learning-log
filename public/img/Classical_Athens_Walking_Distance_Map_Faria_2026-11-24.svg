@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="620" viewBox="0 0 800 620" role="img" aria-labelledby="tt td">
+<title id="tt">Genius Within Walking Distance: Classical Athens</title>
+<desc id="td">A walking map of classical Athens, drawn from modern coordinates of the archaeological sites. The Parthenon, the Theater of Dionysus, and the Agora sit close together inside the city walls. Plato's Academy lies about a mile and a half northwest of the Dipylon Gate. Aristotle's Lyceum lies about 1.8 kilometers east of the Agora, also outside the walls. Distances on the map are straight-line and rounded.</desc>
+<rect width="800" height="620" fill="#fbf8f2"/>
+<text x="28" y="28" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="20" fill="#22201c" font-weight="700">Genius Within Walking Distance</text>
+<text x="28" y="48" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="12.5" fill="#6b645a">Classical Athens. Distances are straight-line, rounded. A walk along the roads is a little longer.</text>
+
+<!-- city wall (simplified) -->
+<polygon points="261.4,350.4 235.8,402.0 232.1,453.7 261.4,509.3 334.7,539.1 415.2,547.0 503.1,543.0 580.0,513.3 601.9,453.7 580.0,390.1 517.7,330.5 418.9,298.7 338.3,306.7 287.1,326.5 261.4,350.4" fill="#f3ece0" stroke="#c4b8a4" stroke-width="1.4" stroke-dasharray="5 3.5" stroke-linejoin="round"/>
+<text x="426.9" y="290.7" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="10.5" fill="#6b645a">city wall, simplified</text>
+
+<!-- Academy grove -->
+<circle cx="65.6" cy="76.3" r="33.4" fill="none" stroke="#c4b8a4" stroke-width="1" stroke-dasharray="3 3"/>
+<!-- Lyceum precinct -->
+<circle cx="713.6" cy="435.8" r="16.7" fill="none" stroke="#c4b8a4" stroke-width="1" stroke-dasharray="3 3"/>
+
+<!-- Agora court -->
+<polygon points="318.0,430.4 353.4,430.4 353.4,401.9 318.0,401.9" fill="#fff" fill-opacity="0.5" stroke="#c4b8a4" stroke-width="1"/>
+
+<!-- Acropolis plateau -->
+<polygon points="387.6,494.0 412.7,496.6 435.6,492.2 439.8,483.3 425.2,477.0 408.5,474.3 391.8,477.9 381.4,485.1" fill="#efe2cf" stroke="#b08960" stroke-width="1.1" stroke-linejoin="round"/>
+
+<!-- walking paths -->
+<line x1="426.4" y1="510.7" x2="406.4" y2="486.8" stroke="#7a4b1e" stroke-width="1.2" stroke-linecap="round"/>
+<line x1="406.4" y1="486.8" x2="334.7" y2="417.9" stroke="#7a4b1e" stroke-width="1.2" stroke-linecap="round"/>
+<line x1="334.7" y1="417.9" x2="261.4" y2="350.4" stroke="#7a4b1e" stroke-width="1.2" stroke-linecap="round"/>
+<line x1="261.4" y1="350.4" x2="65.6" y2="76.3" stroke="#7a4b1e" stroke-width="1.2" stroke-linecap="round"/>
+<line x1="334.7" y1="417.9" x2="713.6" y2="435.8" stroke="#7a4b1e" stroke-width="1.2" stroke-linecap="round"/>
+
+<!-- site marks -->
+<circle cx="406.4" cy="486.8" r="4.2" fill="#7a4b1e"/>
+<circle cx="426.4" cy="510.7" r="3.6" fill="#7a4b1e"/>
+<circle cx="334.7" cy="417.9" r="3.6" fill="#7a4b1e"/>
+<circle cx="261.4" cy="350.4" r="3.2" fill="#7a4b1e"/>
+<circle cx="65.6" cy="76.3" r="4.2" fill="#7a4b1e"/>
+<circle cx="713.6" cy="435.8" r="4.2" fill="#7a4b1e"/>
+<text x="434.4" y="526.7" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="13.5" fill="#22201c">Theater of Dionysus</text>
+<text x="434.4" y="540.7" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="11" fill="#6b645a">south slope · the tragedies</text>
+<text x="434.4" y="480.8" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="14.5" fill="#7a4b1e" font-weight="700">Parthenon</text>
+<text x="434.4" y="495.8" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="11" fill="#6b645a">Acropolis · 447–432 BCE</text>
+<text x="320.7" y="405.9" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="14" fill="#7a4b1e" font-weight="700" text-anchor="end">Agora</text>
+<text x="320.7" y="419.9" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="11" fill="#6b645a" text-anchor="end">Socrates, to 399 BCE</text>
+<text x="251.4" y="340.4" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="12.5" fill="#22201c" text-anchor="end">Dipylon Gate</text>
+<text x="251.4" y="354.4" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="10.5" fill="#6b645a" text-anchor="end">northwest wall</text>
+<text x="83.6" y="70.3" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="14.5" fill="#7a4b1e" font-weight="700">Plato’s Academy</text>
+<text x="83.6" y="85.3" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="11" fill="#6b645a">from about 387 BCE, outside the walls</text>
+<text x="713.6" y="417.8" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="14.5" fill="#7a4b1e" font-weight="700" text-anchor="middle">Aristotle’s Lyceum</text>
+<text x="713.6" y="431.8" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="11" fill="#6b645a" text-anchor="middle">from 335 BCE, east of the walls</text>
+<text x="404.4" y="502.8" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="11" fill="#7a4b1e" text-anchor="end">about 200 m</text><text x="376.9" y="444.9" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="11" fill="#7a4b1e" text-anchor="start">about 500 m</text><text x="286.4" y="375.8" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="11" fill="#7a4b1e" text-anchor="end">about 500 m</text><text x="185.3" y="223.0" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="11" fill="#7a4b1e" text-anchor="start">about 1½ km</text><text x="569.6" y="423.0" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="11" fill="#7a4b1e" text-anchor="middle">about 1.8 km</text>
+<g>
+  <line x1="752" y1="98" x2="752" y2="72" stroke="#22201c" stroke-width="1.1"/>
+  <polygon points="752,70 748,80 756,80" fill="#22201c"/>
+  <text x="752" y="112" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="11" fill="#22201c" text-anchor="middle">N</text>
+</g>
+
+<line x1="36" y1="592" x2="140.3" y2="592" stroke="#22201c" stroke-width="1.4"/>
+<line x1="36" y1="588" x2="36" y2="596" stroke="#22201c" stroke-width="1.2"/>
+<line x1="140.3" y1="588" x2="140.3" y2="596" stroke="#22201c" stroke-width="1.2"/>
+<text x="88.2" y="584" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="11" fill="#22201c" text-anchor="middle">500 meters</text>
+<text x="772" y="604" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="10" fill="#6b645a" text-anchor="end">Drawn from modern site coordinates. The wall is a sketch, not a survey.</text>
+</svg>
