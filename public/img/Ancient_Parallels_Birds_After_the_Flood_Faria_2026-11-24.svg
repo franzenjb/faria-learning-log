@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="250" viewBox="0 0 760 250" role="img" aria-labelledby="bt bd">
+<title id="bt">The birds sent out after the flood</title>
+<desc id="bd">Two rows. Gilgamesh, Tablet XI: a dove returns, a swallow returns, a raven does not return. Genesis 8: a raven goes to and fro; a dove returns; a dove brings an olive leaf; a dove does not return.</desc>
+<rect width="760" height="250" fill="#fbf8f2"/>
+<text x="36" y="30" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="20" fill="#22201c" text-anchor="start" font-weight="700" font-style="normal">The birds sent out after the flood</text>
+<text x="36" y="50" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="12.5" fill="#6b645a" text-anchor="start" font-weight="400" font-style="normal">The same test, in a different order, with a different last sign.</text>
+<text x="36" y="102" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="12" fill="#7a4b1e" text-anchor="start" font-weight="700" font-style="normal">Gilgamesh</text>
+<rect x="200.0" y="76" width="172.0" height="62" fill="none" stroke="#d9cfbf" stroke-width="0.8" rx="2"/>
+<text x="286.0" y="100" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="14" fill="#22201c" text-anchor="middle" font-weight="700" font-style="normal">Dove</text>
+<text x="286.0" y="120" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="11.5" fill="#6b645a" text-anchor="middle" font-weight="400" font-style="normal">returns: no rest</text>
+<line x1="373.0" y1="106" x2="381.0" y2="106" stroke="#7a4b1e" stroke-width="1"/>
+<path d="M381.0 106 l-5 -3.2 v6.4 z" fill="#7a4b1e"/>
+<rect x="382.0" y="76" width="172.0" height="62" fill="none" stroke="#d9cfbf" stroke-width="0.8" rx="2"/>
+<text x="468.0" y="100" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="14" fill="#22201c" text-anchor="middle" font-weight="700" font-style="normal">Swallow</text>
+<text x="468.0" y="120" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="11.5" fill="#6b645a" text-anchor="middle" font-weight="400" font-style="normal">returns: no rest</text>
+<line x1="555.0" y1="106" x2="563.0" y2="106" stroke="#7a4b1e" stroke-width="1"/>
+<path d="M563.0 106 l-5 -3.2 v6.4 z" fill="#7a4b1e"/>
+<rect x="564.0" y="76" width="172.0" height="62" fill="none" stroke="#d9cfbf" stroke-width="0.8" rx="2"/>
+<text x="650.0" y="100" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="14" fill="#22201c" text-anchor="middle" font-weight="700" font-style="normal">Raven</text>
+<text x="650.0" y="120" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="11.5" fill="#6b645a" text-anchor="middle" font-weight="400" font-style="normal">stays: waters falling</text>
+<text x="36" y="184" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="12" fill="#7a4b1e" text-anchor="start" font-weight="700" font-style="normal">Genesis 8</text>
+<rect x="200.0" y="158" width="126.5" height="62" fill="none" stroke="#d9cfbf" stroke-width="0.8" rx="2"/>
+<text x="263.25" y="182" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="14" fill="#22201c" text-anchor="middle" font-weight="700" font-style="normal">Raven</text>
+<text x="263.25" y="202" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="11.5" fill="#6b645a" text-anchor="middle" font-weight="400" font-style="normal">goes to and fro</text>
+<line x1="327.5" y1="188" x2="335.5" y2="188" stroke="#7a4b1e" stroke-width="1"/>
+<path d="M335.5 188 l-5 -3.2 v6.4 z" fill="#7a4b1e"/>
+<rect x="336.5" y="158" width="126.5" height="62" fill="none" stroke="#d9cfbf" stroke-width="0.8" rx="2"/>
+<text x="399.75" y="182" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="14" fill="#22201c" text-anchor="middle" font-weight="700" font-style="normal">Dove</text>
+<text x="399.75" y="202" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="11.5" fill="#6b645a" text-anchor="middle" font-weight="400" font-style="normal">returns: no rest</text>
+<line x1="464.0" y1="188" x2="472.0" y2="188" stroke="#7a4b1e" stroke-width="1"/>
+<path d="M472.0 188 l-5 -3.2 v6.4 z" fill="#7a4b1e"/>
+<rect x="473.0" y="158" width="126.5" height="62" fill="none" stroke="#d9cfbf" stroke-width="0.8" rx="2"/>
+<text x="536.25" y="182" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="14" fill="#22201c" text-anchor="middle" font-weight="700" font-style="normal">Dove</text>
+<text x="536.25" y="202" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="11.5" fill="#6b645a" text-anchor="middle" font-weight="400" font-style="normal">olive leaf</text>
+<line x1="600.5" y1="188" x2="608.5" y2="188" stroke="#7a4b1e" stroke-width="1"/>
+<path d="M608.5 188 l-5 -3.2 v6.4 z" fill="#7a4b1e"/>
+<rect x="609.5" y="158" width="126.5" height="62" fill="none" stroke="#d9cfbf" stroke-width="0.8" rx="2"/>
+<text x="672.75" y="182" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="14" fill="#22201c" text-anchor="middle" font-weight="700" font-style="normal">Dove</text>
+<text x="672.75" y="202" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="11.5" fill="#6b645a" text-anchor="middle" font-weight="400" font-style="normal">does not return</text>
+</svg>

@@ -97,6 +97,11 @@ Printed lessons and plates, grouped with the topic each one belongs to. The comp
 
 - [The Metamorphosis: Kafka's Salesman Who Woke Up Useless](/topics/122-the-metamorphosis/): [full lesson PDF](/downloads/The_Metamorphosis_Kafka_1915_Faria_Lesson_2026-11-23.pdf). The web page is a summary; the PDF is the full lesson: the untranslatable *Ungeziefer* and Kafka's no-insect cover, the three escapes, the family's roles, work and worth, Dostoevsky, Chekhov, Kafka's insurance office, and what catastrophe reveals.
 
+
+## 24 November 2026
+
+- [Ancient Parallels: How Mesopotamian Cultures Shaped the Old Testament](/topics/123-ancient-parallels-mesopotamia-old-testament/): [full lesson PDF](/downloads/Ancient_Parallels_Mesopotamia_Old_Testament_Faria_Lesson_2026-11-24.pdf). The web page is a summary; the PDF is the full lesson: the flood, creation, law, and wisdom parallels, the timeline and charts, six questions, and a coda on Omar Khayyam and FitzGerald's *Rubáiyát*.
+
 ## Complete binder
 
 [Complete lessons binder (PDF)](/downloads/Franzen_Complete_Lessons_Binder.pdf). 458 pages. 72 topics and 37 papers, assembled before the later 8 November lessons. Those later pages, including Picard, Tycho, the mathematics lessons, and the historical lessons added with them, are on the site and are not in this file. The binder has not been rebuilt. The separate lesson PDFs on this page stay as they are.
