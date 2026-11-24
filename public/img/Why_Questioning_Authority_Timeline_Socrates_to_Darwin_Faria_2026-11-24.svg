@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="310" viewBox="0 0 760 310" role="img" aria-labelledby="tt td">
+<title id="tt">From Socrates to Darwin</title>
+<desc id="td">A linear timeline from 399 BCE to 1859. Marks: the execution of Socrates in 399 BCE; Thomas Aquinas writing the Summa Theologiae, 1265 to 1274; Erasmus, The Praise of Folly, 1511; Luther’s Ninety-five Theses in 1517 and the Diet of Worms in 1521; Galileo’s trial in 1633; and Charles Darwin’s On the Origin of Species, 1859. The later marks fall close together because they are close together in time.</desc>
+<rect width="760" height="310" fill="#fbf8f2"/>
+<text x="36.00" y="32" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="20" fill="#22201c" text-anchor="start" font-weight="700" font-style="normal">From Socrates to Darwin</text>
+<text x="36.00" y="54" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="12.5" fill="#6b645a" text-anchor="start" font-weight="400" font-style="normal">A linear scale, 399 BCE to 1859. About 2,260 years. The later marks sit close together because they are.</text>
+<line x1="36" y1="168" x2="724" y2="168" stroke="#7a4b1e" stroke-width="1.6"/>
+<line x1="155.65" y1="164" x2="155.65" y2="172" stroke="#d9cfbf" stroke-width="1"/>
+<text x="155.65" y="188" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="9.5" fill="#8a8278" text-anchor="middle" font-weight="400" font-style="normal">1 CE</text>
+<line x1="305.22" y1="164" x2="305.22" y2="172" stroke="#d9cfbf" stroke-width="1"/>
+<text x="305.22" y="188" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="9.5" fill="#8a8278" text-anchor="middle" font-weight="400" font-style="normal">500</text>
+<line x1="454.78" y1="164" x2="454.78" y2="172" stroke="#d9cfbf" stroke-width="1"/>
+<text x="454.78" y="188" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="9.5" fill="#8a8278" text-anchor="middle" font-weight="400" font-style="normal">1000</text>
+<line x1="604.35" y1="164" x2="604.35" y2="172" stroke="#d9cfbf" stroke-width="1"/>
+<text x="604.35" y="188" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="9.5" fill="#8a8278" text-anchor="middle" font-weight="400" font-style="normal">1500</text>
+<line x1="36.30" y1="168" x2="36.30" y2="150" stroke="#7a4b1e" stroke-width="1.4"/>
+<circle cx="36.30" cy="168" r="3.2" fill="#7a4b1e"/>
+<text x="36.30" y="106" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="10.5" fill="#7a4b1e" text-anchor="start" font-weight="700" font-style="normal">399 BCE</text>
+<text x="36.30" y="122" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="start" font-weight="400" font-style="normal">Socrates'</text>
+<text x="36.30" y="138" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="start" font-weight="400" font-style="normal">execution</text>
+<line x1="535.55" y1="168" x2="535.55" y2="186" stroke="#7a4b1e" stroke-width="1.4"/>
+<circle cx="535.55" cy="168" r="3.2" fill="#7a4b1e"/>
+<text x="533.55" y="202" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="10.5" fill="#7a4b1e" text-anchor="end" font-weight="700" font-style="normal">1265–1274</text>
+<text x="533.55" y="218" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="end" font-weight="400" font-style="normal">Aquinas,</text>
+<text x="533.55" y="234" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="end" font-weight="400" font-style="normal">the Summa</text>
+<line x1="607.64" y1="168" x2="607.64" y2="150" stroke="#7a4b1e" stroke-width="1.4"/>
+<circle cx="607.64" cy="168" r="3.2" fill="#7a4b1e"/>
+<text x="603.64" y="106" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="10.5" fill="#7a4b1e" text-anchor="end" font-weight="700" font-style="normal">1511</text>
+<text x="603.64" y="122" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="end" font-weight="400" font-style="normal">Erasmus,</text>
+<text x="603.64" y="138" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="end" font-weight="400" font-style="normal">Praise of Folly</text>
+<line x1="609.43" y1="168" x2="609.43" y2="186" stroke="#7a4b1e" stroke-width="1.4"/>
+<circle cx="609.43" cy="168" r="3.2" fill="#7a4b1e"/>
+<text x="605.43" y="202" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="10.5" fill="#7a4b1e" text-anchor="end" font-weight="700" font-style="normal">1517 / 1521</text>
+<text x="605.43" y="218" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="end" font-weight="400" font-style="normal">Luther,</text>
+<text x="605.43" y="234" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="end" font-weight="400" font-style="normal">Theses</text>
+<line x1="644.13" y1="168" x2="644.13" y2="150" stroke="#7a4b1e" stroke-width="1.4"/>
+<circle cx="644.13" cy="168" r="3.2" fill="#7a4b1e"/>
+<text x="648.13" y="106" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="10.5" fill="#7a4b1e" text-anchor="start" font-weight="700" font-style="normal">1633</text>
+<text x="648.13" y="122" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="start" font-weight="400" font-style="normal">Galileo's</text>
+<text x="648.13" y="138" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="start" font-weight="400" font-style="normal">trial</text>
+<line x1="711.74" y1="168" x2="711.74" y2="186" stroke="#7a4b1e" stroke-width="1.4"/>
+<circle cx="711.74" cy="168" r="3.2" fill="#7a4b1e"/>
+<text x="711.74" y="202" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="10.5" fill="#7a4b1e" text-anchor="end" font-weight="700" font-style="normal">1859</text>
+<text x="711.74" y="218" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="end" font-weight="400" font-style="normal">Darwin's</text>
+<text x="711.74" y="234" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="13" fill="#22201c" text-anchor="end" font-weight="400" font-style="normal">Origin</text>
+<text x="36.00" y="292" font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size="12" fill="#6b645a" text-anchor="start" font-weight="400" font-style="italic">The long stretch after Socrates is real. Most of these later questions arrive in a much shorter span.</text>
+</svg>
