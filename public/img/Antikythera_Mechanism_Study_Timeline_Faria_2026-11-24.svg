@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="300" viewBox="0 0 800 300" role="img" aria-labelledby="tt td">
+<title id="tt">A short timeline of the mechanism's modern study</title>
+<desc id="td">A linear timeline from 1900 to 2021: the 1900 discovery, the 1902 recognition of the gears, Price in 1974, the 2005 scans, the 2006 to 2008 solution of the back, and the 2021 front cosmos model.</desc>
+<rect width="800" height="300" fill="#fbf8f2"/>
+<text x='28.0' y='32.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='20' fill='#22201c' text-anchor='start' font-weight='700'>From a corroded lump to a readable machine</text>
+<text x='28.0' y='52.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='11.5' fill='#6b645a' text-anchor='start'>A linear scale, 1900 to 2021. The ship itself went down about two thousand years earlier.</text>
+<line x1='40.0' y1='155.0' x2='760.0' y2='155.0' stroke='#7a4b1e' stroke-width='1.6'/>
+<line x1='62.2' y1='151.0' x2='62.2' y2='159.0' stroke='#d9cfbf' stroke-width='1'/>
+<line x1='339.1' y1='151.0' x2='339.1' y2='159.0' stroke='#d9cfbf' stroke-width='1'/>
+<text x='339.1' y='173.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='9.5' fill='#8a8278' text-anchor='middle'>1950</text>
+<line x1='616.0' y1='151.0' x2='616.0' y2='159.0' stroke='#d9cfbf' stroke-width='1'/>
+<text x='616.0' y='173.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='9.5' fill='#8a8278' text-anchor='middle'>2000</text>
+<line x1='732.3' y1='151.0' x2='732.3' y2='159.0' stroke='#d9cfbf' stroke-width='1'/>
+<line x1='62.2' y1='155.0' x2='62.2' y2='137.0' stroke='#7a4b1e' stroke-width='1.4'/>
+<circle cx='62.2' cy='155.0' r='3.2' fill='#7a4b1e' stroke='none' stroke-width='1.2'/>
+<text x='62.2' y='85.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='11' fill='#7a4b1e' text-anchor='middle' font-weight='700'>1900</text>
+<text x='62.2' y='101.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='13' fill='#22201c' text-anchor='middle'>Divers from Symi</text>
+<text x='62.2' y='117.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='13' fill='#22201c' text-anchor='middle'>find the wreck</text>
+<line x1='73.2' y1='155.0' x2='73.2' y2='173.0' stroke='#7a4b1e' stroke-width='1.4'/>
+<circle cx='73.2' cy='155.0' r='3.2' fill='#7a4b1e' stroke='none' stroke-width='1.2'/>
+<text x='73.2' y='191.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='11' fill='#7a4b1e' text-anchor='middle' font-weight='700'>1902</text>
+<text x='73.2' y='207.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='13' fill='#22201c' text-anchor='middle'>Spyridon Stais</text>
+<text x='73.2' y='223.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='13' fill='#22201c' text-anchor='middle'>notices the gears</text>
+<line x1='472.0' y1='155.0' x2='472.0' y2='137.0' stroke='#7a4b1e' stroke-width='1.4'/>
+<circle cx='472.0' cy='155.0' r='3.2' fill='#7a4b1e' stroke='none' stroke-width='1.2'/>
+<text x='472.0' y='85.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='11' fill='#7a4b1e' text-anchor='middle' font-weight='700'>1974</text>
+<text x='472.0' y='101.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='13' fill='#22201c' text-anchor='middle'>Price publishes</text>
+<text x='472.0' y='117.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='13' fill='#22201c' text-anchor='middle'>Gears from the Greeks</text>
+<line x1='643.7' y1='155.0' x2='643.7' y2='137.0' stroke='#7a4b1e' stroke-width='1.4'/>
+<circle cx='643.7' cy='155.0' r='3.2' fill='#7a4b1e' stroke='none' stroke-width='1.2'/>
+<text x='643.7' y='85.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='11' fill='#7a4b1e' text-anchor='middle' font-weight='700'>2005</text>
+<text x='643.7' y='101.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='13' fill='#22201c' text-anchor='middle'>X-ray CT and</text>
+<text x='643.7' y='117.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='13' fill='#22201c' text-anchor='middle'>surface imaging</text>
+<line x1='660.3' y1='155.0' x2='660.3' y2='173.0' stroke='#7a4b1e' stroke-width='1.4'/>
+<circle cx='660.3' cy='155.0' r='3.2' fill='#7a4b1e' stroke='none' stroke-width='1.2'/>
+<text x='660.3' y='191.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='11' fill='#7a4b1e' text-anchor='middle' font-weight='700'>2006–08</text>
+<text x='660.3' y='207.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='13' fill='#22201c' text-anchor='middle'>Back face solved:</text>
+<text x='660.3' y='223.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='13' fill='#22201c' text-anchor='middle'>eclipses, games</text>
+<line x1='732.3' y1='155.0' x2='732.3' y2='137.0' stroke='#7a4b1e' stroke-width='1.4'/>
+<circle cx='732.3' cy='155.0' r='3.2' fill='#7a4b1e' stroke='none' stroke-width='1.2'/>
+<text x='732.3' y='85.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='11' fill='#7a4b1e' text-anchor='middle' font-weight='700'>2021</text>
+<text x='732.3' y='101.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='13' fill='#22201c' text-anchor='middle'>Front cosmos</text>
+<text x='732.3' y='117.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='13' fill='#22201c' text-anchor='middle'>model (UCL)</text>
+<text x='28.0' y='284.0' font-family="'Liberation Serif', 'Iowan Old Style', Palatino, Georgia, serif" font-size='11.5' fill='#6b645a' text-anchor='start' font-style='italic'>Wright's working models, begun in the 1980s and refined after the 2005 scans, run alongside this written record.</text>
+</svg>
