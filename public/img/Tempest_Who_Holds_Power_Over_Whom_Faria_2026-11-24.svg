@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 456" role="img" aria-label="Who holds power over whom in The Tempest, before Prospero arrived and during the play.">
+  <rect width="860" height="456" fill="#fbf8f2"/>
+  <style>
+    .title { font-family: "Liberation Serif", Georgia, serif; font-size: 18px; fill: #7a4b1e; }
+    .panel { font-family: "Liberation Serif", Georgia, serif; font-size: 12.5px; fill: #7a4b1e; letter-spacing: 0.08em; }
+    .name { font-family: "Liberation Serif", Georgia, serif; font-size: 16px; fill: #22201c; }
+    .dead { fill: #6b645a; }
+    .verb { font-family: "Liberation Serif", Georgia, serif; font-size: 11.5px; fill: #7a4b1e; font-style: italic; }
+    .note { font-family: "Liberation Serif", Georgia, serif; font-size: 11px; fill: #6b645a; }
+    .line { stroke: #7a4b1e; stroke-width: 1.15; fill: none; }
+    .muted { stroke: #a89070; stroke-width: 1; fill: none; stroke-dasharray: 3 3; }
+    .rule { stroke: #e6dfd2; stroke-width: 1; }
+  </style>
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M1,1 L7,4 L1,7" fill="none" stroke="#7a4b1e" stroke-width="1.15"/>
+    </marker>
+    <marker id="arr-m" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M1,1 L7,4 L1,7" fill="none" stroke="#a89070" stroke-width="1"/>
+    </marker>
+  </defs>
+
+  <text x="0" y="20" class="title">Who holds power over whom</text>
+  <text x="0" y="42" class="note">The play never shows Sycorax. We hear her only through Prospero, who is not a neutral witness.</text>
+  <line x1="422" y1="62" x2="422" y2="438" class="rule"/>
+
+  <!-- LEFT -->
+  <text x="0" y="80" class="panel">BEFORE PROSPERO ARRIVED</text>
+  <text x="160" y="140" class="name dead" text-anchor="middle">Sycorax</text>
+  <text x="160" y="158" class="note" text-anchor="middle">the witch from Argier, now dead</text>
+  <path d="M 95,170 C 72,210 72,240 72,262" class="muted" marker-end="url(#arr-m)"/>
+  <path d="M 225,170 C 248,210 248,240 248,262" class="muted" marker-end="url(#arr-m)"/>
+  <text x="8" y="218" class="verb">imprisoned</text>
+  <text x="8" y="233" class="verb">in a cloven pine</text>
+  <text x="262" y="218" class="verb">mother of</text>
+  <text x="72" y="292" class="name" text-anchor="middle">Ariel</text>
+  <text x="72" y="310" class="note" text-anchor="middle">left there twelve years</text>
+  <text x="248" y="292" class="name" text-anchor="middle">Caliban</text>
+  <text x="248" y="310" class="note" text-anchor="middle">her son; he later says</text>
+  <text x="248" y="325" class="note" text-anchor="middle">the island was his</text>
+
+  <!-- RIGHT -->
+  <text x="448" y="80" class="panel">DURING THE PLAY</text>
+  <text x="650" y="140" class="name" text-anchor="middle">Prospero</text>
+  <text x="650" y="158" class="note" text-anchor="middle">master of the island, for now</text>
+
+  <path d="M 575,170 C 530,208 512,236 512,262" class="line" marker-end="url(#arr)"/>
+  <path d="M 650,170 L 650,262" class="line" marker-end="url(#arr)"/>
+  <path d="M 725,170 C 770,208 788,236 788,262" class="line" marker-end="url(#arr)"/>
+
+  <text x="448" y="208" class="verb">freed, then commands</text>
+  <text x="448" y="223" class="verb">for a promised term</text>
+  <text x="660" y="200" class="verb">father of</text>
+  <text x="730" y="208" class="verb">first welcomed,</text>
+  <text x="730" y="223" class="verb">then enslaved</text>
+
+  <text x="512" y="292" class="name" text-anchor="middle">Ariel</text>
+  <text x="512" y="310" class="note" text-anchor="middle">serves, and at last</text>
+  <text x="512" y="325" class="note" text-anchor="middle">teaches him pity</text>
+
+  <text x="650" y="292" class="name" text-anchor="middle">Miranda</text>
+  <text x="650" y="310" class="note" text-anchor="middle">his daughter, raised</text>
+  <text x="650" y="325" class="note" text-anchor="middle">here from the age of three</text>
+
+  <text x="788" y="292" class="name" text-anchor="middle">Caliban</text>
+  <text x="788" y="310" class="note" text-anchor="middle">claims the island</text>
+  <text x="788" y="325" class="note" text-anchor="middle">as his by his mother</text>
+
+  <!-- quiet relational notes, full width of right panel, no overflow -->
+  <text x="448" y="372" class="note">At the end Ariel is freed “to the elements.” Caliban says he will “seek for grace.”</text>
+  <text x="448" y="390" class="note">Miranda helped teach Caliban language. He tried to assault her. What becomes of him</text>
+  <text x="448" y="408" class="note">once the ships leave, the play does not say.</text>
+</svg>
