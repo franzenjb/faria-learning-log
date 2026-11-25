@@ -11,7 +11,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
 html,body{margin:0;height:100%;background:#161514;overflow:hidden;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
-canvas{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#fffdf6;touch-action:none;cursor:pointer;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+canvas{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#fffdf6;touch-action:none;cursor:pointer;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;z-index:1}
+#gl{background:transparent !important;z-index:2;pointer-events:none;visibility:hidden}
+#beat{position:fixed;z-index:3;left:0;right:0;bottom:92px;margin:0;text-align:center;font:46px/1.2 "Source Serif 4",Georgia,serif;color:#161514;pointer-events:none;text-shadow:0 0 14px #fffdf6,0 0 4px #fffdf6}
+#beat[hidden]{display:none}
 .navbtn{position:fixed;z-index:8;min-width:48px;min-height:48px;padding:0 18px;border:1px solid #cdc8bc;background:rgba(255,253,246,.94);color:#161514;font:22px/1 "Source Serif 4",Georgia,serif;cursor:pointer;touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
 #nav-prev{left:16px;bottom:16px}
 #nav-next{right:16px;bottom:16px}
@@ -47,6 +50,8 @@ body:hover #hint{opacity:.9}
 </head>
 <body>
 <canvas id="c" width="1920" height="1080"></canvas>
+<canvas id="gl"></canvas>
+<p id="beat" hidden></p>
 <button type="button" class="navbtn" id="nav-prev">‹ Back</button>
 <button type="button" class="navbtn" id="nav-menu">≡ Slides</button>
 <button type="button" class="navbtn" id="nav-next">Next ›</button>
@@ -59,6 +64,8 @@ body:hover #hint{opacity:.9}
 <nav id="menu" hidden aria-label="Slides"><header><p>Slides</p><button type="button" id="menu-close" aria-label="Close">×</button></header><div id="menu-list"></div></nav>
 <aside id="notes" hidden></aside>
 <div id="hint"><span>Click, space, or arrows · N notes · F full screen</span><span id="hint-by"></span></div>
+<script src="vendor/three.min.js"></script>
+<script src="globe3d.js"></script>
 <script src="../claude1/coast.js"></script>
 <script src="deck.js"></script>
 </body>

@@ -21,6 +21,8 @@ function fit() {
   const s = Math.min(innerWidth / W, innerHeight / H);
   c.style.width = W * s + 'px';
   c.style.height = H * s + 'px';
+  const gl = document.getElementById('gl');
+  if (gl) { gl.style.width = c.style.width; gl.style.height = c.style.height; }
 }
 fit();
 addEventListener('resize', fit);
@@ -416,8 +418,8 @@ add({
   ],
   caps: ['', 'None. Open Pacific.'],
   capY: 820,
-  capAt: 0.84,
-  cine: 7200,
+  capAt: 0.88,
+  cine: 8000,
   spin: true,
   state: { spin: 0, fly: null },
   capBox: { x: 960, y: 800, w: 1200, align: 'center', size: 48 },
@@ -434,8 +436,8 @@ add({
       });
       return;
     }
-    const u = shotU(7200);
-    const fadeQ = 1 - span(u, 0, 0.14);
+    const u = shotU(8000);
+    const fadeQ = 1 - span(u, 0, 0.12);
     if (fadeQ > 0.02) {
       wrap(q, 76, 1680).forEach((ln, i) => T(ln, 960, 250 + i * 92, 76, INK, 'center', fadeQ, false, 500));
       opts.forEach((name, i) => {
@@ -443,6 +445,11 @@ add({
         T('ABCD'[i], 700, y, 68, INK, 'left', fadeQ, false, 500);
         T(name, 790, y, 68, INK, 'left', fadeQ);
       });
+    }
+    if (window.Globe3D && Globe3D.init()) {
+      Globe3D.render('havana', u);
+      if (Globe3D.hudA > 0.02) T(Globe3D.hud, 960, 148, 44, RED, 'center', Globe3D.hudA, false, 500);
+      return;
     }
     const fly = span(u, 0.08, 0.36);
     const drop = span(u, 0.32, 0.86);
@@ -530,13 +537,13 @@ add({
   ask: "Which of these American cities is closest to Rome's latitude?",
   notes: [
     'Question only. Pause about 25 seconds. The vote is usually New York or Atlanta. Do not show a map yet.',
-    'Then click. C, Boston. Rome is 41.9° north. Boston is 42.4°. New York is 40.7°, Atlanta 33.7°, Miami 25.8°. Same parallel, very different climate. The Gulf Stream warms Italy.',
+    'Then click. The camera comes down over Boston and flies east along 42° north. The ring goes all the way around: Barcelona, Rome, Istanbul, Vladivostok, Sapporo, then Chicago as it closes. Boston is 42.4° north. Rome is 41.9°. The warm particles are the Gulf Stream, which is why Rome is mild. On screen, only “Boston. Same parallel.”',
     'About a minute, with the zoom. By 4:00. Reno is next, and the coast will fool them.'
   ],
   caps: ['', 'Boston. Same parallel.'],
   capY: 820,
-  capAt: 0.72,
-  cine: 6400,
+  capAt: 0.8,
+  cine: 9000,
   spin: true,
   state: { spin: 0, fly: null },
   capBox: { x: 960, y: 800, w: 1400, align: 'center', size: 48 },
@@ -549,7 +556,12 @@ add({
       quizOpts(opts, 2, 740, 480, 110, 68, false);
       return;
     }
-    const u = shotU(6400);
+    const u = shotU(9000);
+    if (window.Globe3D && Globe3D.init()) {
+      Globe3D.render('rome', u);
+      if (Globe3D.hudA > 0.02) T(Globe3D.hud, 960, 148, 44, RED, 'center', Globe3D.hudA, false, 500);
+      return;
+    }
     const fly = span(u, 0, 0.42);
     const race = span(u, 0.38, 0.82);
     const scripted = lerp(carry.lon0, -30, fly);
@@ -565,16 +577,6 @@ add({
     const pr = globe(cam.cx, cam.cy, cam.R, cam.lon0, cam.lat0);
     const endLon = lerp(-71.06, 12.5, race);
     parallel(pr, 42, -71.06, endLon, 1, RED, 5);
-    const ribbon = [];
-    for (let i = 0; i <= 28; i++) {
-      const t = i / 28;
-      const lon = lerp(-74, -12, t);
-      const lat = 28 + Math.sin(t * Math.PI) * 5 + Math.sin(SEC * 1.3 + t * 6) * 0.5;
-      const p = pr(lon, lat);
-      if (p.z > 0.02) ribbon.push([p.x, p.y]);
-      else if (ribbon.length) { poly(ribbon, race, RED, 2.5); ribbon.length = 0; }
-    }
-    if (ribbon.length) poly(ribbon, race, RED, 2.5);
     const cities = [
       [-71.06, 42.36, 0.05],
       [-74.01, 40.71, 0.2],
@@ -2363,6 +2365,7 @@ function go(i, st) {
   STEP = step;
   animFrom = performance.now();
   if (prev !== s || step < was) s.born = performance.now();
+  if (window.Globe3D) Globe3D.resetMotion();
   if (!s.born) s.born = performance.now();
   if (s.state) {
     s.state.held = false;
@@ -2505,7 +2508,10 @@ c.addEventListener('pointermove', e => {
 c.addEventListener('pointerup', e => {
   const p = pointer(e);
   if (menuOpen) { dragSlide = null; down = null; armed = null; return; }
-  if (dragSlide || spinning) { dragSlide = null; down = null; armed = null; spinning = false; return; }
+  if (dragSlide || spinning || (window.Globe3D && Globe3D.block)) {
+    if (window.Globe3D) Globe3D.block = false;
+    dragSlide = null; down = null; armed = null; spinning = false; return;
+  }
   if (down) {
     const dx = p.x - down.x, dy = p.y - down.y;
     const adx = Math.abs(dx), ady = Math.abs(dy);
@@ -2543,6 +2549,7 @@ function frame(now) {
   U = reduce ? 1 : ez(cl((now - animFrom) / STEP_MS));
   SEC = now / 1000;
   HITS = [];
+  if (window.Globe3D) Globe3D.beginFrame();
   x.setTransform(DPR, 0, 0, DPR, 0, 0);
   x.globalAlpha = 1;
   x.setLineDash([]);
@@ -2584,7 +2591,13 @@ function frame(now) {
   const cap = s.caps[step];
   const capY = idx === 0 ? (s.capY || 940) : Math.min(s.capY || 820, 820);
   const hold = s.capAt && shotU(s.cine || CINE_MS) < s.capAt;
-  if (!hold) caption(cap, capY, Boolean(s.ask) && cap === s.ask, s.capBox);
+  const beat = document.getElementById('beat');
+  const onGlobe = window.Globe3D && Globe3D.drawing;
+  if (beat) {
+    beat.hidden = !(onGlobe && !hold && cap);
+    if (!beat.hidden) beat.textContent = cap;
+  }
+  if (!hold && !onGlobe) caption(cap, capY, Boolean(s.ask) && cap === s.ask, s.capBox);
   requestAnimationFrame(frame);
 }
 
