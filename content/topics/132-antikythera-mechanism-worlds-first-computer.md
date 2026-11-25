@@ -60,6 +60,7 @@ Someone, more than two thousand years ago, found a way to put the sky into a box
 ## Go Deeper
 
 - [The full lesson (PDF)](/downloads/Antikythera_Mechanism_Worlds_First_Computer_Faria_2026-11-24.pdf): the discovery and the dating, the 2005 scans, the pin-and-slot, labeled diagrams of both faces, the 2021 cosmos model, Wright's replicas, Cicero, and the sources.
+- [Reconstructions and replicas (PDF)](/downloads/Antikythera_Mechanism_Reconstructions_and_Replicas_Faria_2026-11-25.pdf): a companion gallery of rebuilds, labeled by builder and year — Price and Deroski, Bromley and Percival, Wright, Carol's LEGO model, Hublot, Clickspring, the 2021 UCL computer model, and the Kotsanas Museum replica. Freely licensed photographs where they exist; otherwise a short panel with a link.
 - [Hipparchus and lunar parallax](../63-hipparchus-lunar-parallax/), on the same astronomer's measurement of the Moon's distance.
 - [Hipparchus, Ptolemy, and the grid](../104-hipparchus-ptolemy-and-the-grid/), on how later Greek astronomy mapped the sky.
 - [Looking up: Polaris, the planets, Ptolemy, Copernicus](../45-looking-up-polaris-planets-ptolemy-copernicus/), a first map of the planetary tradition.
