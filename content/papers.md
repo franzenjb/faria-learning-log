@@ -111,6 +111,11 @@ Printed lessons and plates, grouped with the topic each one belongs to. The comp
 - [The Tempest: Prospero, Ariel, and the Price of Power](/topics/131-the-tempest-prospero-ariel-and-the-price-of-power/): [full lesson PDF](/downloads/The_Tempest_Prospero_Ariel_and_the_Price_of_Power_Faria_Lesson_2026-11-24.pdf). The web page is a summary; the PDF is the full lesson: Sycorax and the cloven pine, Caliban's claim and the plot with the drunkards, each of Ariel's summons, the turn toward pity, the breaking of the staff, the Epilogue, five questions, a power diagram, and a timeline of Ariel's tasks.
 - [The Antikythera Mechanism: The World's First Computer](/topics/132-antikythera-mechanism-worlds-first-computer/): [full lesson PDF](/downloads/Antikythera_Mechanism_Worlds_First_Computer_Faria_2026-11-24.pdf). The web page is a summary; the PDF is the full lesson: the 1900 discovery and the wreck's date, the 2005 X-ray scans, the pin-and-slot lunar mechanism, labeled diagrams of both faces, the 2021 cosmos reconstruction, Wright's replicas, and the sources. Companion gallery: [Reconstructions and replicas](/downloads/Antikythera_Mechanism_Reconstructions_and_Replicas_Faria_2026-11-25.pdf).
 
+## 26 November 2026
+
+- [Confusing Word Terms: Acronym, Homonym, and the Rest](/topics/133-confusing-word-terms/): [desk sheet (PDF)](/downloads/Confusing_Word_Terms_Acronym_to_Eggcorn_Faria_2026-11-26.pdf). One PDF for the set. The four grouped lessons are [Shortened Words](/topics/134-shortened-words-abbreviation-to-backronym/), [Same Sound, Same Spelling, or Neither](/topics/135-homonym-homophone-homograph-heteronym/), [The -nym Family](/topics/136-nym-family-synonym-to-retronym/), and [Wordplay and Slips](/topics/137-wordplay-and-slips/). Definitions, Greek and Latin roots, examples, the sound-and-spelling chart, and the *posh* / *SOS* / *golf* myths. Sources and links are at the end of the PDF.
+
+
 ## Complete binder
 
 [Complete lessons binder (PDF)](/downloads/Franzen_Complete_Lessons_Binder.pdf). 458 pages. 72 topics and 37 papers, assembled before the later 8 November lessons. Those later pages, including Picard, Tycho, the mathematics lessons, and the historical lessons added with them, are on the site and are not in this file. The binder has not been rebuilt. The separate lesson PDFs on this page stay as they are.

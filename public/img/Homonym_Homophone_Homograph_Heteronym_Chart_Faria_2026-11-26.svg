@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="560" viewBox="0 0 800 560" role="img" aria-labelledby="tt td">
+<title id="tt">Same or different? Sound by spelling</title>
+<desc id="td">A two-by-two grid. Same spelling and same sound: narrow homonyms, such as bat the animal and bat the club. Same spelling and different sound: heteronyms, such as lead the verb and lead the metal. Different spelling and same sound: homophones, such as night and knight. Different spelling and different sound: ordinary different words, such as cat and dog. Homonym is also used loosely as an umbrella for the first three cells.</desc>
+<rect width="800" height="560" fill="#fbf8f2"/>
+<text x="28" y="36" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="22" fill="#22201c" font-weight="700">Same or different? Sound by spelling</text>
+<text x="28" y="60" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="13.5" fill="#6b645a">Four ways two words can share a shape, or not. The rusty word is the precise name for that cell.</text>
+
+<!-- column heads -->
+<text x="278.0" y="96" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="14.5" fill="#7a4b1e" text-anchor="middle" font-weight="700">Same sound</text>
+<text x="598.0" y="96" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="14.5" fill="#7a4b1e" text-anchor="middle" font-weight="700">Different sound</text>
+
+<!-- row heads, rotated conceptually as stacked text at left -->
+<text x="28" y="202.0" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="14.5" fill="#7a4b1e" font-weight="700">Same</text>
+<text x="28" y="220.0" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="14.5" fill="#7a4b1e" font-weight="700">spelling</text>
+<text x="28" y="390.0" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="14.5" fill="#7a4b1e" font-weight="700">Different</text>
+<text x="28" y="408.0" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="14.5" fill="#7a4b1e" font-weight="700">spelling</text>
+
+<!-- cells -->
+<rect x="118" y="118" width="320" height="188" fill="#f6efe4" stroke="#d9cfbf" stroke-width="1"/>
+<rect x="438" y="118" width="320" height="188" fill="#fffdf8" stroke="#d9cfbf" stroke-width="1"/>
+<rect x="118" y="306" width="320" height="188" fill="#fffdf8" stroke="#d9cfbf" stroke-width="1"/>
+<rect x="438" y="306" width="320" height="188" fill="#fffdf8" stroke="#d9cfbf" stroke-width="1"/>
+
+<!-- cell 1: same spelling, same sound -->
+<text x="134" y="150" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="16.5" fill="#7a4b1e" font-weight="700">Homonym, narrowly</text>
+<text x="134" y="176" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="13.5" fill="#22201c">bat (the animal) / bat (the club)</text>
+<text x="134" y="196" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="13.5" fill="#22201c">rose (the flower) / rose (stood up)</text>
+<text x="134" y="224" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="12.5" fill="#6b645a">Same letters, same sound, different</text>
+<text x="134" y="242" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="12.5" fill="#6b645a">meaning. Also a homophone and a</text>
+<text x="134" y="260" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="12.5" fill="#6b645a">homograph.</text>
+
+<!-- cell 2: same spelling, different sound -->
+<text x="454" y="150" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="16.5" fill="#7a4b1e" font-weight="700">Heteronym</text>
+<text x="454" y="176" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="13.5" fill="#22201c">lead (to guide) / lead (the metal)</text>
+<text x="454" y="196" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="13.5" fill="#22201c">wind (the air) / wind (to coil)</text>
+<text x="454" y="224" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="12.5" fill="#6b645a">Same letters, different sound,</text>
+<text x="454" y="242" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="12.5" fill="#6b645a">different meaning. A kind of</text>
+<text x="454" y="260" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="12.5" fill="#6b645a">homograph. Say HET-er-uh-nim.</text>
+
+<!-- cell 3: different spelling, same sound -->
+<text x="134" y="338" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="16.5" fill="#7a4b1e" font-weight="700">Homophone</text>
+<text x="134" y="364" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="13.5" fill="#22201c">night / knight</text>
+<text x="134" y="384" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="13.5" fill="#22201c">flour / flower · write / right / rite</text>
+<text x="134" y="412" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="12.5" fill="#6b645a">Different letters, same sound,</text>
+<text x="134" y="430" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="12.5" fill="#6b645a">different meaning. From phone,</text>
+<text x="134" y="448" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="12.5" fill="#6b645a">“sound.” Say HOM-uh-fone.</text>
+
+<!-- cell 4: different spelling, different sound -->
+<text x="454" y="338" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="16.5" fill="#7a4b1e" font-weight="700">Just different words</text>
+<text x="454" y="364" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="13.5" fill="#22201c">cat / dog</text>
+<text x="454" y="384" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="13.5" fill="#22201c">Or near-synonyms: big / large</text>
+<text x="454" y="412" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="12.5" fill="#6b645a">No shared sound, no shared</text>
+<text x="454" y="430" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="12.5" fill="#6b645a">spelling. Nothing special to name,</text>
+<text x="454" y="448" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="12.5" fill="#6b645a">unless the meanings are close.</text>
+
+<!-- footnote -->
+<text x="28" y="516" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="13" fill="#22201c">People also use homonym loosely as an umbrella for any of the first three cells.</text>
+<text x="28" y="536" font-family="'Liberation Serif', Palatino, Georgia, serif" font-size="13" fill="#6b645a">That looser sense is common in schools. The grid uses the narrower sense in the top-left cell.</text>
+</svg>
