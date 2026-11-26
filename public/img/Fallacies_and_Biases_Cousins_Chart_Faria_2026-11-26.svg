@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="690" viewBox="0 0 760 690" role="img" aria-labelledby="title desc">
+<title id="title">Where a fallacy and a bias are cousins</title>
+<desc id="desc">A teaching chart pairing classic fallacies with related Kahneman and Tversky biases. The conjunction fallacy sits with representativeness; hasty generalization with the law of small numbers; the Texas sharpshooter with seeing patterns in randomness; post hoc with seeing a cause after the fact; false dilemma and straw man with WYSIATI; red herring and bandwagon with availability; ad hominem and appeal to authority with the halo effect; and appeal to nature with representativeness.</desc>
+<rect width="760" height="690" fill="#fbf8f2"/>
+<text x="36" y="42" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="26" fill="#22201c">Where a fallacy and a bias are cousins</text>
+<text x="36" y="68" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="15" fill="#6b645a">A fallacy is a move in an argument. A bias is a tilt in the mind. These pairs often travel together.</text>
+<line x1="36" y1="88" x2="724" y2="88" stroke="#7a4b1e" stroke-width="1.2"/>
+<text x="36" y="114" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="14" fill="#7a4b1e">Classic fallacy</text>
+<text x="400" y="114" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="14" fill="#7a4b1e">Kahneman and Tversky cousin</text>
+<line x1="36" y1="126" x2="724" y2="126" stroke="#c9bfae" stroke-width="0.7"/>
+<rect x="36" y="136" width="688" height="48" fill="#f3eee4"/>
+<text x="48" y="158" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="16" fill="#7a4b1e">The conjunction fallacy (Linda)</text>
+<text x="400" y="158" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="16" fill="#22201c">Representativeness</text>
+<text x="48" y="206" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="16" fill="#7a4b1e">Hasty generalization</text>
+<text x="400" y="206" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="16" fill="#22201c">The law of small numbers</text>
+<rect x="36" y="232" width="688" height="48" fill="#f3eee4"/>
+<text x="48" y="254" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="16" fill="#7a4b1e">The Texas sharpshooter</text>
+<text x="400" y="254" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="16" fill="#22201c">Seeing patterns in randomness</text>
+<text x="48" y="302" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="16" fill="#7a4b1e">Post hoc, ergo propter hoc</text>
+<text x="400" y="302" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="16" fill="#22201c">Seeing a cause after the fact</text>
+<rect x="36" y="328" width="688" height="48" fill="#f3eee4"/>
+<text x="48" y="350" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="16" fill="#7a4b1e">False dilemma</text>
+<text x="400" y="350" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="16" fill="#22201c">WYSIATI: only the options in view</text>
+<text x="48" y="398" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="16" fill="#7a4b1e">Straw man</text>
+<text x="400" y="398" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="16" fill="#22201c">WYSIATI: a substitute is easier to hold</text>
+<rect x="36" y="424" width="688" height="48" fill="#f3eee4"/>
+<text x="48" y="446" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="16" fill="#7a4b1e">Red herring</text>
+<text x="400" y="446" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="16" fill="#22201c">Availability: attention follows what is vivid</text>
+<text x="48" y="494" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="16" fill="#7a4b1e">Ad hominem, and appeal to authority</text>
+<text x="400" y="494" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="16" fill="#22201c">The halo effect</text>
+<rect x="36" y="520" width="688" height="48" fill="#f3eee4"/>
+<text x="48" y="542" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="16" fill="#7a4b1e">Bandwagon</text>
+<text x="400" y="542" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="16" fill="#22201c">Availability: what is popular is easy to recall</text>
+<text x="48" y="590" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="16" fill="#7a4b1e">Appeal to nature</text>
+<text x="400" y="590" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="16" fill="#22201c">Representativeness: what seems typical feels right</text>
+<line x1="36" y1="616" x2="724" y2="616" stroke="#c9bfae" stroke-width="0.7"/>
+<text x="36" y="646" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="13" fill="#6b645a">Cousins, not twins. Some debate tricks — tu quoque, no true Scotsman, begging the question,</text>
+<text x="36" y="664" font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Liberation Serif',Georgia,serif" font-size="13" fill="#6b645a">slippery slope — have no close cousin in this research. Those stay on the fallacies page.</text>
+</svg>

@@ -51,6 +51,8 @@ Still open from 8 November: is the immediate answer the one to trust?
 
 On 20 November 2026 the conversation reached a later idea of Kahneman's, the peak-end rule: [The Peak-End Rule: How People Remember Talks and Shelter Stays](../120-peak-end-rule/).
 
+On 26 November 2026 a refresher section was added, pairing classic fallacies with the heuristics and biases: [Logical Fallacies and Kahneman-Tversky Biases](../138-logical-fallacies-and-kahneman-tversky-biases/).
+
 ## Sources
 - [Nobel Prize facts for Daniel Kahneman](https://www.nobelprize.org/prizes/economic-sciences/2002/kahneman/facts/): born 5 March 1934 in Tel Aviv, died 27 March 2024, and the prize citation.
 - [Kahneman's own Nobel biographical](https://www.nobelprize.org/prizes/economic-sciences/2002/kahneman/biographical/): the collaboration with Tversky began in 1969.
@@ -68,5 +70,5 @@ On 20 November 2026 the conversation reached a later idea of Kahneman's, the pea
 - A 10-cent ball does not work. The ball is 5 cents and the bat is $1.05, together $1.10, and the bat is $1.00 more.
 - The bat-and-ball puzzle is Shane Frederick's Cognitive Reflection Test (2005), not a Kahneman and Tversky invention.
 - Whether the immediate answer is the one to trust was asked and not answered. A fast answer is not always wrong.
-- The friendship, the shared questions, the heuristics, base rates, prospect theory, and confidence have not been studied yet.
+- On the evening of 8 November 2026 the friendship, the shared questions, the heuristics, base rates, prospect theory, and confidence had not yet been studied. A refresher section was added on 26 November.
 - On 20 November 2026 the thread continued with the peak-end rule.

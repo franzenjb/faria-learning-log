@@ -115,6 +115,8 @@ Printed lessons and plates, grouped with the topic each one belongs to. The comp
 
 - [Confusing Word Terms: Acronym, Homonym, and the Rest](/topics/133-confusing-word-terms/): [desk sheet (PDF)](/downloads/Confusing_Word_Terms_Acronym_to_Eggcorn_Faria_2026-11-26.pdf). One PDF for the set. The four grouped lessons are [Shortened Words](/topics/134-shortened-words-abbreviation-to-backronym/), [Same Sound, Same Spelling, or Neither](/topics/135-homonym-homophone-homograph-heteronym/), [The -nym Family](/topics/136-nym-family-synonym-to-retronym/), and [Wordplay and Slips](/topics/137-wordplay-and-slips/). Definitions, Greek and Latin roots, examples, the sound-and-spelling chart, and the *posh* / *SOS* / *golf* myths. Sources and links are at the end of the PDF.
 
+- [Logical Fallacies and Kahneman-Tversky Biases](/topics/138-logical-fallacies-and-kahneman-tversky-biases/): [refresher PDF](/downloads/Logical_Fallacies_and_Kahneman_Tversky_Biases_Refresher_Faria_2026-11-26.pdf). One deep dive for the whole section. The chart of fallacy-and-bias cousins, the fourteen classic fallacies, the 1974 heuristics, the probability traps including Linda and the flight instructors, and prospect theory, framing, and later judgment. The web pages are the lessons. Sources and live links are at the end of the PDF. Also on [Fourteen Classic Fallacies](/topics/139-fourteen-classic-fallacies/), [Mental Shortcuts](/topics/140-mental-shortcuts-system-1-wysiati-and-the-three-heuristics/), [Probability Traps](/topics/141-probability-traps-linda-base-rates-and-regression/), and [Risk, Frames, and Later Judgment](/topics/142-risk-frames-and-later-judgment/).
+
 
 ## Complete binder
 
