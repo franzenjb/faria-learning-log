@@ -118,6 +118,10 @@ Printed lessons and plates, grouped with the topic each one belongs to. The comp
 - [Logical Fallacies and Kahneman-Tversky Biases](/topics/138-logical-fallacies-and-kahneman-tversky-biases/): [refresher PDF](/downloads/Logical_Fallacies_and_Kahneman_Tversky_Biases_Refresher_Faria_2026-11-26.pdf). One deep dive for the whole section. The chart of fallacy-and-bias cousins, the fourteen classic fallacies, the 1974 heuristics, the probability traps including Linda and the flight instructors, and prospect theory, framing, and later judgment. The web pages are the lessons. Sources and live links are at the end of the PDF. Also on [Fourteen Classic Fallacies](/topics/139-fourteen-classic-fallacies/), [Mental Shortcuts](/topics/140-mental-shortcuts-system-1-wysiati-and-the-three-heuristics/), [Probability Traps](/topics/141-probability-traps-linda-base-rates-and-regression/), and [Risk, Frames, and Later Judgment](/topics/142-risk-frames-and-later-judgment/).
 
 
+## 27 November 2026
+
+- [Marcus Aurelius Quotes, Checked Against Meditations](/topics/143-marcus-aurelius-quotes-checked-against-meditations/): [lesson PDF](/downloads/Marcus_Aurelius_Quotes_Checked_Against_Meditations_Faria_2026-11-27.pdf). Twelve popular lines checked against Casaubon (1634), Long (1862), and Haines (1916). One is spurious. Sources and live links are at the end of the PDF.
+
 ## Complete binder
 
 [Complete lessons binder (PDF)](/downloads/Franzen_Complete_Lessons_Binder.pdf). 458 pages. 72 topics and 37 papers, assembled before the later 8 November lessons. Those later pages, including Picard, Tycho, the mathematics lessons, and the historical lessons added with them, are on the site and are not in this file. The binder has not been rebuilt. The separate lesson PDFs on this page stay as they are.
